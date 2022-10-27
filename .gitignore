@@ -1,0 +1,11 @@
+*.ini
+.idea
+*.jar
+*.iml
+logs/
+target/
+allure-reports/
+allure-results/
+.idea/
+settings.xml
+allure-*/
