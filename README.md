@@ -10,11 +10,11 @@ Setting up such an environment is time-consuming and ties up an unnecessary amou
 QTAF is the realization of exactly this idea, to automate the setup of the test environment and the documentation of the test cases. And QTAF offers the testers even more.
 
 [![GitHub License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/Qytera-Gmbh/QTAF/blob/master/LICENSE)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat)](https://makeapullrequest.com)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat)](https://makeapullrequest.com) [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=Qytera-Gmbh_QTAF&metric=sqale_rating&token=a2bbe8b96ab480a3f4a4c1030d2d3192a622b239)](https://sonarcloud.io/summary/new_code?id=Qytera-Gmbh_QTAF)
 <!-- [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/qytera-gmbh/qtaf/workflow-name?logo=github)](https://github.com/Qytera-Gmbh/QTAF/actions) -->
 <!-- [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=Qytera-Gmbh_QTAF&metric=vulnerabilities&token=a2bbe8b96ab480a3f4a4c1030d2d3192a622b239)](https://sonarcloud.io/summary/new_code?id=Qytera-Gmbh_QTAF) -->
 <!-- [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=Qytera-Gmbh_QTAF&metric=bugs&token=a2bbe8b96ab480a3f4a4c1030d2d3192a622b239)](https://sonarcloud.io/summary/new_code?id=Qytera-Gmbh_QTAF) -->
-[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=Qytera-Gmbh_QTAF&metric=sqale_rating&token=a2bbe8b96ab480a3f4a4c1030d2d3192a622b239)](https://sonarcloud.io/summary/new_code?id=Qytera-Gmbh_QTAF)
+
 ## The advantages of QTAF
 
 QTAF is a project that was born out of practical experience and combines the experience of testers from years of working with testing tools. QTAF solves three basic and time-consuming problems of testing:
