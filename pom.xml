@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>de.qytera.qtaf</groupId>
-    <artifactId>qtaf-core</artifactId>
+    <groupId>de.qytera</groupId>
+    <artifactId>qtaf</artifactId>
     <version>1.0.0</version>
     <packaging>pom</packaging>
 
@@ -22,8 +22,8 @@
 
     <developers>
         <developer>
-            <name>Tilo Flasche</name>
-            <email>tilo.flasche@qytera.de</email>
+            <name>Qytera Development</name>
+            <email>info@qytera.de</email>
             <organization>Qytera Software Testing Solutions GmbH</organization>
             <organizationUrl>https://www.qytera.de/</organizationUrl>
         </developer>
@@ -36,7 +36,7 @@
     </scm>
 
     <modules>
-        <module>qtaf</module>
+        <module>qtaf-core</module>
         <module>qtaf-io</module>
         <module>qtaf-html-report-plugin</module>
         <module>qtaf-allure-plugin</module>
@@ -49,7 +49,6 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
     </properties>
-
 
     <build>
         <resources>
@@ -66,8 +65,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.10.1</version>
                 <configuration>
-                    <source>17</source>
-                    <target>17</target>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
                 </configuration>
             </plugin>
 
@@ -90,42 +89,16 @@
 
         </plugins>
     </build>
-
-    <repositories>
-        <!--
-        <repository>
-            <id>gitlab-maven</id>
-            <url>https://gitlab.com/api/v4/projects/22533820/packages/maven</url>
-        </repository>
-        -->
-        <repository>
-            <id>github</id>
-            <name>GitHub Qytera Apache Maven Packages</name>
-            <url>https://maven.pkg.github.com/OWNER/mediawikixml</url>
-        </repository>
-
-    </repositories>
-
+<!--
     <distributionManagement>
-        <!--
-        <repository>
-            <id>gitlab-maven</id>
-            <url>https://gitlab.com/api/v4/projects/22533820/packages/maven</url>
-        </repository>
         <snapshotRepository>
-            <id>gitlab-maven</id>
-            <url>https://gitlab.com/api/v4/projects/22533820/packages/maven</url>
+            <id>ossrh</id>
+            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
         </snapshotRepository>
-        -->
         <repository>
-            <id>github</id>
-            <url>https://maven.pkg.github.com/Qytera-Gmbh/QTAF</url>
+            <id>ossrh</id>
+            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
-        <snapshotRepository>
-            <id>github</id>
-            <url>https://maven.pkg.github.com/Qytera-Gmbh/QTAF</url>
-        </snapshotRepository>
-
     </distributionManagement>
-
+-->
 </project>
