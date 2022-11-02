@@ -1,0 +1,19 @@
+#language: de
+@Req:QTAF-673
+Funktionalität: Feature DUA online nutzen (TAPOC1)
+	#@NewDriver
+	#
+	#Nicht zu nutzen
+
+	@TestName:QTAF-670 @Testset:QTAF-671 @Testset:QTAF-700
+	Szenario: Einloggen als User mit gültiger Lizenz für DUA (TAPOC)
+		Angenommen Neuer Browser
+		Wenn Ich rufe die Website von Klett auf
+		Und Ich klicke auf Cookies akzeptieren
+		Und Ich klicke auf Alles fuer Schule und Unterricht
+		Und Ich klicke auf Anmelden
+		Und Ich gebe den Usernamen "presenter+prod.schueler_001@qytera.de" ein
+		Und Ich gebe das Passwort "Marienplatz_2021_01" ein
+		Und Ich klicke auf den Login-Button
+		Dann Ich bin eingeloggt als "presenter+prod.schueler_001@qytera.de"
+		Und Ich befinde mich auf der Startseite von Klett
