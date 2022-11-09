@@ -3,23 +3,93 @@ package de.qytera.qtaf.core.events.payload;
 import java.lang.reflect.Parameter;
 import java.util.Date;
 
+/**
+ * Entity class for test events
+ */
 public class QtafTestEventPayload implements IQtafTestEventPayload {
+    /**
+     * Original event fired by the test framework (TestNG, Cucumber, ...)
+     */
     protected Object originalEvent;
+
+    /**
+     * ID of the test feature
+     */
     protected int featureId;
+
+    /**
+     * Name of the feature
+     */
     protected String featureName;
+
+    /**
+     * Description of the feature
+     */
     protected String featureDescription;
+
+    /**
+     * ID of the scenario
+     */
     protected String scenarioId;
+
+    /**
+     * Name of the scenario
+     */
     protected String scenarioName;
+
+    /**
+     * Description of the scenario
+     */
     protected String scenarioDescription;
+
+    /**
+     * Status of the scenario
+     */
     protected ScenarioStatus scenarioStatus;
+
+    /**
+     * Start date of the scenario
+     */
     protected Date scenarioStart;
+
+    /**
+     * End date of the scenario
+     */
     protected Date scenarioEnd;
+
+    /**
+     * Thread ID of the scenario
+     */
     protected long threadId;
+
+    /**
+     * Thread name of the scenario
+     */
     protected String threadName;
+
+    /**
+     * Parameters that were passed to the scenario
+     */
     protected Parameter[] scenarioParameters;
+
+    /**
+     * Values of the parameters that were passed to the scenario
+     */
     protected Object[] parameterValues;
+
+    /**
+     * scenario groups
+     */
     protected String[] groups = new String[]{};
+
+    /**
+     * All groups that the scenario depends on (see TestNG group dependencies)
+     */
     protected String[] groupDependencies = new String[]{};
+
+    /**
+     * All test methods the scenario depends on (see testNG method dependencies)
+     */
     protected String[] methodDependencies = new String[]{};
 
     /**

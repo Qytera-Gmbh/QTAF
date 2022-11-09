@@ -6,6 +6,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.opera.OperaOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
+/**
+ * This class is responsible for connecting to a remote Opera browser
+ */
 public class OperaRemoteDriver extends AbstractDriver {
 
     @Override

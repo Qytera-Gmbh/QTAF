@@ -4,6 +4,9 @@ import io.appium.java_client.remote.MobileCapabilityType;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
+/**
+ * This class is responsible for managing the appium android driver
+ */
 public class AndroidDriver extends AbstractAndroidDriver {
     @Override
     public String getName() {
@@ -17,6 +20,10 @@ public class AndroidDriver extends AbstractAndroidDriver {
         return driver;
     }
 
+    /**
+     * Get capabilities
+     * @return  capabilities
+     */
     protected DesiredCapabilities getCapabilities() {
         DesiredCapabilities dc = getCapabilities();
 

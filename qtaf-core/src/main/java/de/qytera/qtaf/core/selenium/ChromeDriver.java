@@ -6,6 +6,9 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 
+/**
+ * This class is responsible for managing the selenium chrome driver
+ */
 public class ChromeDriver extends AbstractDriver {
     @Override
     public String getName() {

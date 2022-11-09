@@ -2,11 +2,14 @@ package de.qytera.qtaf.core.gson;
 
 import com.google.gson.Gson;
 
+/**
+ * Helper class for creating GSON objects
+ */
 public class GsonHelper {
     /**
      * Gson object
      */
-    private static Gson gson = GsonFactory.getInstance();
+    private static final Gson gson = GsonFactory.getInstance();
 
     /**
      * From JSON to entity

@@ -10,6 +10,9 @@ import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
 import java.util.*;
 
+/**
+ * This class is responsible for loading other classes and create instances from them
+ */
 public class ClassLoader {
     /**
      * package names that are searched for classes
@@ -62,8 +65,10 @@ public class ClassLoader {
 
     /**
      * Get a set of classes that are derived from the given class
-     * @param clazz sub type
-     * @return      set of classes
+     * @param clazz         sub type
+     * @param classes       set of classes where found classes are added to
+     * @param packageNames  List of package names where to look for these classes
+     * @return      set of classes that were found
      */
     public static Set<Class<?>> getSubTypesOfRecursively(
             Class<?> clazz,
@@ -192,6 +197,10 @@ public class ClassLoader {
      * Get instance of class
      * @param c Class
      * @return  instance
+     * @throws IllegalAccessException       error if constructor is not accessible
+     * @throws InvocationTargetException    error if constructor is not accessible
+     * @throws InstantiationException       error if constructor is not accessible
+     * @throws NoSuchMethodException        error if constructor is not accessible
      */
     public static Object getInstance(Class<?> c) throws IllegalAccessException, InvocationTargetException, InstantiationException, NoSuchMethodException {
         // Get class constructor instance

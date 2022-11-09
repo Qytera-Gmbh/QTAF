@@ -2,6 +2,9 @@ package de.qytera.qtaf.core.context;
 
 import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
 
+/**
+ * Interface that all test context classes have to implement
+ */
 public interface IQtafTestContext {
     /**
      * Get current log collection

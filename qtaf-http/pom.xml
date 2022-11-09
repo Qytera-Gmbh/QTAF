@@ -2,166 +2,49 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>de.qytera</groupId>
+        <artifactId>qtaf</artifactId>
+        <version>0.0.1</version>
+    </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>de.qytera</groupId>
-    <artifactId>qtaf</artifactId>
-    <version>0.0.1</version>
-    <packaging>pom</packaging>
-
-    <name>${project.groupId}:${project.artifactId}</name>
-    <description>The QTAF (Qytera Test Automation Framework) core library.</description>
-    <url>https://github.com/Qytera-Gmbh/QTAF</url>
-
-    <licenses>
-        <license>
-            <name>MIT License</name>
-            <url>http://www.opensource.org/licenses/mit-license.php</url>
-        </license>
-    </licenses>
-
-    <developers>
-        <developer>
-            <name>Qytera Development</name>
-            <email>info@qytera.de</email>
-            <organization>Qytera Software Testing Solutions GmbH</organization>
-            <organizationUrl>https://www.qytera.de/</organizationUrl>
-        </developer>
-    </developers>
-
-    <scm>
-        <connection>scm:git:git://github.com/Qytera-Gmbh/QTAF.git</connection>
-        <developerConnection>scm:git:ssh://github.com/Qytera-Gmbh/QTAF.git</developerConnection>
-        <url>https://github.com/Qytera-Gmbh/QTAF</url>
-    </scm>
-
-    <modules>
-        <module>qtaf-core</module>
-        <module>qtaf-io</module>
-        <module>qtaf-html-report-plugin</module>
-        <module>qtaf-allure-plugin</module>
-        <module>qtaf-xray-plugin</module>
-        <module>qtaf-http</module>
-        <module>qtaf-data</module>
-    </modules>
+    <artifactId>qtaf-http</artifactId>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
     </properties>
 
-    <build>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-            </resource>
-        </resources>
+    <dependencies>
+        <!-- REST API client -->
+        <!-- https://mvnrepository.com/artifact/com.sun.jersey/jersey-client -->
+        <dependency>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-client</artifactId>
+            <version>1.19.4</version>
+        </dependency>
 
-        <plugins>
-            <!-- Plugin to compile the code -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.10.1</version>
-                <configuration>
-                    <source>${maven.compiler.source}</source>
-                    <target>${maven.compiler.target}</target>
-                </configuration>
-            </plugin>
+        <!-- https://mvnrepository.com/artifact/com.sun.jersey/jersey-json -->
+        <dependency>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-json</artifactId>
+            <version>1.19.4</version>
+        </dependency>
 
-            <!-- Plugin to build a JAR file -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.1.0</version>
-
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <addClasspath>true</addClasspath>
-                            <classpathPrefix>/</classpathPrefix>
-                            <mainClass>de.qytera.qtaf.testng.QtafTestNGRunner</mainClass>
-                        </manifest>
-                    </archive>
-                </configuration>
-            </plugin>
-
-            <!-- This maven plugin is responsible for generating the source JAR files -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <version>2.2.1</version>
-                <executions>
-                    <execution>
-                        <id>attach-sources</id>
-                        <goals>
-                            <goal>jar-no-fork</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <!-- This maven plugin is responsible for creating Javadoc files -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.9.1</version>
-                <executions>
-                    <execution>
-                        <id>attach-javadocs</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <!-- This maven plugin is responsible for generating the GPG signatures -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-gpg-plugin</artifactId>
-                <version>1.6</version>
-                <executions>
-                    <execution>
-                        <id>sign-artifacts</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>sign</goal>
-                        </goals>
-                        <configuration>
-                            <keyname>0x643DE5DE</keyname>
-                            <passphraseServerId>0x643DE5DE</passphraseServerId>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <!-- This maven plugin deploys the artifacts to OSSRH -->
-            <plugin>
-                <groupId>org.sonatype.plugins</groupId>
-                <artifactId>nexus-staging-maven-plugin</artifactId>
-                <version>1.6.13</version>
-                <extensions>true</extensions>
-                <configuration>
-                    <serverId>ossrh</serverId>
-                    <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
-                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
-                </configuration>
-            </plugin>
-
-        </plugins>
-    </build>
-
-    <distributionManagement>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-        <repository>
-            <id>ossrh</id>
-            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>
-    </distributionManagement>
+        <!-- Gson: Java to Json conversion -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.9.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>de.qytera</groupId>
+            <artifactId>qtaf-core</artifactId>
+            <version>0.0.1</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
 
 </project>

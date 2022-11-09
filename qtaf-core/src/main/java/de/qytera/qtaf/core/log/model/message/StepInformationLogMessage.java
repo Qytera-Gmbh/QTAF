@@ -126,6 +126,7 @@ public class StepInformationLogMessage extends LogMessage {
 
     /**
      * Set step parameter list
+     * @param stepParameters    List of step parameters
      * @return  step parameter list
      */
     public StepInformationLogMessage setStepParameters(ArrayList<StepParameter> stepParameters) {
@@ -135,6 +136,9 @@ public class StepInformationLogMessage extends LogMessage {
 
     /**
      * App step parameter
+     * @param   name    Name of the parameter
+     * @param   type    Type of the parameter
+     * @param   value   Value of the parameter
      * @return  step parameter
      */
     public StepInformationLogMessage addStepParameter(String name, String type, Object value) {

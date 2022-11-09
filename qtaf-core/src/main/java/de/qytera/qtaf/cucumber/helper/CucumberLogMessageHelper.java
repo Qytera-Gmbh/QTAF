@@ -24,6 +24,7 @@ public class CucumberLogMessageHelper {
     /**
      * Extract log messages from a Cucumber scenario object
      * @param scenario  Scenario
+     * @return A list if cucumber step log message objects
      */
     public static List<CucumberStepLogMessage> createLogMessagesFromScenario(Scenario scenario) {
         // List of log message objects that is extracted and returned

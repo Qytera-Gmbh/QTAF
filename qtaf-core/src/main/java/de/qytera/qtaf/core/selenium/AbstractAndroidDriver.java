@@ -8,8 +8,15 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+/**
+ * This class is responsible for managing android devices
+ */
 public abstract class AbstractAndroidDriver extends AbstractDriver {
 
+    /**
+     * Get driver capabilities
+     * @return  driver capabilities
+     */
     protected DesiredCapabilities getCapabilities() {
         DesiredCapabilities dc = new DesiredCapabilities();
 
@@ -22,6 +29,11 @@ public abstract class AbstractAndroidDriver extends AbstractDriver {
         return dc;
     }
 
+    /**
+     * Get browser capabilities
+     * @param browserName   name of the browser
+     * @return  browser capabilities
+     */
     protected DesiredCapabilities getDesiredCapabilitiesBrowser(String browserName) {
         DesiredCapabilities dc = getCapabilities();
 
@@ -31,6 +43,11 @@ public abstract class AbstractAndroidDriver extends AbstractDriver {
         return dc;
     }
 
+    /**
+     * Get android driver
+     * @param dc    capabilities
+     * @return  android capabilities
+     */
     protected AndroidDriver<AndroidElement> getAndroidDriver(DesiredCapabilities dc) {
         try {
             logInfo("[Android Driver] " + "URL" + ": " + configMap.getString("appium.driverSettings.url"));

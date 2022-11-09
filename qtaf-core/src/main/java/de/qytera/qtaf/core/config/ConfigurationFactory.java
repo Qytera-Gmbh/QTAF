@@ -54,7 +54,6 @@ public class ConfigurationFactory {
     /**
      * Create default configuration object
      * @return Configuration
-     * @throws IOException  Configuration file not found
      */
     @Provides
     public static ConfigMap getInstance() {
@@ -106,6 +105,8 @@ public class ConfigurationFactory {
 
     /**
      * Create configuration file if it does not exist
+     * @param qtafConfigResourcesBaseDir    Directory where QTAF configuration files are stored
+     * @param filePath                      relative path of the configuration file (relative to qtafConfigResourcesBaseDir)
      * @throws IOException  Error during file creation
      * @return  true on success, false otherwise
      */
@@ -121,6 +122,8 @@ public class ConfigurationFactory {
 
     /**
      * Create a new configuration object
+     *
+     * @param fileName  Name of the file
      * @return Configuration
      */
     public static ConfigMap getInstance(String fileName) {

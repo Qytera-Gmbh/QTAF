@@ -2,6 +2,7 @@
 .idea
 *.jar
 *.iml
+**/pom.xml.versionsBackup
 logs/
 target/
 allure-reports/
