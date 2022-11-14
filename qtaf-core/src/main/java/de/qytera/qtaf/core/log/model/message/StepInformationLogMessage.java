@@ -1,6 +1,7 @@
 package de.qytera.qtaf.core.log.model.message;
 
 import de.qytera.qtaf.core.log.model.LogLevel;
+import de.qytera.qtaf.core.log.model.error.ThrowableWrapper;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -75,7 +76,7 @@ public class StepInformationLogMessage extends LogMessage {
      * Step error.
      * If an error occures during the step method execution it is stored in this attribute.
      */
-    private Throwable error = null;
+    private ThrowableWrapper error = null;
 
     /**
      * Constructor
@@ -178,7 +179,7 @@ public class StepInformationLogMessage extends LogMessage {
      * Get step error
      * @return  step error
      */
-    public Throwable getError() {
+    public ThrowableWrapper getError() {
         return error;
     }
 
@@ -196,6 +197,17 @@ public class StepInformationLogMessage extends LogMessage {
      * @return  this
      */
     public StepInformationLogMessage setError(Throwable error) {
+        this.error = new ThrowableWrapper(error);
+        this.status = Status.ERROR;
+        return this;
+    }
+
+    /**
+     * Set step error
+     * @param error    step error
+     * @return  this
+     */
+    public StepInformationLogMessage setError(ThrowableWrapper error) {
         this.error = error;
         this.status = Status.ERROR;
         return this;
