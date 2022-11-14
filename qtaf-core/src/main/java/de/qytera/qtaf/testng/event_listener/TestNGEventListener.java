@@ -49,7 +49,7 @@ public class TestNGEventListener implements ITestListener {
     @Override
     public void onStart(ITestContext iTestContext) {
         QtafInitializer.initialize();
-        logger.info("TestNG - testing started");
+        logger.info("[QTAF] - testing started");
 
         // Dispatch test started event
         if (!testsStartedEventDispatched) {
@@ -61,7 +61,7 @@ public class TestNGEventListener implements ITestListener {
 
     @Override
     public void onFinish(ITestContext iTestContext) {
-        logger.info("TestNG - testing finished");
+        logger.info("[QTAF] - testing finished");
 
         // Dispatch test finished event
         if (!testsFinishedEventDispatched) {
@@ -73,8 +73,6 @@ public class TestNGEventListener implements ITestListener {
 
     @Override
     public void onTestStart(ITestResult iTestResult) {
-        logger.info(String.format("TestNG - test started: id=%s", iTestResult.hashCode()));
-
         // Dispatch event if it has not been dispatched before
         if (testResultIdMap.get(iTestResult.hashCode()) == null) {
             QtafTestEventPayload testEventPayload = null;
@@ -99,8 +97,6 @@ public class TestNGEventListener implements ITestListener {
 
     @Override
     public void onTestSuccess(ITestResult iTestResult) {
-        logger.info(String.format("TestNG - test success: id=%s", iTestResult.hashCode()));
-
         // Dispatch events
         try {
             QtafEvents.testSuccess.onNext(new TestNGTestEventPayload(iTestResult));
@@ -111,8 +107,6 @@ public class TestNGEventListener implements ITestListener {
 
     @Override
     public void onTestFailure(ITestResult iTestResult) {
-        logger.info(String.format("TestNG - test failure: id=%s", iTestResult.hashCode()));
-
         // Dispatch events
         try {
             QtafEvents.testFailure.onNext(new TestNGTestEventPayload(iTestResult));
@@ -133,8 +127,6 @@ public class TestNGEventListener implements ITestListener {
 
     @Override
     public void onTestSkipped(ITestResult iTestResult) {
-        logger.info(String.format("TestNG - test skipped: id=%s", iTestResult.hashCode()));
-
         // Dispatch events
         try {
             QtafEvents.testSkipped.onNext(new TestNGTestEventPayload(iTestResult));
@@ -145,8 +137,6 @@ public class TestNGEventListener implements ITestListener {
 
     @Override
     public void onTestFailedButWithinSuccessPercentage(ITestResult iTestResult) {
-        logger.info(String.format("TestNG - test failed within percentage: id=%s", iTestResult.hashCode()));
-
         // Dispatch events
         try {
             QtafEvents.testFailedButWithinSuccessPercentage.onNext(
