@@ -176,9 +176,7 @@ public class DuckDuckGoPageTest extends QtafTestNGContext {
 
 ## Documentation
 
-TODO: URL to extensive QTAF documentation
-
-- maybe a GitHub page?
+You will find an extensive documentation on our GitHub page [qytera-gmbh.github.io](https://qytera-gmbh.github.io/).
 
 ## Contributing
 
