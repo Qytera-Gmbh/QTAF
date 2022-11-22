@@ -1,0 +1,1 @@
+docker build -f docker/java19.dockerfile -t qtaf:java19 .
