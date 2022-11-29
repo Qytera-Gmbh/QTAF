@@ -45,7 +45,7 @@ public class DriverTest {
         DriverFactory.clearDriver();
     }
 
-    @Test(groups = {"driver"})
+    //@Test(groups = {"driver"})
     public void testOperaDriverInstantiation() {
         DriverFactory.clearDriver();
         WebDriver webDriver = DriverFactory.getDriver("opera");
