@@ -58,7 +58,7 @@ public class PersistLogFileSubscriber implements IEventSubscriber {
 
         // Persist log messages
         String path = LogFileWriter.persistLogs(suiteLogCollection);
-        logger.info("Log files persisted");
+        logger.info("[QTAF] Log files persisted");
 
         // Dispatch events
         QtafEvents.logsPersisted.onNext(path);

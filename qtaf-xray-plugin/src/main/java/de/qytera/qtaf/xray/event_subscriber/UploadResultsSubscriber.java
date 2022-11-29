@@ -79,7 +79,7 @@ public class UploadResultsSubscriber implements IEventSubscriber {
             return;
         }
 
-        logger.info("Uploading Xray results ...");
+        logger.info("[QTAF Xray Plugin] Uploading Xray results ...");
 
         // Build Request DTO for Xray API
         XrayImportRequestDto xrayImportRequestDto = xrayJsonImportBuilder.buildFromTestSuiteLogs(
@@ -106,10 +106,10 @@ public class UploadResultsSubscriber implements IEventSubscriber {
 
         // Log test execution key to console
         if (responseDto instanceof XrayCloudImportResponseDto) {
-            logger.info("Uploaded test execution. Key is "
+            logger.info("[QTAF Xray Plugin] Uploaded test execution. Key is "
                     + ((XrayCloudImportResponseDto) responseDto).getKey());
         } else if (responseDto instanceof XrayServerImportResponseDto) {
-            logger.info("Uploaded test execution. Key is "
+            logger.info("[QTAF Xray Plugin] Uploaded test execution. Key is "
                     + ((XrayServerImportResponseDto) responseDto).getTestExecIssue().getKey());
         }
 

@@ -40,17 +40,17 @@ public class LogFileWriter {
         // Get Gson instance
         Gson gson = GsonFactory.getInstance();
 
-        // Transform log collection to JSON string
-        String json = gson.toJson(collection);
-
-        // Write log file
-        String reportPath = DirectoryHelper.preparePath(logCollection.getLogDirectory() + "/" + "Report.json");
-
         try {
+            // Transform log collection to JSON string
+            String json = gson.toJson(collection);
+
+            // Write log file
+            String reportPath = DirectoryHelper.preparePath(logCollection.getLogDirectory() + "/" + "Report.json");
+
             DirectoryHelper.createDirectoryIfNotExists(logCollection.getLogDirectory());
             Files.write(Paths.get(reportPath), json.getBytes());
             return reportPath;
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }

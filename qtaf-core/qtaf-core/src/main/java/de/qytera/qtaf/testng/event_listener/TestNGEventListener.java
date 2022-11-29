@@ -61,7 +61,7 @@ public class TestNGEventListener implements ITestListener {
 
     @Override
     public void onFinish(ITestContext iTestContext) {
-        logger.info("TestNG - testing finished");
+        logger.info("[QTAF] testing finished");
 
         // Dispatch test finished event
         if (!testsFinishedEventDispatched) {
