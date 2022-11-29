@@ -12,8 +12,15 @@ import de.qytera.qtaf.core.gson.serializer.ThrowableSerializer;
  * Generate GSON object with custom serializers
  */
 public class GsonFactory {
+    /**
+     * GSON singleton instance
+     */
     private static Gson instance = null;
 
+    /**
+     * Get singleton GSOn instance
+     * @return  GSON singleton instance
+     */
     public static Gson getInstance() {
         if (instance == null) {
             // Create instance of Gson builder

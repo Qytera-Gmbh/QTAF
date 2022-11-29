@@ -76,6 +76,7 @@ public class QtafTestNGCucumberContext extends AbstractTestNGCucumberTests imple
 
     /**
      * Constructor with optional initialization
+     * @param shallInitialize   Whether test context should be initialized or not
      */
     public QtafTestNGCucumberContext(boolean shallInitialize) {
         super();

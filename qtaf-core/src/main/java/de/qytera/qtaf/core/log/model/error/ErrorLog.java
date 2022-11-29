@@ -4,6 +4,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Error object class for error log messages
+ */
 public class ErrorLog {
     /**
      * Error object

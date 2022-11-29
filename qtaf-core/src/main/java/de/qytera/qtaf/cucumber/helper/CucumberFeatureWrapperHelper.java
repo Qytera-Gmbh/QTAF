@@ -4,6 +4,9 @@ import de.qytera.qtaf.core.reflection.FieldHelper;
 import io.cucumber.messages.types.Feature;
 import io.cucumber.testng.FeatureWrapper;
 
+/**
+ * Helper class that provides methods to extract information from Cucumber feature wrapper objects
+ */
 public class CucumberFeatureWrapperHelper {
     /**
      * Get Feature object from FeatureWrapper object

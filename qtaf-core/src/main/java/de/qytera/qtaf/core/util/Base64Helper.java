@@ -32,6 +32,7 @@ public class Base64Helper {
      * Convert a file content to its base64 representation
      * @param filepath Path to a file
      * @return  base64 string
+     * @throws IOException error if file does not exist
      */
     public static String encodeFileContent(String filepath) throws IOException {
         byte[] input = FileHelper.getFileContent(filepath);
@@ -51,6 +52,7 @@ public class Base64Helper {
      * Convert a base64 file content to its original byte array representation
      * @param filepath Path to a file
      * @return  original string
+     * @throws IOException error if file does not exist
      */
     public static byte[] decodeFileContent(String filepath) throws IOException {
         byte[] input = FileHelper.getFileContent(filepath);
@@ -61,6 +63,7 @@ public class Base64Helper {
      * Convert a base64 file content to its original string representation
      * @param filepath Path to a file
      * @return  original string
+     * @throws IOException error if file does not exist
      */
     public static String decodeFileContentAsString(String filepath) throws IOException {
         return new String(Base64Helper.decodeFileContent(filepath));

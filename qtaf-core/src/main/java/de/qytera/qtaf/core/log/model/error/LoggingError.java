@@ -1,5 +1,8 @@
 package de.qytera.qtaf.core.log.model.error;
 
+/**
+ * Entity class for logging errors
+ */
 public class LoggingError extends ErrorLog {
     /**
      * Constructor

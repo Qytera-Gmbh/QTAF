@@ -131,7 +131,7 @@ public class TestScenarioLogCollection {
      * This method has to be synchronized so that it works correctly when using multiple threads.
      *
      * @param featureId  Unique collection ID
-     * @param scenarioId  Method Id (<packageName>.<className>.<methodName>
+     * @param scenarioId  Method Id (packageName + className + methodName)
      * @param scenarioName    Test ID
      * @return  test log collection
      */
@@ -693,7 +693,7 @@ public class TestScenarioLogCollection {
          * @param name Name
          * @return this
          */
-        public TestScenarioLogCollection.TestParameter setName(String name) {
+        public TestParameter setName(String name) {
             this.name = name;
             return this;
         }
@@ -713,7 +713,7 @@ public class TestScenarioLogCollection {
          * @param type Type
          * @return this
          */
-        public TestScenarioLogCollection.TestParameter setType(String type) {
+        public TestParameter setType(String type) {
             this.type = type;
             return this;
         }
@@ -733,7 +733,7 @@ public class TestScenarioLogCollection {
          * @param value Value
          * @return this
          */
-        public TestScenarioLogCollection.TestParameter setValue(Object value) {
+        public TestParameter setValue(Object value) {
             this.value = value;
             return this;
         }

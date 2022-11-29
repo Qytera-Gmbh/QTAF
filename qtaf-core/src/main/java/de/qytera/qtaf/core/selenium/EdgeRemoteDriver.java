@@ -7,6 +7,9 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
+/**
+ * This class is responsible for connecting to a remote edge driver
+ */
 public class EdgeRemoteDriver extends AbstractDriver {
 
     @Override

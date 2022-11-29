@@ -1,0 +1,12 @@
+*.ini
+.idea
+*.jar
+*.iml
+**/pom.xml.versionsBackup
+logs/
+target/
+allure-reports/
+allure-results/
+.idea/
+settings.xml
+allure-*/

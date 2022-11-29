@@ -1,0 +1,1 @@
+docker build -f docker/java18.dockerfile -t qtaf:java18 .

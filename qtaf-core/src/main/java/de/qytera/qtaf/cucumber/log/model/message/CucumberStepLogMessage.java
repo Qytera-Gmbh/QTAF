@@ -41,7 +41,7 @@ public class CucumberStepLogMessage extends StepInformationLogMessage {
 
     /**
      * Constructor
-     *
+     * @param id         unique ID for the step
      * @param methodName step name
      * @param message    log message
      */

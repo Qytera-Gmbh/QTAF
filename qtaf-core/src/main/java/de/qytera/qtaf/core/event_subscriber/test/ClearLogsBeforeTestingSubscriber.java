@@ -10,6 +10,9 @@ import de.qytera.qtaf.core.log.model.error.ErrorLogCollection;
 import de.qytera.qtaf.core.log.model.error.FrameworkInitializationErrorLog;
 import de.qytera.qtaf.core.log.model.error.TestError;
 
+/**
+ * Subscriber that clears all logs before testing is started
+ */
 public class ClearLogsBeforeTestingSubscriber implements IEventSubscriber {
 
     @Override

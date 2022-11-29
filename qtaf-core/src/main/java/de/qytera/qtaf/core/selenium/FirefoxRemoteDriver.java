@@ -6,6 +6,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
+/**
+ * This class is responsible for connecting to a remote firefox browser
+ */
 public class FirefoxRemoteDriver extends AbstractDriver {
 
     @Override

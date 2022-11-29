@@ -1,11 +1,12 @@
 package de.qytera.qtaf.core.selenium;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.ie.InternetExplorerOptions;
-import org.openqa.selenium.remote.DesiredCapabilities;
 
+/**
+ * This class is responsible for connecting to a local Internet Explorer browser
+ */
 public class InternetExplorerDriver extends AbstractDriver {
     @Override
     public String getName() {
@@ -18,6 +19,10 @@ public class InternetExplorerDriver extends AbstractDriver {
         return new org.openqa.selenium.ie.InternetExplorerDriver(this.getCapabilities());
     }
 
+    /**
+     * Get capabilities
+     * @return  capabilities
+     */
     public InternetExplorerOptions getCapabilities() {
         InternetExplorerOptions caps = new InternetExplorerOptions();
         caps.setCapability("ignoreZoomSetting", true);

@@ -17,6 +17,7 @@ public class QtafTestExecutionConfigHelper {
 
     /**
      * Get all groups that should run
+     * @return List of names of test groups
      */
     public static List<String> getTestGroupsFromConfiguration() {
         String configGroupString = config.getString("tests.groups");

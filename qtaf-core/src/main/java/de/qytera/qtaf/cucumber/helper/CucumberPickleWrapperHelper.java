@@ -4,7 +4,9 @@ import de.qytera.qtaf.core.reflection.FieldHelper;
 import io.cucumber.testng.Pickle;
 import io.cucumber.testng.PickleWrapper;
 
-
+/**
+ * Helper class that provides methods for extracting information from cucumber pickle wrapper objects
+ */
 public class CucumberPickleWrapperHelper {
     /**
      * Get Pickle object from PickleWrapper object

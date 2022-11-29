@@ -2,11 +2,33 @@ package de.qytera.qtaf.core.events.payload;
 
 import java.util.Date;
 
+/**
+ * Entity class for payloads of TestContext events
+ */
 public class QtafTestContextPayload implements IQtafTestingContext {
+    /**
+     * Name of the test suite
+     */
     protected String suiteName;
+
+    /**
+     * Start date of the test suite
+     */
     protected Date startDate;
+
+    /**
+     * End date of the test suite
+     */
     protected Date endDate;
+
+    /**
+     * Directory where log files are persisted
+     */
     protected String logDirectory;
+
+    /**
+     * Original event fired by the test framework (TestNG, Cucumber)
+     */
     protected Object originalEvent;
 
     /**

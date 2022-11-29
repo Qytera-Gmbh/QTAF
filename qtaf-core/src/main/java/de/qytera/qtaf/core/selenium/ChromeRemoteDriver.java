@@ -6,6 +6,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
+/**
+ * This class is responsible for connecting to a remote chrome browser
+ */
 public class ChromeRemoteDriver extends AbstractDriver {
 
     @Override

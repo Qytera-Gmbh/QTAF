@@ -4,6 +4,9 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 
+/**
+ * This class is responsible for connecting to a local edge browser
+ */
 public class EdgeDriver extends AbstractDriver {
     @Override
     public String getName() {
