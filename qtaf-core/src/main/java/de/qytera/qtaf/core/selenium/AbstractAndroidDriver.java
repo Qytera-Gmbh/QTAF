@@ -1,7 +1,6 @@
 package de.qytera.qtaf.core.selenium;
 
 import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.remote.MobileCapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
@@ -48,11 +47,11 @@ public abstract class AbstractAndroidDriver extends AbstractDriver {
      * @param dc    capabilities
      * @return  android capabilities
      */
-    protected AndroidDriver<AndroidElement> getAndroidDriver(DesiredCapabilities dc) {
+    protected AndroidDriver getAndroidDriver(DesiredCapabilities dc) {
         try {
             logInfo("[Android Driver] " + "URL" + ": " + configMap.getString("appium.driverSettings.url"));
 
-            AndroidDriver<AndroidElement> androidDriver = new AndroidDriver<AndroidElement>(
+            AndroidDriver androidDriver = new AndroidDriver(
                     new URL(configMap.getString("appium.driverSettings.url")), dc);
 
             return androidDriver;
