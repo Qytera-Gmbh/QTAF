@@ -6,7 +6,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
-import org.openqa.selenium.opera.OperaDriver;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -45,14 +44,15 @@ public class DriverTest {
         DriverFactory.clearDriver();
     }
 
-    //@Test(groups = {"driver"})
+    /** This test was commented out because selenium currently does not support the Opera browser **/
+    /*@Test(groups = {"driver"})
     public void testOperaDriverInstantiation() {
         DriverFactory.clearDriver();
         WebDriver webDriver = DriverFactory.getDriver("opera");
         webDriver.quit();
         Assert.assertEquals(webDriver.getClass().getName(), OperaDriver.class.getName());
         DriverFactory.clearDriver();
-    }
+    }*/
 
     @Test(groups = {"driver"})
     public void testEdgeDriverInstantiation() {
