@@ -44,16 +44,6 @@ public class DriverTest {
         DriverFactory.clearDriver();
     }
 
-    /** This test was commented out because selenium currently does not support the Opera browser **/
-    /*@Test(groups = {"driver"})
-    public void testOperaDriverInstantiation() {
-        DriverFactory.clearDriver();
-        WebDriver webDriver = DriverFactory.getDriver("opera");
-        webDriver.quit();
-        Assert.assertEquals(webDriver.getClass().getName(), OperaDriver.class.getName());
-        DriverFactory.clearDriver();
-    }*/
-
     @Test(groups = {"driver"})
     public void testEdgeDriverInstantiation() {
         DriverFactory.clearDriver();
