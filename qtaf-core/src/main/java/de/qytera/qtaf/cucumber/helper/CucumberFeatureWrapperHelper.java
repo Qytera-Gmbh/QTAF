@@ -1,7 +1,7 @@
 package de.qytera.qtaf.cucumber.helper;
 
 import de.qytera.qtaf.core.reflection.FieldHelper;
-import io.cucumber.messages.types.Feature;
+import io.cucumber.core.gherkin.Feature;
 import io.cucumber.testng.FeatureWrapper;
 
 /**
