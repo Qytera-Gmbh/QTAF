@@ -1,7 +1,7 @@
 package de.qytera.qtaf.cucumber.helper;
 
 import de.qytera.qtaf.core.reflection.FieldHelper;
-import io.cucumber.messages.types.Feature;
+import io.cucumber.core.gherkin.Feature;
 
 /**
  * Helper class for extracting information from Cucumber features
@@ -26,8 +26,8 @@ public class CucumberFeatureHelper {
      * @param iFeature     Feature interface object
      * @return  Feature object
      */
-    public static Feature getFeature(Feature iFeature) {
-        return (Feature) FieldHelper.getFieldValue(iFeature, "feature");
+    public static io.cucumber.messages.types.Feature getFeature(Feature iFeature) {
+        return (io.cucumber.messages.types.Feature) FieldHelper.getFieldValue(iFeature, "feature");
     }
 
 }

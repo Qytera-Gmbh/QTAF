@@ -1,7 +1,7 @@
 package de.qytera.qtaf.cucumber.entity;
 
 import de.qytera.qtaf.cucumber.helper.*;
-import io.cucumber.messages.types.Feature;
+import io.cucumber.core.gherkin.Feature;
 import io.cucumber.messages.types.Tag;
 import io.cucumber.testng.FeatureWrapper;
 import io.cucumber.testng.Pickle;
@@ -26,10 +26,10 @@ public class QTAFCucumberScenarioEntityFactory {
         Feature iFeature = CucumberFeatureWrapperHelper.getFeature(featureWrapper);
 
         assert iFeature != null;
-        Feature feature = CucumberFeatureHelper.getFeature(iFeature);
+        io.cucumber.messages.types.Feature feature = CucumberFeatureHelper.getFeature(iFeature);
 
         assert feature != null;
-        String featureName = feature.getName();
+        String featureName = String.valueOf(feature.getName());
         List<Tag> tags = feature.getTags();
 
         Map<String, String> featureTags = CucumberTagHelper.getKeyValuePairsFromTagList(tags);
