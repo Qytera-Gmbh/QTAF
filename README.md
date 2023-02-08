@@ -26,6 +26,9 @@
     <a href="https://sonarcloud.io/summary/new_code?id=Qytera-Gmbh_QTAF">
         <img src="https://sonarcloud.io/api/project_badges/measure?project=Qytera-Gmbh_QTAF&metric=sqale_rating&token=a2bbe8b96ab480a3f4a4c1030d2d3192a622b239" alt="Sonarcloud Maintainability Rating">
     </a>
+    <a href="https://mvnrepository.com/artifact/de.qytera/qtaf-core/latest">
+        <img src="https://img.shields.io/maven-central/v/de.qytera/qtaf-core?style=flat" alt="Maven Central Version">
+    </a>
 </p>
 
 ## Table of contents
