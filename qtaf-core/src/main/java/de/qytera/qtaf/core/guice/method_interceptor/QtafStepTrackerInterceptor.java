@@ -35,6 +35,8 @@ public class QtafStepTrackerInterceptor implements MethodInterceptor {
 
             // Save individual id of method execution
             stepExecutionInfo.setId(stepExecutionInfo.hashCode());
+            stepExecutionInfo.setThread(Thread.currentThread());
+            stepExecutionInfo.setStackTraceElements(Thread.currentThread().getStackTrace());
 
             // Dispatch event
             QtafEvents.beforeStepExecution.onNext(stepExecutionInfo);

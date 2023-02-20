@@ -16,6 +16,7 @@
         <maven.compiler.target>17</maven.compiler.target>
     </properties>
 
+    <!-- https://mvnrepository.com/artifact/org.testng/testng -->
     <dependencies>
         <dependency>
             <groupId>org.testng</groupId>
@@ -23,7 +24,7 @@
             <version>7.7.1</version>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
+
 
 </project>

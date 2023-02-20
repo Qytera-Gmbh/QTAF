@@ -58,6 +58,11 @@ public class QtafTestEventPayload implements IQtafTestEventPayload {
     protected Date scenarioEnd;
 
     /**
+     * Thread the test was executed in
+     */
+    protected Thread thread;
+
+    /**
      * Thread ID of the scenario
      */
     protected long threadId;
@@ -441,6 +446,26 @@ public class QtafTestEventPayload implements IQtafTestEventPayload {
      */
     public Object setOriginalEvent(Object originalEvent) {
         this.originalEvent = originalEvent;
+        return this;
+    }
+
+    /**
+     * Get thread
+     *
+     * @return thread
+     */
+    public Thread getThread() {
+        return thread;
+    }
+
+    /**
+     * Set thread
+     *
+     * @param thread Thread
+     * @return this
+     */
+    public QtafTestEventPayload setThread(Thread thread) {
+        this.thread = thread;
         return this;
     }
 }

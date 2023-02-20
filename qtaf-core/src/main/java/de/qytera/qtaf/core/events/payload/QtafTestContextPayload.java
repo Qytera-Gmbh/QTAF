@@ -32,6 +32,11 @@ public class QtafTestContextPayload implements IQtafTestingContext {
     protected Object originalEvent;
 
     /**
+     * This attribute hold information about the thread the event was fired in
+     */
+    protected Thread thread;
+
+    /**
      * Get suiteName
      *
      * @return suiteName
@@ -133,6 +138,26 @@ public class QtafTestContextPayload implements IQtafTestingContext {
      */
     public QtafTestContextPayload setOriginalEvent(Object originalEvent) {
         this.originalEvent = originalEvent;
+        return this;
+    }
+
+    /**
+     * Get thread
+     *
+     * @return thread
+     */
+    public Thread getThread() {
+        return thread;
+    }
+
+    /**
+     * Set thread
+     *
+     * @param thread Thread
+     * @return this
+     */
+    public QtafTestContextPayload setThread(Thread thread) {
+        this.thread = thread;
         return this;
     }
 }
