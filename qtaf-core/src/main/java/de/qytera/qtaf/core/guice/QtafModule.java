@@ -2,15 +2,8 @@ package de.qytera.qtaf.core.guice;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.matcher.Matchers;
-import de.qytera.qtaf.core.context.IQtafTestContext;
-import de.qytera.qtaf.core.events.QtafEvents;
 import de.qytera.qtaf.core.guice.annotations.Step;
-import de.qytera.qtaf.core.guice.invokation.StepExecutionInfo;
 import de.qytera.qtaf.core.guice.method_interceptor.QtafStepTrackerInterceptor;
-import de.qytera.qtaf.testng.context.QtafTestNGContext;
-import io.cucumber.java.en.When;
-import org.aopalliance.intercept.MethodInterceptor;
-import org.aopalliance.intercept.MethodInvocation;
 
 
 /**
