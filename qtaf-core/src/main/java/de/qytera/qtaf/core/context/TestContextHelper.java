@@ -14,13 +14,14 @@ public class TestContextHelper {
      * Add logger to all instance fields
      */
     public static void addLoggerToFieldsRecursively(IQtafTestContext testContext) {
-        // Get all declared fields of the test context and its super classes
+        // Get all declared fields of the test context class and its super classes
         ArrayList<Field> fields = FieldHelper.getDeclaredFieldsRecursively(
                 testContext.getClass()
         );
 
         // Iterate over fields
         for (Field field : fields) {
+            // Check if the field is currently accessible
             boolean accessible = false;
 
             try {

@@ -92,6 +92,12 @@ public class StepLoggerSubscriber implements IEventSubscriber {
         // Store log in map
         stepIdLogMap.put(stepExecutionInfo.getId(), logMessage);
 
+        // Initialize context is it is not already initialized
+        if (context.getLogCollection() == null) {
+            context.initialize();
+            assert context.getLogCollection() != null;
+        }
+
         // Add log message to collection
         context.getLogCollection().addLogMessage(logMessage);
 
