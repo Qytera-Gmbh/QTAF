@@ -5,7 +5,7 @@ import java.util.HashMap;
 /**
  * Index that holds all FeatureLogCollection objects
  */
-public class FeatureLogCollectionIndex extends HashMap<Integer, TestFeatureLogCollection> {
+public class FeatureLogCollectionIndex extends HashMap<String, TestFeatureLogCollection> {
     /**
      * Singleton instance
      */

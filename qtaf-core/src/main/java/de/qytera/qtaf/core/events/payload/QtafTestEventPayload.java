@@ -13,9 +13,24 @@ public class QtafTestEventPayload implements IQtafTestEventPayload {
     protected Object originalEvent;
 
     /**
+     * Original test instance object
+     */
+    protected Object originalTestInstance;
+
+    /**
      * ID of the test feature
      */
-    protected int featureId;
+    protected String featureId;
+
+    /**
+     * Class name where the feature is implemented
+     */
+    protected String featureClassName;
+
+    /**
+     * Name of the package where the feature is implemented
+     */
+    protected String featurePackageName;
 
     /**
      * Name of the feature
@@ -98,11 +113,16 @@ public class QtafTestEventPayload implements IQtafTestEventPayload {
     protected String[] methodDependencies = new String[]{};
 
     /**
+     * Scenario Method Name
+     */
+    protected String scenarioMethodName;
+
+    /**
      * Get uniqueId
      *
      * @return uniqueId
      */
-    public int getFeatureId() {
+    public String getFeatureId() {
         return featureId;
     }
 
@@ -112,8 +132,28 @@ public class QtafTestEventPayload implements IQtafTestEventPayload {
      * @param featureId UniqueId
      * @return this
      */
-    public QtafTestEventPayload setFeatureId(int featureId) {
+    public QtafTestEventPayload setFeatureId(String featureId) {
         this.featureId = featureId;
+        return this;
+    }
+
+    /**
+     * Get featureClassName
+     *
+     * @return featureClassName
+     */
+    public String getFeatureClassName() {
+        return featureClassName;
+    }
+
+    /**
+     * Set featureClassName
+     *
+     * @param featureClassName FeatureClassName
+     * @return this
+     */
+    public QtafTestEventPayload setFeatureClassName(String featureClassName) {
+        this.featureClassName = featureClassName;
         return this;
     }
 
@@ -166,6 +206,47 @@ public class QtafTestEventPayload implements IQtafTestEventPayload {
      */
     public String getScenarioId() {
         return scenarioId;
+    }
+
+    /**
+     * Get featurePackageName
+     *
+     * @return featurePackageName
+     */
+    public String getFeaturePackageName() {
+        return featurePackageName;
+    }
+
+    /**
+     * Set featurePackageName
+     *
+     * @param featurePackageName FeaturePackageName
+     * @return this
+     */
+    public QtafTestEventPayload setFeaturePackageName(String featurePackageName) {
+        this.featurePackageName = featurePackageName;
+        return this;
+    }
+
+    /**
+     * Get scenarioMethodName
+     *
+     * @return scenarioMethodName
+     */
+    @Override
+    public String getScenarioMethodName() {
+        return scenarioMethodName;
+    }
+
+    /**
+     * Set scenarioMethodName
+     *
+     * @param scenarioMethodName ScenarioMethodName
+     * @return this
+     */
+    public QtafTestEventPayload setScenarioMethodName(String scenarioMethodName) {
+        this.scenarioMethodName = scenarioMethodName;
+        return this;
     }
 
     /**
@@ -446,6 +527,26 @@ public class QtafTestEventPayload implements IQtafTestEventPayload {
      */
     public Object setOriginalEvent(Object originalEvent) {
         this.originalEvent = originalEvent;
+        return this;
+    }
+
+    /**
+     * Get originalTestInstance
+     *
+     * @return originalTestInstance
+     */
+    public Object getOriginalTestInstance() {
+        return originalTestInstance;
+    }
+
+    /**
+     * Set originalTestInstance
+     *
+     * @param originalTestInstance OriginalTestInstance
+     * @return this
+     */
+    public QtafTestEventPayload setOriginalTestInstance(Object originalTestInstance) {
+        this.originalTestInstance = originalTestInstance;
         return this;
     }
 

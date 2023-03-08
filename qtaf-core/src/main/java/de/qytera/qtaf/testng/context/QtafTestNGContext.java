@@ -119,7 +119,7 @@ public abstract class QtafTestNGContext implements IQtafTestContext {
      * @return  collection
      */
     @Override
-    public TestScenarioLogCollection createAndSetNewLogCollection(int hashCode, String methodId, String testId) {
+    public TestScenarioLogCollection createAndSetNewLogCollection(String hashCode, String methodId, String testId) {
         TestScenarioLogCollection collection = testFeatureLogCollection.createScenarioIfNotExists(hashCode, methodId, testId);
         this.setLogCollection(collection);
         return collection;

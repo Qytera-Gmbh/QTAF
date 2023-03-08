@@ -16,8 +16,8 @@ public class MockLogCollectionFactory {
     @Test
     public static void generate() {
         // Mock feature logs
-        TestFeatureLogCollection f1 = slc.createFeatureIfNotExists("feature1".hashCode(), "feature1");
-        TestFeatureLogCollection f2 = slc.createFeatureIfNotExists("feature2".hashCode(), "feature2");
+        TestFeatureLogCollection f1 = slc.createFeatureIfNotExists("feature1", "feature1");
+        TestFeatureLogCollection f2 = slc.createFeatureIfNotExists("feature2", "feature2");
 
         // Mock scenario logs
         TestScenarioLogCollection c1 = f1.createScenarioIfNotExists(f1.getFeatureId(), "scenario1", "Scenario 1");

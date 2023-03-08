@@ -29,7 +29,7 @@ public class CucumberScenarioEventPayload extends QtafTestEventPayload {
     public CucumberScenarioEventPayload(Scenario scenario) {
         this.originalEvent = scenario;
         this.featureName = this.getFeatureNameFromScenario(scenario);
-        this.featureId = this.featureName.hashCode();
+        this.featureId = this.featureName;
 
         // Extract information from Scenario object
         Map<String, String> tagData = CucumberScenarioHelper.getTagMetaData(scenario);

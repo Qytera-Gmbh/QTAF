@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Event listener for TestNG events
+ * Event listener for TestNG events. This class connects TestNG with the QTAF event system.
  */
 public class TestNGEventListener implements ITestListener {
 
@@ -75,10 +75,11 @@ public class TestNGEventListener implements ITestListener {
     public void onTestStart(ITestResult iTestResult) {
         // Dispatch event if it has not been dispatched before
         if (testResultIdMap.get(iTestResult.hashCode()) == null) {
-            QtafTestEventPayload testEventPayload = null;
+            QtafTestEventPayload testEventPayload;
 
             try {
-                QtafEvents.testStarted.onNext(new TestNGTestEventPayload(iTestResult));
+                testEventPayload = new TestNGTestEventPayload(iTestResult);
+                QtafEvents.testStarted.onNext(testEventPayload);
             } catch (NoSuchMethodException e) { // Can be caused by cucumber
                 return;
             }

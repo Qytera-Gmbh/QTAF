@@ -152,7 +152,7 @@ public class QtafLoggingSubscriberTest {
 
         // Create mock event
         IQtafTestEventPayload payload = new QtafTestEventPayload()
-                .setFeatureId(1)
+                .setFeatureId("f1")
                 .setScenarioId("s1")
                 .setScenarioName("scenario 1");
 
@@ -222,7 +222,7 @@ public class QtafLoggingSubscriberTest {
 
         // Create mock event
         IQtafTestEventPayload payload = new QtafTestEventPayload()
-                .setFeatureId(1)
+                .setFeatureId("f1")
                 .setScenarioId("s1")
                 .setScenarioName("scenario 1");
 
@@ -292,7 +292,7 @@ public class QtafLoggingSubscriberTest {
 
         // Create mock event
         IQtafTestEventPayload payload = new QtafTestEventPayload()
-                .setFeatureId(1)
+                .setFeatureId("f1")
                 .setScenarioId("s1")
                 .setScenarioName("scenario 1");
 
@@ -362,7 +362,7 @@ public class QtafLoggingSubscriberTest {
 
         // Create mock event
         IQtafTestEventPayload payload = new QtafTestEventPayload()
-                .setFeatureId(1)
+                .setFeatureId("f1")
                 .setScenarioId("s1")
                 .setScenarioName("scenario 1");
 

@@ -167,7 +167,7 @@ public class TestSuiteLogCollection {
      * @param featureName   Scenario name / Class ID of the test
      * @return  new collection
      */
-    public TestFeatureLogCollection createFeatureIfNotExists(int featureId, String featureName) {
+    public TestFeatureLogCollection createFeatureIfNotExists(String featureId, String featureName) {
         TestFeatureLogCollection collection = TestFeatureLogCollection.createFeatureLogCollectionIfNotExists(
                 featureId,
                 featureName

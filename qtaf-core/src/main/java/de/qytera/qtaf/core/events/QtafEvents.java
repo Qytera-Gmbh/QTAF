@@ -1,6 +1,8 @@
 package de.qytera.qtaf.core.events;
 
 import de.qytera.qtaf.core.config.entity.ConfigMap;
+import de.qytera.qtaf.core.guice.invokation.AfterTestExecutionInfo;
+import de.qytera.qtaf.core.guice.invokation.BeforeTestExecutionInfo;
 import de.qytera.qtaf.core.selenium.AbstractDriver;
 import de.qytera.qtaf.core.events.payload.IQtafTestEventPayload;
 import de.qytera.qtaf.core.events.payload.IQtafTestStepEventPayload;
@@ -51,6 +53,16 @@ public class QtafEvents {
      * Subject that emits events when all tests are finished.
      */
     public static final PublishSubject<IQtafTestingContext> finishedTesting = PublishSubject.create();
+
+    /**
+     * Subject that emits events whenever a method with the annotation @BeforeTest is executed
+     */
+    public static final PublishSubject<BeforeTestExecutionInfo> beforeTest = PublishSubject.create();
+
+    /**
+     * Subject that emits events whenever a method with the annotation @AfterTest is executed
+     */
+    public static final PublishSubject<AfterTestExecutionInfo> afterTest = PublishSubject.create();
 
     /**
      * Subject that emits events when all tests are finished.

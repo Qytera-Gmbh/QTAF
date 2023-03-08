@@ -29,7 +29,7 @@ public interface IQtafTestContext {
      * @param testId   test class
      * @return collection
      */
-    TestScenarioLogCollection createAndSetNewLogCollection(int hashCode, String methodId, String testId);
+    TestScenarioLogCollection createAndSetNewLogCollection(String hashCode, String methodId, String testId);
 
     /**
      * Add logger to all instance fields

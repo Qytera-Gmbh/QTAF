@@ -45,14 +45,14 @@ public class TestSuiteLogCollectionTest {
         Assert.assertEquals(logCollection.countFeatureLogs(), 0);
         Assert.assertEquals(TestFeatureLogCollection.getIndexSize(), 0);
 
-        TestFeatureLogCollection testFeatureLogCollection = logCollection.createFeatureIfNotExists(100, "Feature 1");
+        TestFeatureLogCollection testFeatureLogCollection = logCollection.createFeatureIfNotExists("feature1", "Feature 1");
 
         // New feature log collection was added, so count should be one
         Assert.assertEquals(logCollection.countFeatureLogs(), 1);
         Assert.assertEquals(TestFeatureLogCollection.getIndexSize(), 1);
 
         TestFeatureLogCollection testFeatureLogCollection2 = logCollection.createFeatureIfNotExists(
-                100,
+                "feature1",
                 "Feature 1"
         );
 
@@ -63,7 +63,7 @@ public class TestSuiteLogCollectionTest {
         Assert.assertEquals(testFeatureLogCollection.hashCode(), testFeatureLogCollection2.hashCode());
 
         // New feature log collection with new ID was added, so count should be two
-        TestFeatureLogCollection testFeatureLogCollection3 = logCollection.createFeatureIfNotExists(101, "Feature 2");
+        TestFeatureLogCollection testFeatureLogCollection3 = logCollection.createFeatureIfNotExists("feature2", "Feature 2");
         Assert.assertEquals(logCollection.countFeatureLogs(), 2);
         Assert.assertEquals(TestFeatureLogCollection.getIndexSize(), 2);
         Assert.assertNotEquals(testFeatureLogCollection3.hashCode(), testFeatureLogCollection.hashCode());
