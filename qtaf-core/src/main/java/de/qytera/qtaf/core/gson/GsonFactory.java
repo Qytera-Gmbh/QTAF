@@ -3,6 +3,7 @@ package de.qytera.qtaf.core.gson;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import de.qytera.qtaf.core.config.annotations.TestFeature;
+import de.qytera.qtaf.core.gson.serializer.StackTraceElementSerializer;
 import de.qytera.qtaf.core.guice.annotations.Step;
 import de.qytera.qtaf.core.gson.serializer.StepAnnotationSerializer;
 import de.qytera.qtaf.core.gson.serializer.TestCaseAnnotationSerializer;
@@ -27,10 +28,11 @@ public class GsonFactory {
             GsonBuilder gsonBuilder = new GsonBuilder()
                     .setPrettyPrinting();
 
-            // Register custom serializers
+            // Register custom serializers. Serializers help GSON to build JSON objects from Java objects.
             gsonBuilder.registerTypeAdapter(TestFeature.class, new TestCaseAnnotationSerializer());
             gsonBuilder.registerTypeAdapter(Step.class, new StepAnnotationSerializer());
             gsonBuilder.registerTypeAdapter(Throwable.class, new ThrowableSerializer());
+            gsonBuilder.registerTypeAdapter(StackTraceElement.class, new StackTraceElementSerializer());
 
             // Get Gson instance
             instance = gsonBuilder.create();

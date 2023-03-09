@@ -12,6 +12,7 @@ public class TestNGTestContextPayload extends QtafTestContextPayload {
         this.startDate = iTestContext.getStartDate();
         this.endDate = iTestContext.getEndDate();
         this.logDirectory = iTestContext.getSuite().getOutputDirectory();
+        this.thread = Thread.currentThread();
     }
 
     @Override

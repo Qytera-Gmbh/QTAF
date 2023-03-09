@@ -62,17 +62,9 @@ public class TestNGLoggingSubscriber implements IEventSubscriber {
      */
     private void onTestStarted(IQtafTestEventPayload iQtafTestEventPayload) {
         // Check if this listener is responsible for this event
-        if (!(iQtafTestEventPayload.getOriginalEvent() instanceof ITestResult)) {
+        if (!(iQtafTestEventPayload.getOriginalEvent() instanceof ITestResult iTestResult)) {
             return;
         }
-
-        TestScenarioLogCollection testScenarioLogCollection = TestScenarioLogCollection.fromQtafTestEventPayload(iQtafTestEventPayload);
-        ITestResult iTestResult = (ITestResult) iQtafTestEventPayload.getOriginalEvent();
-
-        TestFeatureLogCollection featureLogCollection = QtafFactory.getTestSuiteLogCollection().createFeatureIfNotExists(
-                iQtafTestEventPayload.getFeatureId(),
-                iQtafTestEventPayload.getScenarioName()
-        );
 
         this.log(iTestResult, "started");
 
@@ -91,20 +83,21 @@ public class TestNGLoggingSubscriber implements IEventSubscriber {
             return;
         }
 
-        // Set logger
-        /*
-        testInstance
-                .createAndSetNewLogCollection(
-                        testScenarioLogCollection.getUniqueId(),
-                        testScenarioLogCollection.getMethodId(),
-                        testScenarioLogCollection.getTestId()
-                );
-         */
+        // Create new feature log collection that will collect log messages for the current feature
+        TestFeatureLogCollection featureLogCollection = QtafFactory.getTestSuiteLogCollection().createFeatureIfNotExists(
+                iQtafTestEventPayload.getFeatureId(),
+                iQtafTestEventPayload.getScenarioName()
+        );
 
-        TestScenarioLogCollection collection = TestScenarioLogCollection
+        // Create an instance of TestScenarioLogCollection that will be added to
+        TestScenarioLogCollection scenarioLogCollection = TestScenarioLogCollection
                 .fromQtafTestEventPayload(iQtafTestEventPayload);
-        testInstance.setLogCollection(collection);
-        featureLogCollection.addScenarioLogCollection(collection);
+
+        // Add instance of log collection to test class instance
+        testInstance.setLogCollection(scenarioLogCollection);
+
+        // Also register the scenario log collection instance in the corresponding feature log collection instance
+        featureLogCollection.addScenarioLogCollection(scenarioLogCollection);
 
         testInstance.addLoggerToFieldsRecursively();
     }

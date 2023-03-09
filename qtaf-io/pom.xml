@@ -5,7 +5,7 @@
     <parent>
         <groupId>de.qytera</groupId>
         <artifactId>qtaf</artifactId>
-        <version>0.0.3</version>
+        <version>0.0.4</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -16,6 +16,7 @@
         <maven.compiler.target>17</maven.compiler.target>
     </properties>
 
+    <!-- https://mvnrepository.com/artifact/org.testng/testng -->
     <dependencies>
         <dependency>
             <groupId>org.testng</groupId>
@@ -23,7 +24,7 @@
             <version>7.7.1</version>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
+
 
 </project>

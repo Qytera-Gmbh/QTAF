@@ -78,12 +78,6 @@ public class TestNGEventListener implements ITestListener {
             QtafTestEventPayload testEventPayload = null;
 
             try {
-                testEventPayload = new TestNGTestEventPayload(iTestResult);
-            } catch (NoSuchMethodException e) { // Can be caused by cucumber
-                return;
-            }
-
-            try {
                 QtafEvents.testStarted.onNext(new TestNGTestEventPayload(iTestResult));
             } catch (NoSuchMethodException e) { // Can be caused by cucumber
                 return;

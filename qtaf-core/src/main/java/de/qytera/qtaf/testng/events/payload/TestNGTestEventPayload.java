@@ -2,13 +2,16 @@ package de.qytera.qtaf.testng.events.payload;
 
 import de.qytera.qtaf.core.config.annotations.TestFeature;
 import de.qytera.qtaf.core.events.payload.QtafTestEventPayload;
+import de.qytera.qtaf.core.reflection.ClassHelper;
 import de.qytera.qtaf.testng.helper.TestResultHelper;
 import org.testng.ITestNGMethod;
 import org.testng.ITestResult;
 import org.testng.annotations.Test;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.util.Date;
+import java.util.List;
 
 /**
  * TestNG event payload information class
@@ -91,11 +94,29 @@ public class TestNGTestEventPayload extends QtafTestEventPayload {
         // These are the types of the parameters passed to the test method
         Class<?>[] methodParamTypes = new Class[methodParamValues.length];
 
+        // Get the classes of the parameters
         for (int i = 0; i < methodParamValues.length; i++) {
             methodParamTypes[i] = methodParamValues[i].getClass();
         }
 
-        Method method = clazz.getMethod(methodName, methodParamTypes);
+        // We need the method reflection object for the test scenario (that is the method that contains the test logic)
+        Method method;
+
+        try {
+            // First try to use the Java API to get the method object of the test scenario
+            method = clazz.getMethod(methodName, methodParamTypes);
+        } catch (NoSuchMethodException e) {
+            // Otherwise use ClassHelper to find the correct method object
+            List<Method> suitableMethods = ClassHelper.findSuitableMethods(clazz, methodParamValues, methodName);
+
+            // If there were no methods found matching the method's name and the parameters raise an exception
+            if (suitableMethods.isEmpty()) {
+                throw e;
+            }
+
+            // Use the first matching method object for logging
+            method = suitableMethods.get(0);
+        }
 
         return new MethodInfo(method, methodParamTypes, methodParamValues);
     }

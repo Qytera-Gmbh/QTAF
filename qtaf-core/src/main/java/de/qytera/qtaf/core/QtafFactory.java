@@ -1,7 +1,9 @@
 package de.qytera.qtaf.core;
 
+import com.google.gson.Gson;
 import de.qytera.qtaf.core.config.ConfigurationFactory;
 import de.qytera.qtaf.core.config.entity.ConfigMap;
+import de.qytera.qtaf.core.gson.GsonFactory;
 import de.qytera.qtaf.core.log.Logger;
 import de.qytera.qtaf.core.selenium.DriverFactory;
 import de.qytera.qtaf.core.log.model.collection.TestSuiteLogCollection;
@@ -41,5 +43,13 @@ public class QtafFactory {
      */
     public static Logger getLogger() {
         return Logger.getInstance();
+    }
+
+    /**
+     * Get GSON instance
+     * @return GSON instance
+     */
+    public static Gson getGson() {
+        return GsonFactory.getInstance();
     }
 }
