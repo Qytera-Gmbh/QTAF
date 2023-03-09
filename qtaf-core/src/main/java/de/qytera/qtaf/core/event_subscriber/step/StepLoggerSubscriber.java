@@ -96,8 +96,10 @@ public class StepLoggerSubscriber implements IEventSubscriber {
 
         // Initialize context is it is not already initialized
         if (context.getLogCollection() == null) {
-            context.initialize();
-            assert context.getLogCollection() != null;
+            throw new AssertionError("""
+                    The LogCollection of the context class was not initialized properly.
+                    You may check the following points:
+                    \t- All your methods that are annotated with @Test, @BeforeXXX, @AfterXXX must be public""");
         }
 
         // Add log message to collection
