@@ -30,7 +30,7 @@ public class QtafStepTrackerInterceptor implements MethodInterceptor {
 
             // Build step execution info object
             StepExecutionInfo stepExecutionInfo = new StepExecutionInfo()
-                    .setStep(step)
+                    .setAnnotation(step)
                     .setMethodInvocation(methodInvocation);
 
             // Save individual id of method execution

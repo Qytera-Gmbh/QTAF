@@ -2,12 +2,12 @@ package de.qytera.qtaf.core.guice.method_interceptor;
 
 import de.qytera.qtaf.core.context.IQtafTestContext;
 import de.qytera.qtaf.core.events.QtafEvents;
-import de.qytera.qtaf.core.guice.invokation.AfterTestExecutionInfo;
+import de.qytera.qtaf.core.guice.invokation.BeforeMethodExecutionInfo;
 import de.qytera.qtaf.core.log.model.collection.TestFeatureLogCollection;
 import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
-import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeMethod;
 import rx.subjects.PublishSubject;
 
 import java.lang.annotation.Annotation;
@@ -15,10 +15,10 @@ import java.lang.annotation.Annotation;
 /**
  * Method interceptor for methods that are annotated with the Step annotation
  */
-public class QtafTestNGAfterTestInterceptor extends AbstractTestNGAnnotatedMethodInterceptor implements MethodInterceptor {
-    private final PublishSubject<AfterTestExecutionInfo> beforeStepExecution = QtafEvents.afterTestFeature;
-    private final PublishSubject<AfterTestExecutionInfo> afterStepExecutionSuccess = QtafEvents.afterTestFeatureSuccess;
-    private final PublishSubject<AfterTestExecutionInfo> afterStepExecutionFailure = QtafEvents.afterTestFeatureFailure;
+public class QtafTestNGBeforeMethodInterceptor extends AbstractTestNGAnnotatedMethodInterceptor implements MethodInterceptor {
+    private final PublishSubject<BeforeMethodExecutionInfo> beforeStepExecution = QtafEvents.beforeTestScenario;
+    private final PublishSubject<BeforeMethodExecutionInfo> afterStepExecutionSuccess = QtafEvents.beforeTestScenarioSuccess;
+    private final PublishSubject<BeforeMethodExecutionInfo> afterStepExecutionFailure = QtafEvents.beforeTestScenarioFailure;
 
     /**
      * This method works as a proxy for methods. Instead of executing the annotated method directly this method will
@@ -37,7 +37,7 @@ public class QtafTestNGAfterTestInterceptor extends AbstractTestNGAnnotatedMetho
             Object result;
 
             // Build step execution info object
-            AfterTestExecutionInfo stepExecution = buildStepExecutionInfoEntity(methodInvocation);
+            BeforeMethodExecutionInfo stepExecution = buildStepExecutionInfoEntity(methodInvocation);
 
             // Dispatch event
             beforeStepExecution.onNext(stepExecution);
@@ -73,14 +73,14 @@ public class QtafTestNGAfterTestInterceptor extends AbstractTestNGAnnotatedMetho
 
     @Override
     public Annotation getAnnotation(MethodInvocation methodInvocation) {
-        return methodInvocation.getClass().getAnnotation(AfterTest.class);
+        return methodInvocation.getClass().getAnnotation(BeforeMethod.class);
     }
 
     @Override
-    public AfterTestExecutionInfo buildStepExecutionInfoEntity(MethodInvocation methodInvocation) {
+    public BeforeMethodExecutionInfo buildStepExecutionInfoEntity(MethodInvocation methodInvocation) {
         // Build step execution info object
-        AfterTestExecutionInfo stepExecutionInfoEntity = (AfterTestExecutionInfo) new AfterTestExecutionInfo()
-                .setAnnotation((AfterTest) getAnnotation(methodInvocation))
+        BeforeMethodExecutionInfo stepExecutionInfoEntity = (BeforeMethodExecutionInfo) new BeforeMethodExecutionInfo()
+                .setAnnotation((BeforeMethod) getAnnotation(methodInvocation))
                 .setMethodInvocation(methodInvocation);
 
         // Save individual id of method execution
@@ -93,11 +93,11 @@ public class QtafTestNGAfterTestInterceptor extends AbstractTestNGAnnotatedMetho
 
     @Override
     public String buildScenarioName(String featureName, String scenarioId) {
-        return "After Feature '" + featureName + "' Execution";
+        return "Before Scenario '" + scenarioId + "' Execution";
     }
 
     @Override
     public String buildScenarioDescription(String featureName, String scenarioName) {
-        return "Executed after feature '" + featureName + "'";
+        return "Executed before scenario '" + scenarioName + "'";
     }
 }

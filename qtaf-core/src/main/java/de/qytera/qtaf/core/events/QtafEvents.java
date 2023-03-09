@@ -1,13 +1,11 @@
 package de.qytera.qtaf.core.events;
 
 import de.qytera.qtaf.core.config.entity.ConfigMap;
-import de.qytera.qtaf.core.guice.invokation.AfterTestExecutionInfo;
-import de.qytera.qtaf.core.guice.invokation.BeforeTestExecutionInfo;
+import de.qytera.qtaf.core.guice.invokation.*;
 import de.qytera.qtaf.core.selenium.AbstractDriver;
 import de.qytera.qtaf.core.events.payload.IQtafTestEventPayload;
 import de.qytera.qtaf.core.events.payload.IQtafTestStepEventPayload;
 import de.qytera.qtaf.core.events.payload.IQtafTestingContext;
-import de.qytera.qtaf.core.guice.invokation.StepExecutionInfo;
 import de.qytera.qtaf.core.log.model.collection.TestSuiteLogCollection;
 import rx.subjects.BehaviorSubject;
 import rx.subjects.PublishSubject;
@@ -55,14 +53,94 @@ public class QtafEvents {
     public static final PublishSubject<IQtafTestingContext> finishedTesting = PublishSubject.create();
 
     /**
-     * Subject that emits events whenever a method with the annotation @BeforeTest is executed
+     * Subject that emits events before a method with the annotation @BeforeSuite is executed
      */
-    public static final PublishSubject<BeforeTestExecutionInfo> beforeTest = PublishSubject.create();
+    public static final PublishSubject<BeforeSuiteExecutionInfo> beforeTestSuite = PublishSubject.create();
 
     /**
-     * Subject that emits events whenever a method with the annotation @AfterTest is executed
+     * Subject that emits events whenever a method with the annotation @BeforeSuite is executed successfully
      */
-    public static final PublishSubject<AfterTestExecutionInfo> afterTest = PublishSubject.create();
+    public static final PublishSubject<BeforeSuiteExecutionInfo> beforeTestSuiteSuccess = PublishSubject.create();
+
+    /**
+     * Subject that emits events whenever a method with the annotation @BeforeSuite is executed and throws an error
+     */
+    public static final PublishSubject<BeforeSuiteExecutionInfo> beforeTestSuiteFailure = PublishSubject.create();
+
+    /**
+     * Subject that emits events before a method with the annotation @BeforeTest is executed
+     */
+    public static final PublishSubject<BeforeTestExecutionInfo> beforeTestFeature = PublishSubject.create();
+
+    /**
+     * Subject that emits events whenever a method with the annotation @BeforeTest is executed successfully
+     */
+    public static final PublishSubject<BeforeTestExecutionInfo> beforeTestFeatureSuccess = PublishSubject.create();
+
+    /**
+     * Subject that emits events whenever a method with the annotation @BeforeTest is executed and throws an error
+     */
+    public static final PublishSubject<BeforeTestExecutionInfo> beforeTestFeatureFailure = PublishSubject.create();
+
+    /**
+     * Subject that emits events before a method with the annotation @AfterTest is executed
+     */
+    public static final PublishSubject<AfterTestExecutionInfo> afterTestFeature = PublishSubject.create();
+
+    /**
+     * Subject that emits events before a method with the annotation @AfterTest is executed successfully
+     */
+    public static final PublishSubject<AfterTestExecutionInfo> afterTestFeatureSuccess = PublishSubject.create();
+
+    /**
+     * Subject that emits events after a method with the annotation @AfterTest is executed and throws an error
+     */
+    public static final PublishSubject<AfterTestExecutionInfo> afterTestFeatureFailure = PublishSubject.create();
+
+    /**
+     * Subject that emits events before a method with the annotation @AfterSuite is executed
+     */
+    public static final PublishSubject<AfterSuiteExecutionInfo> afterTestSuite = PublishSubject.create();
+
+    /**
+     * Subject that emits events whenever a method with the annotation @AfterSuite is executed successfully
+     */
+    public static final PublishSubject<AfterSuiteExecutionInfo> afterTestSuiteSuccess = PublishSubject.create();
+
+    /**
+     * Subject that emits events whenever a method with the annotation @AfterSuite is executed and throws an error
+     */
+    public static final PublishSubject<AfterSuiteExecutionInfo> afterTestSuiteFailure = PublishSubject.create();
+
+    /**
+     * Subject that emits events before a method with the annotation @BeforeMethod is executed
+     */
+    public static final PublishSubject<BeforeMethodExecutionInfo> beforeTestScenario = PublishSubject.create();
+
+    /**
+     * Subject that emits events whenever a method with the annotation @BeforeMethod is executed successfully
+     */
+    public static final PublishSubject<BeforeMethodExecutionInfo> beforeTestScenarioSuccess = PublishSubject.create();
+
+    /**
+     * Subject that emits events whenever a method with the annotation @BeforeMethod is executed and throws an error
+     */
+    public static final PublishSubject<BeforeMethodExecutionInfo> beforeTestScenarioFailure = PublishSubject.create();
+
+    /**
+     * Subject that emits events before a method with the annotation @AfterMethod is executed
+     */
+    public static final PublishSubject<AfterMethodExecutionInfo> afterTestScenario = PublishSubject.create();
+
+    /**
+     * Subject that emits events whenever a method with the annotation @AfterMethod is executed successfully
+     */
+    public static final PublishSubject<AfterMethodExecutionInfo> afterTestScenarioSuccess = PublishSubject.create();
+
+    /**
+     * Subject that emits events whenever a method with the annotation @AfterMethod is executed and throws an error
+     */
+    public static final PublishSubject<AfterMethodExecutionInfo> afterTestScenarioFailure = PublishSubject.create();
 
     /**
      * Subject that emits events when all tests are finished.

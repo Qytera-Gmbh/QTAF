@@ -9,6 +9,7 @@ import de.qytera.qtaf.core.guice.invokation.StepExecutionInfo;
 import de.qytera.qtaf.core.io.DirectoryHelper;
 import de.qytera.qtaf.core.log.model.collection.TestSuiteLogCollection;
 import de.qytera.qtaf.core.log.model.message.StepInformationLogMessage;
+import de.qytera.qtaf.core.selenium.DriverFactory;
 import de.qytera.qtaf.core.selenium.helper.SeleniumDriverConfigHelper;
 import org.aopalliance.intercept.MethodInvocation;
 import de.qytera.qtaf.core.log.Logger;
@@ -188,6 +189,12 @@ public class StepLoggerSubscriber implements IEventSubscriber {
      */
     private String stepExecutionScreenshot(StepExecutionInfo stepExecutionInfo, String status, UUID uuid) {
         WebDriver driver = QtafFactory.getWebDriver();
+
+        // Check if driver was quit
+        if (DriverFactory.driverHasQuit()) {
+            return null;
+        }
+
         TestSuiteLogCollection suiteLogCollection = TestSuiteLogCollection.getInstance();
 
         // Take screenshot
@@ -270,7 +277,7 @@ public class StepLoggerSubscriber implements IEventSubscriber {
         logger.info(
                 "[Step] " +
                         "[" + stepExecutionInfo.getId() + "] " +
-                        "[" + stepExecutionInfo.getStep().name() + "] " +
+                        "[" + stepExecutionInfo.getAnnotation().name() + "] " +
                         message
         );
     }

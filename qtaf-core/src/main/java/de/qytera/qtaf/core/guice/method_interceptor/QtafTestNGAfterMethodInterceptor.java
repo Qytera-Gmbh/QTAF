@@ -2,12 +2,12 @@ package de.qytera.qtaf.core.guice.method_interceptor;
 
 import de.qytera.qtaf.core.context.IQtafTestContext;
 import de.qytera.qtaf.core.events.QtafEvents;
-import de.qytera.qtaf.core.guice.invokation.AfterTestExecutionInfo;
+import de.qytera.qtaf.core.guice.invokation.AfterMethodExecutionInfo;
 import de.qytera.qtaf.core.log.model.collection.TestFeatureLogCollection;
 import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
-import org.testng.annotations.AfterTest;
+import org.testng.annotations.AfterMethod;
 import rx.subjects.PublishSubject;
 
 import java.lang.annotation.Annotation;
@@ -15,10 +15,10 @@ import java.lang.annotation.Annotation;
 /**
  * Method interceptor for methods that are annotated with the Step annotation
  */
-public class QtafTestNGAfterTestInterceptor extends AbstractTestNGAnnotatedMethodInterceptor implements MethodInterceptor {
-    private final PublishSubject<AfterTestExecutionInfo> beforeStepExecution = QtafEvents.afterTestFeature;
-    private final PublishSubject<AfterTestExecutionInfo> afterStepExecutionSuccess = QtafEvents.afterTestFeatureSuccess;
-    private final PublishSubject<AfterTestExecutionInfo> afterStepExecutionFailure = QtafEvents.afterTestFeatureFailure;
+public class QtafTestNGAfterMethodInterceptor extends AbstractTestNGAnnotatedMethodInterceptor implements MethodInterceptor {
+    private final PublishSubject<AfterMethodExecutionInfo> beforeStepExecution = QtafEvents.afterTestScenario;
+    private final PublishSubject<AfterMethodExecutionInfo> afterStepExecutionSuccess = QtafEvents.afterTestScenarioSuccess;
+    private final PublishSubject<AfterMethodExecutionInfo> afterStepExecutionFailure = QtafEvents.afterTestScenarioFailure;
 
     /**
      * This method works as a proxy for methods. Instead of executing the annotated method directly this method will
@@ -37,7 +37,7 @@ public class QtafTestNGAfterTestInterceptor extends AbstractTestNGAnnotatedMetho
             Object result;
 
             // Build step execution info object
-            AfterTestExecutionInfo stepExecution = buildStepExecutionInfoEntity(methodInvocation);
+            AfterMethodExecutionInfo stepExecution = buildStepExecutionInfoEntity(methodInvocation);
 
             // Dispatch event
             beforeStepExecution.onNext(stepExecution);
@@ -73,14 +73,14 @@ public class QtafTestNGAfterTestInterceptor extends AbstractTestNGAnnotatedMetho
 
     @Override
     public Annotation getAnnotation(MethodInvocation methodInvocation) {
-        return methodInvocation.getClass().getAnnotation(AfterTest.class);
+        return methodInvocation.getClass().getAnnotation(AfterMethod.class);
     }
 
     @Override
-    public AfterTestExecutionInfo buildStepExecutionInfoEntity(MethodInvocation methodInvocation) {
+    public AfterMethodExecutionInfo buildStepExecutionInfoEntity(MethodInvocation methodInvocation) {
         // Build step execution info object
-        AfterTestExecutionInfo stepExecutionInfoEntity = (AfterTestExecutionInfo) new AfterTestExecutionInfo()
-                .setAnnotation((AfterTest) getAnnotation(methodInvocation))
+        AfterMethodExecutionInfo stepExecutionInfoEntity = (AfterMethodExecutionInfo) new AfterMethodExecutionInfo()
+                .setAnnotation((AfterMethod) getAnnotation(methodInvocation))
                 .setMethodInvocation(methodInvocation);
 
         // Save individual id of method execution
@@ -93,11 +93,11 @@ public class QtafTestNGAfterTestInterceptor extends AbstractTestNGAnnotatedMetho
 
     @Override
     public String buildScenarioName(String featureName, String scenarioId) {
-        return "After Feature '" + featureName + "' Execution";
+        return "After Scenario '" + scenarioId + "' Execution";
     }
 
     @Override
     public String buildScenarioDescription(String featureName, String scenarioName) {
-        return "Executed after feature '" + featureName + "'";
+        return "Executed after scenario '" + scenarioName + "'";
     }
 }

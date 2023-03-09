@@ -137,11 +137,10 @@ public class DriverFactory {
     /**
      * Restart web driver instance
      * @param driverName    Driver name
-     * @param restart       true if new driver object should be created
      * @return  Selenium WebDriver instance
      */
     @Provides
-    public static WebDriver getDriver(String driverName, boolean restart) {
+    public static WebDriver restartDriver(String driverName) {
         // Check if driver was
         if (driver != null) {
             driver.quit();
@@ -156,6 +155,14 @@ public class DriverFactory {
      */
     public static void clearDriver() {
         driver = null;
+    }
+
+    /**
+     * Check if driver has quit
+     * @return  ture if driver has quit, false otherwise
+     */
+    public static boolean driverHasQuit() {
+        return driver != null && driver.toString().contains("(null)");
     }
 
     /**
