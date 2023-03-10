@@ -4,6 +4,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import de.qytera.qtaf.core.QtafFactory;
 import de.qytera.qtaf.core.context.IQtafTestContext;
+import de.qytera.qtaf.core.guice.QtafInjector;
 import de.qytera.qtaf.core.guice.QtafModule;
 import de.qytera.qtaf.core.reflection.ClassLoader;
 import de.qytera.qtaf.cucumber.context.QtafTestNGCucumberContext;
@@ -23,7 +24,7 @@ public class TestNGFactory implements ITestObjectFactory {
     @Factory()
     public Object[] createInstances() {
         // Get Guice instance
-        Injector injector = Guice.createInjector(new QtafModule());
+        Injector injector = QtafInjector.getInstance();
 
         // Specify the package names where to look for tests
         List<String> packageNames = List.of(QtafFactory.getConfiguration().getString("tests.package"));

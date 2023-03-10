@@ -73,7 +73,7 @@ public abstract class AbstractTestNGAnnotatedMethodInterceptor {
         String featureId = featureLogCollection.getFeatureId();
         String featureName = featureLogCollection.getFeatureName();
 
-        String scenarioId = featureId + "." + methodInvocation.getMethod().getName() + "-" + instance.hashCode();
+        String scenarioId = featureId + "." + methodInvocation.getMethod().getName();
         String scenarioName = buildScenarioName(featureName, scenarioId);
         String scenarioDescription = buildScenarioDescription(featureName, scenarioName);
 
