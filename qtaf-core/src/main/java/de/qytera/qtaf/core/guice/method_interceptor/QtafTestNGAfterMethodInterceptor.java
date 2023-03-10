@@ -98,6 +98,6 @@ public class QtafTestNGAfterMethodInterceptor extends AbstractTestNGAnnotatedMet
 
     @Override
     public String buildScenarioDescription(String featureName, String scenarioName) {
-        return "Executed after scenario '" + scenarioName + "'";
+        return "Executed after scenarios of feature " + featureName;
     }
 }

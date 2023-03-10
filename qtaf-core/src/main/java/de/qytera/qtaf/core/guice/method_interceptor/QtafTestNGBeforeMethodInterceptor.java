@@ -98,6 +98,6 @@ public class QtafTestNGBeforeMethodInterceptor extends AbstractTestNGAnnotatedMe
 
     @Override
     public String buildScenarioDescription(String featureName, String scenarioName) {
-        return "Executed before scenario '" + scenarioName + "'";
+        return "Executed before scenarios of feature " + featureName;
     }
 }
