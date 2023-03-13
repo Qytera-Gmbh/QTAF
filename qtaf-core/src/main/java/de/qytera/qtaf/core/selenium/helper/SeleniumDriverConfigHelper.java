@@ -23,6 +23,7 @@ public class SeleniumDriverConfigHelper {
     public static final String SCREENSHOTS_AFTER_SCENARIO = "driver.screenshots.afterScenario";
     public static final String SCREENSHOTS_BEFORE_STEP = "driver.screenshots.beforeStep";
     public static final String SCREENSHOTS_AFTER_STEP = "driver.screenshots.afterStep";
+    public static final String SCREENSHOTS_AFTER_STEP_FAILURE = "driver.screenshots.afterStepFailure";
     public static final String SAUCE_USERNAME = "sauce.username";
     public static final String SAUCE_ACCESS_KEY = "sauce.accessKey";
     public static final String SAUCE_BROWSER_NAME = "sauce.browserName";
@@ -140,5 +141,13 @@ public class SeleniumDriverConfigHelper {
      */
     public static boolean shouldTakeScreenshotsAfterStep() {
         return config.getBoolean(SCREENSHOTS_AFTER_STEP);
+    }
+
+    /**
+     * Determine if screenshots should be taken after a step failure
+     * @return  value from configuration
+     */
+    public static boolean shouldTakeScreenshotsAfterStepFailure() {
+        return config.getBoolean(SCREENSHOTS_AFTER_STEP_FAILURE);
     }
 }

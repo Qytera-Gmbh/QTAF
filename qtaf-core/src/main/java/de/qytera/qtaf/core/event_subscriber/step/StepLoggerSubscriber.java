@@ -78,6 +78,7 @@ public class StepLoggerSubscriber implements IEventSubscriber {
                 .setStep(step)
                 .setStart(new Date());
 
+        // Check if Selenium should take a screenshot
         if (SeleniumDriverConfigHelper.shouldTakeScreenshotsBeforeStep()) {
             // Take a screenshot
             String screenshotFilePath = this.stepExecutionScreenshot(
@@ -173,7 +174,9 @@ public class StepLoggerSubscriber implements IEventSubscriber {
                 .setDuration(logMessage.getEnd().getTime() - logMessage.getStart().getTime())
                 .setError(stepExecutionInfo.getError());
 
-        if (SeleniumDriverConfigHelper.shouldTakeScreenshotsAfterStep()) {
+        if (SeleniumDriverConfigHelper.shouldTakeScreenshotsAfterStep() ||
+                SeleniumDriverConfigHelper.shouldTakeScreenshotsAfterStepFailure()
+        ) {
             // Take a screenshot
             String screenshotFilePath = this.stepExecutionScreenshot(stepExecutionInfo, "after", logMessage.getUuid());
 
@@ -197,6 +200,7 @@ public class StepLoggerSubscriber implements IEventSubscriber {
             return null;
         }
 
+        // Get an instance of the suite log collection
         TestSuiteLogCollection suiteLogCollection = TestSuiteLogCollection.getInstance();
 
         // Take screenshot
@@ -210,6 +214,7 @@ public class StepLoggerSubscriber implements IEventSubscriber {
                 uuid
         );
 
+        // save the screenshot and return the path of it
         File destFile = this.saveStepScreenshot(srcFile, path);
         return destFile.getAbsolutePath();
     }

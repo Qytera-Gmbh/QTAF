@@ -169,7 +169,9 @@ public class XrayTestEntity {
      * Status enum
      */
     public enum Status {
-        PASSED,
-        FAILED
+        PASSED, // for xray cloud
+        PASS,   // for xray server
+        FAILED, // for xray cloud
+        FAIL    // for xray server
     }
 }
