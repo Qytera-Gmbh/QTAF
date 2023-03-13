@@ -12,11 +12,18 @@ public class XrayConfigHelper {
      */
     private static ConfigMap config = QtafFactory.getConfiguration();
 
+    // Keys
     private static String XRAY_SERVICE_SELECTOR = "xray.service";
     private static String XRAY_SERVER_URL_SELECTOR = "xray.url";
     private static String BEARER_TOKEN_SELECTOR = "xray.authentication.bearerToken";
     private static String CLIENT_ID_SELECTOR = "xray.authentication.clientId";
     private static String CLIENT_SECRET_SELECTOR = "xray.authentication.clientSecret";
+    private static String SCENARIO_REPORT_EVIDENCE = "xray.scenarioReportEvidence";
+    private static String SCENARIO_IMAGE_EVIDENCE = "xray.scenarioImageEvidence";
+
+    // Values
+    private static String XRAY_SERVICE_CLOUD = "cloud";
+    private static String XRAY_SERVICE_SERVER = "server";
 
     /**
      * Get bearer token
@@ -57,8 +64,8 @@ public class XrayConfigHelper {
     public static String getXrayService() {
         String service = config.getString(XRAY_SERVICE_SELECTOR);
 
-        if (service == null || !service.equals("server")) {
-            return "cloud";
+        if (service == null || !service.equals(XRAY_SERVICE_SERVER)) {
+            return XRAY_SERVICE_CLOUD;
         }
 
         return service;
@@ -69,7 +76,7 @@ public class XrayConfigHelper {
      * @return  true if enabled, false otherwise
      */
     public static boolean isXrayServerService() {
-        return getXrayService().equals("server");
+        return getXrayService().equals(XRAY_SERVICE_SERVER);
     }
 
     /**
@@ -77,7 +84,7 @@ public class XrayConfigHelper {
      * @return  true if enabled, false otherwise
      */
     public static boolean isXrayCloudService() {
-        return getXrayService().equals("cloud");
+        return getXrayService().equals(XRAY_SERVICE_CLOUD);
     }
 
     /**
@@ -85,7 +92,7 @@ public class XrayConfigHelper {
      * @return  true if enabled, false otherwise
      */
     public static boolean isScenarioReportEvidenceEnabled() {
-        return config.getBoolean("xray.scenarioReportEvidence");
+        return config.getBoolean(SCENARIO_REPORT_EVIDENCE);
     }
 
     /**
@@ -93,6 +100,6 @@ public class XrayConfigHelper {
      * @return  true if enabled, false otherwise
      */
     public static boolean isScenarioImageEvidenceEnabled() {
-        return config.getBoolean("xray.scenarioImageEvidence");
+        return config.getBoolean(SCENARIO_IMAGE_EVIDENCE);
     }
 }

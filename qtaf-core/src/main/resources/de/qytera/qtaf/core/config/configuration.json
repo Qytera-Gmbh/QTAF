@@ -14,7 +14,8 @@
       "beforeScenario": true,
       "afterScenario": true,
       "beforeStep": true,
-      "afterStep": true
+      "afterStep": true,
+      "afterStepFailure": true
     }
   },
   "logging": {
@@ -22,10 +23,15 @@
   },
   "xray": {
     "enabled": false,
+    "url": null,
+    "service": "cloud",
     "authentication": {
       "clientId": null,
-      "clientSecret": null
-    }
+      "clientSecret": null,
+      "bearerToken": null
+    },
+    "scenarioReportEvidence": true,
+    "scenarioImageEvidence": true
   },
   "htmlReport": {
     "enabled": true
