@@ -63,7 +63,7 @@ public class TestNGEventPayloadTest {
 
         // Scenario ID
         Assert.assertEquals(
-                payload.getScenarioId(),
+                payload.getAbstractScenarioId(),
                 "de.qytera.qtaf.testng.SampleRealTestClass.sampleTestNGMethodName"
         );
 

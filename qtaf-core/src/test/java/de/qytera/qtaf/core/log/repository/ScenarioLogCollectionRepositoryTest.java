@@ -21,7 +21,7 @@ public class ScenarioLogCollectionRepositoryTest {
         // Create new scenario log
         QtafTestEventPayload eventPayload1 = new QtafTestEventPayload()
                 .setFeatureId(featureId)
-                .setScenarioId(scenarioId);
+                .setAbstractScenarioId(scenarioId);
 
         // Add scenario log entity to index
         TestScenarioLogCollection

@@ -86,6 +86,7 @@ public abstract class AbstractTestNGAnnotatedMethodInterceptor {
         );
 
         scenarioLogCollection.setDescription(scenarioDescription);
+        scenarioLogCollection.setAnnotations(methodInvocation.getMethod().getAnnotations());
         featureLogCollection.addScenarioLogCollection(scenarioLogCollection);
 
         return scenarioLogCollection;

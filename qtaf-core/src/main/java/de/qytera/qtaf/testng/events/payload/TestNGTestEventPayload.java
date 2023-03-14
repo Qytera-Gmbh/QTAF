@@ -1,16 +1,16 @@
 package de.qytera.qtaf.testng.events.payload;
 
 import de.qytera.qtaf.core.config.annotations.TestFeature;
+import de.qytera.qtaf.core.events.payload.MethodInfoEntity;
 import de.qytera.qtaf.core.events.payload.QtafTestEventPayload;
 import de.qytera.qtaf.core.reflection.ClassHelper;
 import de.qytera.qtaf.testng.helper.TestResultHelper;
-import org.testng.IClass;
 import org.testng.ITestNGMethod;
 import org.testng.ITestResult;
 import org.testng.annotations.Test;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.lang.reflect.Parameter;
 import java.util.Date;
 import java.util.List;
 
@@ -24,11 +24,6 @@ public class TestNGTestEventPayload extends QtafTestEventPayload {
     protected ITestResult originalEvent;
 
     /**
-     * Method info
-     */
-    protected MethodInfo methodInfo;
-
-    /**
      * Constructor
      * @param iTestResult   Original event
      * @throws NoSuchMethodException    Thrown if method is not found
@@ -36,33 +31,41 @@ public class TestNGTestEventPayload extends QtafTestEventPayload {
     public TestNGTestEventPayload(ITestResult iTestResult) throws NoSuchMethodException {
         this.originalEvent = iTestResult;
         this.originalTestInstance = iTestResult.getInstance();
+        this.instanceId = iTestResult.id();
+
+        Class<?> realClass = iTestResult.getTestClass().getRealClass();
+        this.realClass = realClass;
+        this.realClassAnnotations = realClass.getAnnotations();
+
         this.handleTestNGTestResultObject(iTestResult);
-        this.scenarioId = TestResultHelper.getTestMethodId(iTestResult);
+        this.abstractScenarioId = TestResultHelper.getTestMethodId(iTestResult);
+        this.instanceId = iTestResult.id();
+        this.scenarioId = abstractScenarioId + "-" + instanceId;
         this.threadId = Thread.currentThread().getId();
         this.threadName = Thread.currentThread().getName();
 
         this.handleTestNGMethodObject(iTestResult.getMethod());
 
         // Handle reflective information about test method
-        Class<?> realClass = this.getRealClass(iTestResult);
         this.featureClassName = realClass.getName();
         this.featurePackageName = realClass.getPackageName();
         this.scenarioMethodName = iTestResult.getMethod().getMethodName();
-        this.methodInfo = this.getMethod(iTestResult, realClass);
-        this.handleMethodInfo(this.getMethod(iTestResult, realClass));
+        this.methodInfo = this.getMethodInfoEntity(iTestResult, realClass);
+        this.handleMethodInfo(this.getMethodInfoEntity(iTestResult, realClass));
 
         // Handle TestFeature annotation of test class
         TestFeature testFeatureAnnotation = realClass.getAnnotation(TestFeature.class);
 
+        /*
         if (testFeatureAnnotation != null) {
             this.handleTestFeatureAnnotation(testFeatureAnnotation);
-            //throw new AssertionError("It seems like you have missed to set the @TestFeature annotation " +
-            //        "in the class '" + realClass.getName() + "'");
-        }
-
+        } else {
+            throw new AssertionError("It seems like you have missed to set the @TestFeature annotation " +
+                    "in the class '" + realClass.getName() + "'");
+        }*/
 
         // Handle test annotation of test method
-        Test testNGTestAnnotation = this.getTestAnnotation(methodInfo.method);
+        Test testNGTestAnnotation = this.getTestAnnotation(methodInfo.getMethod());
         assert testNGTestAnnotation != null;
         this.handleTestNGTestAnnotation(testNGTestAnnotation);
     }
@@ -86,17 +89,24 @@ public class TestNGTestEventPayload extends QtafTestEventPayload {
         this.scenarioEnd = new Date(iTestResult.getEndMillis());
     }
 
+    /**
+     * Initialize class atributes based on a testNGMethod object
+     * @param testNGMethod  TestNGMethod object
+     */
     private void handleTestNGMethodObject(ITestNGMethod testNGMethod) {
         this.scenarioDescription = testNGMethod.getDescription();
         this.groupDependencies = testNGMethod.getGroupsDependedUpon();
         this.methodDependencies = testNGMethod.getMethodsDependedUpon();
     }
 
-    private Class<?> getRealClass(ITestResult iTestResult) {
-        return iTestResult.getTestClass().getRealClass();
-    }
-
-    private MethodInfo getMethod(ITestResult iTestResult, Class<?> clazz) throws NoSuchMethodException {
+    /**
+     * Get a method entity object from the test execution info object
+     * @param iTestResult   Info object that contains information about the test
+     * @param clazz         Real class that contains the scenario method
+     * @return              MethodInfoEntity object
+     * @throws NoSuchMethodException    Thrown of original method cannot be found
+     */
+    private MethodInfoEntity getMethodInfoEntity(ITestResult iTestResult, Class<?> clazz) throws NoSuchMethodException {
         // Java method name of the test
         String methodName = iTestResult.getName();
 
@@ -130,18 +140,34 @@ public class TestNGTestEventPayload extends QtafTestEventPayload {
             method = suitableMethods.get(0);
         }
 
-        return new MethodInfo(method, methodParamTypes, methodParamValues);
+        // Get annotations of method
+        Annotation[] annotations = method.getAnnotations();
+
+        return new MethodInfoEntity(method, methodParamTypes, methodParamValues, annotations);
     }
 
-    private void handleMethodInfo(MethodInfo methodInfo) {
-        this.scenarioParameters = methodInfo.method.getParameters();
-        this.parameterValues = methodInfo.methodParamValues;
+    /**
+     * Initialize class attributes based on a MethodInfoEntity object
+     * @param methodInfo    MethodInfoEntity object
+     */
+    private void handleMethodInfo(MethodInfoEntity methodInfo) {
+        this.scenarioParameters = methodInfo.getMethod().getParameters();
+        this.parameterValues = methodInfo.getMethodParamValues();
     }
 
+    /**
+     * Get the test annotation from the test method
+     * @param method    Method reflection object
+     * @return          Test annotation object
+     */
     private Test getTestAnnotation(Method method) {
         return method.getAnnotation(Test.class);
     }
 
+    /**
+     * Method to initialize class attributes based on the Test annotation from TestNG
+     * @param testAnnotation    Test annotation of the scenario
+     */
     private void handleTestNGTestAnnotation(Test testAnnotation) {
         this.scenarioName = testAnnotation.testName();
     }
@@ -172,7 +198,7 @@ public class TestNGTestEventPayload extends QtafTestEventPayload {
      *
      * @return methodInfo
      */
-    public MethodInfo getMethodInfo() {
+    public MethodInfoEntity getMethodInfo() {
         return methodInfo;
     }
 
@@ -182,80 +208,8 @@ public class TestNGTestEventPayload extends QtafTestEventPayload {
      * @param methodInfo MethodInfo
      * @return this
      */
-    public TestNGTestEventPayload setMethodInfo(MethodInfo methodInfo) {
+    public TestNGTestEventPayload setMethodInfo(MethodInfoEntity methodInfo) {
         this.methodInfo = methodInfo;
         return this;
-    }
-
-    class MethodInfo {
-        private Method method;
-        private Class<?>[] methodParamTypes;
-        private Object[] methodParamValues;
-
-        public MethodInfo(Method method, Class<?>[] methodParamTypes, Object[] methodParamValues) {
-            this.method = method;
-            this.methodParamTypes = methodParamTypes;
-            this.methodParamValues = methodParamValues;
-        }
-
-        /**
-         * Get method
-         *
-         * @return method
-         */
-        public Method getMethod() {
-            return method;
-        }
-
-        /**
-         * Set method
-         *
-         * @param method Method
-         * @return this
-         */
-        public MethodInfo setMethod(Method method) {
-            this.method = method;
-            return this;
-        }
-
-        /**
-         * Get methodParamTypes
-         *
-         * @return methodParamTypes
-         */
-        public Class<?>[] getMethodParamTypes() {
-            return methodParamTypes;
-        }
-
-        /**
-         * Set methodParamTypes
-         *
-         * @param methodParamTypes MethodParamTypes
-         * @return this
-         */
-        public MethodInfo setMethodParamTypes(Class<?>[] methodParamTypes) {
-            this.methodParamTypes = methodParamTypes;
-            return this;
-        }
-
-        /**
-         * Get methodParamValues
-         *
-         * @return methodParamValues
-         */
-        public Object[] getMethodParamValues() {
-            return methodParamValues;
-        }
-
-        /**
-         * Set methodParamValues
-         *
-         * @param methodParamValues MethodParamValues
-         * @return this
-         */
-        public MethodInfo setMethodParamValues(Object[] methodParamValues) {
-            this.methodParamValues = methodParamValues;
-            return this;
-        }
     }
 }

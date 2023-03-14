@@ -1,5 +1,6 @@
 package de.qytera.qtaf.core.events.payload;
 
+import java.lang.annotation.Annotation;
 import java.util.Date;
 
 /**
@@ -29,6 +30,19 @@ public interface IQtafTestEventPayload {
      * @return  scenario ID
      */
     String getScenarioId();
+
+    /**
+     * Get the ID of the abstract scenario
+     * @return  scenario ID
+     */
+    String getAbstractScenarioId();
+
+    /**
+     * Get the instance ID of a scenario. If there are multiple instances of a scenario (in case you use data providers)
+     * each instance has its own instance ID
+     * @return  scenario instance ID
+     */
+    String getInstanceId();
 
     /**
      * Get the method name of the scenario
@@ -107,4 +121,16 @@ public interface IQtafTestEventPayload {
      * @return  test instance object
      */
     Object getOriginalTestInstance();
+
+    /**
+     * Get annotations
+     * @return  annotations
+     */
+    Annotation[] getRealClassAnnotations();
+
+    /**
+     * Get an entity that contains information about the original method
+     * @return  Method info entity
+     */
+    MethodInfoEntity getMethodInfoEntity();
 }

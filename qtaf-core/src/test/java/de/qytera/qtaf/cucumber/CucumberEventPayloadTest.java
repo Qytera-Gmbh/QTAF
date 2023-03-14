@@ -65,7 +65,7 @@ public class CucumberEventPayloadTest {
         IQtafTestEventPayload payload = new CucumberScenarioEventPayload(scenario);
 
         Assert.assertEquals(
-                payload.getScenarioId(),
+                payload.getAbstractScenarioId(),
                 "test-case-state-id",
                 "Assert scenario id to be correctly taken from scenario object"
         );

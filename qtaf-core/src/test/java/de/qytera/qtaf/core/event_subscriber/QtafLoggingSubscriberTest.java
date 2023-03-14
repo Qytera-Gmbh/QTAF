@@ -153,7 +153,7 @@ public class QtafLoggingSubscriberTest {
         // Create mock event
         IQtafTestEventPayload payload = new QtafTestEventPayload()
                 .setFeatureId("f1")
-                .setScenarioId("s1")
+                .setAbstractScenarioId("s1")
                 .setScenarioName("scenario 1");
 
         // Assert indices and log collections are empty before the event occurs
@@ -223,7 +223,7 @@ public class QtafLoggingSubscriberTest {
         // Create mock event
         IQtafTestEventPayload payload = new QtafTestEventPayload()
                 .setFeatureId("f1")
-                .setScenarioId("s1")
+                .setAbstractScenarioId("s1")
                 .setScenarioName("scenario 1");
 
         // Assert indices and log collections are empty before the event occurs
@@ -293,7 +293,7 @@ public class QtafLoggingSubscriberTest {
         // Create mock event
         IQtafTestEventPayload payload = new QtafTestEventPayload()
                 .setFeatureId("f1")
-                .setScenarioId("s1")
+                .setAbstractScenarioId("s1")
                 .setScenarioName("scenario 1");
 
         // Assert indices and log collections are empty before the event occurs
@@ -363,7 +363,7 @@ public class QtafLoggingSubscriberTest {
         // Create mock event
         IQtafTestEventPayload payload = new QtafTestEventPayload()
                 .setFeatureId("f1")
-                .setScenarioId("s1")
+                .setAbstractScenarioId("s1")
                 .setScenarioName("scenario 1");
 
         // Assert indices and log collections are empty before the event occurs

@@ -8,6 +8,7 @@ import de.qytera.qtaf.core.log.model.error.ErrorLogCollection;
 import de.qytera.qtaf.core.log.model.message.LogMessage;
 import de.qytera.qtaf.core.log.model.message.StepInformationLogMessage;
 import de.qytera.qtaf.htmlreport.creator.ScenarioReportCreator;
+import de.qytera.qtaf.xray.annotation.XrayTest;
 import de.qytera.qtaf.xray.config.XrayConfigHelper;
 import de.qytera.qtaf.xray.entity.XrayEvidenceEntity;
 import de.qytera.qtaf.xray.entity.XrayTestEntity;
@@ -19,6 +20,7 @@ import de.qytera.qtaf.xray.error.EvidenceUploadError;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.lang.annotation.Annotation;
 import java.nio.file.Paths;
 
 /**
@@ -53,7 +55,16 @@ public abstract class AbstractXrayJsonImportBuilder {
 
             // Iterate over test scenarios
             for (TestScenarioLogCollection scenarioLog : testFeatureLogCollection.getScenarioLogCollection()) {
+                // Get the xray annotation if scenario has one
+                XrayTest xrayTestAnnotation = (XrayTest) scenarioLog.getAnnotation(XrayTest.class);
+
+                // Skip all pending scenarios
                 if (scenarioLog.getStatus() == TestScenarioLogCollection.Status.PENDING) {
+                    continue;
+                }
+
+                // Only method that are annotated with @XrayTest are of interest
+                if (xrayTestAnnotation == null) {
                     continue;
                 }
 
@@ -61,10 +72,14 @@ public abstract class AbstractXrayJsonImportBuilder {
                 XrayTestEntity xrayTestEntity = initializeXrayTestEntity(scenarioLog);
 
                 // Add a scenario report to the xray test entity
-                addScenarioReport(collection, scenarioReportCreator, scenarioLog, xrayTestEntity);
+                if (xrayTestAnnotation.scenarioReport()) {
+                    addScenarioReport(collection, scenarioReportCreator, scenarioLog, xrayTestEntity);
+                }
 
                 // add scenario image evidence
-                addScenarioImageEvidence(scenarioLog, xrayTestEntity);
+                if (xrayTestAnnotation.screenshots()) {
+                    addScenarioImageEvidence(scenarioLog, xrayTestEntity);
+                }
 
                 // Add test to test collection
                 xrayImportRequestDto.addTest(xrayTestEntity);
@@ -76,9 +91,7 @@ public abstract class AbstractXrayJsonImportBuilder {
                 for (LogMessage logMessage : scenarioLog.getLogMessages()) {
 
                     // Only StepLogMessage entities are important for Xray
-                    if (logMessage instanceof StepInformationLogMessage) {
-                        StepInformationLogMessage stepLog = (StepInformationLogMessage) logMessage;
-
+                    if (logMessage instanceof StepInformationLogMessage stepLog) {
                         // Create Step Log entity
                         XrayTestStepEntity xrayTestStepEntity = new XrayTestStepEntity();
 
@@ -132,12 +145,26 @@ public abstract class AbstractXrayJsonImportBuilder {
      * @return  XrayTestEntity object
      */
     protected XrayTestEntity initializeXrayTestEntity(TestScenarioLogCollection scenarioLog) {
-        XrayTestEntity xrayTestEntity = new XrayTestEntity()
-                .setTestKey(scenarioLog.getScenarioName())
+        // Get all annotations of scenario's Java method
+        Annotation[] annotations = scenarioLog.getAnnotations();
+
+        // Get the xray annotation if scenario has one
+        XrayTest xrayTestAnnotation = (XrayTest) scenarioLog.getAnnotation(XrayTest.class);
+
+        // Build xray test key
+        String xrayTestKey;
+        if (xrayTestAnnotation != null) {
+            xrayTestKey = xrayTestAnnotation.key();
+        } else {
+            xrayTestKey = scenarioLog.getScenarioName();
+        }
+
+        // Build xray test entity
+        return new XrayTestEntity()
+                .setTestKey(xrayTestKey)
                 .setStart(null) // TODO
                 .setFinish(null) // TODO
-                .setComment("");
-        return xrayTestEntity;
+                .setComment(scenarioLog.getDescription());
     }
 
     /**

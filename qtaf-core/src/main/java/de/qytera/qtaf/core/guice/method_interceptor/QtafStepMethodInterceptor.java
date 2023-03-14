@@ -10,7 +10,7 @@ import org.aopalliance.intercept.MethodInvocation;
 /**
  * Method interceptor for methods that are annotated with the Step annotation
  */
-public class QtafStepTrackerInterceptor implements MethodInterceptor {
+public class QtafStepMethodInterceptor implements MethodInterceptor {
     /**
      * This method works as a proxy for methods. Instead of executing the annotated method directly this method will
      * be executed.

@@ -1,5 +1,6 @@
 package de.qytera.qtaf.core.events.payload;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Parameter;
 import java.util.Date;
 
@@ -16,6 +17,21 @@ public class QtafTestEventPayload implements IQtafTestEventPayload {
      * Original test instance object
      */
     protected Object originalTestInstance;
+
+    /**
+     * Real class of the test class
+     */
+    protected Class<?> realClass;
+
+    /**
+     * Annotations of the test class
+     */
+    protected Annotation[] realClassAnnotations;
+
+    /**
+     * Method info
+     */
+    protected MethodInfoEntity methodInfo;
 
     /**
      * ID of the test feature
@@ -46,6 +62,16 @@ public class QtafTestEventPayload implements IQtafTestEventPayload {
      * ID of the scenario
      */
     protected String scenarioId;
+
+    /**
+     * ID of the scenario
+     */
+    protected String abstractScenarioId;
+
+    /**
+     * If there are multiple instances of a scenario (when you use data providers) each scenario instance has its own instance id
+     */
+    protected String instanceId;
 
     /**
      * Name of the scenario
@@ -138,6 +164,67 @@ public class QtafTestEventPayload implements IQtafTestEventPayload {
     }
 
     /**
+     * Get realClass
+     *
+     * @return realClass
+     */
+    public Class<?> getRealClass() {
+        return realClass;
+    }
+
+    /**
+     * Set realClass
+     *
+     * @param realClass RealClass
+     * @return this
+     */
+    public QtafTestEventPayload setRealClass(Class<?> realClass) {
+        this.realClass = realClass;
+        return this;
+    }
+
+    /**
+     * Get realClassAnnotations
+     *
+     * @return realClassAnnotations
+     */
+    @Override
+    public Annotation[] getRealClassAnnotations() {
+        return realClassAnnotations;
+    }
+
+    /**
+     * Set realClassAnnotations
+     *
+     * @param realClassAnnotations RealClassAnnotations
+     * @return this
+     */
+    public QtafTestEventPayload setRealClassAnnotations(Annotation[] realClassAnnotations) {
+        this.realClassAnnotations = realClassAnnotations;
+        return this;
+    }
+
+    /**
+     * Get methodInfo
+     *
+     * @return methodInfo
+     */
+    public MethodInfoEntity getMethodInfoEntity() {
+        return methodInfo;
+    }
+
+    /**
+     * Set methodInfo
+     *
+     * @param methodInfo MethodInfo
+     * @return this
+     */
+    public QtafTestEventPayload setMethodInfo(MethodInfoEntity methodInfo) {
+        this.methodInfo = methodInfo;
+        return this;
+    }
+
+    /**
      * Get featureClassName
      *
      * @return featureClassName
@@ -204,8 +291,28 @@ public class QtafTestEventPayload implements IQtafTestEventPayload {
      *
      * @return methodId
      */
-    public String getScenarioId() {
-        return scenarioId;
+    public String getAbstractScenarioId() {
+        return abstractScenarioId;
+    }
+
+    /**
+     * Get instanceId
+     *
+     * @return instanceId
+     */
+    public String getInstanceId() {
+        return instanceId;
+    }
+
+    /**
+     * Set instanceId
+     *
+     * @param instanceId InstanceId
+     * @return this
+     */
+    public QtafTestEventPayload setInstanceId(String instanceId) {
+        this.instanceId = instanceId;
+        return this;
     }
 
     /**
@@ -225,6 +332,36 @@ public class QtafTestEventPayload implements IQtafTestEventPayload {
      */
     public QtafTestEventPayload setFeaturePackageName(String featurePackageName) {
         this.featurePackageName = featurePackageName;
+        return this;
+    }
+
+    /**
+     * Get methodInfo
+     *
+     * @return methodInfo
+     */
+    public MethodInfoEntity getMethodInfo() {
+        return methodInfo;
+    }
+
+    /**
+     * Get scenarioId
+     *
+     * @return scenarioId
+     */
+    @Override
+    public String getScenarioId() {
+        return scenarioId;
+    }
+
+    /**
+     * Set scenarioId
+     *
+     * @param scenarioId ScenarioId
+     * @return this
+     */
+    public QtafTestEventPayload setScenarioId(String scenarioId) {
+        this.scenarioId = scenarioId;
         return this;
     }
 
@@ -252,11 +389,11 @@ public class QtafTestEventPayload implements IQtafTestEventPayload {
     /**
      * Set methodId
      *
-     * @param scenarioId MethodId
+     * @param abstractScenarioId MethodId
      * @return this
      */
-    public QtafTestEventPayload setScenarioId(String scenarioId) {
-        this.scenarioId = scenarioId;
+    public QtafTestEventPayload setAbstractScenarioId(String abstractScenarioId) {
+        this.abstractScenarioId = abstractScenarioId;
         return this;
     }
 

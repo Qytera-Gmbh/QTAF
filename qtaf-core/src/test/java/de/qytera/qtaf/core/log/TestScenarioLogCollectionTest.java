@@ -65,15 +65,15 @@ public class TestScenarioLogCollectionTest {
 
         QtafTestEventPayload eventPayload1 = new QtafTestEventPayload()
                 .setFeatureId("feature1")
-                .setScenarioId("scenario1");
+                .setAbstractScenarioId("scenario1");
 
         QtafTestEventPayload eventPayload2 = new QtafTestEventPayload()
                 .setFeatureId("feature2")
-                .setScenarioId("scenario1");
+                .setAbstractScenarioId("scenario1");
 
         QtafTestEventPayload eventPayload3 = new QtafTestEventPayload()
                 .setFeatureId("feature3")
-                .setScenarioId("scenario2");
+                .setAbstractScenarioId("scenario2");
 
         TestScenarioLogCollection scenarioLogCollection1 = TestScenarioLogCollection
                 .fromQtafTestEventPayload(eventPayload1);

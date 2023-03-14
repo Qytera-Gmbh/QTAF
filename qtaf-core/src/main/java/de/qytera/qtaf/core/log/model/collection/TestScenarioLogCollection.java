@@ -4,6 +4,7 @@ import de.qytera.qtaf.core.events.payload.IQtafTestEventPayload;
 import de.qytera.qtaf.core.log.model.LogLevel;
 import de.qytera.qtaf.core.log.model.message.LogMessage;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Parameter;
 import java.util.*;
 
@@ -30,6 +31,16 @@ public class TestScenarioLogCollection {
      * Test ID
      */
     private final String scenarioName;
+
+    /**
+     * ID of the abstract scenario
+     */
+    private String abstractScenarioId;
+
+    /**
+     * ID of the concrete test scenario
+     */
+    private String instanceId;
 
     /**
      * Test description. Contains content of the 'description' attribute of the 'Test' annotation.
@@ -80,6 +91,11 @@ public class TestScenarioLogCollection {
      * Test method parameters
      */
     private final List<TestParameter> testParameters = new ArrayList<>();
+
+    /**
+     * Annotations of the corresponding test method
+     */
+    private transient Annotation[] annotations;
 
     /**
      * Test status
@@ -155,17 +171,19 @@ public class TestScenarioLogCollection {
      * @return  test log collection
      */
     public static synchronized TestScenarioLogCollection fromQtafTestEventPayload(IQtafTestEventPayload iQtafTestEventPayload) {
-        if (index.get(iQtafTestEventPayload.getScenarioId()) != null) {
-            return index.get(iQtafTestEventPayload.getScenarioId());
+        if (index.get(iQtafTestEventPayload.getAbstractScenarioId()) != null) {
+            return index.get(iQtafTestEventPayload.getAbstractScenarioId());
         }
 
         TestScenarioLogCollection collection = new TestScenarioLogCollection(
                 iQtafTestEventPayload.getFeatureId(),
-                iQtafTestEventPayload.getScenarioId(),
+                iQtafTestEventPayload.getAbstractScenarioId() + "-" +  iQtafTestEventPayload.getInstanceId(),
                 iQtafTestEventPayload.getScenarioName()
         );
 
         collection
+                .setAbstractScenarioId(iQtafTestEventPayload.getAbstractScenarioId())
+                .setInstanceId(iQtafTestEventPayload.getInstanceId())
                 .setDescription(iQtafTestEventPayload.getScenarioDescription())
                 .setStart(iQtafTestEventPayload.getScenarioStart())
                 .setEnd(iQtafTestEventPayload.getScenarioEnd())
@@ -173,7 +191,8 @@ public class TestScenarioLogCollection {
                 .setThreadName(iQtafTestEventPayload.getThreadName())
                 .setGroups(iQtafTestEventPayload.getGroups())
                 .setGroupDependencies(iQtafTestEventPayload.getGroupDependencies())
-                .setMethodDependencies(iQtafTestEventPayload.getMethodDependencies());
+                .setMethodDependencies(iQtafTestEventPayload.getMethodDependencies())
+                .setAnnotations(iQtafTestEventPayload.getMethodInfoEntity().getAnnotations());
 
         index.put(collection.scenarioId, collection);
 
@@ -252,6 +271,46 @@ public class TestScenarioLogCollection {
     }
 
     /**
+     * Get abstractScenarioId
+     *
+     * @return abstractScenarioId
+     */
+    public String getAbstractScenarioId() {
+        return abstractScenarioId;
+    }
+
+    /**
+     * Set abstractScenarioId
+     *
+     * @param abstractScenarioId AbstractScenarioId
+     * @return this
+     */
+    public TestScenarioLogCollection setAbstractScenarioId(String abstractScenarioId) {
+        this.abstractScenarioId = abstractScenarioId;
+        return this;
+    }
+
+    /**
+     * Get instanceId
+     *
+     * @return instanceId
+     */
+    public String getInstanceId() {
+        return instanceId;
+    }
+
+    /**
+     * Set instanceId
+     *
+     * @param instanceId InstanceId
+     * @return this
+     */
+    public TestScenarioLogCollection setInstanceId(String instanceId) {
+        this.instanceId = instanceId;
+        return this;
+    }
+
+    /**
      * Get status
      *
      * @return status Status
@@ -301,6 +360,50 @@ public class TestScenarioLogCollection {
      */
     public TestScenarioLogCollection setMethodDependencies(String[] methodDependencies) {
         this.methodDependencies = methodDependencies;
+        return this;
+    }
+
+    /**
+     * Get testParameters
+     *
+     * @return testParameters
+     */
+    public List<TestParameter> getTestParameters() {
+        return testParameters;
+    }
+
+    /**
+     * Get annotations
+     *
+     * @return annotations
+     */
+    public Annotation[] getAnnotations() {
+        return annotations;
+    }
+
+    /**
+     * Get a specific annotation of this scenario
+     * @param clazz Annotation type
+     * @return  Annotation if found or null if not
+     */
+    public Annotation getAnnotation(Class<?> clazz) {
+        for (Annotation a: annotations) {
+            if (clazz.isInstance(a)) {
+                return a;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Set annotations
+     *
+     * @param annotations Annotations
+     * @return this
+     */
+    public TestScenarioLogCollection setAnnotations(Annotation[] annotations) {
+        this.annotations = annotations;
         return this;
     }
 
