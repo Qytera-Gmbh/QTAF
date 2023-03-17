@@ -6,11 +6,31 @@ import java.util.List;
 /**
  * Xray test step entity
  */
-public class XrayTestStepEntity {
+public class XrayManualTestStepResultEntity {
+    /**
+     * Step status
+     */
     private Status status;
+
+    /**
+     * Step comment
+     */
     private String comment;
-    private List<XrayEvidenceEntity> evidences = new ArrayList<>();
+
+    /**
+     * Step evidences
+     */
+    private List<XrayEvidenceItemEntity> evidences = new ArrayList<>();
+
+    /**
+     * Step defects
+     */
     private List<XrayDefectEntity> defects = new ArrayList<>();
+
+    /**
+     * Actual step result
+     */
+    private String actualResult;
 
     /**
      * Get status
@@ -27,7 +47,7 @@ public class XrayTestStepEntity {
      * @param status Status
      * @return this
      */
-    public XrayTestStepEntity setStatus(Status status) {
+    public XrayManualTestStepResultEntity setStatus(Status status) {
         this.status = status;
         return this;
     }
@@ -47,7 +67,7 @@ public class XrayTestStepEntity {
      * @param comment Comment
      * @return this
      */
-    public XrayTestStepEntity setComment(String comment) {
+    public XrayManualTestStepResultEntity setComment(String comment) {
         this.comment = comment;
         return this;
     }
@@ -57,7 +77,7 @@ public class XrayTestStepEntity {
      *
      * @return evidences Evidences
      */
-    public List<XrayEvidenceEntity> getEvidences() {
+    public List<XrayEvidenceItemEntity> getEvidences() {
         return evidences;
     }
 
@@ -67,7 +87,7 @@ public class XrayTestStepEntity {
      * @param evidences Evidences
      * @return this
      */
-    public XrayTestStepEntity setEvidences(List<XrayEvidenceEntity> evidences) {
+    public XrayManualTestStepResultEntity setEvidences(List<XrayEvidenceItemEntity> evidences) {
         this.evidences = evidences;
         return this;
     }
@@ -87,8 +107,28 @@ public class XrayTestStepEntity {
      * @param defects Defects
      * @return this
      */
-    public XrayTestStepEntity setDefects(List<XrayDefectEntity> defects) {
+    public XrayManualTestStepResultEntity setDefects(List<XrayDefectEntity> defects) {
         this.defects = defects;
+        return this;
+    }
+
+    /**
+     * Get actualResult
+     *
+     * @return actualResult
+     */
+    public String getActualResult() {
+        return actualResult;
+    }
+
+    /**
+     * Set actualResult
+     *
+     * @param actualResult ActualResult
+     * @return this
+     */
+    public XrayManualTestStepResultEntity setActualResult(String actualResult) {
+        this.actualResult = actualResult;
         return this;
     }
 

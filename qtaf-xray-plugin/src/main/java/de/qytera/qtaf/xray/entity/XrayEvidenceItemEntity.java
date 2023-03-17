@@ -3,7 +3,7 @@ package de.qytera.qtaf.xray.entity;
 /**
  * Xray Evidence Entity
  */
-public class XrayEvidenceEntity {
+public class XrayEvidenceItemEntity {
     /**
      * Base64 encoded content of file
      */
@@ -34,7 +34,7 @@ public class XrayEvidenceEntity {
      * @param data Data
      * @return this
      */
-    public XrayEvidenceEntity setData(String data) {
+    public XrayEvidenceItemEntity setData(String data) {
         this.data = data;
         return this;
     }
@@ -54,7 +54,7 @@ public class XrayEvidenceEntity {
      * @param filename Filename
      * @return this
      */
-    public XrayEvidenceEntity setFilename(String filename) {
+    public XrayEvidenceItemEntity setFilename(String filename) {
         this.filename = filename;
         return this;
     }
@@ -74,7 +74,7 @@ public class XrayEvidenceEntity {
      * @param contentType ContentType
      * @return this
      */
-    public XrayEvidenceEntity setContentType(String contentType) {
+    public XrayEvidenceItemEntity setContentType(String contentType) {
         this.contentType = contentType;
         return this;
     }
