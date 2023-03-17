@@ -6,6 +6,8 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.lang.annotation.Annotation;
+import java.util.List;
+import java.util.Map;
 
 public class TestFeatureLogCollectionTest {
 
@@ -146,6 +148,66 @@ public class TestFeatureLogCollectionTest {
                 scenarioLogCollection1,
                 scenarioLogCollection3,
                 "ScenarioLogCollection1 and ScenarioLogCollection3 should not be equal"
+        );
+
+        // Clear all scenario logs
+        featureLogCollection.clearCollection();
+        FeatureLogCollectionIndex.getInstance().clear();
+        ScenarioLogCollectionIndex.getInstance().clear();
+
+        // Now there shouldn't be any scenario log anymore
+        Assert.assertEquals(featureLogCollection.countScenarioLogs(), 0);
+        Assert.assertEquals(TestFeatureLogCollection.getIndexSize(), 0);
+    }
+
+    /**
+     * Test the grouping-by-abstractScenarioId method of the feature log collection class
+     */
+    @Test
+    public void testGroupByAbstractScenarioId() {
+        // There should be no scenario logs at the beginning
+        Assert.assertEquals(TestScenarioLogCollection.getIndexSize(), 0);
+
+        // Create a new feature log collection
+        TestFeatureLogCollection featureLogCollection = TestFeatureLogCollection
+                .createFeatureLogCollectionIfNotExists(
+                        "feature1",
+                        "feature1"
+                );
+
+        // Create three scenario log collections
+        featureLogCollection
+                .createScenarioIfNotExists("feature1", "scenario1-iteration1", "test1")
+                .setAbstractScenarioId("scenario1");
+        featureLogCollection
+                .createScenarioIfNotExists("feature1", "scenario1-iteration2", "test2")
+                .setAbstractScenarioId("scenario1");
+        featureLogCollection
+                .createScenarioIfNotExists("feature1", "scenario2-iteration1", "test3")
+                .setAbstractScenarioId("scenario2");
+
+        // Group scenarios by abstract scenario id
+        Map<String, List<TestScenarioLogCollection>> map = featureLogCollection.getScenariosGroupedByAbstractScenarioId();
+
+        Assert.assertEquals(map.size(), 2, "There should be two groups of scenarios");
+        Assert.assertNotNull(map.get("scenario1"), "There should be a group called 'scenario1'");
+        Assert.assertNotNull(map.get("scenario2"), "There should be a group called 'scenario2'");
+        Assert.assertEquals(map.get("scenario1").size(), 2, "There should be two items in the group 'scenario1'");
+        Assert.assertEquals(map.get("scenario2").size(), 1, "There should be one item in the group 'scenario2'");
+        Assert.assertEquals(
+                map.get("scenario1").get(0).getScenarioId(),
+                "scenario1-iteration1",
+                "The scenario id of the first item in the group 'scenario1' should be 'scenario1-iteration1'"
+        );
+        Assert.assertEquals(
+                map.get("scenario1").get(1).getScenarioId(),
+                "scenario1-iteration2",
+                "The scenario id of the first item in the group 'scenario1' should be 'scenario1-iteration2'"
+        );
+        Assert.assertEquals(
+                map.get("scenario2").get(0).getScenarioId(),
+                "scenario2-iteration1",
+                "The scenario id of the first item in the group 'scenario1' should be 'scenario2-iteration1'"
         );
 
         // Clear all scenario logs

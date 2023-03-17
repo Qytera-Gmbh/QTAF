@@ -5,6 +5,10 @@ import de.qytera.qtaf.core.QtafFactory;
 import de.qytera.qtaf.core.config.annotations.TestFeature;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Collection that holds all log messages from a specific test case class
@@ -178,6 +182,16 @@ public class TestFeatureLogCollection {
      */
     public synchronized ArrayList<TestScenarioLogCollection> getScenarioLogCollection() {
         return testScenarioLogCollection;
+    }
+
+    /**
+     * Group scenario logs by abstract scenario ID
+     * @return  Map of grouped scenario logs
+     */
+    public Map<String, List<TestScenarioLogCollection>> getScenariosGroupedByAbstractScenarioId() {
+        return testScenarioLogCollection
+                .stream()
+                .collect(Collectors.groupingBy(TestScenarioLogCollection::getAbstractScenarioId));
     }
 
     /**
