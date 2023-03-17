@@ -138,6 +138,13 @@ public class TestScenarioLogCollection {
         this.scenarioId = scenarioId;
         this.scenarioName = scenarioName;
         QtafFactory.getLogger().debug(String.format("Created scenario log: id=%s, featureId=%s, scenarioName=%s", scenarioId, featureId, scenarioName));
+        QtafFactory.getLogger().debug(
+                String.format(
+                        "feature log index: size=%s, scenario log index: size=%s",
+                        index.size(),
+                        ScenarioLogCollectionIndex.getInstance().size())
+        );
+
     }
 
     /**
@@ -382,6 +389,27 @@ public class TestScenarioLogCollection {
     }
 
     /**
+     * Add test parameters to log
+     * @param parameters    method parameters
+     * @param values        method values
+     * @return              this
+     */
+    public TestScenarioLogCollection addParameters(Parameter[] parameters, Object[] values) {
+        for (int i = 0; i < parameters.length; i++) {
+            TestParameter testParameter = new TestParameter(
+                    parameters[i].getName(),
+                    values[i].getClass().getName(),
+                    values[i]
+            );
+
+            this.testParameters.add(testParameter);
+        }
+
+        return this;
+    }
+
+
+    /**
      * Get annotations
      *
      * @return annotations
@@ -435,6 +463,8 @@ public class TestScenarioLogCollection {
     public synchronized TestScenarioLogCollection addLogMessage(LogMessage logMessage) {
         if (!logMessages.contains(logMessage)) {
             logMessages.add(logMessage);
+            QtafFactory.getLogger().debug(String.format("Added log message: %s", logMessage.getMessage()));
+            QtafFactory.getLogger().debug(String.format("Scenario %s: log_messages_size=%s", this.getScenarioId(), this.logMessages.size()));
         }
 
         return this;
@@ -725,26 +755,6 @@ public class TestScenarioLogCollection {
      */
     public TestScenarioLogCollection setDuration(long duration) {
         this.duration = duration;
-        return this;
-    }
-
-    /**
-     * Add test parameters to log
-     * @param parameters    method parameters
-     * @param values        method values
-     * @return              this
-     */
-    public TestScenarioLogCollection addParameters(Parameter[] parameters, Object[] values) {
-        for (int i = 0; i < parameters.length; i++) {
-            TestParameter testParameter = new TestParameter(
-                    parameters[i].getName(),
-                    values[i].getClass().getName(),
-                    values[i]
-            );
-
-            this.testParameters.add(testParameter);
-        }
-
         return this;
     }
 

@@ -93,7 +93,7 @@ public class TestSuiteLogCollection {
      * Get instance of class
      * @return  instance of class
      */
-    public static TestSuiteLogCollection getInstance() {
+    public static synchronized TestSuiteLogCollection getInstance() {
         return instance;
     }
 

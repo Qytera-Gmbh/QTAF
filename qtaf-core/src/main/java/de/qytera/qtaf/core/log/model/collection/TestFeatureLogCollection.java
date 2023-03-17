@@ -82,7 +82,12 @@ public class TestFeatureLogCollection {
             String featureId,
             String featureName
     ) {
-        QtafFactory.getLogger().debug(String.format("feature log index: size=%s", index.size()));
+        QtafFactory.getLogger().debug(
+                String.format(
+                        "feature log index: size=%s, scenario log index: size=%s",
+                        index.size(),
+                        ScenarioLogCollectionIndex.getInstance().size())
+        );
 
         if (index.get(featureId) != null) {
             return index.get(featureId);

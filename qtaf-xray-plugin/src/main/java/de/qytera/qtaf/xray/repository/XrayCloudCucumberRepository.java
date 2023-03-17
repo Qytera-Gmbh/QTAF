@@ -33,7 +33,7 @@ public class XrayCloudCucumberRepository implements IXrayCucumberRepository {
     /**
      * Data Access Object for Xray API
      */
-    private final HTTPDao httpDao = new HTTPDao(XrayRestPaths.XRAY_CLOUD_API_V1);
+    private final HTTPDao httpDao = new HTTPDao(XrayRestPaths.XRAY_CLOUD_API_V2);
 
 
     @Override

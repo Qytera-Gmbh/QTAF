@@ -3,6 +3,7 @@ package de.qytera.qtaf.xray.net.http;
 import de.qytera.qtaf.core.net.http.HTTPJsonDao;
 import de.qytera.qtaf.xray.commands.AuthenticationCommand;
 import de.qytera.qtaf.xray.config.XrayConfigHelper;
+import de.qytera.qtaf.xray.config.XrayRestPaths;
 
 /**
  * Factory class for HTTP Dao obejcts
@@ -51,7 +52,7 @@ public class XrayHTTPDaoFactory {
         if (xrayClientHttpDao == null) {
             AuthenticationCommand authenticationCommand = new AuthenticationCommand();
             authenticationCommand.execute();
-            xrayClientHttpDao = new HTTPJsonDao(XrayUrls.XRAY_CLOUD_API_V1);
+            xrayClientHttpDao = new HTTPJsonDao(XrayRestPaths.XRAY_CLOUD_API_V2);
         }
 
         return xrayClientHttpDao;

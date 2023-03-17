@@ -6,10 +6,10 @@ import com.sun.jersey.api.client.WebResource;
 import de.qytera.qtaf.core.gson.GsonFactory;
 import de.qytera.qtaf.core.log.model.error.ErrorLog;
 import de.qytera.qtaf.xray.config.XrayConfigHelper;
+import de.qytera.qtaf.xray.config.XrayRestPaths;
 import de.qytera.qtaf.xray.entity.XrayAuthCredentials;
 import de.qytera.qtaf.xray.events.QtafXrayEvents;
 import de.qytera.qtaf.xray.log.XrayAuthenticationErrorLog;
-import de.qytera.qtaf.xray.net.http.XrayUrls;
 
 import javax.ws.rs.core.MediaType;
 
@@ -20,7 +20,7 @@ public class XrayCloudService extends AbstractXrayService {
     /**
      * Xray API URL
      */
-    private final String XRAY_CLOUD_URL = XrayUrls.XRAY_CLOUD_API_V1;
+    private final String XRAY_CLOUD_URL = XrayRestPaths.XRAY_CLOUD_API_V2;
 
     /**
      * API authentication path
