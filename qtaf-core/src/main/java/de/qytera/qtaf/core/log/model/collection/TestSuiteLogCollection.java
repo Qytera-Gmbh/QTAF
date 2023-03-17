@@ -137,14 +137,14 @@ public class TestSuiteLogCollection {
      * Get test case log collections
      * @return  log collections
      */
-    public ArrayList<TestFeatureLogCollection> getTestFeatureLogCollections() {
+    public synchronized ArrayList<TestFeatureLogCollection> getTestFeatureLogCollections() {
         return testFeatureLogCollections;
     }
 
     /**
      * Clear test case log collections
      */
-    public void clearCollection() {
+    public synchronized void clearCollection() {
         testFeatureLogCollections.clear();
     }
 
@@ -153,7 +153,7 @@ public class TestSuiteLogCollection {
      * @param collection    Collection
      * @return  this
      */
-    public TestSuiteLogCollection addTestClassLogCollection(TestFeatureLogCollection collection) {
+    public synchronized TestSuiteLogCollection addTestClassLogCollection(TestFeatureLogCollection collection) {
         if (!this.testFeatureLogCollections.contains(collection)) {
             testFeatureLogCollections.add(collection);
         }
@@ -167,7 +167,7 @@ public class TestSuiteLogCollection {
      * @param featureName   Scenario name / Class ID of the test
      * @return  new collection
      */
-    public TestFeatureLogCollection createFeatureIfNotExists(String featureId, String featureName) {
+    public synchronized TestFeatureLogCollection createFeatureIfNotExists(String featureId, String featureName) {
         TestFeatureLogCollection collection = TestFeatureLogCollection.createFeatureLogCollectionIfNotExists(
                 featureId,
                 featureName
@@ -186,7 +186,7 @@ public class TestSuiteLogCollection {
      *
      * @param instance Instance
      */
-    public static void setInstance(TestSuiteLogCollection instance) {
+    public synchronized static void setInstance(TestSuiteLogCollection instance) {
         TestSuiteLogCollection.instance = instance;
     }
 

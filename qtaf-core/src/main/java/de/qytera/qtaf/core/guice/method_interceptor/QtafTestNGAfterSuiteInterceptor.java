@@ -1,5 +1,6 @@
 package de.qytera.qtaf.core.guice.method_interceptor;
 
+import de.qytera.qtaf.core.QtafFactory;
 import de.qytera.qtaf.core.context.IQtafTestContext;
 import de.qytera.qtaf.core.events.QtafEvents;
 import de.qytera.qtaf.core.guice.invokation.AfterSuiteExecutionInfo;
@@ -33,6 +34,8 @@ public class QtafTestNGAfterSuiteInterceptor extends AbstractTestNGAnnotatedMeth
         Object instance = methodInvocation.getThis();
 
         if (instance instanceof IQtafTestContext) { // executed if this is instance of IQtafTestContext
+            QtafFactory.getLogger().debug(String.format("Intercept @AfterSuite method: name=%s", methodInvocation.getMethod().getName()));
+
             // Try to execute method and listen for errors. If an error occurs it will be logged.
             Object result;
 

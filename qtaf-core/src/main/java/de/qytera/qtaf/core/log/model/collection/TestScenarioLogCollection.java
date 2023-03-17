@@ -1,5 +1,6 @@
 package de.qytera.qtaf.core.log.model.collection;
 
+import de.qytera.qtaf.core.QtafFactory;
 import de.qytera.qtaf.core.events.payload.IQtafTestEventPayload;
 import de.qytera.qtaf.core.log.model.LogLevel;
 import de.qytera.qtaf.core.log.model.message.LogMessage;
@@ -15,7 +16,7 @@ public class TestScenarioLogCollection {
     /**
      * Index for log collections
      */
-    private static final Map<String, TestScenarioLogCollection> index = ScenarioLogCollectionIndex.getInstance();
+    private static final ScenarioLogCollectionIndex index = ScenarioLogCollectionIndex.getInstance();
 
     /**
      * Unique test feature ID
@@ -136,12 +137,12 @@ public class TestScenarioLogCollection {
         this.featureId = featureId;
         this.scenarioId = scenarioId;
         this.scenarioName = scenarioName;
-
-        index.put(scenarioId, this);
+        QtafFactory.getLogger().debug(String.format("Created scenario log: id=%s, featureId=%s, scenarioName=%s", scenarioId, featureId, scenarioName));
     }
 
     /**
      * Factory method.
+     *
      * Creates new test log collection.
      * If a collection with the given ID exists then return the existing collection.
      * This method has to be synchronized so that it works correctly when using multiple threads.
@@ -156,14 +157,21 @@ public class TestScenarioLogCollection {
             String scenarioId,
             String scenarioName
     ) {
+        // Check if index already contains a scenario log collection with the given ID
         if (index.get(scenarioId) != null) {
             return index.get(scenarioId);
         }
 
-        return new TestScenarioLogCollection(featureId, scenarioId, scenarioName);
+        // Create new scenario log collection and register it in the index
+        TestScenarioLogCollection collection = new TestScenarioLogCollection(featureId, scenarioId, scenarioName);
+        index.put(scenarioId, collection);
+
+        return index.get(scenarioId);
     }
 
     /**
+     * Factory method
+     *
      * Factory method that creates new log collection from test event payload
      * This method has to be synchronized so that it works correctly when using multiple threads.
      *
@@ -171,10 +179,12 @@ public class TestScenarioLogCollection {
      * @return  test log collection
      */
     public static synchronized TestScenarioLogCollection fromQtafTestEventPayload(IQtafTestEventPayload iQtafTestEventPayload) {
+        // Check if index already contains a scenario log collection with the given ID
         if (index.get(iQtafTestEventPayload.getAbstractScenarioId()) != null) {
             return index.get(iQtafTestEventPayload.getAbstractScenarioId());
         }
 
+        // Create new scenario log collection
         TestScenarioLogCollection collection = new TestScenarioLogCollection(
                 iQtafTestEventPayload.getFeatureId(),
                 iQtafTestEventPayload.getAbstractScenarioId() + "-" +  iQtafTestEventPayload.getInstanceId(),
@@ -194,9 +204,10 @@ public class TestScenarioLogCollection {
                 .setMethodDependencies(iQtafTestEventPayload.getMethodDependencies())
                 .setAnnotations(iQtafTestEventPayload.getMethodInfoEntity().getAnnotations());
 
-        index.put(collection.scenarioId, collection);
+        // Register new scenario log collection in the index
+        index.put(collection.getScenarioId(), collection);
 
-        return collection;
+        return index.get(collection.getScenarioId());
     }
 
     /**
@@ -213,11 +224,9 @@ public class TestScenarioLogCollection {
 
         /* Check if o is an instance of Complex or not
           "null instanceof [type]" also returns false */
-        if (!(o instanceof TestScenarioLogCollection)) {
+        if (!(o instanceof TestScenarioLogCollection c)) {
             return false;
         }
-
-        TestScenarioLogCollection c = (TestScenarioLogCollection) o;
 
         return this.getScenarioId().equals(c.getScenarioId());
     }
@@ -439,8 +448,8 @@ public class TestScenarioLogCollection {
      * @return this
      */
     public TestScenarioLogCollection addLogMessage(LogLevel level, String message) {
-        LogMessage testStepLog = new LogMessage(level, message);
-        logMessages.add(testStepLog);
+        LogMessage logMessage = new LogMessage(level, message);
+        logMessages.add(logMessage);
         return this;
     }
 

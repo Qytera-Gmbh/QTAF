@@ -1,5 +1,6 @@
 package de.qytera.qtaf.core.guice.method_interceptor;
 
+import de.qytera.qtaf.core.QtafFactory;
 import de.qytera.qtaf.core.context.IQtafTestContext;
 import de.qytera.qtaf.core.events.QtafEvents;
 import de.qytera.qtaf.core.guice.annotations.Step;
@@ -22,6 +23,8 @@ public class QtafStepMethodInterceptor implements MethodInterceptor {
     @Override
     public Object invoke(MethodInvocation methodInvocation) throws Throwable {
         if (methodInvocation.getThis() instanceof IQtafTestContext) { // executed if this is instance of IQtafTestContext
+            QtafFactory.getLogger().debug(String.format("Intercept @Step method: name=%s", methodInvocation.getMethod().getName()));
+
             // Get step annotation
             Step step = methodInvocation.getMethod().getAnnotation(Step.class);
 

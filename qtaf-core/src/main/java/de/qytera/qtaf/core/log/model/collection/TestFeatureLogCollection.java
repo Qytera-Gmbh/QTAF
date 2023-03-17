@@ -5,7 +5,6 @@ import de.qytera.qtaf.core.QtafFactory;
 import de.qytera.qtaf.core.config.annotations.TestFeature;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 /**
  * Collection that holds all log messages from a specific test case class
@@ -15,7 +14,7 @@ public class TestFeatureLogCollection {
     /**
      * Search index
      */
-    private static final transient Map<String, TestFeatureLogCollection> index = FeatureLogCollectionIndex.getInstance();
+    private static final transient FeatureLogCollectionIndex index = FeatureLogCollectionIndex.getInstance();
 
     /**
      * Test feature unique ID
@@ -52,6 +51,7 @@ public class TestFeatureLogCollection {
         this.featureName = testFeatureAnnotation.name();
         this.featureDescription = testFeatureAnnotation.description();
         this.testFeatureAnnotation = testFeatureAnnotation;
+        QtafFactory.getLogger().debug(String.format("Created feature log: id=%s, name=%s, description=%S", featureId, featureName, featureDescription));
     }
 
     /**
@@ -63,6 +63,53 @@ public class TestFeatureLogCollection {
     private TestFeatureLogCollection(String featureId, String featureName) {
         this.featureId = featureId;
         this.featureName = featureName;
+        QtafFactory.getLogger().debug(String.format("Created feature log: id=%s, name=%s", featureId, featureName));
+    }
+
+    /**
+     * Factory method
+     *
+     * This method has to be synchronized so that only one thread at a time can execute this method
+     *
+     * @param featureId   Collection ID
+     * @param featureName Collection Name
+     */
+    public static synchronized TestFeatureLogCollection createFeatureLogCollectionIfNotExists(
+            String featureId,
+            String featureName
+    ) {
+        QtafFactory.getLogger().debug(String.format("feature log index: size=%s", index.size()));
+
+        if (index.get(featureId) != null) {
+            return index.get(featureId);
+        }
+
+        TestFeatureLogCollection collection = new TestFeatureLogCollection(featureId, featureName);
+        index.put(featureId, collection);
+
+        return collection;
+    }
+
+    /**
+     * Factory method
+     *
+     * This method has to be synchronized so that only one thread at a time can execute this method
+     *
+     * @param featureId             Collection ID
+     * @param testFeatureAnnotation Test feature annotation
+     */
+    public static synchronized TestFeatureLogCollection createFeatureLogCollectionIfNotExists(
+            String featureId,
+            TestFeature testFeatureAnnotation
+    ) {
+        if (index.get(featureId) != null) {
+            return index.get(featureId);
+        }
+
+        TestFeatureLogCollection collection = new TestFeatureLogCollection(featureId, testFeatureAnnotation);
+        index.put(featureId, collection);
+
+        return collection;
     }
 
     /**
@@ -80,13 +127,11 @@ public class TestFeatureLogCollection {
 
         /* Check if o is an instance of Complex or not
           "null instanceof [type]" also returns false */
-        if (!(o instanceof TestFeatureLogCollection)) {
+        if (!(o instanceof TestFeatureLogCollection c)) {
             return false;
         }
 
-        TestFeatureLogCollection c = (TestFeatureLogCollection) o;
-
-        return this.getFeatureId() == c.getFeatureId();
+        return this.getFeatureId().equals(c.getFeatureId());
     }
 
     /**
@@ -97,48 +142,6 @@ public class TestFeatureLogCollection {
     @Override
     public int hashCode() {
         return this.getFeatureId().hashCode();
-    }
-
-    /**
-     * Factory method
-     * This method has to be synchronized so that only one thread at a time can execute this method
-     *
-     * @param featureId   Collection ID
-     * @param featureName Collection Name
-     */
-    public static synchronized TestFeatureLogCollection createFeatureLogCollectionIfNotExists(
-            String featureId,
-            String featureName
-    ) {
-        QtafFactory.getLogger().debug(String.format("feature log index: size=%s", index.size()));
-
-        if (index.get(featureId) != null) {
-            return index.get(featureId);
-        }
-
-        TestFeatureLogCollection logCollection = new TestFeatureLogCollection(featureId, featureName);
-        QtafFactory.getLogger().debug(String.format("Created feature log: id=%s, name=%s", featureId, featureName));
-        index.put(featureId, logCollection);
-
-        return logCollection;
-    }
-
-    /**
-     * Factory method
-     * This method has to be synchronized so that only one thread at a time can execute this method
-     *
-     * @param featureId             Collection ID
-     * @param testFeatureAnnotation Test feature annotation
-     */
-    public static synchronized TestFeatureLogCollection createFeatureLogCollectionIfNotExists(
-            String featureId,
-            TestFeature testFeatureAnnotation
-    ) {
-        if (index.get(featureId) != null) {
-            return index.get(featureId);
-        }
-
-        return new TestFeatureLogCollection(featureId, testFeatureAnnotation);
     }
 
     /**
@@ -173,7 +176,7 @@ public class TestFeatureLogCollection {
      *
      * @return log collections
      */
-    public ArrayList<TestScenarioLogCollection> getScenarioLogCollection() {
+    public synchronized ArrayList<TestScenarioLogCollection> getScenarioLogCollection() {
         return testScenarioLogCollection;
     }
 
@@ -185,7 +188,7 @@ public class TestFeatureLogCollection {
      * @param scenarioName      Test ID / Feature name
      * @return  this
      */
-    public TestScenarioLogCollection createScenarioIfNotExists(String featureId, String scenarioId, String scenarioName) {
+    public synchronized TestScenarioLogCollection createScenarioIfNotExists(String featureId, String scenarioId, String scenarioName) {
         TestScenarioLogCollection testScenarioLogCollection = TestScenarioLogCollection
             .createTestScenarioLogCollection(
                 featureId,
@@ -206,7 +209,7 @@ public class TestFeatureLogCollection {
      * @param collection    scenario log collection
      * @return  scenario log collection
      */
-    public TestScenarioLogCollection addScenarioLogCollection(TestScenarioLogCollection collection) {
+    public synchronized TestScenarioLogCollection addScenarioLogCollection(TestScenarioLogCollection collection) {
         if (!this.testScenarioLogCollection.contains(collection)) {
             this.testScenarioLogCollection.add(collection);
         }
@@ -219,7 +222,7 @@ public class TestFeatureLogCollection {
      *
      * @return testCaseAnnotation
      */
-    public TestFeature getTestCaseAnnotation() {
+    public TestFeature getTestFeatureAnnotation() {
         return testFeatureAnnotation;
     }
 
@@ -229,7 +232,7 @@ public class TestFeatureLogCollection {
      * @param testFeatureAnnotation TestCaseAnnotation
      * @return this
      */
-    public TestFeatureLogCollection setTestCaseAnnotation(TestFeature testFeatureAnnotation) {
+    public TestFeatureLogCollection setTestFeatureAnnotation(TestFeature testFeatureAnnotation) {
         this.testFeatureAnnotation = testFeatureAnnotation;
         return this;
     }
@@ -254,7 +257,7 @@ public class TestFeatureLogCollection {
      * @param featureId Feature ID
      * @return  true if exists, false otherwise
      */
-    public static boolean exists(int featureId) {
+    public static boolean exists(String featureId) {
         return index.get(featureId) != null;
     }
 
