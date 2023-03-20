@@ -1,7 +1,7 @@
 package de.qytera.qtaf.core.event_subscriber;
 
 import de.qytera.qtaf.core.QtafFactory;
-import de.qytera.qtaf.core.event_subscriber.test.QtafLoggingSubscriber;
+import de.qytera.qtaf.core.event_subscriber.test.QtafScenarioLoggingSubscriber;
 import de.qytera.qtaf.core.events.payload.IQtafTestEventPayload;
 import de.qytera.qtaf.core.events.payload.IQtafTestingContext;
 import de.qytera.qtaf.core.events.payload.QtafTestContextPayload;
@@ -21,7 +21,7 @@ import java.text.ParseException;
 /**
  * These tests are for the Qtaf Logging subscriber which is responsible for transforming events into log messages
  */
-public class QtafLoggingSubscriberTest {
+public class QtafTestLoggingSubscriberScenario {
     /**
      * Test the onStartTesting event handler
      */
@@ -32,10 +32,10 @@ public class QtafLoggingSubscriberTest {
         suiteLogCollection.clear();
 
         // Get instance of subscriber
-        QtafLoggingSubscriber subscriber = new QtafLoggingSubscriber();
+        QtafScenarioLoggingSubscriber subscriber = new QtafScenarioLoggingSubscriber();
 
         // Make private method accessible
-        Method method = QtafLoggingSubscriber.class.getDeclaredMethod(
+        Method method = QtafScenarioLoggingSubscriber.class.getDeclaredMethod(
                 "onStartTesting",
                 IQtafTestingContext.class
         );
@@ -86,10 +86,10 @@ public class QtafLoggingSubscriberTest {
                 .setEnd(DateHelper.fromTimeString("2020-01-01 13:00:00"));
 
         // Get instance of subscriber
-        QtafLoggingSubscriber subscriber = new QtafLoggingSubscriber();
+        QtafScenarioLoggingSubscriber subscriber = new QtafScenarioLoggingSubscriber();
 
         // Make private method accessible
-        Method method = QtafLoggingSubscriber.class.getDeclaredMethod(
+        Method method = QtafScenarioLoggingSubscriber.class.getDeclaredMethod(
                 "onFinishTesting",
                 IQtafTestingContext.class
         );
@@ -143,10 +143,10 @@ public class QtafLoggingSubscriberTest {
         suiteLogCollection.clear();
 
         // Get instance of subscriber
-        QtafLoggingSubscriber subscriber = new QtafLoggingSubscriber();
+        QtafScenarioLoggingSubscriber subscriber = new QtafScenarioLoggingSubscriber();
 
         // Make private method accessible
-        Method method = QtafLoggingSubscriber.class.getDeclaredMethod(
+        Method method = QtafScenarioLoggingSubscriber.class.getDeclaredMethod(
                 "onTestStarted", IQtafTestEventPayload.class);
         method.setAccessible(true);
 
@@ -213,10 +213,10 @@ public class QtafLoggingSubscriberTest {
         suiteLogCollection.clear();
 
         // Get instance of subscriber
-        QtafLoggingSubscriber subscriber = new QtafLoggingSubscriber();
+        QtafScenarioLoggingSubscriber subscriber = new QtafScenarioLoggingSubscriber();
 
         // Make private method accessible
-        Method method = QtafLoggingSubscriber.class.getDeclaredMethod(
+        Method method = QtafScenarioLoggingSubscriber.class.getDeclaredMethod(
                 "onTestSuccess", IQtafTestEventPayload.class);
         method.setAccessible(true);
 
@@ -283,10 +283,10 @@ public class QtafLoggingSubscriberTest {
         suiteLogCollection.clear();
 
         // Get instance of subscriber
-        QtafLoggingSubscriber subscriber = new QtafLoggingSubscriber();
+        QtafScenarioLoggingSubscriber subscriber = new QtafScenarioLoggingSubscriber();
 
         // Make private method accessible
-        Method method = QtafLoggingSubscriber.class.getDeclaredMethod(
+        Method method = QtafScenarioLoggingSubscriber.class.getDeclaredMethod(
                 "onTestFailure", IQtafTestEventPayload.class);
         method.setAccessible(true);
 
@@ -353,10 +353,10 @@ public class QtafLoggingSubscriberTest {
         suiteLogCollection.clear();
 
         // Get instance of subscriber
-        QtafLoggingSubscriber subscriber = new QtafLoggingSubscriber();
+        QtafScenarioLoggingSubscriber subscriber = new QtafScenarioLoggingSubscriber();
 
         // Make private method accessible
-        Method method = QtafLoggingSubscriber.class.getDeclaredMethod(
+        Method method = QtafScenarioLoggingSubscriber.class.getDeclaredMethod(
                 "onTestSkipped", IQtafTestEventPayload.class);
         method.setAccessible(true);
 

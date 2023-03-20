@@ -209,7 +209,8 @@ public class TestScenarioLogCollection {
                 .setGroups(iQtafTestEventPayload.getGroups())
                 .setGroupDependencies(iQtafTestEventPayload.getGroupDependencies())
                 .setMethodDependencies(iQtafTestEventPayload.getMethodDependencies())
-                .setAnnotations(iQtafTestEventPayload.getMethodInfoEntity().getAnnotations());
+                .setAnnotations(iQtafTestEventPayload.getMethodInfoEntity().getAnnotations())
+                .addParameters(iQtafTestEventPayload.getMethodInfoEntity().getMethodParamValues());
 
         // Register new scenario log collection in the index
         index.put(collection.getScenarioId(), collection);
@@ -408,6 +409,25 @@ public class TestScenarioLogCollection {
         return this;
     }
 
+    /**
+     * Add test parameters to log
+     * @param parameterValues        method values
+     * @return              this
+     */
+    public TestScenarioLogCollection addParameters(Object[] parameterValues) {
+        for (int i = 0; i < parameterValues.length; i++) {
+            TestParameter testParameter = new TestParameter(
+                    "arg" + i,
+                    parameterValues[i].getClass().getName(),
+                    parameterValues[i]
+            );
+
+            this.testParameters.add(testParameter);
+        }
+
+        return this;
+    }
+
 
     /**
      * Get annotations
@@ -449,7 +469,7 @@ public class TestScenarioLogCollection {
      *
      * @return logMessages LogMessages
      */
-    public ArrayList<LogMessage> getLogMessages() {
+    public synchronized ArrayList<LogMessage> getLogMessages() {
         return logMessages;
     }
 
@@ -477,7 +497,7 @@ public class TestScenarioLogCollection {
      * @param message log message
      * @return this
      */
-    public TestScenarioLogCollection addLogMessage(LogLevel level, String message) {
+    public synchronized TestScenarioLogCollection addLogMessage(LogLevel level, String message) {
         LogMessage logMessage = new LogMessage(level, message);
         logMessages.add(logMessage);
         return this;

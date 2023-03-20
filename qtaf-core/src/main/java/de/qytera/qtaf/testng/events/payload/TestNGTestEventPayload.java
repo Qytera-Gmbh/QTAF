@@ -33,6 +33,7 @@ public class TestNGTestEventPayload extends QtafTestEventPayload {
         this.originalTestInstance = iTestResult.getInstance();
         this.instanceId = iTestResult.id();
 
+        // Handle annotations
         Class<?> realClass = iTestResult.getTestClass().getRealClass();
         this.realClass = realClass;
         this.realClassAnnotations = realClass.getAnnotations();
@@ -66,6 +67,7 @@ public class TestNGTestEventPayload extends QtafTestEventPayload {
 
         // Handle test annotation of test method
         Test testNGTestAnnotation = this.getTestAnnotation(methodInfo.getMethod());
+
         assert testNGTestAnnotation != null;
         this.handleTestNGTestAnnotation(testNGTestAnnotation);
     }

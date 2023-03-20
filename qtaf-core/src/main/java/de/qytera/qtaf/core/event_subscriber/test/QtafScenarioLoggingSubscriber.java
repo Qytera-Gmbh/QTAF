@@ -21,7 +21,7 @@ import java.util.Date;
 /**
  * This subscriber is responsible for adding log messages to the corresponding log collections
  */
-public class QtafLoggingSubscriber implements IEventSubscriber {
+public class QtafScenarioLoggingSubscriber implements IEventSubscriber {
     /**
      * Reference to global log collection
      */
@@ -67,6 +67,10 @@ public class QtafLoggingSubscriber implements IEventSubscriber {
         );
     }
 
+    /**
+     * Handle step event
+     * @param iQtafTestStepEventPayload event payload
+     */
     private void onStepLog(IQtafTestStepEventPayload iQtafTestStepEventPayload) {
         QtafFactory.getLogger().debug(String.format("--- Step log received: scenario=%s", iQtafTestStepEventPayload.getScenarioId()));
         // Get Scenario log collection

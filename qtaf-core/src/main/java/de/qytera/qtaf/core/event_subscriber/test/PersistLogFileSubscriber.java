@@ -1,6 +1,8 @@
 package de.qytera.qtaf.core.event_subscriber.test;
 
 import de.qytera.qtaf.core.QtafFactory;
+import de.qytera.qtaf.core.log.model.collection.TestFeatureLogCollection;
+import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
 import de.qytera.qtaf.core.log.model.collection.TestSuiteLogCollection;
 import de.qytera.qtaf.core.events.interfaces.IEventSubscriber;
 import de.qytera.qtaf.core.events.QtafEvents;
@@ -52,13 +54,33 @@ public class PersistLogFileSubscriber implements IEventSubscriber {
     private void handleTestFinishedEvent(IQtafTestingContext iTestContext) {
         // Get test suite log collection
         TestSuiteLogCollection suiteLogCollection = QtafFactory.getTestSuiteLogCollection();
+        logger.debug(String.format(
+                "[QTAF LogFileSubscriber] received event: features=%s",
+                suiteLogCollection.getTestFeatureLogCollections().size())
+        );
+
+        for (TestFeatureLogCollection featureLogCollection : suiteLogCollection.getTestFeatureLogCollections()) {
+            logger.debug(String.format(
+                    "[QTAF LogFileSubscriber] feature: id=%s, scenarios=%s",
+                    featureLogCollection.getFeatureId(),
+                    featureLogCollection.getScenarioLogCollection().size()
+            ));
+
+            for (TestScenarioLogCollection scenarioLogCollection : featureLogCollection.getScenarioLogCollection()) {
+                logger.debug(String.format(
+                        "[QTAF LogFileSubscriber] scenario: id=%s, steps=%s",
+                        scenarioLogCollection.getScenarioId(),
+                        scenarioLogCollection.getLogMessages().size()
+                ));
+            }
+        }
 
         // Dispatch event to inform that logs are about to be persisted
         QtafEvents.beforeLogsPersisted.onNext(suiteLogCollection);
 
         // Persist log messages
         String path = LogFileWriter.persistLogs(suiteLogCollection);
-        logger.info("Log files persisted");
+        logger.info("[QTAF] Log files persisted");
 
         // Dispatch events
         QtafEvents.logsPersisted.onNext(path);
