@@ -33,7 +33,7 @@ public abstract class AbstractXrayJsonImportBuilder {
      * @param collection    Test Suite Collection
      * @return  Import DTO
      */
-    public XrayImportRequestDto buildFromTestSuiteLogs(TestSuiteLogCollection collection) {
+    public synchronized XrayImportRequestDto buildFromTestSuiteLogs(TestSuiteLogCollection collection) {
         // This DTO will be sent to the Xray API
         XrayImportRequestDto xrayImportRequestDto = new XrayImportRequestDto();
 
@@ -85,58 +85,62 @@ public abstract class AbstractXrayJsonImportBuilder {
                     assert xrayTestAnnotation != null;
                     xrayTestEntity.setTestKey(xrayTestAnnotation.key());
 
-                    // Iterate over concrete test scenario executions
-                    for (TestScenarioLogCollection scenarioLog : entry.getValue()) {
-                        // Build iteration entity
-                        XrayTestIterationResultEntity iteration = new XrayTestIterationResultEntity();
+                    synchronized (entry.getValue()) {
+                        // Iterate over concrete test scenario executions
+                        for (TestScenarioLogCollection scenarioLog : entry.getValue()) {
+                            // Build iteration entity
+                            XrayTestIterationResultEntity iteration = new XrayTestIterationResultEntity();
 
-                        // This variable will be set to false if any step failed
-                        boolean didIterationPass = true;
+                            // This variable will be set to false if any step failed
+                            boolean didIterationPass = true;
 
-                        // Add test parameters
-                        for (TestScenarioLogCollection.TestParameter testParameter : scenarioLog.getTestParameters()) {
-                            XrayTestIterationParameterEntity parameterEntity = new XrayTestIterationParameterEntity();
-                            parameterEntity.setName(testParameter.getName());
-                            parameterEntity.setValue(testParameter.getValue().toString());
-                            iteration.addParameter(parameterEntity);
-                        }
+                            // Add test parameters
+                            for (TestScenarioLogCollection.TestParameter testParameter : scenarioLog.getTestParameters()) {
+                                XrayTestIterationParameterEntity parameterEntity = new XrayTestIterationParameterEntity();
+                                parameterEntity.setName(testParameter.getName());
+                                parameterEntity.setValue(testParameter.getValue().toString());
+                                iteration.addParameter(parameterEntity);
+                            }
 
-                        // Iterate over steps
-                        for (LogMessage logMessage : scenarioLog.getLogMessages()) {
-                            // Only StepLogMessage entities are important for Xray
-                            if (logMessage instanceof StepInformationLogMessage stepLog) {
-                                // Build step entity
-                                XrayManualTestStepResultEntity xrayTestStepEntity = buildXrayManualTestStepResultEntity(stepLog);
+                            // Iterate over steps
+                            synchronized (scenarioLog.getLogMessages()) {
+                                for (LogMessage logMessage : scenarioLog.getLogMessages()) {
+                                    // Only StepLogMessage entities are important for Xray
+                                    if (logMessage instanceof StepInformationLogMessage stepLog) {
+                                        // Build step entity
+                                        XrayManualTestStepResultEntity xrayTestStepEntity = buildXrayManualTestStepResultEntity(stepLog);
 
-                                // Add result to step
-                                if (stepLog.getResult() != null) {
-                                    xrayTestStepEntity.setActualResult(stepLog.getResult().toString());
-                                }
+                                        // Add result to step
+                                        if (stepLog.getResult() != null) {
+                                            xrayTestStepEntity.setActualResult(stepLog.getResult().toString());
+                                        }
 
-                                // Add step log to test log
-                                iteration.addStep(xrayTestStepEntity);
+                                        // Add step log to test log
+                                        iteration.addStep(xrayTestStepEntity);
 
-                                // Check step status
-                                if (stepLog.getStatus() == StepInformationLogMessage.Status.ERROR) {
-                                    didIterationPass = false;
+                                        // Check step status
+                                        if (stepLog.getStatus() == StepInformationLogMessage.Status.ERROR) {
+                                            didIterationPass = false;
+                                        }
+                                    }
                                 }
                             }
-                        }
 
-                        // Set iteration status
-                        if (didIterationPass) {
-                            iteration.setStatus(XrayTestIterationResultEntity.Status.PASSED);
-                        } else {
-                            iteration.setStatus(XrayTestIterationResultEntity.Status.FAILED);
-                        }
+                            // Set iteration status
+                            if (didIterationPass) {
+                                iteration.setStatus(XrayTestIterationResultEntity.Status.PASSED);
+                            } else {
+                                iteration.setStatus(XrayTestIterationResultEntity.Status.FAILED);
+                            }
 
-                        // Check if the iteration passed. If not set the scenario status pass status to false
-                        if (scenarioLog.getStatus() == TestScenarioLogCollection.Status.FAILURE) {
-                            didScenarioPass = false;
-                        }
+                            // Check if the iteration passed. If not set the scenario status pass status to false
+                            if (scenarioLog.getStatus() == TestScenarioLogCollection.Status.FAILURE) {
+                                didScenarioPass = false;
+                            }
 
-                        // Add iteration entity to test entity
-                        xrayTestEntity.addIteration(iteration);
+                            // Add iteration entity to test entity
+                            xrayTestEntity.addIteration(iteration);
+                        }
                     }
 
                     // Set the scenario status

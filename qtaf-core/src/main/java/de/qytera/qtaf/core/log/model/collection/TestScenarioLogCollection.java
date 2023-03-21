@@ -3,6 +3,8 @@ package de.qytera.qtaf.core.log.model.collection;
 import de.qytera.qtaf.core.QtafFactory;
 import de.qytera.qtaf.core.events.payload.IQtafTestEventPayload;
 import de.qytera.qtaf.core.log.model.LogLevel;
+import de.qytera.qtaf.core.log.model.index.LogMessageIndex;
+import de.qytera.qtaf.core.log.model.index.ScenarioLogCollectionIndex;
 import de.qytera.qtaf.core.log.model.message.LogMessage;
 
 import java.lang.annotation.Annotation;
@@ -17,6 +19,11 @@ public class TestScenarioLogCollection {
      * Index for log collections
      */
     private static final ScenarioLogCollectionIndex index = ScenarioLogCollectionIndex.getInstance();
+
+    /**
+     * Index for log messages
+     */
+    private static final LogMessageIndex logMessageIndex = LogMessageIndex.getInstance();
 
     /**
      * Unique test feature ID
@@ -91,7 +98,7 @@ public class TestScenarioLogCollection {
     /**
      * Test method parameters
      */
-    private final List<TestParameter> testParameters = new ArrayList<>();
+    private final List<TestParameter> testParameters = Collections.synchronizedList(new ArrayList<>());
 
     /**
      * Annotations of the corresponding test method
@@ -106,12 +113,12 @@ public class TestScenarioLogCollection {
     /**
      * Test log messages. Contains log messages that are produced during test execution.
      */
-    private final ArrayList<LogMessage> logMessages = new ArrayList<>();
+    private final List<LogMessage> logMessages = Collections.synchronizedList(new ArrayList<>());
 
     /**
      * Test screenshots. Contains paths to screenshot files.
      */
-    private final ArrayList<String> screenshotPaths = new ArrayList<>();
+    private final List<String> screenshotPaths = Collections.synchronizedList(new ArrayList<>());
 
     /**
      * Path to screenshot file that was saved before execution of the step
@@ -126,7 +133,7 @@ public class TestScenarioLogCollection {
     /**
      * Test tags. Contains additional information about the test scenario.
      */
-    private final Map<String, String> tags = new HashMap<>();
+    private final Map<String, String> tags = Collections.synchronizedMap(new HashMap<>());
 
     /**
      * Constructor
@@ -137,14 +144,24 @@ public class TestScenarioLogCollection {
         this.featureId = featureId;
         this.scenarioId = scenarioId;
         this.scenarioName = scenarioName;
-        QtafFactory.getLogger().debug(String.format("Created scenario log: id=%s, featureId=%s, scenarioName=%s", scenarioId, featureId, scenarioName));
+
+        // Logging
+        QtafFactory.getLogger().debug(
+                String.format(
+                        "Created scenario log: id=%s, hash=%s, featureId=%s, scenarioName=%s",
+                        scenarioId,
+                        this.hashCode(),
+                        featureId,
+                        scenarioName
+                )
+        );
         QtafFactory.getLogger().debug(
                 String.format(
                         "feature log index: size=%s, scenario log index: size=%s",
                         index.size(),
-                        ScenarioLogCollectionIndex.getInstance().size())
+                        ScenarioLogCollectionIndex.getInstance().size()
+                )
         );
-
     }
 
     /**
@@ -171,9 +188,7 @@ public class TestScenarioLogCollection {
 
         // Create new scenario log collection and register it in the index
         TestScenarioLogCollection collection = new TestScenarioLogCollection(featureId, scenarioId, scenarioName);
-        index.put(scenarioId, collection);
-
-        return index.get(scenarioId);
+        return index.put(scenarioId, collection);
     }
 
     /**
@@ -186,15 +201,18 @@ public class TestScenarioLogCollection {
      * @return  test log collection
      */
     public static synchronized TestScenarioLogCollection fromQtafTestEventPayload(IQtafTestEventPayload iQtafTestEventPayload) {
+        // Build scenario ID
+        String scenarioId = iQtafTestEventPayload.getAbstractScenarioId() + "-" +  iQtafTestEventPayload.getInstanceId();
+
         // Check if index already contains a scenario log collection with the given ID
-        if (index.get(iQtafTestEventPayload.getAbstractScenarioId()) != null) {
-            return index.get(iQtafTestEventPayload.getAbstractScenarioId());
+        if (index.get(scenarioId) != null) {
+            return index.get(scenarioId);
         }
 
         // Create new scenario log collection
         TestScenarioLogCollection collection = new TestScenarioLogCollection(
                 iQtafTestEventPayload.getFeatureId(),
-                iQtafTestEventPayload.getAbstractScenarioId() + "-" +  iQtafTestEventPayload.getInstanceId(),
+                scenarioId,
                 iQtafTestEventPayload.getScenarioName()
         );
 
@@ -213,9 +231,7 @@ public class TestScenarioLogCollection {
                 .addParameters(iQtafTestEventPayload.getMethodInfoEntity().getMethodParamValues());
 
         // Register new scenario log collection in the index
-        index.put(collection.getScenarioId(), collection);
-
-        return index.get(collection.getScenarioId());
+        return index.put(scenarioId, collection);
     }
 
     /**
@@ -236,7 +252,9 @@ public class TestScenarioLogCollection {
             return false;
         }
 
-        return this.getScenarioId().equals(c.getScenarioId());
+        return getFeatureId().equals(c.getFeatureId()) &&
+                getAbstractScenarioId().equals(c.getAbstractScenarioId()) &&
+                getInstanceId().equals(c.getInstanceId());
     }
 
     /**
@@ -246,7 +264,7 @@ public class TestScenarioLogCollection {
      */
     @Override
     public int hashCode() {
-        return this.getScenarioId().hashCode();
+        return (getFeatureId() + getAbstractScenarioId() + getInstanceId()).hashCode();
     }
 
     /**
@@ -469,7 +487,11 @@ public class TestScenarioLogCollection {
      *
      * @return logMessages LogMessages
      */
-    public synchronized ArrayList<LogMessage> getLogMessages() {
+    public synchronized List<LogMessage> getLogMessages() {
+        if (logMessages.isEmpty()) {
+            return LogMessageIndex.getInstance().getByScenarioId(getScenarioId());
+        }
+
         return logMessages;
     }
 
@@ -482,9 +504,20 @@ public class TestScenarioLogCollection {
      */
     public synchronized TestScenarioLogCollection addLogMessage(LogMessage logMessage) {
         if (!logMessages.contains(logMessage)) {
+            // Add information about the scenario to the log message
+            logMessage
+                    .setFeatureId(getFeatureId())
+                    .setAbstractScenarioId(getAbstractScenarioId())
+                    .setScenarioId(getScenarioId());
+
+            // Update the index
+            logMessageIndex.put( logMessage.hashCode(), logMessage);
+
+            // Add log message to this scenario
             logMessages.add(logMessage);
-            QtafFactory.getLogger().debug(String.format("Added log message: %s", logMessage.getMessage()));
-            QtafFactory.getLogger().debug(String.format("Scenario %s: log_messages_size=%s", this.getScenarioId(), this.logMessages.size()));
+
+            QtafFactory.getLogger().debug(String.format("Added log message: message=%s, scenario_hash=%s", logMessage.getMessage(), this.hashCode()));
+            QtafFactory.getLogger().debug(String.format("Scenario %s: log_messages_size=%s, scenario_hash=%s, log_messages_list_hash=%s", this.getScenarioId(), this.logMessages.size(), this.hashCode(), this.logMessages.hashCode()));
         }
 
         return this;
@@ -508,7 +541,7 @@ public class TestScenarioLogCollection {
      *
      * @return screenshotPaths
      */
-    public ArrayList<String> getScreenshotPaths() {
+    public List<String> getScreenshotPaths() {
         return screenshotPaths;
     }
 

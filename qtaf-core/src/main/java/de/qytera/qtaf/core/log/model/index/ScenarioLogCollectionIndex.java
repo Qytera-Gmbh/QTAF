@@ -1,6 +1,11 @@
-package de.qytera.qtaf.core.log.model.collection;
+package de.qytera.qtaf.core.log.model.index;
 
+import de.qytera.qtaf.core.QtafFactory;
+import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
+
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Index that holds all scenario log collections
@@ -9,7 +14,7 @@ public class ScenarioLogCollectionIndex {
     /**
      * Index that holds all TestScenarioLogCollection objects
      */
-    private final HashMap<String, TestScenarioLogCollection> index = new HashMap<>();
+    private final Map<String, TestScenarioLogCollection> index = Collections.synchronizedMap(new HashMap<>());
 
     /**
      * Singleton instance
@@ -45,7 +50,18 @@ public class ScenarioLogCollectionIndex {
      * @return  the inserted object
      */
     public synchronized TestScenarioLogCollection put(String id, TestScenarioLogCollection obj) {
-        return index.put(id, obj);
+        QtafFactory.getLogger().debug(String.format(
+                "[ScenarioIndex] Added Scenario log: id=%s, scenario_id=%s, abstract_scenario=%s, instance_id=%s, hash=%s",
+                id,
+                obj.getScenarioId(),
+                obj.getAbstractScenarioId(),
+                obj.getInstanceId(),
+                obj.hashCode()
+        ));
+
+        index.put(id, obj);
+
+        return obj;
     }
 
     /**

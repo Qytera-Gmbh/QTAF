@@ -1,5 +1,6 @@
 package de.qytera.qtaf.core.log.model.message;
 
+import de.qytera.qtaf.core.QtafFactory;
 import de.qytera.qtaf.core.log.model.LogLevel;
 import de.qytera.qtaf.core.log.model.error.ThrowableWrapper;
 
@@ -87,6 +88,12 @@ public class StepInformationLogMessage extends LogMessage {
     public StepInformationLogMessage(String methodName, String message) {
         super(LogLevel.INFO, message);
         this.methodName = methodName;
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        QtafFactory.getLogger().warn("[StepLog] Destroying log message '" + getMessage()  + "'");
+        super.finalize();
     }
 
     /**

@@ -7,10 +7,11 @@ import de.qytera.qtaf.core.events.payload.IQtafTestingContext;
 import de.qytera.qtaf.core.events.payload.QtafTestContextPayload;
 import de.qytera.qtaf.core.events.payload.QtafTestEventPayload;
 import de.qytera.qtaf.core.helper.DateHelper;
-import de.qytera.qtaf.core.log.model.collection.FeatureLogCollectionIndex;
-import de.qytera.qtaf.core.log.model.collection.ScenarioLogCollectionIndex;
-import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
-import de.qytera.qtaf.core.log.model.collection.TestSuiteLogCollection;
+import de.qytera.qtaf.core.log.model.collection.*;
+import de.qytera.qtaf.core.log.model.index.FeatureLogCollectionIndex;
+import de.qytera.qtaf.core.log.model.index.IndexHelper;
+import de.qytera.qtaf.core.log.model.index.LogMessageIndex;
+import de.qytera.qtaf.core.log.model.index.ScenarioLogCollectionIndex;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -132,8 +133,7 @@ public class QtafTestLoggingSubscriberScenario {
         );
 
         // Clean indices
-        ScenarioLogCollectionIndex.getInstance().clear();
-        FeatureLogCollectionIndex.getInstance().clear();
+        IndexHelper.clearAllIndices();
     }
 
     @Test
@@ -202,8 +202,7 @@ public class QtafTestLoggingSubscriberScenario {
         suiteLogCollection.clear();
 
         // Clean indices
-        ScenarioLogCollectionIndex.getInstance().clear();
-        FeatureLogCollectionIndex.getInstance().clear();
+        IndexHelper.clearAllIndices();
     }
 
     @Test
@@ -272,8 +271,7 @@ public class QtafTestLoggingSubscriberScenario {
         suiteLogCollection.clear();
 
         // Clean indices
-        ScenarioLogCollectionIndex.getInstance().clear();
-        FeatureLogCollectionIndex.getInstance().clear();
+        IndexHelper.clearAllIndices();
     }
 
     @Test
@@ -342,8 +340,7 @@ public class QtafTestLoggingSubscriberScenario {
         suiteLogCollection.clear();
 
         // Clean indices
-        ScenarioLogCollectionIndex.getInstance().clear();
-        FeatureLogCollectionIndex.getInstance().clear();
+        IndexHelper.clearAllIndices();
     }
 
     @Test
@@ -412,7 +409,6 @@ public class QtafTestLoggingSubscriberScenario {
         suiteLogCollection.clear();
 
         // Clean indices
-        ScenarioLogCollectionIndex.getInstance().clear();
-        FeatureLogCollectionIndex.getInstance().clear();
+        IndexHelper.clearAllIndices();
     }
 }

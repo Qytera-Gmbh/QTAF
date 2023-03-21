@@ -3,11 +3,10 @@ package de.qytera.qtaf.core.log.model.collection;
 
 import de.qytera.qtaf.core.QtafFactory;
 import de.qytera.qtaf.core.config.annotations.TestFeature;
+import de.qytera.qtaf.core.log.model.index.FeatureLogCollectionIndex;
+import de.qytera.qtaf.core.log.model.index.ScenarioLogCollectionIndex;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -43,7 +42,7 @@ public class TestFeatureLogCollection {
     /**
      * Holds a collection of test log collection instances
      */
-    private final ArrayList<TestScenarioLogCollection> testScenarioLogCollection = new ArrayList<>();
+    private final List<TestScenarioLogCollection> testScenarioLogCollection = Collections.synchronizedList(new ArrayList<>());
 
     /**
      * Constructor
@@ -55,7 +54,15 @@ public class TestFeatureLogCollection {
         this.featureName = testFeatureAnnotation.name();
         this.featureDescription = testFeatureAnnotation.description();
         this.testFeatureAnnotation = testFeatureAnnotation;
-        QtafFactory.getLogger().debug(String.format("Created feature log: id=%s, name=%s, description=%S", featureId, featureName, featureDescription));
+        QtafFactory.getLogger().debug(
+                String.format(
+                        "[FeatureLogCollection] Created feature log: id=%s, hash=%s, name=%s, description=%S",
+                        featureId,
+                        this.hashCode(),
+                        featureName,
+                        featureDescription
+                )
+        );
     }
 
     /**
@@ -67,7 +74,14 @@ public class TestFeatureLogCollection {
     private TestFeatureLogCollection(String featureId, String featureName) {
         this.featureId = featureId;
         this.featureName = featureName;
-        QtafFactory.getLogger().debug(String.format("Created feature log: id=%s, name=%s", featureId, featureName));
+        QtafFactory.getLogger().debug(
+                String.format(
+                        "[FeatureLogCollection] Created feature log: id=%s, hash=%s, name=%s",
+                        featureId,
+                        this.hashCode(),
+                        featureName
+                )
+        );
     }
 
     /**
@@ -84,7 +98,7 @@ public class TestFeatureLogCollection {
     ) {
         QtafFactory.getLogger().debug(
                 String.format(
-                        "feature log index: size=%s, scenario log index: size=%s",
+                        "[FeatureLogCollection]  feature log index: size=%s, scenario log index: size=%s",
                         index.size(),
                         ScenarioLogCollectionIndex.getInstance().size())
         );
@@ -94,9 +108,8 @@ public class TestFeatureLogCollection {
         }
 
         TestFeatureLogCollection collection = new TestFeatureLogCollection(featureId, featureName);
-        index.put(featureId, collection);
 
-        return collection;
+        return index.put(featureId, collection);
     }
 
     /**
@@ -116,9 +129,8 @@ public class TestFeatureLogCollection {
         }
 
         TestFeatureLogCollection collection = new TestFeatureLogCollection(featureId, testFeatureAnnotation);
-        index.put(featureId, collection);
 
-        return collection;
+        return index.put(featureId, collection);
     }
 
     /**
@@ -185,7 +197,7 @@ public class TestFeatureLogCollection {
      *
      * @return log collections
      */
-    public synchronized ArrayList<TestScenarioLogCollection> getScenarioLogCollection() {
+    public synchronized List<TestScenarioLogCollection> getScenarioLogCollection() {
         return testScenarioLogCollection;
     }
 
@@ -193,14 +205,14 @@ public class TestFeatureLogCollection {
      * Group scenario logs by abstract scenario ID
      * @return  Map of grouped scenario logs
      */
-    public Map<String, List<TestScenarioLogCollection>> getScenariosGroupedByAbstractScenarioId() {
-        return testScenarioLogCollection
+    public synchronized Map<String, List<TestScenarioLogCollection>> getScenariosGroupedByAbstractScenarioId() {
+        return Collections.synchronizedMap(testScenarioLogCollection
                 .stream()
-                .collect(Collectors.groupingBy(TestScenarioLogCollection::getAbstractScenarioId));
+                .collect(Collectors.groupingBy(TestScenarioLogCollection::getAbstractScenarioId)));
     }
 
     /**
-     * Add new TestMethodLogCollection
+     * Add new Scenario Log Collection
      *
      * @param featureId    Unique test hash code
      * @param scenarioId    Method ID / Scenario name

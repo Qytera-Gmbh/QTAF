@@ -2,6 +2,10 @@ package de.qytera.qtaf.core.log;
 
 import de.qytera.qtaf.core.config.annotations.TestFeature;
 import de.qytera.qtaf.core.log.model.collection.*;
+import de.qytera.qtaf.core.log.model.index.FeatureLogCollectionIndex;
+import de.qytera.qtaf.core.log.model.index.IndexHelper;
+import de.qytera.qtaf.core.log.model.index.LogMessageIndex;
+import de.qytera.qtaf.core.log.model.index.ScenarioLogCollectionIndex;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -42,8 +46,7 @@ public class TestFeatureLogCollectionTest {
 
         // Clear up
         slc.clearCollection();
-        ScenarioLogCollectionIndex.getInstance().clear();
-        FeatureLogCollectionIndex.getInstance().clear();
+        IndexHelper.clearAllIndices();
     }
 
     /**
@@ -63,8 +66,7 @@ public class TestFeatureLogCollectionTest {
         Assert.assertNotEquals(testFeatureLogCollection.getFeatureName(), "feature2");
 
         // Clean up
-        ScenarioLogCollectionIndex.getInstance().clear();
-        FeatureLogCollectionIndex.getInstance().clear();
+        IndexHelper.clearAllIndices();
         Assert.assertEquals(TestFeatureLogCollection.getIndexSize(), 0);
     }
 
@@ -91,8 +93,7 @@ public class TestFeatureLogCollectionTest {
         Assert.assertNotEquals(testFeatureLogCollection.getFeatureDescription(), "abc");
 
         // Clean up
-        FeatureLogCollectionIndex.getInstance().clear();
-        ScenarioLogCollectionIndex.getInstance().clear();
+        IndexHelper.clearAllIndices();
         Assert.assertEquals(TestFeatureLogCollection.getIndexSize(), 0);
     }
 
@@ -152,8 +153,7 @@ public class TestFeatureLogCollectionTest {
 
         // Clear all scenario logs
         featureLogCollection.clearCollection();
-        FeatureLogCollectionIndex.getInstance().clear();
-        ScenarioLogCollectionIndex.getInstance().clear();
+        IndexHelper.clearAllIndices();
 
         // Now there shouldn't be any scenario log anymore
         Assert.assertEquals(featureLogCollection.countScenarioLogs(), 0);
@@ -212,8 +212,7 @@ public class TestFeatureLogCollectionTest {
 
         // Clear all scenario logs
         featureLogCollection.clearCollection();
-        FeatureLogCollectionIndex.getInstance().clear();
-        ScenarioLogCollectionIndex.getInstance().clear();
+        IndexHelper.clearAllIndices();
 
         // Now there shouldn't be any scenario log anymore
         Assert.assertEquals(featureLogCollection.countScenarioLogs(), 0);

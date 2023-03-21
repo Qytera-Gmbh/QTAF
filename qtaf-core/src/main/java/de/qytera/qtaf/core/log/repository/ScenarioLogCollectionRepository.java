@@ -1,6 +1,6 @@
 package de.qytera.qtaf.core.log.repository;
 
-import de.qytera.qtaf.core.log.model.collection.ScenarioLogCollectionIndex;
+import de.qytera.qtaf.core.log.model.index.ScenarioLogCollectionIndex;
 import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
 
 /**

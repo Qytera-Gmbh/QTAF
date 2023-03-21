@@ -76,7 +76,7 @@ public class AllureTestResultGenerator {
      * @return          List of Allure StepResult entities
      */
     public static List<StepResult> getStepResultsFromQtafScenario(TestScenarioLogCollection scenario) {
-        ArrayList<LogMessage> logMessages = scenario.getLogMessages();
+        List<LogMessage> logMessages = scenario.getLogMessages();
         ArrayList<StepResult> stepResults = new ArrayList<>();
 
         for (LogMessage logMessage : logMessages) {

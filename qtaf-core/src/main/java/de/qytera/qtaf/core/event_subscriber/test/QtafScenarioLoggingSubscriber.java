@@ -11,7 +11,7 @@ import de.qytera.qtaf.core.events.interfaces.IEventSubscriber;
 import de.qytera.qtaf.core.events.payload.IQtafTestEventPayload;
 import de.qytera.qtaf.core.events.payload.IQtafTestStepEventPayload;
 import de.qytera.qtaf.core.events.payload.IQtafTestingContext;
-import de.qytera.qtaf.core.log.model.collection.ScenarioLogCollectionIndex;
+import de.qytera.qtaf.core.log.model.index.ScenarioLogCollectionIndex;
 import de.qytera.qtaf.core.log.model.collection.TestFeatureLogCollection;
 import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
 import de.qytera.qtaf.core.log.model.collection.TestSuiteLogCollection;

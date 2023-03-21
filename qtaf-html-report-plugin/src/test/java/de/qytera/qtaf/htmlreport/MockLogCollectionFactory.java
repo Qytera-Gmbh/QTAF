@@ -1,6 +1,10 @@
 package de.qytera.qtaf.htmlreport;
 
 import de.qytera.qtaf.core.log.model.collection.*;
+import de.qytera.qtaf.core.log.model.index.FeatureLogCollectionIndex;
+import de.qytera.qtaf.core.log.model.index.IndexHelper;
+import de.qytera.qtaf.core.log.model.index.LogMessageIndex;
+import de.qytera.qtaf.core.log.model.index.ScenarioLogCollectionIndex;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -39,8 +43,8 @@ public class MockLogCollectionFactory {
     public static void clear() {
         // Clear up
         slc.clearCollection();
-        FeatureLogCollectionIndex.getInstance().clear();
-        ScenarioLogCollectionIndex.getInstance().clear();
+        IndexHelper.clearAllIndices();
+        LogMessageIndex.getInstance().clear();
 
         // There should be zero feature logs
         Assert.assertEquals(FeatureLogCollectionIndex.getInstance().size(), 0);

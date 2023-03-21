@@ -1,6 +1,7 @@
 package de.qytera.qtaf.core.event_subscriber.test;
 
 import de.qytera.qtaf.core.QtafFactory;
+import de.qytera.qtaf.core.log.model.index.LogMessageIndex;
 import de.qytera.qtaf.core.log.model.collection.TestFeatureLogCollection;
 import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
 import de.qytera.qtaf.core.log.model.collection.TestSuiteLogCollection;
@@ -51,26 +52,40 @@ public class PersistLogFileSubscriber implements IEventSubscriber {
      * Handle the test finished event
      * @param iTestContext  test context
      */
-    private void handleTestFinishedEvent(IQtafTestingContext iTestContext) {
+    private synchronized void handleTestFinishedEvent(IQtafTestingContext iTestContext) {
         // Get test suite log collection
         TestSuiteLogCollection suiteLogCollection = QtafFactory.getTestSuiteLogCollection();
+
+        logger.debug(String.format(
+                "[QTAF LogFileSubscriber] suite_hash=%s",
+                suiteLogCollection.hashCode()
+        ));
+
         logger.debug(String.format(
                 "[QTAF LogFileSubscriber] received event: features=%s",
                 suiteLogCollection.getTestFeatureLogCollections().size())
         );
 
+        logger.debug(String.format(
+                "[QTAF LogFileSubscriber] log_message_index_size=%s",
+                LogMessageIndex.getInstance().size()
+        ));
+
         for (TestFeatureLogCollection featureLogCollection : suiteLogCollection.getTestFeatureLogCollections()) {
             logger.debug(String.format(
-                    "[QTAF LogFileSubscriber] feature: id=%s, scenarios=%s",
+                    "[QTAF LogFileSubscriber] feature: id=%s, hash=%s, scenarios=%s",
                     featureLogCollection.getFeatureId(),
+                    featureLogCollection.hashCode(),
                     featureLogCollection.getScenarioLogCollection().size()
             ));
 
             for (TestScenarioLogCollection scenarioLogCollection : featureLogCollection.getScenarioLogCollection()) {
                 logger.debug(String.format(
-                        "[QTAF LogFileSubscriber] scenario: id=%s, steps=%s",
+                        "[QTAF LogFileSubscriber] scenario: id=%s, hash=%s, steps=%s, step_list_hash=%s",
                         scenarioLogCollection.getScenarioId(),
-                        scenarioLogCollection.getLogMessages().size()
+                        scenarioLogCollection.hashCode(),
+                        scenarioLogCollection.getLogMessages().size(),
+                        scenarioLogCollection.getLogMessages().hashCode()
                 ));
             }
         }

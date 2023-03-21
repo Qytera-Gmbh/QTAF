@@ -1,7 +1,9 @@
 package de.qytera.qtaf.core.log;
 
 import de.qytera.qtaf.core.QtafFactory;
-import de.qytera.qtaf.core.log.model.collection.FeatureLogCollectionIndex;
+import de.qytera.qtaf.core.log.model.index.FeatureLogCollectionIndex;
+import de.qytera.qtaf.core.log.model.index.IndexHelper;
+import de.qytera.qtaf.core.log.model.index.LogMessageIndex;
 import de.qytera.qtaf.core.log.model.collection.TestFeatureLogCollection;
 import de.qytera.qtaf.core.log.model.collection.TestSuiteLogCollection;
 import org.testng.Assert;
@@ -39,7 +41,7 @@ public class TestSuiteLogCollectionTest {
     public void testCreateFeatureCollection() {
         TestSuiteLogCollection logCollection = TestSuiteLogCollection.getInstance();
         logCollection.clearCollection();
-        FeatureLogCollectionIndex.getInstance().clear();
+        IndexHelper.clearAllIndices();
 
         // No feature log collections were added, so count should be zero
         Assert.assertEquals(logCollection.countFeatureLogs(), 0);
@@ -70,7 +72,7 @@ public class TestSuiteLogCollectionTest {
         Assert.assertNotEquals(testFeatureLogCollection3.hashCode(), testFeatureLogCollection2.hashCode());
 
         logCollection.clearCollection();
-        FeatureLogCollectionIndex.getInstance().clear();
+        IndexHelper.clearAllIndices();
         Assert.assertEquals(logCollection.countFeatureLogs(), 0);
         Assert.assertEquals(TestFeatureLogCollection.getIndexSize(), 0);
     }

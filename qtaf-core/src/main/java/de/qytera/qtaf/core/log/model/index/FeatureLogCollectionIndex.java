@@ -1,6 +1,11 @@
-package de.qytera.qtaf.core.log.model.collection;
+package de.qytera.qtaf.core.log.model.index;
 
+import de.qytera.qtaf.core.QtafFactory;
+import de.qytera.qtaf.core.log.model.collection.TestFeatureLogCollection;
+
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Index that holds all FeatureLogCollection objects
@@ -9,7 +14,7 @@ public class FeatureLogCollectionIndex {
     /**
      * Feature log index that holds all FeatureLogCollection objects
      */
-    private final HashMap<String, TestFeatureLogCollection> index = new HashMap<>();
+    private final Map<String, TestFeatureLogCollection> index = Collections.synchronizedMap(new HashMap<>());
 
     /**
      * Singleton instance
@@ -45,7 +50,13 @@ public class FeatureLogCollectionIndex {
      * @return  the inserted object
      */
     public synchronized TestFeatureLogCollection put(String id, TestFeatureLogCollection obj) {
-        return index.put(id, obj);
+        QtafFactory.getLogger().debug(String.format(
+                "[FeatureIndex] Added Feature log: feature_id=%s, feature_hash=%s", id, obj.hashCode()
+        ));
+
+        index.put(id, obj);
+
+        return obj;
     }
 
     /**

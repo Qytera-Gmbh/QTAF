@@ -5,6 +5,7 @@ import de.qytera.qtaf.core.io.DirectoryHelper;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Collection that holds all log messages from all test classes
@@ -54,7 +55,7 @@ public class TestSuiteLogCollection {
     /**
      * Test Suite tags
      */
-    private final Map<String, String> tags = new HashMap<>();
+    private final Map<String, String> tags = new ConcurrentHashMap<>();
 
     /**
      * Time when testing started
@@ -79,7 +80,7 @@ public class TestSuiteLogCollection {
     /**
      * Holds a collection of test feature log collections
      */
-    private final ArrayList<TestFeatureLogCollection> testFeatureLogCollections = new ArrayList<>();
+    private final List<TestFeatureLogCollection> testFeatureLogCollections = Collections.synchronizedList(new ArrayList<>());
 
     /**
      * Constructor
@@ -137,7 +138,7 @@ public class TestSuiteLogCollection {
      * Get test case log collections
      * @return  log collections
      */
-    public synchronized ArrayList<TestFeatureLogCollection> getTestFeatureLogCollections() {
+    public synchronized List<TestFeatureLogCollection> getTestFeatureLogCollections() {
         return testFeatureLogCollections;
     }
 
@@ -175,7 +176,7 @@ public class TestSuiteLogCollection {
 
         if (!this.testFeatureLogCollections.contains(collection)) {
             this.testFeatureLogCollections.add(collection);
-            QtafFactory.getLogger().debug(String.format("Added Feature log: ID=%s, name=%s, size=%s", featureId, featureName, testFeatureLogCollections.size()));
+            QtafFactory.getLogger().debug(String.format("Added Feature log: feature_id=%s, name=%s, size=%s, suite_hash=%s, feature_hash=%s", featureId, featureName, testFeatureLogCollections.size(), this.hashCode(), collection.hashCode()));
         }
 
         return collection;

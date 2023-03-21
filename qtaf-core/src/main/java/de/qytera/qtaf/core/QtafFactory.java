@@ -27,7 +27,7 @@ public class QtafFactory {
      * Get Test suite log collection
      * @return  test suite log collection
      */
-    public static TestSuiteLogCollection getTestSuiteLogCollection() {
+    public static synchronized TestSuiteLogCollection getTestSuiteLogCollection() {
         return TestSuiteLogCollection.getInstance();
     }
 

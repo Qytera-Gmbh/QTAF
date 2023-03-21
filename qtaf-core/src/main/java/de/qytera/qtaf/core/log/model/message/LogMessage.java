@@ -17,6 +17,21 @@ public class LogMessage {
     protected String message = "";
 
     /**
+     * Feature ID
+     */
+    protected String featureId = "";
+
+    /**
+     * Abstract Scenario ID
+     */
+    protected String abstractScenarioId = "";
+
+    /**
+     * Scenario ID
+     */
+    protected String scenarioId = "";
+
+    /**
      * Constructor
      * @param level     log level
      * @param message   log message
@@ -59,6 +74,66 @@ public class LogMessage {
      */
     public LogMessage setMessage(String message) {
         this.message = message;
+        return this;
+    }
+
+    /**
+     * Get featureId
+     *
+     * @return featureId
+     */
+    public String getFeatureId() {
+        return featureId;
+    }
+
+    /**
+     * Set featureId
+     *
+     * @param featureId FeatureId
+     * @return this
+     */
+    public LogMessage setFeatureId(String featureId) {
+        this.featureId = featureId;
+        return this;
+    }
+
+    /**
+     * Get abstractScenarioId
+     *
+     * @return abstractScenarioId
+     */
+    public String getAbstractScenarioId() {
+        return abstractScenarioId;
+    }
+
+    /**
+     * Set abstractScenarioId
+     *
+     * @param abstractScenarioId AbstractScenarioId
+     * @return this
+     */
+    public LogMessage setAbstractScenarioId(String abstractScenarioId) {
+        this.abstractScenarioId = abstractScenarioId;
+        return this;
+    }
+
+    /**
+     * Get scenarioId
+     *
+     * @return scenarioId
+     */
+    public String getScenarioId() {
+        return scenarioId;
+    }
+
+    /**
+     * Set scenarioId
+     *
+     * @param scenarioId ScenarioId
+     * @return this
+     */
+    public LogMessage setScenarioId(String scenarioId) {
+        this.scenarioId = scenarioId;
         return this;
     }
 }
