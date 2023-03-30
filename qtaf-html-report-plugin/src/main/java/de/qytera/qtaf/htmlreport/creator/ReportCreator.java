@@ -1,11 +1,11 @@
 package de.qytera.qtaf.htmlreport.creator;
 
-import com.mitchellbosecke.pebble.error.LoaderException;
-import com.mitchellbosecke.pebble.template.PebbleTemplate;
 import de.qytera.qtaf.core.io.DirectoryHelper;
 import de.qytera.qtaf.core.log.model.collection.TestSuiteLogCollection;
 import de.qytera.qtaf.htmlreport.engine.TemplateEngine;
 import de.qytera.qtaf.htmlreport.events.QtafHtmlReportEvents;
+import io.pebbletemplates.pebble.error.LoaderException;
+import io.pebbletemplates.pebble.template.PebbleTemplate;
 
 import java.io.IOException;
 import java.io.StringWriter;
