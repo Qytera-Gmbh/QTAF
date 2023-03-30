@@ -7,12 +7,12 @@ import de.qytera.qtaf.core.log.model.collection.TestSuiteLogCollection;
 import de.qytera.qtaf.core.log.model.error.ErrorLogCollection;
 import de.qytera.qtaf.core.log.model.message.LogMessage;
 import de.qytera.qtaf.core.log.model.message.StepInformationLogMessage;
+import de.qytera.qtaf.core.util.Base64Helper;
 import de.qytera.qtaf.htmlreport.creator.ScenarioReportCreator;
 import de.qytera.qtaf.xray.annotation.XrayTest;
 import de.qytera.qtaf.xray.config.XrayConfigHelper;
-import de.qytera.qtaf.xray.entity.*;
 import de.qytera.qtaf.xray.dto.request.XrayImportRequestDto;
-import de.qytera.qtaf.core.util.Base64Helper;
+import de.qytera.qtaf.xray.entity.*;
 import de.qytera.qtaf.xray.error.EvidenceUploadError;
 
 import java.io.IOException;
@@ -145,9 +145,9 @@ public abstract class AbstractXrayJsonImportBuilder {
 
                     // Set the scenario status
                     if (didScenarioPass) {
-                        xrayTestEntity.setStatus(XrayTestEntity.Status.PASSED);
+                        xrayTestEntity.setStatus(XrayTestEntity.Status.PASSED.value);
                     } else {
-                        xrayTestEntity.setStatus(XrayTestEntity.Status.FAILED);
+                        xrayTestEntity.setStatus(XrayTestEntity.Status.FAILED.value);
                     }
 
                     // Add test to test collection
@@ -343,10 +343,17 @@ public abstract class AbstractXrayJsonImportBuilder {
 
     /**
      * Set the test status for the Xray Test Entity based on the log data of a scenario
-     * @param scenarioLog       Log data of a scenario
-     * @param xrayTestEntity    Xray test entity
+     *
+     * @param scenarioLog    Log data of a scenario
+     * @param xrayTestEntity Xray test entity
      */
-    public abstract void setTestStatus(TestScenarioLogCollection scenarioLog, XrayTestEntity xrayTestEntity);
+    public void setTestStatus(TestScenarioLogCollection scenarioLog, XrayTestEntity xrayTestEntity) {
+        if (scenarioLog.getStatus() == TestScenarioLogCollection.Status.SUCCESS) {
+            xrayTestEntity.setStatus(XrayTestEntity.Status.PASSED.value);
+        } else {
+            xrayTestEntity.setStatus(XrayTestEntity.Status.FAILED.value);
+        }
+    }
 
     /**
      * Set the step status for the Xray Step Entity based on the log data of a step

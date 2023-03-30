@@ -20,6 +20,8 @@ public class XrayConfigHelper {
     private static String CLIENT_SECRET_SELECTOR = "xray.authentication.clientSecret";
     private static String SCENARIO_REPORT_EVIDENCE = "xray.scenarioReportEvidence";
     private static String SCENARIO_IMAGE_EVIDENCE = "xray.scenarioImageEvidence";
+    private static final  String STATUS_PASSED_SELECTOR = "xray.status.passed";
+    private static final String STATUS_FAILED_SELECTOR = "xray.status.failed";
 
     // Values
     private static String XRAY_SERVICE_CLOUD = "cloud";
@@ -55,6 +57,24 @@ public class XrayConfigHelper {
      */
     public static String getServerUrl() {
         return config.getString(XRAY_SERVER_URL_SELECTOR);
+    }
+
+    /**
+     * Get Xray status name for passed tests.
+     *
+     * @return the status name if configured, otherwise null
+     */
+    public static String getStatusPassed() {
+        return config.getString(STATUS_PASSED_SELECTOR);
+    }
+
+    /**
+     * Get Xray status name for failed tests.
+     *
+     * @return the status name if configured, otherwise null
+     */
+    public static String getStatusFailed() {
+        return config.getString(STATUS_FAILED_SELECTOR);
     }
 
     /**
