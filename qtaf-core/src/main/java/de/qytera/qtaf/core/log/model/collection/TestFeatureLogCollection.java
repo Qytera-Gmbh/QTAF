@@ -15,12 +15,12 @@ public class TestFeatureLogCollection {
     /**
      * Search index
      */
-    private static final transient Map<Integer, TestFeatureLogCollection> index = FeatureLogCollectionIndex.getInstance();
+    private static final transient Map<String, TestFeatureLogCollection> index = FeatureLogCollectionIndex.getInstance();
 
     /**
      * Test feature unique ID
      */
-    private final int featureId;
+    private final String featureId;
 
     /**
      * Test feature name
@@ -47,7 +47,7 @@ public class TestFeatureLogCollection {
      *
      * @param featureId Collection ID
      */
-    private TestFeatureLogCollection(int featureId, TestFeature testFeatureAnnotation) {
+    private TestFeatureLogCollection(String featureId, TestFeature testFeatureAnnotation) {
         this.featureId = featureId;
         this.featureName = testFeatureAnnotation.name();
         this.featureDescription = testFeatureAnnotation.description();
@@ -60,7 +60,7 @@ public class TestFeatureLogCollection {
      * @param featureId   Collection ID
      * @param featureName Collection Name
      */
-    private TestFeatureLogCollection(int featureId, String featureName) {
+    private TestFeatureLogCollection(String featureId, String featureName) {
         this.featureId = featureId;
         this.featureName = featureName;
     }
@@ -96,7 +96,7 @@ public class TestFeatureLogCollection {
      */
     @Override
     public int hashCode() {
-        return this.getFeatureId();
+        return this.getFeatureId().hashCode();
     }
 
     /**
@@ -107,7 +107,7 @@ public class TestFeatureLogCollection {
      * @param featureName Collection Name
      */
     public static synchronized TestFeatureLogCollection createFeatureLogCollectionIfNotExists(
-            int featureId,
+            String featureId,
             String featureName
     ) {
         QtafFactory.getLogger().debug(String.format("feature log index: size=%s", index.size()));
@@ -131,7 +131,7 @@ public class TestFeatureLogCollection {
      * @param testFeatureAnnotation Test feature annotation
      */
     public static synchronized TestFeatureLogCollection createFeatureLogCollectionIfNotExists(
-            int featureId,
+            String featureId,
             TestFeature testFeatureAnnotation
     ) {
         if (index.get(featureId) != null) {
@@ -146,7 +146,7 @@ public class TestFeatureLogCollection {
      *
      * @return Collection ID
      */
-    public int getFeatureId() {
+    public String getFeatureId() {
         return featureId;
     }
 
@@ -186,18 +186,6 @@ public class TestFeatureLogCollection {
      * @return  this
      */
     public TestScenarioLogCollection createScenarioIfNotExists(String featureId, String scenarioId, String scenarioName) {
-        return createScenarioIfNotExists(featureId.hashCode(), scenarioId, scenarioName);
-    }
-
-    /**
-     * Add new TestMethodLogCollection
-     *
-     * @param featureId    Unique test hash code
-     * @param scenarioId    Method ID / Scenario name
-     * @param scenarioName      Test ID / Feature name
-     * @return  this
-     */
-    public TestScenarioLogCollection createScenarioIfNotExists(int featureId, String scenarioId, String scenarioName) {
         TestScenarioLogCollection testScenarioLogCollection = TestScenarioLogCollection
             .createTestScenarioLogCollection(
                 featureId,

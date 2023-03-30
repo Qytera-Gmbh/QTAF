@@ -12,7 +12,7 @@ public class TestScenarioLogCollectionTest {
     @Test
     public void testObjectEquality() {
         TestSuiteLogCollection slc = TestSuiteLogCollection.getInstance();
-        TestFeatureLogCollection fc1 = slc.createFeatureIfNotExists("feature1".hashCode(), "feature1");
+        TestFeatureLogCollection fc1 = slc.createFeatureIfNotExists("feature1", "feature1");
         TestScenarioLogCollection c1 = fc1.createScenarioIfNotExists(fc1.getFeatureId(), "scenario1", "Scenario 1");
         TestScenarioLogCollection c2 = fc1.createScenarioIfNotExists(fc1.getFeatureId(), "scenario1", "Scenario 2");
 
@@ -30,7 +30,7 @@ public class TestScenarioLogCollectionTest {
 
         TestScenarioLogCollection scenarioLogCollection1 = TestScenarioLogCollection
                 .createTestScenarioLogCollection(
-                        "feature1".hashCode(),
+                        "feature1",
                         "scenario1",
                         "test1"
                 );
@@ -39,7 +39,7 @@ public class TestScenarioLogCollectionTest {
 
         TestScenarioLogCollection scenarioLogCollection2 = TestScenarioLogCollection
                 .createTestScenarioLogCollection(
-                        "feature2".hashCode(),
+                        "feature2",
                         "scenario1",
                         "test2"
                 );
@@ -48,7 +48,7 @@ public class TestScenarioLogCollectionTest {
 
         TestScenarioLogCollection scenarioLogCollection3 = TestScenarioLogCollection
                 .createTestScenarioLogCollection(
-                        "feature3".hashCode(),
+                        "feature3",
                         "scenario2",
                         "test3"
                 );
@@ -64,15 +64,15 @@ public class TestScenarioLogCollectionTest {
         Assert.assertEquals(TestScenarioLogCollection.getIndexSize(), 0);
 
         QtafTestEventPayload eventPayload1 = new QtafTestEventPayload()
-                .setFeatureId("feature1".hashCode())
+                .setFeatureId("feature1")
                 .setScenarioId("scenario1");
 
         QtafTestEventPayload eventPayload2 = new QtafTestEventPayload()
-                .setFeatureId("feature2".hashCode())
+                .setFeatureId("feature2")
                 .setScenarioId("scenario1");
 
         QtafTestEventPayload eventPayload3 = new QtafTestEventPayload()
-                .setFeatureId("feature3".hashCode())
+                .setFeatureId("feature3")
                 .setScenarioId("scenario2");
 
         TestScenarioLogCollection scenarioLogCollection1 = TestScenarioLogCollection

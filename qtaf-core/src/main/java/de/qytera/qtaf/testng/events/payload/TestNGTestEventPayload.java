@@ -4,6 +4,7 @@ import de.qytera.qtaf.core.config.annotations.TestFeature;
 import de.qytera.qtaf.core.events.payload.QtafTestEventPayload;
 import de.qytera.qtaf.core.reflection.ClassHelper;
 import de.qytera.qtaf.testng.helper.TestResultHelper;
+import org.testng.IClass;
 import org.testng.ITestNGMethod;
 import org.testng.ITestResult;
 import org.testng.annotations.Test;
@@ -34,6 +35,7 @@ public class TestNGTestEventPayload extends QtafTestEventPayload {
      */
     public TestNGTestEventPayload(ITestResult iTestResult) throws NoSuchMethodException {
         this.originalEvent = iTestResult;
+        this.originalTestInstance = iTestResult.getInstance();
         this.handleTestNGTestResultObject(iTestResult);
         this.scenarioId = TestResultHelper.getTestMethodId(iTestResult);
         this.threadId = Thread.currentThread().getId();
@@ -43,15 +45,25 @@ public class TestNGTestEventPayload extends QtafTestEventPayload {
 
         // Handle reflective information about test method
         Class<?> realClass = this.getRealClass(iTestResult);
+        this.featureClassName = realClass.getName();
+        this.featurePackageName = realClass.getPackageName();
+        this.scenarioMethodName = iTestResult.getMethod().getMethodName();
         this.methodInfo = this.getMethod(iTestResult, realClass);
         this.handleMethodInfo(this.getMethod(iTestResult, realClass));
 
         // Handle TestFeature annotation of test class
         TestFeature testFeatureAnnotation = realClass.getAnnotation(TestFeature.class);
-        this.handleTestFeatureAnnotation(testFeatureAnnotation);
+
+        if (testFeatureAnnotation != null) {
+            this.handleTestFeatureAnnotation(testFeatureAnnotation);
+            //throw new AssertionError("It seems like you have missed to set the @TestFeature annotation " +
+            //        "in the class '" + realClass.getName() + "'");
+        }
+
 
         // Handle test annotation of test method
         Test testNGTestAnnotation = this.getTestAnnotation(methodInfo.method);
+        assert testNGTestAnnotation != null;
         this.handleTestNGTestAnnotation(testNGTestAnnotation);
     }
 
@@ -69,7 +81,7 @@ public class TestNGTestEventPayload extends QtafTestEventPayload {
      * @param iTestResult   original event
      */
     private void handleTestNGTestResultObject(ITestResult iTestResult) {
-        this.featureId = iTestResult.hashCode();
+        this.featureId = iTestResult.getTestClass().getRealClass().getName();
         this.scenarioStart = new Date(iTestResult.getStartMillis());
         this.scenarioEnd = new Date(iTestResult.getEndMillis());
     }

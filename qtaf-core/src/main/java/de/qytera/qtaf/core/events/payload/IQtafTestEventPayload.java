@@ -10,7 +10,7 @@ public interface IQtafTestEventPayload {
      * Get the ID of a feature
      * @return  feature ID
      */
-    int getFeatureId();
+    String getFeatureId();
 
     /**
      * Get the name of a feature
@@ -29,6 +29,12 @@ public interface IQtafTestEventPayload {
      * @return  scenario ID
      */
     String getScenarioId();
+
+    /**
+     * Get the method name of the scenario
+     * @return  scenario method name
+     */
+    String getScenarioMethodName();
 
     /**
      * Get the name of a scenario
@@ -95,4 +101,10 @@ public interface IQtafTestEventPayload {
      * @return  original test event
      */
     Object getOriginalEvent();
+
+    /**
+     * Get original test instance object
+     * @return  test instance object
+     */
+    Object getOriginalTestInstance();
 }

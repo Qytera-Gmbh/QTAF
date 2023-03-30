@@ -15,7 +15,7 @@ public class AllureReportGeneratorTest {
     public void testResult() {
         TestScenarioLogCollection scenarioLogCollection1 = TestScenarioLogCollection
                 .createTestScenarioLogCollection(
-                        "feature1".hashCode(),
+                        "feature1",
                         "scenario1",
                         "test1"
                 )
@@ -37,7 +37,7 @@ public class AllureReportGeneratorTest {
 
         TestScenarioLogCollection scenarioLogCollection1 = TestScenarioLogCollection
                 .createTestScenarioLogCollection(
-                        "feature1".hashCode(),
+                        "feature1",
                         "scenario1",
                         "test1"
                 )

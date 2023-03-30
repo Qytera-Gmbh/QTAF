@@ -17,9 +17,9 @@ public class TestScenarioLogCollection {
     private static final Map<String, TestScenarioLogCollection> index = ScenarioLogCollectionIndex.getInstance();
 
     /**
-     * Unique test hash code
+     * Unique test feature ID
      */
-    private final int featureId;
+    private final String featureId;
 
     /**
      * Test method ID
@@ -116,7 +116,7 @@ public class TestScenarioLogCollection {
      *
      * @param scenarioId Test ID
      */
-    private TestScenarioLogCollection(int featureId, String scenarioId, String scenarioName) {
+    private TestScenarioLogCollection(String featureId, String scenarioId, String scenarioName) {
         this.featureId = featureId;
         this.scenarioId = scenarioId;
         this.scenarioName = scenarioName;
@@ -136,7 +136,7 @@ public class TestScenarioLogCollection {
      * @return  test log collection
      */
     public static synchronized TestScenarioLogCollection createTestScenarioLogCollection(
-            int featureId,
+            String featureId,
             String scenarioId,
             String scenarioName
     ) {
@@ -218,7 +218,7 @@ public class TestScenarioLogCollection {
      *
      * @return uniqueId
      */
-    public int getFeatureId() {
+    public String getFeatureId() {
         return featureId;
     }
 

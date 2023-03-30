@@ -33,8 +33,8 @@ public class TestFeatureLogCollectionTest {
     @Test
     public void testObjectEquality() {
         TestSuiteLogCollection slc = TestSuiteLogCollection.getInstance();
-        TestFeatureLogCollection c1 = slc.createFeatureIfNotExists("feature1".hashCode(), "Feature 1");
-        TestFeatureLogCollection c2 = slc.createFeatureIfNotExists("feature1".hashCode(), "Feature 2");
+        TestFeatureLogCollection c1 = slc.createFeatureIfNotExists("feature1", "Feature 1");
+        TestFeatureLogCollection c2 = slc.createFeatureIfNotExists("feature1", "Feature 2");
 
         Assert.assertEquals(c2, c1);
 
@@ -51,12 +51,12 @@ public class TestFeatureLogCollectionTest {
     public void testFeatureLogCollectionConstructor1() {
         TestFeatureLogCollection testFeatureLogCollection = TestFeatureLogCollection
             .createFeatureLogCollectionIfNotExists(
-                "id-1".hashCode(),
+                "id-1",
                 "feature1"
         );
 
-        Assert.assertEquals(testFeatureLogCollection.getFeatureId(), "id-1".hashCode());
-        Assert.assertNotEquals(testFeatureLogCollection.getFeatureId(), "id-2".hashCode());
+        Assert.assertEquals(testFeatureLogCollection.getFeatureId(), "id-1");
+        Assert.assertNotEquals(testFeatureLogCollection.getFeatureId(), "id-2");
         Assert.assertEquals(testFeatureLogCollection.getFeatureName(), "feature1");
         Assert.assertNotEquals(testFeatureLogCollection.getFeatureName(), "feature2");
 
@@ -77,12 +77,12 @@ public class TestFeatureLogCollectionTest {
         // Create FeatureLogCollection by annotated class
         TestFeatureLogCollection testFeatureLogCollection = TestFeatureLogCollection
             .createFeatureLogCollectionIfNotExists(
-                "id-1".hashCode(),
+                "id-1",
                 testFeatureImplementation
         );
 
-        Assert.assertEquals(testFeatureLogCollection.getFeatureId(), "id-1".hashCode());
-        Assert.assertNotEquals(testFeatureLogCollection.getFeatureId(), "id-2".hashCode());
+        Assert.assertEquals(testFeatureLogCollection.getFeatureId(), "id-1");
+        Assert.assertNotEquals(testFeatureLogCollection.getFeatureId(), "id-2");
         Assert.assertEquals(testFeatureLogCollection.getFeatureName(), "test-feature-annotation-name");
         Assert.assertNotEquals(testFeatureLogCollection.getFeatureName(), "abc");
         Assert.assertEquals(testFeatureLogCollection.getFeatureDescription(), "test-feature-annotation-desc");
@@ -104,13 +104,13 @@ public class TestFeatureLogCollectionTest {
 
         TestFeatureLogCollection featureLogCollection = TestFeatureLogCollection
             .createFeatureLogCollectionIfNotExists(
-                "feature1".hashCode(),
+                "feature1",
                 "feature1"
         );
 
         // Create a new log collection
         TestScenarioLogCollection scenarioLogCollection1 = featureLogCollection
-                .createScenarioIfNotExists("feature1".hashCode(), "scenario1", "test1");
+                .createScenarioIfNotExists("feature1", "scenario1", "test1");
 
         Assert.assertEquals(featureLogCollection.countScenarioLogs(), 1);
         Assert.assertEquals(TestScenarioLogCollection.getIndexSize(), 1);
@@ -118,7 +118,7 @@ public class TestFeatureLogCollectionTest {
         // Create another log collection with the same ID.
         // This should not create a new collection but return the existing one
         TestScenarioLogCollection scenarioLogCollection2 = featureLogCollection
-                .createScenarioIfNotExists("feature1".hashCode(), "scenario1", "test2");
+                .createScenarioIfNotExists("feature1", "scenario1", "test2");
 
         Assert.assertEquals(featureLogCollection.countScenarioLogs(), 1);
         Assert.assertEquals(TestScenarioLogCollection.getIndexSize(), 1);
@@ -126,7 +126,7 @@ public class TestFeatureLogCollectionTest {
         // Create a new collection with an ID that has not been used before.
         // This should create a new collection.
         TestScenarioLogCollection scenarioLogCollection3 = featureLogCollection
-                .createScenarioIfNotExists("feature1".hashCode(), "scenario2", "test3");
+                .createScenarioIfNotExists("feature1", "scenario2", "test3");
 
         Assert.assertEquals(featureLogCollection.countScenarioLogs(), 2);
         Assert.assertEquals(TestScenarioLogCollection.getIndexSize(), 2);

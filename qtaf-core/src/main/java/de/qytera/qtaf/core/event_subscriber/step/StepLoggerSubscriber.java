@@ -9,6 +9,7 @@ import de.qytera.qtaf.core.guice.invokation.StepExecutionInfo;
 import de.qytera.qtaf.core.io.DirectoryHelper;
 import de.qytera.qtaf.core.log.model.collection.TestSuiteLogCollection;
 import de.qytera.qtaf.core.log.model.message.StepInformationLogMessage;
+import de.qytera.qtaf.core.selenium.DriverFactory;
 import de.qytera.qtaf.core.selenium.helper.SeleniumDriverConfigHelper;
 import org.aopalliance.intercept.MethodInvocation;
 import de.qytera.qtaf.core.log.Logger;
@@ -95,8 +96,10 @@ public class StepLoggerSubscriber implements IEventSubscriber {
 
         // Initialize context is it is not already initialized
         if (context.getLogCollection() == null) {
-            context.initialize();
-            assert context.getLogCollection() != null;
+            throw new AssertionError("""
+                    The LogCollection of the context class was not initialized properly.
+                    You may check the following points:
+                    \t- All your methods that are annotated with @Test, @BeforeXXX, @AfterXXX must be public""");
         }
 
         // Add log message to collection
@@ -188,6 +191,12 @@ public class StepLoggerSubscriber implements IEventSubscriber {
      */
     private String stepExecutionScreenshot(StepExecutionInfo stepExecutionInfo, String status, UUID uuid) {
         WebDriver driver = QtafFactory.getWebDriver();
+
+        // Check if driver was quit
+        if (DriverFactory.driverHasQuit()) {
+            return null;
+        }
+
         TestSuiteLogCollection suiteLogCollection = TestSuiteLogCollection.getInstance();
 
         // Take screenshot
@@ -270,7 +279,7 @@ public class StepLoggerSubscriber implements IEventSubscriber {
         logger.info(
                 "[Step] " +
                         "[" + stepExecutionInfo.getId() + "] " +
-                        "[" + stepExecutionInfo.getStep().name() + "] " +
+                        "[" + stepExecutionInfo.getAnnotation().name() + "] " +
                         message
         );
     }

@@ -42,7 +42,7 @@ public class CucumberEventPayloadTest {
 
         Assert.assertEquals(
                 payload.getFeatureId(),
-                "file:///features/sample-feature".hashCode(),
+                "file:///features/sample-feature",
                 "Assert feature id to be correctly taken from scenario object"
         );
     }

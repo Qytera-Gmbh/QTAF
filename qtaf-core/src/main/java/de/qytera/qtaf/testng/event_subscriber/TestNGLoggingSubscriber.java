@@ -83,10 +83,11 @@ public class TestNGLoggingSubscriber implements IEventSubscriber {
             return;
         }
 
+        // Add a log collection instance to the test class
         // Create new feature log collection that will collect log messages for the current feature
         TestFeatureLogCollection featureLogCollection = QtafFactory.getTestSuiteLogCollection().createFeatureIfNotExists(
                 iQtafTestEventPayload.getFeatureId(),
-                iQtafTestEventPayload.getScenarioName()
+                iQtafTestEventPayload.getFeatureName()
         );
 
         // Create an instance of TestScenarioLogCollection that will be added to

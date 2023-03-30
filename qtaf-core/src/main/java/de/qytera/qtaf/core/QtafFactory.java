@@ -9,6 +9,8 @@ import de.qytera.qtaf.core.selenium.DriverFactory;
 import de.qytera.qtaf.core.log.model.collection.TestSuiteLogCollection;
 import org.openqa.selenium.WebDriver;
 
+import java.sql.Driver;
+
 /**
  * Factory Class
  */

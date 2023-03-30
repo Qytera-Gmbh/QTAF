@@ -118,7 +118,7 @@ public class QtafTestNGCucumberContext extends AbstractTestNGCucumberTests imple
         // Initialize log collection if class is a test case class (annotated with TestCase annotation)
         if (testFeatureAnnotation != null) {
             // Build test ID
-            int testId = this.getClass().getName().hashCode();
+            String testId = this.getClass().getName();
 
             // Create new logger for this test class and register it in the global TestSuiteLogger instance
             testFeatureLogCollection = TestFeatureLogCollection.createFeatureLogCollectionIfNotExists(testId, testFeatureAnnotation);
@@ -152,7 +152,7 @@ public class QtafTestNGCucumberContext extends AbstractTestNGCucumberTests imple
     }
 
     @Override
-    public TestScenarioLogCollection createAndSetNewLogCollection(int hashCode, String methodId, String testId) {
+    public TestScenarioLogCollection createAndSetNewLogCollection(String hashCode, String methodId, String testId) {
         TestScenarioLogCollection collection = testFeatureLogCollection.createScenarioIfNotExists(hashCode, methodId, testId);
         this.setLogCollection(collection);
         return collection;

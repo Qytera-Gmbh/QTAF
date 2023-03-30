@@ -1,15 +1,12 @@
 package de.qytera.qtaf.core.guice.invokation;
 
-import de.qytera.qtaf.core.guice.annotations.Step;
 import org.aopalliance.intercept.MethodInvocation;
 
 import java.util.Arrays;
 
-/**
- * Information object that contains Step execution information
- */
-public class StepExecutionInfo extends AbstractStepExecutionInfo {
-    private Step step;
+
+public abstract class AbstractStepExecutionInfo {
+    protected int id;
     private MethodInvocation methodInvocation;
     private Object result = null;
     private Throwable error = null;
@@ -17,22 +14,22 @@ public class StepExecutionInfo extends AbstractStepExecutionInfo {
     private StackTraceElement[] stackTraceElements;
 
     /**
-     * Get step
+     * Get id
      *
-     * @return step
+     * @return id
      */
-    public Step getAnnotation() {
-        return step;
+    public int getId() {
+        return id;
     }
 
     /**
-     * Set step
+     * Set id
      *
-     * @param step Step
+     * @param id Id
      * @return this
      */
-    public StepExecutionInfo setAnnotation(Step step) {
-        this.step = step;
+    public AbstractStepExecutionInfo setId(int id) {
+        this.id = id;
         return this;
     }
 
@@ -51,7 +48,7 @@ public class StepExecutionInfo extends AbstractStepExecutionInfo {
      * @param methodInvocation MethodInvocation
      * @return this
      */
-    public StepExecutionInfo setMethodInvocation(MethodInvocation methodInvocation) {
+    public AbstractStepExecutionInfo setMethodInvocation(MethodInvocation methodInvocation) {
         this.methodInvocation = methodInvocation;
         return this;
     }
@@ -71,7 +68,7 @@ public class StepExecutionInfo extends AbstractStepExecutionInfo {
      * @param result Result
      * @return this
      */
-    public StepExecutionInfo setResult(Object result) {
+    public AbstractStepExecutionInfo setResult(Object result) {
         this.result = result;
         return this;
     }
@@ -91,7 +88,7 @@ public class StepExecutionInfo extends AbstractStepExecutionInfo {
      * @param error Error
      * @return this
      */
-    public StepExecutionInfo setError(Throwable error) {
+    public AbstractStepExecutionInfo setError(Throwable error) {
         this.error = error;
         return this;
     }
@@ -111,7 +108,7 @@ public class StepExecutionInfo extends AbstractStepExecutionInfo {
      * @param thread Thread
      * @return this
      */
-    public StepExecutionInfo setThread(Thread thread) {
+    public AbstractStepExecutionInfo setThread(Thread thread) {
         this.thread = thread;
         return this;
     }
@@ -131,7 +128,7 @@ public class StepExecutionInfo extends AbstractStepExecutionInfo {
      * @param stackTraceElements StackTraceElements
      * @return this
      */
-    public StepExecutionInfo setStackTraceElements(StackTraceElement[] stackTraceElements) {
+    public AbstractStepExecutionInfo setStackTraceElements(StackTraceElement[] stackTraceElements) {
         // We want to filter out the irrelevant parts of the stack trace
         this.stackTraceElements = Arrays.stream(stackTraceElements)
                 .filter(
@@ -143,6 +140,7 @@ public class StepExecutionInfo extends AbstractStepExecutionInfo {
                                 && !el.getClassName().startsWith("de.qytera.qtaf.testng")
                 )
                 .toArray(StackTraceElement[]::new);
+
         return this;
     }
 }

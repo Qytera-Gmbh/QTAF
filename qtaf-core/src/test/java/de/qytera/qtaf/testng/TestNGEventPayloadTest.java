@@ -26,7 +26,7 @@ public class TestNGEventPayloadTest {
         // Get feature id from class hash code
         Assert.assertEquals(
                 payload.getFeatureId(),
-                iTestResult.hashCode()
+                iTestResult.getTestClass().getRealClass().getName()
         );
 
     }
