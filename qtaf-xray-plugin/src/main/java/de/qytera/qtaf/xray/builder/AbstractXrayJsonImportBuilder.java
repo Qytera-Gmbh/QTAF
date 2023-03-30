@@ -145,9 +145,9 @@ public abstract class AbstractXrayJsonImportBuilder {
 
                     // Set the scenario status
                     if (didScenarioPass) {
-                        xrayTestEntity.setStatus(XrayTestEntity.Status.PASSED.value);
+                        xrayTestEntity.setStatus(XrayTestEntity.Status.passed().text);
                     } else {
-                        xrayTestEntity.setStatus(XrayTestEntity.Status.FAILED.value);
+                        xrayTestEntity.setStatus(XrayTestEntity.Status.failed().text);
                     }
 
                     // Add test to test collection
