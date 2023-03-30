@@ -13,15 +13,15 @@ public class XrayConfigHelper {
     private static ConfigMap config = QtafFactory.getConfiguration();
 
     // Keys
-    private static String XRAY_SERVICE_SELECTOR = "xray.service";
+    public static final String XRAY_SERVICE_SELECTOR = "xray.service";
     private static String XRAY_SERVER_URL_SELECTOR = "xray.url";
     private static String BEARER_TOKEN_SELECTOR = "xray.authentication.bearerToken";
     private static String CLIENT_ID_SELECTOR = "xray.authentication.clientId";
     private static String CLIENT_SECRET_SELECTOR = "xray.authentication.clientSecret";
     private static String SCENARIO_REPORT_EVIDENCE = "xray.scenarioReportEvidence";
     private static String SCENARIO_IMAGE_EVIDENCE = "xray.scenarioImageEvidence";
-    private static final  String STATUS_PASSED_SELECTOR = "xray.status.passed";
-    private static final String STATUS_FAILED_SELECTOR = "xray.status.failed";
+    public static final  String STATUS_PASSED_SELECTOR = "xray.status.passed";
+    public static final String STATUS_FAILED_SELECTOR = "xray.status.failed";
 
     // Values
     private static String XRAY_SERVICE_CLOUD = "cloud";
