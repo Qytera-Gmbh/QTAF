@@ -1,5 +1,7 @@
 package de.qytera.qtaf.xray.entity;
 
+import de.qytera.qtaf.xray.config.XrayConfigHelper;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -41,7 +43,7 @@ public class XrayTestEntity {
     /**
      * status
      */
-    private Status status;
+    private String status;
 
     /**
      * step logs
@@ -158,7 +160,7 @@ public class XrayTestEntity {
      *
      * @return status Status
      */
-    public Status getStatus() {
+    public String getStatus() {
         return status;
     }
 
@@ -238,7 +240,7 @@ public class XrayTestEntity {
      * @param status Status
      * @return this
      */
-    public XrayTestEntity setStatus(Status status) {
+    public XrayTestEntity setStatus(String status) {
         this.status = status;
         return this;
     }
@@ -395,12 +397,63 @@ public class XrayTestEntity {
     }
 
     /**
-     * Status enum
+     * Test status entity.
      */
-    public enum Status {
-        PASSED, // for xray cloud
-        PASS,   // for xray server
-        FAILED, // for xray cloud
-        FAIL    // for xray server
+    public static class Status {
+        /**
+         * The status of a test considered passed.
+         *
+         * @return the status
+         */
+        public static Status passed() {
+            return new Status(getStatusPassed());
+        }
+
+        /**
+         * The status of a test considered failed.
+         *
+         * @return the status
+         */
+        public static Status failed() {
+            return new Status(getStatusFailed());
+        }
+
+        /**
+         * The status value, e.g. {@code "PASSED"} or {@code "FAIL"}. Depends on the configured Xray instance.
+         */
+        public final String text;
+
+        /**
+         * Construct a new Status with the given value.
+         *
+         * @param text the status value, such as {@code "PASS"} or {@code "FAILURE"}.
+         */
+        private Status(String text) {
+            this.text = text;
+        }
+
+
+        private static String getStatusPassed() {
+            String status = XrayConfigHelper.getStatusPassed();
+            if (status != null) {
+                return status;
+            }
+            if (XrayConfigHelper.isXrayCloudService()) {
+                return "PASSED";
+            }
+            return "PASS";
+        }
+
+        private static String getStatusFailed() {
+            String status = XrayConfigHelper.getStatusFailed();
+            if (status != null) {
+                return status;
+            }
+            if (XrayConfigHelper.isXrayCloudService()) {
+                return "FAILED";
+            }
+            return "FAIL";
+        }
+
     }
 }
