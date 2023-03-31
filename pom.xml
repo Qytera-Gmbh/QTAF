@@ -6,7 +6,7 @@
 
     <groupId>de.qytera</groupId>
     <artifactId>qtaf</artifactId>
-    <version>LOCAL_2023-03-21-011</version>
+    <version>LOCAL_2023_03_31_001</version>
     <packaging>pom</packaging>
 
     <name>${project.groupId}:${project.artifactId}</name>

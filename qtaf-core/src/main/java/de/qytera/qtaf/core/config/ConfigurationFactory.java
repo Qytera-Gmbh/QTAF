@@ -24,17 +24,17 @@ public class ConfigurationFactory {
     /**
      * Default configuration path which is used if no custom path is provided
      */
-    public static final String filePath = "configuration.json";
+    public static final String filePath = "qtaf.json";
 
     /**
      * Default configuration resource location
      */
-    public static final String configurationResourceUrl = "/de/qytera/qtaf/core/config/configuration.json";
+    public static final String configurationResourceUrl = "/qtaf.json";
 
     /**
      * Base resource directory
      */
-    public static final String qtafConfigResourcesBaseDir = "$USER_DIR/src/main/resources/de/qytera/qtaf/core/config";
+    public static final String qtafConfigResourcesBaseDir = "$USER_DIR/src/test/resources";
 
     /**
      * Save config map

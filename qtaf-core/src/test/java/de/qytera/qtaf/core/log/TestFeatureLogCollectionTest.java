@@ -113,7 +113,7 @@ public class TestFeatureLogCollectionTest {
 
         // Create a new log collection
         TestScenarioLogCollection scenarioLogCollection1 = featureLogCollection
-                .createScenarioIfNotExists("feature1", "scenario1", "test1");
+                .createScenarioIfNotExists("feature1", "scenario1", "instance1", "test1");
 
         Assert.assertEquals(featureLogCollection.countScenarioLogs(), 1);
         Assert.assertEquals(TestScenarioLogCollection.getIndexSize(), 1);
@@ -121,7 +121,7 @@ public class TestFeatureLogCollectionTest {
         // Create another log collection with the same ID.
         // This should not create a new collection but return the existing one
         TestScenarioLogCollection scenarioLogCollection2 = featureLogCollection
-                .createScenarioIfNotExists("feature1", "scenario1", "test2");
+                .createScenarioIfNotExists("feature1", "scenario1", "instance1", "test2");
 
         Assert.assertEquals(featureLogCollection.countScenarioLogs(), 1);
         Assert.assertEquals(TestScenarioLogCollection.getIndexSize(), 1);
@@ -129,7 +129,7 @@ public class TestFeatureLogCollectionTest {
         // Create a new collection with an ID that has not been used before.
         // This should create a new collection.
         TestScenarioLogCollection scenarioLogCollection3 = featureLogCollection
-                .createScenarioIfNotExists("feature1", "scenario2", "test3");
+                .createScenarioIfNotExists("feature1", "scenario2", "instance1", "test3");
 
         Assert.assertEquals(featureLogCollection.countScenarioLogs(), 2);
         Assert.assertEquals(TestScenarioLogCollection.getIndexSize(), 2);
@@ -177,13 +177,13 @@ public class TestFeatureLogCollectionTest {
 
         // Create three scenario log collections
         featureLogCollection
-                .createScenarioIfNotExists("feature1", "scenario1-iteration1", "test1")
+                .createScenarioIfNotExists("feature1", "scenario1", "iteration1", "test1")
                 .setAbstractScenarioId("scenario1");
         featureLogCollection
-                .createScenarioIfNotExists("feature1", "scenario1-iteration2", "test2")
+                .createScenarioIfNotExists("feature1", "scenario1", "iteration2", "test2")
                 .setAbstractScenarioId("scenario1");
         featureLogCollection
-                .createScenarioIfNotExists("feature1", "scenario2-iteration1", "test3")
+                .createScenarioIfNotExists("feature1", "scenario2", "iteration1", "test3")
                 .setAbstractScenarioId("scenario2");
 
         // Group scenarios by abstract scenario id

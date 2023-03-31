@@ -32,7 +32,12 @@ public class FileHelper {
     public static boolean touch(String filePath) {
         filePath = DirectoryHelper.preparePath(filePath);
         File file = new File(filePath);
-        return file.getParentFile().mkdirs();
+
+        if (!file.getParentFile().exists()) {
+            return file.getParentFile().mkdirs();
+        }
+
+        return true;
     }
 
     /**

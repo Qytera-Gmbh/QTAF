@@ -111,21 +111,6 @@ public abstract class QtafTestNGContext implements IQtafTestContext {
     }
 
     /**
-     * Create a new method log collection and set it as the current log collection
-     *
-     * @param hashCode    Unique test hash code
-     * @param methodId    test method
-     * @param testId      test class
-     * @return  collection
-     */
-    @Override
-    public TestScenarioLogCollection createAndSetNewLogCollection(String hashCode, String methodId, String testId) {
-        TestScenarioLogCollection collection = testFeatureLogCollection.createScenarioIfNotExists(hashCode, methodId, testId);
-        this.setLogCollection(collection);
-        return collection;
-    }
-
-    /**
      * Set the current log collection
      * @param collection    log collection
      * @return              this

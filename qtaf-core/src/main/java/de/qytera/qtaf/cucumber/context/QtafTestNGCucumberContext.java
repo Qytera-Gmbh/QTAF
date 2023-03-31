@@ -152,13 +152,6 @@ public class QtafTestNGCucumberContext extends AbstractTestNGCucumberTests imple
     }
 
     @Override
-    public TestScenarioLogCollection createAndSetNewLogCollection(String hashCode, String methodId, String testId) {
-        TestScenarioLogCollection collection = testFeatureLogCollection.createScenarioIfNotExists(hashCode, methodId, testId);
-        this.setLogCollection(collection);
-        return collection;
-    }
-
-    @Override
     public void addLoggerToFieldsRecursively() {
         TestContextHelper.addLoggerToFieldsRecursively(this);
     }

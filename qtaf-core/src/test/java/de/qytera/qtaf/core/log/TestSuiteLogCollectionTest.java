@@ -23,6 +23,8 @@ public class TestSuiteLogCollectionTest {
         Assert.assertNull(suiteLogCollection.getSuiteInfo().getName());
         Assert.assertNull(suiteLogCollection.getSuiteInfo().getOutputDir());
 
+        // Clear indices
+        IndexHelper.clearAllIndices();
     }
 
     /**
@@ -32,6 +34,9 @@ public class TestSuiteLogCollectionTest {
     public void testSuiteLogCollectionCreation() {
         TestSuiteLogCollection logCollection = TestSuiteLogCollection.getInstance();
         Assert.assertNotNull(logCollection);
+
+        // Clear indices
+        IndexHelper.clearAllIndices();
     }
 
     /**
@@ -90,6 +95,9 @@ public class TestSuiteLogCollectionTest {
 
         logCollection.removeTag("foo");
         Assert.assertNull(logCollection.getTag("foo"));
+
+        // Clear indices
+        IndexHelper.clearAllIndices();
     }
 
     /**

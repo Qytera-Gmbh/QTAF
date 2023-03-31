@@ -215,15 +215,16 @@ public class TestFeatureLogCollection {
      * Add new Scenario Log Collection
      *
      * @param featureId    Unique test hash code
-     * @param scenarioId    Method ID / Scenario name
+     * @param instanceId    Method ID / Scenario name
      * @param scenarioName      Test ID / Feature name
      * @return  this
      */
-    public synchronized TestScenarioLogCollection createScenarioIfNotExists(String featureId, String scenarioId, String scenarioName) {
+    public synchronized TestScenarioLogCollection createScenarioIfNotExists(String featureId, String abstractScenarioId, String instanceId, String scenarioName) {
         TestScenarioLogCollection testScenarioLogCollection = TestScenarioLogCollection
             .createTestScenarioLogCollection(
                 featureId,
-                scenarioId,
+                abstractScenarioId,
+                instanceId,
                 scenarioName
         );
 

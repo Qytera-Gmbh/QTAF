@@ -155,6 +155,7 @@ public class TestScenarioLogCollection {
                         scenarioName
                 )
         );
+        QtafFactory.getConfiguration().getString("page.url");
         QtafFactory.getLogger().debug(
                 String.format(
                         "feature log index: size=%s, scenario log index: size=%s",
@@ -171,23 +172,29 @@ public class TestScenarioLogCollection {
      * If a collection with the given ID exists then return the existing collection.
      * This method has to be synchronized so that it works correctly when using multiple threads.
      *
-     * @param featureId  Unique collection ID
-     * @param scenarioId  Method Id (packageName + className + methodName)
-     * @param scenarioName    Test ID
+     * @param featureId             Unique collection ID
+     * @param abstractScenarioId    Method ID (packageName + className + methodName)
+     * @param instanceId            Test object ID
+     * @param scenarioName          Test ID
      * @return  test log collection
      */
     public static synchronized TestScenarioLogCollection createTestScenarioLogCollection(
             String featureId,
-            String scenarioId,
+            String abstractScenarioId,
+            String instanceId,
             String scenarioName
     ) {
         // Check if index already contains a scenario log collection with the given ID
+        String scenarioId = buildId(abstractScenarioId, instanceId);
+
         if (index.get(scenarioId) != null) {
             return index.get(scenarioId);
         }
 
         // Create new scenario log collection and register it in the index
         TestScenarioLogCollection collection = new TestScenarioLogCollection(featureId, scenarioId, scenarioName);
+        collection.setAbstractScenarioId(abstractScenarioId);
+        collection.setInstanceId(instanceId);
         return index.put(scenarioId, collection);
     }
 
@@ -202,7 +209,7 @@ public class TestScenarioLogCollection {
      */
     public static synchronized TestScenarioLogCollection fromQtafTestEventPayload(IQtafTestEventPayload iQtafTestEventPayload) {
         // Build scenario ID
-        String scenarioId = iQtafTestEventPayload.getAbstractScenarioId() + "-" +  iQtafTestEventPayload.getInstanceId();
+        String scenarioId = buildId(iQtafTestEventPayload.getAbstractScenarioId(), iQtafTestEventPayload.getInstanceId());
 
         // Check if index already contains a scenario log collection with the given ID
         if (index.get(scenarioId) != null) {
@@ -226,9 +233,13 @@ public class TestScenarioLogCollection {
                 .setThreadName(iQtafTestEventPayload.getThreadName())
                 .setGroups(iQtafTestEventPayload.getGroups())
                 .setGroupDependencies(iQtafTestEventPayload.getGroupDependencies())
-                .setMethodDependencies(iQtafTestEventPayload.getMethodDependencies())
-                .setAnnotations(iQtafTestEventPayload.getMethodInfoEntity().getAnnotations())
-                .addParameters(iQtafTestEventPayload.getMethodInfoEntity().getMethodParamValues());
+                .setMethodDependencies(iQtafTestEventPayload.getMethodDependencies());
+
+        if (iQtafTestEventPayload.getMethodInfoEntity() != null) {
+            collection
+                    .setAnnotations(iQtafTestEventPayload.getMethodInfoEntity().getAnnotations())
+                    .addParameters(iQtafTestEventPayload.getMethodInfoEntity().getMethodParamValues());
+        }
 
         // Register new scenario log collection in the index
         return index.put(scenarioId, collection);
@@ -279,12 +290,12 @@ public class TestScenarioLogCollection {
     /**
      * Build ID
      *
-     * @param methodId Method ID
-     * @param testId   Test ID
+     * @param abstractScenarioId Method ID
+     * @param instanceId   Test ID
      * @return ID
      */
-    public static String buildId(String methodId, String testId) {
-        return testId + methodId;
+    public static String buildId(String abstractScenarioId, String instanceId) {
+        return abstractScenarioId + "-" + instanceId;
     }
 
     /**
@@ -311,7 +322,7 @@ public class TestScenarioLogCollection {
      * @return abstractScenarioId
      */
     public String getAbstractScenarioId() {
-        return abstractScenarioId;
+        return Objects.requireNonNullElse(abstractScenarioId, "");
     }
 
     /**
@@ -331,7 +342,7 @@ public class TestScenarioLogCollection {
      * @return instanceId
      */
     public String getInstanceId() {
-        return instanceId;
+        return Objects.requireNonNullElse(instanceId, "");
     }
 
     /**

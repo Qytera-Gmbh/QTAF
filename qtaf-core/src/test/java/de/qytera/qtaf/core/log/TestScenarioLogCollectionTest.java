@@ -17,8 +17,8 @@ public class TestScenarioLogCollectionTest {
     public void testObjectEquality() {
         TestSuiteLogCollection slc = TestSuiteLogCollection.getInstance();
         TestFeatureLogCollection fc1 = slc.createFeatureIfNotExists("feature1", "feature1");
-        TestScenarioLogCollection c1 = fc1.createScenarioIfNotExists(fc1.getFeatureId(), "scenario1", "Scenario 1");
-        TestScenarioLogCollection c2 = fc1.createScenarioIfNotExists(fc1.getFeatureId(), "scenario1", "Scenario 2");
+        TestScenarioLogCollection c1 = fc1.createScenarioIfNotExists(fc1.getFeatureId(), "scenario1", "instance1", "Scenario 1");
+        TestScenarioLogCollection c2 = fc1.createScenarioIfNotExists(fc1.getFeatureId(), "scenario1", "instance1", "Scenario 2");
 
         Assert.assertEquals(c1, c2);
 
@@ -35,6 +35,7 @@ public class TestScenarioLogCollectionTest {
                 .createTestScenarioLogCollection(
                         "feature1",
                         "scenario1",
+                        "instance1",
                         "test1"
                 );
 
@@ -44,6 +45,7 @@ public class TestScenarioLogCollectionTest {
                 .createTestScenarioLogCollection(
                         "feature2",
                         "scenario1",
+                        "instance1",
                         "test2"
                 );
 
@@ -53,12 +55,14 @@ public class TestScenarioLogCollectionTest {
                 .createTestScenarioLogCollection(
                         "feature3",
                         "scenario2",
+                        "instance1",
                         "test3"
                 );
 
         Assert.assertEquals(TestScenarioLogCollection.getIndexSize(), 2);
 
-        ScenarioLogCollectionIndex.getInstance().clear();
+        // Clear indices
+        IndexHelper.clearAllIndices();
         Assert.assertEquals(TestScenarioLogCollection.getIndexSize(), 0);
     }
 
@@ -93,7 +97,8 @@ public class TestScenarioLogCollectionTest {
 
         Assert.assertEquals(TestScenarioLogCollection.getIndexSize(), 2);
 
-        ScenarioLogCollectionIndex.getInstance().clear();
+        // Clear indices
+        IndexHelper.clearAllIndices();
         Assert.assertEquals(TestScenarioLogCollection.getIndexSize(), 0);
     }
 }

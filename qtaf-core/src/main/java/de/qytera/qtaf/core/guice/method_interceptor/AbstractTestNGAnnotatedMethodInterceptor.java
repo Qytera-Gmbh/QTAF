@@ -82,6 +82,7 @@ public abstract class AbstractTestNGAnnotatedMethodInterceptor {
         TestScenarioLogCollection scenarioLogCollection = TestScenarioLogCollection.createTestScenarioLogCollection(
                 featureId,
                 scenarioId,
+                "",
                 scenarioName
         );
 

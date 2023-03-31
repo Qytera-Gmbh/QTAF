@@ -5,7 +5,7 @@
     <parent>
         <groupId>de.qytera</groupId>
         <artifactId>qtaf</artifactId>
-        <version>LOCAL_2023-03-21-011</version>
+        <version>LOCAL_2023_03_31_001</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -42,7 +42,7 @@
         <guiceVersion>5.1.0</guiceVersion>
         <jerseyClientVersion>1.19.4</jerseyClientVersion>
         <jerseyBundleVersion>1.19.4</jerseyBundleVersion>
-        <pebbleVersion>3.1.6</pebbleVersion>
+        <pebbleVersion>3.2.0</pebbleVersion>
         <allureVersion>2.21.0</allureVersion>
         <rxJavaVersion>1.3.8</rxJavaVersion>
         <zip4JVersion>2.11.5</zip4JVersion>
@@ -61,6 +61,11 @@
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
+            <version>${seleniumJavaVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-http-jdk-client</artifactId>
             <version>${seleniumJavaVersion}</version>
         </dependency>
 
@@ -229,7 +234,7 @@
         <dependency>
             <groupId>de.qytera</groupId>
             <artifactId>qtaf-io</artifactId>
-            <version>LOCAL_2023-03-21-011</version>
+            <version>LOCAL_2023_03_31_001</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>

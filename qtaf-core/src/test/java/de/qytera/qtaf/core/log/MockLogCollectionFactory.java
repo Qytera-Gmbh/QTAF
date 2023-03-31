@@ -24,16 +24,19 @@ public class MockLogCollectionFactory {
         TestFeatureLogCollection f2 = slc.createFeatureIfNotExists("feature2", "feature2");
 
         // Mock scenario logs
-        TestScenarioLogCollection c1 = f1.createScenarioIfNotExists(f1.getFeatureId(), "scenario1", "Scenario 1");
-        TestScenarioLogCollection c2 = f1.createScenarioIfNotExists(f1.getFeatureId(), "scenario2", "Scenario 2");
-        TestScenarioLogCollection c3 = f2.createScenarioIfNotExists(f2.getFeatureId(), "scenario3", "Scenario 3");
-        TestScenarioLogCollection c4 = f2.createScenarioIfNotExists(f2.getFeatureId(), "scenario4", "Scenario 4");
+        TestScenarioLogCollection c1 = f1.createScenarioIfNotExists(f1.getFeatureId(), "scenario1", "instance1", "Scenario 1");
+        TestScenarioLogCollection c2 = f1.createScenarioIfNotExists(f1.getFeatureId(), "scenario2", "instance1",  "Scenario 2");
+        TestScenarioLogCollection c3 = f2.createScenarioIfNotExists(f2.getFeatureId(), "scenario3", "instance1", "Scenario 3");
+        TestScenarioLogCollection c4 = f2.createScenarioIfNotExists(f2.getFeatureId(), "scenario4", "instance1", "Scenario 4");
 
         // There should be one feature log
         Assert.assertEquals(FeatureLogCollectionIndex.getInstance().size(), 2);
 
         // There should be two scenario logs
         Assert.assertEquals(ScenarioLogCollectionIndex.getInstance().size(), 4);
+
+        // Clear indices
+        IndexHelper.clearAllIndices();
     }
 
     /**
