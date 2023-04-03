@@ -34,18 +34,14 @@ public class SeleniumDriverConfigHelper {
     private static ConfigMap config = QtafFactory.getConfiguration();
 
     /**
-     * Configure driver properties
-     * @return  Driver object
+     * Retrieves the configured implicit timeout. Defaults to 30 seconds if no implicit timeout has been specified.
+     *
+     * @return the implicit timeout
+     * @see <a href="https://www.selenium.dev/documentation/webdriver/waits/#implicit-wait">https://www.selenium.dev/documentation/webdriver/waits/#implicit-wait</a>
      */
     public static int getImplicitTimeout() {
-        // Set implicit wait
-        int implicitTimeout = 30;
-
-        try {
-            implicitTimeout = config.getInt(DRIVER_IMPLICIT_WAIT_TIMEOUT);
-        } catch (Throwable ignored) {}
-
-        return implicitTimeout;
+        // Set implicit wait to 30 seconds by default.
+        return config.getInt(DRIVER_IMPLICIT_WAIT_TIMEOUT, 30);
     }
 
     /**

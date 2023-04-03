@@ -141,23 +141,35 @@ public class ConfigMap extends HashMap<String, Object> {
     }
 
     /**
-     * Get int value from key
+     * Retrieves the value for the given key, interpreted as an {@link Integer}.
      *
-     * @param key   Key
-     * @return      Value
+     * @param key the key of the value to retrieve
+     * @return the key's value or null if there is no value
      */
     public Integer getInt(String key) {
         String s = this.getString(key);
-
-        try {
-            return Integer.parseInt(s);
-        } catch (Exception e) {
-            logger.error(
-                    "Value '" + s + "' of key '" + key + "' could not be parsed as integer"
-            );
-            this.errorLogCollection.addErrorLog(new ConfigurationError(e));
-            return 0;
+        if (s != null) {
+            try {
+                return Integer.parseInt(s);
+            } catch (Exception e) {
+                logger.error(String.format("Value '%s' of key '%s' could not be parsed as Integer", s, key));
+                this.errorLogCollection.addErrorLog(new ConfigurationError(e));
+            }
         }
+        return null;
+    }
+
+    /**
+     * Retrieves the value for the given key, interpreted as an {@link Integer}. If the value does not exist or is null,
+     * returns {@code valueIfNull} instead.
+     *
+     * @param key         the key of the value to retrieve
+     * @param valueIfNull the value to return if there is no value attached to the key
+     * @return the key's value or the provided default value
+     */
+    public Integer getInt(String key, Integer valueIfNull) {
+        Integer value = getInt(key);
+        return value == null ? valueIfNull : value;
     }
 
     /**
