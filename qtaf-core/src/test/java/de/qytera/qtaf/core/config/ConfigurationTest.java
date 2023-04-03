@@ -125,4 +125,11 @@ public class ConfigurationTest {
         // Framework
         Assert.assertEquals(config.getArray("framework.packageNames").size(), 0);
     }
+
+    @Test
+    public void testGetInt() {
+        ConfigMap config = ConfigurationFactory.getInstance();
+        Assert.assertNull(config.getInt("hello.there"));
+        Assert.assertEquals(config.getInt("hello.there", 42), 42);
+    }
 }
