@@ -124,4 +124,22 @@ public class XrayConfigHelper {
     public static boolean isScenarioImageEvidenceEnabled() {
         return config.getBoolean(SCENARIO_IMAGE_EVIDENCE);
     }
+
+    /**
+     * Returns the maximum allowed length of iteration parameter names.
+     *
+     * @return the maximum length or null if there is no maximum length
+     */
+    public static Integer getIterationParameterNameMaxLength() {
+        return config.getInt(RESULTS_ITERATIONS_PARAMETERS_MAX_LENGTH_NAME);
+    }
+
+    /**
+     * Returns the maximum allowed length of iteration parameter values.
+     *
+     * @return the maximum length or null if there is no maximum length
+     */
+    public static Integer getIterationParameterValueMaxLength() {
+        return config.getInt(RESULTS_ITERATIONS_PARAMETERS_MAX_LENGTH_VALUE);
+    }
 }

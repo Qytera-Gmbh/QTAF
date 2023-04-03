@@ -32,7 +32,21 @@
       "bearerToken": null
     },
     "scenarioReportEvidence": true,
-    "scenarioImageEvidence": true
+    "scenarioImageEvidence": true,
+    "status": {
+      "passed": null,
+      "failed": null
+    },
+    "results": {
+      "iterations": {
+        "parameters": {
+          "maxLength": {
+            "name": null,
+            "value": null
+          }
+        }
+      }
+    }
   },
   "htmlReport": {
     "enabled": true
