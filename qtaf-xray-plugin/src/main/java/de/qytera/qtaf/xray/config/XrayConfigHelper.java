@@ -20,8 +20,10 @@ public class XrayConfigHelper {
     private static String CLIENT_SECRET_SELECTOR = "xray.authentication.clientSecret";
     private static String SCENARIO_REPORT_EVIDENCE = "xray.scenarioReportEvidence";
     private static String SCENARIO_IMAGE_EVIDENCE = "xray.scenarioImageEvidence";
-    public static final  String STATUS_PASSED_SELECTOR = "xray.status.passed";
+    public static final String STATUS_PASSED_SELECTOR = "xray.status.passed";
     public static final String STATUS_FAILED_SELECTOR = "xray.status.failed";
+    public static final String RESULTS_ITERATIONS_PARAMETERS_MAX_LENGTH_NAME = "xray.results.iterations.parameters.maxLength.name";
+    public static final String RESULTS_ITERATIONS_PARAMETERS_MAX_LENGTH_VALUE = "xray.results.iterations.parameters.maxLength.value";
 
     // Values
     private static String XRAY_SERVICE_CLOUD = "cloud";
@@ -121,5 +123,23 @@ public class XrayConfigHelper {
      */
     public static boolean isScenarioImageEvidenceEnabled() {
         return config.getBoolean(SCENARIO_IMAGE_EVIDENCE);
+    }
+
+    /**
+     * Returns the maximum allowed length of iteration parameter names.
+     *
+     * @return the maximum length or null if there is no maximum length
+     */
+    public static Integer getIterationParameterNameMaxLength() {
+        return config.getInt(RESULTS_ITERATIONS_PARAMETERS_MAX_LENGTH_NAME);
+    }
+
+    /**
+     * Returns the maximum allowed length of iteration parameter values.
+     *
+     * @return the maximum length or null if there is no maximum length
+     */
+    public static Integer getIterationParameterValueMaxLength() {
+        return config.getInt(RESULTS_ITERATIONS_PARAMETERS_MAX_LENGTH_VALUE);
     }
 }
