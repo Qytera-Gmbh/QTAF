@@ -20,8 +20,10 @@ public class XrayConfigHelper {
     private static String CLIENT_SECRET_SELECTOR = "xray.authentication.clientSecret";
     private static String SCENARIO_REPORT_EVIDENCE = "xray.scenarioReportEvidence";
     private static String SCENARIO_IMAGE_EVIDENCE = "xray.scenarioImageEvidence";
-    public static final  String STATUS_PASSED_SELECTOR = "xray.status.passed";
+    public static final String STATUS_PASSED_SELECTOR = "xray.status.passed";
     public static final String STATUS_FAILED_SELECTOR = "xray.status.failed";
+    public static final String RESULTS_ITERATIONS_PARAMETERS_MAX_LENGTH_NAME = "xray.results.iterations.parameters.maxLength.name";
+    public static final String RESULTS_ITERATIONS_PARAMETERS_MAX_LENGTH_VALUE = "xray.results.iterations.parameters.maxLength.value";
 
     // Values
     private static String XRAY_SERVICE_CLOUD = "cloud";

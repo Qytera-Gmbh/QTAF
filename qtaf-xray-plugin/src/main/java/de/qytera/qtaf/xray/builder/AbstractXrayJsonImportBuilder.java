@@ -97,8 +97,8 @@ public abstract class AbstractXrayJsonImportBuilder {
                             // Add test parameters
                             for (TestScenarioLogCollection.TestParameter testParameter : scenarioLog.getTestParameters()) {
                                 XrayTestIterationParameterEntity parameterEntity = new XrayTestIterationParameterEntity();
-                                parameterEntity.setName(testParameter.getName());
-                                parameterEntity.setValue(testParameter.getValue().toString());
+                                parameterEntity.setName(truncateParameterName(testParameter.getName()));
+                                parameterEntity.setValue(truncateParameterValue(testParameter.getValue().toString()));
                                 iteration.addParameter(parameterEntity);
                             }
 
@@ -361,4 +361,21 @@ public abstract class AbstractXrayJsonImportBuilder {
      * @param xrayTestStepEntity    Xray Step Entity
      */
     public abstract void setStepStatus(StepInformationLogMessage stepLog, XrayManualTestStepResultEntity xrayTestStepEntity);
+
+    private static String truncateParameterName(String parameterName) {
+        Integer maxLength = XrayConfigHelper.getIterationParameterNameMaxLength();
+        if (maxLength == null || parameterName.length() <= maxLength) {
+            return parameterName;
+        }
+        return parameterName.substring(0, maxLength);
+    }
+
+    private static String truncateParameterValue(String parameterValue) {
+        Integer maxLength = XrayConfigHelper.getIterationParameterValueMaxLength();
+        if (maxLength == null || parameterValue.length() <= maxLength) {
+            return parameterValue;
+        }
+        return parameterValue.substring(0, maxLength);
+    }
+
 }

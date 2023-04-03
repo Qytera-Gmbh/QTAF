@@ -20,7 +20,7 @@ public class XrayTestEntityTest {
     @Test
     public void testStatusServer() {
         ConfigMap configMap = QtafFactory.getConfiguration();
-        configMap.setString("xray.service", "server");
+        configMap.setString(XrayConfigHelper.XRAY_SERVICE_SELECTOR, "server");
         Assert.assertEquals(XrayTestEntity.Status.failed().text, "FAIL");
         Assert.assertEquals(XrayTestEntity.Status.passed().text, "PASS");
     }
@@ -28,7 +28,7 @@ public class XrayTestEntityTest {
     @Test
     public void testStatusCloud() {
         ConfigMap configMap = QtafFactory.getConfiguration();
-        configMap.setString("xray.service", "cloud");
+        configMap.setString(XrayConfigHelper.XRAY_SERVICE_SELECTOR, "cloud");
         Assert.assertEquals(XrayTestEntity.Status.failed().text, "FAILED");
         Assert.assertEquals(XrayTestEntity.Status.passed().text, "PASSED");
     }
@@ -36,8 +36,8 @@ public class XrayTestEntityTest {
     @Test
     public void testStatusCustom() {
         ConfigMap configMap = QtafFactory.getConfiguration();
-        configMap.setString("xray.status.passed", "SUCCESS");
-        configMap.setString("xray.status.failed", "FAILURE");
+        configMap.setString(XrayConfigHelper.STATUS_PASSED_SELECTOR, "SUCCESS");
+        configMap.setString(XrayConfigHelper.STATUS_FAILED_SELECTOR, "FAILURE");
         Assert.assertEquals(XrayTestEntity.Status.failed().text, "FAILURE");
         Assert.assertEquals(XrayTestEntity.Status.passed().text, "SUCCESS");
     }
