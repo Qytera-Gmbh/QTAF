@@ -154,7 +154,6 @@ public class ConfigMap extends HashMap<String, Object> {
             } catch (Exception e) {
                 logger.error(String.format("Value '%s' of key '%s' could not be parsed as Integer", s, key));
                 this.errorLogCollection.addErrorLog(new ConfigurationError(e));
-                return null;
             }
         }
         return null;
