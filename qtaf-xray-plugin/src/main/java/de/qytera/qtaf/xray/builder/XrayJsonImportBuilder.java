@@ -26,7 +26,7 @@ import java.util.Map;
  * Transforms log collection into Xray Execution Import DTO
  */
 @Singleton
-public abstract class AbstractXrayJsonImportBuilder {
+public class XrayJsonImportBuilder {
 
     /**
      * Factory method for Xray Import Execution DTO. This method creates the DTO based on a Test Suite Log Entity
@@ -91,9 +91,6 @@ public abstract class AbstractXrayJsonImportBuilder {
                             // Build iteration entity
                             XrayTestIterationResultEntity iteration = new XrayTestIterationResultEntity();
 
-                            // This variable will be set to false if any step failed
-                            boolean didIterationPass = true;
-
                             // Add test parameters
                             for (TestScenarioLogCollection.TestParameter testParameter : scenarioLog.getTestParameters()) {
                                 XrayTestIterationParameterEntity parameterEntity = new XrayTestIterationParameterEntity();
@@ -117,21 +114,11 @@ public abstract class AbstractXrayJsonImportBuilder {
 
                                         // Add step log to test log
                                         iteration.addStep(xrayTestStepEntity);
-
-                                        // Check step status
-                                        if (stepLog.getStatus() == StepInformationLogMessage.Status.ERROR) {
-                                            didIterationPass = false;
-                                        }
                                     }
                                 }
                             }
 
-                            // Set iteration status
-                            if (didIterationPass) {
-                                iteration.setStatus(XrayTestIterationResultEntity.Status.PASSED);
-                            } else {
-                                iteration.setStatus(XrayTestIterationResultEntity.Status.FAILED);
-                            }
+                            iteration.setStatus(scenarioLog.getStatus());
 
                             // Check if the iteration passed. If not set the scenario status pass status to false
                             if (scenarioLog.getStatus() == TestScenarioLogCollection.Status.FAILURE) {
@@ -145,9 +132,9 @@ public abstract class AbstractXrayJsonImportBuilder {
 
                     // Set the scenario status
                     if (didScenarioPass) {
-                        xrayTestEntity.setStatus(XrayTestEntity.Status.passed().text);
+                        xrayTestEntity.setStatus(TestScenarioLogCollection.Status.SUCCESS);
                     } else {
-                        xrayTestEntity.setStatus(XrayTestEntity.Status.failed().text);
+                        xrayTestEntity.setStatus(TestScenarioLogCollection.Status.FAILURE);
                     }
 
                     // Add test to test collection
@@ -221,8 +208,7 @@ public abstract class AbstractXrayJsonImportBuilder {
             addScenarioImageEvidence(scenarioLog, xrayTestEntity);
         }
 
-        // Set test status
-        setTestStatus(scenarioLog, xrayTestEntity);
+        xrayTestEntity.setStatus(scenarioLog.getStatus());
 
         // Iterate over log messages
         for (LogMessage logMessage : scenarioLog.getLogMessages()) {
@@ -251,9 +237,7 @@ public abstract class AbstractXrayJsonImportBuilder {
         if (stepLog.getStep() != null) {
             xrayTestStepEntity.setComment(stepLog.getStep().getName());
         }
-
-        // Set status (we have to treat xray server and xray cloud differently because of the different APIs)
-        setStepStatus(stepLog, xrayTestStepEntity);
+        xrayTestStepEntity.setStatus(stepLog.getStatus());
         return xrayTestStepEntity;
     }
 
@@ -340,27 +324,6 @@ public abstract class AbstractXrayJsonImportBuilder {
             }
         }
     }
-
-    /**
-     * Set the test status for the Xray Test Entity based on the log data of a scenario
-     *
-     * @param scenarioLog    Log data of a scenario
-     * @param xrayTestEntity Xray test entity
-     */
-    public void setTestStatus(TestScenarioLogCollection scenarioLog, XrayTestEntity xrayTestEntity) {
-        if (scenarioLog.getStatus() == TestScenarioLogCollection.Status.SUCCESS) {
-            xrayTestEntity.setStatus(XrayTestEntity.Status.passed().text);
-        } else {
-            xrayTestEntity.setStatus(XrayTestEntity.Status.failed().text);
-        }
-    }
-
-    /**
-     * Set the step status for the Xray Step Entity based on the log data of a step
-     * @param stepLog               Log data for a step
-     * @param xrayTestStepEntity    Xray Step Entity
-     */
-    public abstract void setStepStatus(StepInformationLogMessage stepLog, XrayManualTestStepResultEntity xrayTestStepEntity);
 
     private static String truncateParameterName(String parameterName) {
         Integer maxLength = XrayConfigHelper.getIterationParameterNameMaxLength();

@@ -5,8 +5,7 @@ import de.qytera.qtaf.core.config.entity.ConfigMap;
 import de.qytera.qtaf.core.events.interfaces.IEventSubscriber;
 import de.qytera.qtaf.core.events.QtafEvents;
 import de.qytera.qtaf.core.events.payload.IQtafTestingContext;
-import de.qytera.qtaf.xray.builder.AbstractXrayJsonImportBuilder;
-import de.qytera.qtaf.xray.builder.XrayJsonImportBuilderFactory;
+import de.qytera.qtaf.xray.builder.XrayJsonImportBuilder;
 import de.qytera.qtaf.xray.commands.UploadImportCommand;
 import de.qytera.qtaf.xray.dto.request.XrayImportRequestDto;
 import de.qytera.qtaf.xray.dto.response.XrayCloudImportResponseDto;
@@ -48,7 +47,7 @@ public class UploadResultsSubscriber implements IEventSubscriber {
     /**
      * Builder object that translates a QTAF Log Object to an Xray Import DTO object
      */
-    private final AbstractXrayJsonImportBuilder xrayJsonImportBuilder = XrayJsonImportBuilderFactory.getInstance();
+    private final XrayJsonImportBuilder xrayJsonImportBuilder = new XrayJsonImportBuilder();
 
     @Override
     public void initialize() {

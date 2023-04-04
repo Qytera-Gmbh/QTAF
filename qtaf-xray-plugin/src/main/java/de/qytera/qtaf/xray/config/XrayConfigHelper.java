@@ -20,8 +20,15 @@ public class XrayConfigHelper {
     private static String CLIENT_SECRET_SELECTOR = "xray.authentication.clientSecret";
     private static String SCENARIO_REPORT_EVIDENCE = "xray.scenarioReportEvidence";
     private static String SCENARIO_IMAGE_EVIDENCE = "xray.scenarioImageEvidence";
-    public static final String STATUS_PASSED_SELECTOR = "xray.status.passed";
-    public static final String STATUS_FAILED_SELECTOR = "xray.status.failed";
+    public static final String STATUS_TEST_PASSED_SELECTOR = "xray.status.test.passed";
+    public static final String STATUS_TEST_FAILED_SELECTOR = "xray.status.test.failed";
+    public static final String STATUS_TEST_PENDING_SELECTOR = "xray.status.test.pending";
+    public static final String STATUS_TEST_SKIPPED_SELECTOR = "xray.status.test.skipped";
+    public static final String STATUS_STEP_PASSED_SELECTOR = "xray.status.step.passed";
+    public static final String STATUS_STEP_FAILED_SELECTOR = "xray.status.step.failed";
+    public static final String STATUS_STEP_PENDING_SELECTOR = "xray.status.step.pending";
+    public static final String STATUS_STEP_SKIPPED_SELECTOR = "xray.status.step.skipped";
+    public static final String STATUS_STEP_UNDEFINED_SELECTOR = "xray.status.step.undefined";
     public static final String RESULTS_ITERATIONS_PARAMETERS_MAX_LENGTH_NAME = "xray.results.iterations.parameters.maxLength.name";
     public static final String RESULTS_ITERATIONS_PARAMETERS_MAX_LENGTH_VALUE = "xray.results.iterations.parameters.maxLength.value";
 
@@ -66,8 +73,8 @@ public class XrayConfigHelper {
      *
      * @return the status name if configured, otherwise null
      */
-    public static String getStatusPassed() {
-        return config.getString(STATUS_PASSED_SELECTOR);
+    public static String getTestStatusPassed() {
+        return config.getString(STATUS_TEST_PASSED_SELECTOR);
     }
 
     /**
@@ -75,8 +82,71 @@ public class XrayConfigHelper {
      *
      * @return the status name if configured, otherwise null
      */
-    public static String getStatusFailed() {
-        return config.getString(STATUS_FAILED_SELECTOR);
+    public static String getTestStatusFailed() {
+        return config.getString(STATUS_TEST_FAILED_SELECTOR);
+    }
+
+    /**
+     * Get Xray status name for pending tests.
+     *
+     * @return the status name if configured, otherwise null
+     */
+    public static String getTestStatusPending() {
+        return config.getString(STATUS_TEST_PENDING_SELECTOR);
+    }
+
+    /**
+     * Get Xray status name for skipped tests.
+     *
+     * @return the status name if configured, otherwise null
+     */
+    public static String getTestStatusSkipped() {
+        return config.getString(STATUS_TEST_SKIPPED_SELECTOR);
+    }
+
+    /**
+     * Get Xray status name for passed test steps.
+     *
+     * @return the status name if configured, otherwise null
+     */
+    public static String getStepStatusPassed() {
+        return config.getString(STATUS_STEP_PASSED_SELECTOR);
+    }
+
+    /**
+     * Get Xray status name for failed test steps.
+     *
+     * @return the status name if configured, otherwise null
+     */
+    public static String getStepStatusFailed() {
+        return config.getString(STATUS_STEP_FAILED_SELECTOR);
+    }
+
+    /**
+     * Get Xray status name for pending test steps.
+     *
+     * @return the status name if configured, otherwise null
+     */
+    public static String getStepStatusPending() {
+        return config.getString(STATUS_STEP_PENDING_SELECTOR);
+    }
+
+    /**
+     * Get Xray status name for skipped test steps.
+     *
+     * @return the status name if configured, otherwise null
+     */
+    public static String getStepStatusSkipped() {
+        return config.getString(STATUS_STEP_SKIPPED_SELECTOR);
+    }
+
+    /**
+     * Get Xray status name for undefined test steps.
+     *
+     * @return the status name if configured, otherwise null
+     */
+    public static String getStepStatusUndefined() {
+        return config.getString(STATUS_STEP_UNDEFINED_SELECTOR);
     }
 
     /**
