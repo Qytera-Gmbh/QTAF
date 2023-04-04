@@ -128,8 +128,41 @@ public class ConfigurationTest {
 
     @Test
     public void testGetInt() {
+        String key = "hello.there.int";
         ConfigMap config = ConfigurationFactory.getInstance();
-        Assert.assertNull(config.getInt("hello.there"));
-        Assert.assertEquals(config.getInt("hello.there", 42), 42);
+        Assert.assertNull(config.getInt(key));
+        Assert.assertEquals(config.getInt(key, 42), 42);
+        config.setInt(key, 1337);
+        Assert.assertEquals(config.getInt(key), 1337);
+    }
+
+    @Test
+    public void testGetDouble() {
+        String key = "hello.there.double";
+        ConfigMap config = ConfigurationFactory.getInstance();
+        Assert.assertNull(config.getDouble(key));
+        Assert.assertEquals(config.getDouble(key, 42.0), 42.0);
+        config.setDouble(key, 1337.0);
+        Assert.assertEquals(config.getDouble(key), 1337.0);
+    }
+
+    @Test
+    public void testGetString() {
+        String key = "hello.there.string";
+        ConfigMap config = ConfigurationFactory.getInstance();
+        Assert.assertNull(config.getString(key));
+        Assert.assertEquals(config.getString(key, "42"), "42");
+        config.setString(key, "1337");
+        Assert.assertEquals(config.getString(key), "1337");
+    }
+
+    @Test
+    public void testGetBoolean() {
+        String key = "hello.there.string";
+        ConfigMap config = ConfigurationFactory.getInstance();
+        Assert.assertNull(config.getBoolean(key));
+        Assert.assertEquals(config.getBoolean(key, Boolean.TRUE), Boolean.TRUE);
+        config.setBoolean(key, Boolean.FALSE);
+        Assert.assertEquals(config.getBoolean(key), Boolean.FALSE);
     }
 }
