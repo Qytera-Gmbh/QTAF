@@ -158,7 +158,7 @@ public class ConfigurationTest {
 
     @Test
     public void testGetBoolean() {
-        String key = "hello.there.string";
+        String key = "hello.there.boolean";
         ConfigMap config = ConfigurationFactory.getInstance();
         Assert.assertNull(config.getBoolean(key));
         Assert.assertEquals(config.getBoolean(key, Boolean.TRUE), Boolean.TRUE);
