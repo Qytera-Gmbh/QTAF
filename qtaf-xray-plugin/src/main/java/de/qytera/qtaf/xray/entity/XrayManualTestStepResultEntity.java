@@ -1,5 +1,8 @@
 package de.qytera.qtaf.xray.entity;
 
+import de.qytera.qtaf.core.log.model.message.StepInformationLogMessage;
+import de.qytera.qtaf.xray.config.XrayStatusHelper;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,9 +11,10 @@ import java.util.List;
  */
 public class XrayManualTestStepResultEntity {
     /**
-     * Step status
+     * The concrete test step status, e.g. {@code "PASSED"} or {@code "FAIL"}.
+     * Depends on the Xray instance configuration.
      */
-    private Status status;
+    private String status;
 
     /**
      * Step comment
@@ -33,22 +37,23 @@ public class XrayManualTestStepResultEntity {
     private String actualResult;
 
     /**
-     * Get status
+     * Returns the concrete test step status, e.g. {@code "PASSED"} or {@code "FAIL"}.
+     * Depends on the Xray instance configuration.
      *
-     * @return status Status
+     * @return the status text
      */
-    public Status getStatus() {
+    public String getStatus() {
         return status;
     }
 
     /**
-     * Set status
+     * Set the status of the test step.
      *
-     * @param status Status
+     * @param status the test step status
      * @return this
      */
-    public XrayManualTestStepResultEntity setStatus(Status status) {
-        this.status = status;
+    public XrayManualTestStepResultEntity setStatus(StepInformationLogMessage.Status status) {
+        this.status = XrayStatusHelper.statusToText(status);
         return this;
     }
 
@@ -132,11 +137,4 @@ public class XrayManualTestStepResultEntity {
         return this;
     }
 
-    public enum Status {
-        PASS,   // for xray server
-        PASSED, // for xray cloud
-        FAIL,   // for xray server
-        FAILED, // for xray cloud
-        ABORTED,
-    }
 }

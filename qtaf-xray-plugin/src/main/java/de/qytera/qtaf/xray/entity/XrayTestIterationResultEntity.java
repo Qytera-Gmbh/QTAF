@@ -1,5 +1,8 @@
 package de.qytera.qtaf.xray.entity;
 
+import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
+import de.qytera.qtaf.xray.config.XrayStatusHelper;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,17 +21,9 @@ public class XrayTestIterationResultEntity {
     private List<XrayManualTestStepResultEntity> steps = new ArrayList<>();
 
     /**
-     * Test iteration status
+     * The test iteration status, e.g. {@code "PASSED"} or {@code "FAIL"}.
      */
-    private Status status;
-
-    public enum Status {
-        PASS,   // for xray server
-        PASSED, // for xray cloud
-        FAIL,   // for xray server
-        FAILED, // for xray cloud
-        ABORTED,
-    }
+    private String status;
 
     /**
      * Get parameters
@@ -91,22 +86,22 @@ public class XrayTestIterationResultEntity {
     }
 
     /**
-     * Get status
+     * Get the status text of the iteration status (e.g. {@code "FAIL"} or {@code "SUCCESS"}).
      *
-     * @return status
+     * @return the status text
      */
-    public Status getStatus() {
+    public String getStatus() {
         return status;
     }
 
     /**
-     * Set status
+     * Set the status of the test iteration. These are identical to the general test statuses.
      *
-     * @param status Status
+     * @param status the iteration status
      * @return this
      */
-    public XrayTestIterationResultEntity setStatus(Status status) {
-        this.status = status;
+    public XrayTestIterationResultEntity setStatus(TestScenarioLogCollection.Status status) {
+        this.status = XrayStatusHelper.statusToText(status);
         return this;
     }
 }

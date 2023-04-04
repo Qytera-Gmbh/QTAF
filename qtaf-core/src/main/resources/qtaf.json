@@ -34,8 +34,19 @@
     "scenarioReportEvidence": true,
     "scenarioImageEvidence": true,
     "status": {
-      "passed": null,
-      "failed": null
+      "test": {
+        "passed": null,
+        "failed": null,
+        "pending": null,
+        "skipped": null
+      },
+      "step": {
+        "passed": null,
+        "failed": null,
+        "pending": null,
+        "skipped": null,
+        "undefined": null
+      }
     },
     "results": {
       "iterations": {
