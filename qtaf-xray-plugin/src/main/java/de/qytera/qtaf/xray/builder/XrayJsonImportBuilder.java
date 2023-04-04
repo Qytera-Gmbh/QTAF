@@ -78,7 +78,7 @@ public class XrayJsonImportBuilder {
                     xrayTestEntity.setSteps(null);
 
                     // This variable will be set to false if any iteration failed
-                    boolean didScenarioPass = true;
+                    boolean allScenariosPassed = true;
 
                     // Get the xray annotation if scenario has one
                     XrayTest xrayTestAnnotation = (XrayTest) entry.getValue().get(0).getAnnotation(XrayTest.class);
@@ -122,7 +122,7 @@ public class XrayJsonImportBuilder {
 
                             // Check if the iteration passed. If not set the scenario status pass status to false
                             if (scenarioLog.getStatus() == TestScenarioLogCollection.Status.FAILURE) {
-                                didScenarioPass = false;
+                                allScenariosPassed = false;
                             }
 
                             // Add iteration entity to test entity
@@ -130,8 +130,8 @@ public class XrayJsonImportBuilder {
                         }
                     }
 
-                    // Set the scenario status
-                    if (didScenarioPass) {
+                    // Set the test status
+                    if (allScenariosPassed) {
                         xrayTestEntity.setStatus(TestScenarioLogCollection.Status.SUCCESS);
                     } else {
                         xrayTestEntity.setStatus(TestScenarioLogCollection.Status.FAILURE);
