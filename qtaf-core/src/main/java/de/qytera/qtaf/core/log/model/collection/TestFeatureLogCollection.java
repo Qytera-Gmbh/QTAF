@@ -6,7 +6,10 @@ import de.qytera.qtaf.core.config.annotations.TestFeature;
 import de.qytera.qtaf.core.log.model.index.FeatureLogCollectionIndex;
 import de.qytera.qtaf.core.log.model.index.ScenarioLogCollectionIndex;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -86,7 +89,7 @@ public class TestFeatureLogCollection {
 
     /**
      * Factory method
-     *
+     * <p>
      * This method has to be synchronized so that only one thread at a time can execute this method
      *
      * @param featureId   Collection ID
@@ -114,7 +117,7 @@ public class TestFeatureLogCollection {
 
     /**
      * Factory method
-     *
+     * <p>
      * This method has to be synchronized so that only one thread at a time can execute this method
      *
      * @param featureId             Collection ID
@@ -158,7 +161,8 @@ public class TestFeatureLogCollection {
     /**
      * Calculate hash code for this instance
      * The contains() methods of the collections use the hash code to check if object is already stored.
-     * @return  hash code
+     *
+     * @return hash code
      */
     @Override
     public int hashCode() {
@@ -203,7 +207,8 @@ public class TestFeatureLogCollection {
 
     /**
      * Group scenario logs by abstract scenario ID
-     * @return  Map of grouped scenario logs
+     *
+     * @return Map of grouped scenario logs
      */
     public synchronized Map<String, List<TestScenarioLogCollection>> getScenariosGroupedByAbstractScenarioId() {
         return Collections.synchronizedMap(testScenarioLogCollection
@@ -215,18 +220,18 @@ public class TestFeatureLogCollection {
      * Add new Scenario Log Collection
      *
      * @param featureId    Unique test hash code
-     * @param instanceId    Method ID / Scenario name
-     * @param scenarioName      Test ID / Feature name
-     * @return  this
+     * @param instanceId   Method ID / Scenario name
+     * @param scenarioName Test ID / Feature name
+     * @return this
      */
     public synchronized TestScenarioLogCollection createScenarioIfNotExists(String featureId, String abstractScenarioId, String instanceId, String scenarioName) {
         TestScenarioLogCollection testScenarioLogCollection = TestScenarioLogCollection
-            .createTestScenarioLogCollection(
-                featureId,
-                abstractScenarioId,
-                instanceId,
-                scenarioName
-        );
+                .createTestScenarioLogCollection(
+                        featureId,
+                        abstractScenarioId,
+                        instanceId,
+                        scenarioName
+                );
 
         // Check if log collection already has a scenario log collection with the given scenario ID
         if (!this.testScenarioLogCollection.contains(testScenarioLogCollection)) {
@@ -238,8 +243,9 @@ public class TestFeatureLogCollection {
 
     /**
      * Add a scenario log collection if it not already exists
-     * @param collection    scenario log collection
-     * @return  scenario log collection
+     *
+     * @param collection scenario log collection
+     * @return scenario log collection
      */
     public synchronized TestScenarioLogCollection addScenarioLogCollection(TestScenarioLogCollection collection) {
         if (!this.testScenarioLogCollection.contains(collection)) {
@@ -271,7 +277,8 @@ public class TestFeatureLogCollection {
 
     /**
      * Count the number of scenario log collections
-     * @return  number of scenario log collections
+     *
+     * @return number of scenario log collections
      */
     public int countScenarioLogs() {
         return this.testScenarioLogCollection.size();
@@ -286,8 +293,9 @@ public class TestFeatureLogCollection {
 
     /**
      * Check if feature log with given ID already exists
+     *
      * @param featureId Feature ID
-     * @return  true if exists, false otherwise
+     * @return true if exists, false otherwise
      */
     public static boolean exists(String featureId) {
         return index.get(featureId) != null;
@@ -295,7 +303,8 @@ public class TestFeatureLogCollection {
 
     /**
      * Count the number of scenario log collections
-     * @return  number of scenario log collections
+     *
+     * @return number of scenario log collections
      */
     public static int getIndexSize() {
         return index.size();

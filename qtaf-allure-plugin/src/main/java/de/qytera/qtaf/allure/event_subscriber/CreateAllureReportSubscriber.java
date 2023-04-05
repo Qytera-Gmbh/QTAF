@@ -22,6 +22,7 @@ public class CreateAllureReportSubscriber implements IEventSubscriber {
 
     /**
      * Generate Allure JSON files
+     *
      * @param suite TestSuite
      */
     private void generateReports(TestSuiteLogCollection suite) {

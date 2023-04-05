@@ -4,12 +4,13 @@ import com.google.inject.Provides;
 import de.qytera.qtaf.core.QtafFactory;
 import de.qytera.qtaf.core.config.entity.ConfigMap;
 import de.qytera.qtaf.core.events.QtafEvents;
+import de.qytera.qtaf.core.log.Logger;
 import de.qytera.qtaf.core.log.model.error.DriverInitializationError;
 import de.qytera.qtaf.core.log.model.error.ErrorLogCollection;
 import de.qytera.qtaf.core.reflection.ClassLoader;
 import de.qytera.qtaf.core.selenium.helper.SeleniumDriverConfigHelper;
-import de.qytera.qtaf.core.log.Logger;
 import org.openqa.selenium.WebDriver;
+
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -38,7 +39,8 @@ public class DriverFactory {
 
     /**
      * Get default web driver instance. The default driver name is fetched from the QTAF configuration.
-     * @return  web driver
+     *
+     * @return web driver
      */
     @Provides
     public static WebDriver getDriver() {
@@ -49,8 +51,9 @@ public class DriverFactory {
 
     /**
      * Get web driver instance
-     * @param driverName    Driver name
-     * @return  Selenium WebDriver instance
+     *
+     * @param driverName Driver name
+     * @return Selenium WebDriver instance
      */
     @Provides
     public static WebDriver getDriver(String driverName) {
@@ -90,7 +93,7 @@ public class DriverFactory {
         logInfo("Use driver " + driverName);
 
         // Initialize driver
-        if (driver != null){
+        if (driver != null) {
             logInfo("Driver initialized: " + driverName);
             QtafEvents.afterDriverInitialization.onNext(d);
         } else {
@@ -102,8 +105,9 @@ public class DriverFactory {
 
     /**
      * Restart web driver instance, use default driver name
-     * @param restart       true if new driver object should be created
-     * @return  Selenium WebDriver instance
+     *
+     * @param restart true if new driver object should be created
+     * @return Selenium WebDriver instance
      */
     @Provides
     public static WebDriver getDriver(boolean restart) {
@@ -118,8 +122,9 @@ public class DriverFactory {
 
     /**
      * Driver builder function, configures properties of driver object
+     *
      * @param d Driver object
-     * @return  Driver object
+     * @return Driver object
      */
     protected static WebDriver configureDriver(WebDriver d) {
         // Check if driver is null
@@ -136,8 +141,9 @@ public class DriverFactory {
 
     /**
      * Restart web driver instance
-     * @param driverName    Driver name
-     * @return  Selenium WebDriver instance
+     *
+     * @param driverName Driver name
+     * @return Selenium WebDriver instance
      */
     @Provides
     public static WebDriver restartDriver(String driverName) {
@@ -159,7 +165,8 @@ public class DriverFactory {
 
     /**
      * Check if driver has quit
-     * @return  ture if driver has quit, false otherwise
+     *
+     * @return ture if driver has quit, false otherwise
      */
     public static boolean driverHasQuit() {
         return driver != null && driver.toString().contains("(null)");
@@ -167,7 +174,8 @@ public class DriverFactory {
 
     /**
      * Log an info message
-     * @param message   Log message
+     *
+     * @param message Log message
      */
     private static void logInfo(String message) {
         logger.info("[DriverFactory] " + message);
@@ -175,7 +183,8 @@ public class DriverFactory {
 
     /**
      * Log an info message
-     * @param message   Log message
+     *
+     * @param message Log message
      */
     private static void logError(String message) {
         logger.error("[DriverFactory] " + message);

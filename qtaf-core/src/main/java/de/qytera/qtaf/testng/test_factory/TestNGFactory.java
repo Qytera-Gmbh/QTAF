@@ -1,11 +1,9 @@
 package de.qytera.qtaf.testng.test_factory;
 
-import com.google.inject.Guice;
 import com.google.inject.Injector;
 import de.qytera.qtaf.core.QtafFactory;
 import de.qytera.qtaf.core.context.IQtafTestContext;
 import de.qytera.qtaf.core.guice.QtafInjector;
-import de.qytera.qtaf.core.guice.QtafModule;
 import de.qytera.qtaf.core.reflection.ClassLoader;
 import de.qytera.qtaf.cucumber.context.QtafTestNGCucumberContext;
 import de.qytera.qtaf.testng.context.QtafTestNGContext;

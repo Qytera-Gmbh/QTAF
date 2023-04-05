@@ -1,6 +1,5 @@
 package de.qytera.qtaf.xray.service;
 
-import de.qytera.qtaf.xray.commands.AuthenticationCommand;
 import de.qytera.qtaf.xray.config.XrayConfigHelper;
 import de.qytera.qtaf.xray.entity.XrayAuthCredentials;
 
@@ -10,7 +9,8 @@ import de.qytera.qtaf.xray.entity.XrayAuthCredentials;
 public class XrayServiceFactory {
     /**
      * Get Xray Service instance
-     * @return  Xray Service instance
+     *
+     * @return Xray Service instance
      */
     public static AbstractXrayService getInstance() {
         AbstractXrayService xrayService;

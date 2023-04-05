@@ -3,8 +3,6 @@ package de.qytera.qtaf.core.net.http;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import javax.xml.stream.events.Comment;
-
 public class HTTPJsonDaoTest {
     /**
      * Host we are testing against

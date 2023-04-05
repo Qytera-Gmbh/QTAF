@@ -1,7 +1,6 @@
 package de.qytera.qtaf.core.config.annotations;
 
 
-
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
@@ -12,13 +11,15 @@ import java.lang.annotation.RetentionPolicy;
 public @interface TestFeature {
     /**
      * Feature name
-     * @return  name
+     *
+     * @return name
      */
     String name();
 
     /**
      * Feature description
-     * @return  description
+     *
+     * @return description
      */
     String description() default "";
 }

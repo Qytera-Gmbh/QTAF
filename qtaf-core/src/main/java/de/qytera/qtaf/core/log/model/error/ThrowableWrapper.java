@@ -11,6 +11,7 @@ public class ThrowableWrapper {
 
     /**
      * Constructor
+     *
      * @param t Throwable instance
      */
     public ThrowableWrapper(Throwable t) {
@@ -19,7 +20,8 @@ public class ThrowableWrapper {
 
     /**
      * Get message of throwable
-     * @return  message
+     *
+     * @return message
      */
     public String getMessage() {
         return throwable.getMessage();
@@ -27,6 +29,7 @@ public class ThrowableWrapper {
 
     /**
      * Get classname of throwable
+     *
      * @return classname
      */
     public String getClassName() {
@@ -35,7 +38,8 @@ public class ThrowableWrapper {
 
     /**
      * Get stack trace
-     * @return  stack trace
+     *
+     * @return stack trace
      */
     public StackTraceElement[] getStackTrace() {
         return throwable.getStackTrace();

@@ -23,6 +23,7 @@ public class ScenarioReportCreator extends ReportCreator {
 
     /**
      * Create scenario report
+     *
      * @param logCollection         Log collection
      * @param scenarioLogCollection Scenario Log Collection
      */

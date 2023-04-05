@@ -5,6 +5,7 @@ import java.util.List;
 
 /**
  * Xray Test Info entity
+ *
  * @see "https://docs.getxray.app/display/XRAY/Import+Execution+Results#ImportExecutionResults-XrayJSONSchema"
  */
 public class XrayTestInfoEntity {

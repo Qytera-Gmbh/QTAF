@@ -24,11 +24,13 @@ public class ScenarioLogCollectionIndex {
     /**
      * Private constructor
      */
-    private ScenarioLogCollectionIndex() {}
+    private ScenarioLogCollectionIndex() {
+    }
 
     /**
      * Factory method
-     * @return  singleton instance
+     *
+     * @return singleton instance
      */
     public static synchronized ScenarioLogCollectionIndex getInstance() {
         return instance;
@@ -36,8 +38,9 @@ public class ScenarioLogCollectionIndex {
 
     /**
      * Get an object by its ID
-     * @param id    object ID
-     * @return  feature log collection
+     *
+     * @param id object ID
+     * @return feature log collection
      */
     public synchronized TestScenarioLogCollection get(String id) {
         return index.get(id);
@@ -45,9 +48,10 @@ public class ScenarioLogCollectionIndex {
 
     /**
      * Add a new object to the index
-     * @param id    object's ID
-     * @param obj   object itself
-     * @return  the inserted object
+     *
+     * @param id  object's ID
+     * @param obj object itself
+     * @return the inserted object
      */
     public synchronized TestScenarioLogCollection put(String id, TestScenarioLogCollection obj) {
         QtafFactory.getLogger().debug(String.format(
@@ -66,6 +70,7 @@ public class ScenarioLogCollectionIndex {
 
     /**
      * Get size of index (number of elements in the index)
+     *
      * @return size of index
      */
     public synchronized int size() {

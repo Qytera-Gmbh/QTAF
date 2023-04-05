@@ -1,11 +1,10 @@
 package de.qytera.qtaf.core.log;
 
 import de.qytera.qtaf.core.events.payload.QtafTestEventPayload;
-import de.qytera.qtaf.core.log.model.collection.*;
-import de.qytera.qtaf.core.log.model.index.FeatureLogCollectionIndex;
+import de.qytera.qtaf.core.log.model.collection.TestFeatureLogCollection;
+import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
+import de.qytera.qtaf.core.log.model.collection.TestSuiteLogCollection;
 import de.qytera.qtaf.core.log.model.index.IndexHelper;
-import de.qytera.qtaf.core.log.model.index.LogMessageIndex;
-import de.qytera.qtaf.core.log.model.index.ScenarioLogCollectionIndex;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

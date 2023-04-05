@@ -8,6 +8,7 @@ import de.qytera.qtaf.core.log.model.collection.TestSuiteLogCollection;
 public interface IReportCreator {
     /**
      * Create report
+     *
      * @param logCollection Log collection
      * @return true on success, false otherwise
      */

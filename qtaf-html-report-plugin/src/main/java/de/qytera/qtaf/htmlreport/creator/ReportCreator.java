@@ -42,8 +42,9 @@ public class ReportCreator implements IReportCreator {
 
     /**
      * Create report and save it to the disk
+     *
      * @param logCollection Log collection
-     * @return  true on success
+     * @return true on success
      */
     public boolean createReport(TestSuiteLogCollection logCollection) {
         Writer writer = getRenderedTemplate(logCollection);
@@ -61,8 +62,9 @@ public class ReportCreator implements IReportCreator {
 
     /**
      * Get rendered template
+     *
      * @param logCollection Log collection
-     * @return  Writer object that contains rendered template
+     * @return Writer object that contains rendered template
      */
     public Writer getRenderedTemplate(TestSuiteLogCollection logCollection) {
         // Load template
@@ -84,9 +86,10 @@ public class ReportCreator implements IReportCreator {
 
     /**
      * Persist rendered template
+     *
      * @param logCollection Log collection
      * @param writer        Writer object
-     * @return              Path to rendered template
+     * @return Path to rendered template
      */
     protected String persistRenderedTemplate(TestSuiteLogCollection logCollection, Writer writer) {
         // Write report to disk
@@ -106,10 +109,11 @@ public class ReportCreator implements IReportCreator {
 
     /**
      * Render the template
-     * @param compiledTemplate  Pebble template object
-     * @param context           Template context
-     * @param writer            Writer
-     * @return                  true on success, false otherwise
+     *
+     * @param compiledTemplate Pebble template object
+     * @param context          Template context
+     * @param writer           Writer
+     * @return true on success, false otherwise
      */
     public boolean renderTemplate(PebbleTemplate compiledTemplate, Map<String, Object> context, Writer writer) {
         // Render template
@@ -125,8 +129,9 @@ public class ReportCreator implements IReportCreator {
 
     /**
      * Get template context
+     *
      * @param logCollection Logs
-     * @return  Template context
+     * @return Template context
      */
     protected Map<String, Object> getTemplateContext(TestSuiteLogCollection logCollection) {
         // Build template context
@@ -138,7 +143,8 @@ public class ReportCreator implements IReportCreator {
 
     /**
      * Load the Pebble Template
-     * @return  Pebble template object
+     *
+     * @return Pebble template object
      */
     protected PebbleTemplate getPebbleTemplate() {
         PebbleTemplate compiledTemplate;
@@ -156,7 +162,8 @@ public class ReportCreator implements IReportCreator {
 
     /**
      * Get root template path
-     * @return  root template path
+     *
+     * @return root template path
      */
     protected String getRootTemplate() {
         return rootTemplate;
@@ -164,7 +171,8 @@ public class ReportCreator implements IReportCreator {
 
     /**
      * Build report path
-     * @return  report path
+     *
+     * @return report path
      */
     public String getReportPath(TestSuiteLogCollection logCollection) {
         return DirectoryHelper.preparePath(

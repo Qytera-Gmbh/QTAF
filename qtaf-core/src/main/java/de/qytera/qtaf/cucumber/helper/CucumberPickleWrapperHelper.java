@@ -10,8 +10,9 @@ import io.cucumber.testng.PickleWrapper;
 public class CucumberPickleWrapperHelper {
     /**
      * Get Pickle object from PickleWrapper object
-     * @param pickleWrapper     PickleWrapper object
-     * @return  Pickle object
+     *
+     * @param pickleWrapper PickleWrapper object
+     * @return Pickle object
      */
     public static Pickle getPickle(PickleWrapper pickleWrapper) {
         return (Pickle) FieldHelper.getFieldValue(pickleWrapper, "pickle");

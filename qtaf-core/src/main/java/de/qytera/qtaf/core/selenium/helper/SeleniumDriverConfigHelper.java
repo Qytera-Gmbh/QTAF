@@ -46,7 +46,8 @@ public class SeleniumDriverConfigHelper {
 
     /**
      * Get remote driver URL
-     * @return  remote URL
+     *
+     * @return remote URL
      */
     public static URL getRemoteUrl() {
         try {
@@ -61,7 +62,8 @@ public class SeleniumDriverConfigHelper {
 
     /**
      * Get Platform Name
-     * @return  platform name
+     *
+     * @return platform name
      */
     public static String getPlatformName() {
         return config.getString(DRIVER_PLATFORM);
@@ -69,7 +71,8 @@ public class SeleniumDriverConfigHelper {
 
     /**
      * Get Driver version
-     * @return  driver version
+     *
+     * @return driver version
      */
     public static String getDriverVersion() {
         return config.getString(DRIVER_VERSION);
@@ -77,7 +80,8 @@ public class SeleniumDriverConfigHelper {
 
     /**
      * Get Saucelab Browser Name
-     * @return  Saucelab Browser Name
+     *
+     * @return Saucelab Browser Name
      */
     public static String getSaucelabBrowserName() {
         return config.getString(SAUCE_BROWSER_NAME);
@@ -85,7 +89,8 @@ public class SeleniumDriverConfigHelper {
 
     /**
      * Get Saucelab Username
-     * @return  Saucelab Username
+     *
+     * @return Saucelab Username
      */
     public static String getSaucelabUsername() {
         return config.getString(SAUCE_USERNAME);
@@ -93,7 +98,8 @@ public class SeleniumDriverConfigHelper {
 
     /**
      * Get Saucelab Access Key
-     * @return  Saucelab Access Key
+     *
+     * @return Saucelab Access Key
      */
     public static String getSaucelabAccessKey() {
         return config.getString(SAUCE_ACCESS_KEY);
@@ -101,7 +107,8 @@ public class SeleniumDriverConfigHelper {
 
     /**
      * Determine if QTAF should quit driver after testing
-     * @return  value from configuration
+     *
+     * @return value from configuration
      */
     public static boolean shouldQuitDriverAfterTesting() {
         return config.getBoolean(DRIVER_QUIT_AFTER_TESTING);
@@ -109,7 +116,8 @@ public class SeleniumDriverConfigHelper {
 
     /**
      * Determine if screenshots should be taken before a scenario
-     * @return  value from configuration
+     *
+     * @return value from configuration
      */
     public static boolean shouldTakeScreenshotsBeforeScenario() {
         return config.getBoolean(SCREENSHOTS_BEFORE_SCENARIO);
@@ -117,7 +125,8 @@ public class SeleniumDriverConfigHelper {
 
     /**
      * Determine if screenshots should be taken after a scenario
-     * @return  value from configuration
+     *
+     * @return value from configuration
      */
     public static boolean shouldTakeScreenshotsAfterScenario() {
         return config.getBoolean(SCREENSHOTS_AFTER_SCENARIO);
@@ -125,7 +134,8 @@ public class SeleniumDriverConfigHelper {
 
     /**
      * Determine if screenshots should be taken before a step
-     * @return  value from configuration
+     *
+     * @return value from configuration
      */
     public static boolean shouldTakeScreenshotsBeforeStep() {
         return config.getBoolean(SCREENSHOTS_BEFORE_STEP);
@@ -133,7 +143,8 @@ public class SeleniumDriverConfigHelper {
 
     /**
      * Determine if screenshots should be taken after a step
-     * @return  value from configuration
+     *
+     * @return value from configuration
      */
     public static boolean shouldTakeScreenshotsAfterStep() {
         return config.getBoolean(SCREENSHOTS_AFTER_STEP);
@@ -141,7 +152,8 @@ public class SeleniumDriverConfigHelper {
 
     /**
      * Determine if screenshots should be taken after a step failure
-     * @return  value from configuration
+     *
+     * @return value from configuration
      */
     public static boolean shouldTakeScreenshotsAfterStepFailure() {
         return config.getBoolean(SCREENSHOTS_AFTER_STEP_FAILURE);

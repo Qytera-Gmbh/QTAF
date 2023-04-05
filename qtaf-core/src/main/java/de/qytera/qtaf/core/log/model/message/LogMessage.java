@@ -33,8 +33,9 @@ public class LogMessage {
 
     /**
      * Constructor
-     * @param level     log level
-     * @param message   log message
+     *
+     * @param level   log level
+     * @param message log message
      */
     public LogMessage(LogLevel level, String message) {
         this.level = level;
@@ -43,7 +44,8 @@ public class LogMessage {
 
     /**
      * Gte log level
-     * @return  log level
+     *
+     * @return log level
      */
     public LogLevel getLevel() {
         return level;
@@ -51,8 +53,9 @@ public class LogMessage {
 
     /**
      * Set log level
+     *
      * @param level log level
-     * @return      this
+     * @return this
      */
     public LogMessage setLevel(LogLevel level) {
         this.level = level;
@@ -61,7 +64,8 @@ public class LogMessage {
 
     /**
      * Get log message
-     * @return  log message
+     *
+     * @return log message
      */
     public String getMessage() {
         return message;
@@ -69,8 +73,9 @@ public class LogMessage {
 
     /**
      * Set log message
-     * @param message   log message
-     * @return          this
+     *
+     * @param message log message
+     * @return this
      */
     public LogMessage setMessage(String message) {
         this.message = message;

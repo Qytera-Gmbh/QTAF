@@ -36,8 +36,9 @@ public class XrayTestIterationResultEntity {
 
     /**
      * Add a parameter entity to the iteration entity
+     *
      * @param parameter Parameter entity object
-     * @return  this
+     * @return this
      */
     public XrayTestIterationResultEntity addParameter(XrayTestIterationParameterEntity parameter) {
         parameters.add(parameter);
@@ -66,8 +67,9 @@ public class XrayTestIterationResultEntity {
 
     /**
      * Add a step entity to the iteration entity
+     *
      * @param step Step entity object
-     * @return  this
+     * @return this
      */
     public XrayTestIterationResultEntity addStep(XrayManualTestStepResultEntity step) {
         steps.add(step);

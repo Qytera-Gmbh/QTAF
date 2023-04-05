@@ -24,11 +24,13 @@ public class FeatureLogCollectionIndex {
     /**
      * Private constructor
      */
-    private FeatureLogCollectionIndex() {}
+    private FeatureLogCollectionIndex() {
+    }
 
     /**
      * Factory method
-     * @return  singleton instance
+     *
+     * @return singleton instance
      */
     public static synchronized FeatureLogCollectionIndex getInstance() {
         return instance;
@@ -36,8 +38,9 @@ public class FeatureLogCollectionIndex {
 
     /**
      * Get an object by its ID
-     * @param id    object ID
-     * @return  feature log collection
+     *
+     * @param id object ID
+     * @return feature log collection
      */
     public synchronized TestFeatureLogCollection get(String id) {
         return index.get(id);
@@ -45,9 +48,10 @@ public class FeatureLogCollectionIndex {
 
     /**
      * Add a new object to the index
-     * @param id    object's ID
-     * @param obj   object itself
-     * @return  the inserted object
+     *
+     * @param id  object's ID
+     * @param obj object itself
+     * @return the inserted object
      */
     public synchronized TestFeatureLogCollection put(String id, TestFeatureLogCollection obj) {
         QtafFactory.getLogger().debug(String.format(
@@ -61,6 +65,7 @@ public class FeatureLogCollectionIndex {
 
     /**
      * Get size of index (number of elements in the index)
+     *
      * @return size of index
      */
     public synchronized int size() {

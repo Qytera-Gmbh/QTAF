@@ -26,7 +26,8 @@ public class QuitDriverSubscriber implements IEventSubscriber {
 
     /**
      * onFinishedTesting event handler
-     * @param iTestContext  event payload
+     *
+     * @param iTestContext event payload
      */
     private void onFinishedTesting(IQtafTestingContext iTestContext) {
         // Quit the driver after testing
@@ -44,6 +45,7 @@ public class QuitDriverSubscriber implements IEventSubscriber {
 
     /**
      * Handle exceptions that occurred during invocation of subscriber method
+     *
      * @param e Exception object
      */
     private void handleLoggingError(Throwable e) {

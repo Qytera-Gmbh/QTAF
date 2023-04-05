@@ -31,9 +31,10 @@ public class AllureReportGenerator {
 
     /**
      * Generate an Allure JSON file
-     * @param suite         Test Suite entity
-     * @param testResult    Allure test result entity
-     * @param path          Destination Path
+     *
+     * @param suite      Test Suite entity
+     * @param testResult Allure test result entity
+     * @param path       Destination Path
      */
     public static void generateReportFile(TestSuiteLogCollection suite, TestResult testResult, String path) {
         // Get Gson instance

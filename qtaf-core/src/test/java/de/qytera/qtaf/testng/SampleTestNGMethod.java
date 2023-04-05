@@ -4,7 +4,6 @@ import org.testng.*;
 import org.testng.internal.ConstructorOrMethod;
 import org.testng.xml.XmlTest;
 
-import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
@@ -42,12 +41,12 @@ public class SampleTestNGMethod implements ITestNGMethod {
 
     @Override
     public String[] getGroups() {
-        return new String[] {"group-1", "group-2"};
+        return new String[]{"group-1", "group-2"};
     }
 
     @Override
     public String[] getGroupsDependedUpon() {
-        return new String[] {"dependent-group-1", "dependent-group-2"};
+        return new String[]{"dependent-group-1", "dependent-group-2"};
     }
 
     @Override

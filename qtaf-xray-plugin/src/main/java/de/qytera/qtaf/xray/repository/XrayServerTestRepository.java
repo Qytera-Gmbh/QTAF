@@ -26,8 +26,9 @@ public class XrayServerTestRepository implements IXrayTestRepository {
 
     /**
      * Find Tests by ID
+     *
      * @param testId Test Set ID
-     * @return  Collection of test entities
+     * @return Collection of test entities
      */
     public XrayTestDto findByTestId(String testId) {
         XrayTestDtoCollection testDtoCollection = dao.get(
@@ -39,8 +40,9 @@ public class XrayServerTestRepository implements IXrayTestRepository {
 
     /**
      * Find Tests by ID
+     *
      * @param testSetId Test Set ID
-     * @return  Collection of test entities
+     * @return Collection of test entities
      */
     public XrayTestDtoCollection findByTestSetId(String testSetId) {
         return dao.get(String.format(BY_TEST_SET_ID_PATH, testSetId), XrayTestDtoCollection.class);

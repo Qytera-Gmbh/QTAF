@@ -13,7 +13,8 @@ import java.lang.annotation.Target;
 public @interface XrayTest {
     /**
      * Internal Xray test ID that can be used for uploading test execution results
-     * @return  ID
+     *
+     * @return ID
      */
     String key();
 

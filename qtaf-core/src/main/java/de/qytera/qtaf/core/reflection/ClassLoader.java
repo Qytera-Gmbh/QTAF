@@ -33,7 +33,8 @@ public class ClassLoader {
 
     /**
      * Add a package that can be search for classes
-     * @param packageName   Package name
+     *
+     * @param packageName Package name
      */
     public static void addPackageName(String packageName) {
         if (!packageNames.contains(packageName)) {
@@ -43,8 +44,9 @@ public class ClassLoader {
 
     /**
      * Check if list already contains package name
-     * @param packageName   Package name
-     * @return  true if package name is already in the list, false otherwise
+     *
+     * @param packageName Package name
+     * @return true if package name is already in the list, false otherwise
      */
     public static boolean hasPackageName(String packageName) {
         return packageNames.contains(packageName);
@@ -52,8 +54,9 @@ public class ClassLoader {
 
     /**
      * CRemove package name form the list
-     * @param packageName   Package name
-     * @return  true if package name was in the list, false otherwise
+     *
+     * @param packageName Package name
+     * @return true if package name was in the list, false otherwise
      */
     public static boolean removePackageName(String packageName) {
         if (hasPackageName(packageName)) {
@@ -65,10 +68,11 @@ public class ClassLoader {
 
     /**
      * Get a set of classes that are derived from the given class
-     * @param clazz         sub type
-     * @param classes       set of classes where found classes are added to
-     * @param packageNames  List of package names where to look for these classes
-     * @return      set of classes that were found
+     *
+     * @param clazz        sub type
+     * @param classes      set of classes where found classes are added to
+     * @param packageNames List of package names where to look for these classes
+     * @return set of classes that were found
      */
     public static Set<Class<?>> getSubTypesOfRecursively(
             Class<?> clazz,
@@ -97,13 +101,14 @@ public class ClassLoader {
 
     /**
      * Get a set of classes that are directly derived from the given class
-     * @param clazz         sub type
-     * @param packageNames  package names where to search for this class
-     * @return      set of classes
+     *
+     * @param clazz        sub type
+     * @param packageNames package names where to search for this class
+     * @return set of classes
      */
     public static Set<Class<?>> getSubTypesOf(Class<?> clazz, List<String> packageNames) {
         if (packageNames != null) {
-            for (String packageName: packageNames) {
+            for (String packageName : packageNames) {
                 addPackageName(packageName);
             }
         }
@@ -127,8 +132,9 @@ public class ClassLoader {
 
     /**
      * Get a set of classes that are directly derived from the given class
+     *
      * @param clazz sub type
-     * @return      set of classes
+     * @return set of classes
      */
     public static Set<Class<?>> getSubTypesOf(Class<?> clazz) {
         ConfigMap configMap = QtafFactory.getConfiguration();
@@ -137,7 +143,7 @@ public class ClassLoader {
         configPackageNames.add(configMap.getString("tests.package", "de.qytera.qtaf"));
 
         if (configPackageNames != null) {
-            for (String packageName: configPackageNames) {
+            for (String packageName : configPackageNames) {
                 addPackageName(packageName);
             }
         }
@@ -147,8 +153,9 @@ public class ClassLoader {
 
     /**
      * Get all sub types of a given class
+     *
      * @param clazz Instance class type
-     * @return      Instances
+     * @return Instances
      */
     public static Object[] getInstancesOfDirectSubtypesOf(Class<?> clazz) {
         // Check if classes of teh given type were already loaded
@@ -182,7 +189,8 @@ public class ClassLoader {
                 } else {
                     newInstancesByType.add(instancesByClassName.get(c.getName()));
                 }
-            } catch (IllegalAccessException | InstantiationException | InvocationTargetException | NoSuchMethodException e) {
+            } catch (IllegalAccessException | InstantiationException | InvocationTargetException |
+                     NoSuchMethodException e) {
                 e.printStackTrace();
             }
         }
@@ -195,12 +203,13 @@ public class ClassLoader {
 
     /**
      * Get instance of class
+     *
      * @param c Class
-     * @return  instance
-     * @throws IllegalAccessException       error if constructor is not accessible
-     * @throws InvocationTargetException    error if constructor is not accessible
-     * @throws InstantiationException       error if constructor is not accessible
-     * @throws NoSuchMethodException        error if constructor is not accessible
+     * @return instance
+     * @throws IllegalAccessException    error if constructor is not accessible
+     * @throws InvocationTargetException error if constructor is not accessible
+     * @throws InstantiationException    error if constructor is not accessible
+     * @throws NoSuchMethodException     error if constructor is not accessible
      */
     public static Object getInstance(Class<?> c) throws IllegalAccessException, InvocationTargetException, InstantiationException, NoSuchMethodException {
         // Get class constructor instance

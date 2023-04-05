@@ -33,7 +33,8 @@ public class LogFileWriter {
 
     /**
      * Persist logs to local disk
-     * @param collection    log collection
+     *
+     * @param collection log collection
      * @return path to log file if it was created successfully
      */
     public static String persistLogs(TestSuiteLogCollection collection) {
@@ -58,8 +59,9 @@ public class LogFileWriter {
 
     /**
      * Create a error log file
-     * @param collection    error logs
-     * @return  Path where error logs are stored
+     *
+     * @param collection error logs
+     * @return Path where error logs are stored
      */
     public static String persistErrorLogs(ErrorLogCollection collection) {
         // Get Gson instance

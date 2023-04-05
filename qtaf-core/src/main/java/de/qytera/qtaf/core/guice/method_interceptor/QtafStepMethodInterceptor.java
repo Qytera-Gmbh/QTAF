@@ -16,9 +16,9 @@ public class QtafStepMethodInterceptor implements MethodInterceptor {
      * This method works as a proxy for methods. Instead of executing the annotated method directly this method will
      * be executed.
      *
-     * @param methodInvocation  Invoked method
-     * @return                  Method execution result
-     * @throws Throwable        Error
+     * @param methodInvocation Invoked method
+     * @return Method execution result
+     * @throws Throwable Error
      */
     @Override
     public Object invoke(MethodInvocation methodInvocation) throws Throwable {

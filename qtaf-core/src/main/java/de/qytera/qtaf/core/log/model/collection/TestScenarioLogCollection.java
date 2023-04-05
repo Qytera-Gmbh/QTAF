@@ -167,16 +167,16 @@ public class TestScenarioLogCollection {
 
     /**
      * Factory method.
-     *
+     * <p>
      * Creates new test log collection.
      * If a collection with the given ID exists then return the existing collection.
      * This method has to be synchronized so that it works correctly when using multiple threads.
      *
-     * @param featureId             Unique collection ID
-     * @param abstractScenarioId    Method ID (packageName + className + methodName)
-     * @param instanceId            Test object ID
-     * @param scenarioName          Test ID
-     * @return  test log collection
+     * @param featureId          Unique collection ID
+     * @param abstractScenarioId Method ID (packageName + className + methodName)
+     * @param instanceId         Test object ID
+     * @param scenarioName       Test ID
+     * @return test log collection
      */
     public static synchronized TestScenarioLogCollection createTestScenarioLogCollection(
             String featureId,
@@ -200,12 +200,12 @@ public class TestScenarioLogCollection {
 
     /**
      * Factory method
-     *
+     * <p>
      * Factory method that creates new log collection from test event payload
      * This method has to be synchronized so that it works correctly when using multiple threads.
      *
      * @param iQtafTestEventPayload test event payload
-     * @return  test log collection
+     * @return test log collection
      */
     public static synchronized TestScenarioLogCollection fromQtafTestEventPayload(IQtafTestEventPayload iQtafTestEventPayload) {
         // Build scenario ID
@@ -247,8 +247,9 @@ public class TestScenarioLogCollection {
 
     /**
      * Override equals to compare two TestScenarioLogCollection objects
+     *
      * @param o Object to compare with this instance
-     * @return  true if both are equal, false otherwise
+     * @return true if both are equal, false otherwise
      */
     @Override
     public boolean equals(Object o) {
@@ -271,7 +272,8 @@ public class TestScenarioLogCollection {
     /**
      * Calculate hash code for this instance.
      * The contains() methods of the collections use the hash code to check if object is already stored.
-     * @return  hash code
+     *
+     * @return hash code
      */
     @Override
     public int hashCode() {
@@ -291,7 +293,7 @@ public class TestScenarioLogCollection {
      * Build ID
      *
      * @param abstractScenarioId Method ID
-     * @param instanceId   Test ID
+     * @param instanceId         Test ID
      * @return ID
      */
     public static String buildId(String abstractScenarioId, String instanceId) {
@@ -420,9 +422,10 @@ public class TestScenarioLogCollection {
 
     /**
      * Add test parameters to log
-     * @param parameters    method parameters
-     * @param values        method values
-     * @return              this
+     *
+     * @param parameters method parameters
+     * @param values     method values
+     * @return this
      */
     public TestScenarioLogCollection addParameters(Parameter[] parameters, Object[] values) {
         for (int i = 0; i < parameters.length; i++) {
@@ -440,8 +443,9 @@ public class TestScenarioLogCollection {
 
     /**
      * Add test parameters to log
-     * @param parameterValues        method values
-     * @return              this
+     *
+     * @param parameterValues method values
+     * @return this
      */
     public TestScenarioLogCollection addParameters(Object[] parameterValues) {
         for (int i = 0; i < parameterValues.length; i++) {
@@ -469,11 +473,12 @@ public class TestScenarioLogCollection {
 
     /**
      * Get a specific annotation of this scenario
+     *
      * @param clazz Annotation type
-     * @return  Annotation if found or null if not
+     * @return Annotation if found or null if not
      */
     public Annotation getAnnotation(Class<?> clazz) {
-        for (Annotation a: annotations) {
+        for (Annotation a : annotations) {
             if (clazz.isInstance(a)) {
                 return a;
             }
@@ -522,7 +527,7 @@ public class TestScenarioLogCollection {
                     .setScenarioId(getScenarioId());
 
             // Update the index
-            logMessageIndex.put( logMessage.hashCode(), logMessage);
+            logMessageIndex.put(logMessage.hashCode(), logMessage);
 
             // Add log message to this scenario
             logMessages.add(logMessage);
@@ -558,8 +563,9 @@ public class TestScenarioLogCollection {
 
     /**
      * Add screenshot path to test scenario log
-     * @param filepath  Path to screenshot file
-     * @return  this
+     *
+     * @param filepath Path to screenshot file
+     * @return this
      */
     public TestScenarioLogCollection addScreenshotPath(String filepath) {
         screenshotPaths.add(filepath);
@@ -617,9 +623,10 @@ public class TestScenarioLogCollection {
 
     /**
      * Add tag to test scenario log
-     * @param key  Tag key
-     * @param value  Tag value
-     * @return  this
+     *
+     * @param key   Tag key
+     * @param value Tag value
+     * @return this
      */
     public TestScenarioLogCollection addTag(String key, String value) {
         tags.put(key, value);
@@ -927,6 +934,7 @@ public class TestScenarioLogCollection {
 
     /**
      * Check if index already has this ScenarioLogCollection
+     *
      * @param scenarioLogCollection Scenario log collection
      * @return true if exists, false otherwise
      */
@@ -936,7 +944,8 @@ public class TestScenarioLogCollection {
 
     /**
      * Count the number of scenario log collections saved in the index
-     * @return  number of scenario log collections saved in the index
+     *
+     * @return number of scenario log collections saved in the index
      */
     public static int getIndexSize() {
         return index.size();

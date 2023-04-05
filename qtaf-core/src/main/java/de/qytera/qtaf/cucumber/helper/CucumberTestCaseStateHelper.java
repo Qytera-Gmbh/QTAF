@@ -15,8 +15,9 @@ public class CucumberTestCaseStateHelper {
 
     /**
      * Get TestCase object from TestCaseState object
-     * @param testCaseState     TestCaseState object
-     * @return  TestCase object
+     *
+     * @param testCaseState TestCaseState object
+     * @return TestCase object
      */
     public static TestCase getTestCase(TestCaseState testCaseState) {
         for (Field field : FieldHelper.getDeclaredFieldsRecursively(testCaseState.getClass())) {
@@ -38,8 +39,9 @@ public class CucumberTestCaseStateHelper {
 
     /**
      * Get test result object list from a TestCaseState object
+     *
      * @param testCaseState TestCaseState object
-     * @return  List of test case result objects
+     * @return List of test case result objects
      */
     public static List<Result> getStepResults(TestCaseState testCaseState) {
         for (Field field : FieldHelper.getDeclaredFieldsRecursively(testCaseState.getClass())) {

@@ -1,9 +1,8 @@
 package de.qytera.qtaf.core.log.repository;
 
 import de.qytera.qtaf.core.events.payload.QtafTestEventPayload;
-import de.qytera.qtaf.core.log.model.index.IndexHelper;
-import de.qytera.qtaf.core.log.model.index.ScenarioLogCollectionIndex;
 import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
+import de.qytera.qtaf.core.log.model.index.IndexHelper;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

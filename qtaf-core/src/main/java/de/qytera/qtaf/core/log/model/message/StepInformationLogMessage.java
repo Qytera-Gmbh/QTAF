@@ -82,8 +82,8 @@ public class StepInformationLogMessage extends LogMessage {
     /**
      * Constructor
      *
-     * @param methodName  step name
-     * @param message   log message
+     * @param methodName step name
+     * @param message    log message
      */
     public StepInformationLogMessage(String methodName, String message) {
         super(LogLevel.INFO, message);
@@ -92,7 +92,7 @@ public class StepInformationLogMessage extends LogMessage {
 
     @Override
     protected void finalize() throws Throwable {
-        QtafFactory.getLogger().warn("[StepLog] Destroying log message '" + getMessage()  + "'");
+        QtafFactory.getLogger().warn("[StepLog] Destroying log message '" + getMessage() + "'");
         super.finalize();
     }
 
@@ -107,7 +107,8 @@ public class StepInformationLogMessage extends LogMessage {
 
     /**
      * Get step annotation
-     * @return  step annotation
+     *
+     * @return step annotation
      */
     public Step getStep() {
         return step;
@@ -115,8 +116,9 @@ public class StepInformationLogMessage extends LogMessage {
 
     /**
      * Set step annotation
-     * @param step  step annotation
-     * @return  this
+     *
+     * @param step step annotation
+     * @return this
      */
     public StepInformationLogMessage setStep(de.qytera.qtaf.core.guice.annotations.Step step) {
         this.step.setName(step.name());
@@ -126,7 +128,8 @@ public class StepInformationLogMessage extends LogMessage {
 
     /**
      * Get step parameter list
-     * @return  step parameter list
+     *
+     * @return step parameter list
      */
     public ArrayList<StepParameter> getStepParameters() {
         return stepParameters;
@@ -134,8 +137,9 @@ public class StepInformationLogMessage extends LogMessage {
 
     /**
      * Set step parameter list
-     * @param stepParameters    List of step parameters
-     * @return  step parameter list
+     *
+     * @param stepParameters List of step parameters
+     * @return step parameter list
      */
     public StepInformationLogMessage setStepParameters(ArrayList<StepParameter> stepParameters) {
         this.stepParameters = stepParameters;
@@ -144,10 +148,11 @@ public class StepInformationLogMessage extends LogMessage {
 
     /**
      * App step parameter
-     * @param   name    Name of the parameter
-     * @param   type    Type of the parameter
-     * @param   value   Value of the parameter
-     * @return  step parameter
+     *
+     * @param name  Name of the parameter
+     * @param type  Type of the parameter
+     * @param value Value of the parameter
+     * @return step parameter
      */
     public StepInformationLogMessage addStepParameter(String name, String type, Object value) {
         this.stepParameters.add(new StepParameter(name, type, value));
@@ -165,7 +170,8 @@ public class StepInformationLogMessage extends LogMessage {
 
     /**
      * Get step result
-     * @return  step result
+     *
+     * @return step result
      */
     public Object getResult() {
         return result;
@@ -173,8 +179,9 @@ public class StepInformationLogMessage extends LogMessage {
 
     /**
      * Set step result
-     * @param result    step result
-     * @return  this
+     *
+     * @param result step result
+     * @return this
      */
     public StepInformationLogMessage setResult(Object result) {
         this.result = result;
@@ -184,7 +191,8 @@ public class StepInformationLogMessage extends LogMessage {
 
     /**
      * Get step error
-     * @return  step error
+     *
+     * @return step error
      */
     public ThrowableWrapper getError() {
         return error;
@@ -192,7 +200,8 @@ public class StepInformationLogMessage extends LogMessage {
 
     /**
      * Check if an error occurred
-     * @return  true if an error occurred during method execution, false otherwise
+     *
+     * @return true if an error occurred during method execution, false otherwise
      */
     public boolean hasError() {
         return this.error != null;
@@ -200,8 +209,9 @@ public class StepInformationLogMessage extends LogMessage {
 
     /**
      * Set step error
-     * @param error    step error
-     * @return  this
+     *
+     * @param error step error
+     * @return this
      */
     public StepInformationLogMessage setError(Throwable error) {
         this.error = new ThrowableWrapper(error);
@@ -211,8 +221,9 @@ public class StepInformationLogMessage extends LogMessage {
 
     /**
      * Set step error
-     * @param error    step error
-     * @return  this
+     *
+     * @param error step error
+     * @return this
      */
     public StepInformationLogMessage setError(ThrowableWrapper error) {
         this.error = error;
@@ -451,6 +462,7 @@ public class StepInformationLogMessage extends LogMessage {
 
         /**
          * Constructor
+         *
          * @param name  parameter name
          * @param type  parameter type
          * @param value parameter value

@@ -25,8 +25,9 @@ public class TestNGTestEventPayload extends QtafTestEventPayload {
 
     /**
      * Constructor
-     * @param iTestResult   Original event
-     * @throws NoSuchMethodException    Thrown if method is not found
+     *
+     * @param iTestResult Original event
+     * @throws NoSuchMethodException Thrown if method is not found
      */
     public TestNGTestEventPayload(ITestResult iTestResult) throws NoSuchMethodException {
         this.originalEvent = iTestResult;
@@ -74,6 +75,7 @@ public class TestNGTestEventPayload extends QtafTestEventPayload {
 
     /**
      * Handle TestFeature annotation
+     *
      * @param testFeatureAnnotation TestFeature annotation
      */
     private void handleTestFeatureAnnotation(TestFeature testFeatureAnnotation) {
@@ -83,7 +85,8 @@ public class TestNGTestEventPayload extends QtafTestEventPayload {
 
     /**
      * Handle TestNG original event
-     * @param iTestResult   original event
+     *
+     * @param iTestResult original event
      */
     private void handleTestNGTestResultObject(ITestResult iTestResult) {
         this.featureId = iTestResult.getTestClass().getRealClass().getName();
@@ -93,7 +96,8 @@ public class TestNGTestEventPayload extends QtafTestEventPayload {
 
     /**
      * Initialize class atributes based on a testNGMethod object
-     * @param testNGMethod  TestNGMethod object
+     *
+     * @param testNGMethod TestNGMethod object
      */
     private void handleTestNGMethodObject(ITestNGMethod testNGMethod) {
         this.scenarioDescription = testNGMethod.getDescription();
@@ -103,10 +107,11 @@ public class TestNGTestEventPayload extends QtafTestEventPayload {
 
     /**
      * Get a method entity object from the test execution info object
-     * @param iTestResult   Info object that contains information about the test
-     * @param clazz         Real class that contains the scenario method
-     * @return              MethodInfoEntity object
-     * @throws NoSuchMethodException    Thrown of original method cannot be found
+     *
+     * @param iTestResult Info object that contains information about the test
+     * @param clazz       Real class that contains the scenario method
+     * @return MethodInfoEntity object
+     * @throws NoSuchMethodException Thrown of original method cannot be found
      */
     private MethodInfoEntity getMethodInfoEntity(ITestResult iTestResult, Class<?> clazz) throws NoSuchMethodException {
         // Java method name of the test
@@ -150,7 +155,8 @@ public class TestNGTestEventPayload extends QtafTestEventPayload {
 
     /**
      * Initialize class attributes based on a MethodInfoEntity object
-     * @param methodInfo    MethodInfoEntity object
+     *
+     * @param methodInfo MethodInfoEntity object
      */
     private void handleMethodInfo(MethodInfoEntity methodInfo) {
         this.scenarioParameters = methodInfo.getMethod().getParameters();
@@ -159,8 +165,9 @@ public class TestNGTestEventPayload extends QtafTestEventPayload {
 
     /**
      * Get the test annotation from the test method
-     * @param method    Method reflection object
-     * @return          Test annotation object
+     *
+     * @param method Method reflection object
+     * @return Test annotation object
      */
     private Test getTestAnnotation(Method method) {
         return method.getAnnotation(Test.class);
@@ -168,7 +175,8 @@ public class TestNGTestEventPayload extends QtafTestEventPayload {
 
     /**
      * Method to initialize class attributes based on the Test annotation from TestNG
-     * @param testAnnotation    Test annotation of the scenario
+     *
+     * @param testAnnotation Test annotation of the scenario
      */
     private void handleTestNGTestAnnotation(Test testAnnotation) {
         this.scenarioName = testAnnotation.testName();

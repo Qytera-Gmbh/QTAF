@@ -15,8 +15,9 @@ public class TemplateEngine {
 
     /**
      * Load compiled template
-     * @param name  template name
-     * @return  compiled template
+     *
+     * @param name template name
+     * @return compiled template
      */
     public static PebbleTemplate getTemplate(String name) {
         return engine.getTemplate(name);

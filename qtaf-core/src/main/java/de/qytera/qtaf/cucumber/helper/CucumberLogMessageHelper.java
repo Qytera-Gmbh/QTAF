@@ -1,7 +1,7 @@
 package de.qytera.qtaf.cucumber.helper;
 
-import de.qytera.qtaf.cucumber.log.model.message.CucumberStepLogMessage;
 import de.qytera.qtaf.core.log.model.message.StepInformationLogMessage;
+import de.qytera.qtaf.cucumber.log.model.message.CucumberStepLogMessage;
 import de.qytera.qtaf.cucumber.log.model.message.index.CucumberStepIndex;
 import io.cucumber.core.backend.TestCaseState;
 import io.cucumber.java.Scenario;
@@ -23,7 +23,8 @@ public class CucumberLogMessageHelper {
 
     /**
      * Extract log messages from a Cucumber scenario object
-     * @param scenario  Scenario
+     *
+     * @param scenario Scenario
      * @return A list if cucumber step log message objects
      */
     public static List<CucumberStepLogMessage> createLogMessagesFromScenario(Scenario scenario) {
@@ -61,8 +62,8 @@ public class CucumberLogMessageHelper {
     /**
      * Create log message for cucumber step result
      *
-     * @param testStep      Test step object
-     * @return              Log message object
+     * @param testStep Test step object
+     * @return Log message object
      */
     public static CucumberStepLogMessage createCucumberStepLogMessageFromTestStep(
             PickleStepTestStep testStep
@@ -106,8 +107,9 @@ public class CucumberLogMessageHelper {
 
     /**
      * Add data of result to log message
-     * @param message       log message object
-     * @param testResult    result object
+     *
+     * @param message    log message object
+     * @param testResult result object
      */
     public static void applyResultToLogMessage(
             CucumberStepLogMessage message,
@@ -125,8 +127,9 @@ public class CucumberLogMessageHelper {
 
     /**
      * Map the status of a cucumber step to a QTAF log message step
-     * @param status    Cucumber status
-     * @return          QTAF status
+     *
+     * @param status Cucumber status
+     * @return QTAF status
      */
     public static StepInformationLogMessage.Status mapCucumberStatusToLogStatus(Status status) {
         switch (status) {

@@ -31,8 +31,9 @@ public class XrayImportRequestDto {
 
     /**
      * Add test to list
-     * @param xrayTestEntity  xray test entity
-     * @return          this
+     *
+     * @param xrayTestEntity xray test entity
+     * @return this
      */
     public XrayImportRequestDto addTest(XrayTestEntity xrayTestEntity) {
         this.tests.add(xrayTestEntity);

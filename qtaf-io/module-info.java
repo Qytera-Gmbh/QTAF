@@ -1,3 +1,3 @@
-module qtaf-io {
-    exports *
-}
+module qtaf-io{
+        exports*
+        }

@@ -22,7 +22,8 @@ public class AndroidDriver extends AbstractAndroidDriver {
 
     /**
      * Get capabilities
-     * @return  capabilities
+     *
+     * @return capabilities
      */
     protected DesiredCapabilities getCapabilities() {
         DesiredCapabilities dc = getCapabilities();

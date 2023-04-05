@@ -1,6 +1,8 @@
 package de.qytera.qtaf.htmlreport;
 
-import de.qytera.qtaf.core.log.model.collection.*;
+import de.qytera.qtaf.core.log.model.collection.TestFeatureLogCollection;
+import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
+import de.qytera.qtaf.core.log.model.collection.TestSuiteLogCollection;
 import de.qytera.qtaf.core.log.model.index.FeatureLogCollectionIndex;
 import de.qytera.qtaf.core.log.model.index.IndexHelper;
 import de.qytera.qtaf.core.log.model.index.LogMessageIndex;

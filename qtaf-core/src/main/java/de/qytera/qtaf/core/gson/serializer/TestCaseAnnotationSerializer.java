@@ -1,7 +1,10 @@
 package de.qytera.qtaf.core.gson.serializer;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 import de.qytera.qtaf.core.config.annotations.TestFeature;
-import com.google.gson.*;
 
 import java.lang.reflect.Type;
 

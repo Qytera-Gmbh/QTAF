@@ -1,7 +1,6 @@
 package de.qytera.qtaf.core.net.http;
 
 import com.sun.jersey.api.client.ClientResponse;
-import de.qytera.qtaf.core.gson.GsonHelper;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

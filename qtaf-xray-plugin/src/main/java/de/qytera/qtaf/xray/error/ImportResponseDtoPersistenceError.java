@@ -1,7 +1,6 @@
 package de.qytera.qtaf.xray.error;
 
 import de.qytera.qtaf.core.log.model.error.ErrorLog;
-import de.qytera.qtaf.xray.dto.request.XrayImportRequestDto;
 import de.qytera.qtaf.xray.dto.response.XrayImportResponseDto;
 
 public class ImportResponseDtoPersistenceError extends ErrorLog {

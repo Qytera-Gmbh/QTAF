@@ -92,7 +92,8 @@ public class TestSuiteLogCollection {
 
     /**
      * Get instance of class
-     * @return  instance of class
+     *
+     * @return instance of class
      */
     public static synchronized TestSuiteLogCollection getInstance() {
         return instance;
@@ -118,7 +119,8 @@ public class TestSuiteLogCollection {
 
     /**
      * Build the log directory path
-     * @return  log directory path
+     *
+     * @return log directory path
      */
     public TestSuiteLogCollection buildLogDirectoryPath() {
         SimpleDateFormat dirDateFormatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -136,7 +138,8 @@ public class TestSuiteLogCollection {
 
     /**
      * Get test case log collections
-     * @return  log collections
+     *
+     * @return log collections
      */
     public synchronized List<TestFeatureLogCollection> getTestFeatureLogCollections() {
         return testFeatureLogCollections;
@@ -151,8 +154,9 @@ public class TestSuiteLogCollection {
 
     /**
      * Add new test case collection
-     * @param collection    Collection
-     * @return  this
+     *
+     * @param collection Collection
+     * @return this
      */
     public synchronized TestSuiteLogCollection addTestClassLogCollection(TestFeatureLogCollection collection) {
         if (!this.testFeatureLogCollections.contains(collection)) {
@@ -164,9 +168,10 @@ public class TestSuiteLogCollection {
 
     /**
      * Create a new log collection if it was not created before
-     * @param featureId     Hash code of the test scenario
-     * @param featureName   Scenario name / Class ID of the test
-     * @return  new collection
+     *
+     * @param featureId   Hash code of the test scenario
+     * @param featureName Scenario name / Class ID of the test
+     * @return new collection
      */
     public synchronized TestFeatureLogCollection createFeatureIfNotExists(String featureId, String featureName) {
         TestFeatureLogCollection collection = TestFeatureLogCollection.createFeatureLogCollectionIfNotExists(
@@ -349,7 +354,8 @@ public class TestSuiteLogCollection {
 
     /**
      * Count feature logs
-     * @return  number of feature logs
+     *
+     * @return number of feature logs
      */
     public int countFeatureLogs() {
         return this.testFeatureLogCollections.size();
@@ -366,8 +372,9 @@ public class TestSuiteLogCollection {
 
     /**
      * Get tag
-     * @param key   Tag key
-     * @return  Tag value
+     *
+     * @param key Tag key
+     * @return Tag value
      */
     public String getTag(String key) {
         return this.tags.get(key);
@@ -375,6 +382,7 @@ public class TestSuiteLogCollection {
 
     /**
      * Add tag
+     *
      * @param key   Tag key
      * @param value Tag value
      */
@@ -384,7 +392,8 @@ public class TestSuiteLogCollection {
 
     /**
      * Remove tag
-     * @param key   tag key
+     *
+     * @param key tag key
      */
     public void removeTag(String key) {
         this.tags.remove(key);
@@ -548,7 +557,8 @@ public class TestSuiteLogCollection {
 
         /**
          * Get PID of current process
-         * @return  PID of current process
+         *
+         * @return PID of current process
          */
         public long getPid() {
             return pid;

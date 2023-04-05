@@ -216,8 +216,9 @@ public class XrayTestEntity {
 
     /**
      * Add an example
-     * @param example   Example
-     * @return  this
+     *
+     * @param example Example
+     * @return this
      */
     public XrayTestEntity addExample(String example) {
         examples.add(example);
@@ -258,8 +259,8 @@ public class XrayTestEntity {
     /**
      * Add Test Step
      *
-     * @param step  step
-     * @return              this
+     * @param step step
+     * @return this
      */
     public XrayTestEntity addStep(XrayManualTestStepResultEntity step) {
         this.steps.add(step);
@@ -268,8 +269,9 @@ public class XrayTestEntity {
 
     /**
      * Set steps
+     *
      * @param steps List of steps
-     * @return  this
+     * @return this
      */
     public XrayTestEntity setSteps(List<XrayManualTestStepResultEntity> steps) {
         this.steps = steps;
@@ -287,8 +289,9 @@ public class XrayTestEntity {
 
     /**
      * Add an iteration result
-     * @param iteration   Iteration result
-     * @return  this
+     *
+     * @param iteration Iteration result
+     * @return this
      */
     public XrayTestEntity addIteration(XrayTestIterationResultEntity iteration) {
         iterations.add(iteration);
@@ -317,8 +320,9 @@ public class XrayTestEntity {
 
     /**
      * Add a defect
-     * @param defect   Defect entity
-     * @return  this
+     *
+     * @param defect Defect entity
+     * @return this
      */
     public XrayTestEntity addExample(XrayDefectEntity defect) {
         defects.add(defect);
@@ -348,8 +352,8 @@ public class XrayTestEntity {
     /**
      * Add Evidence Entity
      *
-     * @param xrayEvidenceEntity  Evidence entity
-     * @return              this
+     * @param xrayEvidenceEntity Evidence entity
+     * @return this
      */
     public XrayTestEntity addEvidence(XrayEvidenceItemEntity xrayEvidenceEntity) {
         this.evidence.add(xrayEvidenceEntity);
@@ -378,8 +382,9 @@ public class XrayTestEntity {
 
     /**
      * Add a custom field
-     * @param customField   Example
-     * @return  this
+     *
+     * @param customField Example
+     * @return this
      */
     public XrayTestEntity addCustomField(XrayCustomFieldEntity customField) {
         customFields.add(customField);

@@ -15,7 +15,8 @@ public class QtafInjector {
 
     /**
      * Get the singleton instance of the QTAF Guice injector
-     * @return  Guice injector
+     *
+     * @return Guice injector
      */
     public static Injector getInstance() {
         return injector;

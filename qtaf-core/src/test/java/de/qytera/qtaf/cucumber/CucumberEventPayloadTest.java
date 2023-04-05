@@ -13,7 +13,8 @@ import java.lang.reflect.InvocationTargetException;
 public class CucumberEventPayloadTest {
     /**
      * Create a mock scenario object
-     * @return  mock scenario object
+     *
+     * @return mock scenario object
      */
     private Scenario createScenarioObject() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
         Constructor<Scenario> constructor;

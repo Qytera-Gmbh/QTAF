@@ -2,10 +2,10 @@ package de.qytera.qtaf.xray.commands;
 
 import de.qytera.qtaf.core.QtafFactory;
 import de.qytera.qtaf.core.config.entity.ConfigMap;
+import de.qytera.qtaf.core.log.Logger;
 import de.qytera.qtaf.core.patterns.Command;
 import de.qytera.qtaf.xray.service.AbstractXrayService;
 import de.qytera.qtaf.xray.service.XrayServiceFactory;
-import de.qytera.qtaf.core.log.Logger;
 
 /**
  * Command for Xray authentication

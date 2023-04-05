@@ -2,7 +2,6 @@ package de.qytera.qtaf.core.io;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 
 /**
  * Class containing helper methods for interacting with the file system
@@ -12,8 +11,9 @@ public class DirectoryHelper {
 
     /**
      * Replace variables and insert default file separator
-     * @param path  Path
-     * @return      Prepared path
+     *
+     * @param path Path
+     * @return Prepared path
      */
     public static String preparePath(String path) {
         return path
@@ -26,9 +26,10 @@ public class DirectoryHelper {
 
     /**
      * Create a directory
-     * @param dir      File path relative to project's root directory
-     * @return  true on success, false otherwise
-     * @throws IOException  error during file creation
+     *
+     * @param dir File path relative to project's root directory
+     * @return true on success, false otherwise
+     * @throws IOException error during file creation
      */
     public static boolean createDirectoryIfNotExists(String dir) throws IOException {
         dir = preparePath(dir);
@@ -40,8 +41,9 @@ public class DirectoryHelper {
 
     /**
      * Delete a directory and all its sub directories
-     * @param dir  directory
-     * @return  true on success, false otherwise
+     *
+     * @param dir directory
+     * @return true on success, false otherwise
      */
     public static boolean deleteDirectory(String dir) {
         return deleteDirectory(new File(preparePath(dir)));
@@ -49,8 +51,9 @@ public class DirectoryHelper {
 
     /**
      * Delete a directory and all its sub directories
-     * @param dir  directory
-     * @return  true on success, false otherwise
+     *
+     * @param dir directory
+     * @return true on success, false otherwise
      */
     public static boolean deleteDirectory(File dir) {
         File[] allContents = dir.listFiles();

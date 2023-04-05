@@ -30,8 +30,9 @@ public class XrayJsonImportBuilder {
 
     /**
      * Factory method for Xray Import Execution DTO. This method creates the DTO based on a Test Suite Log Entity
-     * @param collection    Test Suite Collection
-     * @return  Import DTO
+     *
+     * @param collection Test Suite Collection
+     * @return Import DTO
      */
     public synchronized XrayImportRequestDto buildFromTestSuiteLogs(TestSuiteLogCollection collection) {
         // This DTO will be sent to the Xray API
@@ -154,6 +155,7 @@ public class XrayJsonImportBuilder {
 
     /**
      * Add a XrayTestEntity object to the DTO for tests with a single iteration
+     *
      * @param collection            test suite log collection
      * @param xrayImportRequestDto  import DTO
      * @param scenarioReportCreator scenario report creator
@@ -183,11 +185,12 @@ public class XrayJsonImportBuilder {
 
     /**
      * Build a XrayTestEntity object
+     *
      * @param collection            test suite log collection
      * @param scenarioReportCreator scenario report creator
      * @param scenarioLog           test scenario log
      * @param xrayTestAnnotation    XrayTest annotation
-     * @return  Xray test entity instance
+     * @return Xray test entity instance
      */
     private XrayTestEntity buildXrayTestEntity(
             TestSuiteLogCollection collection,
@@ -226,8 +229,9 @@ public class XrayJsonImportBuilder {
 
     /**
      * Build a step entity from a step log message
-     * @param stepLog   step log message
-     * @return  Xray step entity
+     *
+     * @param stepLog step log message
+     * @return Xray step entity
      */
     private XrayManualTestStepResultEntity buildXrayManualTestStepResultEntity(StepInformationLogMessage stepLog) {
         // Create Step Log entity
@@ -243,10 +247,11 @@ public class XrayJsonImportBuilder {
 
     /**
      * Add an HTML Report to the Xray Test Entity
-     * @param collection                Test Suite Logs
-     * @param scenarioReportCreator     Object that can build a scenario report
-     * @param scenarioLog               Scenario Logs
-     * @param xrayTestEntity            Xray Test Entity
+     *
+     * @param collection            Test Suite Logs
+     * @param scenarioReportCreator Object that can build a scenario report
+     * @param scenarioLog           Scenario Logs
+     * @param xrayTestEntity        Xray Test Entity
      */
     protected void addScenarioReport(TestSuiteLogCollection collection, ScenarioReportCreator scenarioReportCreator, TestScenarioLogCollection scenarioLog, XrayTestEntity xrayTestEntity) {
         if (XrayConfigHelper.isScenarioReportEvidenceEnabled()) {
@@ -269,8 +274,9 @@ public class XrayJsonImportBuilder {
 
     /**
      * Factory method for an XrayTestEntity object
-     * @param scenarioLog   Scenario Log information
-     * @return  XrayTestEntity object
+     *
+     * @param scenarioLog Scenario Log information
+     * @return XrayTestEntity object
      */
     protected XrayTestEntity initializeXrayTestEntity(TestScenarioLogCollection scenarioLog) {
         // Get all annotations of scenario's Java method
@@ -297,8 +303,9 @@ public class XrayJsonImportBuilder {
 
     /**
      * Add evidence to a xray test entity if available and enabled in the configuration
-     * @param scenarioLog       Scenario Log object
-     * @param xrayTestEntity    Xray Test Entity object
+     *
+     * @param scenarioLog    Scenario Log object
+     * @param xrayTestEntity Xray Test Entity object
      */
     protected void addScenarioImageEvidence(TestScenarioLogCollection scenarioLog, XrayTestEntity xrayTestEntity) {
         if (XrayConfigHelper.isScenarioImageEvidenceEnabled()) {

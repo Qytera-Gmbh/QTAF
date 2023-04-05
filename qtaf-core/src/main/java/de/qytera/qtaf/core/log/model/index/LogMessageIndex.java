@@ -26,11 +26,13 @@ public class LogMessageIndex {
     /**
      * Private constructor
      */
-    private LogMessageIndex() {}
+    private LogMessageIndex() {
+    }
 
     /**
      * Factory method
-     * @return  singleton instance
+     *
+     * @return singleton instance
      */
     public static synchronized LogMessageIndex getInstance() {
         return instance;
@@ -38,8 +40,9 @@ public class LogMessageIndex {
 
     /**
      * Get an object by its ID
-     * @param id    object ID
-     * @return  feature log collection
+     *
+     * @param id object ID
+     * @return feature log collection
      */
     public synchronized LogMessage get(int id) {
         return index.get(id);
@@ -47,9 +50,10 @@ public class LogMessageIndex {
 
     /**
      * Add a new object to the index
-     * @param id    object's ID
-     * @param obj   object itself
-     * @return  the inserted object
+     *
+     * @param id  object's ID
+     * @param obj object itself
+     * @return the inserted object
      */
     public synchronized LogMessage put(int id, LogMessage obj) {
         QtafFactory.getLogger().debug(String.format(
@@ -63,6 +67,7 @@ public class LogMessageIndex {
 
     /**
      * Get size of index (number of elements in the index)
+     *
      * @return size of index
      */
     public synchronized int size() {
@@ -78,8 +83,9 @@ public class LogMessageIndex {
 
     /**
      * Get all log messages for a given feature ID
-     * @param featureId    Feature ID
-     * @return  List of log messages for the given feature ID
+     *
+     * @param featureId Feature ID
+     * @return List of log messages for the given feature ID
      */
     public List<LogMessage> getByFeatureId(String featureId) {
         return this.index
@@ -91,8 +97,9 @@ public class LogMessageIndex {
 
     /**
      * Get all log messages for a given abstract scenario ID
-     * @param abstractScenarioId    Abstract Scenario ID
-     * @return  List of log messages for the given abstract scenario ID
+     *
+     * @param abstractScenarioId Abstract Scenario ID
+     * @return List of log messages for the given abstract scenario ID
      */
     public List<LogMessage> getByAbstractScenarioId(String abstractScenarioId) {
         return this.index
@@ -104,8 +111,9 @@ public class LogMessageIndex {
 
     /**
      * Get all log messages for a given scenario ID
-     * @param scenarioId    Scenario ID
-     * @return  List of log messages for the given scenario ID
+     *
+     * @param scenarioId Scenario ID
+     * @return List of log messages for the given scenario ID
      */
     public List<LogMessage> getByScenarioId(String scenarioId) {
         return this.index

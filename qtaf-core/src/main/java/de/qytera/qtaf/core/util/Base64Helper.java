@@ -21,8 +21,9 @@ public class Base64Helper {
 
     /**
      * Convert a string to its base64 representation
+     *
      * @param input String input
-     * @return  base64 string
+     * @return base64 string
      */
     public static String encode(String input) {
         return encoder.encodeToString(input.getBytes());
@@ -30,8 +31,9 @@ public class Base64Helper {
 
     /**
      * Convert a file content to its base64 representation
+     *
      * @param filepath Path to a file
-     * @return  base64 string
+     * @return base64 string
      * @throws IOException error if file does not exist
      */
     public static String encodeFileContent(String filepath) throws IOException {
@@ -41,8 +43,9 @@ public class Base64Helper {
 
     /**
      * Convert a base64 to its original representation
+     *
      * @param input Base64 String input
-     * @return  original string
+     * @return original string
      */
     public static String decode(String input) {
         return new String(decoder.decode(input));
@@ -50,8 +53,9 @@ public class Base64Helper {
 
     /**
      * Convert a base64 file content to its original byte array representation
+     *
      * @param filepath Path to a file
-     * @return  original string
+     * @return original string
      * @throws IOException error if file does not exist
      */
     public static byte[] decodeFileContent(String filepath) throws IOException {
@@ -61,8 +65,9 @@ public class Base64Helper {
 
     /**
      * Convert a base64 file content to its original string representation
+     *
      * @param filepath Path to a file
-     * @return  original string
+     * @return original string
      * @throws IOException error if file does not exist
      */
     public static String decodeFileContentAsString(String filepath) throws IOException {

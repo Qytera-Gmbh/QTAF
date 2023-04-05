@@ -1,17 +1,17 @@
 package de.qytera.qtaf.core.event_subscriber.test;
 
 import de.qytera.qtaf.core.QtafFactory;
-import de.qytera.qtaf.core.log.model.index.LogMessageIndex;
+import de.qytera.qtaf.core.events.QtafEvents;
+import de.qytera.qtaf.core.events.interfaces.IEventSubscriber;
+import de.qytera.qtaf.core.events.payload.IQtafTestingContext;
+import de.qytera.qtaf.core.log.Logger;
 import de.qytera.qtaf.core.log.model.collection.TestFeatureLogCollection;
 import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
 import de.qytera.qtaf.core.log.model.collection.TestSuiteLogCollection;
-import de.qytera.qtaf.core.events.interfaces.IEventSubscriber;
-import de.qytera.qtaf.core.events.QtafEvents;
-import de.qytera.qtaf.core.events.payload.IQtafTestingContext;
 import de.qytera.qtaf.core.log.model.error.ErrorLogCollection;
 import de.qytera.qtaf.core.log.model.error.TestError;
+import de.qytera.qtaf.core.log.model.index.LogMessageIndex;
 import de.qytera.qtaf.core.log.service.LogFileWriter;
-import de.qytera.qtaf.core.log.Logger;
 
 /**
  * Event subscriber that subscribes to testing finished events and creates a log file when event is dispatched
@@ -31,13 +31,15 @@ public class PersistLogFileSubscriber implements IEventSubscriber {
     public void initialize() {
         // Subscribe to initialization events
         QtafEvents.frameworkInitialized.subscribe(
-                v -> {},                                    // on success
+                v -> {
+                },                                    // on success
                 this::handleFrameworkInitializationErrors   // on error
         );
 
         // Handle driver initialization events
         QtafEvents.afterDriverInitialization.subscribe(
-                v -> {},                                    // on success
+                v -> {
+                },                                    // on success
                 this::handleDriverInitializationErrors      // on error
         );
 
@@ -50,7 +52,8 @@ public class PersistLogFileSubscriber implements IEventSubscriber {
 
     /**
      * Handle the test finished event
-     * @param iTestContext  test context
+     *
+     * @param iTestContext test context
      */
     private synchronized void handleTestFinishedEvent(IQtafTestingContext iTestContext) {
         // Get test suite log collection
@@ -104,6 +107,7 @@ public class PersistLogFileSubscriber implements IEventSubscriber {
 
     /**
      * Handle errors that occurred during the framework initialization process
+     *
      * @param e Error
      */
     private void handleFrameworkInitializationErrors(Throwable e) {
@@ -112,6 +116,7 @@ public class PersistLogFileSubscriber implements IEventSubscriber {
 
     /**
      * Handle exceptions that occurred during invocation of subscriber method
+     *
      * @param e Exception object
      */
     private void handleTestError(Throwable e) {
@@ -122,6 +127,7 @@ public class PersistLogFileSubscriber implements IEventSubscriber {
 
     /**
      * Handle errors that occurred during the driver initialization process
+     *
      * @param e Error
      */
     private void handleDriverInitializationErrors(Throwable e) {

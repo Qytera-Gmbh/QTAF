@@ -7,12 +7,12 @@ import de.qytera.qtaf.core.events.interfaces.IEventSubscriber;
 import de.qytera.qtaf.core.guice.annotations.Step;
 import de.qytera.qtaf.core.guice.invokation.StepExecutionInfo;
 import de.qytera.qtaf.core.io.DirectoryHelper;
+import de.qytera.qtaf.core.log.Logger;
 import de.qytera.qtaf.core.log.model.collection.TestSuiteLogCollection;
 import de.qytera.qtaf.core.log.model.message.StepInformationLogMessage;
 import de.qytera.qtaf.core.selenium.DriverFactory;
 import de.qytera.qtaf.core.selenium.helper.SeleniumDriverConfigHelper;
 import org.aopalliance.intercept.MethodInvocation;
-import de.qytera.qtaf.core.log.Logger;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -50,6 +50,7 @@ public class StepLoggerSubscriber implements IEventSubscriber {
 
     /**
      * Method is executed before step is executed
+     *
      * @param stepExecutionInfo step execution info object
      */
     private void onBeforeStepExecution(StepExecutionInfo stepExecutionInfo) {
@@ -135,6 +136,7 @@ public class StepLoggerSubscriber implements IEventSubscriber {
 
     /**
      * Method is executed when step is processed without throwing an exception
+     *
      * @param stepExecutionInfo step execution info object
      */
     private void onStepExecutionSuccess(StepExecutionInfo stepExecutionInfo) {
@@ -160,6 +162,7 @@ public class StepLoggerSubscriber implements IEventSubscriber {
 
     /**
      * Method is executed when step is throwing an exception
+     *
      * @param stepExecutionInfo step execution info object
      */
     private void onStepExecutionFailure(StepExecutionInfo stepExecutionInfo) {
@@ -187,10 +190,11 @@ public class StepLoggerSubscriber implements IEventSubscriber {
 
     /**
      * Take a screenshot
+     *
      * @param stepExecutionInfo Step execution info object
      * @param status            Step status
      * @param uuid              Unique id
-     * @return                  Screenshot path
+     * @return Screenshot path
      */
     private String stepExecutionScreenshot(StepExecutionInfo stepExecutionInfo, String status, UUID uuid) {
         WebDriver driver = QtafFactory.getWebDriver();
@@ -221,20 +225,22 @@ public class StepLoggerSubscriber implements IEventSubscriber {
 
     /**
      * Take screenshot
-     * @param driver    WebDriver object
-     * @return  Screenshot file object
+     *
+     * @param driver WebDriver object
+     * @return Screenshot file object
      */
     private File takeScreenshot(WebDriver driver) {
-        TakesScreenshot scrShot = ((TakesScreenshot)driver);
+        TakesScreenshot scrShot = ((TakesScreenshot) driver);
         return scrShot.getScreenshotAs(OutputType.FILE);
     }
 
     /**
      * Get destination path of screenshot file
+     *
      * @param stepExecutionInfo Step execution info object
      * @param status            Step status
      * @param logDir            Log directory
-     * @return                  Screenshot path
+     * @return Screenshot path
      */
     private String getStepScreenshotDestinationPath(
             StepExecutionInfo stepExecutionInfo,
@@ -253,9 +259,10 @@ public class StepLoggerSubscriber implements IEventSubscriber {
 
     /**
      * Save step screenshot file
-     * @param srcFile   Screenshot file object
-     * @param path      Destination path
-     * @return          Screenshot file object
+     *
+     * @param srcFile Screenshot file object
+     * @param path    Destination path
+     * @return Screenshot file object
      */
     private File saveStepScreenshot(File srcFile, String path) {
         File destFile = new File(
@@ -277,6 +284,7 @@ public class StepLoggerSubscriber implements IEventSubscriber {
 
     /**
      * Logging to console
+     *
      * @param stepExecutionInfo step execution info object
      * @param message           log message
      */

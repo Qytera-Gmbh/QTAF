@@ -14,7 +14,8 @@ public abstract class AbstractAndroidDriver extends AbstractDriver {
 
     /**
      * Get driver capabilities
-     * @return  driver capabilities
+     *
+     * @return driver capabilities
      */
     protected DesiredCapabilities getCapabilities() {
         DesiredCapabilities dc = new DesiredCapabilities();
@@ -30,8 +31,9 @@ public abstract class AbstractAndroidDriver extends AbstractDriver {
 
     /**
      * Get browser capabilities
-     * @param browserName   name of the browser
-     * @return  browser capabilities
+     *
+     * @param browserName name of the browser
+     * @return browser capabilities
      */
     protected DesiredCapabilities getDesiredCapabilitiesBrowser(String browserName) {
         DesiredCapabilities dc = getCapabilities();
@@ -44,8 +46,9 @@ public abstract class AbstractAndroidDriver extends AbstractDriver {
 
     /**
      * Get android driver
-     * @param dc    capabilities
-     * @return  android capabilities
+     *
+     * @param dc capabilities
+     * @return android capabilities
      */
     protected AndroidDriver getAndroidDriver(DesiredCapabilities dc) {
         try {

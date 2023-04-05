@@ -76,7 +76,8 @@ public class QtafTestNGCucumberContext extends AbstractTestNGCucumberTests imple
 
     /**
      * Constructor with optional initialization
-     * @param shallInitialize   Whether test context should be initialized or not
+     *
+     * @param shallInitialize Whether test context should be initialized or not
      */
     public QtafTestNGCucumberContext(boolean shallInitialize) {
         super();
@@ -160,14 +161,15 @@ public class QtafTestNGCucumberContext extends AbstractTestNGCucumberTests imple
      * Before hooks run before the first step of each scenario.
      */
     @Before
-    public void initializeTest(Scenario scenario){
+    public void initializeTest(Scenario scenario) {
         logger.debug("-- Cucumber: @Before");
     }
 
     /**
      * Method that check if a scenario shall run or not
-     * @param scenarioEntity    Scenario entity object
-     * @return  true if scenario shall run, false otherwise
+     *
+     * @param scenarioEntity Scenario entity object
+     * @return true if scenario shall run, false otherwise
      */
     public boolean shallRun(QTAFCucumberScenarioEntity scenarioEntity) {
         List<String> configGroups = QtafTestExecutionConfigHelper.getTestGroupsFromConfiguration();
@@ -186,7 +188,8 @@ public class QtafTestNGCucumberContext extends AbstractTestNGCucumberTests imple
 
     /**
      * Method that loads and provides Cucumber Scenario entities
-     * @return  Cucumber scenario entities
+     *
+     * @return Cucumber scenario entities
      */
     @Override
     @DataProvider(parallel = false)
@@ -217,8 +220,9 @@ public class QtafTestNGCucumberContext extends AbstractTestNGCucumberTests imple
 
     /**
      * TestNG test that executes all cucumber scenarios
-     * @param pickleWrapper    Cucumber scenario entity wrapper
-     * @param featureWrapper   Cucumber feature entity wrapper
+     *
+     * @param pickleWrapper  Cucumber scenario entity wrapper
+     * @param featureWrapper Cucumber feature entity wrapper
      */
     @Test(
             groups = {"cucumber"},
@@ -238,7 +242,8 @@ public class QtafTestNGCucumberContext extends AbstractTestNGCucumberTests imple
 
     /**
      * Method that runs before each scenario
-     * @param scenarioEntity    Entity object that holds information about feature and scenario that gets executed
+     *
+     * @param scenarioEntity Entity object that holds information about feature and scenario that gets executed
      */
     protected void onBeforeScenario(QTAFCucumberScenarioEntity scenarioEntity) {
         if (scenarioEntity.getFeatureTags().get("newDriver") != null) {
@@ -270,6 +275,7 @@ public class QtafTestNGCucumberContext extends AbstractTestNGCucumberTests imple
     /**
      * After hooks run after the last step of each scenario,
      * even when the step result is failed, undefined, pending, or skipped
+     *
      * @param scenario
      */
     @After

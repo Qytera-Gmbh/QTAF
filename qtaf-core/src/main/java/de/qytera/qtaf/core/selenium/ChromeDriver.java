@@ -1,11 +1,7 @@
 package de.qytera.qtaf.core.selenium;
 
-import de.qytera.qtaf.core.QtafFactory;
-import de.qytera.qtaf.core.config.entity.ConfigMap;
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeOptions;
 
 /**

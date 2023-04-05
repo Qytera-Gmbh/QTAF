@@ -38,7 +38,8 @@ public class XrayConfigHelper {
 
     /**
      * Get bearer token
-     * @return  bearer token
+     *
+     * @return bearer token
      */
     public static String getBearerToken() {
         return config.getString(BEARER_TOKEN_SELECTOR);
@@ -46,7 +47,8 @@ public class XrayConfigHelper {
 
     /**
      * Get client id
-     * @return  client id
+     *
+     * @return client id
      */
     public static String getClientId() {
         return config.getString(CLIENT_ID_SELECTOR);
@@ -54,7 +56,8 @@ public class XrayConfigHelper {
 
     /**
      * Get client secret
-     * @return  client secret
+     *
+     * @return client secret
      */
     public static String getClientSecret() {
         return config.getString(CLIENT_SECRET_SELECTOR);
@@ -62,7 +65,8 @@ public class XrayConfigHelper {
 
     /**
      * Get Xray server URL
-     * @return  Xray server URL
+     *
+     * @return Xray server URL
      */
     public static String getServerUrl() {
         return config.getString(XRAY_SERVER_URL_SELECTOR);
@@ -151,7 +155,8 @@ public class XrayConfigHelper {
 
     /**
      * Get xray service (cloud | server)
-     * @return  xray service (cloud | server)
+     *
+     * @return xray service (cloud | server)
      */
     public static String getXrayService() {
         String service = config.getString(XRAY_SERVICE_SELECTOR);
@@ -165,7 +170,8 @@ public class XrayConfigHelper {
 
     /**
      * Check if Xray server is enabled
-     * @return  true if enabled, false otherwise
+     *
+     * @return true if enabled, false otherwise
      */
     public static boolean isXrayServerService() {
         return getXrayService().equals(XRAY_SERVICE_SERVER);
@@ -173,7 +179,8 @@ public class XrayConfigHelper {
 
     /**
      * Check if Xray cloud is enabled
-     * @return  true if enabled, false otherwise
+     *
+     * @return true if enabled, false otherwise
      */
     public static boolean isXrayCloudService() {
         return getXrayService().equals(XRAY_SERVICE_CLOUD);
@@ -181,7 +188,8 @@ public class XrayConfigHelper {
 
     /**
      * Check if HTML report should be attached as evidence to Xray test execution import
-     * @return  true if enabled, false otherwise
+     *
+     * @return true if enabled, false otherwise
      */
     public static boolean isScenarioReportEvidenceEnabled() {
         return config.getBoolean(SCENARIO_REPORT_EVIDENCE);
@@ -189,7 +197,8 @@ public class XrayConfigHelper {
 
     /**
      * Check if images should be attached as evidence to Xray test execution import
-     * @return  true if enabled, false otherwise
+     *
+     * @return true if enabled, false otherwise
      */
     public static boolean isScenarioImageEvidenceEnabled() {
         return config.getBoolean(SCENARIO_IMAGE_EVIDENCE);

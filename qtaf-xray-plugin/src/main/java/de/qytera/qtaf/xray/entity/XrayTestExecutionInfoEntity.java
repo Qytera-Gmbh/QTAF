@@ -248,8 +248,9 @@ public class XrayTestExecutionInfoEntity {
 
     /**
      * Add test environment
-     * @param environment   Test environment
-     * @return  this
+     *
+     * @param environment Test environment
+     * @return this
      */
     public XrayTestExecutionInfoEntity addTestEnvironment(String environment) {
         this.testEnvironments.add(environment);

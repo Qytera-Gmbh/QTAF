@@ -19,10 +19,11 @@ public class GsonHelper {
 
     /**
      * From JSON to entity
-     * @param json      JSON string
-     * @param tClass    Entity class
-     * @param <T>       Entity Type
-     * @return  Entity object
+     *
+     * @param json   JSON string
+     * @param tClass Entity class
+     * @param <T>    Entity Type
+     * @return Entity object
      */
     public static <T> T fromJson(String json, Class<T> tClass) {
         return gson.fromJson(json, tClass);

@@ -2,9 +2,9 @@ package de.qytera.qtaf.testng;
 
 import de.qytera.qtaf.core.guice.QtafModule;
 import de.qytera.qtaf.testng.event_listener.TestNGEventListener;
-import org.testng.*;
-import org.testng.annotations.Guice;
 import de.qytera.qtaf.testng.test_factory.TestNGFactory;
+import org.testng.TestNG;
+import org.testng.annotations.Guice;
 
 import java.util.Collections;
 
@@ -18,7 +18,7 @@ public class QtafTestNGRunner {
         testNG.setListenerClasses(Collections.singletonList(TestNGEventListener.class));
 
         // Add test classes
-        testNG.setTestClasses(new Class[] {
+        testNG.setTestClasses(new Class[]{
                 TestNGFactory.class
         });
 

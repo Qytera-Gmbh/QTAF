@@ -24,7 +24,8 @@ import java.util.Map;
 public class CucumberScenarioEventPayload extends QtafTestEventPayload {
     /**
      * Constructor
-     * @param scenario  Original scenario event payload
+     *
+     * @param scenario Original scenario event payload
      */
     public CucumberScenarioEventPayload(Scenario scenario) {
         this.originalEvent = scenario;
@@ -58,8 +59,9 @@ public class CucumberScenarioEventPayload extends QtafTestEventPayload {
 
     /**
      * Get name of feature file from Scenario object
-     * @param scenario  Scenario information object
-     * @return  Feature name
+     *
+     * @param scenario Scenario information object
+     * @return Feature name
      */
     private String getFeatureNameFromScenario(Scenario scenario) {
         URI scenarioURI = scenario.getUri();

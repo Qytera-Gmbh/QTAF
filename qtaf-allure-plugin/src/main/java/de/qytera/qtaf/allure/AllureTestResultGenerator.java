@@ -17,8 +17,9 @@ import java.util.UUID;
 public class AllureTestResultGenerator {
     /**
      * QTAF Test Suite is mapped to list of Allure TestResult entities
-     * @param collection    QTAF Test suite entity
-     * @return              List of Allure TestResult entities
+     *
+     * @param collection QTAF Test suite entity
+     * @return List of Allure TestResult entities
      */
     public static List<TestResult> fromQtafTestSuiteCollection(TestSuiteLogCollection collection) {
         List<TestResult> testResults = new ArrayList<>();
@@ -35,8 +36,9 @@ public class AllureTestResultGenerator {
 
     /**
      * Map QTAF Test feature entity to Allure TestResult entity
-     * @param scenario  QTAF Test Feature entity
-     * @return          Allure TestResult Entity
+     *
+     * @param scenario QTAF Test Feature entity
+     * @return Allure TestResult Entity
      */
     public static TestResult fromQtafTestScenario(TestScenarioLogCollection scenario) {
         List<StepResult> testResultSteps = AllureTestResultGenerator.getStepResultsFromQtafScenario(scenario);
@@ -72,8 +74,9 @@ public class AllureTestResultGenerator {
 
     /**
      * Get list of StepResult entities from QTAF scenario
-     * @param scenario  QTAF scenario
-     * @return          List of Allure StepResult entities
+     *
+     * @param scenario QTAF scenario
+     * @return List of Allure StepResult entities
      */
     public static List<StepResult> getStepResultsFromQtafScenario(TestScenarioLogCollection scenario) {
         List<LogMessage> logMessages = scenario.getLogMessages();
@@ -85,7 +88,7 @@ public class AllureTestResultGenerator {
 
             // Get step parameters
             List<Parameter> stepParameters = getStepResultParameters(stepLog);
-            
+
             // Get status details
             StatusDetails statusDetails = getAllureStepResultStatusDetailsFromQtafStep(stepLog);
 
@@ -121,8 +124,9 @@ public class AllureTestResultGenerator {
 
     /**
      * Map QTAF Step to Allure StepResult stage
-     * @param stepLog   QTAF step entity
-     * @return          Allure Step status
+     *
+     * @param stepLog QTAF step entity
+     * @return Allure Step status
      */
     public static Stage getStepStageFromQtafStep(StepInformationLogMessage stepLog) {
         return switch (stepLog.getStatus()) {
@@ -134,8 +138,9 @@ public class AllureTestResultGenerator {
 
     /**
      * Map QTAF Step status to Allure StepResult status
-     * @param stepLog   QTAF step entity
-     * @return          Allure Step status
+     *
+     * @param stepLog QTAF step entity
+     * @return Allure Step status
      */
     public static Status getStepStatusFromQtafStep(StepInformationLogMessage stepLog) {
         return switch (stepLog.getStatus()) {
@@ -148,8 +153,9 @@ public class AllureTestResultGenerator {
 
     /**
      * Get List of StepResult parameters from QTAF Step entity
-     * @param stepLog   QTAF step entity
-     * @return          List of Allure Step parameters
+     *
+     * @param stepLog QTAF step entity
+     * @return List of Allure Step parameters
      */
     public static List<Parameter> getStepResultParameters(StepInformationLogMessage stepLog) {
         // Create list of parameters
@@ -170,8 +176,9 @@ public class AllureTestResultGenerator {
 
     /**
      * Get Allure TestResult attachments from QTAF scenario entity
+     *
      * @param scenarioLogCollection QTAF scenario entity
-     * @return  List if attachments
+     * @return List if attachments
      */
     public static List<Attachment> getAllureTestResultAttachments(TestScenarioLogCollection scenarioLogCollection) {
         Attachment beforeScreenshot = (new Attachment())
@@ -189,8 +196,9 @@ public class AllureTestResultGenerator {
 
     /**
      * Get Allure StepResult attachments from QTAF step entity
+     *
      * @param stepLog QTAF step entity
-     * @return  List if attachments
+     * @return List if attachments
      */
     public static List<Attachment> getAllureStepResultAttachments(StepInformationLogMessage stepLog) {
         Attachment beforeScreenshot = (new Attachment())
@@ -208,8 +216,9 @@ public class AllureTestResultGenerator {
 
     /**
      * Map QTAF scenario status to Allure TestResult status
-     * @param status    QTAF scenario status
-     * @return          Allure TestResult status
+     *
+     * @param status QTAF scenario status
+     * @return Allure TestResult status
      */
     public static Status mapQtafScenarioStatusToAllureTestResultStatus(TestScenarioLogCollection.Status status) {
         if (status == TestScenarioLogCollection.Status.SUCCESS) {

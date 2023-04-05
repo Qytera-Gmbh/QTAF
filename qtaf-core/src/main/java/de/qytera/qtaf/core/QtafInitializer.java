@@ -68,7 +68,8 @@ public class QtafInitializer {
 
     /**
      * Get status of Initializer
-     * @return  initialization status
+     *
+     * @return initialization status
      */
     public static boolean isInitialized() {
         return isInitialized;
@@ -76,7 +77,8 @@ public class QtafInitializer {
 
     /**
      * Created needed directories
-     * @throws IOException  error during file system initialization
+     *
+     * @throws IOException error during file system initialization
      */
     private static void createDirectories() throws IOException {
         String userDir = System.getProperty("user.dir");
@@ -87,6 +89,7 @@ public class QtafInitializer {
 
     /**
      * Handle errors that occurred during the framework initialization process
+     *
      * @param e Exception
      */
     private static void handleError(Exception e) {

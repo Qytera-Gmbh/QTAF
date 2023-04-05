@@ -1,6 +1,9 @@
 package de.qytera.qtaf.testng;
 
-import org.testng.*;
+import org.testng.IResultMap;
+import org.testng.ISuite;
+import org.testng.ITestContext;
+import org.testng.ITestNGMethod;
 import org.testng.xml.XmlTest;
 
 import java.text.SimpleDateFormat;
@@ -56,12 +59,12 @@ public class SampleTestContext implements ITestContext {
 
     @Override
     public String[] getIncludedGroups() {
-        return new String[] {"inc-group-1", "inc-group-2"};
+        return new String[]{"inc-group-1", "inc-group-2"};
     }
 
     @Override
     public String[] getExcludedGroups() {
-        return new String[] {"excl-group-1", "excl-group-2"};
+        return new String[]{"excl-group-1", "excl-group-2"};
     }
 
     @Override

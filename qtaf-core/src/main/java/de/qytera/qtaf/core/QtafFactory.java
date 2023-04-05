@@ -5,11 +5,9 @@ import de.qytera.qtaf.core.config.ConfigurationFactory;
 import de.qytera.qtaf.core.config.entity.ConfigMap;
 import de.qytera.qtaf.core.gson.GsonFactory;
 import de.qytera.qtaf.core.log.Logger;
-import de.qytera.qtaf.core.selenium.DriverFactory;
 import de.qytera.qtaf.core.log.model.collection.TestSuiteLogCollection;
+import de.qytera.qtaf.core.selenium.DriverFactory;
 import org.openqa.selenium.WebDriver;
-
-import java.sql.Driver;
 
 /**
  * Factory Class
@@ -17,7 +15,8 @@ import java.sql.Driver;
 public class QtafFactory {
     /**
      * Get configuration
-     * @return  Configuration
+     *
+     * @return Configuration
      */
     public static ConfigMap getConfiguration() {
         return ConfigurationFactory.getInstance();
@@ -25,7 +24,8 @@ public class QtafFactory {
 
     /**
      * Get Test suite log collection
-     * @return  test suite log collection
+     *
+     * @return test suite log collection
      */
     public static synchronized TestSuiteLogCollection getTestSuiteLogCollection() {
         return TestSuiteLogCollection.getInstance();
@@ -33,7 +33,8 @@ public class QtafFactory {
 
     /**
      * Get Selenium Web Driver instance
-     * @return  Selenium Web Driver
+     *
+     * @return Selenium Web Driver
      */
     public static WebDriver getWebDriver() {
         return DriverFactory.getDriver();
@@ -41,6 +42,7 @@ public class QtafFactory {
 
     /**
      * Get logger
+     *
      * @return logger
      */
     public static Logger getLogger() {
@@ -49,6 +51,7 @@ public class QtafFactory {
 
     /**
      * Get GSON instance
+     *
      * @return GSON instance
      */
     public static Gson getGson() {

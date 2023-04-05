@@ -3,7 +3,8 @@ package de.qytera.qtaf.core.net.http;
 
 /**
  * Class that is responsible for loading entities from an HTTP server that returns JSON Responses (i.e. a REST API)
- * @param <T>   Entity Type
+ *
+ * @param <T> Entity Type
  */
 abstract public class HTTPJsonEntityRepository<T> {
     /**
@@ -23,7 +24,8 @@ abstract public class HTTPJsonEntityRepository<T> {
 
     /**
      * Constructor
-     * @param dao   DAO
+     *
+     * @param dao DAO
      */
     public HTTPJsonEntityRepository(HTTPJsonDao dao, String path, Class<T> entityClass) {
         this.dao = dao;
@@ -33,7 +35,8 @@ abstract public class HTTPJsonEntityRepository<T> {
 
     /**
      * Build path where to look for single entities
-     * @param id    Entity id
+     *
+     * @param id Entity id
      */
     public String buildItemPath(int id) {
         return path + "/" + id;
@@ -41,7 +44,8 @@ abstract public class HTTPJsonEntityRepository<T> {
 
     /**
      * Build path where to look for single entities
-     * @param id    Entity id
+     *
+     * @param id Entity id
      */
     public String buildItemPath(String id) {
         return path + "/" + id;
@@ -49,14 +53,16 @@ abstract public class HTTPJsonEntityRepository<T> {
 
     /**
      * Build path where to look for single entities
-     * @param entity    Entity object
+     *
+     * @param entity Entity object
      */
     public abstract String buildItemPath(T entity);
 
     /**
      * Find single entity by ID
-     * @param id    Entity ID
-     * @return  Entity object
+     *
+     * @param id Entity ID
+     * @return Entity object
      */
     public T findOne(int id) {
         return dao.get(buildItemPath(id), entityClass);
@@ -64,8 +70,9 @@ abstract public class HTTPJsonEntityRepository<T> {
 
     /**
      * Create single entity
-     * @param entity    Entity object
-     * @return  Entity object
+     *
+     * @param entity Entity object
+     * @return Entity object
      */
     public T createOne(T entity) {
         return dao.post(path, entityClass, entity);
@@ -73,8 +80,9 @@ abstract public class HTTPJsonEntityRepository<T> {
 
     /**
      * Update single entity
-     * @param entity    Entity object
-     * @return  Entity object
+     *
+     * @param entity Entity object
+     * @return Entity object
      */
     public T updateOne(T entity) {
         return dao.put(buildItemPath(entity), entityClass, entity);
@@ -82,8 +90,9 @@ abstract public class HTTPJsonEntityRepository<T> {
 
     /**
      * Find single entity by ID
-     * @param entity    Entity object
-     * @return  Entity object
+     *
+     * @param entity Entity object
+     * @return Entity object
      */
     public T deleteOne(T entity) {
         return dao.delete(buildItemPath(entity), entityClass);

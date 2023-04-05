@@ -1,7 +1,6 @@
 package de.qytera.qtaf.core.selenium;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 

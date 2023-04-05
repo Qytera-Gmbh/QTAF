@@ -7,7 +7,7 @@ import de.qytera.qtaf.xray.config.XrayConfigHelper;
 /**
  * Factory class for Xray Importer objects
  */
-public class    XrayImporterFactory {
+public class XrayImporterFactory {
     /**
      * Created instance of XrayServerCucumberImporter
      */
@@ -20,7 +20,8 @@ public class    XrayImporterFactory {
 
     /**
      * Get Cucumber Importer based on Configuration
-     * @return  Xray Importer
+     *
+     * @return Xray Importer
      */
     public static IXrayImporter getCucumberImporter() {
         ConfigMap config = QtafFactory.getConfiguration();
@@ -36,7 +37,8 @@ public class    XrayImporterFactory {
 
     /**
      * Get Xray Server Cucumber Importer
-     * @return  Xray Server Cucumber Importer object
+     *
+     * @return Xray Server Cucumber Importer object
      */
     public static XrayServerCucumberImporter getXrayServerCucumberImporter() {
         if (xrayServerCucumberImporter == null) {
@@ -48,7 +50,8 @@ public class    XrayImporterFactory {
 
     /**
      * Get Xray Cloud Cucumber Importer
-     * @return  Xray Server Cucumber Importer object
+     *
+     * @return Xray Server Cucumber Importer object
      */
     public static XrayCloudCucumberImporter getXrayCloudCucumberImporter() {
         if (xrayCloudCucumberImporter == null) {

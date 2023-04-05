@@ -21,7 +21,8 @@ public class XrayHTTPDaoFactory {
 
     /**
      * Factory method for Xray HTTP Dao. THe configuration decides on which HTTP Dao is returned.
-     * @return  Xray (Server | Client) HTTP Dao
+     *
+     * @return Xray (Server | Client) HTTP Dao
      */
     public static HTTPJsonDao getInstance() {
         if (XrayConfigHelper.isXrayServerService()) {
@@ -33,7 +34,8 @@ public class XrayHTTPDaoFactory {
 
     /**
      * Factory method for Xray Server HTTP Dao
-     * @return  Xray Server HTTP Dao
+     *
+     * @return Xray Server HTTP Dao
      */
     public static HTTPJsonDao getXrayServerHTTPJsonDao() {
         if (xrayServerHttpDao == null) {
@@ -46,7 +48,8 @@ public class XrayHTTPDaoFactory {
 
     /**
      * Factory method for Xray Server HTTP Dao
-     * @return  Xray Server HTTP Dao
+     *
+     * @return Xray Server HTTP Dao
      */
     public static HTTPJsonDao getXrayCloudHTTPDao() {
         if (xrayClientHttpDao == null) {

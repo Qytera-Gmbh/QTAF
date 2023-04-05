@@ -11,7 +11,8 @@ import java.lang.reflect.Constructor;
 public class ScenarioHelper {
     /**
      * Create a mock scenario object
-     * @return  Mock scenario object
+     *
+     * @return Mock scenario object
      */
     public static Scenario getScenario() {
         try {

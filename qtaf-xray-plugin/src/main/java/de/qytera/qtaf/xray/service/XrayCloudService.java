@@ -44,7 +44,8 @@ public class XrayCloudService extends AbstractXrayService {
 
     /**
      * Factory method
-     * @return  singleton instance
+     *
+     * @return singleton instance
      */
     public static XrayCloudService getInstance() {
         if (instance == null) {
@@ -70,7 +71,8 @@ public class XrayCloudService extends AbstractXrayService {
 
     /**
      * Set authentication credentials
-     * @param xrayAuthCredentials   Authentication credentials
+     *
+     * @param xrayAuthCredentials Authentication credentials
      */
     public void setAuthCredentials(XrayAuthCredentials xrayAuthCredentials) {
         this.xrayAuthCredentials = xrayAuthCredentials;
@@ -78,7 +80,8 @@ public class XrayCloudService extends AbstractXrayService {
 
     /**
      * Authenticate against Xray API
-     * @return              Bearer token
+     *
+     * @return Bearer token
      */
     public String authenticate() {
         // Check if bearer token is available, if not try to get one by clientId and clientSecret
@@ -117,6 +120,7 @@ public class XrayCloudService extends AbstractXrayService {
 
     /**
      * Get JWT token
+     *
      * @return jwt token
      */
     public String getJwtToken() {

@@ -8,15 +8,17 @@ import java.io.IOException;
 public interface IXrayImporter {
     /**
      * Create feature file by Test Set ID
-     * @param testSetID     ID of test set
-     * @param filePath      Feature file location
+     *
+     * @param testSetID ID of test set
+     * @param filePath  Feature file location
      */
     void createFeatureFileFromTestSetId(String testSetID, String filePath) throws IOException;
 
     /**
      * Create feature file by Test IDs
-     * @param testIDs       Test IDs
-     * @param filePath      Feature file location
+     *
+     * @param testIDs  Test IDs
+     * @param filePath Feature file location
      */
     void createFeatureFileFromTestIds(String[] testIDs, String filePath) throws IOException;
 }

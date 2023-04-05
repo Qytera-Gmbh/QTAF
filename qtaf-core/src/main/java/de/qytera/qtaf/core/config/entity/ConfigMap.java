@@ -3,9 +3,9 @@ package de.qytera.qtaf.core.config.entity;
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.PathNotFoundException;
 import de.qytera.qtaf.core.QtafFactory;
+import de.qytera.qtaf.core.log.Logger;
 import de.qytera.qtaf.core.log.model.error.ConfigurationError;
 import de.qytera.qtaf.core.log.model.error.ErrorLogCollection;
-import de.qytera.qtaf.core.log.Logger;
 
 import java.util.HashMap;
 import java.util.List;
@@ -26,7 +26,8 @@ public class ConfigMap extends HashMap<String, Object> {
 
     /**
      * Constructor
-     * @param documentContext   json context
+     *
+     * @param documentContext json context
      */
     public ConfigMap(DocumentContext documentContext) {
         this.documentContext = documentContext;
@@ -97,8 +98,9 @@ public class ConfigMap extends HashMap<String, Object> {
 
     /**
      * Get value from environment variable
-     * @param key   configuration key
-     * @return  configuration value
+     *
+     * @param key configuration key
+     * @return configuration value
      */
     public String getStringFromEnvironment(String key) {
         // Search for lower case and upper case keys
@@ -116,8 +118,9 @@ public class ConfigMap extends HashMap<String, Object> {
 
     /**
      * Get value from system properties
-     * @param key   configuration key
-     * @return  configuration value
+     *
+     * @param key configuration key
+     * @return configuration value
      */
     public String getStringFromSystemProperty(String key) {
         return System.getProperty(key);
@@ -126,9 +129,9 @@ public class ConfigMap extends HashMap<String, Object> {
     /**
      * Set string value
      *
-     * @param key     Key
-     * @param value   Key
-     * @return        self
+     * @param key   Key
+     * @param value Key
+     * @return self
      */
     public ConfigMap setString(String key, String value) {
         this.put(key, value);
@@ -161,9 +164,9 @@ public class ConfigMap extends HashMap<String, Object> {
     /**
      * Set int value
      *
-     * @param key     Key
-     * @param value   Key
-     * @return        self
+     * @param key   Key
+     * @param value Key
+     * @return self
      */
     public ConfigMap setInt(String key, Integer value) {
         this.put(key, value);
@@ -196,9 +199,9 @@ public class ConfigMap extends HashMap<String, Object> {
     /**
      * Set double value
      *
-     * @param key     Key
-     * @param value   Key
-     * @return        self
+     * @param key   Key
+     * @param value Key
+     * @return self
      */
     public ConfigMap setDouble(String key, Double value) {
         this.put(key, value);
@@ -231,9 +234,9 @@ public class ConfigMap extends HashMap<String, Object> {
     /**
      * Set boolean value
      *
-     * @param key     Key
-     * @param value   Key
-     * @return        self
+     * @param key   Key
+     * @param value Key
+     * @return self
      */
     public ConfigMap setBoolean(String key, Boolean value) {
         this.put(key, value);
@@ -242,8 +245,9 @@ public class ConfigMap extends HashMap<String, Object> {
 
     /**
      * Get array
-     * @param key   Json path
-     * @return      array
+     *
+     * @param key Json path
+     * @return array
      */
     public List<?> getArray(String key) {
         return documentContext.read("$." + key);

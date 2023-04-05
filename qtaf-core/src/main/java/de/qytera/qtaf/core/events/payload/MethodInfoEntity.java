@@ -1,7 +1,5 @@
 package de.qytera.qtaf.core.events.payload;
 
-import de.qytera.qtaf.testng.events.payload.TestNGTestEventPayload;
-
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
@@ -32,6 +30,7 @@ public class MethodInfoEntity {
 
     /**
      * Constructor
+     *
      * @param method            Method object of the test scenario
      * @param methodParamTypes  Types of the scenario parameters
      * @param methodParamValues Values of the scenario parameters

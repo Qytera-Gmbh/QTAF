@@ -1,12 +1,12 @@
 package de.qytera.qtaf.core.events;
 
 import de.qytera.qtaf.core.config.entity.ConfigMap;
-import de.qytera.qtaf.core.guice.invokation.*;
-import de.qytera.qtaf.core.selenium.AbstractDriver;
 import de.qytera.qtaf.core.events.payload.IQtafTestEventPayload;
 import de.qytera.qtaf.core.events.payload.IQtafTestStepEventPayload;
 import de.qytera.qtaf.core.events.payload.IQtafTestingContext;
+import de.qytera.qtaf.core.guice.invokation.*;
 import de.qytera.qtaf.core.log.model.collection.TestSuiteLogCollection;
+import de.qytera.qtaf.core.selenium.AbstractDriver;
 import rx.subjects.BehaviorSubject;
 import rx.subjects.PublishSubject;
 

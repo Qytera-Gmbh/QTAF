@@ -10,8 +10,9 @@ public class CucumberFeatureHelper {
 
     /**
      * Get feature file path relative to project's source directory
-     * @param absolutePath  The absolute path to the feature file
-     * @return  The relative path of the feature file
+     *
+     * @param absolutePath The absolute path to the feature file
+     * @return The relative path of the feature file
      */
     public static String getRelativeFeatureFilePath(String absolutePath) {
         String userDir = System.getProperty("user.dir").replace("\\", "/");
@@ -23,8 +24,9 @@ public class CucumberFeatureHelper {
 
     /**
      * Get Feature object from Feature object
-     * @param iFeature     Feature interface object
-     * @return  Feature object
+     *
+     * @param iFeature Feature interface object
+     * @return Feature object
      */
     public static io.cucumber.messages.types.Feature getFeature(Feature iFeature) {
         return (io.cucumber.messages.types.Feature) FieldHelper.getFieldValue(iFeature, "feature");

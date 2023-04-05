@@ -1,11 +1,10 @@
 package de.qytera.qtaf.core.log;
 
 import de.qytera.qtaf.core.config.annotations.TestFeature;
-import de.qytera.qtaf.core.log.model.collection.*;
-import de.qytera.qtaf.core.log.model.index.FeatureLogCollectionIndex;
+import de.qytera.qtaf.core.log.model.collection.TestFeatureLogCollection;
+import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
+import de.qytera.qtaf.core.log.model.collection.TestSuiteLogCollection;
 import de.qytera.qtaf.core.log.model.index.IndexHelper;
-import de.qytera.qtaf.core.log.model.index.LogMessageIndex;
-import de.qytera.qtaf.core.log.model.index.ScenarioLogCollectionIndex;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -55,10 +54,10 @@ public class TestFeatureLogCollectionTest {
     @Test
     public void testFeatureLogCollectionConstructor1() {
         TestFeatureLogCollection testFeatureLogCollection = TestFeatureLogCollection
-            .createFeatureLogCollectionIfNotExists(
-                "id-1",
-                "feature1"
-        );
+                .createFeatureLogCollectionIfNotExists(
+                        "id-1",
+                        "feature1"
+                );
 
         Assert.assertEquals(testFeatureLogCollection.getFeatureId(), "id-1");
         Assert.assertNotEquals(testFeatureLogCollection.getFeatureId(), "id-2");
@@ -80,10 +79,10 @@ public class TestFeatureLogCollectionTest {
 
         // Create FeatureLogCollection by annotated class
         TestFeatureLogCollection testFeatureLogCollection = TestFeatureLogCollection
-            .createFeatureLogCollectionIfNotExists(
-                "id-1",
-                testFeatureImplementation
-        );
+                .createFeatureLogCollectionIfNotExists(
+                        "id-1",
+                        testFeatureImplementation
+                );
 
         Assert.assertEquals(testFeatureLogCollection.getFeatureId(), "id-1");
         Assert.assertNotEquals(testFeatureLogCollection.getFeatureId(), "id-2");
@@ -106,10 +105,10 @@ public class TestFeatureLogCollectionTest {
         Assert.assertEquals(TestScenarioLogCollection.getIndexSize(), 0);
 
         TestFeatureLogCollection featureLogCollection = TestFeatureLogCollection
-            .createFeatureLogCollectionIfNotExists(
-                "feature1",
-                "feature1"
-        );
+                .createFeatureLogCollectionIfNotExists(
+                        "feature1",
+                        "feature1"
+                );
 
         // Create a new log collection
         TestScenarioLogCollection scenarioLogCollection1 = featureLogCollection

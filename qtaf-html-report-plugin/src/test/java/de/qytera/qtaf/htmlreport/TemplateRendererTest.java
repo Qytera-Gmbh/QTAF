@@ -16,7 +16,7 @@ public class TemplateRendererTest {
      */
     @Test
     public void testRendering() {
-        String[] templateFiles = new String[] {
+        String[] templateFiles = new String[]{
                 "de/qytera/qtaf/htmlreport/templates/home.html",
                 "de/qytera/qtaf/htmlreport/templates/feature.html",
                 "de/qytera/qtaf/htmlreport/templates/scenario.html",
