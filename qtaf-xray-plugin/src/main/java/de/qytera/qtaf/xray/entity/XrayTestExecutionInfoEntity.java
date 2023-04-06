@@ -7,15 +7,54 @@ import java.util.List;
  * Test Execution Info Entity
  */
 public class XrayTestExecutionInfoEntity {
+    /**
+     * The project key
+     */
     private String projectKey = null;
+
+    /**
+     * Test execution summary
+     */
     private String summary = null;
+
+    /**
+     * Test execution description
+     */
     private String description = null;
+
+    /**
+     * Test execution version
+     */
     private String version = null;
-    private String user = null;
+
+    /**
+     * Test execution revision
+     */
     private String revision = null;
+
+    /**
+     * The user that is responsible for this execution
+     */
+    private String user = null;
+
+    /**
+     * Start of the test execution
+     */
     private String startDate = null;
+
+    /**
+     * End of the test execution
+     */
     private String finishDate = null;
+
+    /**
+     * Test plan key the execution belongs to
+     */
     private String testPlanKey = null;
+
+    /**
+     * Test execution environments (i.e. Windows, MacOS, etc.)
+     */
     private List<String> testEnvironments = new ArrayList<>();
 
     /**
@@ -209,8 +248,9 @@ public class XrayTestExecutionInfoEntity {
 
     /**
      * Add test environment
-     * @param environment   Test environment
-     * @return  this
+     *
+     * @param environment Test environment
+     * @return this
      */
     public XrayTestExecutionInfoEntity addTestEnvironment(String environment) {
         this.testEnvironments.add(environment);

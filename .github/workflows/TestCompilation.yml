@@ -8,6 +8,17 @@ on:
   workflow_dispatch:
 
 jobs:
+  # Service containers to run with `container-job`
+  services:
+    # Label used to access the service container
+    chrome:
+      # Docker Hub image
+      image: selenium/standalone-chrome-debug
+
+  test-on-chrome:
+    steps:
+      - mvn clean test -Ddriver.name=chrome-remote -Ddriver.remoteUrl=http://127.0.0.1:4444/wd/hub
+
   build_java17_image:
     runs-on: ubuntu-latest
     steps:

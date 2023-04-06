@@ -16,8 +16,8 @@ public class CucumberScenarioHelper {
     /**
      * Get the test case state object from a scenario object
      *
-     * @param scenario  Cucumber scenario object
-     * @return  TestCaseState object
+     * @param scenario Cucumber scenario object
+     * @return TestCaseState object
      */
     public static TestCaseState getTestCaseState(Scenario scenario) {
         TestCaseState testCaseState = null;
@@ -32,7 +32,7 @@ public class CucumberScenarioHelper {
                 if (fieldObject instanceof TestCaseState) {
                     testCaseState = (TestCaseState) fieldObject;
                 }
-            } catch(IllegalAccessException e) {
+            } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
         }
@@ -43,8 +43,9 @@ public class CucumberScenarioHelper {
     /**
      * Extract key value pairs from cucumber tags
      * i.e. a tag @MyKey:MyValue will be added to the resulting kv-pairs as ["MyKey" => "MyValue"]
-     * @param scenario  Cucumber scenario object
-     * @return  cucumber tag metadata
+     *
+     * @param scenario Cucumber scenario object
+     * @return cucumber tag metadata
      */
     public static Map<String, String> getTagMetaData(Scenario scenario) {
         // Get scenario tags
@@ -54,8 +55,9 @@ public class CucumberScenarioHelper {
 
     /**
      * Find the tag that represents the test ID and extracts the test ID
-     * @param scenario  Cucumber scenario object
-     * @return  test ID
+     *
+     * @param scenario Cucumber scenario object
+     * @return test ID
      */
     public static String getScenarioIdFromTag(Scenario scenario) {
         // Get scenario tags

@@ -20,7 +20,8 @@ public class XrayImporter {
 
     public static void importTestSetAsFeature(String testSetId, String featureFilePath) throws IOException {
         XrayTestDtoCollection testDtoCollection = repository.findByTestSetId(testSetId);
-        createFeatureFileFromTestSet(testSetId, testDtoCollection, featureFilePath);;
+        createFeatureFileFromTestSet(testSetId, testDtoCollection, featureFilePath);
+        ;
     }
 
     public static void createFeatureFileFromSingleTest(XrayTestDto testDto, String filePath) throws IOException {
@@ -47,9 +48,9 @@ public class XrayImporter {
 
     public static String getFeatureFileContentFromSingleTest(XrayTestDto testDto) {
         return addFeatureDefinition(
-                        testDto.getKey(),
-                        addScenarioDefinition(testDto.getKey(), testDto.getDefinition())
-                );
+                testDto.getKey(),
+                addScenarioDefinition(testDto.getKey(), testDto.getDefinition())
+        );
     }
 
     public static String addScenarioDefinition(String scenarioName, String testDefinition) {

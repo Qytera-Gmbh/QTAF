@@ -4,10 +4,10 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import de.qytera.qtaf.core.config.annotations.TestFeature;
 import de.qytera.qtaf.core.gson.serializer.StackTraceElementSerializer;
-import de.qytera.qtaf.core.guice.annotations.Step;
 import de.qytera.qtaf.core.gson.serializer.StepAnnotationSerializer;
 import de.qytera.qtaf.core.gson.serializer.TestCaseAnnotationSerializer;
 import de.qytera.qtaf.core.gson.serializer.ThrowableSerializer;
+import de.qytera.qtaf.core.guice.annotations.Step;
 
 /**
  * Generate GSON object with custom serializers
@@ -20,7 +20,8 @@ public class GsonFactory {
 
     /**
      * Get singleton GSOn instance
-     * @return  GSON singleton instance
+     *
+     * @return GSON singleton instance
      */
     public static Gson getInstance() {
         if (instance == null) {

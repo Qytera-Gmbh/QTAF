@@ -20,11 +20,13 @@ public class ErrorLogCollection {
     /**
      * Private constructor
      */
-    private ErrorLogCollection() {}
+    private ErrorLogCollection() {
+    }
 
     /**
      * Get singleton instance of ErrorLogCollection
-     * @return  ErrorLogCollection
+     *
+     * @return ErrorLogCollection
      */
     public static ErrorLogCollection getInstance() {
         return instance;
@@ -41,7 +43,8 @@ public class ErrorLogCollection {
 
     /**
      * Add error log
-     * @param t  Throwable exception
+     *
+     * @param t Throwable exception
      */
     public void addErrorLog(Throwable t) {
         errorLogs.add(new ErrorLog(t));
@@ -49,7 +52,8 @@ public class ErrorLogCollection {
 
     /**
      * Add error log
-     * @param errorLog  Error log
+     *
+     * @param errorLog Error log
      */
     public void addErrorLog(ErrorLog errorLog) {
         errorLogs.add(errorLog);
@@ -57,7 +61,8 @@ public class ErrorLogCollection {
 
     /**
      * Add error log
-     * @param message  Error message
+     *
+     * @param message Error message
      */
     public void addErrorLog(String message) {
         errorLogs.add(new ErrorLog(message));
@@ -65,7 +70,8 @@ public class ErrorLogCollection {
 
     /**
      * Check if there are no error logs
-     * @return  True if there are no error logs, false otherwise
+     *
+     * @return True if there are no error logs, false otherwise
      */
     public boolean isEmpty() {
         return errorLogs.isEmpty();

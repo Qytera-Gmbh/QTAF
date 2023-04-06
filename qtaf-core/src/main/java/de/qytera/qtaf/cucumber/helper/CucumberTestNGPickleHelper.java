@@ -9,8 +9,9 @@ import io.cucumber.testng.Pickle;
 public class CucumberTestNGPickleHelper {
     /**
      * Get Gherkin Pickle object from TestNG Pickle object
-     * @param testngPickle     PickleWrapper object
-     * @return  Pickle object
+     *
+     * @param testngPickle PickleWrapper object
+     * @return Pickle object
      */
     public static io.cucumber.core.gherkin.Pickle getPickle(Pickle testngPickle) {
         return (io.cucumber.core.gherkin.Pickle) FieldHelper.getFieldValue(testngPickle, "pickle");

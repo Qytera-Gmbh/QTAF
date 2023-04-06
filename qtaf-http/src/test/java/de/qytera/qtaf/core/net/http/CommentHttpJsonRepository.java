@@ -4,8 +4,8 @@ public class CommentHttpJsonRepository extends HTTPJsonEntityRepository<CommentE
     /**
      * Constructor
      *
-     * @param dao   DAO
-     * @param path  API resource path
+     * @param dao  DAO
+     * @param path API resource path
      */
     public CommentHttpJsonRepository(HTTPJsonDao dao, String path) {
         super(dao, path, CommentEntity.class);

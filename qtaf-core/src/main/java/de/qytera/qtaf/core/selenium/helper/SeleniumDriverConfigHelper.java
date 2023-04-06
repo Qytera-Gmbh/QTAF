@@ -23,6 +23,7 @@ public class SeleniumDriverConfigHelper {
     public static final String SCREENSHOTS_AFTER_SCENARIO = "driver.screenshots.afterScenario";
     public static final String SCREENSHOTS_BEFORE_STEP = "driver.screenshots.beforeStep";
     public static final String SCREENSHOTS_AFTER_STEP = "driver.screenshots.afterStep";
+    public static final String SCREENSHOTS_AFTER_STEP_FAILURE = "driver.screenshots.afterStepFailure";
     public static final String SAUCE_USERNAME = "sauce.username";
     public static final String SAUCE_ACCESS_KEY = "sauce.accessKey";
     public static final String SAUCE_BROWSER_NAME = "sauce.browserName";
@@ -33,23 +34,20 @@ public class SeleniumDriverConfigHelper {
     private static ConfigMap config = QtafFactory.getConfiguration();
 
     /**
-     * Configure driver properties
-     * @return  Driver object
+     * Retrieves the configured implicit timeout. Defaults to 30 seconds if no implicit timeout has been specified.
+     *
+     * @return the implicit timeout
+     * @see <a href="https://www.selenium.dev/documentation/webdriver/waits/#implicit-wait">https://www.selenium.dev/documentation/webdriver/waits/#implicit-wait</a>
      */
     public static int getImplicitTimeout() {
-        // Set implicit wait
-        int implicitTimeout = 30;
-
-        try {
-            implicitTimeout = config.getInt(DRIVER_IMPLICIT_WAIT_TIMEOUT);
-        } catch (Throwable ignored) {}
-
-        return implicitTimeout;
+        // Set implicit wait to 30 seconds by default.
+        return config.getInt(DRIVER_IMPLICIT_WAIT_TIMEOUT, 30);
     }
 
     /**
      * Get remote driver URL
-     * @return  remote URL
+     *
+     * @return remote URL
      */
     public static URL getRemoteUrl() {
         try {
@@ -64,7 +62,8 @@ public class SeleniumDriverConfigHelper {
 
     /**
      * Get Platform Name
-     * @return  platform name
+     *
+     * @return platform name
      */
     public static String getPlatformName() {
         return config.getString(DRIVER_PLATFORM);
@@ -72,7 +71,8 @@ public class SeleniumDriverConfigHelper {
 
     /**
      * Get Driver version
-     * @return  driver version
+     *
+     * @return driver version
      */
     public static String getDriverVersion() {
         return config.getString(DRIVER_VERSION);
@@ -80,7 +80,8 @@ public class SeleniumDriverConfigHelper {
 
     /**
      * Get Saucelab Browser Name
-     * @return  Saucelab Browser Name
+     *
+     * @return Saucelab Browser Name
      */
     public static String getSaucelabBrowserName() {
         return config.getString(SAUCE_BROWSER_NAME);
@@ -88,7 +89,8 @@ public class SeleniumDriverConfigHelper {
 
     /**
      * Get Saucelab Username
-     * @return  Saucelab Username
+     *
+     * @return Saucelab Username
      */
     public static String getSaucelabUsername() {
         return config.getString(SAUCE_USERNAME);
@@ -96,7 +98,8 @@ public class SeleniumDriverConfigHelper {
 
     /**
      * Get Saucelab Access Key
-     * @return  Saucelab Access Key
+     *
+     * @return Saucelab Access Key
      */
     public static String getSaucelabAccessKey() {
         return config.getString(SAUCE_ACCESS_KEY);
@@ -104,7 +107,8 @@ public class SeleniumDriverConfigHelper {
 
     /**
      * Determine if QTAF should quit driver after testing
-     * @return  value from configuration
+     *
+     * @return value from configuration
      */
     public static boolean shouldQuitDriverAfterTesting() {
         return config.getBoolean(DRIVER_QUIT_AFTER_TESTING);
@@ -112,7 +116,8 @@ public class SeleniumDriverConfigHelper {
 
     /**
      * Determine if screenshots should be taken before a scenario
-     * @return  value from configuration
+     *
+     * @return value from configuration
      */
     public static boolean shouldTakeScreenshotsBeforeScenario() {
         return config.getBoolean(SCREENSHOTS_BEFORE_SCENARIO);
@@ -120,7 +125,8 @@ public class SeleniumDriverConfigHelper {
 
     /**
      * Determine if screenshots should be taken after a scenario
-     * @return  value from configuration
+     *
+     * @return value from configuration
      */
     public static boolean shouldTakeScreenshotsAfterScenario() {
         return config.getBoolean(SCREENSHOTS_AFTER_SCENARIO);
@@ -128,7 +134,8 @@ public class SeleniumDriverConfigHelper {
 
     /**
      * Determine if screenshots should be taken before a step
-     * @return  value from configuration
+     *
+     * @return value from configuration
      */
     public static boolean shouldTakeScreenshotsBeforeStep() {
         return config.getBoolean(SCREENSHOTS_BEFORE_STEP);
@@ -136,9 +143,19 @@ public class SeleniumDriverConfigHelper {
 
     /**
      * Determine if screenshots should be taken after a step
-     * @return  value from configuration
+     *
+     * @return value from configuration
      */
     public static boolean shouldTakeScreenshotsAfterStep() {
         return config.getBoolean(SCREENSHOTS_AFTER_STEP);
+    }
+
+    /**
+     * Determine if screenshots should be taken after a step failure
+     *
+     * @return value from configuration
+     */
+    public static boolean shouldTakeScreenshotsAfterStepFailure() {
+        return config.getBoolean(SCREENSHOTS_AFTER_STEP_FAILURE);
     }
 }

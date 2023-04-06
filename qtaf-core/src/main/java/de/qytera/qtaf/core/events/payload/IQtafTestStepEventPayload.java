@@ -8,13 +8,15 @@ import de.qytera.qtaf.core.log.model.message.LogMessage;
 public interface IQtafTestStepEventPayload {
     /**
      * Get scenario ID
-     * @return  scenario DI
+     *
+     * @return scenario DI
      */
     String getScenarioId();
 
     /**
      * Get log message
-     * @return  log message
+     *
+     * @return log message
      */
     LogMessage getLogMessage();
 }

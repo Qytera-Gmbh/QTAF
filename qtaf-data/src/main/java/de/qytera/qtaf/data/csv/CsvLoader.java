@@ -30,7 +30,8 @@ public class CsvLoader {
 
     /**
      * Get CSV file path
-     * @return  CSV file path
+     *
+     * @return CSV file path
      */
     protected String getFilePath() {
         return DirectoryHelper.preparePath(filePath);
@@ -49,6 +50,7 @@ public class CsvLoader {
 
     /**
      * Has headers flag
+     *
      * @return true if has headers, false otherwise
      */
     protected boolean hasHeaders() {
@@ -57,7 +59,8 @@ public class CsvLoader {
 
     /**
      * Get CSV delimiter
-     * @return  CSV delimiter
+     *
+     * @return CSV delimiter
      */
     protected char getDelimiter() {
         return ',';
@@ -65,7 +68,8 @@ public class CsvLoader {
 
     /**
      * Get CSV headers
-     * @return  CSV headers
+     *
+     * @return CSV headers
      */
     protected String[] getHeaders() {
         return HEADERS;
@@ -75,7 +79,7 @@ public class CsvLoader {
      * Get reader that allows reading a local file
      *
      * @return reader
-     * @throws FileNotFoundException    File reading error
+     * @throws FileNotFoundException File reading error
      */
     protected Reader getReader() throws FileNotFoundException {
         return new FileReader(getFilePath());
@@ -85,7 +89,7 @@ public class CsvLoader {
      * Get CSV records from a CSV file
      *
      * @return List of CSV records
-     * @throws IOException  Error reading file
+     * @throws IOException Error reading file
      */
     public Iterable<CSVRecord> getCsvRecords() throws IOException {
         Reader in = getReader();

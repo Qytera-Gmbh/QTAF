@@ -22,16 +22,6 @@ public interface IQtafTestContext {
     IQtafTestContext setLogCollection(TestScenarioLogCollection collection);
 
     /**
-     * Create a new method log collection and set it as the current log collection
-     *
-     * @param hashCode Unique test hash code
-     * @param methodId test method
-     * @param testId   test class
-     * @return collection
-     */
-    TestScenarioLogCollection createAndSetNewLogCollection(int hashCode, String methodId, String testId);
-
-    /**
      * Add logger to all instance fields
      */
     void addLoggerToFieldsRecursively();

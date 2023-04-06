@@ -1,5 +1,6 @@
 package de.qytera.qtaf.core.guice.method_interceptor;
 
+import de.qytera.qtaf.core.QtafFactory;
 import de.qytera.qtaf.core.context.IQtafTestContext;
 import de.qytera.qtaf.core.events.QtafEvents;
 import de.qytera.qtaf.core.guice.annotations.Step;
@@ -10,18 +11,20 @@ import org.aopalliance.intercept.MethodInvocation;
 /**
  * Method interceptor for methods that are annotated with the Step annotation
  */
-public class QtafStepTrackerInterceptor implements MethodInterceptor {
+public class QtafStepMethodInterceptor implements MethodInterceptor {
     /**
      * This method works as a proxy for methods. Instead of executing the annotated method directly this method will
      * be executed.
      *
-     * @param methodInvocation  Invoked method
-     * @return                  Method execution result
-     * @throws Throwable        Error
+     * @param methodInvocation Invoked method
+     * @return Method execution result
+     * @throws Throwable Error
      */
     @Override
     public Object invoke(MethodInvocation methodInvocation) throws Throwable {
         if (methodInvocation.getThis() instanceof IQtafTestContext) { // executed if this is instance of IQtafTestContext
+            QtafFactory.getLogger().debug(String.format("Intercept @Step method: name=%s", methodInvocation.getMethod().getName()));
+
             // Get step annotation
             Step step = methodInvocation.getMethod().getAnnotation(Step.class);
 
@@ -30,7 +33,7 @@ public class QtafStepTrackerInterceptor implements MethodInterceptor {
 
             // Build step execution info object
             StepExecutionInfo stepExecutionInfo = new StepExecutionInfo()
-                    .setStep(step)
+                    .setAnnotation(step)
                     .setMethodInvocation(methodInvocation);
 
             // Save individual id of method execution

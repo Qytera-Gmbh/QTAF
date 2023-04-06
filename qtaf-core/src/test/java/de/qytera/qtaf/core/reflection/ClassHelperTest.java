@@ -72,10 +72,10 @@ public class ClassHelperTest {
     public void testParametersSuitableForMethod() {
         SKlasse car = new SKlasse();
 
-        List<Method> methods = ClassHelper.findSuitableMethods(Driver.class, new Object[]{ car }, null);
+        List<Method> methods = ClassHelper.findSuitableMethods(Driver.class, new Object[]{car}, null);
         Assert.assertEquals(methods.size(), 5);
 
-        methods = ClassHelper.findSuitableMethods(Driver.class, new Object[]{ car }, "drivesCar");
+        methods = ClassHelper.findSuitableMethods(Driver.class, new Object[]{car}, "drivesCar");
         Assert.assertEquals(methods.size(), 3);
     }
 }

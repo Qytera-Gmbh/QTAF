@@ -30,7 +30,8 @@ public class HTTPDao {
 
     /**
      * Constructor
-     * @param host  host name
+     *
+     * @param host host name
      */
     public HTTPDao(String host) {
         this.host = host;
@@ -58,10 +59,11 @@ public class HTTPDao {
 
     /**
      * Perform GET Requests
-     * @param path  Url Path
-     * @param c     Class that the result gets mapped to
-     * @param <T>   Type that the Result gets mapped to
-     * @return      Response of Type T
+     *
+     * @param path Url Path
+     * @param c    Class that the result gets mapped to
+     * @param <T>  Type that the Result gets mapped to
+     * @return Response of Type T
      */
     protected <T> T get(String path, String mediaType, Class<T> c) {
         String url = host + path;
@@ -74,9 +76,10 @@ public class HTTPDao {
 
     /**
      * Perform GET Requests
+     *
      * @param path      Url Path
      * @param mediaType Media Type
-     * @return  Response
+     * @return Response
      */
     public ClientResponse get(String path, String mediaType) {
         return this.get(path, mediaType, ClientResponse.class);
@@ -84,9 +87,10 @@ public class HTTPDao {
 
     /**
      * Perform GET Requests
+     *
      * @param path      Url Path
      * @param mediaType Media Type
-     * @return  Response
+     * @return Response
      */
     public String getAsString(String path, String mediaType) {
         return this.get(path, mediaType, String.class);
@@ -94,6 +98,7 @@ public class HTTPDao {
 
     /**
      * Perform POST Requests
+     *
      * @param path          Url Path
      * @param c             Class that the result gets mapped to
      * @param <T>           Type that the Result gets mapped to
@@ -111,10 +116,11 @@ public class HTTPDao {
 
     /**
      * Perform POST Requests
+     *
      * @param path          Url Path
      * @param mediaType     Media Type
      * @param requestEntity Request body
-     * @return  Response
+     * @return Response
      */
     public ClientResponse post(String path, String mediaType, Object requestEntity) {
         return this.post(path, mediaType, ClientResponse.class, requestEntity);
@@ -122,10 +128,11 @@ public class HTTPDao {
 
     /**
      * Perform POST Requests
+     *
      * @param path          Url Path
      * @param mediaType     Media Type
      * @param requestEntity Request body
-     * @return  Response
+     * @return Response
      */
     public String postAsString(String path, String mediaType, Object requestEntity) {
         return this.post(path, mediaType, String.class, requestEntity);
@@ -133,6 +140,7 @@ public class HTTPDao {
 
     /**
      * Perform PUT Requests
+     *
      * @param path          Url Path
      * @param c             Class that the result gets mapped to
      * @param <T>           Type that the Result gets mapped to
@@ -150,10 +158,11 @@ public class HTTPDao {
 
     /**
      * Perform PUT Requests
+     *
      * @param path          Url Path
      * @param mediaType     Media Type
      * @param requestEntity Request body
-     * @return  Response
+     * @return Response
      */
     public ClientResponse put(String path, String mediaType, Object requestEntity) {
         return this.put(path, mediaType, ClientResponse.class, requestEntity);
@@ -161,10 +170,11 @@ public class HTTPDao {
 
     /**
      * Perform PUT Requests
+     *
      * @param path          Url Path
      * @param mediaType     Media Type
      * @param requestEntity Request body
-     * @return  Response
+     * @return Response
      */
     public String putAsString(String path, String mediaType, Object requestEntity) {
         return this.put(path, mediaType, String.class, requestEntity);
@@ -172,10 +182,11 @@ public class HTTPDao {
 
     /**
      * Perform DELETE Requests
-     * @param path  Url Path
-     * @param c     Class that the result gets mapped to
-     * @param <T>   Type that the Result gets mapped to
-     * @return      Response of Type T
+     *
+     * @param path Url Path
+     * @param c    Class that the result gets mapped to
+     * @param <T>  Type that the Result gets mapped to
+     * @return Response of Type T
      */
     protected <T> T delete(String path, String mediaType, Class<T> c) {
         String url = host + path;
@@ -188,9 +199,10 @@ public class HTTPDao {
 
     /**
      * Perform DELETE Requests
+     *
      * @param path      Url Path
      * @param mediaType Media Type
-     * @return  Response
+     * @return Response
      */
     public ClientResponse delete(String path, String mediaType) {
         return this.delete(path, mediaType, ClientResponse.class);
@@ -198,9 +210,10 @@ public class HTTPDao {
 
     /**
      * Perform DELETE Requests
+     *
      * @param path      Url Path
      * @param mediaType Media Type
-     * @return  Response
+     * @return Response
      */
     public String deleteAsString(String path, String mediaType) {
         return this.delete(path, mediaType, String.class);

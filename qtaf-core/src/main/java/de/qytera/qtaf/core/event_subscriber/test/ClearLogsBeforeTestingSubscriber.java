@@ -8,7 +8,6 @@ import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
 import de.qytera.qtaf.core.log.model.collection.TestSuiteLogCollection;
 import de.qytera.qtaf.core.log.model.error.ErrorLogCollection;
 import de.qytera.qtaf.core.log.model.error.FrameworkInitializationErrorLog;
-import de.qytera.qtaf.core.log.model.error.TestError;
 
 /**
  * Subscriber that clears all logs before testing is started
@@ -25,6 +24,7 @@ public class ClearLogsBeforeTestingSubscriber implements IEventSubscriber {
 
     /**
      * Handle onFrameworkInitialized event
+     *
      * @param x event payload
      */
     private void onFrameworkInitialized(Void x) {
@@ -36,6 +36,7 @@ public class ClearLogsBeforeTestingSubscriber implements IEventSubscriber {
 
     /**
      * Handle exceptions that occurred during invocation of subscriber method
+     *
      * @param e Exception object
      */
     private void handleError(Throwable e) {

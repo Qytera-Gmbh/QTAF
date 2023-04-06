@@ -1,12 +1,12 @@
 package de.qytera.qtaf.htmlreport;
 
-import com.mitchellbosecke.pebble.PebbleEngine;
-import com.mitchellbosecke.pebble.error.LoaderException;
-import com.mitchellbosecke.pebble.template.PebbleTemplate;
 import de.qytera.qtaf.core.log.model.collection.TestSuiteLogCollection;
 import de.qytera.qtaf.htmlreport.creator.FeatureReportCreator;
 import de.qytera.qtaf.htmlreport.creator.ReportCreator;
 import de.qytera.qtaf.htmlreport.creator.ScenarioReportCreator;
+import io.pebbletemplates.pebble.PebbleEngine;
+import io.pebbletemplates.pebble.error.LoaderException;
+import io.pebbletemplates.pebble.template.PebbleTemplate;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -16,7 +16,7 @@ public class TemplateRendererTest {
      */
     @Test
     public void testRendering() {
-        String[] templateFiles = new String[] {
+        String[] templateFiles = new String[]{
                 "de/qytera/qtaf/htmlreport/templates/home.html",
                 "de/qytera/qtaf/htmlreport/templates/feature.html",
                 "de/qytera/qtaf/htmlreport/templates/scenario.html",

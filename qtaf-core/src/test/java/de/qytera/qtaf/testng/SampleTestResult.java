@@ -27,7 +27,7 @@ public class SampleTestResult implements ITestResult {
 
     @Override
     public Object[] getParameters() {
-        return new Object[] { "my-parameter-1", 2000 };
+        return new Object[]{"my-parameter-1", 2000};
     }
 
     @Override

@@ -6,10 +6,10 @@ import com.sun.jersey.api.client.WebResource;
 import de.qytera.qtaf.core.gson.GsonFactory;
 import de.qytera.qtaf.core.log.model.error.ErrorLog;
 import de.qytera.qtaf.xray.config.XrayConfigHelper;
+import de.qytera.qtaf.xray.config.XrayRestPaths;
 import de.qytera.qtaf.xray.entity.XrayAuthCredentials;
 import de.qytera.qtaf.xray.events.QtafXrayEvents;
 import de.qytera.qtaf.xray.log.XrayAuthenticationErrorLog;
-import de.qytera.qtaf.xray.net.http.XrayUrls;
 
 import javax.ws.rs.core.MediaType;
 
@@ -20,7 +20,7 @@ public class XrayCloudService extends AbstractXrayService {
     /**
      * Xray API URL
      */
-    private final String XRAY_CLOUD_URL = XrayUrls.XRAY_CLOUD_API_V1;
+    private final String XRAY_CLOUD_URL = XrayRestPaths.XRAY_CLOUD_API_V2;
 
     /**
      * API authentication path
@@ -44,7 +44,8 @@ public class XrayCloudService extends AbstractXrayService {
 
     /**
      * Factory method
-     * @return  singleton instance
+     *
+     * @return singleton instance
      */
     public static XrayCloudService getInstance() {
         if (instance == null) {
@@ -70,7 +71,8 @@ public class XrayCloudService extends AbstractXrayService {
 
     /**
      * Set authentication credentials
-     * @param xrayAuthCredentials   Authentication credentials
+     *
+     * @param xrayAuthCredentials Authentication credentials
      */
     public void setAuthCredentials(XrayAuthCredentials xrayAuthCredentials) {
         this.xrayAuthCredentials = xrayAuthCredentials;
@@ -78,7 +80,8 @@ public class XrayCloudService extends AbstractXrayService {
 
     /**
      * Authenticate against Xray API
-     * @return              Bearer token
+     *
+     * @return Bearer token
      */
     public String authenticate() {
         // Check if bearer token is available, if not try to get one by clientId and clientSecret
@@ -117,6 +120,7 @@ public class XrayCloudService extends AbstractXrayService {
 
     /**
      * Get JWT token
+     *
      * @return jwt token
      */
     public String getJwtToken() {

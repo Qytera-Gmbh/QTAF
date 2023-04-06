@@ -24,12 +24,13 @@ import java.util.Map;
 public class CucumberScenarioEventPayload extends QtafTestEventPayload {
     /**
      * Constructor
-     * @param scenario  Original scenario event payload
+     *
+     * @param scenario Original scenario event payload
      */
     public CucumberScenarioEventPayload(Scenario scenario) {
         this.originalEvent = scenario;
         this.featureName = this.getFeatureNameFromScenario(scenario);
-        this.featureId = this.featureName.hashCode();
+        this.featureId = this.featureName;
 
         // Extract information from Scenario object
         Map<String, String> tagData = CucumberScenarioHelper.getTagMetaData(scenario);
@@ -39,7 +40,7 @@ public class CucumberScenarioEventPayload extends QtafTestEventPayload {
         List<TestStep> testSteps = testCase.getTestSteps();
         List<Result> testStepResults = CucumberTestCaseStateHelper.getStepResults(testCaseState);
 
-        this.scenarioId = scenario.getId().replace(DirectoryHelper.preparePath("file:///$USER_DIR/"), "");
+        this.abstractScenarioId = scenario.getId().replace(DirectoryHelper.preparePath("file:///$USER_DIR/"), "");
         this.scenarioName = tagData.get("TestName");
         this.scenarioDescription = scenario.getName();
         this.scenarioStart = new Date();
@@ -58,8 +59,9 @@ public class CucumberScenarioEventPayload extends QtafTestEventPayload {
 
     /**
      * Get name of feature file from Scenario object
-     * @param scenario  Scenario information object
-     * @return  Feature name
+     *
+     * @param scenario Scenario information object
+     * @return Feature name
      */
     private String getFeatureNameFromScenario(Scenario scenario) {
         URI scenarioURI = scenario.getUri();

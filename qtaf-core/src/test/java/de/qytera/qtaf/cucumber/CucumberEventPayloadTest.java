@@ -13,7 +13,8 @@ import java.lang.reflect.InvocationTargetException;
 public class CucumberEventPayloadTest {
     /**
      * Create a mock scenario object
-     * @return  mock scenario object
+     *
+     * @return mock scenario object
      */
     private Scenario createScenarioObject() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
         Constructor<Scenario> constructor;
@@ -42,7 +43,7 @@ public class CucumberEventPayloadTest {
 
         Assert.assertEquals(
                 payload.getFeatureId(),
-                "file:///features/sample-feature".hashCode(),
+                "file:///features/sample-feature",
                 "Assert feature id to be correctly taken from scenario object"
         );
     }
@@ -65,7 +66,7 @@ public class CucumberEventPayloadTest {
         IQtafTestEventPayload payload = new CucumberScenarioEventPayload(scenario);
 
         Assert.assertEquals(
-                payload.getScenarioId(),
+                payload.getAbstractScenarioId(),
                 "test-case-state-id",
                 "Assert scenario id to be correctly taken from scenario object"
         );

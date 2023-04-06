@@ -1,17 +1,20 @@
 package de.qytera.qtaf.core.config;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.google.inject.Provides;
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;
 import de.qytera.qtaf.core.QtafFactory;
 import de.qytera.qtaf.core.config.entity.ConfigMap;
-import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
 import de.qytera.qtaf.core.io.DirectoryHelper;
 import de.qytera.qtaf.core.io.FileHelper;
 import de.qytera.qtaf.core.log.Logger;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
@@ -24,17 +27,17 @@ public class ConfigurationFactory {
     /**
      * Default configuration path which is used if no custom path is provided
      */
-    public static final String filePath = "configuration.json";
+    public static final String filePath = "qtaf.json";
 
     /**
      * Default configuration resource location
      */
-    public static final String configurationResourceUrl = "/de/qytera/qtaf/core/config/configuration.json";
+    public static final String configurationResourceUrl = "/qtaf.json";
 
     /**
      * Base resource directory
      */
-    public static final String qtafConfigResourcesBaseDir = "$USER_DIR/src/main/resources/de/qytera/qtaf/core/config";
+    public static final String qtafConfigResourcesBaseDir = "$USER_DIR/src/test/resources";
 
     /**
      * Save config map
@@ -49,10 +52,12 @@ public class ConfigurationFactory {
     /**
      * Private constructor
      */
-    private ConfigurationFactory() {}
+    private ConfigurationFactory() {
+    }
 
     /**
      * Create default configuration object
+     *
      * @return Configuration
      */
     @Provides
@@ -69,8 +74,9 @@ public class ConfigurationFactory {
 
     /**
      * Reads the default configuration file that is shipped with the QTAF JAR file
-     * @return  Configuration file JSON content
-     * @throws IOException  File not found
+     *
+     * @return Configuration file JSON content
+     * @throws IOException File not found
      */
     public static String readDefaultConfigurationFileContent() throws IOException {
         InputStream inputStream = ConfigurationFactory.class.getResourceAsStream(configurationResourceUrl);
@@ -93,8 +99,9 @@ public class ConfigurationFactory {
 
     /**
      * Create configuration file if it does not exist
-     * @throws IOException  Error during file creation
-     * @return  true on success, false otherwise
+     *
+     * @return true on success, false otherwise
+     * @throws IOException Error during file creation
      */
     public static boolean createConfigurationFileIfNotExists() throws IOException {
         return ConfigurationFactory.createConfigurationFileIfNotExists(
@@ -105,10 +112,11 @@ public class ConfigurationFactory {
 
     /**
      * Create configuration file if it does not exist
-     * @param qtafConfigResourcesBaseDir    Directory where QTAF configuration files are stored
-     * @param filePath                      relative path of the configuration file (relative to qtafConfigResourcesBaseDir)
-     * @throws IOException  Error during file creation
-     * @return  true on success, false otherwise
+     *
+     * @param qtafConfigResourcesBaseDir Directory where QTAF configuration files are stored
+     * @param filePath                   relative path of the configuration file (relative to qtafConfigResourcesBaseDir)
+     * @return true on success, false otherwise
+     * @throws IOException Error during file creation
      */
     public static boolean createConfigurationFileIfNotExists(
             String qtafConfigResourcesBaseDir,
@@ -123,7 +131,7 @@ public class ConfigurationFactory {
     /**
      * Create a new configuration object
      *
-     * @param fileName  Name of the file
+     * @param fileName Name of the file
      * @return Configuration
      */
     public static ConfigMap getInstance(String fileName) {
@@ -138,7 +146,8 @@ public class ConfigurationFactory {
         try {
             if (!createConfigurationFileIfNotExists()) {
                 logFatal("Could not create configuration file");
-            };
+            }
+            ;
         } catch (IOException e) {
             e.printStackTrace();
             logFatal("Could not create configuration file");
@@ -173,7 +182,8 @@ public class ConfigurationFactory {
 
     /**
      * Log an info message
-     * @param message   Log message
+     *
+     * @param message Log message
      */
     private static void logInfo(String message) {
         logger.info("[ConfigurationFactory] " + message);
@@ -181,7 +191,8 @@ public class ConfigurationFactory {
 
     /**
      * Log an info message
-     * @param message   Log message
+     *
+     * @param message Log message
      */
     private static void logFatal(String message) {
         logger.fatal("[ConfigurationFactory] " + message);

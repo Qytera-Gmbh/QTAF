@@ -26,7 +26,8 @@ public class XrayServerService extends AbstractXrayService {
 
     /**
      * Factory method
-     * @return  singleton instance
+     *
+     * @return singleton instance
      */
     public static XrayServerService getInstance() {
         if (instance == null) {

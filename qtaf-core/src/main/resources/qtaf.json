@@ -1,0 +1,69 @@
+{
+  "tests": {
+    "suite": {
+      "name": ""
+    },
+    "package": "tests",
+    "groups": null
+  },
+  "driver": {
+    "name": "chrome",
+    "remoteUrl": null,
+    "implicitWaitTimeout": 30,
+    "quitAfterTesting": true,
+    "screenshots": {
+      "beforeScenario": true,
+      "afterScenario": true,
+      "beforeStep": true,
+      "afterStep": true,
+      "afterStepFailure": true
+    }
+  },
+  "logging": {
+    "enabled": true
+  },
+  "xray": {
+    "enabled": false,
+    "url": null,
+    "service": "cloud",
+    "authentication": {
+      "clientId": null,
+      "clientSecret": null,
+      "bearerToken": null
+    },
+    "scenarioReportEvidence": true,
+    "scenarioImageEvidence": true,
+    "status": {
+      "test": {
+        "passed": null,
+        "failed": null,
+        "pending": null,
+        "skipped": null
+      },
+      "step": {
+        "passed": null,
+        "failed": null,
+        "pending": null,
+        "skipped": null,
+        "undefined": null
+      }
+    },
+    "results": {
+      "iterations": {
+        "parameters": {
+          "maxLength": {
+            "name": null,
+            "value": null
+          }
+        }
+      }
+    }
+  },
+  "htmlReport": {
+    "enabled": true
+  },
+  "framework": {
+    "packageNames": [
+    ]
+  }
+}

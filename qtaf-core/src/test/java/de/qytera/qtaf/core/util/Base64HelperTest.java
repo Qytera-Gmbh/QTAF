@@ -2,7 +2,6 @@ package de.qytera.qtaf.core.util;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import de.qytera.qtaf.core.util.Base64Helper;
 
 import java.io.IOException;
 

@@ -46,7 +46,7 @@ public class QTAFCucumberScenarioEntity {
     /**
      * Get feature Tag
      *
-     * @param key   Tag key
+     * @param key Tag key
      * @return feature Tag value
      */
     public String getFeatureTag(String key) {
@@ -64,8 +64,9 @@ public class QTAFCucumberScenarioEntity {
 
     /**
      * Check if feature tag exists
-     * @param key   Tag key
-     * @return  true if feature tag exists, false otherwise
+     *
+     * @param key Tag key
+     * @return true if feature tag exists, false otherwise
      */
     public boolean hasFeatureTag(String key) {
         return this.featureTags.get(key) != null;
@@ -73,9 +74,10 @@ public class QTAFCucumberScenarioEntity {
 
     /**
      * Add feature tag
+     *
      * @param key   Tag key
      * @param value Tag value
-     * @return  this
+     * @return this
      */
     public QTAFCucumberScenarioEntity addFeatureTag(String key, String value) {
         this.featureTags.put(key, value);
@@ -95,8 +97,9 @@ public class QTAFCucumberScenarioEntity {
 
     /**
      * Remove feature tag
-     * @param key   Tag key
-     * @return  this
+     *
+     * @param key Tag key
+     * @return this
      */
     public QTAFCucumberScenarioEntity removeFeatureTag(String key) {
         this.featureTags.remove(key);
@@ -126,7 +129,7 @@ public class QTAFCucumberScenarioEntity {
     /**
      * Get scenario Tag
      *
-     * @param key   Tag key
+     * @param key Tag key
      * @return scenario Tag value
      */
     public List<String> getScenarioTag(String key) {
@@ -144,8 +147,9 @@ public class QTAFCucumberScenarioEntity {
 
     /**
      * Check if scenario tag exists
-     * @param key   Tag key
-     * @return  true if scenario tag exists, false otherwise
+     *
+     * @param key Tag key
+     * @return true if scenario tag exists, false otherwise
      */
     public boolean hasScenarioTag(String key) {
         return this.scenarioTags.get(key) != null;
@@ -153,9 +157,10 @@ public class QTAFCucumberScenarioEntity {
 
     /**
      * Add scenario tag
+     *
      * @param key   Tag key
      * @param value Tag value
-     * @return  this
+     * @return this
      */
     public QTAFCucumberScenarioEntity addScenarioTag(String key, String value) {
         return this.addScenarioTag(
@@ -166,9 +171,10 @@ public class QTAFCucumberScenarioEntity {
 
     /**
      * Add scenario tag
-     * @param key   Tag key
+     *
+     * @param key    Tag key
      * @param values List of values
-     * @return  this
+     * @return this
      */
     public QTAFCucumberScenarioEntity addScenarioTag(String key, List<String> values) {
         if (this.scenarioTags.get(key) != null) { // Key already exists
@@ -194,8 +200,9 @@ public class QTAFCucumberScenarioEntity {
 
     /**
      * Remove scenario tag
-     * @param key   Tag key
-     * @return  this
+     *
+     * @param key Tag key
+     * @return this
      */
     public QTAFCucumberScenarioEntity removeScenarioTag(String key) {
         this.scenarioTags.remove(key);
@@ -213,8 +220,9 @@ public class QTAFCucumberScenarioEntity {
 
     /**
      * Add group name
+     *
      * @param groupName Name of group
-     * @return  this
+     * @return this
      */
     public QTAFCucumberScenarioEntity addGroupName(String groupName) {
         this.groupNames.add(groupName);
@@ -234,8 +242,9 @@ public class QTAFCucumberScenarioEntity {
 
     /**
      * Check if scenario entity has group name
+     *
      * @param groupName Group name
-     * @return  true if entity has group name, false otherwise
+     * @return true if entity has group name, false otherwise
      */
     public boolean hasGroupName(String groupName) {
         return this.groupNames.contains(groupName);
@@ -243,8 +252,9 @@ public class QTAFCucumberScenarioEntity {
 
     /**
      * Check if scenario entity has all of the given group names
+     *
      * @param names List of group names
-     * @return  true if entity has all of the given group names, false otherwise
+     * @return true if entity has all of the given group names, false otherwise
      */
     public boolean hasAllGroupNames(List<String> names) {
         for (String name : names) {
@@ -257,8 +267,9 @@ public class QTAFCucumberScenarioEntity {
 
     /**
      * Check if scenario entity has any of the given group names
+     *
      * @param names List of group names
-     * @return  true if entity has at least one of the given group names, false otherwise
+     * @return true if entity has at least one of the given group names, false otherwise
      */
     public boolean hasAnyGroupName(List<String> names) {
         for (String name : names) {
@@ -280,8 +291,9 @@ public class QTAFCucumberScenarioEntity {
 
     /**
      * Add test set
+     *
      * @param testSet Name of test set
-     * @return  this
+     * @return this
      */
     public QTAFCucumberScenarioEntity addTestSet(String testSet) {
         this.testSets.add(testSet);
@@ -301,8 +313,9 @@ public class QTAFCucumberScenarioEntity {
 
     /**
      * Remove test set
+     *
      * @param testSet test set
-     * @return  this
+     * @return this
      */
     public QTAFCucumberScenarioEntity removeTestSet(String testSet) {
         this.testSets.remove(testSet);
@@ -311,8 +324,9 @@ public class QTAFCucumberScenarioEntity {
 
     /**
      * Check if scenario entity belongs to test set
+     *
      * @param testSet test set name
-     * @return  true if entity belongs to test set, false otherwise
+     * @return true if entity belongs to test set, false otherwise
      */
     public boolean belongsToTestSet(String testSet) {
         return this.testSets.contains(testSet);
@@ -320,8 +334,9 @@ public class QTAFCucumberScenarioEntity {
 
     /**
      * Check if scenario entity belongs to any of the given test sets
+     *
      * @param testSets List of test sets
-     * @return  true if entity belongs at least to one of the given test sets, false otherwise
+     * @return true if entity belongs at least to one of the given test sets, false otherwise
      */
     public boolean belongsToAnyTestSet(List<String> testSets) {
         for (String name : testSets) {
@@ -334,8 +349,9 @@ public class QTAFCucumberScenarioEntity {
 
     /**
      * Check if scenario entity belongs to all of the given test sets
+     *
      * @param names List of test sets
-     * @return  true if entity belongs to all of the given test sets, false otherwise
+     * @return true if entity belongs to all of the given test sets, false otherwise
      */
     public boolean belongsToAllTestSets(List<String> names) {
         for (String name : names) {
@@ -348,8 +364,9 @@ public class QTAFCucumberScenarioEntity {
 
     /**
      * Remove group name
+     *
      * @param groupName Group name
-     * @return  this
+     * @return this
      */
     public QTAFCucumberScenarioEntity removeGroupName(String groupName) {
         this.groupNames.remove(groupName);
@@ -358,7 +375,8 @@ public class QTAFCucumberScenarioEntity {
 
     /**
      * Parse group tag
-     * @return  this
+     *
+     * @return this
      */
     public QTAFCucumberScenarioEntity parseGroupTags() {
         List<String> tagGroupsStrings = this.getScenarioTags().get(GROUPS_TAG_NAME);
@@ -368,7 +386,7 @@ public class QTAFCucumberScenarioEntity {
         }
 
         // Iterate over all @Group tags and parse their values
-        for (String value: tagGroupsStrings) {
+        for (String value : tagGroupsStrings) {
             this.groupNames.addAll(TokenSeparatedStringHelper.toList(value, ",", true));
         }
 
@@ -377,7 +395,8 @@ public class QTAFCucumberScenarioEntity {
 
     /**
      * Parse test set tag
-     * @return  this
+     *
+     * @return this
      */
     public QTAFCucumberScenarioEntity parseTestSetTags() {
         List<String> testSetTagValues = this.getScenarioTags().get(TEST_SET_TAG_NAME);
@@ -387,7 +406,7 @@ public class QTAFCucumberScenarioEntity {
         }
 
         // Iterate over all @TestSet tags and parse their values
-        for (String value: testSetTagValues) {
+        for (String value : testSetTagValues) {
             this.testSets.addAll(TokenSeparatedStringHelper.toList(value, ",", true));
         }
 

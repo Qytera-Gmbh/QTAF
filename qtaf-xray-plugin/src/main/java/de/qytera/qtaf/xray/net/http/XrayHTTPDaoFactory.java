@@ -3,6 +3,7 @@ package de.qytera.qtaf.xray.net.http;
 import de.qytera.qtaf.core.net.http.HTTPJsonDao;
 import de.qytera.qtaf.xray.commands.AuthenticationCommand;
 import de.qytera.qtaf.xray.config.XrayConfigHelper;
+import de.qytera.qtaf.xray.config.XrayRestPaths;
 
 /**
  * Factory class for HTTP Dao obejcts
@@ -20,7 +21,8 @@ public class XrayHTTPDaoFactory {
 
     /**
      * Factory method for Xray HTTP Dao. THe configuration decides on which HTTP Dao is returned.
-     * @return  Xray (Server | Client) HTTP Dao
+     *
+     * @return Xray (Server | Client) HTTP Dao
      */
     public static HTTPJsonDao getInstance() {
         if (XrayConfigHelper.isXrayServerService()) {
@@ -32,7 +34,8 @@ public class XrayHTTPDaoFactory {
 
     /**
      * Factory method for Xray Server HTTP Dao
-     * @return  Xray Server HTTP Dao
+     *
+     * @return Xray Server HTTP Dao
      */
     public static HTTPJsonDao getXrayServerHTTPJsonDao() {
         if (xrayServerHttpDao == null) {
@@ -45,13 +48,14 @@ public class XrayHTTPDaoFactory {
 
     /**
      * Factory method for Xray Server HTTP Dao
-     * @return  Xray Server HTTP Dao
+     *
+     * @return Xray Server HTTP Dao
      */
     public static HTTPJsonDao getXrayCloudHTTPDao() {
         if (xrayClientHttpDao == null) {
             AuthenticationCommand authenticationCommand = new AuthenticationCommand();
             authenticationCommand.execute();
-            xrayClientHttpDao = new HTTPJsonDao(XrayUrls.XRAY_CLOUD_API_V1);
+            xrayClientHttpDao = new HTTPJsonDao(XrayRestPaths.XRAY_CLOUD_API_V2);
         }
 
         return xrayClientHttpDao;

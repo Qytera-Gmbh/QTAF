@@ -9,8 +9,9 @@ import org.testng.ITestResult;
 public class TestResultHelper {
     /**
      * Get test context object
-     * @param iTestResult   test result
-     * @return              test context
+     *
+     * @param iTestResult test result
+     * @return test context
      */
     public static IQtafTestContext getTestContextInstance(ITestResult iTestResult) {
         return (IQtafTestContext) iTestResult.getInstance();
@@ -19,8 +20,9 @@ public class TestResultHelper {
 
     /**
      * Build Test ID from test class and test method name
-     * @param iTestResult   Test result context
-     * @return              ID of the test
+     *
+     * @param iTestResult Test result context
+     * @return ID of the test
      */
     public static String getTestClassId(ITestResult iTestResult) {
         // Get class name of the test case
@@ -29,8 +31,9 @@ public class TestResultHelper {
 
     /**
      * Build Test ID from test class and test method name
-     * @param iTestResult   Test result context
-     * @return              ID of the test
+     *
+     * @param iTestResult Test result context
+     * @return ID of the test
      */
     public static String getTestMethodId(ITestResult iTestResult) {
         // Get method name of the test case

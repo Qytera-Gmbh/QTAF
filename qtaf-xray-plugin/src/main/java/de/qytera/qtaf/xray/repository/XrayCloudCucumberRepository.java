@@ -10,7 +10,10 @@ import de.qytera.qtaf.xray.service.AbstractXrayService;
 import de.qytera.qtaf.xray.service.XrayCloudService;
 import org.apache.commons.lang3.StringUtils;
 
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.zip.ZipEntry;
@@ -33,7 +36,7 @@ public class XrayCloudCucumberRepository implements IXrayCucumberRepository {
     /**
      * Data Access Object for Xray API
      */
-    private final HTTPDao httpDao = new HTTPDao(XrayRestPaths.XRAY_CLOUD_API_V1);
+    private final HTTPDao httpDao = new HTTPDao(XrayRestPaths.XRAY_CLOUD_API_V2);
 
 
     @Override
@@ -74,8 +77,9 @@ public class XrayCloudCucumberRepository implements IXrayCucumberRepository {
 
     /**
      * Send HTTP request to API, get ZIP file as a response and transform it to a ZipInputStream object
-     * @param keys  Test keys
-     * @return      ZIP content as ZipInputStream
+     *
+     * @param keys Test keys
+     * @return ZIP content as ZipInputStream
      */
     private ZipInputStream getZipInputStreamFromAPIResponse(String keys) {
         ClientResponse res = httpDao.get(String.format(EXPORT_TEST_AS_CUCUMBER, keys), "application/zip");
@@ -85,10 +89,11 @@ public class XrayCloudCucumberRepository implements IXrayCucumberRepository {
 
     /**
      * Get feature files from Xray Cloud API by Test(Set) IDs
-     * @param testIDs   Array of Test IDs
-     * @return          Array of feature file contents. Xray will return a ZIP file with multiple files in it.
-     *                  This methods extracts all files and saves them in a string array which is returned
-     * @throws IOException  Error during ZIP file extraction
+     *
+     * @param testIDs Array of Test IDs
+     * @return Array of feature file contents. Xray will return a ZIP file with multiple files in it.
+     * This methods extracts all files and saves them in a string array which is returned
+     * @throws IOException Error during ZIP file extraction
      */
     public ArrayList<String> getFeatureFileDefinitions(String[] testIDs) throws IOException {
         String keys = StringUtils.join(testIDs, ";");
@@ -121,9 +126,10 @@ public class XrayCloudCucumberRepository implements IXrayCucumberRepository {
 
     /**
      * Get feature files from Xray Cloud API by Test(Set) IDs and store them in files
-     * @param testIDs   Array of Test IDs
-     * @param dir       Name of directory where to store downloaded feature files
-     * @throws IOException  Error during ZIP file extraction
+     *
+     * @param testIDs Array of Test IDs
+     * @param dir     Name of directory where to store downloaded feature files
+     * @throws IOException Error during ZIP file extraction
      */
     public void getAndStoreFeatureFileDefinitions(String[] testIDs, String dir) throws IOException {
         String keys = StringUtils.join(testIDs, ";");

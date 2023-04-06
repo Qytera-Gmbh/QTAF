@@ -14,8 +14,8 @@ public class CucumberTestResultHelper {
     /**
      * Checks if all steps passed
      *
-     * @param testResults   Step result list
-     * @return  True if all steps passed, false otherwise
+     * @param testResults Step result list
+     * @return True if all steps passed, false otherwise
      */
     public static boolean didAllStepsPass(List<Result> testResults) {
         List<Result> passedSteps = testResults

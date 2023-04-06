@@ -1,27 +1,27 @@
 package de.qytera.qtaf.core.event_subscriber.test;
 
 import de.qytera.qtaf.core.QtafFactory;
-import de.qytera.qtaf.core.log.model.error.ErrorLogCollection;
-import de.qytera.qtaf.core.log.model.error.LoggingError;
-import de.qytera.qtaf.core.log.model.error.TestError;
-import de.qytera.qtaf.core.log.service.LogFileWriter;
-import de.qytera.qtaf.core.selenium.AbstractDriver;
 import de.qytera.qtaf.core.events.QtafEvents;
 import de.qytera.qtaf.core.events.interfaces.IEventSubscriber;
 import de.qytera.qtaf.core.events.payload.IQtafTestEventPayload;
 import de.qytera.qtaf.core.events.payload.IQtafTestStepEventPayload;
 import de.qytera.qtaf.core.events.payload.IQtafTestingContext;
-import de.qytera.qtaf.core.log.model.collection.ScenarioLogCollectionIndex;
 import de.qytera.qtaf.core.log.model.collection.TestFeatureLogCollection;
 import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
 import de.qytera.qtaf.core.log.model.collection.TestSuiteLogCollection;
+import de.qytera.qtaf.core.log.model.error.ErrorLogCollection;
+import de.qytera.qtaf.core.log.model.error.LoggingError;
+import de.qytera.qtaf.core.log.model.error.TestError;
+import de.qytera.qtaf.core.log.model.index.ScenarioLogCollectionIndex;
+import de.qytera.qtaf.core.log.service.LogFileWriter;
+import de.qytera.qtaf.core.selenium.AbstractDriver;
 
 import java.util.Date;
 
 /**
  * This subscriber is responsible for adding log messages to the corresponding log collections
  */
-public class QtafLoggingSubscriber implements IEventSubscriber {
+public class QtafScenarioLoggingSubscriber implements IEventSubscriber {
     /**
      * Reference to global log collection
      */
@@ -67,6 +67,11 @@ public class QtafLoggingSubscriber implements IEventSubscriber {
         );
     }
 
+    /**
+     * Handle step event
+     *
+     * @param iQtafTestStepEventPayload event payload
+     */
     private void onStepLog(IQtafTestStepEventPayload iQtafTestStepEventPayload) {
         QtafFactory.getLogger().debug(String.format("--- Step log received: scenario=%s", iQtafTestStepEventPayload.getScenarioId()));
         // Get Scenario log collection
@@ -80,7 +85,8 @@ public class QtafLoggingSubscriber implements IEventSubscriber {
 
     /**
      * React to driver initialization
-     * @param abstractDriver    driver information
+     *
+     * @param abstractDriver driver information
      */
     private void onDriverInitialized(AbstractDriver abstractDriver) {
         // Add log information
@@ -91,7 +97,8 @@ public class QtafLoggingSubscriber implements IEventSubscriber {
 
     /**
      * React to start of the testing process. This method is called before the first test execution.
-     * @param testContext  Test context object
+     *
+     * @param testContext Test context object
      */
     private void onStartTesting(IQtafTestingContext testContext) {
         // Add log information
@@ -108,6 +115,7 @@ public class QtafLoggingSubscriber implements IEventSubscriber {
 
     /**
      * This method is executed when a test was executed successfully
+     *
      * @param iQtafTestEventPayload event payload
      */
     private void onTestStarted(IQtafTestEventPayload iQtafTestEventPayload) {
@@ -126,6 +134,7 @@ public class QtafLoggingSubscriber implements IEventSubscriber {
 
     /**
      * This method is executed when a test was executed successfully
+     *
      * @param iQtafTestEventPayload event payload
      */
     private void onTestSuccess(IQtafTestEventPayload iQtafTestEventPayload) {
@@ -144,6 +153,7 @@ public class QtafLoggingSubscriber implements IEventSubscriber {
 
     /**
      * This method is executed when a test failed
+     *
      * @param iQtafTestEventPayload event payload
      */
     private void onTestFailure(IQtafTestEventPayload iQtafTestEventPayload) {
@@ -162,6 +172,7 @@ public class QtafLoggingSubscriber implements IEventSubscriber {
 
     /**
      * This method is executed when a test was skipped
+     *
      * @param iQtafTestEventPayload event payload
      */
     private void onTestSkipped(IQtafTestEventPayload iQtafTestEventPayload) {
@@ -211,6 +222,7 @@ public class QtafLoggingSubscriber implements IEventSubscriber {
 
     /**
      * Handle exceptions that occurred during invocation of subscriber method
+     *
      * @param e Exception object
      */
     private void handleTestError(Throwable e) {
@@ -221,6 +233,7 @@ public class QtafLoggingSubscriber implements IEventSubscriber {
 
     /**
      * Handle exceptions that occurred during invocation of subscriber method
+     *
      * @param e Exception object
      */
     private void handleLoggingError(Throwable e) {

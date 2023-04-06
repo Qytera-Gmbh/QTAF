@@ -1,4 +1,5 @@
 package de.qytera.qtaf.xray.event_subscriber;
+
 import de.qytera.qtaf.core.QtafFactory;
 import de.qytera.qtaf.core.config.entity.ConfigMap;
 import de.qytera.qtaf.core.events.QtafEvents;
@@ -8,13 +9,9 @@ import de.qytera.qtaf.xray.commands.UploadImportCommand;
 import de.qytera.qtaf.xray.dto.request.XrayImportRequestDto;
 import de.qytera.qtaf.xray.dto.response.XrayCloudImportResponseDto;
 import de.qytera.qtaf.xray.dto.response.XrayImportResponseDto;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.internal.util.reflection.Whitebox;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
-
 
 
 public class UploadResultSubscriberTest {
@@ -34,6 +31,7 @@ public class UploadResultSubscriberTest {
 
     /**
      * Initialize Mock objects
+     *
      * @param xrayEnabled Xray enabled / disabled configuration
      */
     private void initializeMocks(boolean xrayEnabled) {

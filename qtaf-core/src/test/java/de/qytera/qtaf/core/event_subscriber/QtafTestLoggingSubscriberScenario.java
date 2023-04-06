@@ -1,16 +1,17 @@
 package de.qytera.qtaf.core.event_subscriber;
 
 import de.qytera.qtaf.core.QtafFactory;
-import de.qytera.qtaf.core.event_subscriber.test.QtafLoggingSubscriber;
+import de.qytera.qtaf.core.event_subscriber.test.QtafScenarioLoggingSubscriber;
 import de.qytera.qtaf.core.events.payload.IQtafTestEventPayload;
 import de.qytera.qtaf.core.events.payload.IQtafTestingContext;
 import de.qytera.qtaf.core.events.payload.QtafTestContextPayload;
 import de.qytera.qtaf.core.events.payload.QtafTestEventPayload;
 import de.qytera.qtaf.core.helper.DateHelper;
-import de.qytera.qtaf.core.log.model.collection.FeatureLogCollectionIndex;
-import de.qytera.qtaf.core.log.model.collection.ScenarioLogCollectionIndex;
 import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
 import de.qytera.qtaf.core.log.model.collection.TestSuiteLogCollection;
+import de.qytera.qtaf.core.log.model.index.FeatureLogCollectionIndex;
+import de.qytera.qtaf.core.log.model.index.IndexHelper;
+import de.qytera.qtaf.core.log.model.index.ScenarioLogCollectionIndex;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -21,7 +22,7 @@ import java.text.ParseException;
 /**
  * These tests are for the Qtaf Logging subscriber which is responsible for transforming events into log messages
  */
-public class QtafLoggingSubscriberTest {
+public class QtafTestLoggingSubscriberScenario {
     /**
      * Test the onStartTesting event handler
      */
@@ -32,10 +33,10 @@ public class QtafLoggingSubscriberTest {
         suiteLogCollection.clear();
 
         // Get instance of subscriber
-        QtafLoggingSubscriber subscriber = new QtafLoggingSubscriber();
+        QtafScenarioLoggingSubscriber subscriber = new QtafScenarioLoggingSubscriber();
 
         // Make private method accessible
-        Method method = QtafLoggingSubscriber.class.getDeclaredMethod(
+        Method method = QtafScenarioLoggingSubscriber.class.getDeclaredMethod(
                 "onStartTesting",
                 IQtafTestingContext.class
         );
@@ -86,10 +87,10 @@ public class QtafLoggingSubscriberTest {
                 .setEnd(DateHelper.fromTimeString("2020-01-01 13:00:00"));
 
         // Get instance of subscriber
-        QtafLoggingSubscriber subscriber = new QtafLoggingSubscriber();
+        QtafScenarioLoggingSubscriber subscriber = new QtafScenarioLoggingSubscriber();
 
         // Make private method accessible
-        Method method = QtafLoggingSubscriber.class.getDeclaredMethod(
+        Method method = QtafScenarioLoggingSubscriber.class.getDeclaredMethod(
                 "onFinishTesting",
                 IQtafTestingContext.class
         );
@@ -132,8 +133,7 @@ public class QtafLoggingSubscriberTest {
         );
 
         // Clean indices
-        ScenarioLogCollectionIndex.getInstance().clear();
-        FeatureLogCollectionIndex.getInstance().clear();
+        IndexHelper.clearAllIndices();
     }
 
     @Test
@@ -143,17 +143,17 @@ public class QtafLoggingSubscriberTest {
         suiteLogCollection.clear();
 
         // Get instance of subscriber
-        QtafLoggingSubscriber subscriber = new QtafLoggingSubscriber();
+        QtafScenarioLoggingSubscriber subscriber = new QtafScenarioLoggingSubscriber();
 
         // Make private method accessible
-        Method method = QtafLoggingSubscriber.class.getDeclaredMethod(
+        Method method = QtafScenarioLoggingSubscriber.class.getDeclaredMethod(
                 "onTestStarted", IQtafTestEventPayload.class);
         method.setAccessible(true);
 
         // Create mock event
         IQtafTestEventPayload payload = new QtafTestEventPayload()
-                .setFeatureId(1)
-                .setScenarioId("s1")
+                .setFeatureId("f1")
+                .setAbstractScenarioId("s1")
                 .setScenarioName("scenario 1");
 
         // Assert indices and log collections are empty before the event occurs
@@ -202,8 +202,7 @@ public class QtafLoggingSubscriberTest {
         suiteLogCollection.clear();
 
         // Clean indices
-        ScenarioLogCollectionIndex.getInstance().clear();
-        FeatureLogCollectionIndex.getInstance().clear();
+        IndexHelper.clearAllIndices();
     }
 
     @Test
@@ -213,17 +212,17 @@ public class QtafLoggingSubscriberTest {
         suiteLogCollection.clear();
 
         // Get instance of subscriber
-        QtafLoggingSubscriber subscriber = new QtafLoggingSubscriber();
+        QtafScenarioLoggingSubscriber subscriber = new QtafScenarioLoggingSubscriber();
 
         // Make private method accessible
-        Method method = QtafLoggingSubscriber.class.getDeclaredMethod(
+        Method method = QtafScenarioLoggingSubscriber.class.getDeclaredMethod(
                 "onTestSuccess", IQtafTestEventPayload.class);
         method.setAccessible(true);
 
         // Create mock event
         IQtafTestEventPayload payload = new QtafTestEventPayload()
-                .setFeatureId(1)
-                .setScenarioId("s1")
+                .setFeatureId("f1")
+                .setAbstractScenarioId("s1")
                 .setScenarioName("scenario 1");
 
         // Assert indices and log collections are empty before the event occurs
@@ -272,8 +271,7 @@ public class QtafLoggingSubscriberTest {
         suiteLogCollection.clear();
 
         // Clean indices
-        ScenarioLogCollectionIndex.getInstance().clear();
-        FeatureLogCollectionIndex.getInstance().clear();
+        IndexHelper.clearAllIndices();
     }
 
     @Test
@@ -283,17 +281,17 @@ public class QtafLoggingSubscriberTest {
         suiteLogCollection.clear();
 
         // Get instance of subscriber
-        QtafLoggingSubscriber subscriber = new QtafLoggingSubscriber();
+        QtafScenarioLoggingSubscriber subscriber = new QtafScenarioLoggingSubscriber();
 
         // Make private method accessible
-        Method method = QtafLoggingSubscriber.class.getDeclaredMethod(
+        Method method = QtafScenarioLoggingSubscriber.class.getDeclaredMethod(
                 "onTestFailure", IQtafTestEventPayload.class);
         method.setAccessible(true);
 
         // Create mock event
         IQtafTestEventPayload payload = new QtafTestEventPayload()
-                .setFeatureId(1)
-                .setScenarioId("s1")
+                .setFeatureId("f1")
+                .setAbstractScenarioId("s1")
                 .setScenarioName("scenario 1");
 
         // Assert indices and log collections are empty before the event occurs
@@ -342,8 +340,7 @@ public class QtafLoggingSubscriberTest {
         suiteLogCollection.clear();
 
         // Clean indices
-        ScenarioLogCollectionIndex.getInstance().clear();
-        FeatureLogCollectionIndex.getInstance().clear();
+        IndexHelper.clearAllIndices();
     }
 
     @Test
@@ -353,17 +350,17 @@ public class QtafLoggingSubscriberTest {
         suiteLogCollection.clear();
 
         // Get instance of subscriber
-        QtafLoggingSubscriber subscriber = new QtafLoggingSubscriber();
+        QtafScenarioLoggingSubscriber subscriber = new QtafScenarioLoggingSubscriber();
 
         // Make private method accessible
-        Method method = QtafLoggingSubscriber.class.getDeclaredMethod(
+        Method method = QtafScenarioLoggingSubscriber.class.getDeclaredMethod(
                 "onTestSkipped", IQtafTestEventPayload.class);
         method.setAccessible(true);
 
         // Create mock event
         IQtafTestEventPayload payload = new QtafTestEventPayload()
-                .setFeatureId(1)
-                .setScenarioId("s1")
+                .setFeatureId("f1")
+                .setAbstractScenarioId("s1")
                 .setScenarioName("scenario 1");
 
         // Assert indices and log collections are empty before the event occurs
@@ -412,7 +409,6 @@ public class QtafLoggingSubscriberTest {
         suiteLogCollection.clear();
 
         // Clean indices
-        ScenarioLogCollectionIndex.getInstance().clear();
-        FeatureLogCollectionIndex.getInstance().clear();
+        IndexHelper.clearAllIndices();
     }
 }

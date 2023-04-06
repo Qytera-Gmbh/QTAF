@@ -5,6 +5,7 @@ import de.qytera.qtaf.core.io.DirectoryHelper;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Collection that holds all log messages from all test classes
@@ -54,7 +55,7 @@ public class TestSuiteLogCollection {
     /**
      * Test Suite tags
      */
-    private final Map<String, String> tags = new HashMap<>();
+    private final Map<String, String> tags = new ConcurrentHashMap<>();
 
     /**
      * Time when testing started
@@ -79,7 +80,7 @@ public class TestSuiteLogCollection {
     /**
      * Holds a collection of test feature log collections
      */
-    private final ArrayList<TestFeatureLogCollection> testFeatureLogCollections = new ArrayList<>();
+    private final List<TestFeatureLogCollection> testFeatureLogCollections = Collections.synchronizedList(new ArrayList<>());
 
     /**
      * Constructor
@@ -91,9 +92,10 @@ public class TestSuiteLogCollection {
 
     /**
      * Get instance of class
-     * @return  instance of class
+     *
+     * @return instance of class
      */
-    public static TestSuiteLogCollection getInstance() {
+    public static synchronized TestSuiteLogCollection getInstance() {
         return instance;
     }
 
@@ -117,7 +119,8 @@ public class TestSuiteLogCollection {
 
     /**
      * Build the log directory path
-     * @return  log directory path
+     *
+     * @return log directory path
      */
     public TestSuiteLogCollection buildLogDirectoryPath() {
         SimpleDateFormat dirDateFormatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -135,25 +138,27 @@ public class TestSuiteLogCollection {
 
     /**
      * Get test case log collections
-     * @return  log collections
+     *
+     * @return log collections
      */
-    public ArrayList<TestFeatureLogCollection> getTestFeatureLogCollections() {
+    public synchronized List<TestFeatureLogCollection> getTestFeatureLogCollections() {
         return testFeatureLogCollections;
     }
 
     /**
      * Clear test case log collections
      */
-    public void clearCollection() {
+    public synchronized void clearCollection() {
         testFeatureLogCollections.clear();
     }
 
     /**
      * Add new test case collection
-     * @param collection    Collection
-     * @return  this
+     *
+     * @param collection Collection
+     * @return this
      */
-    public TestSuiteLogCollection addTestClassLogCollection(TestFeatureLogCollection collection) {
+    public synchronized TestSuiteLogCollection addTestClassLogCollection(TestFeatureLogCollection collection) {
         if (!this.testFeatureLogCollections.contains(collection)) {
             testFeatureLogCollections.add(collection);
         }
@@ -163,11 +168,12 @@ public class TestSuiteLogCollection {
 
     /**
      * Create a new log collection if it was not created before
-     * @param featureId     Hash code of the test scenario
-     * @param featureName   Scenario name / Class ID of the test
-     * @return  new collection
+     *
+     * @param featureId   Hash code of the test scenario
+     * @param featureName Scenario name / Class ID of the test
+     * @return new collection
      */
-    public TestFeatureLogCollection createFeatureIfNotExists(int featureId, String featureName) {
+    public synchronized TestFeatureLogCollection createFeatureIfNotExists(String featureId, String featureName) {
         TestFeatureLogCollection collection = TestFeatureLogCollection.createFeatureLogCollectionIfNotExists(
                 featureId,
                 featureName
@@ -175,7 +181,7 @@ public class TestSuiteLogCollection {
 
         if (!this.testFeatureLogCollections.contains(collection)) {
             this.testFeatureLogCollections.add(collection);
-            QtafFactory.getLogger().debug(String.format("Added Feature log: ID=%s, name=%s, size=%s", featureId, featureName, testFeatureLogCollections.size()));
+            QtafFactory.getLogger().debug(String.format("Added Feature log: feature_id=%s, name=%s, size=%s, suite_hash=%s, feature_hash=%s", featureId, featureName, testFeatureLogCollections.size(), this.hashCode(), collection.hashCode()));
         }
 
         return collection;
@@ -186,7 +192,7 @@ public class TestSuiteLogCollection {
      *
      * @param instance Instance
      */
-    public static void setInstance(TestSuiteLogCollection instance) {
+    public synchronized static void setInstance(TestSuiteLogCollection instance) {
         TestSuiteLogCollection.instance = instance;
     }
 
@@ -348,7 +354,8 @@ public class TestSuiteLogCollection {
 
     /**
      * Count feature logs
-     * @return  number of feature logs
+     *
+     * @return number of feature logs
      */
     public int countFeatureLogs() {
         return this.testFeatureLogCollections.size();
@@ -365,8 +372,9 @@ public class TestSuiteLogCollection {
 
     /**
      * Get tag
-     * @param key   Tag key
-     * @return  Tag value
+     *
+     * @param key Tag key
+     * @return Tag value
      */
     public String getTag(String key) {
         return this.tags.get(key);
@@ -374,6 +382,7 @@ public class TestSuiteLogCollection {
 
     /**
      * Add tag
+     *
      * @param key   Tag key
      * @param value Tag value
      */
@@ -383,7 +392,8 @@ public class TestSuiteLogCollection {
 
     /**
      * Remove tag
-     * @param key   tag key
+     *
+     * @param key tag key
      */
     public void removeTag(String key) {
         this.tags.remove(key);
@@ -547,7 +557,8 @@ public class TestSuiteLogCollection {
 
         /**
          * Get PID of current process
-         * @return  PID of current process
+         *
+         * @return PID of current process
          */
         public long getPid() {
             return pid;

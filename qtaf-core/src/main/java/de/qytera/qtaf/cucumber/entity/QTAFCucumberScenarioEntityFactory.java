@@ -1,6 +1,9 @@
 package de.qytera.qtaf.cucumber.entity;
 
-import de.qytera.qtaf.cucumber.helper.*;
+import de.qytera.qtaf.cucumber.helper.CucumberFeatureHelper;
+import de.qytera.qtaf.cucumber.helper.CucumberFeatureWrapperHelper;
+import de.qytera.qtaf.cucumber.helper.CucumberPickleWrapperHelper;
+import de.qytera.qtaf.cucumber.helper.CucumberTagHelper;
 import io.cucumber.core.gherkin.Feature;
 import io.cucumber.messages.types.Tag;
 import io.cucumber.testng.FeatureWrapper;
@@ -16,9 +19,10 @@ import java.util.Map;
 public class QTAFCucumberScenarioEntityFactory {
     /**
      * Get instance from FeatureWrapper and PickleWrapper
-     * @param pickleWrapper     PickleWrapper object
-     * @param featureWrapper    FeatureWrapper object
-     * @return  scenario entity
+     *
+     * @param pickleWrapper  PickleWrapper object
+     * @param featureWrapper FeatureWrapper object
+     * @return scenario entity
      */
     public static QTAFCucumberScenarioEntity getEntity(PickleWrapper pickleWrapper, FeatureWrapper featureWrapper) {
         QTAFCucumberScenarioEntity scenarioEntity = new QTAFCucumberScenarioEntity();

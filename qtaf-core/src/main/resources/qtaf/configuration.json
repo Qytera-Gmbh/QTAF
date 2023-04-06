@@ -14,7 +14,7 @@
     "url": "",
     "scenarioReportEvidence": false,
     "scenarioImageEvidence": false,
-    "authentication":{
+    "authentication": {
       "bearerToken": "",
       "client_id": "",
       "client_secret": ""

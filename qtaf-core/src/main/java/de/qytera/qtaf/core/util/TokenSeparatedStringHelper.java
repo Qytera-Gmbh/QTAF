@@ -10,9 +10,10 @@ import java.util.stream.Collectors;
 public class TokenSeparatedStringHelper {
     /**
      * Transform a token separated string of values to a list of values
-     * @param s             Input string
-     * @param separator     Separator token
-     * @return  List of strings
+     *
+     * @param s         Input string
+     * @param separator Separator token
+     * @return List of strings
      */
     public static List<String> toList(String s, String separator) {
         return toList(s, separator, true);
@@ -20,10 +21,11 @@ public class TokenSeparatedStringHelper {
 
     /**
      * Transform a token separated string of values to a list of values
-     * @param s             Input string
-     * @param separator     Separator token
-     * @param trimValues    true if list values should be trimmed
-     * @return  List of strings
+     *
+     * @param s          Input string
+     * @param separator  Separator token
+     * @param trimValues true if list values should be trimmed
+     * @return List of strings
      */
     public static List<String> toList(String s, String separator, boolean trimValues) {
         List<String> list = Arrays.asList(s.split(separator));

@@ -21,7 +21,8 @@ public class InternetExplorerDriver extends AbstractDriver {
 
     /**
      * Get capabilities
-     * @return  capabilities
+     *
+     * @return capabilities
      */
     public InternetExplorerOptions getCapabilities() {
         InternetExplorerOptions caps = new InternetExplorerOptions();

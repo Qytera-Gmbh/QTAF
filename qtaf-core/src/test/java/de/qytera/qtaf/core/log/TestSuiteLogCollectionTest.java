@@ -1,9 +1,9 @@
 package de.qytera.qtaf.core.log;
 
 import de.qytera.qtaf.core.QtafFactory;
-import de.qytera.qtaf.core.log.model.collection.FeatureLogCollectionIndex;
 import de.qytera.qtaf.core.log.model.collection.TestFeatureLogCollection;
 import de.qytera.qtaf.core.log.model.collection.TestSuiteLogCollection;
+import de.qytera.qtaf.core.log.model.index.IndexHelper;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -21,6 +21,8 @@ public class TestSuiteLogCollectionTest {
         Assert.assertNull(suiteLogCollection.getSuiteInfo().getName());
         Assert.assertNull(suiteLogCollection.getSuiteInfo().getOutputDir());
 
+        // Clear indices
+        IndexHelper.clearAllIndices();
     }
 
     /**
@@ -30,6 +32,9 @@ public class TestSuiteLogCollectionTest {
     public void testSuiteLogCollectionCreation() {
         TestSuiteLogCollection logCollection = TestSuiteLogCollection.getInstance();
         Assert.assertNotNull(logCollection);
+
+        // Clear indices
+        IndexHelper.clearAllIndices();
     }
 
     /**
@@ -39,20 +44,20 @@ public class TestSuiteLogCollectionTest {
     public void testCreateFeatureCollection() {
         TestSuiteLogCollection logCollection = TestSuiteLogCollection.getInstance();
         logCollection.clearCollection();
-        FeatureLogCollectionIndex.getInstance().clear();
+        IndexHelper.clearAllIndices();
 
         // No feature log collections were added, so count should be zero
         Assert.assertEquals(logCollection.countFeatureLogs(), 0);
         Assert.assertEquals(TestFeatureLogCollection.getIndexSize(), 0);
 
-        TestFeatureLogCollection testFeatureLogCollection = logCollection.createFeatureIfNotExists(100, "Feature 1");
+        TestFeatureLogCollection testFeatureLogCollection = logCollection.createFeatureIfNotExists("feature1", "Feature 1");
 
         // New feature log collection was added, so count should be one
         Assert.assertEquals(logCollection.countFeatureLogs(), 1);
         Assert.assertEquals(TestFeatureLogCollection.getIndexSize(), 1);
 
         TestFeatureLogCollection testFeatureLogCollection2 = logCollection.createFeatureIfNotExists(
-                100,
+                "feature1",
                 "Feature 1"
         );
 
@@ -63,14 +68,14 @@ public class TestSuiteLogCollectionTest {
         Assert.assertEquals(testFeatureLogCollection.hashCode(), testFeatureLogCollection2.hashCode());
 
         // New feature log collection with new ID was added, so count should be two
-        TestFeatureLogCollection testFeatureLogCollection3 = logCollection.createFeatureIfNotExists(101, "Feature 2");
+        TestFeatureLogCollection testFeatureLogCollection3 = logCollection.createFeatureIfNotExists("feature2", "Feature 2");
         Assert.assertEquals(logCollection.countFeatureLogs(), 2);
         Assert.assertEquals(TestFeatureLogCollection.getIndexSize(), 2);
         Assert.assertNotEquals(testFeatureLogCollection3.hashCode(), testFeatureLogCollection.hashCode());
         Assert.assertNotEquals(testFeatureLogCollection3.hashCode(), testFeatureLogCollection2.hashCode());
 
         logCollection.clearCollection();
-        FeatureLogCollectionIndex.getInstance().clear();
+        IndexHelper.clearAllIndices();
         Assert.assertEquals(logCollection.countFeatureLogs(), 0);
         Assert.assertEquals(TestFeatureLogCollection.getIndexSize(), 0);
     }
@@ -88,6 +93,9 @@ public class TestSuiteLogCollectionTest {
 
         logCollection.removeTag("foo");
         Assert.assertNull(logCollection.getTag("foo"));
+
+        // Clear indices
+        IndexHelper.clearAllIndices();
     }
 
     /**

@@ -19,8 +19,9 @@ public class CucumberTagHelper {
 
     /**
      * Check if a given string is a key-value-pair (matches keyValueRegex)
+     *
      * @param s string
-     * @return  true if string is a key-value-pair, false otherwise
+     * @return true if string is a key-value-pair, false otherwise
      */
     public static boolean isKeyValuePair(String s) {
         return s.matches(keyValueRegex);
@@ -28,8 +29,9 @@ public class CucumberTagHelper {
 
     /**
      * Check if a given string is a tag
+     *
      * @param s string
-     * @return  true if string is a tag
+     * @return true if string is a tag
      */
     public static boolean isTag(String s) {
         return s.matches(tagRegex);
@@ -37,8 +39,9 @@ public class CucumberTagHelper {
 
     /**
      * Extract hey and value from a string
+     *
      * @param s string
-     * @return  Matcher object
+     * @return Matcher object
      */
     public static Matcher getKeyAndValueMatch(String s) {
         return Pattern.compile(keyValueRegex).matcher(s);
@@ -46,8 +49,9 @@ public class CucumberTagHelper {
 
     /**
      * Get a list of key-value pairs from a list of cucumber tag objects
-     * @param tags  List of cucumber tag objects
-     * @return  Map of key-value-pairs
+     *
+     * @param tags List of cucumber tag objects
+     * @return Map of key-value-pairs
      */
     public static Map<String, String> getKeyValuePairsFromTagList(List<Tag> tags) {
         Map<String, String> map = new HashMap<>();
@@ -69,8 +73,9 @@ public class CucumberTagHelper {
 
     /**
      * Get a list of key-value pairs from a list of cucumber tag strings
-     * @param tags  List of cucumber tag strings
-     * @return  Map of key-value-pairs
+     *
+     * @param tags List of cucumber tag strings
+     * @return Map of key-value-pairs
      */
     public static Map<String, String> getKeyValuePairs(List<String> tags) {
         Map<String, String> map = new HashMap<>();
@@ -92,8 +97,9 @@ public class CucumberTagHelper {
 
     /**
      * Get a key-value-list pairs from a list of cucumber tag strings
-     * @param tags  List of cucumber tag strings
-     * @return  Map of key-value-lists
+     *
+     * @param tags List of cucumber tag strings
+     * @return Map of key-value-lists
      */
     public static Map<String, List<String>> getKeyValueListPairs(List<String> tags) {
         Map<String, List<String>> map = new HashMap<>();
@@ -114,8 +120,9 @@ public class CucumberTagHelper {
 
     /**
      * Find the tag that represents the test ID and extracts the test ID
-     * @param tags  List of cucumber tags
-     * @return  test ID
+     *
+     * @param tags List of cucumber tags
+     * @return test ID
      */
     public static String getTestId(List<String> tags) {
         for (String tag : tags) {

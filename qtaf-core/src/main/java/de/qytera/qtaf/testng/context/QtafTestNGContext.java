@@ -7,13 +7,13 @@ import de.qytera.qtaf.core.config.entity.ConfigMap;
 import de.qytera.qtaf.core.context.IQtafTestContext;
 import de.qytera.qtaf.core.context.TestContextHelper;
 import de.qytera.qtaf.core.guice.QtafModule;
+import de.qytera.qtaf.core.log.model.collection.TestFeatureLogCollection;
 import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
+import de.qytera.qtaf.core.log.model.collection.TestSuiteLogCollection;
 import de.qytera.qtaf.core.selenium.DriverFactory;
+import de.qytera.qtaf.testng.event_listener.TestNGEventListener;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.Guice;
-import de.qytera.qtaf.testng.event_listener.TestNGEventListener;
-import de.qytera.qtaf.core.log.model.collection.TestFeatureLogCollection;
-import de.qytera.qtaf.core.log.model.collection.TestSuiteLogCollection;
 import org.testng.annotations.Listeners;
 
 /**
@@ -103,7 +103,8 @@ public abstract class QtafTestNGContext implements IQtafTestContext {
 
     /**
      * Get current log collection
-     * @return  log collection
+     *
+     * @return log collection
      */
     @Override
     public TestScenarioLogCollection getLogCollection() {
@@ -111,24 +112,10 @@ public abstract class QtafTestNGContext implements IQtafTestContext {
     }
 
     /**
-     * Create a new method log collection and set it as the current log collection
-     *
-     * @param hashCode    Unique test hash code
-     * @param methodId    test method
-     * @param testId      test class
-     * @return  collection
-     */
-    @Override
-    public TestScenarioLogCollection createAndSetNewLogCollection(int hashCode, String methodId, String testId) {
-        TestScenarioLogCollection collection = testFeatureLogCollection.createScenarioIfNotExists(hashCode, methodId, testId);
-        this.setLogCollection(collection);
-        return collection;
-    }
-
-    /**
      * Set the current log collection
-     * @param collection    log collection
-     * @return              this
+     *
+     * @param collection log collection
+     * @return this
      */
     @Override
     public QtafTestNGContext setLogCollection(TestScenarioLogCollection collection) {

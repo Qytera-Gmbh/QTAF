@@ -5,12 +5,12 @@ import de.qytera.qtaf.core.context.IQtafTestContext;
 import de.qytera.qtaf.core.events.QtafEvents;
 import de.qytera.qtaf.core.events.interfaces.IEventSubscriber;
 import de.qytera.qtaf.core.events.payload.IQtafTestEventPayload;
+import de.qytera.qtaf.core.log.Logger;
 import de.qytera.qtaf.core.log.model.collection.TestFeatureLogCollection;
 import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
 import de.qytera.qtaf.core.log.model.collection.TestSuiteLogCollection;
 import de.qytera.qtaf.testng.helper.TestResultHelper;
 import io.cucumber.testng.CucumberOptions;
-import de.qytera.qtaf.core.log.Logger;
 import org.testng.ITestResult;
 
 import java.lang.annotation.Annotation;
@@ -57,7 +57,8 @@ public class TestNGLoggingSubscriber implements IEventSubscriber {
 
     /**
      * This method is called every time before a test is executed
-     * @param iQtafTestEventPayload   Test context object
+     *
+     * @param iQtafTestEventPayload Test context object
      * @deprecated
      */
     private void onTestStarted(IQtafTestEventPayload iQtafTestEventPayload) {
@@ -83,10 +84,11 @@ public class TestNGLoggingSubscriber implements IEventSubscriber {
             return;
         }
 
+        // Add a log collection instance to the test class
         // Create new feature log collection that will collect log messages for the current feature
         TestFeatureLogCollection featureLogCollection = QtafFactory.getTestSuiteLogCollection().createFeatureIfNotExists(
                 iQtafTestEventPayload.getFeatureId(),
-                iQtafTestEventPayload.getScenarioName()
+                iQtafTestEventPayload.getFeatureName()
         );
 
         // Create an instance of TestScenarioLogCollection that will be added to
@@ -104,7 +106,8 @@ public class TestNGLoggingSubscriber implements IEventSubscriber {
 
     /**
      * This method is called every time after a test was executed successfully.
-     * @param iQtafTestEventPayload   Test context object
+     *
+     * @param iQtafTestEventPayload Test context object
      */
     private void onTestSuccess(IQtafTestEventPayload iQtafTestEventPayload) {
         // Check if this listener is responsible for this event
@@ -135,7 +138,8 @@ public class TestNGLoggingSubscriber implements IEventSubscriber {
 
     /**
      * This method is called every time after a test has failed
-     * @param iQtafTestEventPayload   Test context object
+     *
+     * @param iQtafTestEventPayload Test context object
      */
     private void onTestFailure(IQtafTestEventPayload iQtafTestEventPayload) {
         // Check if this listener is responsible for this event
@@ -163,7 +167,8 @@ public class TestNGLoggingSubscriber implements IEventSubscriber {
 
     /**
      * This method is called every time after a test has failed but its success value is within a given percentage
-     * @param iQtafTestEventPayload   Test context object
+     *
+     * @param iQtafTestEventPayload Test context object
      */
     private void onTestFailedButWithinSuccessPercentage(IQtafTestEventPayload iQtafTestEventPayload) {
         // Check if this listener is responsible for this event
@@ -181,7 +186,8 @@ public class TestNGLoggingSubscriber implements IEventSubscriber {
 
     /**
      * This method is called every time a test is skipped
-     * @param iQtafTestEventPayload   Test context object
+     *
+     * @param iQtafTestEventPayload Test context object
      */
     private void onTestSkipped(IQtafTestEventPayload iQtafTestEventPayload) {
         // Check if this listener is responsible for this event
@@ -209,8 +215,9 @@ public class TestNGLoggingSubscriber implements IEventSubscriber {
 
     /**
      * Internal helper method for generating log messages
-     * @param iTestResult   Test result object
-     * @param message       Log message
+     *
+     * @param iTestResult Test result object
+     * @param message     Log message
      */
     private void log(ITestResult iTestResult, String message) {
         logger.info(
@@ -223,6 +230,7 @@ public class TestNGLoggingSubscriber implements IEventSubscriber {
 
     /**
      * Log error
+     *
      * @param e Exception
      */
     private void logError(Throwable e) {

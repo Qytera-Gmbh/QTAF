@@ -8,8 +8,7 @@ import java.util.Arrays;
 /**
  * Information object that contains Step execution information
  */
-public class StepExecutionInfo {
-    private int id;
+public class StepExecutionInfo extends AbstractStepExecutionInfo {
     private Step step;
     private MethodInvocation methodInvocation;
     private Object result = null;
@@ -18,31 +17,11 @@ public class StepExecutionInfo {
     private StackTraceElement[] stackTraceElements;
 
     /**
-     * Get id
-     *
-     * @return id
-     */
-    public int getId() {
-        return id;
-    }
-
-    /**
-     * Set id
-     *
-     * @param id Id
-     * @return this
-     */
-    public StepExecutionInfo setId(int id) {
-        this.id = id;
-        return this;
-    }
-
-    /**
      * Get step
      *
      * @return step
      */
-    public Step getStep() {
+    public Step getAnnotation() {
         return step;
     }
 
@@ -52,7 +31,7 @@ public class StepExecutionInfo {
      * @param step Step
      * @return this
      */
-    public StepExecutionInfo setStep(Step step) {
+    public StepExecutionInfo setAnnotation(Step step) {
         this.step = step;
         return this;
     }

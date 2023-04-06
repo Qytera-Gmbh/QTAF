@@ -15,8 +15,9 @@ public class AllureReportGeneratorTest {
     public void testResult() {
         TestScenarioLogCollection scenarioLogCollection1 = TestScenarioLogCollection
                 .createTestScenarioLogCollection(
-                        "feature1".hashCode(),
+                        "feature1",
                         "scenario1",
+                        "iteration1",
                         "test1"
                 )
                 .setDescription("QTAF-001")
@@ -25,7 +26,7 @@ public class AllureReportGeneratorTest {
 
         TestResult testResult = AllureTestResultGenerator.fromQtafTestScenario(scenarioLogCollection1);
 
-        Assert.assertEquals(testResult.getHistoryId(), "scenario1");
+        Assert.assertEquals(testResult.getHistoryId(), "scenario1-iteration1");
     }
 
     @Test
@@ -37,8 +38,9 @@ public class AllureReportGeneratorTest {
 
         TestScenarioLogCollection scenarioLogCollection1 = TestScenarioLogCollection
                 .createTestScenarioLogCollection(
-                        "feature1".hashCode(),
+                        "feature1",
                         "scenario1",
+                        "iteration1",
                         "test1"
                 )
                 .setDescription("QTAF-001")

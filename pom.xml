@@ -6,7 +6,7 @@
 
     <groupId>de.qytera</groupId>
     <artifactId>qtaf</artifactId>
-    <version>0.0.4</version>
+    <version>LOCAL_2023_03_31_001</version>
     <packaging>pom</packaging>
 
     <name>${project.groupId}:${project.artifactId}</name>
@@ -124,7 +124,7 @@
                 <version>3.0.1</version>
                 <executions>
                     <execution>
-                        <id>sign-artifacts</id>
+                        <id>sgn-artifacts</id>
                         <phase>verify</phase>
                         <goals>
                             <goal>sign</goal>

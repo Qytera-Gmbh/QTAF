@@ -27,7 +27,8 @@ public class Logger {
 
     /**
      * Constructor
-     * @param name  logger name
+     *
+     * @param name logger name
      */
     private Logger(String name) {
         logger = LogManager.getLogger(name);
@@ -35,7 +36,8 @@ public class Logger {
 
     /**
      * Get QtafLogger instance
-     * @return  ^logger instance
+     *
+     * @return ^logger instance
      */
     public static Logger getInstance() {
         return Logger.getInstance("de.qytera.qtaf.core");
@@ -43,8 +45,9 @@ public class Logger {
 
     /**
      * Get QtafLogger instance
-     * @param   name    logger name
-     * @return  logger  instance
+     *
+     * @param name logger name
+     * @return logger  instance
      */
     public static Logger getInstance(String name) {
         if (instances.get(name) == null) {
@@ -57,76 +60,84 @@ public class Logger {
 
     /**
      * Log at trace level
-     * @param message   Message
-     * @param params    Message parameters
+     *
+     * @param message Message
+     * @param params  Message parameters
      */
-    public void trace(String message, Object ...params) {
+    public void trace(String message, Object... params) {
         logger.trace(message, params);
     }
 
     /**
      * Log at debug level
-     * @param message   Message
-     * @param params    Message parameters
+     *
+     * @param message Message
+     * @param params  Message parameters
      */
-    public void debug(String message, Object ...params) {
+    public void debug(String message, Object... params) {
         logger.debug(message, params);
     }
 
     /**
      * Log at info level
-     * @param message   Message
-     * @param params    Message parameters
+     *
+     * @param message Message
+     * @param params  Message parameters
      */
-    public void info(String message, Object ...params) {
+    public void info(String message, Object... params) {
         logger.info(message, params);
     }
 
     /**
      * Log at warn level
-     * @param message   Message
-     * @param params    Message parameters
+     *
+     * @param message Message
+     * @param params  Message parameters
      */
-    public void warn(String message, Object ...params) {
+    public void warn(String message, Object... params) {
         logger.warn(message, params);
     }
 
     /**
      * Log at error level
-     * @param t         Throwable object
-     * @param params    Message parameters
+     *
+     * @param t      Throwable object
+     * @param params Message parameters
      */
-    public void error(Throwable t, Object ...params) {
+    public void error(Throwable t, Object... params) {
         logger.error(t.getMessage(), params);
         errorLogCollection.addErrorLog(t);
     }
 
     /**
      * Log at error level
-     * @param message   Message
-     * @param params    Message parameters
+     *
+     * @param message Message
+     * @param params  Message parameters
      */
-    public void error(String message, Object ...params) {
+    public void error(String message, Object... params) {
         logger.error(message, params);
         errorLogCollection.addErrorLog(message);
     }
 
     /**
      * Log at fatal level
-     * @param t         Throwable object
-     * @param params    Message parameters
+     *
+     * @param t      Throwable object
+     * @param params Message parameters
      */
-    public void fatal(Throwable t, Object ...params) {
+    public void fatal(Throwable t, Object... params) {
         logger.fatal(t.getMessage(), params);
         errorLogCollection.addErrorLog(t);
     }
 
     /**
      * Log at fatal level
-     * @param message   Message
-     * @param params    Message parameters
+     *
+     * @param message Message
+     * @param params  Message parameters
      */
-    public void fatal(String message, Object ...params) {
+    public void fatal(String message, Object... params) {
         logger.fatal(message, params);
         errorLogCollection.addErrorLog(message);
     }

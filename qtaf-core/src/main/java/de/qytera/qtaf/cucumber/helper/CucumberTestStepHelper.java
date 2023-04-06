@@ -4,9 +4,7 @@ import de.qytera.qtaf.core.reflection.FieldHelper;
 import io.cucumber.plugin.event.HookTestStep;
 import io.cucumber.plugin.event.PickleStepTestStep;
 import io.cucumber.plugin.event.TestStep;
-import org.junit.Test;
 
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -23,7 +21,7 @@ public class CucumberTestStepHelper {
      * which represents Given / When / Then steps
      *
      * @param testSteps List of TestStep objects
-     * @return  List of PickleStepTestStep objects
+     * @return List of PickleStepTestStep objects
      */
     public static List<PickleStepTestStep> getPickleStepTestSteps(List<TestStep> testSteps) {
         return testSteps
@@ -39,7 +37,7 @@ public class CucumberTestStepHelper {
      * This functions finds these classes and returns their positions.
      *
      * @param testSteps List of test steps
-     * @return  List of positions
+     * @return List of positions
      */
     public static List<Integer> getTestStepPositions(List<TestStep> testSteps) {
         return testSteps
@@ -54,7 +52,7 @@ public class CucumberTestStepHelper {
      *
      * @param testSteps List of test steps
      * @param testStep  Single test steps
-     * @return  TestStep position
+     * @return TestStep position
      */
     public static int getTestStepPosition(List<TestStep> testSteps, TestStep testStep) {
         Optional<Integer> pos = testSteps
@@ -72,10 +70,11 @@ public class CucumberTestStepHelper {
 
     /**
      * Find the TestStep object that has another TestStep object with in a List stored in its 'attributeName' Attribute
-     * @param testSteps List of TestStep objects
-     * @param stepId    Look for this ID inside attributeName
+     *
+     * @param testSteps     List of TestStep objects
+     * @param stepId        Look for this ID inside attributeName
      * @param attributeName Attribute name where to look for ID
-     * @return  TestStep object on success, null otherwise
+     * @return TestStep object on success, null otherwise
      */
     public static TestStep findByTestStepIdInAttribute(List<TestStep> testSteps, UUID stepId, String attributeName) {
         List<Object> steps = testSteps

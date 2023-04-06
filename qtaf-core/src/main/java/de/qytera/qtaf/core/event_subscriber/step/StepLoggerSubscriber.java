@@ -7,11 +7,12 @@ import de.qytera.qtaf.core.events.interfaces.IEventSubscriber;
 import de.qytera.qtaf.core.guice.annotations.Step;
 import de.qytera.qtaf.core.guice.invokation.StepExecutionInfo;
 import de.qytera.qtaf.core.io.DirectoryHelper;
+import de.qytera.qtaf.core.log.Logger;
 import de.qytera.qtaf.core.log.model.collection.TestSuiteLogCollection;
 import de.qytera.qtaf.core.log.model.message.StepInformationLogMessage;
+import de.qytera.qtaf.core.selenium.DriverFactory;
 import de.qytera.qtaf.core.selenium.helper.SeleniumDriverConfigHelper;
 import org.aopalliance.intercept.MethodInvocation;
-import de.qytera.qtaf.core.log.Logger;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -49,6 +50,7 @@ public class StepLoggerSubscriber implements IEventSubscriber {
 
     /**
      * Method is executed before step is executed
+     *
      * @param stepExecutionInfo step execution info object
      */
     private void onBeforeStepExecution(StepExecutionInfo stepExecutionInfo) {
@@ -77,6 +79,7 @@ public class StepLoggerSubscriber implements IEventSubscriber {
                 .setStep(step)
                 .setStart(new Date());
 
+        // Check if Selenium should take a screenshot
         if (SeleniumDriverConfigHelper.shouldTakeScreenshotsBeforeStep()) {
             // Take a screenshot
             String screenshotFilePath = this.stepExecutionScreenshot(
@@ -95,8 +98,10 @@ public class StepLoggerSubscriber implements IEventSubscriber {
 
         // Initialize context is it is not already initialized
         if (context.getLogCollection() == null) {
-            context.initialize();
-            assert context.getLogCollection() != null;
+            throw new AssertionError("""
+                    The LogCollection of the context class was not initialized properly.
+                    You may check the following points:
+                    \t- All your methods that are annotated with @Test, @BeforeXXX, @AfterXXX must be public""");
         }
 
         // Add log message to collection
@@ -131,6 +136,7 @@ public class StepLoggerSubscriber implements IEventSubscriber {
 
     /**
      * Method is executed when step is processed without throwing an exception
+     *
      * @param stepExecutionInfo step execution info object
      */
     private void onStepExecutionSuccess(StepExecutionInfo stepExecutionInfo) {
@@ -156,6 +162,7 @@ public class StepLoggerSubscriber implements IEventSubscriber {
 
     /**
      * Method is executed when step is throwing an exception
+     *
      * @param stepExecutionInfo step execution info object
      */
     private void onStepExecutionFailure(StepExecutionInfo stepExecutionInfo) {
@@ -170,7 +177,9 @@ public class StepLoggerSubscriber implements IEventSubscriber {
                 .setDuration(logMessage.getEnd().getTime() - logMessage.getStart().getTime())
                 .setError(stepExecutionInfo.getError());
 
-        if (SeleniumDriverConfigHelper.shouldTakeScreenshotsAfterStep()) {
+        if (SeleniumDriverConfigHelper.shouldTakeScreenshotsAfterStep() ||
+                SeleniumDriverConfigHelper.shouldTakeScreenshotsAfterStepFailure()
+        ) {
             // Take a screenshot
             String screenshotFilePath = this.stepExecutionScreenshot(stepExecutionInfo, "after", logMessage.getUuid());
 
@@ -181,13 +190,21 @@ public class StepLoggerSubscriber implements IEventSubscriber {
 
     /**
      * Take a screenshot
+     *
      * @param stepExecutionInfo Step execution info object
      * @param status            Step status
      * @param uuid              Unique id
-     * @return                  Screenshot path
+     * @return Screenshot path
      */
     private String stepExecutionScreenshot(StepExecutionInfo stepExecutionInfo, String status, UUID uuid) {
         WebDriver driver = QtafFactory.getWebDriver();
+
+        // Check if driver was quit
+        if (DriverFactory.driverHasQuit()) {
+            return null;
+        }
+
+        // Get an instance of the suite log collection
         TestSuiteLogCollection suiteLogCollection = TestSuiteLogCollection.getInstance();
 
         // Take screenshot
@@ -201,26 +218,29 @@ public class StepLoggerSubscriber implements IEventSubscriber {
                 uuid
         );
 
+        // save the screenshot and return the path of it
         File destFile = this.saveStepScreenshot(srcFile, path);
         return destFile.getAbsolutePath();
     }
 
     /**
      * Take screenshot
-     * @param driver    WebDriver object
-     * @return  Screenshot file object
+     *
+     * @param driver WebDriver object
+     * @return Screenshot file object
      */
     private File takeScreenshot(WebDriver driver) {
-        TakesScreenshot scrShot = ((TakesScreenshot)driver);
+        TakesScreenshot scrShot = ((TakesScreenshot) driver);
         return scrShot.getScreenshotAs(OutputType.FILE);
     }
 
     /**
      * Get destination path of screenshot file
+     *
      * @param stepExecutionInfo Step execution info object
      * @param status            Step status
      * @param logDir            Log directory
-     * @return                  Screenshot path
+     * @return Screenshot path
      */
     private String getStepScreenshotDestinationPath(
             StepExecutionInfo stepExecutionInfo,
@@ -239,9 +259,10 @@ public class StepLoggerSubscriber implements IEventSubscriber {
 
     /**
      * Save step screenshot file
-     * @param srcFile   Screenshot file object
-     * @param path      Destination path
-     * @return          Screenshot file object
+     *
+     * @param srcFile Screenshot file object
+     * @param path    Destination path
+     * @return Screenshot file object
      */
     private File saveStepScreenshot(File srcFile, String path) {
         File destFile = new File(
@@ -263,6 +284,7 @@ public class StepLoggerSubscriber implements IEventSubscriber {
 
     /**
      * Logging to console
+     *
      * @param stepExecutionInfo step execution info object
      * @param message           log message
      */
@@ -270,7 +292,7 @@ public class StepLoggerSubscriber implements IEventSubscriber {
         logger.info(
                 "[Step] " +
                         "[" + stepExecutionInfo.getId() + "] " +
-                        "[" + stepExecutionInfo.getStep().name() + "] " +
+                        "[" + stepExecutionInfo.getAnnotation().name() + "] " +
                         message
         );
     }

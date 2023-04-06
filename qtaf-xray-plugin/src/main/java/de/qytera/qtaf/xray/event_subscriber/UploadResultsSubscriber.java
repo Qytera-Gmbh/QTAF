@@ -2,9 +2,10 @@ package de.qytera.qtaf.xray.event_subscriber;
 
 import de.qytera.qtaf.core.QtafFactory;
 import de.qytera.qtaf.core.config.entity.ConfigMap;
-import de.qytera.qtaf.core.events.interfaces.IEventSubscriber;
 import de.qytera.qtaf.core.events.QtafEvents;
+import de.qytera.qtaf.core.events.interfaces.IEventSubscriber;
 import de.qytera.qtaf.core.events.payload.IQtafTestingContext;
+import de.qytera.qtaf.core.log.Logger;
 import de.qytera.qtaf.xray.builder.XrayJsonImportBuilder;
 import de.qytera.qtaf.xray.commands.UploadImportCommand;
 import de.qytera.qtaf.xray.dto.request.XrayImportRequestDto;
@@ -12,7 +13,6 @@ import de.qytera.qtaf.xray.dto.response.XrayCloudImportResponseDto;
 import de.qytera.qtaf.xray.dto.response.XrayImportResponseDto;
 import de.qytera.qtaf.xray.dto.response.XrayServerImportResponseDto;
 import de.qytera.qtaf.xray.events.QtafXrayEvents;
-import de.qytera.qtaf.core.log.Logger;
 import rx.Subscription;
 
 /**
@@ -45,7 +45,7 @@ public class UploadResultsSubscriber implements IEventSubscriber {
     private static final Logger logger = QtafFactory.getLogger();
 
     /**
-     * Log Collection to Xray API entities transformer
+     * Builder object that translates a QTAF Log Object to an Xray Import DTO object
      */
     private final XrayJsonImportBuilder xrayJsonImportBuilder = new XrayJsonImportBuilder();
 
@@ -66,7 +66,8 @@ public class UploadResultsSubscriber implements IEventSubscriber {
 
     /**
      * Method that gets executed when testing has finished
-     * @param testContext   Test context payload
+     *
+     * @param testContext Test context payload
      */
     public void onTestFinished(IQtafTestingContext testContext) {
         // Check if Xray Plugin is enabled

@@ -15,8 +15,9 @@ import java.nio.file.Paths;
 public class FileHelper {
     /**
      * Check if a file exists
-     * @param filePath  File location
-     * @return  true if exists, false otherwise
+     *
+     * @param filePath File location
+     * @return true if exists, false otherwise
      */
     public static boolean exists(String filePath) {
         filePath = DirectoryHelper.preparePath(filePath);
@@ -26,21 +27,28 @@ public class FileHelper {
 
     /**
      * Create an empty file and all its parent directories
-     * @param filePath  File location
-     * @return  true on success, false otherwise
+     *
+     * @param filePath File location
+     * @return true on success, false otherwise
      */
     public static boolean touch(String filePath) {
         filePath = DirectoryHelper.preparePath(filePath);
         File file = new File(filePath);
-        return file.getParentFile().mkdirs();
+
+        if (!file.getParentFile().exists()) {
+            return file.getParentFile().mkdirs();
+        }
+
+        return true;
     }
 
     /**
      * Create a file
-     * @param filePath      File path relative to project's root directory
-     * @param fileContent   File content
-     * @return  true on success, false otherwise
-     * @throws IOException  error during file creation
+     *
+     * @param filePath    File path relative to project's root directory
+     * @param fileContent File content
+     * @return true on success, false otherwise
+     * @throws IOException error during file creation
      */
     public static boolean createFileIfNotExists(String filePath, String fileContent) throws IOException {
         filePath = DirectoryHelper.preparePath(filePath);
@@ -66,9 +74,10 @@ public class FileHelper {
 
     /**
      * Get file content
-     * @param filepath  path to file
-     * @return  file content
-     * @throws IOException  File not found
+     *
+     * @param filepath path to file
+     * @return file content
+     * @throws IOException File not found
      */
     public static byte[] getFileContent(String filepath) throws IOException {
         return Files.readAllBytes(Paths.get(DirectoryHelper.preparePath(filepath)));
@@ -76,9 +85,10 @@ public class FileHelper {
 
     /**
      * Get file content as String
-     * @param filepath  path to file
-     * @return  file content
-     * @throws IOException  File not found
+     *
+     * @param filepath path to file
+     * @return file content
+     * @throws IOException File not found
      */
     public static String getFileContentAsUTF8String(String filepath) throws IOException {
         return new String(FileHelper.getFileContent(filepath), StandardCharsets.UTF_8);
@@ -86,8 +96,9 @@ public class FileHelper {
 
     /**
      * Write file
-     * @param filePath  File location
-     * @param content   File content
+     *
+     * @param filePath File location
+     * @param content  File content
      */
     public static void writeFile(String filePath, String content) throws IOException {
         filePath = DirectoryHelper.preparePath(filePath);
@@ -96,8 +107,9 @@ public class FileHelper {
 
     /**
      * Delete a file
-     * @param filePath  File location
-     * @return  true on success, false otherwise
+     *
+     * @param filePath File location
+     * @return true on success, false otherwise
      */
     public static boolean delete(String filePath) {
         filePath = DirectoryHelper.preparePath(filePath);

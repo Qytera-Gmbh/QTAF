@@ -34,24 +34,28 @@ public abstract class AbstractXrayService {
 
     /**
      * Get Xray URL
-     * @return  Xray URL
+     *
+     * @return Xray URL
      */
     public abstract String getXrayURL();
 
     /**
      * Get Xray REST Import Path
+     *
      * @return Xray REST Import Path
      */
     public abstract String getImportPath();
 
     /**
      * Authentication against Xray PAI
+     *
      * @return Bearer Token
      */
     public abstract String authenticate();
 
     /**
      * Get JWT token
+     *
      * @return jwt token
      */
     public String getJwtToken() {
@@ -71,8 +75,9 @@ public abstract class AbstractXrayService {
 
     /**
      * Import a test execution
+     *
      * @param xrayImportDTO Test execution DTO
-     * @return              Test execution response DTO
+     * @return Test execution response DTO
      */
     public XrayImportResponseDto importExecution(
             XrayImportRequestDto xrayImportDTO

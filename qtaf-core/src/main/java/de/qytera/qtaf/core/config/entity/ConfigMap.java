@@ -3,9 +3,9 @@ package de.qytera.qtaf.core.config.entity;
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.PathNotFoundException;
 import de.qytera.qtaf.core.QtafFactory;
+import de.qytera.qtaf.core.log.Logger;
 import de.qytera.qtaf.core.log.model.error.ConfigurationError;
 import de.qytera.qtaf.core.log.model.error.ErrorLogCollection;
-import de.qytera.qtaf.core.log.Logger;
 
 import java.util.HashMap;
 import java.util.List;
@@ -26,7 +26,8 @@ public class ConfigMap extends HashMap<String, Object> {
 
     /**
      * Constructor
-     * @param documentContext   json context
+     *
+     * @param documentContext json context
      */
     public ConfigMap(DocumentContext documentContext) {
         this.documentContext = documentContext;
@@ -37,63 +38,58 @@ public class ConfigMap extends HashMap<String, Object> {
      */
     protected Logger logger = QtafFactory.getLogger();
 
-    /**
-     * Get string value from key
-     *
-     * @param key   Key
-     * @return      Value
-     */
-    public String getString(String key) {
+    private Object getValue(String key) {
         // First check if this key has been overwritten
-        String value = null;
-
-        try {
-            value = (String) this.get(key);
-        } catch (ClassCastException ignored) {}
-
+        Object value = this.get(key);
         // Then try to find key in system properties
         if (value == null) {
             value = this.getStringFromSystemProperty(key);
         }
-
         // Then try to find key in environment variables
         if (value == null || value.equals("")) {
             value = this.getStringFromEnvironment(key);
-
-            if (value != null && !value.equals("")) {
-                return value;
-            }
-        } else {
-            return value;
         }
-
         // Finally try to find key in configuration file
-        try {
-            value = documentContext.read("$." + key);
-        } catch (PathNotFoundException e) { // Key not found
-            return value;
-        } catch (ClassCastException e) { // Could not be casted to string (i.e. because it is a list)
-            if (documentContext.read("$." + key) instanceof Boolean) {
-                return documentContext.read("$." + key) ? "true" : "false";
-            } else if (documentContext.read("$." + key) instanceof Integer) {
-                return Integer.toString(documentContext.read("$." + key));
-            } else if (documentContext.read("$." + key) instanceof Double) {
-                return Double.toString(documentContext.read("$." + key));
+        if (value == null || value.equals("")) {
+            try {
+                value = documentContext.read("$." + key);
+            } catch (PathNotFoundException e) {
+                return null;
             }
-
-            logger.error("Configuration key '" + key + "' is not a string type");
-            return value;
         }
-
         return value;
     }
 
+    private <T> T getValue(String key, Class<T> clazz) {
+        Object value = this.getValue(key);
+        if (value != null) {
+            try {
+                return clazz.cast(value);
+            } catch (ClassCastException e) {
+                logger.error(String.format("Value '%s' of key '%s' could not be parsed as %s", value, key, clazz.getName()));
+                this.errorLogCollection.addErrorLog(new ConfigurationError(e));
+            }
+        }
+        return null;
+    }
+
     /**
-     * Get string value from key
+     * Retrieves the value for the given key, interpreted as a {@link String}.
      *
-     * @param key           Key
-     * @param valueIfNull   Value that should be return if key cannot be found
-     * @return      Value
+     * @param key the key of the value to retrieve
+     * @return the key's value or null if there is no value
+     */
+    public String getString(String key) {
+        return this.getValue(key, String.class);
+    }
+
+    /**
+     * Retrieves the value for the given key, interpreted as a {@link String}. If the value does not exist or is null,
+     * returns {@code valueIfNull} instead.
+     *
+     * @param key         the key of the value to retrieve
+     * @param valueIfNull the value to return if there is no value attached to the key
+     * @return the key's value or the provided default value
      */
     public String getString(String key, String valueIfNull) {
         String value = this.getString(key);
@@ -102,8 +98,9 @@ public class ConfigMap extends HashMap<String, Object> {
 
     /**
      * Get value from environment variable
-     * @param key   configuration key
-     * @return  configuration value
+     *
+     * @param key configuration key
+     * @return configuration value
      */
     public String getStringFromEnvironment(String key) {
         // Search for lower case and upper case keys
@@ -121,8 +118,9 @@ public class ConfigMap extends HashMap<String, Object> {
 
     /**
      * Get value from system properties
-     * @param key   configuration key
-     * @return  configuration value
+     *
+     * @param key configuration key
+     * @return configuration value
      */
     public String getStringFromSystemProperty(String key) {
         return System.getProperty(key);
@@ -131,9 +129,9 @@ public class ConfigMap extends HashMap<String, Object> {
     /**
      * Set string value
      *
-     * @param key     Key
-     * @param value   Key
-     * @return        self
+     * @param key   Key
+     * @param value Key
+     * @return self
      */
     public ConfigMap setString(String key, String value) {
         this.put(key, value);
@@ -141,31 +139,34 @@ public class ConfigMap extends HashMap<String, Object> {
     }
 
     /**
-     * Get int value from key
+     * Retrieves the value for the given key, interpreted as an {@link Integer}.
      *
-     * @param key   Key
-     * @return      Value
+     * @param key the key of the value to retrieve
+     * @return the key's value or null if there is no value
      */
     public Integer getInt(String key) {
-        String s = this.getString(key);
+        return this.getValue(key, Integer.class);
+    }
 
-        try {
-            return Integer.parseInt(s);
-        } catch (Exception e) {
-            logger.error(
-                    "Value '" + s + "' of key '" + key + "' could not be parsed as integer"
-            );
-            this.errorLogCollection.addErrorLog(new ConfigurationError(e));
-            return 0;
-        }
+    /**
+     * Retrieves the value for the given key, interpreted as an {@link Integer}. If the value does not exist or is null,
+     * returns {@code valueIfNull} instead.
+     *
+     * @param key         the key of the value to retrieve
+     * @param valueIfNull the value to return if there is no value attached to the key
+     * @return the key's value or the provided default value
+     */
+    public Integer getInt(String key, Integer valueIfNull) {
+        Integer value = getInt(key);
+        return value == null ? valueIfNull : value;
     }
 
     /**
      * Set int value
      *
-     * @param key     Key
-     * @param value   Key
-     * @return        self
+     * @param key   Key
+     * @param value Key
+     * @return self
      */
     public ConfigMap setInt(String key, Integer value) {
         this.put(key, value);
@@ -173,31 +174,34 @@ public class ConfigMap extends HashMap<String, Object> {
     }
 
     /**
-     * Get double value from key
+     * Retrieves the value for the given key, interpreted as a {@link Double}.
      *
-     * @param key   Key
-     * @return      Value
+     * @param key the key of the value to retrieve
+     * @return the key's value or null if there is no value
      */
     public Double getDouble(String key) {
-        String s = this.getString(key);
+        return this.getValue(key, Double.class);
+    }
 
-        try {
-            return Double.parseDouble(s);
-        } catch (Exception e) {
-            logger.error(
-                    "Value '" + s + "' of key '" + key + "' could not be parsed as integer"
-            );
-            this.errorLogCollection.addErrorLog(new ConfigurationError(e));
-            return 0.0;
-        }
+    /**
+     * Retrieves the value for the given key, interpreted as a {@link Double}. If the value does not exist or is null,
+     * returns {@code valueIfNull} instead.
+     *
+     * @param key         the key of the value to retrieve
+     * @param valueIfNull the value to return if there is no value attached to the key
+     * @return the key's value or the provided default value
+     */
+    public Double getDouble(String key, Double valueIfNull) {
+        Double value = getDouble(key);
+        return value == null ? valueIfNull : value;
     }
 
     /**
      * Set double value
      *
-     * @param key     Key
-     * @param value   Key
-     * @return        self
+     * @param key   Key
+     * @param value Key
+     * @return self
      */
     public ConfigMap setDouble(String key, Double value) {
         this.put(key, value);
@@ -205,36 +209,34 @@ public class ConfigMap extends HashMap<String, Object> {
     }
 
     /**
-     * Get boolean value from key
+     * Retrieves the value for the given key, interpreted as a {@link Boolean}.
      *
-     * @param key   Key
-     * @return      Value
+     * @param key the key of the value to retrieve
+     * @return the key's value or the provided default value
      */
     public Boolean getBoolean(String key) {
-        if (this.get(key) != null && this.get(key) instanceof Boolean) {
-            return (Boolean) this.get(key);
-        }
+        return this.getValue(key, Boolean.class);
+    }
 
-        String s = this.getString(key);
-
-        if (s == null ||
-                s.trim().equals("") ||
-                s.trim().equals("0") ||
-                s.trim().equals("0.0") ||
-                s.trim().toLowerCase().equals("false")
-        ) {
-            return false;
-        }
-
-        return true;
+    /**
+     * Retrieves the value for the given key, interpreted as a {@link Double}. If the value does not exist or is null,
+     * returns {@code valueIfNull} instead.
+     *
+     * @param key         the key of the value to retrieve
+     * @param valueIfNull the value to return if there is no value attached to the key
+     * @return the key's value or the provided default value
+     */
+    public Boolean getBoolean(String key, Boolean valueIfNull) {
+        Boolean value = getBoolean(key);
+        return value == null ? valueIfNull : value;
     }
 
     /**
      * Set boolean value
      *
-     * @param key     Key
-     * @param value   Key
-     * @return        self
+     * @param key   Key
+     * @param value Key
+     * @return self
      */
     public ConfigMap setBoolean(String key, Boolean value) {
         this.put(key, value);
@@ -243,8 +245,9 @@ public class ConfigMap extends HashMap<String, Object> {
 
     /**
      * Get array
-     * @param key   Json path
-     * @return      array
+     *
+     * @param key Json path
+     * @return array
      */
     public List<?> getArray(String key) {
         return documentContext.read("$." + key);

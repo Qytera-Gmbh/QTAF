@@ -25,7 +25,8 @@ public class ErrorLog {
 
     /**
      * Constructor
-     * @param message   Error message
+     *
+     * @param message Error message
      */
     public ErrorLog(String message) {
         this.setError(new Exception(message));
@@ -34,6 +35,7 @@ public class ErrorLog {
 
     /**
      * Constructor
+     *
      * @param e Error
      */
     public ErrorLog(Throwable e) {
@@ -65,7 +67,8 @@ public class ErrorLog {
 
     /**
      * Get stack trace
-     * @return  stack trace
+     *
+     * @return stack trace
      */
     public List<String> getStackTrace() {
         return this.stack;
@@ -73,7 +76,8 @@ public class ErrorLog {
 
     /**
      * Get error message
-     * @return  error message
+     *
+     * @return error message
      */
     public String getErrorMessage() {
         return this.getError().getMessage();

@@ -1,9 +1,13 @@
 package de.qytera.qtaf.core.log.model.collection;
 
+import de.qytera.qtaf.core.QtafFactory;
 import de.qytera.qtaf.core.events.payload.IQtafTestEventPayload;
 import de.qytera.qtaf.core.log.model.LogLevel;
+import de.qytera.qtaf.core.log.model.index.LogMessageIndex;
+import de.qytera.qtaf.core.log.model.index.ScenarioLogCollectionIndex;
 import de.qytera.qtaf.core.log.model.message.LogMessage;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Parameter;
 import java.util.*;
 
@@ -14,12 +18,17 @@ public class TestScenarioLogCollection {
     /**
      * Index for log collections
      */
-    private static final Map<String, TestScenarioLogCollection> index = ScenarioLogCollectionIndex.getInstance();
+    private static final ScenarioLogCollectionIndex index = ScenarioLogCollectionIndex.getInstance();
 
     /**
-     * Unique test hash code
+     * Index for log messages
      */
-    private final int featureId;
+    private static final LogMessageIndex logMessageIndex = LogMessageIndex.getInstance();
+
+    /**
+     * Unique test feature ID
+     */
+    private final String featureId;
 
     /**
      * Test method ID
@@ -30,6 +39,16 @@ public class TestScenarioLogCollection {
      * Test ID
      */
     private final String scenarioName;
+
+    /**
+     * ID of the abstract scenario
+     */
+    private String abstractScenarioId;
+
+    /**
+     * ID of the concrete test scenario
+     */
+    private String instanceId;
 
     /**
      * Test description. Contains content of the 'description' attribute of the 'Test' annotation.
@@ -79,7 +98,12 @@ public class TestScenarioLogCollection {
     /**
      * Test method parameters
      */
-    private final List<TestParameter> testParameters = new ArrayList<>();
+    private final List<TestParameter> testParameters = Collections.synchronizedList(new ArrayList<>());
+
+    /**
+     * Annotations of the corresponding test method
+     */
+    private transient Annotation[] annotations;
 
     /**
      * Test status
@@ -89,12 +113,12 @@ public class TestScenarioLogCollection {
     /**
      * Test log messages. Contains log messages that are produced during test execution.
      */
-    private final ArrayList<LogMessage> logMessages = new ArrayList<>();
+    private final List<LogMessage> logMessages = Collections.synchronizedList(new ArrayList<>());
 
     /**
      * Test screenshots. Contains paths to screenshot files.
      */
-    private final ArrayList<String> screenshotPaths = new ArrayList<>();
+    private final List<String> screenshotPaths = Collections.synchronizedList(new ArrayList<>());
 
     /**
      * Path to screenshot file that was saved before execution of the step
@@ -109,63 +133,99 @@ public class TestScenarioLogCollection {
     /**
      * Test tags. Contains additional information about the test scenario.
      */
-    private final Map<String, String> tags = new HashMap<>();
+    private final Map<String, String> tags = Collections.synchronizedMap(new HashMap<>());
 
     /**
      * Constructor
      *
      * @param scenarioId Test ID
      */
-    private TestScenarioLogCollection(int featureId, String scenarioId, String scenarioName) {
+    private TestScenarioLogCollection(String featureId, String scenarioId, String scenarioName) {
         this.featureId = featureId;
         this.scenarioId = scenarioId;
         this.scenarioName = scenarioName;
 
-        index.put(scenarioId, this);
+        // Logging
+        QtafFactory.getLogger().debug(
+                String.format(
+                        "Created scenario log: id=%s, hash=%s, featureId=%s, scenarioName=%s",
+                        scenarioId,
+                        this.hashCode(),
+                        featureId,
+                        scenarioName
+                )
+        );
+        QtafFactory.getConfiguration().getString("page.url");
+        QtafFactory.getLogger().debug(
+                String.format(
+                        "feature log index: size=%s, scenario log index: size=%s",
+                        index.size(),
+                        ScenarioLogCollectionIndex.getInstance().size()
+                )
+        );
     }
 
     /**
      * Factory method.
+     * <p>
      * Creates new test log collection.
      * If a collection with the given ID exists then return the existing collection.
      * This method has to be synchronized so that it works correctly when using multiple threads.
      *
-     * @param featureId  Unique collection ID
-     * @param scenarioId  Method Id (packageName + className + methodName)
-     * @param scenarioName    Test ID
-     * @return  test log collection
+     * @param featureId          Unique collection ID
+     * @param abstractScenarioId Method ID (packageName + className + methodName)
+     * @param instanceId         Test object ID
+     * @param scenarioName       Test ID
+     * @return test log collection
      */
     public static synchronized TestScenarioLogCollection createTestScenarioLogCollection(
-            int featureId,
-            String scenarioId,
+            String featureId,
+            String abstractScenarioId,
+            String instanceId,
             String scenarioName
     ) {
+        // Check if index already contains a scenario log collection with the given ID
+        String scenarioId = buildId(abstractScenarioId, instanceId);
+
         if (index.get(scenarioId) != null) {
             return index.get(scenarioId);
         }
 
-        return new TestScenarioLogCollection(featureId, scenarioId, scenarioName);
+        // Create new scenario log collection and register it in the index
+        TestScenarioLogCollection collection = new TestScenarioLogCollection(featureId, scenarioId, scenarioName);
+        collection.setAbstractScenarioId(abstractScenarioId);
+        collection.setInstanceId(instanceId);
+        return index.put(scenarioId, collection);
     }
 
     /**
+     * Factory method
+     * <p>
      * Factory method that creates new log collection from test event payload
      * This method has to be synchronized so that it works correctly when using multiple threads.
      *
      * @param iQtafTestEventPayload test event payload
-     * @return  test log collection
+     * @return test log collection
      */
     public static synchronized TestScenarioLogCollection fromQtafTestEventPayload(IQtafTestEventPayload iQtafTestEventPayload) {
-        if (index.get(iQtafTestEventPayload.getScenarioId()) != null) {
-            return index.get(iQtafTestEventPayload.getScenarioId());
+        // Build scenario ID
+        String scenarioId = buildId(iQtafTestEventPayload.getAbstractScenarioId(), iQtafTestEventPayload.getInstanceId());
+
+        // Check if index already contains a scenario log collection with the given ID
+        if (index.get(scenarioId) != null) {
+            return index.get(scenarioId);
         }
 
+        // Create new scenario log collection
         TestScenarioLogCollection collection = new TestScenarioLogCollection(
                 iQtafTestEventPayload.getFeatureId(),
-                iQtafTestEventPayload.getScenarioId(),
+                scenarioId,
                 iQtafTestEventPayload.getScenarioName()
         );
 
         collection
+                .setAbstractScenarioId(iQtafTestEventPayload.getAbstractScenarioId())
+                .setInstanceId(iQtafTestEventPayload.getInstanceId())
                 .setDescription(iQtafTestEventPayload.getScenarioDescription())
                 .setStart(iQtafTestEventPayload.getScenarioStart())
                 .setEnd(iQtafTestEventPayload.getScenarioEnd())
@@ -175,15 +235,21 @@ public class TestScenarioLogCollection {
                 .setGroupDependencies(iQtafTestEventPayload.getGroupDependencies())
                 .setMethodDependencies(iQtafTestEventPayload.getMethodDependencies());
 
-        index.put(collection.scenarioId, collection);
+        if (iQtafTestEventPayload.getMethodInfoEntity() != null) {
+            collection
+                    .setAnnotations(iQtafTestEventPayload.getMethodInfoEntity().getAnnotations())
+                    .addParameters(iQtafTestEventPayload.getMethodInfoEntity().getMethodParamValues());
+        }
 
-        return collection;
+        // Register new scenario log collection in the index
+        return index.put(scenarioId, collection);
     }
 
     /**
      * Override equals to compare two TestScenarioLogCollection objects
+     *
      * @param o Object to compare with this instance
-     * @return  true if both are equal, false otherwise
+     * @return true if both are equal, false otherwise
      */
     @Override
     public boolean equals(Object o) {
@@ -194,23 +260,24 @@ public class TestScenarioLogCollection {
 
         /* Check if o is an instance of Complex or not
           "null instanceof [type]" also returns false */
-        if (!(o instanceof TestScenarioLogCollection)) {
+        if (!(o instanceof TestScenarioLogCollection c)) {
             return false;
         }
 
-        TestScenarioLogCollection c = (TestScenarioLogCollection) o;
-
-        return this.getScenarioId().equals(c.getScenarioId());
+        return getFeatureId().equals(c.getFeatureId()) &&
+                getAbstractScenarioId().equals(c.getAbstractScenarioId()) &&
+                getInstanceId().equals(c.getInstanceId());
     }
 
     /**
      * Calculate hash code for this instance.
      * The contains() methods of the collections use the hash code to check if object is already stored.
-     * @return  hash code
+     *
+     * @return hash code
      */
     @Override
     public int hashCode() {
-        return this.getScenarioId().hashCode();
+        return (getFeatureId() + getAbstractScenarioId() + getInstanceId()).hashCode();
     }
 
     /**
@@ -218,19 +285,19 @@ public class TestScenarioLogCollection {
      *
      * @return uniqueId
      */
-    public int getFeatureId() {
+    public String getFeatureId() {
         return featureId;
     }
 
     /**
      * Build ID
      *
-     * @param methodId Method ID
-     * @param testId   Test ID
+     * @param abstractScenarioId Method ID
+     * @param instanceId         Test ID
      * @return ID
      */
-    public static String buildId(String methodId, String testId) {
-        return testId + methodId;
+    public static String buildId(String abstractScenarioId, String instanceId) {
+        return abstractScenarioId + "-" + instanceId;
     }
 
     /**
@@ -249,6 +316,46 @@ public class TestScenarioLogCollection {
      */
     public String getScenarioName() {
         return scenarioName;
+    }
+
+    /**
+     * Get abstractScenarioId
+     *
+     * @return abstractScenarioId
+     */
+    public String getAbstractScenarioId() {
+        return Objects.requireNonNullElse(abstractScenarioId, "");
+    }
+
+    /**
+     * Set abstractScenarioId
+     *
+     * @param abstractScenarioId AbstractScenarioId
+     * @return this
+     */
+    public TestScenarioLogCollection setAbstractScenarioId(String abstractScenarioId) {
+        this.abstractScenarioId = abstractScenarioId;
+        return this;
+    }
+
+    /**
+     * Get instanceId
+     *
+     * @return instanceId
+     */
+    public String getInstanceId() {
+        return Objects.requireNonNullElse(instanceId, "");
+    }
+
+    /**
+     * Set instanceId
+     *
+     * @param instanceId InstanceId
+     * @return this
+     */
+    public TestScenarioLogCollection setInstanceId(String instanceId) {
+        this.instanceId = instanceId;
+        return this;
     }
 
     /**
@@ -305,11 +412,102 @@ public class TestScenarioLogCollection {
     }
 
     /**
+     * Get testParameters
+     *
+     * @return testParameters
+     */
+    public List<TestParameter> getTestParameters() {
+        return testParameters;
+    }
+
+    /**
+     * Add test parameters to log
+     *
+     * @param parameters method parameters
+     * @param values     method values
+     * @return this
+     */
+    public TestScenarioLogCollection addParameters(Parameter[] parameters, Object[] values) {
+        for (int i = 0; i < parameters.length; i++) {
+            TestParameter testParameter = new TestParameter(
+                    parameters[i].getName(),
+                    values[i].getClass().getName(),
+                    values[i]
+            );
+
+            this.testParameters.add(testParameter);
+        }
+
+        return this;
+    }
+
+    /**
+     * Add test parameters to log
+     *
+     * @param parameterValues method values
+     * @return this
+     */
+    public TestScenarioLogCollection addParameters(Object[] parameterValues) {
+        for (int i = 0; i < parameterValues.length; i++) {
+            TestParameter testParameter = new TestParameter(
+                    "arg" + i,
+                    parameterValues[i].getClass().getName(),
+                    parameterValues[i]
+            );
+
+            this.testParameters.add(testParameter);
+        }
+
+        return this;
+    }
+
+
+    /**
+     * Get annotations
+     *
+     * @return annotations
+     */
+    public Annotation[] getAnnotations() {
+        return annotations;
+    }
+
+    /**
+     * Get a specific annotation of this scenario
+     *
+     * @param clazz Annotation type
+     * @return Annotation if found or null if not
+     */
+    public Annotation getAnnotation(Class<?> clazz) {
+        for (Annotation a : annotations) {
+            if (clazz.isInstance(a)) {
+                return a;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Set annotations
+     *
+     * @param annotations Annotations
+     * @return this
+     */
+    public TestScenarioLogCollection setAnnotations(Annotation[] annotations) {
+        this.annotations = annotations;
+        return this;
+    }
+
+    /**
      * Get logMessages
      *
      * @return logMessages LogMessages
      */
-    public ArrayList<LogMessage> getLogMessages() {
+    public synchronized List<LogMessage> getLogMessages() {
+        if (logMessages.isEmpty()) {
+            return LogMessageIndex.getInstance().getByScenarioId(getScenarioId());
+        }
+
         return logMessages;
     }
 
@@ -322,7 +520,20 @@ public class TestScenarioLogCollection {
      */
     public synchronized TestScenarioLogCollection addLogMessage(LogMessage logMessage) {
         if (!logMessages.contains(logMessage)) {
+            // Add information about the scenario to the log message
+            logMessage
+                    .setFeatureId(getFeatureId())
+                    .setAbstractScenarioId(getAbstractScenarioId())
+                    .setScenarioId(getScenarioId());
+
+            // Update the index
+            logMessageIndex.put(logMessage.hashCode(), logMessage);
+
+            // Add log message to this scenario
             logMessages.add(logMessage);
+
+            QtafFactory.getLogger().debug(String.format("Added log message: message=%s, scenario_hash=%s", logMessage.getMessage(), this.hashCode()));
+            QtafFactory.getLogger().debug(String.format("Scenario %s: log_messages_size=%s, scenario_hash=%s, log_messages_list_hash=%s", this.getScenarioId(), this.logMessages.size(), this.hashCode(), this.logMessages.hashCode()));
         }
 
         return this;
@@ -335,9 +546,9 @@ public class TestScenarioLogCollection {
      * @param message log message
      * @return this
      */
-    public TestScenarioLogCollection addLogMessage(LogLevel level, String message) {
-        LogMessage testStepLog = new LogMessage(level, message);
-        logMessages.add(testStepLog);
+    public synchronized TestScenarioLogCollection addLogMessage(LogLevel level, String message) {
+        LogMessage logMessage = new LogMessage(level, message);
+        logMessages.add(logMessage);
         return this;
     }
 
@@ -346,14 +557,15 @@ public class TestScenarioLogCollection {
      *
      * @return screenshotPaths
      */
-    public ArrayList<String> getScreenshotPaths() {
+    public List<String> getScreenshotPaths() {
         return screenshotPaths;
     }
 
     /**
      * Add screenshot path to test scenario log
-     * @param filepath  Path to screenshot file
-     * @return  this
+     *
+     * @param filepath Path to screenshot file
+     * @return this
      */
     public TestScenarioLogCollection addScreenshotPath(String filepath) {
         screenshotPaths.add(filepath);
@@ -411,9 +623,10 @@ public class TestScenarioLogCollection {
 
     /**
      * Add tag to test scenario log
-     * @param key  Tag key
-     * @param value  Tag value
-     * @return  this
+     *
+     * @param key   Tag key
+     * @param value Tag value
+     * @return this
      */
     public TestScenarioLogCollection addTag(String key, String value) {
         tags.put(key, value);
@@ -617,26 +830,6 @@ public class TestScenarioLogCollection {
     }
 
     /**
-     * Add test parameters to log
-     * @param parameters    method parameters
-     * @param values        method values
-     * @return              this
-     */
-    public TestScenarioLogCollection addParameters(Parameter[] parameters, Object[] values) {
-        for (int i = 0; i < parameters.length; i++) {
-            TestParameter testParameter = new TestParameter(
-                    parameters[i].getName(),
-                    values[i].getClass().getName(),
-                    values[i]
-            );
-
-            this.testParameters.add(testParameter);
-        }
-
-        return this;
-    }
-
-    /**
      * Test execution status
      */
     public enum Status {
@@ -741,6 +934,7 @@ public class TestScenarioLogCollection {
 
     /**
      * Check if index already has this ScenarioLogCollection
+     *
      * @param scenarioLogCollection Scenario log collection
      * @return true if exists, false otherwise
      */
@@ -750,7 +944,8 @@ public class TestScenarioLogCollection {
 
     /**
      * Count the number of scenario log collections saved in the index
-     * @return  number of scenario log collections saved in the index
+     *
+     * @return number of scenario log collections saved in the index
      */
     public static int getIndexSize() {
         return index.size();

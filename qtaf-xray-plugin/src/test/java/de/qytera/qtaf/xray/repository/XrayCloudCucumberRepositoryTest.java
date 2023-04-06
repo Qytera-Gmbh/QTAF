@@ -81,7 +81,7 @@ public class XrayCloudCucumberRepositoryTest {
         repo.getAndStoreFeatureFileDefinitions(new String[]{"QTAF-670"}, dir);
 
         Assert.assertTrue(Files.exists(
-                Path.of(DirectoryHelper.preparePath(String.format("%s/%s", dir, filename)))),
+                        Path.of(DirectoryHelper.preparePath(String.format("%s/%s", dir, filename)))),
                 String.format("There should be a file named '%S' in the directory '%s' after downloading and storing ZIP file from Xray Cloud API", filename, dir)
         );
 

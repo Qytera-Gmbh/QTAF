@@ -7,19 +7,22 @@ import de.qytera.qtaf.core.events.payload.QtafTestStepEventPayload;
 import de.qytera.qtaf.core.events.payload.ScenarioStatus;
 import de.qytera.qtaf.core.reflection.FieldHelper;
 import de.qytera.qtaf.cucumber.events.payload.CucumberScenarioEventPayload;
+import de.qytera.qtaf.cucumber.helper.CucumberLogMessageHelper;
+import de.qytera.qtaf.cucumber.helper.CucumberScenarioHelper;
+import de.qytera.qtaf.cucumber.helper.CucumberTestCaseStateHelper;
+import de.qytera.qtaf.cucumber.helper.CucumberTestStepHelper;
+import de.qytera.qtaf.cucumber.log.model.message.CucumberStepLogMessage;
 import de.qytera.qtaf.cucumber.log.model.message.index.CucumberStepIndex;
 import de.qytera.qtaf.testng.context.QtafTestNGContext;
-import de.qytera.qtaf.cucumber.helper.*;
-import de.qytera.qtaf.core.log.model.collection.TestFeatureLogCollection;
-import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
-import de.qytera.qtaf.core.log.model.collection.TestSuiteLogCollection;
-import de.qytera.qtaf.cucumber.log.model.message.CucumberStepLogMessage;
-import de.qytera.qtaf.core.log.model.message.StepInformationLogMessage;
 import io.cucumber.core.backend.TestCaseState;
 import io.cucumber.java.Scenario;
-import io.cucumber.plugin.event.*;
+import io.cucumber.plugin.event.Result;
+import io.cucumber.plugin.event.TestCase;
+import io.cucumber.plugin.event.TestStep;
 
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * Class that listens to Cucumber events and dispatches QTAF events
@@ -34,7 +37,7 @@ public class QtafCucumberHooks extends QtafTestNGContext {
      * This method runs before each scenario. It creates log messages objects and stores them
      * in an index, so that other methods cann access the log messages by their IDs.
      *
-     * @param scenario  Scenario object
+     * @param scenario Scenario object
      */
     public final void beforeScenario(Scenario scenario) {
         CucumberScenarioEventPayload eventPayload = new CucumberScenarioEventPayload(scenario);
@@ -60,7 +63,8 @@ public class QtafCucumberHooks extends QtafTestNGContext {
 
     /**
      * This code is executed before every step
-     * @param scenario  Scenario
+     *
+     * @param scenario Scenario
      */
     public final void beforeStep(Scenario scenario) {
         TestCaseState state = CucumberScenarioHelper.getTestCaseState(scenario);
@@ -77,7 +81,8 @@ public class QtafCucumberHooks extends QtafTestNGContext {
 
     /**
      * This code is executed after every step
-     * @param scenario  Scenario
+     *
+     * @param scenario Scenario
      */
     public final void afterStep(Scenario scenario) {
         TestCaseState state = CucumberScenarioHelper.getTestCaseState(scenario);
@@ -112,7 +117,8 @@ public class QtafCucumberHooks extends QtafTestNGContext {
 
     /**
      * This code is executed after every Cucumber scenario
-     * @param scenario  Scenario
+     *
+     * @param scenario Scenario
      */
     public final void afterScenario(Scenario scenario) {
         CucumberScenarioEventPayload eventPayload = new CucumberScenarioEventPayload(scenario);
@@ -139,8 +145,9 @@ public class QtafCucumberHooks extends QtafTestNGContext {
 
     /**
      * Create list of log messages and dispatch an event for each one
-     * @param scenario      Scenario object
-     * @param logMessages   List og log messages
+     *
+     * @param scenario    Scenario object
+     * @param logMessages List og log messages
      */
     protected void dispatchLogMessageEvents(
             Scenario scenario,

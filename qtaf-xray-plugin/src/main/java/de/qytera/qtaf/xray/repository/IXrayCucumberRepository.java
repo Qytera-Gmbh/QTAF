@@ -6,7 +6,8 @@ package de.qytera.qtaf.xray.repository;
 public interface IXrayCucumberRepository {
     /**
      * Get Tests as Cucumber Feature File
-     * @return  Contents of feature file
+     *
+     * @return Contents of feature file
      */
     String getFeatureFileDefinition(String[] testIDs);
 }

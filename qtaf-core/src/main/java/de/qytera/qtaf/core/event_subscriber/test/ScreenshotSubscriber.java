@@ -5,11 +5,11 @@ import de.qytera.qtaf.core.events.QtafEvents;
 import de.qytera.qtaf.core.events.interfaces.IEventSubscriber;
 import de.qytera.qtaf.core.events.payload.IQtafTestEventPayload;
 import de.qytera.qtaf.core.io.DirectoryHelper;
-import de.qytera.qtaf.core.log.model.collection.ScenarioLogCollectionIndex;
 import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
 import de.qytera.qtaf.core.log.model.collection.TestSuiteLogCollection;
 import de.qytera.qtaf.core.log.model.error.ErrorLogCollection;
 import de.qytera.qtaf.core.log.model.error.SeleniumScreenshotError;
+import de.qytera.qtaf.core.log.model.index.ScenarioLogCollectionIndex;
 import de.qytera.qtaf.core.log.repository.ScenarioLogCollectionRepository;
 import de.qytera.qtaf.core.selenium.helper.SeleniumDriverConfigHelper;
 import org.apache.commons.io.FileUtils;
@@ -47,8 +47,9 @@ public class ScreenshotSubscriber implements IEventSubscriber {
 
     /**
      * Take a screenshot of the currently displayed web page and save it
-     * @param payload   event payload
-     * @param status    test status
+     *
+     * @param payload event payload
+     * @param status  test status
      */
     private void takeTestScreenshot(IQtafTestEventPayload payload, String status) {
         WebDriver driver = QtafFactory.getWebDriver();
@@ -79,7 +80,8 @@ public class ScreenshotSubscriber implements IEventSubscriber {
 
     /**
      * Take a screenshot of the currently displayed web page and save it
-     * @param payload   event payload
+     *
+     * @param payload event payload
      */
     private void takeScreenshotBefore(IQtafTestEventPayload payload) {
         this.takeTestScreenshot(payload, "before");
@@ -87,7 +89,8 @@ public class ScreenshotSubscriber implements IEventSubscriber {
 
     /**
      * Take a screenshot of the currently displayed web page and save it
-     * @param payload   event payload
+     *
+     * @param payload event payload
      */
     private void takeScreenshotAfter(IQtafTestEventPayload payload) {
         this.takeTestScreenshot(payload, "after");
@@ -95,29 +98,33 @@ public class ScreenshotSubscriber implements IEventSubscriber {
 
     /**
      * Take screenshot
-     * @param driver    WebDriver object
-     * @return  Screenshot file object
+     *
+     * @param driver WebDriver object
+     * @return Screenshot file object
      */
     private File takeTestScreenshot(WebDriver driver) {
-        TakesScreenshot scrShot = ((TakesScreenshot)driver);
+        TakesScreenshot scrShot = ((TakesScreenshot) driver);
         return scrShot.getScreenshotAs(OutputType.FILE);
     }
 
     /**
      * Get screenshot destination path
-     * @param scenarioId    Scenario ID
-     * @param logDir        Log directory
-     * @return              Path where screenshot should be saved
+     *
+     * @param scenarioId Scenario ID
+     * @param logDir     Log directory
+     * @return Path where screenshot should be saved
      */
     private String getScreenshotDestinationPath(String scenarioId, String logDir, String status) {
         return logDir + "/"
                 + scenarioId + "_"
                 + status + ".png";
     }
+
     /**
      * Save screenshot file
-     * @param srcFile   Screenshot file object
-     * @param path      Destination path
+     *
+     * @param srcFile Screenshot file object
+     * @param path    Destination path
      */
     private void saveScreenshot(File srcFile, String path, String scenarioId) {
         File destFile = new File(
@@ -142,6 +149,7 @@ public class ScreenshotSubscriber implements IEventSubscriber {
 
     /**
      * Handle exceptions that occurred during invocation of subscriber method
+     *
      * @param e Exception object
      */
     private void handleError(Throwable e) {
