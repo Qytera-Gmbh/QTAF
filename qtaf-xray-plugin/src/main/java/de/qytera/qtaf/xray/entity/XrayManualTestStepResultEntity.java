@@ -98,6 +98,20 @@ public class XrayManualTestStepResultEntity {
     }
 
     /**
+     * Add an evidence item to the list of step evidences. If {@code evidence} is {@code null}, the current list of
+     * evidences remains unchanged.
+     *
+     * @param evidence the evidence to add
+     * @return this
+     */
+    public XrayManualTestStepResultEntity addEvidenceIfPresent(XrayEvidenceItemEntity evidence) {
+        if (evidence != null) {
+            this.evidences.add(evidence);
+        }
+        return this;
+    }
+
+    /**
      * Get defects
      *
      * @return defects Defects
