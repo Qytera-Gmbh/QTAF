@@ -24,12 +24,21 @@
   },
   "xray": {
     "enabled": false,
-    "url": null,
+    "url": {
+      "xray": null,
+      "jira": null
+    },
     "service": "cloud",
     "authentication": {
-      "clientId": null,
-      "clientSecret": null,
-      "bearerToken": null
+      "xray": {
+        "clientId": null,
+        "clientSecret": null,
+        "bearerToken": null
+      },
+      "jira": {
+        "username": null,
+        "apiToken": null
+      }
     },
     "scenarioReportEvidence": true,
     "scenarioImageEvidence": true,

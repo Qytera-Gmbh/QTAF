@@ -43,7 +43,7 @@ public class AuthenticationCommand implements Command {
         AbstractXrayService xrayService = XrayServiceFactory.getInstance();
 
         try {
-            jwtToken = xrayService.authenticate();
+            jwtToken = xrayService.authorizationHeaderXray();
         } catch (Exception e) {
             logger.error("Could not authenticate");
             logger.error(e.getMessage());

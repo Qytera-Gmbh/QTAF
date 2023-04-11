@@ -5,13 +5,18 @@ import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import de.qytera.qtaf.core.gson.GsonFactory;
 import de.qytera.qtaf.core.log.model.error.ErrorLog;
+import de.qytera.qtaf.core.util.Base64Helper;
 import de.qytera.qtaf.xray.config.XrayConfigHelper;
 import de.qytera.qtaf.xray.config.XrayRestPaths;
+import de.qytera.qtaf.xray.dto.response.steps.XrayServerTestStepResponseDto;
+import de.qytera.qtaf.xray.dto.response.steps.XrayTestStepResponseDto;
 import de.qytera.qtaf.xray.entity.XrayAuthCredentials;
 import de.qytera.qtaf.xray.events.QtafXrayEvents;
 import de.qytera.qtaf.xray.log.XrayAuthenticationErrorLog;
 
 import javax.ws.rs.core.MediaType;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Xray API Rest Client
@@ -51,8 +56,8 @@ public class XrayCloudService extends AbstractXrayService {
         if (instance == null) {
             instance = new XrayCloudService();
             instance.setAuthCredentials(new XrayAuthCredentials(
-                    XrayConfigHelper.getClientId(),
-                    XrayConfigHelper.getClientSecret()
+                    XrayConfigHelper.getAuthenticationXrayClientId(),
+                    XrayConfigHelper.getAuthenticationXrayClientSecret()
             ));
         }
 
@@ -69,6 +74,32 @@ public class XrayCloudService extends AbstractXrayService {
         return PATH_IMPORT;
     }
 
+    @Override
+    public String getIssueSearchPath() {
+        return "/rest/api/3/search";
+    }
+
+    @Override
+    public List<XrayTestStepResponseDto[]> getTestSteps(String... testKeys) {
+        List<XrayTestStepResponseDto[]> responses = new ArrayList<>(testKeys.length);
+        for (String testKey : testKeys) {
+
+            String path = String.format("%s/rest/raven/1.0/api/test/%s/step", getXrayURL(), testKey);
+            WebResource webResource = client.resource(path);
+            QtafXrayEvents.webResourceAvailable.onNext(webResource);
+            ClientResponse response = webResource
+                    .accept(MediaType.APPLICATION_JSON_TYPE)
+                    .header("Authorization", authorizationHeaderXray())
+                    .get(ClientResponse.class);
+            XrayServerTestStepResponseDto[] steps = GsonFactory.getInstance().fromJson(
+                    response.getEntity(String.class),
+                    XrayServerTestStepResponseDto[].class
+            );
+            responses.add(steps);
+        }
+        return responses;
+    }
+
     /**
      * Set authentication credentials
      *
@@ -83,7 +114,7 @@ public class XrayCloudService extends AbstractXrayService {
      *
      * @return Bearer token
      */
-    public String authenticate() {
+    public String authorizationHeaderXray() {
         // Check if bearer token is available, if not try to get one by clientId and clientSecret
         if (jwtToken == null) {
             // Build HTTP Request
@@ -115,7 +146,15 @@ public class XrayCloudService extends AbstractXrayService {
             jwtToken = gson.fromJson(response.getEntity(String.class), String.class);
         }
 
-        return jwtToken;
+        return String.format("Bearer %s", jwtToken);
+    }
+
+    @Override
+    public String authorizationHeaderJira() {
+        String username = XrayConfigHelper.getAuthenticationJiraUsername();
+        String apiToken = XrayConfigHelper.getAuthenticationJiraAPIToken();
+        String encoded = Base64Helper.encode(String.format("%s:%s", username, apiToken));
+        return String.format("Basic %s", encoded);
     }
 
     /**
