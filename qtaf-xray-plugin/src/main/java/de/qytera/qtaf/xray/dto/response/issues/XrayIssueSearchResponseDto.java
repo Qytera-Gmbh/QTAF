@@ -15,7 +15,7 @@ import lombok.Setter;
 public class XrayIssueSearchResponseDto {
 
     private Integer total;
-
+    private Integer startAt;
     private IssueResponseDto[] issues;
 
     @Getter
@@ -23,6 +23,8 @@ public class XrayIssueSearchResponseDto {
     public static class IssueResponseDto {
         private String id;
         private String key;
+        private String self;
+        private String expand;
         private JsonObject fields;
     }
 }

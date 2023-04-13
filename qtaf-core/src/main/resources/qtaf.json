@@ -65,6 +65,9 @@
             "value": null
           }
         }
+      },
+      "steps": {
+        "update": false
       }
     }
   },

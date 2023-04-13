@@ -10,12 +10,12 @@ public class XrayConfigHelper {
     /**
      * QTAF Configuration
      */
-    private static ConfigMap config = QtafFactory.getConfiguration();
+    private static final ConfigMap CONFIG = QtafFactory.getConfiguration();
 
     // Keys
     public static final String XRAY_SERVICE_SELECTOR = "xray.service";
-    public static final String XRAY_SERVER_URL_SELECTOR = "xray.url.xray";
-    public static final String XRAY_URL_JIRA_SELECTOR = "xray.url.jira";
+    public static final String URL_XRAY_SELECTOR = "xray.url.xray";
+    public static final String URL_JIRA_SELECTOR = "xray.url.jira";
     public static final String AUTHENTICATION_XRAY_CLIENT_ID = "xray.authentication.xray.clientId";
     public static final String AUTHENTICATION_XRAY_CLIENT_SECRET = "xray.authentication.xray.clientSecret";
     public static final String AUTHENTICATION_XRAY_BEARER_TOKEN = "xray.authentication.xray.bearerToken";
@@ -36,6 +36,10 @@ public class XrayConfigHelper {
     public static final String RESULTS_ITERATIONS_PARAMETERS_MAX_LENGTH_VALUE = "xray.results.iterations.parameters.maxLength.value";
     public static final String RESULTS_STEPS_UPDATE = "xray.results.steps.update";
 
+    private XrayConfigHelper() {
+        // Hide constructor.
+    }
+
     // Values
     private static String XRAY_SERVICE_CLOUD = "cloud";
     private static String XRAY_SERVICE_SERVER = "server";
@@ -46,7 +50,7 @@ public class XrayConfigHelper {
      * @return the bearer token or null if undefined
      */
     public static String getAuthenticationXrayBearerToken() {
-        return config.getString(AUTHENTICATION_XRAY_BEARER_TOKEN);
+        return CONFIG.getString(AUTHENTICATION_XRAY_BEARER_TOKEN);
     }
 
     /**
@@ -55,7 +59,7 @@ public class XrayConfigHelper {
      * @return the client id or null if undefined
      */
     public static String getAuthenticationXrayClientId() {
-        return config.getString(AUTHENTICATION_XRAY_CLIENT_ID);
+        return CONFIG.getString(AUTHENTICATION_XRAY_CLIENT_ID);
     }
 
     /**
@@ -64,7 +68,7 @@ public class XrayConfigHelper {
      * @return the client secret or null if undefined
      */
     public static String getAuthenticationXrayClientSecret() {
-        return config.getString(AUTHENTICATION_XRAY_CLIENT_SECRET);
+        return CONFIG.getString(AUTHENTICATION_XRAY_CLIENT_SECRET);
     }
 
     /**
@@ -73,7 +77,7 @@ public class XrayConfigHelper {
      * @return the username or null if undefined
      */
     public static String getAuthenticationJiraUsername() {
-        return config.getString(AUTHENTICATION_JIRA_USERNAME);
+        return CONFIG.getString(AUTHENTICATION_JIRA_USERNAME);
     }
 
     /**
@@ -82,7 +86,7 @@ public class XrayConfigHelper {
      * @return the API token or null if undefined
      */
     public static String getAuthenticationJiraAPIToken() {
-        return config.getString(AUTHENTICATION_JIRA_API_TOKEN);
+        return CONFIG.getString(AUTHENTICATION_JIRA_API_TOKEN);
     }
 
     /**
@@ -91,7 +95,7 @@ public class XrayConfigHelper {
      * @return Xray server URL
      */
     public static String getServerUrl() {
-        return config.getString(XRAY_SERVER_URL_SELECTOR);
+        return CONFIG.getString(URL_XRAY_SELECTOR);
     }
 
     /**
@@ -100,7 +104,7 @@ public class XrayConfigHelper {
      * @return the Jira URL or null if undefined
      */
     public static String getJiraUrl() {
-        return config.getString(XRAY_URL_JIRA_SELECTOR);
+        return CONFIG.getString(URL_JIRA_SELECTOR);
     }
 
     /**
@@ -109,7 +113,7 @@ public class XrayConfigHelper {
      * @return the status name if configured, otherwise null
      */
     public static String getTestStatusPassed() {
-        return config.getString(STATUS_TEST_PASSED_SELECTOR);
+        return CONFIG.getString(STATUS_TEST_PASSED_SELECTOR);
     }
 
     /**
@@ -118,7 +122,7 @@ public class XrayConfigHelper {
      * @return the status name if configured, otherwise null
      */
     public static String getTestStatusFailed() {
-        return config.getString(STATUS_TEST_FAILED_SELECTOR);
+        return CONFIG.getString(STATUS_TEST_FAILED_SELECTOR);
     }
 
     /**
@@ -127,7 +131,7 @@ public class XrayConfigHelper {
      * @return the status name if configured, otherwise null
      */
     public static String getTestStatusPending() {
-        return config.getString(STATUS_TEST_PENDING_SELECTOR);
+        return CONFIG.getString(STATUS_TEST_PENDING_SELECTOR);
     }
 
     /**
@@ -136,7 +140,7 @@ public class XrayConfigHelper {
      * @return the status name if configured, otherwise null
      */
     public static String getTestStatusSkipped() {
-        return config.getString(STATUS_TEST_SKIPPED_SELECTOR);
+        return CONFIG.getString(STATUS_TEST_SKIPPED_SELECTOR);
     }
 
     /**
@@ -145,7 +149,7 @@ public class XrayConfigHelper {
      * @return the status name if configured, otherwise null
      */
     public static String getStepStatusPassed() {
-        return config.getString(STATUS_STEP_PASSED_SELECTOR);
+        return CONFIG.getString(STATUS_STEP_PASSED_SELECTOR);
     }
 
     /**
@@ -154,7 +158,7 @@ public class XrayConfigHelper {
      * @return the status name if configured, otherwise null
      */
     public static String getStepStatusFailed() {
-        return config.getString(STATUS_STEP_FAILED_SELECTOR);
+        return CONFIG.getString(STATUS_STEP_FAILED_SELECTOR);
     }
 
     /**
@@ -163,7 +167,7 @@ public class XrayConfigHelper {
      * @return the status name if configured, otherwise null
      */
     public static String getStepStatusPending() {
-        return config.getString(STATUS_STEP_PENDING_SELECTOR);
+        return CONFIG.getString(STATUS_STEP_PENDING_SELECTOR);
     }
 
     /**
@@ -172,7 +176,7 @@ public class XrayConfigHelper {
      * @return the status name if configured, otherwise null
      */
     public static String getStepStatusSkipped() {
-        return config.getString(STATUS_STEP_SKIPPED_SELECTOR);
+        return CONFIG.getString(STATUS_STEP_SKIPPED_SELECTOR);
     }
 
     /**
@@ -181,7 +185,7 @@ public class XrayConfigHelper {
      * @return the status name if configured, otherwise null
      */
     public static String getStepStatusUndefined() {
-        return config.getString(STATUS_STEP_UNDEFINED_SELECTOR);
+        return CONFIG.getString(STATUS_STEP_UNDEFINED_SELECTOR);
     }
 
     /**
@@ -190,7 +194,7 @@ public class XrayConfigHelper {
      * @return xray service (cloud | server)
      */
     public static String getXrayService() {
-        String service = config.getString(XRAY_SERVICE_SELECTOR);
+        String service = CONFIG.getString(XRAY_SERVICE_SELECTOR);
 
         if (service == null || !service.equals(XRAY_SERVICE_SERVER)) {
             return XRAY_SERVICE_CLOUD;
@@ -223,7 +227,7 @@ public class XrayConfigHelper {
      * @return true if enabled, false otherwise
      */
     public static boolean isScenarioReportEvidenceEnabled() {
-        return config.getBoolean(SCENARIO_REPORT_EVIDENCE);
+        return CONFIG.getBoolean(SCENARIO_REPORT_EVIDENCE);
     }
 
     /**
@@ -232,7 +236,7 @@ public class XrayConfigHelper {
      * @return true if enabled, false otherwise
      */
     public static boolean isScenarioImageEvidenceEnabled() {
-        return config.getBoolean(SCENARIO_IMAGE_EVIDENCE);
+        return CONFIG.getBoolean(SCENARIO_IMAGE_EVIDENCE);
     }
 
     /**
@@ -241,7 +245,7 @@ public class XrayConfigHelper {
      * @return the maximum length or null if there is no maximum length
      */
     public static Integer getIterationParameterNameMaxLength() {
-        return config.getInt(RESULTS_ITERATIONS_PARAMETERS_MAX_LENGTH_NAME);
+        return CONFIG.getInt(RESULTS_ITERATIONS_PARAMETERS_MAX_LENGTH_NAME);
     }
 
     /**
@@ -250,7 +254,7 @@ public class XrayConfigHelper {
      * @return the maximum length or null if there is no maximum length
      */
     public static Integer getIterationParameterValueMaxLength() {
-        return config.getInt(RESULTS_ITERATIONS_PARAMETERS_MAX_LENGTH_VALUE);
+        return CONFIG.getInt(RESULTS_ITERATIONS_PARAMETERS_MAX_LENGTH_VALUE);
     }
 
     /**
@@ -259,6 +263,6 @@ public class XrayConfigHelper {
      * @return whether they should be updated or null if not defined
      */
     public static boolean getResultsStepUpdate() {
-        return config.getBoolean(RESULTS_STEPS_UPDATE);
+        return CONFIG.getBoolean(RESULTS_STEPS_UPDATE);
     }
 }

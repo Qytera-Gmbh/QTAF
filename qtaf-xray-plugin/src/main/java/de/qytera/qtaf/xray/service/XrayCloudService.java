@@ -3,75 +3,87 @@ package de.qytera.qtaf.xray.service;
 import com.google.gson.Gson;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
+import de.qytera.qtaf.core.config.exception.MissingConfigurationValueException;
 import de.qytera.qtaf.core.gson.GsonFactory;
 import de.qytera.qtaf.core.log.model.error.ErrorLog;
 import de.qytera.qtaf.core.util.Base64Helper;
 import de.qytera.qtaf.xray.config.XrayConfigHelper;
 import de.qytera.qtaf.xray.config.XrayRestPaths;
-import de.qytera.qtaf.xray.dto.response.steps.XrayServerTestStepResponseDto;
+import de.qytera.qtaf.xray.dto.request.graphql.GraphQLRequestDto;
+import de.qytera.qtaf.xray.dto.response.steps.XrayCloudTestStepResponseDto;
 import de.qytera.qtaf.xray.dto.response.steps.XrayTestStepResponseDto;
 import de.qytera.qtaf.xray.entity.XrayAuthCredentials;
 import de.qytera.qtaf.xray.events.QtafXrayEvents;
 import de.qytera.qtaf.xray.log.XrayAuthenticationErrorLog;
 
 import javax.ws.rs.core.MediaType;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Xray API Rest Client
  */
 public class XrayCloudService extends AbstractXrayService {
-    /**
-     * Xray API URL
-     */
-    private final String XRAY_CLOUD_URL = XrayRestPaths.XRAY_CLOUD_API_V2;
 
     /**
-     * API authentication path
+     * Singleton instance.
      */
-    private final String PATH_AUTHENTICATION = "/authenticate";
+    private static final XrayCloudService INSTANCE = new XrayCloudService();
 
     /**
-     * API import path
+     * Returns the singleton instance of the {@code XrayCloudService}.
+     *
+     * @return the instance
      */
-    private final String PATH_IMPORT = "/import/execution";
+    public static XrayCloudService getInstance() {
+        if (INSTANCE.xrayAuthCredentials == null) {
+            String clientId = XrayConfigHelper.getAuthenticationXrayClientId();
+            if (clientId == null) {
+                throw new MissingConfigurationValueException(XrayConfigHelper.AUTHENTICATION_XRAY_CLIENT_ID);
+            }
+            String clientSecret = XrayConfigHelper.getAuthenticationXrayClientSecret();
+            if (clientSecret == null) {
+                throw new MissingConfigurationValueException(XrayConfigHelper.AUTHENTICATION_XRAY_CLIENT_SECRET);
+            }
+            INSTANCE.setAuthCredentials(new XrayAuthCredentials(clientId, clientSecret));
+        }
+        return INSTANCE;
+    }
+
+    private XrayCloudService() {
+        // Hide constructor.
+    }
+
+    /**
+     * Xray Cloud authentication endpoint.
+     */
+    private static final String PATH_AUTHENTICATION = "/authenticate";
+
+    /**
+     * Xray Cloud GraphQL endpoint.
+     */
+    private static final String PATH_GRAPH_QL = "/graphql";
+
+    /**
+     * The maximum number of queryable issues when querying Xray using JQL in GraphQL requests.
+     *
+     * @see <a href="https://xray.cloud.getxray.app/doc/graphql/gettests.doc.html">GraphQL documentation</a>
+     */
+    private static final int GRAPH_QL_QUERY_ISSUES_LIMIT = 100;
 
     /**
      * Xray authentication credentials
      */
     private XrayAuthCredentials xrayAuthCredentials;
 
-    /**
-     * Singleton instance
-     */
-    private static XrayCloudService instance = null;
-
-    /**
-     * Factory method
-     *
-     * @return singleton instance
-     */
-    public static XrayCloudService getInstance() {
-        if (instance == null) {
-            instance = new XrayCloudService();
-            instance.setAuthCredentials(new XrayAuthCredentials(
-                    XrayConfigHelper.getAuthenticationXrayClientId(),
-                    XrayConfigHelper.getAuthenticationXrayClientSecret()
-            ));
-        }
-
-        return instance;
-    }
-
     @Override
     public String getXrayURL() {
-        return XRAY_CLOUD_URL;
+        return XrayRestPaths.XRAY_CLOUD_API_V2;
     }
 
     @Override
     public String getImportPath() {
-        return PATH_IMPORT;
+        return "/import/execution";
     }
 
     @Override
@@ -79,25 +91,99 @@ public class XrayCloudService extends AbstractXrayService {
         return "/rest/api/3/search";
     }
 
-    @Override
-    public List<XrayTestStepResponseDto[]> getTestSteps(String... testKeys) {
-        List<XrayTestStepResponseDto[]> responses = new ArrayList<>(testKeys.length);
-        for (String testKey : testKeys) {
+    private Map<String, XrayTestStepResponseDto[]> parseTestStepResponse(String request, ClientResponse response) {
+        if (response.getStatus() != ClientResponse.Status.OK.getStatusCode()) {
+            String reason = String.format(
+                    "%d %s",
+                    response.getStatus(),
+                    response.getStatusInfo().getReasonPhrase()
+            );
+            String message = String.format("Failed to get test steps for issues using query '%s': %s", request, reason);
+            logger.error(message);
+            errorLogs.addErrorLog(new IllegalStateException(message));
+            return Collections.emptyMap();
+        }
+        XrayCloudTestStepResponseDto stepResponse = GsonFactory.getInstance().fromJson(
+                response.getEntity(String.class),
+                XrayCloudTestStepResponseDto.class
+        );
+        if (stepResponse.hasErrors()) {
+            String message = String.format(
+                    "Failed to get test steps for issues using query '%s': %s",
+                    request,
+                    stepResponse.errorReason()
+            );
+            logger.error(message);
+            errorLogs.addErrorLog(new IllegalStateException(message));
+            return Collections.emptyMap();
+        }
+        Map<String, XrayTestStepResponseDto[]> stepsByIssue = new HashMap<>();
+        Arrays.stream(stepResponse.getData().getGetTests().getResults())
+                .forEach(r -> stepsByIssue.put(r.getIssueId(), r.getSteps()));
+        return stepsByIssue;
+    }
 
-            String path = String.format("%s/rest/raven/1.0/api/test/%s/step", getXrayURL(), testKey);
-            WebResource webResource = client.resource(path);
+    private Map<String, XrayTestStepResponseDto[]> convertIssueIdsToIssueKeys(
+            Map<String, XrayTestStepResponseDto[]> stepsByIssueId,
+            Collection<String> testIssueKeys
+    ) {
+        Map<String, String> issueIds = getIssueIds(testIssueKeys);
+        Map<String, String> testKeysByIssueId = issueIds.entrySet().stream().collect(Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey));
+        Map<String, XrayTestStepResponseDto[]> stepsByIssueKey = new HashMap<>(stepsByIssueId.size());
+        stepsByIssueId.forEach((id, steps) -> stepsByIssueKey.put(testKeysByIssueId.get(id), steps));
+        return stepsByIssueKey;
+    }
+
+    @Override
+    public Map<String, XrayTestStepResponseDto[]> getTestSteps(Collection<String> testIssueKeys) {
+        // Retrieve issue data of all issues we're interested in through a GraphQL query.
+        // See: https://xray.cloud.getxray.app/doc/graphql/gettests.doc.html
+        String query = """
+                query ($jql: String!, $limit: Int!) {
+                  getTests(jql: $jql, limit: $limit) {
+                    total
+                    limit
+                    results {
+                      issueId
+                      testType {
+                        name
+                        kind
+                      }
+                      steps {
+                        id
+                        data
+                        action
+                        result
+                      }
+                    }
+                  }
+                }
+                """;
+        // For big test sets, we need to send multiple queries, since JQL queries that would return more than
+        // GRAPH_QL_QUERY_ISSUES_LIMIT issues result in error responses (see link above).
+        Map<String, XrayTestStepResponseDto[]> stepsByIssue = new HashMap<>();
+        for (int n = 0; n < testIssueKeys.size(); n = n + GRAPH_QL_QUERY_ISSUES_LIMIT) {
+            List<String> subset = testIssueKeys.stream()
+                    .skip(n)
+                    .limit(GRAPH_QL_QUERY_ISSUES_LIMIT)
+                    .toList();
+            String jql = String.format("issue in (%s)", String.join(",", subset));
+            WebResource webResource = client.resource(getXrayURL() + PATH_GRAPH_QL);
             QtafXrayEvents.webResourceAvailable.onNext(webResource);
+            GraphQLRequestDto request = new GraphQLRequestDto();
+            request.setQuery(query);
+            request.addVariable("jql", jql);
+            request.addVariable("limit", GRAPH_QL_QUERY_ISSUES_LIMIT);
+            String json = GsonFactory.getInstance().toJson(request);
             ClientResponse response = webResource
                     .accept(MediaType.APPLICATION_JSON_TYPE)
+                    .type(MediaType.APPLICATION_JSON_TYPE)
                     .header("Authorization", authorizationHeaderXray())
-                    .get(ClientResponse.class);
-            XrayServerTestStepResponseDto[] steps = GsonFactory.getInstance().fromJson(
-                    response.getEntity(String.class),
-                    XrayServerTestStepResponseDto[].class
-            );
-            responses.add(steps);
+                    .post(ClientResponse.class, json);
+            stepsByIssue.putAll(parseTestStepResponse(json, response));
         }
-        return responses;
+        // Unfortunately, Xray only issue IDs instead of issue keys. Therefore, we need this extra step now.
+        return convertIssueIdsToIssueKeys(stepsByIssue, testIssueKeys);
     }
 
     /**
@@ -152,17 +238,15 @@ public class XrayCloudService extends AbstractXrayService {
     @Override
     public String authorizationHeaderJira() {
         String username = XrayConfigHelper.getAuthenticationJiraUsername();
+        if (username == null) {
+            throw new MissingConfigurationValueException(XrayConfigHelper.AUTHENTICATION_JIRA_USERNAME);
+        }
         String apiToken = XrayConfigHelper.getAuthenticationJiraAPIToken();
+        if (apiToken == null) {
+            throw new MissingConfigurationValueException(XrayConfigHelper.AUTHENTICATION_JIRA_API_TOKEN);
+        }
         String encoded = Base64Helper.encode(String.format("%s:%s", username, apiToken));
         return String.format("Basic %s", encoded);
     }
 
-    /**
-     * Get JWT token
-     *
-     * @return jwt token
-     */
-    public String getJwtToken() {
-        return jwtToken;
-    }
 }
