@@ -32,6 +32,11 @@ public class LogMessage {
     protected String scenarioId = "";
 
     /**
+     * Status
+     */
+    protected StepInformationLogMessage.Status state;
+
+    /**
      * Constructor
      *
      * @param level   log level
@@ -139,6 +144,26 @@ public class LogMessage {
      */
     public LogMessage setScenarioId(String scenarioId) {
         this.scenarioId = scenarioId;
+        return this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return status
+     */
+    public StepInformationLogMessage.Status getStatus() {
+        return state;
+    }
+
+    /**
+     * Set scenarioId
+     *
+     * @param status status
+     * @return this
+     */
+    public LogMessage setStatus(StepInformationLogMessage.Status status) {
+        this.state = status;
         return this;
     }
 }
