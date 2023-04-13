@@ -1,11 +1,10 @@
 # Taken from: https://docs.github.com/en/actions/publishing-packages/publishing-java-packages-with-maven#publishing-packages-to-the-maven-central-repository
-
+# Also: https://gist.github.com/sualeh/ae78dc16123899d7942bc38baba5203c
 name: Publish Maven Central
 on:
   release:
-    types: [created]
-  workflow_dispatch:
-  
+    types: [ "published" ]
+
 jobs:
   publish:
     runs-on: ubuntu-latest
@@ -19,8 +18,13 @@ jobs:
           server-id: ossrh
           server-username: MAVEN_USERNAME
           server-password: MAVEN_PASSWORD
+      - name: Install gpg secret key
+        run: cat <(echo -e "${{ secrets.OSSRH_GPG_SECRET_KEY }}") | gpg --batch --import
       - name: Publish package
-        run: mvn --batch-mode deploy
+        run: |
+          mvn --batch-mode \
+          -Dgpg.passphrase=${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }} \
+          clean deploy
         env:
           MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
