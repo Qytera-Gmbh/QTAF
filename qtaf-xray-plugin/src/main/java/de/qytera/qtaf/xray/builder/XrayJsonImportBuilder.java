@@ -79,18 +79,19 @@ public class XrayJsonImportBuilder {
             Map<String, List<TestScenarioLogCollection>> groupedScenarioLogs = testFeatureLogCollection.getScenariosGroupedByAbstractScenarioId();
             for (Map.Entry<String, List<TestScenarioLogCollection>> entry : groupedScenarioLogs.entrySet()) {
                 if (!entry.getValue().isEmpty()) {
-                    entities.add(buildTestEntity(entry.getValue()));
+                    XrayTest xrayTestAnnotation = (XrayTest) entry.getValue().get(0).getAnnotation(XrayTest.class);
+                    // Ignore tests that don't have an Xray annotation.
+                    if (xrayTestAnnotation == null) {
+                        continue;
+                    }
+                    entities.add(buildTestEntity(xrayTestAnnotation, entry.getValue()));
                 }
             }
         }
         return entities;
     }
 
-    private XrayTestEntity buildTestEntity(List<TestScenarioLogCollection> scenarioCollection) {
-        XrayTest xrayTestAnnotation = (XrayTest) scenarioCollection.get(0).getAnnotation(XrayTest.class);
-        if (xrayTestAnnotation == null) {
-            return null;
-        }
+    private XrayTestEntity buildTestEntity(XrayTest xrayTestAnnotation, List<TestScenarioLogCollection> scenarioCollection) {
         XrayTestEntity entity;
         if (scenarioCollection.size() == 1) {
             entity = buildSingleIterationTestEntity(xrayTestAnnotation, scenarioCollection.get(0));
