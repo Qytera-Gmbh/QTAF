@@ -71,6 +71,27 @@ public class XrayJsonImportBuilderTest {
         return scenarioCollection;
     }
 
+    private static TestScenarioLogCollection scenarioWithoutAnnotation(int scenarioIteration, String featureName) {
+        TestScenarioLogCollection scenarioCollection = TestScenarioLogCollection.createTestScenarioLogCollection(
+                featureName,
+                "SomeClass.doesSomething",
+                String.valueOf(scenarioIteration),
+                "a test scenario"
+        );
+        scenarioCollection.setStart(Date.from(Instant.now().minusSeconds(3600)));
+        scenarioCollection.setEnd(Date.from(Instant.now()));
+        scenarioCollection.setAnnotations(new Annotation[]{/* empty */});
+        // Add scenario to its corresponding feature collection.
+        TestFeatureLogCollection featureCollection = TestFeatureLogCollection.createFeatureLogCollectionIfNotExists(
+                featureName,
+                "a test feature"
+        );
+        featureCollection.addScenarioLogCollection(scenarioCollection);
+        // Add feature to suite collection.
+        TestSuiteLogCollection.getInstance().addTestClassLogCollection(featureCollection);
+        return scenarioCollection;
+    }
+
     private static StepInformationLogMessage successfulStep(String methodName) {
         StepInformationLogMessage message = new StepInformationLogMessage(methodName, "?");
         message.setStatus(StepInformationLogMessage.Status.PASS);
@@ -113,11 +134,11 @@ public class XrayJsonImportBuilderTest {
     }
 
     @Test
-    public void testLongParameterValueTruncation() {
+    public void testLongParameterValueTruncation() throws XrayJsonImportBuilder.NoXrayTestException {
         ConfigMap configMap = QtafFactory.getConfiguration();
         configMap.setInt(XrayConfigHelper.RESULTS_ITERATIONS_PARAMETERS_MAX_LENGTH_VALUE, 3);
 
-        TestScenarioLogCollection scenarioCollection = scenario(0, "feature-1");
+        TestScenarioLogCollection scenarioCollection = scenario(0, "feature-x");
         scenarioCollection.addParameters(new String[]{
                 "a",
                 "abcd",
@@ -125,7 +146,7 @@ public class XrayJsonImportBuilderTest {
                 "abcdefghijklmnopqrstuvwxyz01234567891011121314151617181920212223"
         });
 
-        scenarioCollection = scenario(1, "feature-1");
+        scenarioCollection = scenario(1, "feature-x");
         scenarioCollection.addParameters(new String[]{
                 "ab",
                 "abcdefghi",
@@ -145,7 +166,7 @@ public class XrayJsonImportBuilderTest {
     }
 
     @Test
-    public void testIterationStatus() {
+    public void testIterationStatus() throws XrayJsonImportBuilder.NoXrayTestException {
 
         // Iteration with no failing step and an assumed successful assertion.
         TestScenarioLogCollection scenarioCollection = scenario(0, "feature-1");
@@ -177,7 +198,7 @@ public class XrayJsonImportBuilderTest {
     }
 
     @Test
-    public void testSingleRunScreenshotEvidence() {
+    public void testSingleRunScreenshotEvidence() throws XrayJsonImportBuilder.NoXrayTestException {
 
         // Iteration with no failing step and an assumed successful assertion.
         TestScenarioLogCollection scenarioCollection = scenario(0, "feature-1");
@@ -203,7 +224,7 @@ public class XrayJsonImportBuilderTest {
     }
 
     @Test
-    public void testIterationsScreenshotEvidence() {
+    public void testIterationsScreenshotEvidence() throws XrayJsonImportBuilder.NoXrayTestException {
 
         // Iteration with no failing step and an assumed successful assertion.
         TestScenarioLogCollection scenarioCollection = scenario(0, "feature-1");
@@ -238,6 +259,40 @@ public class XrayJsonImportBuilderTest {
         Assert.assertEquals(iterations.get(1).getSteps().get(1).getEvidences().size(), 1);
         Assert.assertEquals(iterations.get(1).getSteps().get(1).getEvidences().get(0).getContentType(), "image/png");
         Assert.assertEquals(iterations.get(1).getSteps().get(1).getEvidences().get(0).getFilename(), "turtle.png");
+    }
+
+    @Test(
+            expectedExceptions = {
+                    XrayJsonImportBuilder.NoXrayTestException.class
+            }
+    )
+    public void testSuiteWithoutXrayTest() throws XrayJsonImportBuilder.NoXrayTestException {
+        TestScenarioLogCollection scenarioCollection = scenarioWithoutAnnotation(1, "feature-generic");
+        scenarioCollection.addLogMessage(successfulStep("doWhatever"));
+        scenarioCollection.addLogMessage(failingStep("clickSomething", "path/to/something.png", "path/to/whatever.png"));
+        scenarioCollection.setStatus(TestScenarioLogCollection.Status.FAILURE);
+        scenarioCollection = scenarioWithoutAnnotation(1, "feature-unrelated");
+        scenarioCollection.addLogMessage(successfulStep("successfulStep"));
+        scenarioCollection.addLogMessage(failingStep("failingStep"));
+        scenarioCollection.setStatus(TestScenarioLogCollection.Status.FAILURE);
+        new XrayJsonImportBuilder().buildFromTestSuiteLogs(TestSuiteLogCollection.getInstance());
+    }
+
+    @Test(
+            expectedExceptions = {
+                    XrayJsonImportBuilder.NoXrayTestException.class
+            }
+    )
+    public void testSuiteWithMissingXrayTest() throws XrayJsonImportBuilder.NoXrayTestException {
+        TestScenarioLogCollection scenarioCollection = scenarioWithoutAnnotation(1, "feature-iterated");
+        scenarioCollection.addLogMessage(successfulStep("doWhatever"));
+        scenarioCollection.addLogMessage(failingStep("clickSomething", "path/to/something.png", "path/to/whatever.png"));
+        scenarioCollection.setStatus(TestScenarioLogCollection.Status.FAILURE);
+        scenarioCollection = scenarioWithoutAnnotation(2, "feature-iterated");
+        scenarioCollection.addLogMessage(successfulStep("successStep"));
+        scenarioCollection.addLogMessage(failingStep("clickSomething", "path/to/something.png"));
+        scenarioCollection.setStatus(TestScenarioLogCollection.Status.FAILURE);
+        new XrayJsonImportBuilder().buildFromTestSuiteLogs(TestSuiteLogCollection.getInstance());
     }
 
 }
