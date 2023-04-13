@@ -1,6 +1,9 @@
 package de.qytera.qtaf.core.log.model.message;
 
 import de.qytera.qtaf.core.log.model.LogLevel;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Log message class holds information about log messages
@@ -34,6 +37,8 @@ public class LogMessage {
     /**
      * Status
      */
+    @Getter
+    @Setter
     protected StepInformationLogMessage.Status state;
 
     /**
@@ -144,26 +149,6 @@ public class LogMessage {
      */
     public LogMessage setScenarioId(String scenarioId) {
         this.scenarioId = scenarioId;
-        return this;
-    }
-
-    /**
-     * Get status
-     *
-     * @return status
-     */
-    public StepInformationLogMessage.Status getStatus() {
-        return state;
-    }
-
-    /**
-     * Set scenarioId
-     *
-     * @param status status
-     * @return this
-     */
-    public LogMessage setStatus(StepInformationLogMessage.Status status) {
-        this.state = status;
         return this;
     }
 }
