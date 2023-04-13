@@ -2,7 +2,9 @@ package de.qytera.qtaf.xray.entity;
 
 import de.qytera.qtaf.core.log.model.message.StepInformationLogMessage;
 import de.qytera.qtaf.xray.config.XrayStatusHelper;
-import lombok.*;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +16,6 @@ import java.util.List;
  */
 @Getter
 @Setter
-@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class XrayManualTestStepResultEntity {
     /**
      * The status for the test step (PASSED, FAILED, EXECUTING, TO DO, custom statuses ...).
@@ -33,6 +34,10 @@ public abstract class XrayManualTestStepResultEntity {
      * The actual result field for the step result.
      */
     private String actualResult;
+
+    protected XrayManualTestStepResultEntity(@NonNull StepInformationLogMessage.Status status) {
+        this.status = XrayStatusHelper.statusToText(status);
+    }
 
     /**
      * Set the status of the test step.

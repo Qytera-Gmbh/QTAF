@@ -18,7 +18,6 @@ import java.nio.file.Paths;
 @Getter
 @Setter
 @Builder(access = AccessLevel.PRIVATE)
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class XrayEvidenceItemEntity {
     /**
      * The attachment data encoded in <b>base64</b>.

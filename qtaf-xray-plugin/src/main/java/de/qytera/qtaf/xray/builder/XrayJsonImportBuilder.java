@@ -11,9 +11,16 @@ import de.qytera.qtaf.xray.annotation.XrayTest;
 import de.qytera.qtaf.xray.config.XrayConfigHelper;
 import de.qytera.qtaf.xray.dto.request.XrayImportRequestDto;
 import de.qytera.qtaf.xray.entity.*;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 import java.io.Writer;
-import java.lang.annotation.Annotation;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -21,197 +28,170 @@ import java.util.Map;
  * Transforms log collection into Xray Execution Import DTO
  */
 @Singleton
+@RequiredArgsConstructor
 public class XrayJsonImportBuilder {
 
+    @NonNull
+    private TestSuiteLogCollection collection;
+
     /**
-     * Factory method for Xray Import Execution DTO. This method creates the DTO based on a Test Suite Log Entity
-     *
-     * @param collection Test Suite Collection
-     * @return Import DTO
+     * HTML report creator for scenarios.
      */
-    public synchronized XrayImportRequestDto buildFromTestSuiteLogs(TestSuiteLogCollection collection) {
-        // This DTO will be sent to the Xray API
+    private final ScenarioReportCreator reportCreator = new ScenarioReportCreator();
+
+    /**
+     * Creates an execution import DTO based on the test suite logs.
+     *
+     * @return the execution import DTO
+     */
+    public XrayImportRequestDto buildRequest() {
         XrayImportRequestDto xrayImportRequestDto = new XrayImportRequestDto();
-
-        // Object that can create HTML reports for scenarios
-        ScenarioReportCreator scenarioReportCreator = new ScenarioReportCreator();
-
-        // Add information about test suite
-        if (false) { // TODO add a key to the configuration file for this
-            XrayTestExecutionInfoEntity info = new XrayTestExecutionInfoEntity()
-                    .addTestEnvironment(collection.getOsName())
-                    .addTestEnvironment(collection.getDriverName());
-
-            xrayImportRequestDto.setInfo(info);
-        }
-
-        // Iterate over test features
-        for (TestFeatureLogCollection testFeatureLogCollection : collection.getTestFeatureLogCollections()) {
-
-            Map<String, List<TestScenarioLogCollection>> groupedScenarioLogs = testFeatureLogCollection.getScenariosGroupedByAbstractScenarioId();
-
-            for (Map.Entry<String, List<TestScenarioLogCollection>> entry : groupedScenarioLogs.entrySet()) {
-                if (entry.getValue().size() == 1) { // The group contains only one item
-                    TestScenarioLogCollection scenarioLog = entry.getValue().get(0);
-
-                    // Build the xray test entity
-                    XrayTestEntity xrayTestEntity = buildTestEntityForSingleIteration(collection, xrayImportRequestDto, scenarioReportCreator, scenarioLog);
-
-                    if (xrayTestEntity == null) {
-                        continue;
-                    }
-
-                    // For a single execution we have to set the iterations to null
-                    xrayTestEntity.setIterations(null);
-
-                    // Add test to test collection
-                    xrayImportRequestDto.addTest(xrayTestEntity);
-                } else if (entry.getValue().size() > 1) { // The group contains multiple items
-                    XrayTestEntity xrayTestEntity = new XrayTestEntity();
-
-                    // If we have multiple iterations of a test scenario we need to nullify the step parameter of the test entity,
-                    // otherwise Xray won't accept out DTO
-                    xrayTestEntity.setSteps(null);
-
-                    // This variable will be set to false if any iteration failed
-                    boolean allScenariosPassed = true;
-
-                    // Get the xray annotation if scenario has one
-                    XrayTest xrayTestAnnotation = (XrayTest) entry.getValue().get(0).getAnnotation(XrayTest.class);
-                    assert xrayTestAnnotation != null;
-                    xrayTestEntity.setTestKey(xrayTestAnnotation.key());
-
-                    synchronized (entry.getValue()) {
-                        // Iterate over concrete test scenario executions
-                        for (TestScenarioLogCollection scenarioLog : entry.getValue()) {
-                            // Build iteration entity
-                            XrayTestIterationResultEntity iteration = new XrayTestIterationResultEntity();
-
-                            // Add test parameters
-                            for (TestScenarioLogCollection.TestParameter testParameter : scenarioLog.getTestParameters()) {
-                                XrayTestIterationParameterEntity parameterEntity = new XrayTestIterationParameterEntity();
-                                parameterEntity.setName(truncateParameterName(testParameter.getName()));
-                                parameterEntity.setValue(truncateParameterValue(testParameter.getValue().toString()));
-                                iteration.addParameter(parameterEntity);
-                            }
-
-                            // Iterate over steps
-                            synchronized (scenarioLog.getLogMessages()) {
-                                for (LogMessage logMessage : scenarioLog.getLogMessages()) {
-                                    // Only StepLogMessage entities are important for Xray
-                                    if (logMessage instanceof StepInformationLogMessage stepLog) {
-                                        iteration.addStep(buildXrayManualTestStepResultEntity(stepLog));
-                                    }
-                                }
-                            }
-
-                            iteration.setStatus(scenarioLog.getStatus());
-
-                            // Check if the iteration passed. If not set the scenario status pass status to false
-                            if (scenarioLog.getStatus() == TestScenarioLogCollection.Status.FAILURE) {
-                                allScenariosPassed = false;
-                            }
-
-                            // Add iteration entity to test entity
-                            xrayTestEntity.addIteration(iteration);
-                        }
-                    }
-
-                    // Set the test status
-                    if (allScenariosPassed) {
-                        xrayTestEntity.setStatus(TestScenarioLogCollection.Status.SUCCESS);
-                    } else {
-                        xrayTestEntity.setStatus(TestScenarioLogCollection.Status.FAILURE);
-                    }
-
-                    // Add test to test collection
-                    xrayImportRequestDto.addTest(xrayTestEntity);
-                } else { // The group doesn't contain any items
-                }
-            }
-        }
-
-        for (XrayTestEntity xrayTestEntity : xrayImportRequestDto.getTests()) {
-            // Xray cloud can't deal with keyword 'examples', so deactivate it
-            xrayTestEntity.setExamples(null);
-        }
-
+        xrayImportRequestDto.setInfo(buildTestExecutionInfoEntity());
+        xrayImportRequestDto.setTests(buildTestEntities());
         return xrayImportRequestDto;
     }
 
-    /**
-     * Add a XrayTestEntity object to the DTO for tests with a single iteration
-     *
-     * @param collection            test suite log collection
-     * @param xrayImportRequestDto  import DTO
-     * @param scenarioReportCreator scenario report creator
-     * @param scenarioLog           scenario log collection
-     */
-    private XrayTestEntity buildTestEntityForSingleIteration(
-            TestSuiteLogCollection collection,
-            XrayImportRequestDto xrayImportRequestDto,
-            ScenarioReportCreator scenarioReportCreator,
-            TestScenarioLogCollection scenarioLog
-    ) {
-        // Get the xray annotation if scenario has one
-        XrayTest xrayTestAnnotation = (XrayTest) scenarioLog.getAnnotation(XrayTest.class);
+    private static String isoDateString(Date date) {
+        // Date in ISO 8601 format: "2022-12-01T02:30:44Z"
+        return ZonedDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault())
+                .truncatedTo(ChronoUnit.SECONDS)
+                .format(DateTimeFormatter.ISO_INSTANT);
+    }
 
-        // Skip all pending scenarios
-        if (scenarioLog.getStatus() == TestScenarioLogCollection.Status.PENDING) {
-            return null;
+    private XrayTestExecutionInfoEntity buildTestExecutionInfoEntity() {
+        XrayTestExecutionInfoEntity entity = new XrayTestExecutionInfoEntity();
+        if (collection.getStart() != null) {
+            String startDate = isoDateString(collection.getStart());
+            entity.setStartDate(startDate);
         }
+        if (collection.getEnd() != null) {
+            String finishDate = isoDateString(collection.getEnd());
+            entity.setFinishDate(finishDate);
+        }
+        entity.getTestEnvironments().add(collection.getOsName());
+        entity.getTestEnvironments().add(collection.getDriverName());
+        return entity;
+    }
 
-        // Only methods that are annotated with @XrayTest are of interest
+    private List<XrayTestEntity> buildTestEntities() {
+        List<XrayTestEntity> entities = new ArrayList<>();
+        for (TestFeatureLogCollection testFeatureLogCollection : collection.getTestFeatureLogCollections()) {
+            Map<String, List<TestScenarioLogCollection>> groupedScenarioLogs = testFeatureLogCollection.getScenariosGroupedByAbstractScenarioId();
+            for (Map.Entry<String, List<TestScenarioLogCollection>> entry : groupedScenarioLogs.entrySet()) {
+                if (!entry.getValue().isEmpty()) {
+                    entities.add(buildTestEntity(entry.getValue()));
+                }
+            }
+        }
+        return entities;
+    }
+
+    private XrayTestEntity buildTestEntity(List<TestScenarioLogCollection> scenarioCollection) {
+        XrayTest xrayTestAnnotation = (XrayTest) scenarioCollection.get(0).getAnnotation(XrayTest.class);
         if (xrayTestAnnotation == null) {
             return null;
         }
-
-        return buildXrayTestEntity(collection, scenarioReportCreator, scenarioLog, xrayTestAnnotation);
+        XrayTestEntity entity;
+        if (scenarioCollection.size() == 1) {
+            entity = buildSingleIterationTestEntity(xrayTestAnnotation, scenarioCollection.get(0));
+        } else {
+            entity = buildMultipleIterationsTestEntity(xrayTestAnnotation, scenarioCollection);
+        }
+        return entity;
     }
 
-    private XrayTestEntity buildXrayTestEntity(
-            TestSuiteLogCollection collection,
-            ScenarioReportCreator scenarioReportCreator,
-            TestScenarioLogCollection scenarioLog,
-            XrayTest xrayTestAnnotation
-    ) {
-        // Set Xray test attributes
-        XrayTestEntity xrayTestEntity = initializeXrayTestEntity(scenarioLog);
+    private XrayTestEntity buildSingleIterationTestEntity(XrayTest xrayTestAnnotation, TestScenarioLogCollection scenarioLog) {
+        XrayTestEntity entity = new XrayTestEntity(TestScenarioLogCollection.Status.PENDING);
+        entity.setTestKey(xrayTestAnnotation.key());
+        // Skip pending scenarios.
+        if (scenarioLog.getStatus() == TestScenarioLogCollection.Status.PENDING) {
+            return entity;
+        }
+        entity.setStart(isoDateString(scenarioLog.getStart()));
+        entity.setFinish(isoDateString(scenarioLog.getEnd()));
 
-        // Add a scenario report to the xray test entity
         if (XrayConfigHelper.isScenarioReportEvidenceEnabled() && xrayTestAnnotation.scenarioReport()) {
-            // Get rendered template
-            Writer renderedTemplate = scenarioReportCreator.getRenderedTemplate(collection, scenarioLog);
+            Writer renderedTemplate = reportCreator.getRenderedTemplate(collection, scenarioLog);
             String filename = "scenario_" + scenarioLog.getScenarioName() + ".html";
-            xrayTestEntity.addEvidence(XrayEvidenceItemEntity.fromString(renderedTemplate.toString(), filename));
+            entity.getEvidence().add(XrayEvidenceItemEntity.fromString(renderedTemplate.toString(), filename));
         }
 
-        // add scenario image evidence
         if (XrayConfigHelper.isScenarioImageEvidenceEnabled() && xrayTestAnnotation.screenshots()) {
             for (String filepath : scenarioLog.getScreenshotPaths()) {
-                xrayTestEntity.addEvidence(XrayEvidenceItemEntity.fromFile(filepath));
+                entity.getEvidence().add(XrayEvidenceItemEntity.fromFile(filepath));
             }
         }
 
-        xrayTestEntity.setStatus(scenarioLog.getStatus());
-
-        // Iterate over log messages
         for (LogMessage logMessage : scenarioLog.getLogMessages()) {
-
-            // Only StepLogMessage entities are important for Xray
             if (logMessage instanceof StepInformationLogMessage stepLog) {
-                XrayManualTestStepResultEntity xrayTestStepEntity = buildXrayManualTestStepResultEntity(stepLog);
-
-                // Add step log to test log
-                xrayTestEntity.addStep(xrayTestStepEntity);
+                XrayManualTestStepResultEntity xrayTestStepEntity = buildManualTestStepResultEntity(stepLog);
+                entity.getSteps().add(xrayTestStepEntity);
             }
         }
-        return xrayTestEntity;
+
+        return entity;
     }
 
-    private XrayManualTestStepResultEntity buildXrayManualTestStepResultEntity(StepInformationLogMessage stepLog) {
-        XrayManualTestStepResultEntity xrayTestStepEntity = new XrayManualTestStepResultEntity();
-        xrayTestStepEntity.setStatus(stepLog.getStatus());
+    private static XrayTestEntity buildMultipleIterationsTestEntity(XrayTest xrayTestAnnotation, List<TestScenarioLogCollection> scenarioCollection) {
+        XrayTestEntity entity = new XrayTestEntity(TestScenarioLogCollection.Status.PENDING);
+        entity.setTestKey(xrayTestAnnotation.key());
+        boolean allScenariosPassed = true;
+        Date start = null;
+        Date end = null;
+        for (TestScenarioLogCollection scenarioLog : scenarioCollection) {
+            if (scenarioLog.getStatus() == TestScenarioLogCollection.Status.FAILURE) {
+                allScenariosPassed = false;
+            }
+            entity.getIterations().add(buildIterationResultEntity(scenarioLog));
+            if (start == null || scenarioLog.getStart().before(start)) {
+                start = scenarioLog.getStart();
+            }
+            if (end == null || scenarioLog.getEnd().after(end)) {
+                end = scenarioLog.getEnd();
+            }
+        }
+        if (start != null) {
+            entity.setStart(isoDateString(start));
+        }
+        if (end != null) {
+            entity.setFinish(isoDateString(end));
+        }
+        if (allScenariosPassed) {
+            entity.setStatus(TestScenarioLogCollection.Status.SUCCESS);
+        } else {
+            entity.setStatus(TestScenarioLogCollection.Status.FAILURE);
+        }
+        return entity;
+    }
+
+    private static XrayIterationResultEntity buildIterationResultEntity(TestScenarioLogCollection scenarioLog) {
+        XrayIterationResultEntity entity;
+        if (XrayConfigHelper.isXrayCloudService()) {
+            entity = new XrayIterationResultEntityCloud(scenarioLog.getStatus());
+        } else {
+            entity = new XrayIterationResultEntityServer(scenarioLog.getStatus());
+        }
+        for (TestScenarioLogCollection.TestParameter testParameter : scenarioLog.getTestParameters()) {
+            XrayIterationParameterEntity parameterEntity = new XrayIterationParameterEntity();
+            parameterEntity.setName(truncateParameterName(testParameter.getName()));
+            parameterEntity.setValue(truncateParameterValue(testParameter.getValue().toString()));
+            entity.getParameters().add(parameterEntity);
+        }
+        for (LogMessage logMessage : scenarioLog.getLogMessages()) {
+            if (logMessage instanceof StepInformationLogMessage stepLog) {
+                entity.getSteps().add(buildManualTestStepResultEntity(stepLog));
+            }
+        }
+        return entity;
+    }
+
+    private static XrayManualTestStepResultEntity buildManualTestStepResultEntity(StepInformationLogMessage stepLog) {
+        XrayManualTestStepResultEntity xrayTestStepEntity;
+        if (XrayConfigHelper.isXrayCloudService()) {
+            xrayTestStepEntity = new XrayManualTestStepResultEntityCloud(stepLog.getStatus());
+        } else {
+            xrayTestStepEntity = new XrayManualTestStepResultEntityServer(stepLog.getStatus());
+        }
         if (stepLog.getStep() != null) {
             xrayTestStepEntity.setComment(stepLog.getStep().getName());
         }
@@ -225,35 +205,6 @@ public class XrayJsonImportBuilder {
             xrayTestStepEntity.addEvidenceIfPresent(XrayEvidenceItemEntity.fromFile(stepLog.getScreenshotAfter()));
         }
         return xrayTestStepEntity;
-    }
-
-    /**
-     * Factory method for an XrayTestEntity object
-     *
-     * @param scenarioLog Scenario Log information
-     * @return XrayTestEntity object
-     */
-    protected XrayTestEntity initializeXrayTestEntity(TestScenarioLogCollection scenarioLog) {
-        // Get all annotations of scenario's Java method
-        Annotation[] annotations = scenarioLog.getAnnotations();
-
-        // Get the xray annotation if scenario has one
-        XrayTest xrayTestAnnotation = (XrayTest) scenarioLog.getAnnotation(XrayTest.class);
-
-        // Build xray test key
-        String xrayTestKey;
-        if (xrayTestAnnotation != null) {
-            xrayTestKey = xrayTestAnnotation.key();
-        } else {
-            xrayTestKey = scenarioLog.getScenarioName();
-        }
-
-        // Build xray test entity
-        return new XrayTestEntity()
-                .setTestKey(xrayTestKey)
-                .setStart(null) // TODO
-                .setFinish(null) // TODO
-                .setComment(scenarioLog.getDescription());
     }
 
     private static String truncateParameterName(String parameterName) {

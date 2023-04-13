@@ -24,22 +24,28 @@ public class XrayTestEntityTest {
     public void testStatusServer() {
         ConfigMap configMap = QtafFactory.getConfiguration();
         configMap.setString(XrayConfigHelper.XRAY_SERVICE_SELECTOR, "server");
-        XrayTestEntity entity = new XrayTestEntity();
-        Assert.assertEquals(entity.setStatus(TestScenarioLogCollection.Status.SUCCESS).getStatus(), "PASS");
-        Assert.assertEquals(entity.setStatus(TestScenarioLogCollection.Status.FAILURE).getStatus(), "FAIL");
-        Assert.assertEquals(entity.setStatus(TestScenarioLogCollection.Status.PENDING).getStatus(), "EXECUTING");
-        Assert.assertEquals(entity.setStatus(TestScenarioLogCollection.Status.SKIPPED).getStatus(), "TODO");
+        XrayTestEntity entity = new XrayTestEntity(TestScenarioLogCollection.Status.SUCCESS);
+        Assert.assertEquals(entity.getStatus(), "PASS");
+        entity.setStatus(TestScenarioLogCollection.Status.FAILURE);
+        Assert.assertEquals(entity.getStatus(), "FAIL");
+        entity.setStatus(TestScenarioLogCollection.Status.PENDING);
+        Assert.assertEquals(entity.getStatus(), "EXECUTING");
+        entity.setStatus(TestScenarioLogCollection.Status.SKIPPED);
+        Assert.assertEquals(entity.getStatus(), "TODO");
     }
 
     @Test
     public void testStatusCloud() {
         ConfigMap configMap = QtafFactory.getConfiguration();
         configMap.setString(XrayConfigHelper.XRAY_SERVICE_SELECTOR, "cloud");
-        XrayTestEntity entity = new XrayTestEntity();
-        Assert.assertEquals(entity.setStatus(TestScenarioLogCollection.Status.SUCCESS).getStatus(), "PASSED");
-        Assert.assertEquals(entity.setStatus(TestScenarioLogCollection.Status.FAILURE).getStatus(), "FAILED");
-        Assert.assertEquals(entity.setStatus(TestScenarioLogCollection.Status.PENDING).getStatus(), "EXECUTING");
-        Assert.assertEquals(entity.setStatus(TestScenarioLogCollection.Status.SKIPPED).getStatus(), "TODO");
+        XrayTestEntity entity = new XrayTestEntity(TestScenarioLogCollection.Status.SUCCESS);
+        Assert.assertEquals(entity.getStatus(), "PASSED");
+        entity.setStatus(TestScenarioLogCollection.Status.FAILURE);
+        Assert.assertEquals(entity.getStatus(), "FAILED");
+        entity.setStatus(TestScenarioLogCollection.Status.PENDING);
+        Assert.assertEquals(entity.getStatus(), "EXECUTING");
+        entity.setStatus(TestScenarioLogCollection.Status.SKIPPED);
+        Assert.assertEquals(entity.getStatus(), "TODO");
     }
 
     @Test
@@ -49,11 +55,14 @@ public class XrayTestEntityTest {
         configMap.setString(XrayConfigHelper.STATUS_TEST_FAILED_SELECTOR, "FAILURE");
         configMap.setString(XrayConfigHelper.STATUS_TEST_PENDING_SELECTOR, "PENDING");
         configMap.setString(XrayConfigHelper.STATUS_TEST_SKIPPED_SELECTOR, "SKIPPED");
-        XrayTestEntity entity = new XrayTestEntity();
-        Assert.assertEquals(entity.setStatus(TestScenarioLogCollection.Status.SUCCESS).getStatus(), "SUCCESS");
-        Assert.assertEquals(entity.setStatus(TestScenarioLogCollection.Status.FAILURE).getStatus(), "FAILURE");
-        Assert.assertEquals(entity.setStatus(TestScenarioLogCollection.Status.PENDING).getStatus(), "PENDING");
-        Assert.assertEquals(entity.setStatus(TestScenarioLogCollection.Status.SKIPPED).getStatus(), "SKIPPED");
+        XrayTestEntity entity = new XrayTestEntity(TestScenarioLogCollection.Status.SUCCESS);
+        Assert.assertEquals(entity.getStatus(), "SUCCESS");
+        entity.setStatus(TestScenarioLogCollection.Status.FAILURE);
+        Assert.assertEquals(entity.getStatus(), "FAILURE");
+        entity.setStatus(TestScenarioLogCollection.Status.PENDING);
+        Assert.assertEquals(entity.getStatus(), "PENDING");
+        entity.setStatus(TestScenarioLogCollection.Status.SKIPPED);
+        Assert.assertEquals(entity.getStatus(), "SKIPPED");
     }
 
 }

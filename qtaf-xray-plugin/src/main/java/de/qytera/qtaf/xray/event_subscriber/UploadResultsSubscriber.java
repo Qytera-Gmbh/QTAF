@@ -44,11 +44,6 @@ public class UploadResultsSubscriber implements IEventSubscriber {
      */
     private static final Logger logger = QtafFactory.getLogger();
 
-    /**
-     * Builder object that translates a QTAF Log Object to an Xray Import DTO object
-     */
-    private final XrayJsonImportBuilder xrayJsonImportBuilder = new XrayJsonImportBuilder();
-
     @Override
     public void initialize() {
         // Check if there already is a subscription
@@ -83,9 +78,7 @@ public class UploadResultsSubscriber implements IEventSubscriber {
         logger.info("[QTAF Xray Plugin] Uploading Xray results ...");
 
         // Build Request DTO for Xray API
-        XrayImportRequestDto xrayImportRequestDto = xrayJsonImportBuilder.buildFromTestSuiteLogs(
-                QtafFactory.getTestSuiteLogCollection()
-        );
+        XrayImportRequestDto xrayImportRequestDto = new XrayJsonImportBuilder(QtafFactory.getTestSuiteLogCollection()).buildRequest();
 
         // Dispatch Event for Import DTO
         QtafXrayEvents.importDtoCreated.onNext(xrayImportRequestDto);

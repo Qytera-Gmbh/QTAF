@@ -3,6 +3,7 @@ package de.qytera.qtaf.xray.entity;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -52,5 +53,5 @@ public class XrayTestExecutionInfoEntity {
     /**
      * The test environments for the test execution issue.
      */
-    private List<String> testEnvironments;
+    private List<String> testEnvironments = new ArrayList<>();
 }

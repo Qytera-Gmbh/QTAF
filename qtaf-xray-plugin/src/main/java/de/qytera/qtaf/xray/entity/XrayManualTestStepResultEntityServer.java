@@ -1,5 +1,6 @@
 package de.qytera.qtaf.xray.entity;
 
+import de.qytera.qtaf.core.log.model.message.StepInformationLogMessage;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
@@ -20,7 +21,7 @@ public class XrayManualTestStepResultEntityServer extends XrayManualTestStepResu
      */
     private List<XrayEvidenceItemEntity> evidences = new ArrayList<>();
 
-    public XrayManualTestStepResultEntityServer(@NonNull String status) {
+    public XrayManualTestStepResultEntityServer(@NonNull StepInformationLogMessage.Status status) {
         super(status);
     }
 
