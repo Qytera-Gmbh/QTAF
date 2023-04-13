@@ -16,7 +16,6 @@ import java.io.Writer;
 import java.lang.annotation.Annotation;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * Transforms log collection into Xray Execution Import DTO
@@ -70,11 +69,12 @@ public class XrayJsonImportBuilder {
             for (Map.Entry<String, List<TestScenarioLogCollection>> entry : groupedScenarioLogs.entrySet()) {
 
                 // Skip test executions of tests that have not been linked to Xray issues.
-                if (entry.getValue().stream().map(e -> e.getAnnotation(XrayTest.class)).anyMatch(Objects::isNull)) {
+                if (entry.getValue().isEmpty() || entry.getValue().get(0).getAnnotation(XrayTest.class) == null) {
                     continue;
                 }
 
-                if (entry.getValue().size() == 1) { // The group contains only one item
+                // Tests that have been executed once only.
+                if (entry.getValue().size() == 1) {
                     TestScenarioLogCollection scenarioLog = entry.getValue().get(0);
 
                     // Build the xray test entity
@@ -89,7 +89,9 @@ public class XrayJsonImportBuilder {
 
                     // Add test to test collection
                     xrayImportRequestDto.addTest(xrayTestEntity);
-                } else if (entry.getValue().size() > 1) { // The group contains multiple items
+                }
+                // Tests that hav been executed more than once (e.g. data-driven).
+                else if (entry.getValue().size() > 1) {
                     XrayTestEntity xrayTestEntity = new XrayTestEntity();
 
                     // If we have multiple iterations of a test scenario we need to nullify the step parameter of the test entity,
@@ -149,7 +151,6 @@ public class XrayJsonImportBuilder {
 
                     // Add test to test collection
                     xrayImportRequestDto.addTest(xrayTestEntity);
-                } else { // The group doesn't contain any items
                 }
             }
         }
