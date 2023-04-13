@@ -4,19 +4,19 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Xray custom field entity.
+ * Xray test iteration parameter entity.
  *
  * @see <a href="https://docs.getxray.app/display/XRAY/Import+Execution+Results#ImportExecutionResults-XrayJSONSchema">Xray JSON format</a>
  */
 @Getter
 @Setter
-public class XrayCustomFieldEntity {
+public class XrayIterationParameterEntity {
     /**
-     * The test run custom field ID.
+     * The parameter name.
      */
-    private String id;
+    private String name;
     /**
-     * The test run custom field value.
+     * The parameter value.
      */
     private String value;
 }
