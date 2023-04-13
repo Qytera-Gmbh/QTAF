@@ -5,7 +5,7 @@
     <parent>
         <groupId>de.qytera</groupId>
         <artifactId>qtaf</artifactId>
-        <version>0.0.6</version>
+        <version>0.0.7</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -20,7 +20,7 @@
         <dependency>
             <groupId>de.qytera</groupId>
             <artifactId>qtaf-core</artifactId>
-            <version>0.0.6</version>
+            <version>0.0.7</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -32,13 +32,13 @@
         <dependency>
             <groupId>de.qytera</groupId>
             <artifactId>qtaf-html-report-plugin</artifactId>
-            <version>0.0.6</version>
+            <version>0.0.7</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>de.qytera</groupId>
             <artifactId>qtaf-http</artifactId>
-            <version>0.0.6</version>
+            <version>0.0.7</version>
             <scope>compile</scope>
         </dependency>
 
