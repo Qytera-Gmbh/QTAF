@@ -3,6 +3,8 @@ package de.qytera.qtaf.xray.config;
 import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
 import de.qytera.qtaf.core.log.model.message.StepInformationLogMessage;
 
+import java.util.Collection;
+
 /**
  * Utility class for converting QTAF statuses to Xray statuses.
  */
@@ -10,6 +12,47 @@ public class XrayStatusHelper {
 
     private XrayStatusHelper() {
         // Utility class, does not require a constructor.
+    }
+
+    /**
+     * Returns the combined status of multiple scenario logs. The status is determined as follows:
+     * <ol>
+     *     <li>{@link TestScenarioLogCollection.Status#FAILURE} if any scenario has failed</li>
+     *     <li>{@link TestScenarioLogCollection.Status#PENDING} if a scenario is still pending</li>
+     *     <li>{@link TestScenarioLogCollection.Status#SKIPPED} if any scenario was skipped</li>
+     *     <li>{@link TestScenarioLogCollection.Status#SUCCESS} otherwise</li>
+     * </ol>
+     *
+     * @param scenarioLogs the scenario logs whose status should be determined
+     * @return the combined status
+     * @throws IllegalArgumentException if the collection is empty
+     */
+    public static TestScenarioLogCollection.Status getStatus(Collection<TestScenarioLogCollection> scenarioLogs) {
+        if (scenarioLogs.isEmpty()) {
+            throw new IllegalArgumentException("Must provide at least one scenario log to determine status");
+        }
+        boolean anySkipped = false;
+        boolean anyPending = false;
+        for (TestScenarioLogCollection scenarioLog : scenarioLogs) {
+            switch (scenarioLog.getStatus()) {
+                case FAILURE -> {
+                    return TestScenarioLogCollection.Status.FAILURE;
+                }
+                case PENDING -> anyPending = true;
+                case SKIPPED -> anySkipped = true;
+                case SUCCESS -> {
+                    // Do nothing.
+                }
+                default ->
+                        throw new IllegalArgumentException(String.format("Unknown status %s", scenarioLog.getStatus()));
+            }
+        }
+        if (anyPending) {
+            return TestScenarioLogCollection.Status.PENDING;
+        } else if (anySkipped) {
+            return TestScenarioLogCollection.Status.SKIPPED;
+        }
+        return TestScenarioLogCollection.Status.SUCCESS;
     }
 
     /**
