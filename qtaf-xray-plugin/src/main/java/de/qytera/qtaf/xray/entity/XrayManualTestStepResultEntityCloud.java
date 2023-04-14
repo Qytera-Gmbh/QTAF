@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Xray manual test step result entity.
  *
- * @see <a href="https://docs.getxray.app/display/XRAY/Import+Execution+Results#ImportExecutionResults-XrayJSONSchema">Xray JSON format</a>
+ * @see <a href="https://docs.getxray.app/display/XRAYCLOUD/Using+Xray+JSON+format+to+import+execution+results">Xray JSON format</a>
  */
 @Getter
 @Setter
