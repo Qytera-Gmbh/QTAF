@@ -1,9 +1,7 @@
 package de.qytera.qtaf.xray.entity;
 
 import de.qytera.qtaf.core.log.model.message.StepInformationLogMessage;
-import lombok.Getter;
 import lombok.NonNull;
-import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,13 +11,11 @@ import java.util.List;
  *
  * @see <a href="https://docs.getxray.app/display/XRAY/Import+Execution+Results#ImportExecutionResults-XrayJSONSchema">Xray JSON format</a>
  */
-@Getter
-@Setter
 public class XrayManualTestStepResultEntityServer extends XrayManualTestStepResultEntity {
     /**
      * An array of evidence items of the test run.
      */
-    private List<XrayEvidenceItemEntity> evidences = new ArrayList<>();
+    private final List<XrayEvidenceItemEntity> evidences = new ArrayList<>();
 
     public XrayManualTestStepResultEntityServer(@NonNull StepInformationLogMessage.Status status) {
         super(status);
@@ -30,6 +26,11 @@ public class XrayManualTestStepResultEntityServer extends XrayManualTestStepResu
         if (evidence != null) {
             this.evidences.add(evidence);
         }
+    }
+
+    @Override
+    public List<XrayEvidenceItemEntity> getAllEvidence() {
+        return evidences;
     }
 
 }

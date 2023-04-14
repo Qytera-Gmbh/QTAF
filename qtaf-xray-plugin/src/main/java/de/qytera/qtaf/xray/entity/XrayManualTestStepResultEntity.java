@@ -57,4 +57,11 @@ public abstract class XrayManualTestStepResultEntity {
      */
     public abstract void addEvidenceIfPresent(XrayEvidenceItemEntity evidence);
 
+    /**
+     * Retrieve a list of all evidence items attached to this step result.
+     *
+     * @return the list of evidence
+     */
+    public abstract List<XrayEvidenceItemEntity> getAllEvidence();
+
 }

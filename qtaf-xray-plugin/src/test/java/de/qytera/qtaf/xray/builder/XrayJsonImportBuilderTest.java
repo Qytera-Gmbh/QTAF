@@ -11,7 +11,10 @@ import de.qytera.qtaf.xray.annotation.XrayTest;
 import de.qytera.qtaf.xray.config.XrayConfigHelper;
 import de.qytera.qtaf.xray.config.XrayStatusHelper;
 import de.qytera.qtaf.xray.dto.request.XrayImportRequestDto;
-import de.qytera.qtaf.xray.entity.*;
+import de.qytera.qtaf.xray.entity.XrayIterationParameterEntity;
+import de.qytera.qtaf.xray.entity.XrayIterationResultEntity;
+import de.qytera.qtaf.xray.entity.XrayManualTestStepResultEntity;
+import de.qytera.qtaf.xray.entity.XrayTestStepEntity;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -210,13 +213,13 @@ public class XrayJsonImportBuilderTest {
         ConfigurationFactory.getInstance().setString(XrayConfigHelper.XRAY_SERVICE_SELECTOR, "server");
         XrayImportRequestDto dto = new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance()).buildRequest();
         List<XrayManualTestStepResultEntity> steps = dto.getTests().get(0).getSteps();
-        Assert.assertTrue(((XrayManualTestStepResultEntityServer) steps.get(0)).getEvidences().isEmpty());
-        Assert.assertTrue(((XrayManualTestStepResultEntityServer) steps.get(1)).getEvidences().isEmpty());
-        Assert.assertEquals(((XrayManualTestStepResultEntityServer) steps.get(2)).getEvidences().size(), 2);
-        Assert.assertEquals(((XrayManualTestStepResultEntityServer) steps.get(2)).getEvidences().get(0).getContentType(), "image/png");
-        Assert.assertEquals(((XrayManualTestStepResultEntityServer) steps.get(2)).getEvidences().get(0).getFilename(), "qytera.png");
-        Assert.assertEquals(((XrayManualTestStepResultEntityServer) steps.get(2)).getEvidences().get(1).getContentType(), "image/png");
-        Assert.assertEquals(((XrayManualTestStepResultEntityServer) steps.get(2)).getEvidences().get(1).getFilename(), "turtle.png");
+        Assert.assertTrue(steps.get(0).getAllEvidence().isEmpty());
+        Assert.assertTrue(steps.get(1).getAllEvidence().isEmpty());
+        Assert.assertEquals(steps.get(2).getAllEvidence().size(), 2);
+        Assert.assertEquals(steps.get(2).getAllEvidence().get(0).getContentType(), "image/png");
+        Assert.assertEquals(steps.get(2).getAllEvidence().get(0).getFilename(), "qytera.png");
+        Assert.assertEquals(steps.get(2).getAllEvidence().get(1).getContentType(), "image/png");
+        Assert.assertEquals(steps.get(2).getAllEvidence().get(1).getFilename(), "turtle.png");
     }
 
     @Test
@@ -245,16 +248,16 @@ public class XrayJsonImportBuilderTest {
         XrayImportRequestDto dto = new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance()).buildRequest();
         List<XrayIterationResultEntity> iterations = dto.getTests().get(0).getIterations();
 
-        Assert.assertTrue(((XrayManualTestStepResultEntityCloud) iterations.get(0).getSteps().get(0)).getEvidence().isEmpty());
-        Assert.assertTrue(((XrayManualTestStepResultEntityCloud) iterations.get(0).getSteps().get(1)).getEvidence().isEmpty());
-        Assert.assertEquals(((XrayManualTestStepResultEntityCloud) iterations.get(0).getSteps().get(2)).getEvidence().size(), 1);
-        Assert.assertEquals(((XrayManualTestStepResultEntityCloud) iterations.get(0).getSteps().get(2)).getEvidence().get(0).getContentType(), "image/png");
-        Assert.assertEquals(((XrayManualTestStepResultEntityCloud) iterations.get(0).getSteps().get(2)).getEvidence().get(0).getFilename(), "turtle.png");
+        Assert.assertTrue(iterations.get(0).getSteps().get(0).getAllEvidence().isEmpty());
+        Assert.assertTrue(iterations.get(0).getSteps().get(1).getAllEvidence().isEmpty());
+        Assert.assertEquals(iterations.get(0).getSteps().get(2).getAllEvidence().size(), 1);
+        Assert.assertEquals(iterations.get(0).getSteps().get(2).getAllEvidence().get(0).getContentType(), "image/png");
+        Assert.assertEquals(iterations.get(0).getSteps().get(2).getAllEvidence().get(0).getFilename(), "turtle.png");
 
-        Assert.assertTrue(((XrayManualTestStepResultEntityCloud) iterations.get(1).getSteps().get(0)).getEvidence().isEmpty());
-        Assert.assertEquals(((XrayManualTestStepResultEntityCloud) iterations.get(1).getSteps().get(1)).getEvidence().size(), 1);
-        Assert.assertEquals(((XrayManualTestStepResultEntityCloud) iterations.get(1).getSteps().get(1)).getEvidence().get(0).getContentType(), "image/png");
-        Assert.assertEquals(((XrayManualTestStepResultEntityCloud) iterations.get(1).getSteps().get(1)).getEvidence().get(0).getFilename(), "turtle.png");
+        Assert.assertTrue(iterations.get(1).getSteps().get(0).getAllEvidence().isEmpty());
+        Assert.assertEquals(iterations.get(1).getSteps().get(1).getAllEvidence().size(), 1);
+        Assert.assertEquals(iterations.get(1).getSteps().get(1).getAllEvidence().get(0).getContentType(), "image/png");
+        Assert.assertEquals(iterations.get(1).getSteps().get(1).getAllEvidence().get(0).getFilename(), "turtle.png");
     }
 
     @Test(
@@ -329,12 +332,17 @@ public class XrayJsonImportBuilderTest {
         StepInformationLogMessage step = successfulStep("stepWithoutParameters");
         scenarioCollection.addLogMessage(step);
         step = successfulStep("stepWithParameters");
+        step.setScreenshotBefore("src/test/resources/images/qytera.png");
         step.addStepParameter("x", 42);
         step.addStepParameter("y", 45.0);
         step.addStepParameter(null, "null");
         step.addStepParameter("null", null);
         scenarioCollection.addLogMessage(step);
-        step = failingStep("failingStepWithParameters");
+        step = failingStep(
+                "failingStepWithParameters",
+                "src/test/resources/images/turtle.png",
+                "src/test/resources/images/qytera.png"
+        );
         step.addStepParameter("array", new String[]{"hello", "there"});
         scenarioCollection.addLogMessage(step);
         scenarioCollection.setStatus(TestScenarioLogCollection.Status.FAILURE);
@@ -348,15 +356,18 @@ public class XrayJsonImportBuilderTest {
         step.addStepParameter(null, "null");
         step.addStepParameter("null", "green cabbage");
         scenarioCollection.addLogMessage(step);
-        step = successfulStep("failingStepWithParameters");
+        step = failingStep("failingStepWithParameters");
         step.addStepParameter("array", new String[]{"knock", "knock", "who's", "there?"});
         scenarioCollection.addLogMessage(step);
         scenarioCollection.setStatus(TestScenarioLogCollection.Status.SUCCESS);
         ConfigurationFactory.getInstance().setBoolean(XrayConfigHelper.RESULTS_TESTS_INFO_STEPS_MERGE_ON_MULTIPLE_ITERATIONS, true);
         XrayImportRequestDto dto = new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance()).buildRequest();
         Assert.assertEquals(dto.getTests().size(), 1);
-        List<XrayTestStepEntity> steps = dto.getTests().get(0).getTestInfo().getSteps();
-        Assert.assertEquals(steps.size(), 1);
+        Assert.assertEquals(dto.getTests().get(0).getTestInfo().getSteps().size(), 1);
+        Assert.assertEquals(dto.getTests().get(0).getIterations().size(), 2);
+        Assert.assertEquals(dto.getTests().get(0).getIterations().get(0).getSteps().size(), 1);
+        Assert.assertEquals(dto.getTests().get(0).getIterations().get(1).getSteps().size(), 1);
+        Assert.assertEquals(dto.getTests().get(0).getIterations().get(0).getSteps().get(0).getAllEvidence().size(), 3);
     }
 
 }

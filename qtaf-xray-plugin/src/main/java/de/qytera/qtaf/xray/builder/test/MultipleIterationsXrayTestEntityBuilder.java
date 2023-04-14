@@ -14,8 +14,11 @@ import org.apache.logging.log4j.util.Strings;
 import org.apache.logging.log4j.util.Supplier;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * Builds an {@link XrayTestEntity} objects for multiple test iterations.
@@ -36,33 +39,16 @@ class MultipleIterationsXrayTestEntityBuilder extends XrayTestEntityBuilder {
         if (xrayTestAnnotation == null) {
             return null;
         }
-        XrayTestEntity entity = new XrayTestEntity(XrayStatusHelper.getStatus(scenarioLogs));
+        XrayTestEntity entity = new XrayTestEntity(XrayStatusHelper.combinedScenarioStatus(scenarioLogs));
         entity.setTestInfo(buildTestInfoEntity(xrayTestAnnotation, scenarioLogs));
-        boolean allScenariosPassed = true;
-        Date start = null;
-        Date end = null;
+        entity.setStart(XrayJsonHelper.isoDateString(getStartDate(scenarioLogs)));
+        entity.setFinish(XrayJsonHelper.isoDateString(getEndDate(scenarioLogs)));
         for (TestScenarioLogCollection scenarioLog : scenarioLogs) {
-            if (scenarioLog.getStatus() == TestScenarioLogCollection.Status.FAILURE) {
-                allScenariosPassed = false;
+            if (Boolean.TRUE.equals(XrayConfigHelper.getResultsTestsInfoStepsMergeOnMultipleIterations())) {
+                entity.getIterations().add(mergedIteration(scenarioLog));
+            } else {
+                entity.getIterations().add(buildIterationResultEntity(scenarioLog));
             }
-            entity.getIterations().add(buildIterationResultEntity(scenarioLog));
-            if (start == null || scenarioLog.getStart().before(start)) {
-                start = scenarioLog.getStart();
-            }
-            if (end == null || scenarioLog.getEnd().after(end)) {
-                end = scenarioLog.getEnd();
-            }
-        }
-        if (start != null) {
-            entity.setStart(XrayJsonHelper.isoDateString(start));
-        }
-        if (end != null) {
-            entity.setFinish(XrayJsonHelper.isoDateString(end));
-        }
-        if (allScenariosPassed) {
-            entity.setStatus(TestScenarioLogCollection.Status.SUCCESS);
-        } else {
-            entity.setStatus(TestScenarioLogCollection.Status.FAILURE);
         }
         return entity;
     }
@@ -99,9 +85,9 @@ class MultipleIterationsXrayTestEntityBuilder extends XrayTestEntityBuilder {
             List<String> linesData,
             List<String> linesResult
     ) {
-        linesAction.add(getIterationHeader(scenarioCollection, scenarioIndex + 1));
-        linesData.add(getIterationHeader(scenarioCollection, scenarioIndex + 1));
-        linesResult.add(getIterationHeader(scenarioCollection, scenarioIndex + 1));
+        linesAction.add(getIterationHeader(scenarioCollection, scenarioIndex));
+        linesData.add(getIterationHeader(scenarioCollection, scenarioIndex));
+        linesResult.add(getIterationHeader(scenarioCollection, scenarioIndex));
         List<StepInformationLogMessage> logMessages = scenarioCollection.get(scenarioIndex).getLogMessages().stream()
                 .filter(StepInformationLogMessage.class::isInstance)
                 .map(StepInformationLogMessage.class::cast)
@@ -112,7 +98,7 @@ class MultipleIterationsXrayTestEntityBuilder extends XrayTestEntityBuilder {
             linesResult.add("// Warning: no result defined");
             return;
         }
-        int stepNumber = 1;
+        int stepNumber = 0;
         int maxSteps = logMessages.size();
         for (StepInformationLogMessage logMessage : logMessages) {
             XrayTestStepEntity step = buildTestStepEntity(logMessage);
@@ -124,15 +110,21 @@ class MultipleIterationsXrayTestEntityBuilder extends XrayTestEntityBuilder {
     }
 
     private String getIterationHeader(List<TestScenarioLogCollection> scenarioCollection, int iteration) {
-        String iterationDigits = "%0" + String.valueOf(scenarioCollection.size()).length() + "d";
+        // Xray starts counting at 1.
+        String iterationDigits = "%0" + String.valueOf(scenarioCollection.size() + 1).length() + "d";
         String headerFormat = String.format("=====> ITERATION %s <=====", iterationDigits);
-        return String.format(headerFormat, iteration);
+        return String.format(headerFormat, iteration + 1);
     }
 
     private void mergeInto(List<String> lines, int stepNumber, int maxSteps, Supplier<Object> contentSupplier) {
+        // Xray starts counting at 1.
+        lines.add(stepString(stepNumber + 1, maxSteps + 1, contentSupplier));
+    }
+
+    private static String stepString(int stepNumber, int maxSteps, Supplier<Object> contentSupplier) {
         String stepIndexFormat = "%0" + String.valueOf(maxSteps).length() + "d";
         String lineFormat = stepIndexFormat + ": %s";
-        lines.add(String.format(lineFormat, stepNumber, contentSupplier.get()));
+        return String.format(lineFormat, stepNumber, contentSupplier.get());
     }
 
     private static XrayIterationResultEntity buildIterationResultEntity(TestScenarioLogCollection scenarioLog) {
@@ -154,6 +146,71 @@ class MultipleIterationsXrayTestEntityBuilder extends XrayTestEntityBuilder {
             }
         }
         return entity;
+    }
+
+    private static XrayIterationResultEntity mergedIteration(TestScenarioLogCollection scenarioLog) {
+        XrayIterationResultEntity entity;
+        XrayManualTestStepResultEntity stepEntity;
+        List<StepInformationLogMessage> stepLogs = scenarioLog.getLogMessages().stream()
+                .filter(StepInformationLogMessage.class::isInstance)
+                .map(StepInformationLogMessage.class::cast)
+                .toList();
+        if (XrayConfigHelper.isXrayCloudService()) {
+            entity = new XrayIterationResultEntityCloud(scenarioLog.getStatus());
+            stepEntity = new XrayManualTestStepResultEntityCloud(XrayStatusHelper.combinedStepStatus(stepLogs));
+        } else {
+            entity = new XrayIterationResultEntityServer(scenarioLog.getStatus());
+            stepEntity = new XrayManualTestStepResultEntityServer(XrayStatusHelper.combinedStepStatus(stepLogs));
+        }
+        entity.getSteps().add(stepEntity);
+        for (TestScenarioLogCollection.TestParameter testParameter : scenarioLog.getTestParameters()) {
+            XrayIterationParameterEntity parameterEntity = new XrayIterationParameterEntity();
+            parameterEntity.setName(XrayJsonHelper.truncateParameterName(testParameter.getName()));
+            parameterEntity.setValue(XrayJsonHelper.truncateParameterValue(testParameter.getValue().toString()));
+            entity.getParameters().add(parameterEntity);
+        }
+        List<XrayManualTestStepResultEntity> stepResults = stepLogs.stream()
+                .map(XrayTestEntityBuilder::buildManualTestStepResultEntity)
+                .toList();
+        String comment = IntStream.range(0, stepResults.size())
+                .mapToObj(i -> stepString(i, stepResults.size(), stepResults.get(i)::getComment))
+                .collect(Collectors.joining("\n"));
+        List<String> defects = stepResults.stream()
+                .map(XrayManualTestStepResultEntity::getDefects)
+                .flatMap(Collection::stream)
+                .toList();
+        String actualResult = IntStream.range(0, stepResults.size())
+                .mapToObj(i -> stepString(i, stepResults.size(), stepResults.get(i)::getActualResult))
+                .collect(Collectors.joining("\n"));
+        List<XrayEvidenceItemEntity> evidence = stepResults.stream()
+                .map(XrayManualTestStepResultEntity::getAllEvidence)
+                .flatMap(Collection::stream)
+                .toList();
+        stepEntity.setComment(comment);
+        stepEntity.setDefects(defects);
+        stepEntity.setActualResult(actualResult);
+        stepEntity.getAllEvidence().addAll(evidence);
+        return entity;
+    }
+
+    private static Date getStartDate(List<TestScenarioLogCollection> scenarioLogs) {
+        Date start = null;
+        for (TestScenarioLogCollection scenarioLog : scenarioLogs) {
+            if (start == null || scenarioLog.getStart().before(start)) {
+                start = scenarioLog.getStart();
+            }
+        }
+        return start;
+    }
+
+    private static Date getEndDate(List<TestScenarioLogCollection> scenarioLogs) {
+        Date end = null;
+        for (TestScenarioLogCollection scenarioLog : scenarioLogs) {
+            if (end == null || scenarioLog.getEnd().after(end)) {
+                end = scenarioLog.getEnd();
+            }
+        }
+        return end;
     }
 
 }
