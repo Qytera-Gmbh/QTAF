@@ -3,9 +3,13 @@ package de.qytera.qtaf.core.log.model.message;
 import de.qytera.qtaf.core.QtafFactory;
 import de.qytera.qtaf.core.log.model.LogLevel;
 import de.qytera.qtaf.core.log.model.error.ThrowableWrapper;
+import lombok.Getter;
+import lombok.Setter;
 
+import javax.lang.model.type.NullType;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -53,9 +57,11 @@ public class StepInformationLogMessage extends LogMessage {
     private long duration = 0L;
 
     /**
-     * List of step method parameters
+     * The list of the step's method parameters.
      */
-    private ArrayList<StepParameter> stepParameters = new ArrayList<>();
+    @Getter
+    @Setter
+    private List<StepParameter> stepParameters = new ArrayList<>();
 
     /**
      * Step result.
@@ -127,36 +133,14 @@ public class StepInformationLogMessage extends LogMessage {
     }
 
     /**
-     * Get step parameter list
+     * Add a generic step parameter.
      *
-     * @return step parameter list
+     * @param name  the name of the parameter
+     * @param value the value of the parameter
      */
-    public ArrayList<StepParameter> getStepParameters() {
-        return stepParameters;
-    }
-
-    /**
-     * Set step parameter list
-     *
-     * @param stepParameters List of step parameters
-     * @return step parameter list
-     */
-    public StepInformationLogMessage setStepParameters(ArrayList<StepParameter> stepParameters) {
-        this.stepParameters = stepParameters;
-        return this;
-    }
-
-    /**
-     * App step parameter
-     *
-     * @param name  Name of the parameter
-     * @param type  Type of the parameter
-     * @param value Value of the parameter
-     * @return step parameter
-     */
-    public StepInformationLogMessage addStepParameter(String name, String type, Object value) {
-        this.stepParameters.add(new StepParameter(name, type, value));
-        return this;
+    public <T> void addStepParameter(String name, T value) {
+        String className = value == null ? NullType.class.getName() : value.getClass().getSimpleName();
+        this.stepParameters.add(new StepParameter(name, className, value));
     }
 
     /**
