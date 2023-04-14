@@ -21,8 +21,8 @@ public class XrayConfigHelper {
     public static final String AUTHENTICATION_XRAY_BEARER_TOKEN = "xray.authentication.xray.bearerToken";
     public static final String AUTHENTICATION_JIRA_USERNAME = "xray.authentication.jira.username";
     public static final String AUTHENTICATION_JIRA_API_TOKEN = "xray.authentication.jira.apiToken";
-    private static String SCENARIO_REPORT_EVIDENCE = "xray.scenarioReportEvidence";
-    private static String SCENARIO_IMAGE_EVIDENCE = "xray.scenarioImageEvidence";
+    public static final String RESULTS_UPLOAD_SCENARIO_REPORT_EVIDENCE = "xray.resultsUpload.scenarioReportEvidence";
+    public static final String RESULTS_UPLOAD_SCENARIO_IMAGE_EVIDENCE = "xray.resultsUpload.scenarioImageEvidence";
     public static final String RESULTS_UPLOAD_CUSTOM_STATUS_TEST_PASSED = "xray.resultsUpload.customStatus.test.passed";
     public static final String RESULTS_UPLOAD_CUSTOM_STATUS_TEST_FAILED = "xray.resultsUpload.customStatus.test.failed";
     public static final String RESULTS_UPLOAD_CUSTOM_STATUS_TEST_PENDING = "xray.resultsUpload.customStatus.test.pending";
@@ -42,8 +42,8 @@ public class XrayConfigHelper {
     }
 
     // Values
-    private static String XRAY_SERVICE_CLOUD = "cloud";
-    private static String XRAY_SERVICE_SERVER = "server";
+    private static final String XRAY_SERVICE_CLOUD = "cloud";
+    private static final String XRAY_SERVICE_SERVER = "server";
 
     /**
      * Returns the bearer token for authenticating against Xray server.
@@ -228,7 +228,7 @@ public class XrayConfigHelper {
      * @return true if enabled, false otherwise
      */
     public static Boolean isScenarioReportEvidenceEnabled() {
-        return CONFIG.getBoolean(SCENARIO_REPORT_EVIDENCE);
+        return CONFIG.getBoolean(RESULTS_UPLOAD_SCENARIO_REPORT_EVIDENCE);
     }
 
     /**
@@ -237,7 +237,7 @@ public class XrayConfigHelper {
      * @return true if enabled, false otherwise
      */
     public static Boolean isScenarioImageEvidenceEnabled() {
-        return CONFIG.getBoolean(SCENARIO_IMAGE_EVIDENCE);
+        return CONFIG.getBoolean(RESULTS_UPLOAD_SCENARIO_IMAGE_EVIDENCE);
     }
 
     /**

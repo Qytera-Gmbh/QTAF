@@ -40,9 +40,9 @@
         "apiToken": null
       }
     },
-    "scenarioReportEvidence": true,
-    "scenarioImageEvidence": true,
     "resultsUpload": {
+      "scenarioReportEvidence": true,
+      "scenarioImageEvidence": true,
       "customStatus": {
         "test": {
           "passed": null,
