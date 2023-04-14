@@ -18,9 +18,7 @@ import org.testng.annotations.Test;
 
 import java.lang.annotation.Annotation;
 import java.time.Instant;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class XrayJsonImportBuilderTest {
@@ -134,7 +132,7 @@ public class XrayJsonImportBuilderTest {
     @Test
     public void testLongParameterValueTruncation() throws XrayJsonImportBuilder.NoXrayTestException {
         ConfigMap configMap = QtafFactory.getConfiguration();
-        configMap.setInt(XrayConfigHelper.RESULTS_ITERATIONS_PARAMETERS_MAX_LENGTH_VALUE, 3);
+        configMap.setInt(XrayConfigHelper.RESULTS_TESTS_ITERATIONS_PARAMETERS_MAX_LENGTH_VALUE, 3);
 
         TestScenarioLogCollection scenarioCollection = scenario(0, "feature-x");
         scenarioCollection.addParameters(new String[]{
@@ -291,6 +289,74 @@ public class XrayJsonImportBuilderTest {
         scenarioCollection.addLogMessage(failingStep("clickSomething", "path/to/something.png"));
         scenarioCollection.setStatus(TestScenarioLogCollection.Status.FAILURE);
         new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance()).buildRequest();
+    }
+
+    @Test
+    public void testSingleRunStepUpdate() throws XrayJsonImportBuilder.NoXrayTestException {
+        TestScenarioLogCollection scenarioCollection = scenario(1, "feature-step-update");
+        StepInformationLogMessage step = successfulStep("stepWithoutParameters");
+        scenarioCollection.addLogMessage(step);
+        step = successfulStep("stepWithParameters");
+        step.addStepParameter("x", 42);
+        step.addStepParameter("y", 45.0);
+        step.addStepParameter(null, "null");
+        step.addStepParameter("null", null);
+        scenarioCollection.addLogMessage(step);
+        step = failingStep("failingStepWithParameters");
+        step.addStepParameter("array", new String[]{"hello", "there"});
+        // Use a LinkedHashMap to enforce insertion ordering.
+        Map<String, Object> complexParameter = new LinkedHashMap<>();
+        complexParameter.put("a", 15);
+        complexParameter.put("b", "\"Jeff\"");
+        complexParameter.put("c", new ArrayList<>());
+        step.addStepParameter("complex", complexParameter);
+        scenarioCollection.addLogMessage(step);
+        scenarioCollection.setStatus(TestScenarioLogCollection.Status.FAILURE);
+        ConfigurationFactory.getInstance().setBoolean(XrayConfigHelper.RESULTS_TESTS_INFO_STEPS_UPDATE_ON_SINGLE_ITERATION, true);
+        XrayImportRequestDto dto = new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance()).buildRequest();
+        Assert.assertEquals(dto.getTests().size(), 1);
+        List<XrayTestStepEntity> steps = dto.getTests().get(0).getTestInfo().getSteps();
+        Assert.assertEquals(steps.size(), 3);
+        Assert.assertNull(steps.get(0).getData());
+        Assert.assertEquals(steps.get(1).getData(), "x=42\ny=45.0\nnull=null\nnull=null");
+        Assert.assertEquals(steps.get(2).getData(), "array=[hello, there]\ncomplex={a=15, b=\"Jeff\", c=[]}");
+    }
+
+    @Test
+    public void testMultipleRunStepMerge() throws XrayJsonImportBuilder.NoXrayTestException {
+        // First iteration.
+        TestScenarioLogCollection scenarioCollection = scenario(1, "feature-step-merge");
+        StepInformationLogMessage step = successfulStep("stepWithoutParameters");
+        scenarioCollection.addLogMessage(step);
+        step = successfulStep("stepWithParameters");
+        step.addStepParameter("x", 42);
+        step.addStepParameter("y", 45.0);
+        step.addStepParameter(null, "null");
+        step.addStepParameter("null", null);
+        scenarioCollection.addLogMessage(step);
+        step = failingStep("failingStepWithParameters");
+        step.addStepParameter("array", new String[]{"hello", "there"});
+        scenarioCollection.addLogMessage(step);
+        scenarioCollection.setStatus(TestScenarioLogCollection.Status.FAILURE);
+        // Second iteration.
+        scenarioCollection = scenario(2, "feature-step-merge");
+        step = successfulStep("stepWithoutParameters");
+        scenarioCollection.addLogMessage(step);
+        step = successfulStep("stepWithParameters");
+        step.addStepParameter("x", -747);
+        step.addStepParameter("y", null);
+        step.addStepParameter(null, "null");
+        step.addStepParameter("null", "green cabbage");
+        scenarioCollection.addLogMessage(step);
+        step = successfulStep("failingStepWithParameters");
+        step.addStepParameter("array", new String[]{"knock", "knock", "who's", "there?"});
+        scenarioCollection.addLogMessage(step);
+        scenarioCollection.setStatus(TestScenarioLogCollection.Status.SUCCESS);
+        ConfigurationFactory.getInstance().setBoolean(XrayConfigHelper.RESULTS_TESTS_INFO_STEPS_MERGE_ON_MULTIPLE_ITERATIONS, true);
+        XrayImportRequestDto dto = new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance()).buildRequest();
+        Assert.assertEquals(dto.getTests().size(), 1);
+        List<XrayTestStepEntity> steps = dto.getTests().get(0).getTestInfo().getSteps();
+        Assert.assertEquals(steps.size(), 1);
     }
 
 }

@@ -32,9 +32,10 @@ public class XrayConfigHelper {
     public static final String STATUS_STEP_PENDING_SELECTOR = "xray.status.step.pending";
     public static final String STATUS_STEP_SKIPPED_SELECTOR = "xray.status.step.skipped";
     public static final String STATUS_STEP_UNDEFINED_SELECTOR = "xray.status.step.undefined";
-    public static final String RESULTS_ITERATIONS_PARAMETERS_MAX_LENGTH_NAME = "xray.results.iterations.parameters.maxLength.name";
-    public static final String RESULTS_ITERATIONS_PARAMETERS_MAX_LENGTH_VALUE = "xray.results.iterations.parameters.maxLength.value";
-    public static final String RESULTS_STEPS_UPDATE = "xray.results.steps.update";
+    public static final String RESULTS_TESTS_ITERATIONS_PARAMETERS_MAX_LENGTH_NAME = "xray.results.tests.iterations.parameters.maxLength.name";
+    public static final String RESULTS_TESTS_ITERATIONS_PARAMETERS_MAX_LENGTH_VALUE = "xray.results.tests.iterations.parameters.maxLength.value";
+    public static final String RESULTS_TESTS_INFO_STEPS_UPDATE_ON_SINGLE_ITERATION = "xray.results.tests.info.steps.updateOnSingleIteration";
+    public static final String RESULTS_TESTS_INFO_STEPS_MERGE_ON_MULTIPLE_ITERATIONS = "xray.results.tests.info.steps.mergeOnMultipleIterations";
 
     private XrayConfigHelper() {
         // Hide constructor.
@@ -226,7 +227,7 @@ public class XrayConfigHelper {
      *
      * @return true if enabled, false otherwise
      */
-    public static boolean isScenarioReportEvidenceEnabled() {
+    public static Boolean isScenarioReportEvidenceEnabled() {
         return CONFIG.getBoolean(SCENARIO_REPORT_EVIDENCE);
     }
 
@@ -235,7 +236,7 @@ public class XrayConfigHelper {
      *
      * @return true if enabled, false otherwise
      */
-    public static boolean isScenarioImageEvidenceEnabled() {
+    public static Boolean isScenarioImageEvidenceEnabled() {
         return CONFIG.getBoolean(SCENARIO_IMAGE_EVIDENCE);
     }
 
@@ -244,8 +245,8 @@ public class XrayConfigHelper {
      *
      * @return the maximum length or null if there is no maximum length
      */
-    public static Integer getIterationParameterNameMaxLength() {
-        return CONFIG.getInt(RESULTS_ITERATIONS_PARAMETERS_MAX_LENGTH_NAME);
+    public static Integer getTestsIterationsParametersNameMaxLength() {
+        return CONFIG.getInt(RESULTS_TESTS_ITERATIONS_PARAMETERS_MAX_LENGTH_NAME);
     }
 
     /**
@@ -253,16 +254,27 @@ public class XrayConfigHelper {
      *
      * @return the maximum length or null if there is no maximum length
      */
-    public static Integer getIterationParameterValueMaxLength() {
-        return CONFIG.getInt(RESULTS_ITERATIONS_PARAMETERS_MAX_LENGTH_VALUE);
+    public static Integer getTestsIterationsParametersValueMaxLength() {
+        return CONFIG.getInt(RESULTS_TESTS_ITERATIONS_PARAMETERS_MAX_LENGTH_VALUE);
     }
 
     /**
-     * Returns whether test issue steps should be updated during results upload.
+     * Returns whether test issue steps should be updated during results upload of tests consisting of single
+     * iterations.
      *
      * @return whether they should be updated or null if not defined
      */
-    public static boolean getResultsStepUpdate() {
-        return CONFIG.getBoolean(RESULTS_STEPS_UPDATE);
+    public static Boolean getResultsTestsInfoStepsUpdateOnSingleIteration() {
+        return CONFIG.getBoolean(RESULTS_TESTS_INFO_STEPS_UPDATE_ON_SINGLE_ITERATION);
+    }
+
+    /**
+     * Returns whether test issue steps should be merged during results upload of tests consisting of multiple
+     * iterations.
+     *
+     * @return whether they should be updated or null if not defined
+     */
+    public static Boolean getResultsTestsInfoStepsMergeOnMultipleIterations() {
+        return CONFIG.getBoolean(RESULTS_TESTS_INFO_STEPS_MERGE_ON_MULTIPLE_ITERATIONS);
     }
 }

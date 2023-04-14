@@ -58,16 +58,21 @@
       }
     },
     "results": {
-      "iterations": {
-        "parameters": {
-          "maxLength": {
-            "name": null,
-            "value": null
+      "tests": {
+        "info": {
+          "steps": {
+            "updateOnSingleIteration": false,
+            "mergeOnMultipleIterations": false
+          }
+        },
+        "iterations": {
+          "parameters": {
+            "maxLength": {
+              "name": null,
+              "value": null
+            }
           }
         }
-      },
-      "steps": {
-        "update": false
       }
     }
   },

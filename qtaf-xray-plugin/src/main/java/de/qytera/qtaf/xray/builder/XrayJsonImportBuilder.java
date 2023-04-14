@@ -8,6 +8,8 @@ import de.qytera.qtaf.core.log.model.message.LogMessage;
 import de.qytera.qtaf.core.log.model.message.StepInformationLogMessage;
 import de.qytera.qtaf.htmlreport.creator.ScenarioReportCreator;
 import de.qytera.qtaf.xray.annotation.XrayTest;
+import de.qytera.qtaf.xray.builder.test.info.MultipleIterationsXrayTestInfoEntityBuilder;
+import de.qytera.qtaf.xray.builder.test.info.SingleIterationXrayTestInfoEntityBuilder;
 import de.qytera.qtaf.xray.config.XrayConfigHelper;
 import de.qytera.qtaf.xray.dto.request.XrayImportRequestDto;
 import de.qytera.qtaf.xray.entity.*;
@@ -109,16 +111,17 @@ public class XrayJsonImportBuilder {
     private XrayTestEntity buildTestEntity(XrayTest xrayTestAnnotation, List<TestScenarioLogCollection> scenarioCollection) {
         XrayTestEntity entity;
         if (scenarioCollection.size() == 1) {
-            entity = buildSingleIterationTestEntity(xrayTestAnnotation, scenarioCollection.get(0));
+            entity = buildTestEntitySingleIteration(xrayTestAnnotation, scenarioCollection.get(0));
         } else {
-            entity = buildMultipleIterationsTestEntity(xrayTestAnnotation, scenarioCollection);
+            entity = buildTestEntityMultipleIterations(xrayTestAnnotation, scenarioCollection);
         }
         return entity;
     }
 
-    private XrayTestEntity buildSingleIterationTestEntity(XrayTest xrayTestAnnotation, TestScenarioLogCollection scenarioLog) {
+    private XrayTestEntity buildTestEntitySingleIteration(XrayTest xrayTestAnnotation, TestScenarioLogCollection scenarioLog) {
         XrayTestEntity entity = new XrayTestEntity(TestScenarioLogCollection.Status.PENDING);
         entity.setTestKey(xrayTestAnnotation.key());
+        entity.setTestInfo(new SingleIterationXrayTestInfoEntityBuilder(scenarioLog).buildTestInfo(xrayTestAnnotation));
         // Skip pending scenarios.
         if (scenarioLog.getStatus() == TestScenarioLogCollection.Status.PENDING) {
             return entity;
@@ -126,13 +129,13 @@ public class XrayJsonImportBuilder {
         entity.setStart(isoDateString(scenarioLog.getStart()));
         entity.setFinish(isoDateString(scenarioLog.getEnd()));
 
-        if (XrayConfigHelper.isScenarioReportEvidenceEnabled() && xrayTestAnnotation.scenarioReport()) {
+        if (Boolean.TRUE.equals(XrayConfigHelper.isScenarioReportEvidenceEnabled()) && xrayTestAnnotation.scenarioReport()) {
             Writer renderedTemplate = reportCreator.getRenderedTemplate(collection, scenarioLog);
             String filename = "scenario_" + scenarioLog.getScenarioName() + ".html";
             entity.getEvidence().add(XrayEvidenceItemEntity.fromString(renderedTemplate.toString(), filename));
         }
 
-        if (XrayConfigHelper.isScenarioImageEvidenceEnabled() && xrayTestAnnotation.screenshots()) {
+        if (Boolean.TRUE.equals(XrayConfigHelper.isScenarioImageEvidenceEnabled()) && xrayTestAnnotation.screenshots()) {
             for (String filepath : scenarioLog.getScreenshotPaths()) {
                 entity.getEvidence().add(XrayEvidenceItemEntity.fromFile(filepath));
             }
@@ -140,17 +143,17 @@ public class XrayJsonImportBuilder {
 
         for (LogMessage logMessage : scenarioLog.getLogMessages()) {
             if (logMessage instanceof StepInformationLogMessage stepLog) {
-                XrayManualTestStepResultEntity xrayTestStepEntity = buildManualTestStepResultEntity(stepLog);
-                entity.getSteps().add(xrayTestStepEntity);
+                entity.getSteps().add(buildManualTestStepResultEntity(stepLog));
             }
         }
 
         return entity;
     }
 
-    private static XrayTestEntity buildMultipleIterationsTestEntity(XrayTest xrayTestAnnotation, List<TestScenarioLogCollection> scenarioCollection) {
+    private static XrayTestEntity buildTestEntityMultipleIterations(XrayTest xrayTestAnnotation, List<TestScenarioLogCollection> scenarioCollection) {
         XrayTestEntity entity = new XrayTestEntity(TestScenarioLogCollection.Status.PENDING);
         entity.setTestKey(xrayTestAnnotation.key());
+        entity.setTestInfo(new MultipleIterationsXrayTestInfoEntityBuilder(scenarioCollection).buildTestInfo(xrayTestAnnotation));
         boolean allScenariosPassed = true;
         Date start = null;
         Date end = null;
@@ -224,7 +227,7 @@ public class XrayJsonImportBuilder {
     }
 
     private static String truncateParameterName(String parameterName) {
-        Integer maxLength = XrayConfigHelper.getIterationParameterNameMaxLength();
+        Integer maxLength = XrayConfigHelper.getTestsIterationsParametersNameMaxLength();
         if (maxLength == null || parameterName.length() <= maxLength) {
             return parameterName;
         }
@@ -232,7 +235,7 @@ public class XrayJsonImportBuilder {
     }
 
     private static String truncateParameterValue(String parameterValue) {
-        Integer maxLength = XrayConfigHelper.getIterationParameterValueMaxLength();
+        Integer maxLength = XrayConfigHelper.getTestsIterationsParametersValueMaxLength();
         if (maxLength == null || parameterValue.length() <= maxLength) {
             return parameterValue;
         }
