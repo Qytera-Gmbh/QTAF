@@ -219,7 +219,7 @@ public abstract class AbstractXrayService {
         Map<String, String> issueIds = new HashMap<>();
         List<JiraIssueResponseDto> issues = searchJiraIssues(
                 testIssueKeys,
-                AdditionalField.KEY,
+                AdditionalField.ISSUE_KEY,
                 AdditionalField.ID
         );
         issues.forEach(issue -> issueIds.put(issue.getKey(), issue.getId()));
