@@ -9,13 +9,13 @@
   "driver": {
     "name": "chrome",
     "remoteUrl": null,
-    "implicitWaitTimeout": 30,
+    "implicitWaitTimeout": 0,
     "quitAfterTesting": true,
     "screenshots": {
       "beforeScenario": true,
       "afterScenario": true,
-      "beforeStep": true,
-      "afterStep": true,
+      "beforeStep": false,
+      "afterStep": false,
       "afterStepFailure": true
     }
   },
