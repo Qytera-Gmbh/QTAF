@@ -24,12 +24,28 @@ import java.util.Map;
 public class XrayJsonImportBuilder {
 
     /**
-     * Factory method for Xray Import Execution DTO. This method creates the DTO based on a Test Suite Log Entity
-     *
-     * @param collection Test Suite Collection
-     * @return Import DTO
+     * An exception thrown when a test suite did not execute any test marked with {@link XrayTest}.
      */
-    public synchronized XrayImportRequestDto buildFromTestSuiteLogs(TestSuiteLogCollection collection) {
+    public static class NoXrayTestException extends Exception {
+        /**
+         * Constructs a new exception with a predefined error message.
+         */
+        public NoXrayTestException() {
+            super("Cannot build import execution request because no test linked to Xray was executed");
+        }
+    }
+
+    /**
+     * Factory method for building Xray import execution DTOs. This method creates {@link XrayImportRequestDto} based
+     * on a test suite collection.
+     *
+     * @param collection the test suite collection
+     * @return the import execution DTO
+     * @throws NoXrayTestException if the executed suite does not contain any tests annotated with {@link XrayTest}
+     */
+    public synchronized XrayImportRequestDto buildFromTestSuiteLogs(
+            TestSuiteLogCollection collection
+    ) throws NoXrayTestException {
         // This DTO will be sent to the Xray API
         XrayImportRequestDto xrayImportRequestDto = new XrayImportRequestDto();
 
@@ -51,7 +67,14 @@ public class XrayJsonImportBuilder {
             Map<String, List<TestScenarioLogCollection>> groupedScenarioLogs = testFeatureLogCollection.getScenariosGroupedByAbstractScenarioId();
 
             for (Map.Entry<String, List<TestScenarioLogCollection>> entry : groupedScenarioLogs.entrySet()) {
-                if (entry.getValue().size() == 1) { // The group contains only one item
+
+                // Skip test executions of tests that have not been linked to Xray issues.
+                if (entry.getValue().isEmpty() || entry.getValue().get(0).getAnnotation(XrayTest.class) == null) {
+                    continue;
+                }
+
+                // Tests that have been executed once only.
+                if (entry.getValue().size() == 1) {
                     TestScenarioLogCollection scenarioLog = entry.getValue().get(0);
 
                     // Build the xray test entity
@@ -66,7 +89,9 @@ public class XrayJsonImportBuilder {
 
                     // Add test to test collection
                     xrayImportRequestDto.addTest(xrayTestEntity);
-                } else if (entry.getValue().size() > 1) { // The group contains multiple items
+                }
+                // Tests that hav been executed more than once (e.g. data-driven).
+                else if (entry.getValue().size() > 1) {
                     XrayTestEntity xrayTestEntity = new XrayTestEntity();
 
                     // If we have multiple iterations of a test scenario we need to nullify the step parameter of the test entity,
@@ -76,9 +101,9 @@ public class XrayJsonImportBuilder {
                     // This variable will be set to false if any iteration failed
                     boolean allScenariosPassed = true;
 
-                    // Get the xray annotation if scenario has one
+                    // Get the xray annotation
                     XrayTest xrayTestAnnotation = (XrayTest) entry.getValue().get(0).getAnnotation(XrayTest.class);
-                    assert xrayTestAnnotation != null;
+
                     xrayTestEntity.setTestKey(xrayTestAnnotation.key());
 
                     synchronized (entry.getValue()) {
@@ -126,9 +151,12 @@ public class XrayJsonImportBuilder {
 
                     // Add test to test collection
                     xrayImportRequestDto.addTest(xrayTestEntity);
-                } else { // The group doesn't contain any items
                 }
             }
+        }
+
+        if (xrayImportRequestDto.getTests().isEmpty()) {
+            throw new NoXrayTestException();
         }
 
         for (XrayTestEntity xrayTestEntity : xrayImportRequestDto.getTests()) {
