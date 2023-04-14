@@ -1,5 +1,6 @@
 package de.qytera.qtaf.xray.entity;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -53,5 +54,18 @@ public class XrayTestExecutionInfoEntity {
     /**
      * The test environments for the test execution issue.
      */
+    @Getter(AccessLevel.NONE)
     private List<String> testEnvironments = new ArrayList<>();
+
+    /**
+     * Add a test environment to the list of test environments. The provided environment string is modified such that
+     * it will be displayed correctly in Xray (e.g. whitespace will be removed).
+     *
+     * @param environment a test environment
+     */
+    public void addTestEnvironment(String environment) {
+        // Xray interprets environments containing whitespace as distinct environments.
+        testEnvironments.add(environment.replaceAll("\\s+", "-").toLowerCase());
+    }
+
 }

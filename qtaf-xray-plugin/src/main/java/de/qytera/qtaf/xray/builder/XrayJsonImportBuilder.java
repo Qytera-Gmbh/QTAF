@@ -68,8 +68,8 @@ public class XrayJsonImportBuilder {
             String finishDate = isoDateString(collection.getEnd());
             entity.setFinishDate(finishDate);
         }
-        entity.getTestEnvironments().add(collection.getOsName());
-        entity.getTestEnvironments().add(collection.getDriverName());
+        entity.addTestEnvironment(collection.getOsName());
+        entity.addTestEnvironment(collection.getDriverName());
         return entity;
     }
 
