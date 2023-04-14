@@ -95,7 +95,7 @@ public class XrayJsonImportBuilder {
     }
 
     private Map<String, String> getIssueSummaries() {
-        if (Boolean.TRUE.equals(XrayConfigHelper.getResultsUploadTestsInfoUseJiraSummary())) {
+        if (Boolean.TRUE.equals(XrayConfigHelper.getResultsUploadTestsInfoKeepJiraSummary())) {
             return getIssueSummariesFromJira();
         }
         Map<String, String> issueSummaries = new HashMap<>();

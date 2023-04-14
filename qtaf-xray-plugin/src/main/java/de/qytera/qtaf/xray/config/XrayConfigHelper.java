@@ -34,7 +34,7 @@ public class XrayConfigHelper {
     public static final String RESULTS_UPLOAD_CUSTOM_STATUS_STEP_SKIPPED = "xray.resultsUpload.customStatus.step.skipped";
     public static final String RESULTS_UPLOAD_CUSTOM_STATUS_STEP_UNDEFINED = "xray.resultsUpload.customStatus.step.undefined";
     public static final String RESULTS_UPLOAD_TESTS_INFO_STEPS_UPDATE_SINGLE_ITERATION = "xray.resultsUpload.tests.info.steps.updateSingleIteration";
-    public static final String RESULTS_UPLOAD_TESTS_INFO_USE_JIRA_SUMMARY = "xray.resultsUpload.tests.info.useJiraSummary";
+    public static final String RESULTS_UPLOAD_TESTS_INFO_KEEP_JIRA_SUMMARY = "xray.resultsUpload.tests.info.keepJiraSummary";
     public static final String RESULTS_UPLOAD_TESTS_ITERATIONS_MERGE_MULTIPLE_ITERATIONS = "xray.resultsUpload.tests.iterations.mergeMultipleIterations";
     public static final String RESULTS_UPLOAD_TESTS_ITERATIONS_PARAMETERS_MAX_LENGTH_NAME = "xray.resultsUpload.tests.iterations.parameters.maxLength.name";
     public static final String RESULTS_UPLOAD_TESTS_ITERATIONS_PARAMETERS_MAX_LENGTH_VALUE = "xray.resultsUpload.tests.iterations.parameters.maxLength.value";
@@ -281,12 +281,12 @@ public class XrayConfigHelper {
     }
 
     /**
-     * Returns whether test issue summaries should be kept as is in Jira instead of replacing them using
+     * Returns whether test issue summaries should be kept as they are in Jira instead of replacing them using
      * {@link Test#testName()} during results upload.
      *
      * @return whether summaries should be kept or null if not defined
      */
-    public static Boolean getResultsUploadTestsInfoUseJiraSummary() {
-        return CONFIG.getBoolean(RESULTS_UPLOAD_TESTS_INFO_USE_JIRA_SUMMARY);
+    public static Boolean getResultsUploadTestsInfoKeepJiraSummary() {
+        return CONFIG.getBoolean(RESULTS_UPLOAD_TESTS_INFO_KEEP_JIRA_SUMMARY);
     }
 }

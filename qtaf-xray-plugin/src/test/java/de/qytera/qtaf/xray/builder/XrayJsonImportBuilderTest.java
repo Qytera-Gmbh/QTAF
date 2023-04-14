@@ -130,7 +130,7 @@ public class XrayJsonImportBuilderTest {
         TestSuiteLogCollection.getInstance().clear();
         TestFeatureLogCollection.clearIndex();
         TestScenarioLogCollection.clearIndex();
-        QtafFactory.getConfiguration().setBoolean(XrayConfigHelper.RESULTS_UPLOAD_TESTS_INFO_USE_JIRA_SUMMARY, false);
+        QtafFactory.getConfiguration().setBoolean(XrayConfigHelper.RESULTS_UPLOAD_TESTS_INFO_KEEP_JIRA_SUMMARY, false);
     }
 
     @Test
