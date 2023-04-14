@@ -212,7 +212,7 @@ public class ConfigMap extends HashMap<String, Object> {
      * Retrieves the value for the given key, interpreted as a {@link Boolean}.
      *
      * @param key the key of the value to retrieve
-     * @return the key's value or the provided default value
+     * @return the key's value or null if there is no value
      */
     public Boolean getBoolean(String key) {
         return this.getValue(key, Boolean.class);
