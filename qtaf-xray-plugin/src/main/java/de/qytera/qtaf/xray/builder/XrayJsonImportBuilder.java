@@ -31,6 +31,18 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class XrayJsonImportBuilder {
 
+    /**
+     * An exception thrown when a test suite did not execute any test marked with {@link XrayTest}.
+     */
+    public static class NoXrayTestException extends Exception {
+        /**
+         * Constructs a new exception with a predefined error message.
+         */
+        public NoXrayTestException() {
+            super("Cannot build import execution request because no test linked to Xray was executed");
+        }
+    }
+
     @NonNull
     private TestSuiteLogCollection collection;
 
@@ -44,10 +56,13 @@ public class XrayJsonImportBuilder {
      *
      * @return the execution import DTO
      */
-    public XrayImportRequestDto buildRequest() {
+    public XrayImportRequestDto buildRequest() throws NoXrayTestException {
         XrayImportRequestDto xrayImportRequestDto = new XrayImportRequestDto();
         xrayImportRequestDto.setInfo(buildTestExecutionInfoEntity());
         xrayImportRequestDto.setTests(buildTestEntities());
+        if (xrayImportRequestDto.getTests().isEmpty()) {
+            throw new NoXrayTestException();
+        }
         return xrayImportRequestDto;
     }
 

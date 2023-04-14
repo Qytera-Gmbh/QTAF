@@ -273,7 +273,7 @@ public class XrayJsonImportBuilderTest {
         scenarioCollection.addLogMessage(successfulStep("successfulStep"));
         scenarioCollection.addLogMessage(failingStep("failingStep"));
         scenarioCollection.setStatus(TestScenarioLogCollection.Status.FAILURE);
-        new XrayJsonImportBuilder().buildFromTestSuiteLogs(TestSuiteLogCollection.getInstance());
+        new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance()).buildRequest();
     }
 
     @Test(
@@ -290,7 +290,7 @@ public class XrayJsonImportBuilderTest {
         scenarioCollection.addLogMessage(successfulStep("successStep"));
         scenarioCollection.addLogMessage(failingStep("clickSomething", "path/to/something.png"));
         scenarioCollection.setStatus(TestScenarioLogCollection.Status.FAILURE);
-        new XrayJsonImportBuilder().buildFromTestSuiteLogs(TestSuiteLogCollection.getInstance());
+        new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance()).buildRequest();
     }
 
 }

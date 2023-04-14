@@ -82,11 +82,13 @@ public class UploadResultsSubscriber implements IEventSubscriber {
             XrayImportResponseDto responseDto = UPLOAD_IMPORT_COMMAND.getXrayImportResponseDto();
 
             // Log test execution key to console
+            String key = null;
             if (responseDto instanceof XrayCloudImportResponseDto xrayCloudImportResponseDto) {
-                logger.info("[QTAF Xray Plugin] Uploaded test execution. Key is " + xrayCloudImportResponseDto.getKey());
+                key = xrayCloudImportResponseDto.getKey();
             } else if (responseDto instanceof XrayServerImportResponseDto xrayServerImportResponseDto) {
-                logger.info("[QTAF Xray Plugin] Uploaded test execution. Key is " + xrayServerImportResponseDto.getTestExecIssue().getKey());
+                key = xrayServerImportResponseDto.getTestExecIssue().getKey();
             }
+            logger.info(String.format("[QTAF Xray Plugin] Uploaded test execution. Key is %s", key));
 
             // Dispatch events
             QtafXrayEvents.responseDtoAvailable.onNext(responseDto);
