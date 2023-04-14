@@ -10,11 +10,13 @@ import de.qytera.qtaf.core.log.Logger;
 import de.qytera.qtaf.core.log.model.error.ErrorLogCollection;
 import de.qytera.qtaf.xray.config.XrayConfigHelper;
 import de.qytera.qtaf.xray.dto.request.XrayImportRequestDto;
-import de.qytera.qtaf.xray.dto.request.issues.XrayIssueSearchRequestDto;
+import de.qytera.qtaf.xray.dto.request.issues.AdditionalField;
+import de.qytera.qtaf.xray.dto.request.issues.JiraIssueSearchRequestDto;
 import de.qytera.qtaf.xray.dto.response.XrayCloudImportResponseDto;
 import de.qytera.qtaf.xray.dto.response.XrayImportResponseDto;
 import de.qytera.qtaf.xray.dto.response.XrayServerImportResponseDto;
-import de.qytera.qtaf.xray.dto.response.issues.XrayIssueSearchResponseDto;
+import de.qytera.qtaf.xray.dto.response.issues.JiraIssueResponseDto;
+import de.qytera.qtaf.xray.dto.response.issues.JiraIssueSearchResponseDto;
 import de.qytera.qtaf.xray.dto.response.steps.XrayTestStepResponseDto;
 import de.qytera.qtaf.xray.events.QtafXrayEvents;
 
@@ -118,13 +120,22 @@ public abstract class AbstractXrayService {
         // Send request
         ClientResponse response = webResource
                 .type(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON_TYPE)
                 .header("Authorization", "Bearer " + getJwtToken())
                 .post(ClientResponse.class, json);
+        String responseJson = response.getEntity(String.class);
 
         // Check response
-        if (response.getStatus() == 200) {
+        if (response.getStatus() == ClientResponse.Status.OK.getStatusCode()) {
             QtafXrayEvents.uploadStatus.onNext(true);
         } else {
+            String reason = String.format(
+                    "%d %s: %s",
+                    response.getStatus(),
+                    response.getStatusInfo().getReasonPhrase(),
+                    responseJson
+            );
+            logger.error(String.format("Failed to import test execution: %s", reason));
             QtafXrayEvents.uploadStatus.onNext(false);
         }
 
@@ -132,32 +143,34 @@ public abstract class AbstractXrayService {
 
         // Create response entity
         XrayImportResponseDto responseDto = null;
-
         if (XrayConfigHelper.isXrayServerService()) {
-            responseDto = gson.fromJson(
-                    response.getEntity(String.class),
-                    XrayServerImportResponseDto.class
-            );
+            responseDto = gson.fromJson(responseJson, XrayServerImportResponseDto.class);
         } else if (XrayConfigHelper.isXrayCloudService()) {
-            responseDto = gson.fromJson(
-                    response.getEntity(String.class),
-                    XrayCloudImportResponseDto.class
-            );
+            responseDto = gson.fromJson(responseJson, XrayCloudImportResponseDto.class);
         }
-
         return responseDto;
     }
 
-    private List<XrayIssueSearchResponseDto.IssueResponseDto> searchJiraIssues(Collection<String> testIssueKeys, String... fields) {
-        List<XrayIssueSearchResponseDto.IssueResponseDto> issues = new ArrayList<>();
+    /**
+     * Searches for the given Jira issues, including any additional fields in the response if provided.
+     *
+     * @param testIssueKeys the Jira issues to search for
+     * @param fields        additional fields to include in the response
+     * @return a list of found issues
+     * @see <a href="https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-search/#api-rest-api-3-search-post">Search (Jira Cloud)</a>
+     * @see <a href="https://docs.atlassian.com/software/jira/docs/api/REST/9.7.0/#api/2/search">Search (Jira Server)</a>
+     */
+    public List<JiraIssueResponseDto> searchJiraIssues(
+            Collection<String> testIssueKeys,
+            AdditionalField... fields
+    ) {
+        List<JiraIssueResponseDto> issues = new ArrayList<>();
         // Retrieve issue data of all issues we're interested in through a JQL query.
-        XrayIssueSearchRequestDto dto = new XrayIssueSearchRequestDto();
+        JiraIssueSearchRequestDto dto = new JiraIssueSearchRequestDto();
         String jql = String.format("issue in (%s)", String.join(",", testIssueKeys));
         dto.setJql(jql);
-        dto.setFields(fields);
+        dto.setFields(Arrays.stream(fields).map(AdditionalField::getText).toArray(String[]::new));
         // For big test sets, we need to handle paginated results.
-        // See Jira Cloud: https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-search/#api-rest-api-3-search-post
-        // See Jira Server: https://docs.atlassian.com/software/jira/docs/api/REST/9.7.0/#api/2/search
         int total = Integer.MAX_VALUE;
         for (int startAt = 0; issues.size() != total; startAt = issues.size()) {
             dto.setStartAt(startAt);
@@ -169,15 +182,17 @@ public abstract class AbstractXrayService {
                     .type(MediaType.APPLICATION_JSON_TYPE)
                     .header("Authorization", authorizationHeaderJira())
                     .post(ClientResponse.class, json);
-            XrayIssueSearchResponseDto paginatedResult = GsonFactory.getInstance().fromJson(
-                    response.getEntity(String.class),
-                    XrayIssueSearchResponseDto.class
+            String responseJson = response.getEntity(String.class);
+            JiraIssueSearchResponseDto paginatedResult = GsonFactory.getInstance().fromJson(
+                    responseJson,
+                    JiraIssueSearchResponseDto.class
             );
             if (response.getStatus() != ClientResponse.Status.OK.getStatusCode()) {
                 String reason = String.format(
-                        "%d %s",
+                        "%d %s: %s",
                         response.getStatus(),
-                        response.getStatusInfo().getReasonPhrase()
+                        response.getStatusInfo().getReasonPhrase(),
+                        responseJson
                 );
                 String message = String.format(
                         "Failed to search for Jira issues using search body '%s': %s",
@@ -185,7 +200,6 @@ public abstract class AbstractXrayService {
                         reason
                 );
                 logger.error(message);
-                errorLogs.addErrorLog(new IllegalStateException(message));
                 break;
             }
             total = paginatedResult.getTotal();
@@ -203,7 +217,11 @@ public abstract class AbstractXrayService {
      */
     protected Map<String, String> getIssueIds(Collection<String> testIssueKeys) {
         Map<String, String> issueIds = new HashMap<>();
-        List<XrayIssueSearchResponseDto.IssueResponseDto> issues = searchJiraIssues(testIssueKeys, "key", "id");
+        List<JiraIssueResponseDto> issues = searchJiraIssues(
+                testIssueKeys,
+                AdditionalField.KEY,
+                AdditionalField.ID
+        );
         issues.forEach(issue -> issueIds.put(issue.getKey(), issue.getId()));
         return issueIds;
     }

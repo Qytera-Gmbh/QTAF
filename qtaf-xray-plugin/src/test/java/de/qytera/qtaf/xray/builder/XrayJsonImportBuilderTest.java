@@ -130,6 +130,7 @@ public class XrayJsonImportBuilderTest {
         TestSuiteLogCollection.getInstance().clear();
         TestFeatureLogCollection.clearIndex();
         TestScenarioLogCollection.clearIndex();
+        QtafFactory.getConfiguration().setBoolean(XrayConfigHelper.RESULTS_UPLOAD_TESTS_INFO_USE_JIRA_SUMMARY, false);
     }
 
     @Test
@@ -265,7 +266,7 @@ public class XrayJsonImportBuilderTest {
                     XrayJsonImportBuilder.NoXrayTestException.class
             }
     )
-    public void testSuiteWithoutXrayTest() throws XrayJsonImportBuilder.NoXrayTestException {
+    public void testSuiteWithoutXrayTestSingleIterations() throws XrayJsonImportBuilder.NoXrayTestException {
         TestScenarioLogCollection scenarioCollection = scenarioWithoutAnnotation(1, "feature-generic");
         scenarioCollection.addLogMessage(successfulStep("doWhatever"));
         scenarioCollection.addLogMessage(failingStep("clickSomething", "path/to/something.png", "path/to/whatever.png"));
@@ -282,7 +283,7 @@ public class XrayJsonImportBuilderTest {
                     XrayJsonImportBuilder.NoXrayTestException.class
             }
     )
-    public void testSuiteWithMissingXrayTest() throws XrayJsonImportBuilder.NoXrayTestException {
+    public void testSuiteWithoutXrayTestMultipleIterations() throws XrayJsonImportBuilder.NoXrayTestException {
         TestScenarioLogCollection scenarioCollection = scenarioWithoutAnnotation(1, "feature-iterated");
         scenarioCollection.addLogMessage(successfulStep("doWhatever"));
         scenarioCollection.addLogMessage(failingStep("clickSomething", "path/to/something.png", "path/to/whatever.png"));

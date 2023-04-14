@@ -1,6 +1,5 @@
 package de.qytera.qtaf.xray.dto.response.issues;
 
-import com.google.gson.JsonObject;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,19 +11,10 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class XrayIssueSearchResponseDto {
+public class JiraIssueSearchResponseDto {
 
     private Integer total;
     private Integer startAt;
-    private IssueResponseDto[] issues;
+    private JiraIssueResponseDto[] issues;
 
-    @Getter
-    @Setter
-    public static class IssueResponseDto {
-        private String id;
-        private String key;
-        private String self;
-        private String expand;
-        private JsonObject fields;
-    }
 }

@@ -1,7 +1,6 @@
 package de.qytera.qtaf.xray.entity;
 
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.Setter;
 
 /**
@@ -19,14 +18,13 @@ public class XrayTestInfoEntityServer extends XrayTestInfoEntity {
     /**
      * The test type (e.g. Manual, Cucumber, Generic).
      */
-    @NonNull
-    private String testType;
+    private final String testType;
     /**
      * The BDD scenario type (Scenario or Scenario Outline).
      */
     private String scenarioType;
 
-    public XrayTestInfoEntityServer(@NonNull String summary, @NonNull String projectKey, @NonNull String testType) {
+    public XrayTestInfoEntityServer(String summary, String projectKey, String testType) {
         super(summary, projectKey);
         this.testType = testType;
     }

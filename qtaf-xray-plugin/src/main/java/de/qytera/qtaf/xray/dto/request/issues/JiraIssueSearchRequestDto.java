@@ -11,14 +11,11 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class XrayIssueSearchRequestDto {
+public class JiraIssueSearchRequestDto {
 
     private String jql;
-
     private Integer startAt;
-
     private Integer maxResults;
-
     private String[] fields;
 
 }

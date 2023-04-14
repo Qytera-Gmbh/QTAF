@@ -3,7 +3,6 @@ package de.qytera.qtaf.xray.entity;
 import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
 import de.qytera.qtaf.xray.config.XrayStatusHelper;
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.Setter;
 
 import java.util.ArrayList;
@@ -49,8 +48,7 @@ public class XrayTestEntity {
     /**
      * The test run status (PASS, FAIL, EXECUTING, TO DO, custom statuses ...).
      */
-    @NonNull
-    private String status;
+    private final String status;
     /**
      * The step results.
      */
@@ -76,16 +74,7 @@ public class XrayTestEntity {
      */
     private List<XrayCustomFieldEntity> customFields = new ArrayList<>();
 
-    public XrayTestEntity(@NonNull TestScenarioLogCollection.Status status) {
-        this.status = XrayStatusHelper.statusToText(status);
-    }
-
-    /**
-     * Set the status of the test.
-     *
-     * @param status the test status
-     */
-    public void setStatus(@NonNull TestScenarioLogCollection.Status status) {
+    public XrayTestEntity(TestScenarioLogCollection.Status status) {
         this.status = XrayStatusHelper.statusToText(status);
     }
 

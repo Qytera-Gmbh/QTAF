@@ -2,7 +2,6 @@ package de.qytera.qtaf.xray.entity;
 
 import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.Setter;
 
 /**
@@ -26,7 +25,7 @@ public class XrayIterationResultEntityCloud extends XrayIterationResultEntity {
      */
     private String duration;
 
-    public XrayIterationResultEntityCloud(@NonNull TestScenarioLogCollection.Status status) {
+    public XrayIterationResultEntityCloud(TestScenarioLogCollection.Status status) {
         super(status);
     }
 

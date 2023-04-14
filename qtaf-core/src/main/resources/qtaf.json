@@ -60,6 +60,7 @@
       },
       "tests": {
         "info": {
+          "useJiraSummary": false,
           "steps": {
             "updateSingleIteration": false
           }

@@ -2,6 +2,7 @@ package de.qytera.qtaf.xray.config;
 
 import de.qytera.qtaf.core.QtafFactory;
 import de.qytera.qtaf.core.config.entity.ConfigMap;
+import org.testng.annotations.Test;
 
 /**
  * Xray configuration helper
@@ -32,10 +33,11 @@ public class XrayConfigHelper {
     public static final String RESULTS_UPLOAD_CUSTOM_STATUS_STEP_PENDING = "xray.resultsUpload.customStatus.step.pending";
     public static final String RESULTS_UPLOAD_CUSTOM_STATUS_STEP_SKIPPED = "xray.resultsUpload.customStatus.step.skipped";
     public static final String RESULTS_UPLOAD_CUSTOM_STATUS_STEP_UNDEFINED = "xray.resultsUpload.customStatus.step.undefined";
+    public static final String RESULTS_UPLOAD_TESTS_INFO_STEPS_UPDATE_SINGLE_ITERATION = "xray.resultsUpload.tests.info.steps.updateSingleIteration";
+    public static final String RESULTS_UPLOAD_TESTS_INFO_USE_JIRA_SUMMARY = "xray.resultsUpload.tests.info.useJiraSummary";
+    public static final String RESULTS_UPLOAD_TESTS_ITERATIONS_MERGE_MULTIPLE_ITERATIONS = "xray.resultsUpload.tests.iterations.mergeMultipleIterations";
     public static final String RESULTS_UPLOAD_TESTS_ITERATIONS_PARAMETERS_MAX_LENGTH_NAME = "xray.resultsUpload.tests.iterations.parameters.maxLength.name";
     public static final String RESULTS_UPLOAD_TESTS_ITERATIONS_PARAMETERS_MAX_LENGTH_VALUE = "xray.resultsUpload.tests.iterations.parameters.maxLength.value";
-    public static final String RESULTS_UPLOAD_TESTS_INFO_STEPS_UPDATE_SINGLE_ITERATION = "xray.resultsUpload.tests.info.steps.updateSingleIteration";
-    public static final String RESULTS_UPLOAD_TESTS_ITERATIONS_MERGE_MULTIPLE_ITERATIONS = "xray.resultsUpload.tests.iterations.mergeMultipleIterations";
 
     private XrayConfigHelper() {
         // Hide constructor.
@@ -276,5 +278,15 @@ public class XrayConfigHelper {
      */
     public static Boolean getResultsUploadTestsIterationsMergeMultipleIterations() {
         return CONFIG.getBoolean(RESULTS_UPLOAD_TESTS_ITERATIONS_MERGE_MULTIPLE_ITERATIONS);
+    }
+
+    /**
+     * Returns whether test issue summaries should be kept as is in Jira instead of replacing them using
+     * {@link Test#testName()} during results upload.
+     *
+     * @return whether summaries should be kept or null if not defined
+     */
+    public static Boolean getResultsUploadTestsInfoUseJiraSummary() {
+        return CONFIG.getBoolean(RESULTS_UPLOAD_TESTS_INFO_USE_JIRA_SUMMARY);
     }
 }

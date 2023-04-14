@@ -13,10 +13,7 @@ import lombok.NonNull;
 import org.apache.logging.log4j.util.Strings;
 import org.apache.logging.log4j.util.Supplier;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -25,8 +22,11 @@ import java.util.stream.IntStream;
  */
 class MultipleIterationsXrayTestEntityBuilder extends XrayTestEntityBuilder {
 
-    protected MultipleIterationsXrayTestEntityBuilder(@NonNull TestSuiteLogCollection collection) {
-        super(collection);
+    protected MultipleIterationsXrayTestEntityBuilder(
+            @NonNull TestSuiteLogCollection collection,
+            @NonNull Map<String, String> issueSummaries
+    ) {
+        super(collection, issueSummaries);
     }
 
     @Override
@@ -59,9 +59,9 @@ class MultipleIterationsXrayTestEntityBuilder extends XrayTestEntityBuilder {
         if (Boolean.TRUE.equals(XrayConfigHelper.getResultsUploadTestsIterationsMergeMultipleIterations())) {
             String projectKey = xrayTest.key().substring(0, xrayTest.key().indexOf("-"));
             if (XrayConfigHelper.isXrayCloudService()) {
-                entity = new XrayTestInfoEntityCloud("", projectKey, "Manual");
+                entity = new XrayTestInfoEntityCloud(issueSummaries.get(xrayTest.key()), projectKey, "Manual");
             } else {
-                entity = new XrayTestInfoEntityServer("", projectKey, "Manual");
+                entity = new XrayTestInfoEntityServer(issueSummaries.get(xrayTest.key()), projectKey, "Manual");
             }
             List<String> linesAction = new ArrayList<>();
             List<String> linesData = new ArrayList<>();
@@ -69,8 +69,7 @@ class MultipleIterationsXrayTestEntityBuilder extends XrayTestEntityBuilder {
             for (int i = 0; i < scenarioLogs.size(); i++) {
                 addScenarioLogMessages(scenarioLogs, i, linesAction, linesData, linesResults);
             }
-            XrayTestStepEntity mergedStep = new XrayTestStepEntity(projectKey);
-            mergedStep.setAction(Strings.join(linesAction, '\n'));
+            XrayTestStepEntity mergedStep = new XrayTestStepEntity(Strings.join(linesAction, '\n'));
             mergedStep.setData(Strings.join(linesData, '\n'));
             mergedStep.setResult(Strings.join(linesResults, '\n'));
             entity.getSteps().add(mergedStep);

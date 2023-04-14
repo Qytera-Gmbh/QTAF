@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -37,21 +38,33 @@ public abstract class XrayTestEntityBuilder {
     protected final ScenarioReportCreator reportCreator = new ScenarioReportCreator();
 
     /**
+     * A mapping of test issue keys to their summaries.
+     */
+    @NonNull
+    protected Map<String, String> issueSummaries;
+
+    /**
      * Builds a test entity for an executed test. Returns {@code null} in case the executed scenario was not linked to
      * an Xray issue via {@link XrayTest} or if the plugin configuration prevents QTAF from doing so.
      *
-     * @param scenarioLogs the scenario logs to transform into an {@link XrayTestEntity}
+     * @param collection     the test suite collection used for retrieving HTML report data
+     * @param issueSummaries a mapping of test issue keys to issue summaries to use during upload
+     * @param scenarioLogs   the scenario logs to transform into an {@link XrayTestEntity}
      * @return the test entity
      */
-    public static XrayTestEntity buildFrom(TestSuiteLogCollection collection, List<TestScenarioLogCollection> scenarioLogs) {
+    public static XrayTestEntity buildFrom(
+            TestSuiteLogCollection collection,
+            Map<String, String> issueSummaries,
+            List<TestScenarioLogCollection> scenarioLogs
+    ) {
         if (scenarioLogs.isEmpty()) {
             throw new IllegalArgumentException("Cannot build Xray test entity without any scenario log");
         }
         XrayTestEntityBuilder builder;
         if (scenarioLogs.size() == 1) {
-            builder = new SingleIterationXrayTestEntityBuilder(collection);
+            builder = new SingleIterationXrayTestEntityBuilder(collection, issueSummaries);
         } else {
-            builder = new MultipleIterationsXrayTestEntityBuilder(collection);
+            builder = new MultipleIterationsXrayTestEntityBuilder(collection, issueSummaries);
         }
         return builder.buildTestEntity(scenarioLogs);
     }

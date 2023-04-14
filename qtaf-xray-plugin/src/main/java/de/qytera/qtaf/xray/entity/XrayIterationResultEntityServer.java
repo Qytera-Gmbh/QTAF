@@ -2,7 +2,6 @@ package de.qytera.qtaf.xray.entity;
 
 import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.Setter;
 
 /**
@@ -17,7 +16,7 @@ public class XrayIterationResultEntityServer extends XrayIterationResultEntity {
     // Empty because Xray Server does not add any additional or distinct fields in contrast to Xray Cloud.
     // Nonetheless, keeping the abstract super class feels like the right thing to do.
 
-    public XrayIterationResultEntityServer(@NonNull TestScenarioLogCollection.Status status) {
+    public XrayIterationResultEntityServer(TestScenarioLogCollection.Status status) {
         super(status);
     }
 

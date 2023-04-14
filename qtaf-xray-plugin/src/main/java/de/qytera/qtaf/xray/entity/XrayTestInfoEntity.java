@@ -1,6 +1,9 @@
 package de.qytera.qtaf.xray.entity;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,13 +21,11 @@ public abstract class XrayTestInfoEntity {
     /**
      * The summary for the test issue.
      */
-    @NonNull
-    private String summary;
+    private final String summary;
     /**
      * The project key where the test issue will be created.
      */
-    @NonNull
-    private String projectKey;
+    private final String projectKey;
     /**
      * An array of requirement issue keys to associate with the test.
      */

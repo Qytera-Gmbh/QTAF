@@ -12,14 +12,18 @@ import lombok.NonNull;
 
 import java.io.Writer;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Builds {@link XrayTestEntity} objects for single test iterations.
  */
 class SingleIterationXrayTestEntityBuilder extends XrayTestEntityBuilder {
 
-    protected SingleIterationXrayTestEntityBuilder(@NonNull TestSuiteLogCollection collection) {
-        super(collection);
+    protected SingleIterationXrayTestEntityBuilder(
+            @NonNull TestSuiteLogCollection collection,
+            @NonNull Map<String, String> issueSummaries
+    ) {
+        super(collection, issueSummaries);
     }
 
     @Override
@@ -69,9 +73,9 @@ class SingleIterationXrayTestEntityBuilder extends XrayTestEntityBuilder {
         if (Boolean.TRUE.equals(XrayConfigHelper.getResultsUploadTestsInfoStepsUpdateSingleIteration())) {
             String projectKey = xrayTest.key().substring(0, xrayTest.key().indexOf("-"));
             if (XrayConfigHelper.isXrayCloudService()) {
-                entity = new XrayTestInfoEntityCloud("", projectKey, "Manual");
+                entity = new XrayTestInfoEntityCloud(issueSummaries.get(xrayTest.key()), projectKey, "Manual");
             } else {
-                entity = new XrayTestInfoEntityServer("", projectKey, "Manual");
+                entity = new XrayTestInfoEntityServer(issueSummaries.get(xrayTest.key()), projectKey, "Manual");
             }
             for (LogMessage logMessage : scenarioLogs.get(0).getLogMessages()) {
                 if (logMessage instanceof StepInformationLogMessage stepLog) {

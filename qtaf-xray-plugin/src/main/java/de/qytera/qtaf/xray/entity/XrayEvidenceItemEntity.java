@@ -23,13 +23,11 @@ public class XrayEvidenceItemEntity {
     /**
      * The attachment data encoded in <b>base64</b>.
      */
-    @NonNull
-    private String data;
+    private final String data;
     /**
      * The file name for the attachment.
      */
-    @NonNull
-    private String filename;
+    private final String filename;
     /**
      * The Content-Type representation header is used to indicate the original media type of the resource.
      */

@@ -1,7 +1,6 @@
 package de.qytera.qtaf.xray.entity;
 
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
@@ -18,8 +17,7 @@ public class XrayTestStepEntity {
     /**
      * The step action - native field.
      */
-    @NonNull
-    private String action;
+    private final String action;
     /**
      * The step data - native field.
      */
