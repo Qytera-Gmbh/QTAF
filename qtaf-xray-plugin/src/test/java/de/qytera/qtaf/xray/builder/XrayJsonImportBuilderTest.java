@@ -135,7 +135,7 @@ public class XrayJsonImportBuilderTest {
     @Test
     public void testLongParameterValueTruncation() throws XrayJsonImportBuilder.NoXrayTestException {
         ConfigMap configMap = QtafFactory.getConfiguration();
-        configMap.setInt(XrayConfigHelper.RESULTS_TESTS_ITERATIONS_PARAMETERS_MAX_LENGTH_VALUE, 3);
+        configMap.setInt(XrayConfigHelper.RESULTS_UPLOAD_TESTS_ITERATIONS_PARAMETERS_MAX_LENGTH_VALUE, 3);
 
         TestScenarioLogCollection scenarioCollection = scenario(0, "feature-x");
         scenarioCollection.addParameters(new String[]{
@@ -315,7 +315,7 @@ public class XrayJsonImportBuilderTest {
         step.addStepParameter("complex", complexParameter);
         scenarioCollection.addLogMessage(step);
         scenarioCollection.setStatus(TestScenarioLogCollection.Status.FAILURE);
-        ConfigurationFactory.getInstance().setBoolean(XrayConfigHelper.RESULTS_TESTS_INFO_STEPS_UPDATE_ON_SINGLE_ITERATION, true);
+        ConfigurationFactory.getInstance().setBoolean(XrayConfigHelper.RESULTS_UPLOAD_TESTS_INFO_STEPS_UPDATE_SINGLE_ITERATION, true);
         XrayImportRequestDto dto = new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance()).buildRequest();
         Assert.assertEquals(dto.getTests().size(), 1);
         List<XrayTestStepEntity> steps = dto.getTests().get(0).getTestInfo().getSteps();
@@ -360,7 +360,7 @@ public class XrayJsonImportBuilderTest {
         step.addStepParameter("array", new String[]{"knock", "knock", "who's", "there?"});
         scenarioCollection.addLogMessage(step);
         scenarioCollection.setStatus(TestScenarioLogCollection.Status.SUCCESS);
-        ConfigurationFactory.getInstance().setBoolean(XrayConfigHelper.RESULTS_TESTS_INFO_STEPS_MERGE_ON_MULTIPLE_ITERATIONS, true);
+        ConfigurationFactory.getInstance().setBoolean(XrayConfigHelper.RESULTS_UPLOAD_TESTS_ITERATIONS_MERGE_MULTIPLE_ITERATIONS, true);
         XrayImportRequestDto dto = new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance()).buildRequest();
         Assert.assertEquals(dto.getTests().size(), 1);
         Assert.assertEquals(dto.getTests().get(0).getTestInfo().getSteps().size(), 1);

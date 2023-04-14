@@ -23,19 +23,19 @@ public class XrayConfigHelper {
     public static final String AUTHENTICATION_JIRA_API_TOKEN = "xray.authentication.jira.apiToken";
     private static String SCENARIO_REPORT_EVIDENCE = "xray.scenarioReportEvidence";
     private static String SCENARIO_IMAGE_EVIDENCE = "xray.scenarioImageEvidence";
-    public static final String STATUS_TEST_PASSED_SELECTOR = "xray.status.test.passed";
-    public static final String STATUS_TEST_FAILED_SELECTOR = "xray.status.test.failed";
-    public static final String STATUS_TEST_PENDING_SELECTOR = "xray.status.test.pending";
-    public static final String STATUS_TEST_SKIPPED_SELECTOR = "xray.status.test.skipped";
-    public static final String STATUS_STEP_PASSED_SELECTOR = "xray.status.step.passed";
-    public static final String STATUS_STEP_FAILED_SELECTOR = "xray.status.step.failed";
-    public static final String STATUS_STEP_PENDING_SELECTOR = "xray.status.step.pending";
-    public static final String STATUS_STEP_SKIPPED_SELECTOR = "xray.status.step.skipped";
-    public static final String STATUS_STEP_UNDEFINED_SELECTOR = "xray.status.step.undefined";
-    public static final String RESULTS_TESTS_ITERATIONS_PARAMETERS_MAX_LENGTH_NAME = "xray.results.tests.iterations.parameters.maxLength.name";
-    public static final String RESULTS_TESTS_ITERATIONS_PARAMETERS_MAX_LENGTH_VALUE = "xray.results.tests.iterations.parameters.maxLength.value";
-    public static final String RESULTS_TESTS_INFO_STEPS_UPDATE_ON_SINGLE_ITERATION = "xray.results.tests.info.steps.updateOnSingleIteration";
-    public static final String RESULTS_TESTS_INFO_STEPS_MERGE_ON_MULTIPLE_ITERATIONS = "xray.results.tests.info.steps.mergeOnMultipleIterations";
+    public static final String RESULTS_UPLOAD_CUSTOM_STATUS_TEST_PASSED = "xray.resultsUpload.customStatus.test.passed";
+    public static final String RESULTS_UPLOAD_CUSTOM_STATUS_TEST_FAILED = "xray.resultsUpload.customStatus.test.failed";
+    public static final String RESULTS_UPLOAD_CUSTOM_STATUS_TEST_PENDING = "xray.resultsUpload.customStatus.test.pending";
+    public static final String RESULTS_UPLOAD_CUSTOM_STATUS_TEST_SKIPPED = "xray.resultsUpload.customStatus.test.skipped";
+    public static final String RESULTS_UPLOAD_CUSTOM_STATUS_STEP_PASSED = "xray.resultsUpload.customStatus.step.passed";
+    public static final String RESULTS_UPLOAD_CUSTOM_STATUS_STEP_FAILED = "xray.resultsUpload.customStatus.step.failed";
+    public static final String RESULTS_UPLOAD_CUSTOM_STATUS_STEP_PENDING = "xray.resultsUpload.customStatus.step.pending";
+    public static final String RESULTS_UPLOAD_CUSTOM_STATUS_STEP_SKIPPED = "xray.resultsUpload.customStatus.step.skipped";
+    public static final String RESULTS_UPLOAD_CUSTOM_STATUS_STEP_UNDEFINED = "xray.resultsUpload.customStatus.step.undefined";
+    public static final String RESULTS_UPLOAD_TESTS_ITERATIONS_PARAMETERS_MAX_LENGTH_NAME = "xray.resultsUpload.tests.iterations.parameters.maxLength.name";
+    public static final String RESULTS_UPLOAD_TESTS_ITERATIONS_PARAMETERS_MAX_LENGTH_VALUE = "xray.resultsUpload.tests.iterations.parameters.maxLength.value";
+    public static final String RESULTS_UPLOAD_TESTS_INFO_STEPS_UPDATE_SINGLE_ITERATION = "xray.resultsUpload.tests.info.steps.updateSingleIteration";
+    public static final String RESULTS_UPLOAD_TESTS_ITERATIONS_MERGE_MULTIPLE_ITERATIONS = "xray.resultsUpload.tests.iterations.mergeMultipleIterations";
 
     private XrayConfigHelper() {
         // Hide constructor.
@@ -114,7 +114,7 @@ public class XrayConfigHelper {
      * @return the status name if configured, otherwise null
      */
     public static String getTestStatusPassed() {
-        return CONFIG.getString(STATUS_TEST_PASSED_SELECTOR);
+        return CONFIG.getString(RESULTS_UPLOAD_CUSTOM_STATUS_TEST_PASSED);
     }
 
     /**
@@ -123,7 +123,7 @@ public class XrayConfigHelper {
      * @return the status name if configured, otherwise null
      */
     public static String getTestStatusFailed() {
-        return CONFIG.getString(STATUS_TEST_FAILED_SELECTOR);
+        return CONFIG.getString(RESULTS_UPLOAD_CUSTOM_STATUS_TEST_FAILED);
     }
 
     /**
@@ -132,7 +132,7 @@ public class XrayConfigHelper {
      * @return the status name if configured, otherwise null
      */
     public static String getTestStatusPending() {
-        return CONFIG.getString(STATUS_TEST_PENDING_SELECTOR);
+        return CONFIG.getString(RESULTS_UPLOAD_CUSTOM_STATUS_TEST_PENDING);
     }
 
     /**
@@ -141,7 +141,7 @@ public class XrayConfigHelper {
      * @return the status name if configured, otherwise null
      */
     public static String getTestStatusSkipped() {
-        return CONFIG.getString(STATUS_TEST_SKIPPED_SELECTOR);
+        return CONFIG.getString(RESULTS_UPLOAD_CUSTOM_STATUS_TEST_SKIPPED);
     }
 
     /**
@@ -150,7 +150,7 @@ public class XrayConfigHelper {
      * @return the status name if configured, otherwise null
      */
     public static String getStepStatusPassed() {
-        return CONFIG.getString(STATUS_STEP_PASSED_SELECTOR);
+        return CONFIG.getString(RESULTS_UPLOAD_CUSTOM_STATUS_STEP_PASSED);
     }
 
     /**
@@ -159,7 +159,7 @@ public class XrayConfigHelper {
      * @return the status name if configured, otherwise null
      */
     public static String getStepStatusFailed() {
-        return CONFIG.getString(STATUS_STEP_FAILED_SELECTOR);
+        return CONFIG.getString(RESULTS_UPLOAD_CUSTOM_STATUS_STEP_FAILED);
     }
 
     /**
@@ -168,7 +168,7 @@ public class XrayConfigHelper {
      * @return the status name if configured, otherwise null
      */
     public static String getStepStatusPending() {
-        return CONFIG.getString(STATUS_STEP_PENDING_SELECTOR);
+        return CONFIG.getString(RESULTS_UPLOAD_CUSTOM_STATUS_STEP_PENDING);
     }
 
     /**
@@ -177,7 +177,7 @@ public class XrayConfigHelper {
      * @return the status name if configured, otherwise null
      */
     public static String getStepStatusSkipped() {
-        return CONFIG.getString(STATUS_STEP_SKIPPED_SELECTOR);
+        return CONFIG.getString(RESULTS_UPLOAD_CUSTOM_STATUS_STEP_SKIPPED);
     }
 
     /**
@@ -186,7 +186,7 @@ public class XrayConfigHelper {
      * @return the status name if configured, otherwise null
      */
     public static String getStepStatusUndefined() {
-        return CONFIG.getString(STATUS_STEP_UNDEFINED_SELECTOR);
+        return CONFIG.getString(RESULTS_UPLOAD_CUSTOM_STATUS_STEP_UNDEFINED);
     }
 
     /**
@@ -246,7 +246,7 @@ public class XrayConfigHelper {
      * @return the maximum length or null if there is no maximum length
      */
     public static Integer getTestsIterationsParametersNameMaxLength() {
-        return CONFIG.getInt(RESULTS_TESTS_ITERATIONS_PARAMETERS_MAX_LENGTH_NAME);
+        return CONFIG.getInt(RESULTS_UPLOAD_TESTS_ITERATIONS_PARAMETERS_MAX_LENGTH_NAME);
     }
 
     /**
@@ -255,7 +255,7 @@ public class XrayConfigHelper {
      * @return the maximum length or null if there is no maximum length
      */
     public static Integer getTestsIterationsParametersValueMaxLength() {
-        return CONFIG.getInt(RESULTS_TESTS_ITERATIONS_PARAMETERS_MAX_LENGTH_VALUE);
+        return CONFIG.getInt(RESULTS_UPLOAD_TESTS_ITERATIONS_PARAMETERS_MAX_LENGTH_VALUE);
     }
 
     /**
@@ -264,8 +264,8 @@ public class XrayConfigHelper {
      *
      * @return whether they should be updated or null if not defined
      */
-    public static Boolean getResultsTestsInfoStepsUpdateOnSingleIteration() {
-        return CONFIG.getBoolean(RESULTS_TESTS_INFO_STEPS_UPDATE_ON_SINGLE_ITERATION);
+    public static Boolean getResultsUploadTestsInfoStepsUpdateSingleIteration() {
+        return CONFIG.getBoolean(RESULTS_UPLOAD_TESTS_INFO_STEPS_UPDATE_SINGLE_ITERATION);
     }
 
     /**
@@ -274,7 +274,7 @@ public class XrayConfigHelper {
      *
      * @return whether they should be updated or null if not defined
      */
-    public static Boolean getResultsTestsInfoStepsMergeOnMultipleIterations() {
-        return CONFIG.getBoolean(RESULTS_TESTS_INFO_STEPS_MERGE_ON_MULTIPLE_ITERATIONS);
+    public static Boolean getResultsUploadTestsIterationsMergeMultipleIterations() {
+        return CONFIG.getBoolean(RESULTS_UPLOAD_TESTS_ITERATIONS_MERGE_MULTIPLE_ITERATIONS);
     }
 }

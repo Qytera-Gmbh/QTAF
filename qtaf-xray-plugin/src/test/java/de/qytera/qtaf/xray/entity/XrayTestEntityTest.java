@@ -14,10 +14,10 @@ public class XrayTestEntityTest {
     public void clearConfigMap() {
         ConfigMap configMap = QtafFactory.getConfiguration();
         configMap.remove(XrayConfigHelper.XRAY_SERVICE_SELECTOR);
-        configMap.remove(XrayConfigHelper.STATUS_TEST_PASSED_SELECTOR);
-        configMap.remove(XrayConfigHelper.STATUS_TEST_FAILED_SELECTOR);
-        configMap.remove(XrayConfigHelper.STATUS_TEST_PENDING_SELECTOR);
-        configMap.remove(XrayConfigHelper.STATUS_TEST_SKIPPED_SELECTOR);
+        configMap.remove(XrayConfigHelper.RESULTS_UPLOAD_CUSTOM_STATUS_TEST_PASSED);
+        configMap.remove(XrayConfigHelper.RESULTS_UPLOAD_CUSTOM_STATUS_TEST_FAILED);
+        configMap.remove(XrayConfigHelper.RESULTS_UPLOAD_CUSTOM_STATUS_TEST_PENDING);
+        configMap.remove(XrayConfigHelper.RESULTS_UPLOAD_CUSTOM_STATUS_TEST_SKIPPED);
     }
 
     @Test
@@ -51,10 +51,10 @@ public class XrayTestEntityTest {
     @Test
     public void testStatusCustom() {
         ConfigMap configMap = QtafFactory.getConfiguration();
-        configMap.setString(XrayConfigHelper.STATUS_TEST_PASSED_SELECTOR, "SUCCESS");
-        configMap.setString(XrayConfigHelper.STATUS_TEST_FAILED_SELECTOR, "FAILURE");
-        configMap.setString(XrayConfigHelper.STATUS_TEST_PENDING_SELECTOR, "PENDING");
-        configMap.setString(XrayConfigHelper.STATUS_TEST_SKIPPED_SELECTOR, "SKIPPED");
+        configMap.setString(XrayConfigHelper.RESULTS_UPLOAD_CUSTOM_STATUS_TEST_PASSED, "SUCCESS");
+        configMap.setString(XrayConfigHelper.RESULTS_UPLOAD_CUSTOM_STATUS_TEST_FAILED, "FAILURE");
+        configMap.setString(XrayConfigHelper.RESULTS_UPLOAD_CUSTOM_STATUS_TEST_PENDING, "PENDING");
+        configMap.setString(XrayConfigHelper.RESULTS_UPLOAD_CUSTOM_STATUS_TEST_SKIPPED, "SKIPPED");
         XrayTestEntity entity = new XrayTestEntity(TestScenarioLogCollection.Status.SUCCESS);
         Assert.assertEquals(entity.getStatus(), "SUCCESS");
         entity.setStatus(TestScenarioLogCollection.Status.FAILURE);

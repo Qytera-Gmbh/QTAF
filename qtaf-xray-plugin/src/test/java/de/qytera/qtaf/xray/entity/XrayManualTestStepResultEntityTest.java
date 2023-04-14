@@ -14,11 +14,11 @@ public class XrayManualTestStepResultEntityTest {
     public void clearConfigMap() {
         ConfigMap configMap = QtafFactory.getConfiguration();
         configMap.remove(XrayConfigHelper.XRAY_SERVICE_SELECTOR);
-        configMap.remove(XrayConfigHelper.STATUS_STEP_PASSED_SELECTOR);
-        configMap.remove(XrayConfigHelper.STATUS_STEP_FAILED_SELECTOR);
-        configMap.remove(XrayConfigHelper.STATUS_STEP_PENDING_SELECTOR);
-        configMap.remove(XrayConfigHelper.STATUS_STEP_SKIPPED_SELECTOR);
-        configMap.remove(XrayConfigHelper.STATUS_STEP_UNDEFINED_SELECTOR);
+        configMap.remove(XrayConfigHelper.RESULTS_UPLOAD_CUSTOM_STATUS_STEP_PASSED);
+        configMap.remove(XrayConfigHelper.RESULTS_UPLOAD_CUSTOM_STATUS_STEP_FAILED);
+        configMap.remove(XrayConfigHelper.RESULTS_UPLOAD_CUSTOM_STATUS_STEP_PENDING);
+        configMap.remove(XrayConfigHelper.RESULTS_UPLOAD_CUSTOM_STATUS_STEP_SKIPPED);
+        configMap.remove(XrayConfigHelper.RESULTS_UPLOAD_CUSTOM_STATUS_STEP_UNDEFINED);
     }
 
     @Test
@@ -56,11 +56,11 @@ public class XrayManualTestStepResultEntityTest {
     @Test
     public void testStatusCustomCloud() {
         ConfigMap configMap = QtafFactory.getConfiguration();
-        configMap.setString(XrayConfigHelper.STATUS_STEP_PASSED_SELECTOR, "SUCCESS");
-        configMap.setString(XrayConfigHelper.STATUS_STEP_FAILED_SELECTOR, "FAILURE");
-        configMap.setString(XrayConfigHelper.STATUS_STEP_PENDING_SELECTOR, "PENDING");
-        configMap.setString(XrayConfigHelper.STATUS_STEP_SKIPPED_SELECTOR, "SKIPPED");
-        configMap.setString(XrayConfigHelper.STATUS_STEP_UNDEFINED_SELECTOR, "UNDEFINED");
+        configMap.setString(XrayConfigHelper.RESULTS_UPLOAD_CUSTOM_STATUS_STEP_PASSED, "SUCCESS");
+        configMap.setString(XrayConfigHelper.RESULTS_UPLOAD_CUSTOM_STATUS_STEP_FAILED, "FAILURE");
+        configMap.setString(XrayConfigHelper.RESULTS_UPLOAD_CUSTOM_STATUS_STEP_PENDING, "PENDING");
+        configMap.setString(XrayConfigHelper.RESULTS_UPLOAD_CUSTOM_STATUS_STEP_SKIPPED, "SKIPPED");
+        configMap.setString(XrayConfigHelper.RESULTS_UPLOAD_CUSTOM_STATUS_STEP_UNDEFINED, "UNDEFINED");
         configMap.setString(XrayConfigHelper.XRAY_SERVICE_SELECTOR, "cloud");
         XrayManualTestStepResultEntity entity = new XrayManualTestStepResultEntityCloud(StepInformationLogMessage.Status.PASS);
         Assert.assertEquals(entity.getStatus(), "SUCCESS");
@@ -77,11 +77,11 @@ public class XrayManualTestStepResultEntityTest {
     @Test
     public void testStatusCustomServer() {
         ConfigMap configMap = QtafFactory.getConfiguration();
-        configMap.setString(XrayConfigHelper.STATUS_STEP_PASSED_SELECTOR, "SUCCESS");
-        configMap.setString(XrayConfigHelper.STATUS_STEP_FAILED_SELECTOR, "FAILURE");
-        configMap.setString(XrayConfigHelper.STATUS_STEP_PENDING_SELECTOR, "PENDING");
-        configMap.setString(XrayConfigHelper.STATUS_STEP_SKIPPED_SELECTOR, "SKIPPED");
-        configMap.setString(XrayConfigHelper.STATUS_STEP_UNDEFINED_SELECTOR, "UNDEFINED");
+        configMap.setString(XrayConfigHelper.RESULTS_UPLOAD_CUSTOM_STATUS_STEP_PASSED, "SUCCESS");
+        configMap.setString(XrayConfigHelper.RESULTS_UPLOAD_CUSTOM_STATUS_STEP_FAILED, "FAILURE");
+        configMap.setString(XrayConfigHelper.RESULTS_UPLOAD_CUSTOM_STATUS_STEP_PENDING, "PENDING");
+        configMap.setString(XrayConfigHelper.RESULTS_UPLOAD_CUSTOM_STATUS_STEP_SKIPPED, "SKIPPED");
+        configMap.setString(XrayConfigHelper.RESULTS_UPLOAD_CUSTOM_STATUS_STEP_UNDEFINED, "UNDEFINED");
         configMap.setString(XrayConfigHelper.XRAY_SERVICE_SELECTOR, "server");
         XrayManualTestStepResultEntity entity = new XrayManualTestStepResultEntityServer(StepInformationLogMessage.Status.PASS);
         Assert.assertEquals(entity.getStatus(), "SUCCESS");

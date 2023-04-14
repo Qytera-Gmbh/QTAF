@@ -42,30 +42,30 @@
     },
     "scenarioReportEvidence": true,
     "scenarioImageEvidence": true,
-    "status": {
-      "test": {
-        "passed": null,
-        "failed": null,
-        "pending": null,
-        "skipped": null
+    "resultsUpload": {
+      "customStatus": {
+        "test": {
+          "passed": null,
+          "failed": null,
+          "pending": null,
+          "skipped": null
+        },
+        "step": {
+          "passed": null,
+          "failed": null,
+          "pending": null,
+          "skipped": null,
+          "undefined": null
+        }
       },
-      "step": {
-        "passed": null,
-        "failed": null,
-        "pending": null,
-        "skipped": null,
-        "undefined": null
-      }
-    },
-    "results": {
       "tests": {
         "info": {
           "steps": {
-            "updateOnSingleIteration": false,
-            "mergeOnMultipleIterations": false
+            "updateSingleIteration": false
           }
         },
         "iterations": {
+          "mergeMultipleIterations": false,
           "parameters": {
             "maxLength": {
               "name": null,

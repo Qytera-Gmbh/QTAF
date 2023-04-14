@@ -44,7 +44,7 @@ class MultipleIterationsXrayTestEntityBuilder extends XrayTestEntityBuilder {
         entity.setStart(XrayJsonHelper.isoDateString(getStartDate(scenarioLogs)));
         entity.setFinish(XrayJsonHelper.isoDateString(getEndDate(scenarioLogs)));
         for (TestScenarioLogCollection scenarioLog : scenarioLogs) {
-            if (Boolean.TRUE.equals(XrayConfigHelper.getResultsTestsInfoStepsMergeOnMultipleIterations())) {
+            if (Boolean.TRUE.equals(XrayConfigHelper.getResultsUploadTestsIterationsMergeMultipleIterations())) {
                 entity.getIterations().add(mergedIteration(scenarioLog));
             } else {
                 entity.getIterations().add(buildIterationResultEntity(scenarioLog));
@@ -56,7 +56,7 @@ class MultipleIterationsXrayTestEntityBuilder extends XrayTestEntityBuilder {
     @Override
     protected XrayTestInfoEntity buildTestInfoEntity(XrayTest xrayTest, List<TestScenarioLogCollection> scenarioLogs) {
         XrayTestInfoEntity entity = null;
-        if (Boolean.TRUE.equals(XrayConfigHelper.getResultsTestsInfoStepsMergeOnMultipleIterations())) {
+        if (Boolean.TRUE.equals(XrayConfigHelper.getResultsUploadTestsIterationsMergeMultipleIterations())) {
             String projectKey = xrayTest.key().substring(0, xrayTest.key().indexOf("-"));
             if (XrayConfigHelper.isXrayCloudService()) {
                 entity = new XrayTestInfoEntityCloud("", projectKey, "Manual");
