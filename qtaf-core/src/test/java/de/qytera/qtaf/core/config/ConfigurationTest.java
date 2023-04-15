@@ -116,7 +116,7 @@ public class ConfigurationTest {
         ConfigMap config = ConfigurationFactory.getInstance();
 
         // Framework
-        Assert.assertEquals(config.getArray("framework.packageNames").size(), 0);
+        Assert.assertEquals(config.getList("framework.packageNames").size(), 0);
     }
 
     @Test
@@ -158,4 +158,24 @@ public class ConfigurationTest {
         config.setBoolean(key, Boolean.FALSE);
         Assert.assertEquals(config.getBoolean(key), Boolean.FALSE);
     }
+
+    @Test
+    public void testGetArray() {
+        String key = "hello.there.array";
+        ConfigMap config = ConfigurationFactory.getInstance();
+        Assert.assertNull(config.getList(key));
+        System.setProperty(key, "[a, 1, 2, \"hello\"]");
+        Assert.assertEquals(config.getList(key).size(), 4);
+        System.setProperty(key, "null");
+        Assert.assertNull(config.getList(key));
+        System.setProperty(key, "[\"missingQuote]");
+        Assert.assertNull(config.getList(key));
+    }
+
+    @Test
+    public void testLocation() {
+        ConfigMap config = ConfigurationFactory.getInstance();
+        Assert.assertEquals(config.getLocation(), CONFIG_PATH.toAbsolutePath().toString());
+    }
+
 }

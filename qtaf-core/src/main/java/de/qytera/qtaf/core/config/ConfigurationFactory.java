@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
@@ -135,6 +136,8 @@ public class ConfigurationFactory {
             return configMaps.get(fileName);
         }
 
+        Path location = Paths.get(DirectoryHelper.preparePath(QTAF_CONFIG_RESOURCES_BASE_DIR + "/") + fileName);
+
         String json = null;
 
         // Create configuration file if it does not exist
@@ -149,7 +152,7 @@ public class ConfigurationFactory {
 
         // Read configuration file
         try {
-            json = new String(Files.readAllBytes(Paths.get(DirectoryHelper.preparePath(QTAF_CONFIG_RESOURCES_BASE_DIR + "/") + fileName)));
+            json = new String(Files.readAllBytes(location));
         } catch (IOException e) {
             try {
                 json = ConfigurationFactory.readDefaultConfigurationFileContent();
@@ -162,7 +165,7 @@ public class ConfigurationFactory {
         // Parse JSON
         try {
             DocumentContext documentContext = JsonPath.parse(json);
-            ConfigMap configMap = new ConfigMap(documentContext);
+            ConfigMap configMap = new ConfigMap(documentContext, location.toAbsolutePath().toString());
 
             configMaps.put(fileName, configMap);
             return configMaps.get(fileName);
