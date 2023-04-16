@@ -48,7 +48,19 @@
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
+        <lombokVersion>1.18.26</lombokVersion>
+        <lombokPluginVersion>1.18.20.0</lombokPluginVersion>
+        <delombokDirectory>${project.build.directory}/generated-sources/delombok</delombokDirectory>
     </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombokVersion}</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
 
     <build>
         <resources>
@@ -115,6 +127,9 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <sourcepath>${delombokDirectory}</sourcepath>
+                </configuration>
             </plugin>
 
             <!-- This maven plugin is responsible for generating the GPG signatures -->
@@ -148,6 +163,28 @@
                     <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
                     <autoReleaseAfterClose>true</autoReleaseAfterClose>
                 </configuration>
+            </plugin>
+
+            <!-- A plugin for transforming lombok-annotated classes back into vanilla Java -->
+            <plugin>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok-maven-plugin</artifactId>
+                <version>${lombokPluginVersion}</version>
+                <configuration>
+                    <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
+                    <outputDirectory>${delombokDirectory}</outputDirectory>
+                    <addOutputDirectory>false</addOutputDirectory>
+                    <encoding>UTF-8</encoding>
+                    <verbose>true</verbose>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>delombok</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
 
         </plugins>
