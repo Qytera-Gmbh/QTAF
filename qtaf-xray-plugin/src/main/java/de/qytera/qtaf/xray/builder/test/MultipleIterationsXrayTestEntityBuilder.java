@@ -1,8 +1,8 @@
 package de.qytera.qtaf.xray.builder.test;
 
+import de.qytera.qtaf.core.QtafFactory;
 import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
 import de.qytera.qtaf.core.log.model.collection.TestSuiteLogCollection;
-import de.qytera.qtaf.core.log.model.message.LogMessage;
 import de.qytera.qtaf.core.log.model.message.StepInformationLogMessage;
 import de.qytera.qtaf.xray.annotation.XrayTest;
 import de.qytera.qtaf.xray.builder.XrayJsonHelper;
@@ -11,18 +11,21 @@ import de.qytera.qtaf.xray.config.XrayStatusHelper;
 import de.qytera.qtaf.xray.entity.*;
 import lombok.NonNull;
 import org.apache.logging.log4j.util.Strings;
-import org.apache.logging.log4j.util.Supplier;
 
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 /**
  * Builds an {@link XrayTestEntity} objects for multiple test iterations.
  */
-class MultipleIterationsXrayTestEntityBuilder extends XrayTestEntityBuilder {
+public class MultipleIterationsXrayTestEntityBuilder extends XrayTestEntityBuilder<List<TestScenarioLogCollection>> {
 
-    protected MultipleIterationsXrayTestEntityBuilder(
+    /**
+     * Constructs a new Xray test entity builder for tests with multiple test iterations.
+     *
+     * @param collection     the collection instance required for building HTML reports
+     * @param issueSummaries the Jira issue summaries required when updating test issue steps
+     */
+    public MultipleIterationsXrayTestEntityBuilder(
             @NonNull TestSuiteLogCollection collection,
             @NonNull Map<String, String> issueSummaries
     ) {
@@ -30,169 +33,31 @@ class MultipleIterationsXrayTestEntityBuilder extends XrayTestEntityBuilder {
     }
 
     @Override
-    protected XrayTestEntity buildTestEntity(List<TestScenarioLogCollection> scenarioLogs) {
-        if (scenarioLogs.isEmpty()) {
-            return null;
-        }
-        XrayTest xrayTestAnnotation = (XrayTest) scenarioLogs.get(0).getAnnotation(XrayTest.class);
-        // Ignore tests that don't have an Xray annotation.
-        if (xrayTestAnnotation == null) {
-            return null;
-        }
-        XrayTestEntity entity = new XrayTestEntity(XrayStatusHelper.combinedScenarioStatus(scenarioLogs));
-        entity.setTestInfo(buildTestInfoEntity(xrayTestAnnotation, scenarioLogs));
-        entity.setStart(XrayJsonHelper.isoDateString(getStartDate(scenarioLogs)));
-        entity.setFinish(XrayJsonHelper.isoDateString(getEndDate(scenarioLogs)));
-        for (TestScenarioLogCollection scenarioLog : scenarioLogs) {
-            if (Boolean.TRUE.equals(XrayConfigHelper.getResultsUploadTestsIterationsMergeMultipleIterations())) {
-                entity.getIterations().add(mergedIteration(scenarioLog));
-            } else {
-                entity.getIterations().add(buildIterationResultEntity(scenarioLog));
-            }
-        }
-        return entity;
+    protected TestScenarioLogCollection.Status getStatus(XrayTest xrayTest, List<TestScenarioLogCollection> scenarioLogs) {
+        return XrayStatusHelper.combinedScenarioStatus(scenarioLogs);
     }
 
     @Override
-    protected XrayTestInfoEntity buildTestInfoEntity(XrayTest xrayTest, List<TestScenarioLogCollection> scenarioLogs) {
+    protected XrayTestInfoEntity getTestInfo(XrayTest xrayTest, List<TestScenarioLogCollection> scenarioLogs) {
         XrayTestInfoEntity entity = null;
-        if (Boolean.TRUE.equals(XrayConfigHelper.getResultsUploadTestsIterationsMergeMultipleIterations())) {
+        if (XrayConfigHelper.shouldResultsUploadTestsInfoStepsUpdate()) {
             String projectKey = xrayTest.key().substring(0, xrayTest.key().indexOf("-"));
             if (XrayConfigHelper.isXrayCloudService()) {
                 entity = new XrayTestInfoEntityCloud(issueSummaries.get(xrayTest.key()), projectKey, "Manual");
             } else {
                 entity = new XrayTestInfoEntityServer(issueSummaries.get(xrayTest.key()), projectKey, "Manual");
             }
-            List<String> linesAction = new ArrayList<>();
-            List<String> linesData = new ArrayList<>();
-            List<String> linesResults = new ArrayList<>();
-            for (int i = 0; i < scenarioLogs.size(); i++) {
-                addScenarioLogMessages(scenarioLogs, i, linesAction, linesData, linesResults);
-            }
-            XrayTestStepEntity mergedStep = new XrayTestStepEntity(Strings.join(linesAction, '\n'));
-            mergedStep.setData(Strings.join(linesData, '\n'));
-            mergedStep.setResult(Strings.join(linesResults, '\n'));
-            entity.getSteps().add(mergedStep);
-        }
-        return entity;
-    }
-
-    private void addScenarioLogMessages(
-            List<TestScenarioLogCollection> scenarioCollection,
-            int scenarioIndex,
-            List<String> linesAction,
-            List<String> linesData,
-            List<String> linesResult
-    ) {
-        linesAction.add(getIterationHeader(scenarioCollection, scenarioIndex));
-        linesData.add(getIterationHeader(scenarioCollection, scenarioIndex));
-        linesResult.add(getIterationHeader(scenarioCollection, scenarioIndex));
-        List<StepInformationLogMessage> logMessages = scenarioCollection.get(scenarioIndex).getLogMessages().stream()
-                .filter(StepInformationLogMessage.class::isInstance)
-                .map(StepInformationLogMessage.class::cast)
-                .toList();
-        if (logMessages.isEmpty()) {
-            linesAction.add("// Warning: no action defined");
-            linesData.add("// Warning: no data defined");
-            linesResult.add("// Warning: no result defined");
-            return;
-        }
-        int stepNumber = 0;
-        int maxSteps = logMessages.size();
-        for (StepInformationLogMessage logMessage : logMessages) {
-            XrayTestStepEntity step = buildTestStepEntity(logMessage);
-            mergeInto(linesAction, stepNumber, maxSteps, step::getAction);
-            mergeInto(linesData, stepNumber, maxSteps, step::getData);
-            mergeInto(linesResult, stepNumber, maxSteps, step::getResult);
-            stepNumber++;
-        }
-    }
-
-    private String getIterationHeader(List<TestScenarioLogCollection> scenarioCollection, int iteration) {
-        // Xray starts counting at 1.
-        String iterationDigits = "%0" + String.valueOf(scenarioCollection.size() + 1).length() + "d";
-        String headerFormat = String.format("=====> ITERATION %s <=====", iterationDigits);
-        return String.format(headerFormat, iteration + 1);
-    }
-
-    private void mergeInto(List<String> lines, int stepNumber, int maxSteps, Supplier<Object> contentSupplier) {
-        // Xray starts counting at 1.
-        lines.add(stepString(stepNumber + 1, maxSteps + 1, contentSupplier));
-    }
-
-    private static String stepString(int stepNumber, int maxSteps, Supplier<Object> contentSupplier) {
-        String stepIndexFormat = "%0" + String.valueOf(maxSteps).length() + "d";
-        String lineFormat = stepIndexFormat + ": %s";
-        return String.format(lineFormat, stepNumber, contentSupplier.get());
-    }
-
-    private static XrayIterationResultEntity buildIterationResultEntity(TestScenarioLogCollection scenarioLog) {
-        XrayIterationResultEntity entity;
-        if (XrayConfigHelper.isXrayCloudService()) {
-            entity = new XrayIterationResultEntityCloud(scenarioLog.getStatus());
-        } else {
-            entity = new XrayIterationResultEntityServer(scenarioLog.getStatus());
-        }
-        for (TestScenarioLogCollection.TestParameter testParameter : scenarioLog.getTestParameters()) {
-            XrayIterationParameterEntity parameterEntity = new XrayIterationParameterEntity();
-            parameterEntity.setName(XrayJsonHelper.truncateParameterName(testParameter.getName()));
-            parameterEntity.setValue(XrayJsonHelper.truncateParameterValue(testParameter.getValue().toString()));
-            entity.getParameters().add(parameterEntity);
-        }
-        for (LogMessage logMessage : scenarioLog.getLogMessages()) {
-            if (logMessage instanceof StepInformationLogMessage stepLog) {
-                entity.getSteps().add(buildManualTestStepResultEntity(stepLog));
+            if (XrayConfigHelper.shouldResultsUploadTestsInfoStepsMerge()) {
+                entity.getSteps().add(buildMergedTestInfoStepEntity(scenarioLogs));
+            } else {
+                entity.setSteps(buildTestInfoStepEntities(xrayTest, scenarioLogs));
             }
         }
         return entity;
     }
 
-    private static XrayIterationResultEntity mergedIteration(TestScenarioLogCollection scenarioLog) {
-        XrayIterationResultEntity entity;
-        XrayManualTestStepResultEntity stepEntity;
-        List<StepInformationLogMessage> stepLogs = scenarioLog.getLogMessages().stream()
-                .filter(StepInformationLogMessage.class::isInstance)
-                .map(StepInformationLogMessage.class::cast)
-                .toList();
-        if (XrayConfigHelper.isXrayCloudService()) {
-            entity = new XrayIterationResultEntityCloud(scenarioLog.getStatus());
-            stepEntity = new XrayManualTestStepResultEntityCloud(XrayStatusHelper.combinedStepStatus(stepLogs));
-        } else {
-            entity = new XrayIterationResultEntityServer(scenarioLog.getStatus());
-            stepEntity = new XrayManualTestStepResultEntityServer(XrayStatusHelper.combinedStepStatus(stepLogs));
-        }
-        entity.getSteps().add(stepEntity);
-        for (TestScenarioLogCollection.TestParameter testParameter : scenarioLog.getTestParameters()) {
-            XrayIterationParameterEntity parameterEntity = new XrayIterationParameterEntity();
-            parameterEntity.setName(XrayJsonHelper.truncateParameterName(testParameter.getName()));
-            parameterEntity.setValue(XrayJsonHelper.truncateParameterValue(testParameter.getValue().toString()));
-            entity.getParameters().add(parameterEntity);
-        }
-        List<XrayManualTestStepResultEntity> stepResults = stepLogs.stream()
-                .map(XrayTestEntityBuilder::buildManualTestStepResultEntity)
-                .toList();
-        String comment = IntStream.range(0, stepResults.size())
-                .mapToObj(i -> stepString(i, stepResults.size(), stepResults.get(i)::getComment))
-                .collect(Collectors.joining("\n"));
-        List<String> defects = stepResults.stream()
-                .map(XrayManualTestStepResultEntity::getDefects)
-                .flatMap(Collection::stream)
-                .toList();
-        String actualResult = IntStream.range(0, stepResults.size())
-                .mapToObj(i -> stepString(i, stepResults.size(), stepResults.get(i)::getActualResult))
-                .collect(Collectors.joining("\n"));
-        List<XrayEvidenceItemEntity> evidence = stepResults.stream()
-                .map(XrayManualTestStepResultEntity::getAllEvidence)
-                .flatMap(Collection::stream)
-                .toList();
-        stepEntity.setComment(comment);
-        stepEntity.setDefects(defects);
-        stepEntity.setActualResult(actualResult);
-        stepEntity.getAllEvidence().addAll(evidence);
-        return entity;
-    }
-
-    private static Date getStartDate(List<TestScenarioLogCollection> scenarioLogs) {
+    @Override
+    protected Date getStartDate(XrayTest xrayTest, List<TestScenarioLogCollection> scenarioLogs) {
         Date start = null;
         for (TestScenarioLogCollection scenarioLog : scenarioLogs) {
             if (start == null || scenarioLog.getStart().before(start)) {
@@ -202,7 +67,8 @@ class MultipleIterationsXrayTestEntityBuilder extends XrayTestEntityBuilder {
         return start;
     }
 
-    private static Date getEndDate(List<TestScenarioLogCollection> scenarioLogs) {
+    @Override
+    protected Date getEndDate(XrayTest xrayTest, List<TestScenarioLogCollection> scenarioLogs) {
         Date end = null;
         for (TestScenarioLogCollection scenarioLog : scenarioLogs) {
             if (end == null || scenarioLog.getEnd().after(end)) {
@@ -210,6 +76,150 @@ class MultipleIterationsXrayTestEntityBuilder extends XrayTestEntityBuilder {
             }
         }
         return end;
+    }
+
+    @Override
+    protected String getComment(XrayTest xrayTest, List<TestScenarioLogCollection> scenarioLogs) {
+        // Not yet supported by the plugin.
+        return null;
+    }
+
+    @Override
+    protected String getExecutedBy(XrayTest xrayTest, List<TestScenarioLogCollection> scenarioLogs) {
+        // Not yet supported by the plugin.
+        return null;
+    }
+
+    @Override
+    protected String getAssignee(XrayTest xrayTest, List<TestScenarioLogCollection> scenarioLogs) {
+        // Not yet supported by the plugin.
+        return null;
+    }
+
+    @Override
+    protected List<XrayManualTestStepResultEntity> getSteps(XrayTest xrayTest, List<TestScenarioLogCollection> scenarioLogs) {
+        // No step results: we've got entire iterations for that.
+        return Collections.emptyList();
+    }
+
+    @Override
+    protected List<String> getExamples(XrayTest xrayTest, List<TestScenarioLogCollection> scenarioLogs) {
+        // Not yet supported by the plugin.
+        return Collections.emptyList();
+    }
+
+    @Override
+    protected List<XrayIterationResultEntity> getIterations(XrayTest xrayTest, List<TestScenarioLogCollection> scenarioLogs) {
+        List<XrayIterationResultEntity> iterations = new ArrayList<>(scenarioLogs.size());
+        for (int i = 0; i < scenarioLogs.size(); i++) {
+            TestScenarioLogCollection scenarioLog = scenarioLogs.get(i);
+            XrayIterationResultEntity iteration;
+            if (XrayConfigHelper.isXrayCloudService()) {
+                iteration = new XrayIterationResultEntityCloud(scenarioLog.getStatus());
+            } else {
+                iteration = new XrayIterationResultEntityServer(scenarioLog.getStatus());
+            }
+            for (TestScenarioLogCollection.TestParameter testParameter : scenarioLog.getTestParameters()) {
+                XrayIterationParameterEntity parameterEntity = new XrayIterationParameterEntity();
+                parameterEntity.setName(XrayJsonHelper.truncateParameterName(testParameter.getName()));
+                parameterEntity.setValue(XrayJsonHelper.truncateParameterValue(testParameter.getValue().toString()));
+                iteration.getParameters().add(parameterEntity);
+            }
+            List<StepInformationLogMessage> steps = scenarioLog.getLogMessages(StepInformationLogMessage.class);
+            if (XrayConfigHelper.shouldResultsUploadTestsInfoStepsMerge()) {
+                if (!XrayConfigHelper.shouldResultsUploadTestsInfoStepsUpdate()) {
+                    QtafFactory.getLogger().warn(
+                            String.format(
+                                    "The plugin was configured to merge test steps, but not to update test issue steps. " +
+                                            "This might lead to inconsistencies between the test steps of %s and the steps of test iteration %d!",
+                                    xrayTest.key(),
+                                    i + 1
+                            )
+                    );
+                }
+                iteration.getSteps().add(buildMergedManualTestStepResultEntity(steps));
+            } else {
+                steps.stream().map(XrayTestEntityBuilder::buildManualTestStepResultEntity).forEach(iteration.getSteps()::add);
+            }
+            iterations.add(iteration);
+        }
+        return iterations;
+    }
+
+    @Override
+    protected List<String> getDefects(XrayTest xrayTest, List<TestScenarioLogCollection> scenarioLogs) {
+        // Not yet supported by the plugin.
+        return Collections.emptyList();
+    }
+
+    @Override
+    protected List<XrayEvidenceItemEntity> getEvidence(XrayTest xrayTest, List<TestScenarioLogCollection> scenarioLogs) {
+        // Evidence is attached to iterations instead of the scenario here.
+        return Collections.emptyList();
+    }
+
+    @Override
+    protected List<XrayCustomFieldEntity> getCustomFields(XrayTest xrayTest, List<TestScenarioLogCollection> scenarioLogs) {
+        // Not yet supported by the plugin.
+        return Collections.emptyList();
+    }
+
+    private static List<XrayTestStepEntity> buildTestInfoStepEntities(
+            XrayTest xrayTest,
+            List<TestScenarioLogCollection> iterations
+    ) {
+        Set<Integer> iterationSizes = new HashSet<>();
+        // Store the longest list of steps to use for defining the issue's steps in Xray during upload.
+        // Otherwise, iterations with more steps than steps present in the issue will have excess steps omitted.
+        List<StepInformationLogMessage> longestStepSequence = null;
+        for (TestScenarioLogCollection iteration : iterations) {
+            List<StepInformationLogMessage> steps = iteration.getLogMessages(StepInformationLogMessage.class);
+            iterationSizes.add(steps.size());
+            if (longestStepSequence == null || steps.size() > longestStepSequence.size()) {
+                longestStepSequence = steps;
+            }
+        }
+        if (longestStepSequence == null) {
+            return Collections.emptyList();
+        }
+        if (iterationSizes.size() != 1) {
+            QtafFactory.getLogger().warn(
+                    String.format(
+                            "Iterations of %s have varying numbers of steps: %s. %s",
+                            xrayTest.key(),
+                            iterationSizes,
+                            "The issue's steps might not match the iterations' steps after upload."
+                    )
+            );
+        }
+        return longestStepSequence.stream().map(XrayTestEntityBuilder::buildTestStepEntity).toList();
+    }
+
+    private static XrayTestStepEntity buildMergedTestInfoStepEntity(List<TestScenarioLogCollection> iterations) {
+        List<String> linesAction = new ArrayList<>();
+        List<String> linesData = new ArrayList<>();
+        List<String> linesResults = new ArrayList<>();
+        for (int i = 0; i < iterations.size(); i++) {
+            linesAction.add(getIterationHeader(iterations, i));
+            linesData.add(getIterationHeader(iterations, i));
+            linesResults.add(getIterationHeader(iterations, i));
+            List<StepInformationLogMessage> steps = iterations.get(i).getLogMessages(StepInformationLogMessage.class);
+            XrayTestStepEntity stepEntity = buildMergedTestStepEntity(steps);
+            linesAction.add(stepEntity.getAction());
+            linesData.add(stepEntity.getData());
+            linesResults.add(stepEntity.getResult());
+        }
+        XrayTestStepEntity mergedStep = new XrayTestStepEntity(Strings.join(linesAction, '\n'));
+        mergedStep.setData(Strings.join(linesData, '\n'));
+        mergedStep.setResult(Strings.join(linesResults, '\n'));
+        return mergedStep;
+    }
+
+    private static String getIterationHeader(List<TestScenarioLogCollection> scenarioCollection, int iteration) {
+        // Xray starts counting at 1.
+        String iterationDigits = "%0" + String.valueOf(scenarioCollection.size() + 1).length() + "d";
+        String headerFormat = String.format("=====> ITERATION %s <=====", iterationDigits);
+        return String.format(headerFormat, iteration + 1);
     }
 
 }

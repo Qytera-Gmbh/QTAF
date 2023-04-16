@@ -472,18 +472,19 @@ public class TestScenarioLogCollection {
     }
 
     /**
-     * Get a specific annotation of this scenario
+     * Get a specific annotation of this scenario. Always returns the first annotation found in case there are more
+     * than one.
      *
-     * @param clazz Annotation type
-     * @return Annotation if found or null if not
+     * @param annotationClass the class of the annotation to retrieve
+     * @param <T>             the annotation's type
+     * @return the annotation if it exists or null
      */
-    public Annotation getAnnotation(Class<?> clazz) {
-        for (Annotation a : annotations) {
-            if (clazz.isInstance(a)) {
-                return a;
+    public <T> T getAnnotation(Class<T> annotationClass) {
+        for (Annotation annotation : annotations) {
+            if (annotationClass.isInstance(annotation)) {
+                return annotationClass.cast(annotation);
             }
         }
-
         return null;
     }
 
@@ -509,6 +510,20 @@ public class TestScenarioLogCollection {
         }
 
         return logMessages;
+    }
+
+    /**
+     * Returns all log message of the provided class, filtering out log messages that do not match the class.
+     *
+     * @param logMessageClass the desired log messages' class
+     * @param <T>             any class extending the {@link LogMessage} class
+     * @return a list of log messages with type {@code T}
+     */
+    public synchronized <T extends LogMessage> List<T> getLogMessages(Class<T> logMessageClass) {
+        return getLogMessages().stream()
+                .filter(logMessageClass::isInstance)
+                .map(logMessageClass::cast)
+                .toList();
     }
 
     /**

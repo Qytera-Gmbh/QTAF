@@ -33,9 +33,9 @@ public class XrayConfigHelper {
     public static final String RESULTS_UPLOAD_CUSTOM_STATUS_STEP_PENDING = "xray.resultsUpload.customStatus.step.pending";
     public static final String RESULTS_UPLOAD_CUSTOM_STATUS_STEP_SKIPPED = "xray.resultsUpload.customStatus.step.skipped";
     public static final String RESULTS_UPLOAD_CUSTOM_STATUS_STEP_UNDEFINED = "xray.resultsUpload.customStatus.step.undefined";
-    public static final String RESULTS_UPLOAD_TESTS_INFO_STEPS_UPDATE_SINGLE_ITERATION = "xray.resultsUpload.tests.info.steps.updateSingleIteration";
+    public static final String RESULTS_UPLOAD_TESTS_INFO_STEPS_UPDATE = "xray.resultsUpload.tests.info.steps.update";
+    public static final String RESULTS_UPLOAD_TESTS_INFO_STEPS_MERGE = "xray.resultsUpload.tests.info.steps.merge";
     public static final String RESULTS_UPLOAD_TESTS_INFO_KEEP_JIRA_SUMMARY = "xray.resultsUpload.tests.info.keepJiraSummary";
-    public static final String RESULTS_UPLOAD_TESTS_ITERATIONS_MERGE_MULTIPLE_ITERATIONS = "xray.resultsUpload.tests.iterations.mergeMultipleIterations";
     public static final String RESULTS_UPLOAD_TESTS_ITERATIONS_PARAMETERS_MAX_LENGTH_NAME = "xray.resultsUpload.tests.iterations.parameters.maxLength.name";
     public static final String RESULTS_UPLOAD_TESTS_ITERATIONS_PARAMETERS_MAX_LENGTH_VALUE = "xray.resultsUpload.tests.iterations.parameters.maxLength.value";
 
@@ -198,12 +198,15 @@ public class XrayConfigHelper {
      */
     public static String getXrayService() {
         String service = CONFIG.getString(XRAY_SERVICE_SELECTOR);
-
-        if (service == null || !service.equals(XRAY_SERVICE_SERVER)) {
+        if (service == null) {
+            CONFIG.logMissingValue(XRAY_SERVICE_SELECTOR, XRAY_SERVICE_CLOUD);
             return XRAY_SERVICE_CLOUD;
         }
-
-        return service;
+        if (service.equals(XRAY_SERVICE_SERVER) || service.equals(XRAY_SERVICE_CLOUD)) {
+            return service;
+        }
+        CONFIG.logUnknownValue(XRAY_SERVICE_SELECTOR, service, XRAY_SERVICE_CLOUD, XRAY_SERVICE_SERVER, XRAY_SERVICE_CLOUD);
+        return XRAY_SERVICE_CLOUD;
     }
 
     /**
@@ -229,8 +232,13 @@ public class XrayConfigHelper {
      *
      * @return true if enabled, false otherwise
      */
-    public static Boolean isScenarioReportEvidenceEnabled() {
-        return CONFIG.getBoolean(RESULTS_UPLOAD_SCENARIO_REPORT_EVIDENCE);
+    public static boolean isScenarioReportEvidenceEnabled() {
+        Boolean value = CONFIG.getBoolean(RESULTS_UPLOAD_SCENARIO_REPORT_EVIDENCE);
+        if (value == null) {
+            CONFIG.logMissingValue(RESULTS_UPLOAD_SCENARIO_REPORT_EVIDENCE, false);
+            return false;
+        }
+        return value;
     }
 
     /**
@@ -238,8 +246,13 @@ public class XrayConfigHelper {
      *
      * @return true if enabled, false otherwise
      */
-    public static Boolean isScenarioImageEvidenceEnabled() {
-        return CONFIG.getBoolean(RESULTS_UPLOAD_SCENARIO_IMAGE_EVIDENCE);
+    public static boolean isScenarioImageEvidenceEnabled() {
+        Boolean value = CONFIG.getBoolean(RESULTS_UPLOAD_SCENARIO_IMAGE_EVIDENCE);
+        if (value == null) {
+            CONFIG.logMissingValue(RESULTS_UPLOAD_SCENARIO_IMAGE_EVIDENCE, false);
+            return false;
+        }
+        return value;
     }
 
     /**
@@ -261,32 +274,45 @@ public class XrayConfigHelper {
     }
 
     /**
-     * Returns whether test issue steps should be updated during results upload of tests consisting of single
-     * iterations.
+     * Returns whether test issue steps should be merged into a single step during results upload.
      *
-     * @return whether they should be updated or null if not defined
+     * @return whether they should be merged
      */
-    public static Boolean getResultsUploadTestsInfoStepsUpdateSingleIteration() {
-        return CONFIG.getBoolean(RESULTS_UPLOAD_TESTS_INFO_STEPS_UPDATE_SINGLE_ITERATION);
+    public static boolean shouldResultsUploadTestsInfoStepsMerge() {
+        Boolean value = CONFIG.getBoolean(RESULTS_UPLOAD_TESTS_INFO_STEPS_MERGE);
+        if (value == null) {
+            CONFIG.logMissingValue(RESULTS_UPLOAD_TESTS_INFO_STEPS_MERGE, false);
+            return false;
+        }
+        return value;
     }
 
     /**
-     * Returns whether test issue steps should be merged during results upload of tests consisting of multiple
-     * iterations.
+     * Returns whether test issue steps should be updated during results upload of tests.
      *
-     * @return whether they should be updated or null if not defined
+     * @return whether they should be updated
      */
-    public static Boolean getResultsUploadTestsIterationsMergeMultipleIterations() {
-        return CONFIG.getBoolean(RESULTS_UPLOAD_TESTS_ITERATIONS_MERGE_MULTIPLE_ITERATIONS);
+    public static boolean shouldResultsUploadTestsInfoStepsUpdate() {
+        Boolean value = CONFIG.getBoolean(RESULTS_UPLOAD_TESTS_INFO_STEPS_UPDATE);
+        if (value == null) {
+            CONFIG.logMissingValue(RESULTS_UPLOAD_TESTS_INFO_STEPS_UPDATE, false);
+            return false;
+        }
+        return value;
     }
 
     /**
      * Returns whether test issue summaries should be kept as they are in Jira instead of replacing them using
      * {@link Test#testName()} during results upload.
      *
-     * @return whether summaries should be kept or null if not defined
+     * @return whether summaries should be kept
      */
-    public static Boolean getResultsUploadTestsInfoKeepJiraSummary() {
-        return CONFIG.getBoolean(RESULTS_UPLOAD_TESTS_INFO_KEEP_JIRA_SUMMARY);
+    public static boolean shouldResultsUploadTestsInfoKeepJiraSummary() {
+        Boolean value = CONFIG.getBoolean(RESULTS_UPLOAD_TESTS_INFO_KEEP_JIRA_SUMMARY);
+        if (value == null) {
+            CONFIG.logMissingValue(RESULTS_UPLOAD_TESTS_INFO_KEEP_JIRA_SUMMARY, false);
+            return false;
+        }
+        return value;
     }
 }

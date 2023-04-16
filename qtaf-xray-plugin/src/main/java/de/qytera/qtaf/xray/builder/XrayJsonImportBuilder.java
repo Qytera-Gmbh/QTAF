@@ -7,6 +7,8 @@ import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
 import de.qytera.qtaf.core.log.model.collection.TestSuiteLogCollection;
 import de.qytera.qtaf.core.log.model.error.ErrorLogCollection;
 import de.qytera.qtaf.xray.annotation.XrayTest;
+import de.qytera.qtaf.xray.builder.test.MultipleIterationsXrayTestEntityBuilder;
+import de.qytera.qtaf.xray.builder.test.SingleIterationXrayTestEntityBuilder;
 import de.qytera.qtaf.xray.builder.test.XrayTestEntityBuilder;
 import de.qytera.qtaf.xray.config.XrayConfigHelper;
 import de.qytera.qtaf.xray.dto.request.XrayImportRequestDto;
@@ -16,8 +18,6 @@ import de.qytera.qtaf.xray.entity.XrayTestEntity;
 import de.qytera.qtaf.xray.entity.XrayTestExecutionInfoEntity;
 import de.qytera.qtaf.xray.service.XrayCloudService;
 import de.qytera.qtaf.xray.service.XrayServerService;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -26,7 +26,6 @@ import java.util.stream.Collectors;
  * Transforms log collection into Xray Execution Import DTO
  */
 @Singleton
-@RequiredArgsConstructor
 public class XrayJsonImportBuilder {
 
     /**
@@ -41,8 +40,25 @@ public class XrayJsonImportBuilder {
         }
     }
 
-    @NonNull
-    private TestSuiteLogCollection collection;
+    /**
+     * The test suite collection used for retrieving scenarios and HTML report data.
+     */
+    private final TestSuiteLogCollection collection;
+    /**
+     * A builder for building {@link XrayTestEntity} instances out of scenarios with a single test run.
+     */
+    private final XrayTestEntityBuilder<TestScenarioLogCollection> singleIterationBuilder;
+    /**
+     * A builder for building {@link XrayTestEntity} instances out of scenarios with multiple test runs (DDT).
+     */
+    private final XrayTestEntityBuilder<List<TestScenarioLogCollection>> multipleIterationsBuilder;
+
+    public XrayJsonImportBuilder(TestSuiteLogCollection collection) {
+        this.collection = collection;
+        Map<String, String> issueSummaries = getIssueSummaries(collection);
+        this.singleIterationBuilder = new SingleIterationXrayTestEntityBuilder(this.collection, issueSummaries);
+        this.multipleIterationsBuilder = new MultipleIterationsXrayTestEntityBuilder(this.collection, issueSummaries);
+    }
 
     /**
      * Creates an execution import DTO based on the test suite logs.
@@ -79,29 +95,49 @@ public class XrayJsonImportBuilder {
         for (TestFeatureLogCollection testFeatureLogCollection : collection.getTestFeatureLogCollections()) {
             Map<String, List<TestScenarioLogCollection>> groupedScenarioLogs = testFeatureLogCollection.getScenariosGroupedByAbstractScenarioId();
             for (Map.Entry<String, List<TestScenarioLogCollection>> entry : groupedScenarioLogs.entrySet()) {
-                if (!entry.getValue().isEmpty()) {
-                    XrayTestEntity entity = XrayTestEntityBuilder.buildFrom(
-                            collection,
-                            getIssueSummaries(),
-                            entry.getValue()
-                    );
-                    if (entity != null) {
-                        entities.add(entity);
+                List<TestScenarioLogCollection> scenarioLogs = entry.getValue();
+                // Ignore tests that don't have an Xray annotation.
+                XrayTest xrayTest = getXrayAnnotation(scenarioLogs);
+                if (xrayTest == null) {
+                    if (scenarioLogs.isEmpty()) {
+                        QtafFactory.getLogger().warn(
+                                String.format(
+                                        "No scenario logs found for test %s",
+                                        entry.getKey()
+                                )
+                        );
                     }
+                    continue;
                 }
+                XrayTestEntity entity;
+                if (scenarioLogs.size() == 1) {
+                    entity = singleIterationBuilder.buildTestEntity(xrayTest, scenarioLogs.get(0));
+                } else {
+                    entity = multipleIterationsBuilder.buildTestEntity(xrayTest, scenarioLogs);
+                }
+                entities.add(entity);
             }
         }
         return entities;
     }
 
-    private Map<String, String> getIssueSummaries() {
-        if (Boolean.TRUE.equals(XrayConfigHelper.getResultsUploadTestsInfoKeepJiraSummary())) {
-            return getIssueSummariesFromJira();
+    private static XrayTest getXrayAnnotation(List<TestScenarioLogCollection> scenarioLogs) {
+        return scenarioLogs.isEmpty() ? null : scenarioLogs.get(0).getAnnotation(XrayTest.class);
+    }
+
+    private static Map<String, String> getIssueSummaries(TestSuiteLogCollection collection) {
+        // Jira issue summaries are only required when updating test issue steps.
+        if (!XrayConfigHelper.shouldResultsUploadTestsInfoStepsUpdate()) {
+            return Collections.emptyMap();
+        }
+        if (XrayConfigHelper.shouldResultsUploadTestsInfoKeepJiraSummary()) {
+            return getIssueSummariesFromJira(collection);
         }
         Map<String, String> issueSummaries = new HashMap<>();
         for (TestFeatureLogCollection featureLog : collection.getTestFeatureLogCollections()) {
             for (TestScenarioLogCollection scenarioLog : featureLog.getScenarioLogCollection()) {
-                if (scenarioLog.getAnnotation(XrayTest.class) instanceof XrayTest xrayTest) {
+                XrayTest xrayTest = scenarioLog.getAnnotation(XrayTest.class);
+                if (xrayTest != null) {
                     issueSummaries.put(xrayTest.key(), scenarioLog.getScenarioName());
                 }
             }
@@ -109,14 +145,13 @@ public class XrayJsonImportBuilder {
         return issueSummaries;
     }
 
-    private Map<String, String> getIssueSummariesFromJira() {
+    private static Map<String, String> getIssueSummariesFromJira(TestSuiteLogCollection collection) {
         Map<String, String> issueSummaries = new HashMap<>();
         Set<String> testKeys = collection.getTestFeatureLogCollections().stream()
                 .map(TestFeatureLogCollection::getScenarioLogCollection)
                 .flatMap(Collection::stream)
                 .map(scenario -> scenario.getAnnotation(XrayTest.class))
                 .filter(Objects::nonNull)
-                .map(XrayTest.class::cast)
                 .map(XrayTest::key)
                 .collect(Collectors.toSet());
         List<JiraIssueResponseDto> issues;
