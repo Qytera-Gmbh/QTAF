@@ -2,11 +2,14 @@ package de.qytera.qtaf.xray.config;
 
 import de.qytera.qtaf.core.QtafFactory;
 import de.qytera.qtaf.core.config.entity.ConfigMap;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.testng.annotations.Test;
 
 /**
  * Xray configuration helper
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class XrayConfigHelper {
     /**
      * QTAF Configuration
@@ -38,10 +41,6 @@ public class XrayConfigHelper {
     public static final String RESULTS_UPLOAD_TESTS_INFO_KEEP_JIRA_SUMMARY = "xray.resultsUpload.tests.info.keepJiraSummary";
     public static final String RESULTS_UPLOAD_TESTS_ITERATIONS_PARAMETERS_MAX_LENGTH_NAME = "xray.resultsUpload.tests.iterations.parameters.maxLength.name";
     public static final String RESULTS_UPLOAD_TESTS_ITERATIONS_PARAMETERS_MAX_LENGTH_VALUE = "xray.resultsUpload.tests.iterations.parameters.maxLength.value";
-
-    private XrayConfigHelper() {
-        // Hide constructor.
-    }
 
     // Values
     private static final String XRAY_SERVICE_CLOUD = "cloud";
@@ -205,8 +204,13 @@ public class XrayConfigHelper {
         if (service.equals(XRAY_SERVICE_SERVER) || service.equals(XRAY_SERVICE_CLOUD)) {
             return service;
         }
-        CONFIG.logUnknownValue(XRAY_SERVICE_SELECTOR, service, XRAY_SERVICE_CLOUD, XRAY_SERVICE_SERVER, XRAY_SERVICE_CLOUD);
-        return XRAY_SERVICE_CLOUD;
+        return CONFIG.logUnknownValue(
+                XRAY_SERVICE_SELECTOR,
+                service,
+                XRAY_SERVICE_CLOUD,
+                XRAY_SERVICE_SERVER,
+                XRAY_SERVICE_CLOUD
+        );
     }
 
     /**
@@ -235,8 +239,7 @@ public class XrayConfigHelper {
     public static boolean isScenarioReportEvidenceEnabled() {
         Boolean value = CONFIG.getBoolean(RESULTS_UPLOAD_SCENARIO_REPORT_EVIDENCE);
         if (value == null) {
-            CONFIG.logMissingValue(RESULTS_UPLOAD_SCENARIO_REPORT_EVIDENCE, false);
-            return false;
+            return CONFIG.logMissingValue(RESULTS_UPLOAD_SCENARIO_REPORT_EVIDENCE, false);
         }
         return value;
     }
@@ -249,8 +252,7 @@ public class XrayConfigHelper {
     public static boolean isScenarioImageEvidenceEnabled() {
         Boolean value = CONFIG.getBoolean(RESULTS_UPLOAD_SCENARIO_IMAGE_EVIDENCE);
         if (value == null) {
-            CONFIG.logMissingValue(RESULTS_UPLOAD_SCENARIO_IMAGE_EVIDENCE, false);
-            return false;
+            return CONFIG.logMissingValue(RESULTS_UPLOAD_SCENARIO_IMAGE_EVIDENCE, false);
         }
         return value;
     }
@@ -281,8 +283,7 @@ public class XrayConfigHelper {
     public static boolean shouldResultsUploadTestsInfoStepsMerge() {
         Boolean value = CONFIG.getBoolean(RESULTS_UPLOAD_TESTS_INFO_STEPS_MERGE);
         if (value == null) {
-            CONFIG.logMissingValue(RESULTS_UPLOAD_TESTS_INFO_STEPS_MERGE, false);
-            return false;
+            return CONFIG.logMissingValue(RESULTS_UPLOAD_TESTS_INFO_STEPS_MERGE, false);
         }
         return value;
     }
@@ -295,8 +296,7 @@ public class XrayConfigHelper {
     public static boolean shouldResultsUploadTestsInfoStepsUpdate() {
         Boolean value = CONFIG.getBoolean(RESULTS_UPLOAD_TESTS_INFO_STEPS_UPDATE);
         if (value == null) {
-            CONFIG.logMissingValue(RESULTS_UPLOAD_TESTS_INFO_STEPS_UPDATE, false);
-            return false;
+            return CONFIG.logMissingValue(RESULTS_UPLOAD_TESTS_INFO_STEPS_UPDATE, false);
         }
         return value;
     }
@@ -310,8 +310,7 @@ public class XrayConfigHelper {
     public static boolean shouldResultsUploadTestsInfoKeepJiraSummary() {
         Boolean value = CONFIG.getBoolean(RESULTS_UPLOAD_TESTS_INFO_KEEP_JIRA_SUMMARY);
         if (value == null) {
-            CONFIG.logMissingValue(RESULTS_UPLOAD_TESTS_INFO_KEEP_JIRA_SUMMARY, false);
-            return false;
+            return CONFIG.logMissingValue(RESULTS_UPLOAD_TESTS_INFO_KEEP_JIRA_SUMMARY, false);
         }
         return value;
     }

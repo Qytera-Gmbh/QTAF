@@ -297,8 +297,9 @@ public class ConfigMap extends HashMap<String, Object> {
      * @param key           the missing key
      * @param fallbackValue the value that will be used instead
      * @param <T>           the fallback value type
+     * @return the fallback value
      */
-    public final <T> void logMissingValue(String key, T fallbackValue) {
+    public final <T> T logMissingValue(String key, T fallbackValue) {
         QtafFactory.getLogger().error(
                 String.format(
                         "Value for '%s' was null, defaulting to '%s'.",
@@ -306,6 +307,7 @@ public class ConfigMap extends HashMap<String, Object> {
                         fallbackValue
                 )
         );
+        return fallbackValue;
     }
 
     /**
@@ -317,9 +319,10 @@ public class ConfigMap extends HashMap<String, Object> {
      * @param fallbackValue the value that will be used instead
      * @param knownValues   the array of known values
      * @param <T>           the value type
+     * @return the fallback value
      */
     @SafeVarargs
-    public final <T> void logUnknownValue(String key, T unknownValue, T fallbackValue, T... knownValues) {
+    public final <T> T logUnknownValue(String key, T unknownValue, T fallbackValue, T... knownValues) {
         if (knownValues.length == 0) {
             QtafFactory.getLogger().error(
                     String.format(
@@ -340,6 +343,7 @@ public class ConfigMap extends HashMap<String, Object> {
                     )
             );
         }
+        return fallbackValue;
     }
 
 }
