@@ -11,6 +11,7 @@ public interface IXrayImporter {
      *
      * @param testSetID ID of test set
      * @param filePath  Feature file location
+     * @throws IOException if the feature file cannot be created
      */
     void createFeatureFileFromTestSetId(String testSetID, String filePath) throws IOException;
 
@@ -19,6 +20,7 @@ public interface IXrayImporter {
      *
      * @param testIDs  Test IDs
      * @param filePath Feature file location
+     * @throws IOException if the feature files cannot be created
      */
     void createFeatureFileFromTestIds(String[] testIDs, String filePath) throws IOException;
 }

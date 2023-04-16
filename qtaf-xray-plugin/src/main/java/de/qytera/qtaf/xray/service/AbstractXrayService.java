@@ -23,6 +23,9 @@ import de.qytera.qtaf.xray.events.QtafXrayEvents;
 import javax.ws.rs.core.MediaType;
 import java.util.*;
 
+/**
+ * A class for interfacing with Xray's API. Also provides methods for interfacing with Xray's underlying Jira instance.
+ */
 public abstract class AbstractXrayService {
 
     /**
