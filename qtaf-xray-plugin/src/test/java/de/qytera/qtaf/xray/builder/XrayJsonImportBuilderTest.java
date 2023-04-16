@@ -335,6 +335,8 @@ public class XrayJsonImportBuilderTest {
         scenarioCollection.addLogMessage(step);
         scenarioCollection.setStatus(TestScenarioLogCollection.Status.FAILURE);
         ConfigurationFactory.getInstance().setBoolean(XrayConfigHelper.RESULTS_UPLOAD_TESTS_INFO_STEPS_UPDATE, true);
+        // Step merging should not have any effect on single runs.
+        ConfigurationFactory.getInstance().setBoolean(XrayConfigHelper.RESULTS_UPLOAD_TESTS_INFO_STEPS_MERGE, true);
         XrayImportRequestDto dto = new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance()).buildRequest();
         Assert.assertEquals(dto.getTests().size(), 1);
         List<XrayTestStepEntity> steps = dto.getTests().get(0).getTestInfo().getSteps();

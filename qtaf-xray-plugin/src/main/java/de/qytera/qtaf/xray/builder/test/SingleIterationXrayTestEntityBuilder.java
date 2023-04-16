@@ -1,9 +1,7 @@
 package de.qytera.qtaf.xray.builder.test;
 
-import de.qytera.qtaf.core.QtafFactory;
 import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
 import de.qytera.qtaf.core.log.model.collection.TestSuiteLogCollection;
-import de.qytera.qtaf.core.log.model.message.LogMessage;
 import de.qytera.qtaf.core.log.model.message.StepInformationLogMessage;
 import de.qytera.qtaf.xray.annotation.XrayTest;
 import de.qytera.qtaf.xray.config.XrayConfigHelper;
@@ -46,14 +44,8 @@ public class SingleIterationXrayTestEntityBuilder extends XrayTestEntityBuilder<
             } else {
                 entity = new XrayTestInfoEntityServer(issueSummaries.get(xrayTest.key()), projectKey, "Manual");
             }
-            if (XrayConfigHelper.shouldResultsUploadTestsInfoStepsMerge()) {
-                entity.getSteps().add(buildMergedTestStepEntity(scenario.getLogMessages(StepInformationLogMessage.class)));
-            } else {
-                for (LogMessage logMessage : scenario.getLogMessages()) {
-                    if (logMessage instanceof StepInformationLogMessage stepLog) {
-                        entity.getSteps().add(buildTestStepEntity(stepLog));
-                    }
-                }
+            for (StepInformationLogMessage step : scenario.getLogMessages(StepInformationLogMessage.class)) {
+                entity.getSteps().add(buildTestStepEntity(step));
             }
         }
         return entity;
@@ -90,21 +82,8 @@ public class SingleIterationXrayTestEntityBuilder extends XrayTestEntityBuilder<
     @Override
     protected List<XrayManualTestStepResultEntity> getSteps(XrayTest xrayTest, TestScenarioLogCollection scenario) {
         List<XrayManualTestStepResultEntity> steps = new ArrayList<>();
-        if (XrayConfigHelper.shouldResultsUploadTestsInfoStepsMerge()) {
-            if (!XrayConfigHelper.shouldResultsUploadTestsInfoStepsUpdate()) {
-                QtafFactory.getLogger().warn(
-                        String.format(
-                                "The plugin was configured to merge test steps, but not to update test issue steps. " +
-                                        "This might lead to inconsistencies between the test steps of %s and the steps of the test execution!",
-                                xrayTest.key()
-                        )
-                );
-            }
-            steps.add(buildMergedManualTestStepResultEntity(scenario.getLogMessages(StepInformationLogMessage.class)));
-        } else {
-            for (StepInformationLogMessage step : scenario.getLogMessages(StepInformationLogMessage.class)) {
-                steps.add(buildManualTestStepResultEntity(step));
-            }
+        for (StepInformationLogMessage step : scenario.getLogMessages(StepInformationLogMessage.class)) {
+            steps.add(buildManualTestStepResultEntity(step));
         }
         return steps;
     }
