@@ -13,6 +13,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -288,6 +289,57 @@ public class ConfigMap extends HashMap<String, Object> {
                         location
                 )
         );
+    }
+
+    /**
+     * Logs an error describing that a value was null (a missing key) and that a fallback value will be used instead.
+     *
+     * @param key           the missing key
+     * @param fallbackValue the value that will be used instead
+     * @param <T>           the fallback value type
+     */
+    public final <T> void logMissingValue(String key, T fallbackValue) {
+        QtafFactory.getLogger().error(
+                String.format(
+                        "Value for '%s' was null, defaulting to '%s'.",
+                        key,
+                        fallbackValue
+                )
+        );
+    }
+
+    /**
+     * Logs an error that an unknown value was encountered for the given key. An optional array of known values can
+     * be provided to provide more detail.
+     *
+     * @param key           the key for which an unknown value was retrieved
+     * @param unknownValue  the unknown value
+     * @param fallbackValue the value that will be used instead
+     * @param knownValues   the array of known values
+     * @param <T>           the value type
+     */
+    @SafeVarargs
+    public final <T> void logUnknownValue(String key, T unknownValue, T fallbackValue, T... knownValues) {
+        if (knownValues.length == 0) {
+            QtafFactory.getLogger().error(
+                    String.format(
+                            "Unknown value for '%s': '%s'. Defaulting to '%s'.",
+                            key,
+                            unknownValue,
+                            fallbackValue
+                    )
+            );
+        } else {
+            QtafFactory.getLogger().error(
+                    String.format(
+                            "Unknown value for '%s': '%s' (known values: '%s'). Defaulting to '%s'.",
+                            key,
+                            unknownValue,
+                            Arrays.toString(knownValues),
+                            fallbackValue
+                    )
+            );
+        }
     }
 
 }
