@@ -1,3 +1,0 @@
-module qtaf-core{
-        exports*
-        }

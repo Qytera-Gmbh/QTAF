@@ -46,10 +46,14 @@
     </modules>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
+        <!-- versions -->
         <lombokVersion>1.18.26</lombokVersion>
+        <mavenCompilerPluginVersion>3.10.1</mavenCompilerPluginVersion>
         <lombokPluginVersion>1.18.20.0</lombokPluginVersion>
+        <surefirePluginVersion>3.0.0</surefirePluginVersion>
     </properties>
 
     <profiles>
@@ -189,7 +193,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.10.1</version>
+                <version>${mavenCompilerPluginVersion}</version>
                 <configuration>
                     <source>${maven.compiler.source}</source>
                     <target>${maven.compiler.target}</target>
@@ -244,6 +248,13 @@
                     <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
                     <autoReleaseAfterClose>true</autoReleaseAfterClose>
                 </configuration>
+            </plugin>
+
+            <!-- A plugin for running testng test (suites, groups, ...). -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${surefirePluginVersion}</version>
             </plugin>
 
         </plugins>

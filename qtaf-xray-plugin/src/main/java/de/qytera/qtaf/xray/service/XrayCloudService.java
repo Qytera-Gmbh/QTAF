@@ -233,10 +233,10 @@ public class XrayCloudService extends AbstractXrayService {
                         .setStatusCode(response.getStatus());
                 errorLogs.addErrorLog(authErrorLog);
             } else {
+                jwtToken = gson.fromJson(response.getEntity(String.class), String.class);
                 QtafXrayEvents.authenticationSuccess.onNext(true);
             }
 
-            jwtToken = gson.fromJson(response.getEntity(String.class), String.class);
         }
 
         return String.format("Bearer %s", jwtToken);
