@@ -3,6 +3,7 @@ package de.qytera.qtaf.xray.service;
 import com.google.gson.Gson;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
+import de.qytera.qtaf.core.QtafFactory;
 import de.qytera.qtaf.core.config.exception.MissingConfigurationValueException;
 import de.qytera.qtaf.core.gson.GsonFactory;
 import de.qytera.qtaf.core.log.model.error.ErrorLog;
@@ -39,11 +40,17 @@ public class XrayCloudService extends AbstractXrayService {
         if (INSTANCE.xrayAuthCredentials == null) {
             String clientId = XrayConfigHelper.getAuthenticationXrayClientId();
             if (clientId == null) {
-                throw new MissingConfigurationValueException(XrayConfigHelper.AUTHENTICATION_XRAY_CLIENT_ID);
+                throw new MissingConfigurationValueException(
+                        XrayConfigHelper.AUTHENTICATION_XRAY_CLIENT_ID,
+                        QtafFactory.getConfiguration()
+                );
             }
             String clientSecret = XrayConfigHelper.getAuthenticationXrayClientSecret();
             if (clientSecret == null) {
-                throw new MissingConfigurationValueException(XrayConfigHelper.AUTHENTICATION_XRAY_CLIENT_SECRET);
+                throw new MissingConfigurationValueException(
+                        XrayConfigHelper.AUTHENTICATION_XRAY_CLIENT_SECRET,
+                        QtafFactory.getConfiguration()
+                );
             }
             INSTANCE.setAuthCredentials(new XrayAuthCredentials(clientId, clientSecret));
         }
@@ -239,11 +246,16 @@ public class XrayCloudService extends AbstractXrayService {
     public String authorizationHeaderJira() {
         String username = XrayConfigHelper.getAuthenticationJiraUsername();
         if (username == null) {
-            throw new MissingConfigurationValueException(XrayConfigHelper.AUTHENTICATION_JIRA_USERNAME);
+            throw new MissingConfigurationValueException(
+                    XrayConfigHelper.AUTHENTICATION_JIRA_USERNAME,
+                    QtafFactory.getConfiguration()
+            );
         }
         String apiToken = XrayConfigHelper.getAuthenticationJiraAPIToken();
         if (apiToken == null) {
-            throw new MissingConfigurationValueException(XrayConfigHelper.AUTHENTICATION_JIRA_API_TOKEN);
+            throw new MissingConfigurationValueException(
+                    XrayConfigHelper.AUTHENTICATION_JIRA_API_TOKEN,
+                    QtafFactory.getConfiguration());
         }
         String encoded = Base64Helper.encode(String.format("%s:%s", username, apiToken));
         return String.format("Basic %s", encoded);

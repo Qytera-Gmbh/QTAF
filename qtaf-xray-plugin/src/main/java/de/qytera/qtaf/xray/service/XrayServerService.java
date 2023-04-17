@@ -2,6 +2,7 @@ package de.qytera.qtaf.xray.service;
 
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
+import de.qytera.qtaf.core.QtafFactory;
 import de.qytera.qtaf.core.config.exception.MissingConfigurationValueException;
 import de.qytera.qtaf.core.gson.GsonFactory;
 import de.qytera.qtaf.xray.config.XrayConfigHelper;
@@ -53,7 +54,9 @@ public class XrayServerService extends AbstractXrayService {
     public String authorizationHeaderXray() {
         String bearerToken = XrayConfigHelper.getAuthenticationXrayBearerToken();
         if (bearerToken == null) {
-            throw new MissingConfigurationValueException(XrayConfigHelper.AUTHENTICATION_XRAY_BEARER_TOKEN);
+            throw new MissingConfigurationValueException(
+                    XrayConfigHelper.AUTHENTICATION_XRAY_BEARER_TOKEN,
+                    QtafFactory.getConfiguration());
         }
         return String.format("Bearer %s", bearerToken);
     }
@@ -62,7 +65,9 @@ public class XrayServerService extends AbstractXrayService {
     public String authorizationHeaderJira() {
         String bearerToken = XrayConfigHelper.getAuthenticationJiraAPIToken();
         if (bearerToken == null) {
-            throw new MissingConfigurationValueException(XrayConfigHelper.AUTHENTICATION_JIRA_API_TOKEN);
+            throw new MissingConfigurationValueException(
+                    XrayConfigHelper.AUTHENTICATION_JIRA_API_TOKEN,
+                    QtafFactory.getConfiguration());
         }
         return String.format("Bearer %s", bearerToken);
     }
