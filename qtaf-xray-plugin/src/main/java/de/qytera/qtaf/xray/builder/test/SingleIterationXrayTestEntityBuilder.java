@@ -38,7 +38,7 @@ public class SingleIterationXrayTestEntityBuilder extends XrayTestEntityBuilder<
     protected XrayTestInfoEntity getTestInfo(XrayTest xrayTest, TestScenarioLogCollection scenario) {
         XrayTestInfoEntity entity = null;
         if (XrayConfigHelper.shouldResultsUploadTestsInfoStepsUpdate()) {
-            String projectKey = xrayTest.key().substring(0, xrayTest.key().indexOf("-"));
+            String projectKey = XrayConfigHelper.getProjectKey();
             if (XrayConfigHelper.isXrayCloudService()) {
                 entity = new XrayTestInfoEntityCloud(issueSummaries.get(xrayTest.key()), projectKey, "Manual");
             } else {

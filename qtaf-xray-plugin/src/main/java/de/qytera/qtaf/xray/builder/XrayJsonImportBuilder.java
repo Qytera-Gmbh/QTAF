@@ -122,7 +122,36 @@ public class XrayJsonImportBuilder {
     }
 
     private static XrayTest getXrayAnnotation(List<TestScenarioLogCollection> scenarioLogs) {
-        return scenarioLogs.isEmpty() ? null : scenarioLogs.get(0).getAnnotation(XrayTest.class);
+        XrayTest xrayTest = scenarioLogs.isEmpty() ? null : scenarioLogs.get(0).getAnnotation(XrayTest.class);
+        if (xrayTest == null) {
+            return null;
+        }
+        String projectKey = XrayConfigHelper.getProjectKey();
+        if (!xrayTest.key().contains(projectKey)) {
+            QtafFactory.getLogger().warn(
+                    String.format(
+                            "Xray annotation of scenario '%s' contains a project key that was not configured in %s: '%s'." +
+                                    "This scenario's results will not be uploaded.",
+                            scenarioLogs.get(0).getScenarioName(),
+                            QtafFactory.getConfiguration().getLocation(),
+                            xrayTest.key()
+                    )
+            );
+            return null;
+        }
+        String issuePattern = String.format("^%s-%s$", projectKey, "[1-9]\\d*");
+        if (!xrayTest.key().matches(issuePattern)) {
+            QtafFactory.getLogger().error(
+                    String.format(
+                            "Found project key '%s' in Xray annotation of scenario '%s', but failed to extract issue number. " +
+                                    "This scenario's results will not be uploaded.",
+                            projectKey,
+                            scenarioLogs.get(0).getScenarioName()
+                    )
+            );
+            return null;
+        }
+        return xrayTest;
     }
 
     private static Map<String, String> getIssueSummaries(TestSuiteLogCollection collection) {

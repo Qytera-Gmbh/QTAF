@@ -1,12 +1,14 @@
 package de.qytera.qtaf.xray.event_subscriber;
 
 import de.qytera.qtaf.core.QtafFactory;
+import de.qytera.qtaf.core.config.exception.MissingConfigurationValueException;
 import de.qytera.qtaf.core.events.QtafEvents;
 import de.qytera.qtaf.core.events.interfaces.IEventSubscriber;
 import de.qytera.qtaf.core.events.payload.IQtafTestingContext;
 import de.qytera.qtaf.core.log.Logger;
 import de.qytera.qtaf.xray.builder.XrayJsonImportBuilder;
 import de.qytera.qtaf.xray.commands.UploadImportCommand;
+import de.qytera.qtaf.xray.config.XrayConfigHelper;
 import de.qytera.qtaf.xray.dto.request.XrayImportRequestDto;
 import de.qytera.qtaf.xray.dto.response.XrayCloudImportResponseDto;
 import de.qytera.qtaf.xray.dto.response.XrayImportResponseDto;
@@ -56,7 +58,7 @@ public class UploadResultsSubscriber implements IEventSubscriber {
      */
     public static void onTestFinished(IQtafTestingContext testContext) {
         // Check if Xray Plugin is enabled
-        if (Boolean.FALSE.equals(QtafFactory.getConfiguration().getBoolean("xray.enabled"))) {
+        if (!Boolean.TRUE.equals(QtafFactory.getConfiguration().getBoolean("xray.enabled"))) {
             return;
         }
 
@@ -67,6 +69,10 @@ public class UploadResultsSubscriber implements IEventSubscriber {
         uploaded = true;
 
         logger.info("[QTAF Xray Plugin] Uploading Xray results ...");
+
+        if (XrayConfigHelper.getProjectKey() == null) {
+            throw new MissingConfigurationValueException(XrayConfigHelper.PROJECT_KEY, QtafFactory.getConfiguration());
+        }
 
         try {
             // Build Request DTO for Xray API

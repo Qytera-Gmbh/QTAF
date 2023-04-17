@@ -20,6 +20,7 @@ public class XrayConfigHelper {
     public static final String XRAY_SERVICE_SELECTOR = "xray.service";
     public static final String URL_XRAY_SELECTOR = "xray.url.xray";
     public static final String URL_JIRA_SELECTOR = "xray.url.jira";
+    public static final String PROJECT_KEY = "xray.projectKey";
     public static final String AUTHENTICATION_XRAY_CLIENT_ID = "xray.authentication.xray.clientId";
     public static final String AUTHENTICATION_XRAY_CLIENT_SECRET = "xray.authentication.xray.clientSecret";
     public static final String AUTHENTICATION_XRAY_BEARER_TOKEN = "xray.authentication.xray.bearerToken";
@@ -313,5 +314,14 @@ public class XrayConfigHelper {
             return CONFIG.logMissingValue(RESULTS_UPLOAD_TESTS_INFO_KEEP_JIRA_SUMMARY, false);
         }
         return value;
+    }
+
+    /**
+     * Returns the project key.
+     *
+     * @return the configured project key
+     */
+    public static String getProjectKey() {
+        return CONFIG.getString(PROJECT_KEY);
     }
 }

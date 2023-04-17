@@ -32,6 +32,7 @@ public class XrayJsonImportBuilderTest {
         TestFeatureLogCollection.clearIndex();
         TestScenarioLogCollection.clearIndex();
         QtafFactory.getConfiguration().clear();
+        QtafFactory.getConfiguration().setString(XrayConfigHelper.PROJECT_KEY, "QTAF");
         // We're not actually uploading anything, no need to query Jira for actual issue summaries.
         QtafFactory.getConfiguration().setBoolean(XrayConfigHelper.RESULTS_UPLOAD_TESTS_INFO_KEEP_JIRA_SUMMARY, false);
     }

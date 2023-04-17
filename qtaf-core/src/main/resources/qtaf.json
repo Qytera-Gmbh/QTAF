@@ -29,6 +29,7 @@
       "jira": null
     },
     "service": "cloud",
+    "projectKey": null,
     "authentication": {
       "xray": {
         "clientId": null,
