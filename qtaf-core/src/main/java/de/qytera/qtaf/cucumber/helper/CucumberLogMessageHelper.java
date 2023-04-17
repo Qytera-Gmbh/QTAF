@@ -97,9 +97,9 @@ public class CucumberLogMessageHelper {
 
         // Add step argument to log messages
         if (stepArgument instanceof DataTableArgument) {
-            message.addStepParameter("data-table", stepArgument.getClass().getName(), stepArgument);
+            message.addStepParameter("data-table", stepArgument);
         } else if (stepArgument instanceof DocStringArgument) {
-            message.addStepParameter("doc-string", stepArgument.getClass().getName(), stepArgument);
+            message.addStepParameter("doc-string", stepArgument);
         }
 
         return message;

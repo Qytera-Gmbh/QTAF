@@ -1,6 +1,5 @@
 package de.qytera.qtaf.core.config;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.inject.Provides;
 import com.jayway.jsonpath.DocumentContext;
@@ -16,9 +15,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Factory class for generating a configuration object from a JSON configuration file
@@ -27,17 +28,17 @@ public class ConfigurationFactory {
     /**
      * Default configuration path which is used if no custom path is provided
      */
-    public static final String filePath = "qtaf.json";
+    public static final String FILE_PATH = "qtaf.json";
 
     /**
      * Default configuration resource location
      */
-    public static final String configurationResourceUrl = "/qtaf.json";
+    public static final String CONFIGURATION_RESOURCE_URL = "/" + FILE_PATH;
 
     /**
      * Base resource directory
      */
-    public static final String qtafConfigResourcesBaseDir = "$USER_DIR/src/test/resources";
+    public static final String QTAF_CONFIG_RESOURCES_BASE_DIR = "$USER_DIR/src/test/resources";
 
     /**
      * Save config map
@@ -65,11 +66,7 @@ public class ConfigurationFactory {
         // Check if configuration file was passed as an argument
         String config = System.getProperty("config");
 
-        if (config != null) {
-            return ConfigurationFactory.getInstance(config);
-        } else {
-            return ConfigurationFactory.getInstance(filePath);
-        }
+        return ConfigurationFactory.getInstance(Objects.requireNonNullElse(config, FILE_PATH));
     }
 
     /**
@@ -79,7 +76,7 @@ public class ConfigurationFactory {
      * @throws IOException File not found
      */
     public static String readDefaultConfigurationFileContent() throws IOException {
-        InputStream inputStream = ConfigurationFactory.class.getResourceAsStream(configurationResourceUrl);
+        InputStream inputStream = ConfigurationFactory.class.getResourceAsStream(CONFIGURATION_RESOURCE_URL);
 
         if (inputStream == null) {
             throw new IOException("Error: Default configuration resource not found");
@@ -105,8 +102,8 @@ public class ConfigurationFactory {
      */
     public static boolean createConfigurationFileIfNotExists() throws IOException {
         return ConfigurationFactory.createConfigurationFileIfNotExists(
-                qtafConfigResourcesBaseDir,
-                filePath
+                QTAF_CONFIG_RESOURCES_BASE_DIR,
+                FILE_PATH
         );
     }
 
@@ -139,7 +136,8 @@ public class ConfigurationFactory {
             return configMaps.get(fileName);
         }
 
-        Gson gson = new Gson();
+        Path location = Paths.get(DirectoryHelper.preparePath(QTAF_CONFIG_RESOURCES_BASE_DIR + "/") + fileName);
+
         String json = null;
 
         // Create configuration file if it does not exist
@@ -147,7 +145,6 @@ public class ConfigurationFactory {
             if (!createConfigurationFileIfNotExists()) {
                 logFatal("Could not create configuration file");
             }
-            ;
         } catch (IOException e) {
             e.printStackTrace();
             logFatal("Could not create configuration file");
@@ -155,7 +152,7 @@ public class ConfigurationFactory {
 
         // Read configuration file
         try {
-            json = new String(Files.readAllBytes(Paths.get(DirectoryHelper.preparePath(qtafConfigResourcesBaseDir + "/") + fileName)));
+            json = new String(Files.readAllBytes(location));
         } catch (IOException e) {
             try {
                 json = ConfigurationFactory.readDefaultConfigurationFileContent();
@@ -168,7 +165,7 @@ public class ConfigurationFactory {
         // Parse JSON
         try {
             DocumentContext documentContext = JsonPath.parse(json);
-            ConfigMap configMap = new ConfigMap(documentContext);
+            ConfigMap configMap = new ConfigMap(documentContext, location.toAbsolutePath().toString());
 
             configMaps.put(fileName, configMap);
             return configMaps.get(fileName);
@@ -178,15 +175,6 @@ public class ConfigurationFactory {
         }
 
         return null;
-    }
-
-    /**
-     * Log an info message
-     *
-     * @param message Log message
-     */
-    private static void logInfo(String message) {
-        logger.info("[ConfigurationFactory] " + message);
     }
 
     /**

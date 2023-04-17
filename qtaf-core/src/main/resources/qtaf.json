@@ -9,13 +9,13 @@
   "driver": {
     "name": "chrome",
     "remoteUrl": null,
-    "implicitWaitTimeout": 30,
+    "implicitWaitTimeout": 0,
     "quitAfterTesting": true,
     "screenshots": {
       "beforeScenario": true,
       "afterScenario": true,
-      "beforeStep": true,
-      "afterStep": true,
+      "beforeStep": false,
+      "afterStep": false,
       "afterStepFailure": true
     }
   },
@@ -24,36 +24,55 @@
   },
   "xray": {
     "enabled": false,
-    "url": null,
-    "service": "cloud",
-    "authentication": {
-      "clientId": null,
-      "clientSecret": null,
-      "bearerToken": null
+    "url": {
+      "xray": null,
+      "jira": null
     },
-    "scenarioReportEvidence": true,
-    "scenarioImageEvidence": true,
-    "status": {
-      "test": {
-        "passed": null,
-        "failed": null,
-        "pending": null,
-        "skipped": null
+    "service": "cloud",
+    "projectKey": null,
+    "authentication": {
+      "xray": {
+        "clientId": null,
+        "clientSecret": null,
+        "bearerToken": null
       },
-      "step": {
-        "passed": null,
-        "failed": null,
-        "pending": null,
-        "skipped": null,
-        "undefined": null
+      "jira": {
+        "username": null,
+        "apiToken": null
       }
     },
-    "results": {
-      "iterations": {
-        "parameters": {
-          "maxLength": {
-            "name": null,
-            "value": null
+    "resultsUpload": {
+      "scenarioReportEvidence": true,
+      "scenarioImageEvidence": true,
+      "customStatus": {
+        "test": {
+          "passed": null,
+          "failed": null,
+          "pending": null,
+          "skipped": null
+        },
+        "step": {
+          "passed": null,
+          "failed": null,
+          "pending": null,
+          "skipped": null,
+          "undefined": null
+        }
+      },
+      "tests": {
+        "info": {
+          "keepJiraSummary": false,
+          "steps": {
+            "update": false,
+            "merge": false
+          }
+        },
+        "iterations": {
+          "parameters": {
+            "maxLength": {
+              "name": null,
+              "value": null
+            }
           }
         }
       }

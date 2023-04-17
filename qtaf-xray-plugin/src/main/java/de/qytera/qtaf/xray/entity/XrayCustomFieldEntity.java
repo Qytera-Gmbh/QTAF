@@ -1,56 +1,23 @@
 package de.qytera.qtaf.xray.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
- * Xray custom field entity
+ * Xray custom field entity.
+ *
+ * @see <a href="https://docs.getxray.app/display/XRAY/Import+Execution+Results#ImportExecutionResults-XrayJSONSchema">Xray Server JSON format</a>
+ * @see <a href="https://docs.getxray.app/display/XRAYCLOUD/Using+Xray+JSON+format+to+import+execution+results">Xray Cloud JSON format</a>
  */
+@Getter
+@Setter
 public class XrayCustomFieldEntity {
     /**
-     * Custom field id
+     * The test run custom field ID.
      */
     private String id;
-
     /**
-     * Custom field value
+     * The test run custom field value.
      */
     private String value;
-
-    /**
-     * Get id
-     *
-     * @return id
-     */
-    public String getId() {
-        return id;
-    }
-
-    /**
-     * Set id
-     *
-     * @param id Id
-     * @return this
-     */
-    public XrayCustomFieldEntity setId(String id) {
-        this.id = id;
-        return this;
-    }
-
-    /**
-     * Get value
-     *
-     * @return value
-     */
-    public String getValue() {
-        return value;
-    }
-
-    /**
-     * Set value
-     *
-     * @param value Value
-     * @return this
-     */
-    public XrayCustomFieldEntity setValue(String value) {
-        this.value = value;
-        return this;
-    }
 }

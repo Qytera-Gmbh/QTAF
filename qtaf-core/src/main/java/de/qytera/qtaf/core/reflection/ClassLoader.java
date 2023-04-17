@@ -1,7 +1,9 @@
 package de.qytera.qtaf.core.reflection;
 
+import com.google.gson.JsonElement;
 import de.qytera.qtaf.core.QtafFactory;
 import de.qytera.qtaf.core.config.entity.ConfigMap;
+import de.qytera.qtaf.core.gson.GsonFactory;
 import org.reflections.Reflections;
 
 import java.lang.reflect.Constructor;
@@ -139,14 +141,13 @@ public class ClassLoader {
     public static Set<Class<?>> getSubTypesOf(Class<?> clazz) {
         ConfigMap configMap = QtafFactory.getConfiguration();
 
-        List<String> configPackageNames = (List<String>) configMap.getArray("framework.packageNames");
-        configPackageNames.add(configMap.getString("tests.package", "de.qytera.qtaf"));
-
-        if (configPackageNames != null) {
-            for (String packageName : configPackageNames) {
-                addPackageName(packageName);
-            }
+        List<JsonElement> packageNames = configMap.getList("framework.packageNames");
+        if (packageNames == null) {
+            packageNames = new ArrayList<>();
         }
+        String testsPackage = configMap.getString("tests.package", "de.qytera.qtaf");
+        packageNames.add(GsonFactory.getInstance().toJsonTree(testsPackage));
+        packageNames.stream().map(JsonElement::getAsString).forEach(ClassLoader::addPackageName);
 
         return ClassLoader.getSubTypesOf(clazz, ClassLoader.packageNames);
     }

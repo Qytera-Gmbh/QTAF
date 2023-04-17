@@ -7,6 +7,7 @@ public interface IXrayCucumberRepository {
     /**
      * Get Tests as Cucumber Feature File
      *
+     * @param testIDs the test issue IDs whose feature files to retrieve
      * @return Contents of feature file
      */
     String getFeatureFileDefinition(String[] testIDs);
