@@ -14,7 +14,11 @@ jobs:
     strategy:
       matrix:
         browser: ['chrome', 'firefox']
-        ports: ['4444', '4445']
+        include:
+          - browser: chrome
+            port: 4444
+          - browser: firefox
+            port: 4445
     services:
       chrome:
         image: selenium/standalone-chrome
