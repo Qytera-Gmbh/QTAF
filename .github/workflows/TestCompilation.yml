@@ -1,4 +1,5 @@
-name: Build Docker Images
+# Run tests on chrome browser and build the QTAF sources with the different Java versions, to check if our software works.
+name: Run tests and check Java compatibility
 
 on:
   push:
@@ -8,19 +9,22 @@ on:
   workflow_dispatch:
 
 jobs:
-  # Service containers to run with `container-job`
-  services:
-    # Label used to access the service container
-    chrome:
-      # Docker Hub image
-      image: selenium/standalone-chrome-debug
-
-  test-on-chrome:
+  execute_QTAF_on_chrome:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    # Service containers to run with `container-job`
+    services:
+      # Label used to access the service container
+      chrome:
+        # Docker Hub image
+        image: selenium/standalone-chrome-debug
     steps:
-      - mvn clean test -Ddriver.name=chrome-remote -Ddriver.remoteUrl=http://127.0.0.1:4444/wd/hub
+      - name: Execute QTAF test
+        run: mvn clean test -Ddriver.name=chrome-remote -Ddriver.remoteUrl=http://127.0.0.1:4444/wd/hub
 
   build_java17_image:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v2
       - name: Set up Docker Buildx
@@ -37,6 +41,7 @@ jobs:
 
   build_java18_image:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v2
       - name: Set up Docker Buildx
@@ -53,6 +58,7 @@ jobs:
 
   build_java19_image:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v2
       - name: Set up Docker Buildx
