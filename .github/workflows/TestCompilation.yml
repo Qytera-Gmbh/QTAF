@@ -30,7 +30,7 @@ jobs:
           - 4445:4444
     steps:
       - name: Execute QTAF test
-        run: mvn clean test -q -Ddriver.name=${{matrix.browser}}-remote -Ddriver.remoteUrl=http://127.0.0.1:${{matrix.ports}}/wd/hub
+        run: mvn clean test -q -Ddriver.name=${{matrix.browser}}-remote -Ddriver.remoteUrl=http://127.0.0.1:${{matrix.port}}/wd/hub
 
   build_on_different_java_version:
     runs-on: ubuntu-latest
