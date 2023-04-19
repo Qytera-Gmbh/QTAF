@@ -1,31 +1,41 @@
-# Run tests on chrome browser and build the QTAF sources with the different Java versions, to check if our software works.
-name: Run tests and check Java compatibility
+# Run tests on different browser and build the QTAF sources with the different Java versions, to check if our software works.
+name: Run tests on different browser and check Java compatibility
 
 on:
   push:
     branches:
-      - main
       - develop
   workflow_dispatch:
 
 jobs:
-  execute_QTAF_on_chrome:
+  execute_on_different_browser:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
-    # Service containers to run with `container-job`
+    timeout-minutes: 15 
+    strategy:
+      matrix:
+        browser: ['chrome', 'firefox']
+        ports: ['4444', '4445']
     services:
-      # Label used to access the service container
       chrome:
-        # Docker Hub image
-        image: selenium/standalone-chrome-debug
+        image: selenium/standalone-chrome
+        ports:
+          - 4444:4444
+      firefox:
+        image: selenium/standalone-firefox
+        ports:
+          - 4445:4444
     steps:
       - name: Execute QTAF test
-        run: mvn clean test -Ddriver.name=chrome-remote -Ddriver.remoteUrl=http://127.0.0.1:4444/wd/hub
+        run: mvn clean test -q -Ddriver.name=${{matrix.browser}}-remote -Ddriver.remoteUrl=http://127.0.0.1:${{matrix.ports}}/wd/hub
 
-  build_java17_image:
+  build_on_different_java_version:
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    strategy:
+      matrix:
+        version: ['17', '18', '19']
     steps:
+      - run: echo Tests runs for Java Version ${{matrix.version}}
       - uses: actions/checkout@v2
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
@@ -37,38 +47,4 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-buildx-
       - name: Build docker image
-        run: sh ./scripts/docker/build-java17-image.sh
-
-  build_java18_image:
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    steps:
-      - uses: actions/checkout@v2
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-      - name: Cache Docker layers
-        uses: actions/cache@v2
-        with:
-          path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-buildx-
-      - name: Build docker image
-        run: sh ./scripts/docker/build-java18-image.sh
-
-  build_java19_image:
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    steps:
-      - uses: actions/checkout@v2
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-      - name: Cache Docker layers
-        uses: actions/cache@v2
-        with:
-          path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-buildx-
-      - name: Build docker image
-        run: sh ./scripts/docker/build-java19-image.sh
+        run: sh ./scripts/docker/build-java${{matrix.version}}-image.sh
