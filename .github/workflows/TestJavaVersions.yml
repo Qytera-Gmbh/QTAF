@@ -1,0 +1,23 @@
+# Run tests with different Java versions to check if our software works.
+name: Test Java Versions
+
+on:
+  pull_request:
+    branches:
+      - develop
+
+env:
+  JAVA_DISTRIBUTION: "zulu"
+
+jobs:
+  test-java-versions:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      matrix:
+        JAVA_VERSION: [17, 18, 19]
+    steps:
+      - uses: ./.github/workflows/Test.yml
+        with:
+          java-version: ${{ matrix.JAVA_VERSION }}
+          java-distribution: ${{ env.JAVA_DISTRIBUTION }}
