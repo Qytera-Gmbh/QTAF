@@ -10,9 +10,11 @@ import de.qytera.qtaf.core.guice.QtafModule;
 import de.qytera.qtaf.core.log.model.collection.TestFeatureLogCollection;
 import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
 import de.qytera.qtaf.core.log.model.collection.TestSuiteLogCollection;
+import de.qytera.qtaf.core.log.model.message.StepInformationLogMessage;
 import de.qytera.qtaf.core.selenium.DriverFactory;
 import de.qytera.qtaf.testng.event_listener.TestNGEventListener;
 import org.openqa.selenium.WebDriver;
+import org.testng.Assert;
 import org.testng.annotations.Guice;
 import org.testng.annotations.Listeners;
 
@@ -129,5 +131,117 @@ public abstract class QtafTestNGContext implements IQtafTestContext {
     @Override
     public void addLoggerToFieldsRecursively() {
         TestContextHelper.addLoggerToFieldsRecursively(this);
+    }
+
+    /**
+     * Assert that a condition is true
+     * @param condition The condition
+     */
+    public void assertTrue(boolean condition) {
+        Assert.assertTrue(condition);
+        handleAssert();
+    }
+
+    /**
+     * Assert that a condition is true
+     * @param condition The condition
+     * @param message   The message that should be displayed if the assertion fails
+     */
+    public void assertTrue(boolean condition, String message) {
+        Assert.assertTrue(condition, message);
+    }
+
+    /**
+     * Assert that a condition is false
+     * @param condition The condition
+     */
+    public void assertFalse(boolean condition) {
+        Assert.assertFalse(condition);
+    }
+
+    /**
+     * Assert that a condition is false
+     * @param condition The condition
+     * @param message   The message that should be displayed if the assertion fails
+     */
+    public void assertFalse(boolean condition, String message) {
+        Assert.assertFalse(condition, message);
+    }
+
+    /**
+     * Assert that an object is null
+     * @param object The object
+     */
+    public void assertNull(Object object) {
+        Assert.assertNull(object);
+    }
+
+    /**
+     * Assert that an object is null
+     * @param object    The object
+     * @param message   The message that should be displayed if the assertion fails
+     */
+    public void assertNull(Object object, String message) {
+        Assert.assertNull(object, message);
+    }
+
+    /**
+     * Assert that an object is not null
+     * @param object The object
+     */
+    public void assertNotNull(Object object) {
+        Assert.assertNotNull(object);
+    }
+
+    /**
+     * Assert that an object is not null
+     * @param object    The object
+     * @param message   The message that should be displayed if the assertion fails
+     */
+    public void assertNotNull(Object object, String message) {
+        Assert.assertNotNull(object, message);
+    }
+
+    /**
+     * Checks if two objects are equal
+     * @param object1 The first object
+     * @param object2 The second object
+     */
+    public void assertEquals(Object object1, Object object2) {
+        Assert.assertEquals(object1, object2);
+    }
+
+    /**
+     * Checks if two objects are equal
+     * @param object1 The first object
+     * @param object2 The second object
+     * @param message   The message that should be displayed if the assertion fails
+     */
+    public void assertEquals(Object object1, Object object2, String message) {
+        Assert.assertEquals(object1, object2, message);
+    }
+
+    /**
+     * Checks if two objects are not equal
+     * @param object1 The first object
+     * @param object2 The second object
+     */
+    public void assertNotEquals(Object object1, Object object2) {
+        Assert.assertNotEquals(object1, object2);
+    }
+
+    /**
+     * Checks if two objects are not equal
+     * @param object1 The first object
+     * @param object2 The second object
+     * @param message   The message that should be displayed if the assertion fails
+     */
+    public void assertNotEquals(Object object1, Object object2, String message) {
+        Assert.assertNotEquals(object1, object2, message);
+    }
+
+    protected void handleAssert() {
+        StepInformationLogMessage logMessage = getLogCollection().getStepLogOfPendingStep();
+        System.out.println("-");
     }
 }

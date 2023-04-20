@@ -6,6 +6,7 @@ import de.qytera.qtaf.core.log.model.LogLevel;
 import de.qytera.qtaf.core.log.model.index.LogMessageIndex;
 import de.qytera.qtaf.core.log.model.index.ScenarioLogCollectionIndex;
 import de.qytera.qtaf.core.log.model.message.LogMessage;
+import de.qytera.qtaf.core.log.model.message.StepInformationLogMessage;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Parameter;
@@ -524,6 +525,20 @@ public class TestScenarioLogCollection {
                 .filter(logMessageClass::isInstance)
                 .map(logMessageClass::cast)
                 .toList();
+    }
+
+    /**
+     * Get the log message object of the step that is currently pending
+     * @return  Step log object of the currently pending step
+     */
+    public synchronized StepInformationLogMessage getStepLogOfPendingStep() {
+        List<LogMessage> logMessages = LogMessageIndex.getInstance().getByScenarioIdAndPending(getScenarioId());
+
+        if (logMessages.size() > 0) {
+            return (StepInformationLogMessage) logMessages.get(0);
+        }
+
+        return null;
     }
 
     /**
