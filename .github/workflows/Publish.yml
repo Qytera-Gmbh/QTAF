@@ -25,7 +25,7 @@ jobs:
     with:
       java-version: ${{ needs.vars.outputs.java-version }}
       java-distribution: ${{ needs.vars.outputs.java-distribution }}
-      secrets: inherit
+    secrets: inherit
 
   publish:
     needs: test

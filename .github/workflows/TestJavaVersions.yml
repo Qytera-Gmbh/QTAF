@@ -16,4 +16,4 @@ jobs:
     with:
       java-version: ${{ matrix.JAVA_VERSION }}
       java-distribution: ${{ matrix.JAVA_DISTRIBUTION }}
-      secrets: inherit
+    secrets: inherit
