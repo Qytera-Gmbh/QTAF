@@ -123,15 +123,17 @@ public class TestSuiteLogCollection {
      * @return log directory path
      */
     public TestSuiteLogCollection buildLogDirectoryPath() {
-        SimpleDateFormat dirDateFormatter = new SimpleDateFormat("yyyy-MM-dd");
-        SimpleDateFormat dirHourFormatter = new SimpleDateFormat("HH-mm-ss");
+        if (this.logDirectory == null) {
+            SimpleDateFormat dirDateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat dirHourFormatter = new SimpleDateFormat("HH-mm-ss");
 
-        this.logDirectory = DirectoryHelper.preparePath(
-                "$USER_DIR/logs/"
-                        + dirDateFormatter.format(this.start)
-                        + "/" + dirHourFormatter.format(this.start)
-                        + "-" + this.getDriverName() + "-" + uuid
-        );
+            this.logDirectory = DirectoryHelper.preparePath(
+                    "$USER_DIR/logs/"
+                            + dirDateFormatter.format(this.start)
+                            + "/" + dirHourFormatter.format(this.start)
+                            + "-" + this.getDriverName() + "-" + uuid
+            );
+        }
 
         return this;
     }
