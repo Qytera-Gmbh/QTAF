@@ -6,15 +6,14 @@ on:
     branches:
       - develop
 
-env:
-  JAVA_DISTRIBUTION: "zulu"
-
 jobs:
   test-java-versions:
     strategy:
       matrix:
         JAVA_VERSION: [17, 18, 19]
+        JAVA_DISTRIBUTION: [zulu]
     uses: ./.github/workflows/Test.yml
     with:
       java-version: ${{ matrix.JAVA_VERSION }}
-      java-distribution: ${{ env.JAVA_DISTRIBUTION }}
+      java-distribution: ${{ matrix.JAVA_DISTRIBUTION }}
+      secrets: inherit

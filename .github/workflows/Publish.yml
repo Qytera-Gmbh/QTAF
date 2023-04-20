@@ -10,11 +10,22 @@ env:
   JAVA_DISTRIBUTION: "zulu"
 
 jobs:
-  test:
-    uses: ./.github/workflows/Test.yml
-    with:
+  # Workaround: a job for setting up variables: https://github.com/orgs/community/discussions/26671#discussioncomment-4295807
+  vars:
+    runs-on: ubuntu-latest
+    outputs:
       java-version: ${{ env.JAVA_VERSION }}
       java-distribution: ${{ env.JAVA_DISTRIBUTION }}
+    steps:
+      - run: echo "Exposing env vars"
+
+  test:
+    needs: vars
+    uses: ./.github/workflows/Test.yml
+    with:
+      java-version: ${{ needs.vars.outputs.java-version }}
+      java-distribution: ${{ needs.vars.outputs.java-distribution }}
+      secrets: inherit
 
   publish:
     needs: test
