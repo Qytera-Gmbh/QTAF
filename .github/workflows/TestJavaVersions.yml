@@ -11,14 +11,10 @@ env:
 
 jobs:
   test-java-versions:
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
     strategy:
       matrix:
         JAVA_VERSION: [17, 18, 19]
-    steps:
-      - uses: actions/checkout@v3
-      - uses: ./.github/workflows/Test.yml
-        with:
-          java-version: ${{ matrix.JAVA_VERSION }}
-          java-distribution: ${{ env.JAVA_DISTRIBUTION }}
+    uses: ./.github/workflows/Test.yml
+    with:
+      java-version: ${{ matrix.JAVA_VERSION }}
+      java-distribution: ${{ env.JAVA_DISTRIBUTION }}
