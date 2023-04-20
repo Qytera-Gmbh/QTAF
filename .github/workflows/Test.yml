@@ -26,6 +26,7 @@ jobs:
           - os: "windows-latest"
             # Exclude Firefox, as it currently does not work on Windows: https://github.com/browser-actions/setup-firefox/issues/252
             command: |
+              mvn --version
               mvn clean test --no-transfer-progress ^
               -Dxray.authentication.xray.clientId=%XRAY_CLIENT_ID% ^
               -Dxray.authentication.xray.clientSecret=%XRAY_CLIENT_SECRET% ^
@@ -34,6 +35,8 @@ jobs:
             # Exclude Internet Explorer, as it does not run on Linux: https://www.selenium.dev/documentation/ie_driver_server/
             # Also: https://stackoverflow.com/questions/63125480/running-a-gui-application-on-a-ci-service-without-x11
             command: |
+              which mvn
+              which Xvfb
               export DISPLAY=:99
               sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 &
               mvn clean test --no-transfer-progress \
