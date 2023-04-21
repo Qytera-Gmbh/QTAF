@@ -1,0 +1,20 @@
+# Run tests with different Java versions to check if our software works.
+name: Test Java Versions
+
+on:
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  test-java-versions:
+    strategy:
+      matrix:
+        # latest LTS version and latest non-LTS version
+        JAVA_VERSION: [17, 19]
+        JAVA_DISTRIBUTION: [zulu]
+    uses: ./.github/workflows/Test.yml
+    with:
+      java-version: ${{ matrix.JAVA_VERSION }}
+      java-distribution: ${{ matrix.JAVA_DISTRIBUTION }}
+    secrets: inherit
