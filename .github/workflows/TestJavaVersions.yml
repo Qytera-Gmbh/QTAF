@@ -10,7 +10,8 @@ jobs:
   test-java-versions:
     strategy:
       matrix:
-        JAVA_VERSION: [17, 18, 19]
+        # latest LTS version and latest non-LTS version
+        JAVA_VERSION: [17, 20]
         JAVA_DISTRIBUTION: [zulu]
     uses: ./.github/workflows/Test.yml
     with:
