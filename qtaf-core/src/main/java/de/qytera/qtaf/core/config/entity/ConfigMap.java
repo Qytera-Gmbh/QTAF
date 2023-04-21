@@ -101,22 +101,22 @@ public class ConfigMap extends HashMap<String, Object> {
     }
 
     /**
-     * Get value from environment variable
+     * Retrieves the value for the given key from environment variables.
      *
      * @param key configuration key
-     * @return configuration value
+     * @return the environment variable's value or null if the environment variable has not been set
      */
     public String getStringFromEnvironment(String key) {
         // Search for lower case and upper case keys
-        String keyUpper = keyToEnvironmentVariable(key);
-        String s = System.getenv(keyUpper);
+        String environmentVariable = keyAsEnvironmentVariable(key);
+        String s = System.getenv(environmentVariable);
         if (s == null) {
-            s = System.getenv(keyUpper.toLowerCase());
+            s = System.getenv(environmentVariable.toLowerCase());
         }
         return s;
     }
 
-    private String keyToEnvironmentVariable(String key) {
+    private String keyAsEnvironmentVariable(String key) {
         return key.trim().replace('.', '_').toUpperCase();
     }
 
@@ -289,7 +289,7 @@ public class ConfigMap extends HashMap<String, Object> {
                         "Failed to find key '%s' in JVM arguments (-D%s), environment variables (%s) or configuration file %s",
                         key,
                         key,
-                        keyToEnvironmentVariable(key),
+                        keyAsEnvironmentVariable(key),
                         location
                 )
         );
