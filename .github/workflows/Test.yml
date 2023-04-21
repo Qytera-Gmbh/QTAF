@@ -41,6 +41,7 @@ jobs:
               -Dxray.authentication.xray.clientSecret=$XRAY_CLIENT_SECRET \
               -DexcludedGroups=ie
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v3
       - uses: browser-actions/setup-chrome@v1
