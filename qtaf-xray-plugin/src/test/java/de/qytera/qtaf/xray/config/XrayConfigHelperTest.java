@@ -7,19 +7,13 @@ import org.testng.annotations.Test;
 
 public class XrayConfigHelperTest {
     @Test
-    public void testServiceDefaultValue() {
-        // Default value
-        Assert.assertEquals(XrayConfigHelper.getXrayService(), "cloud");
-    }
-
-    @Test
     public void testService() {
         ConfigMap configMap = QtafFactory.getConfiguration();
 
-        configMap.setString("xray.service", "server");
+        configMap.setString(XrayConfigHelper.XRAY_SERVICE_SELECTOR, "server");
         Assert.assertEquals(XrayConfigHelper.getXrayService(), "server");
 
-        configMap.setString("xray.service", "cloud");
+        configMap.setString(XrayConfigHelper.XRAY_SERVICE_SELECTOR, "cloud");
         Assert.assertEquals(XrayConfigHelper.getXrayService(), "cloud");
     }
 }

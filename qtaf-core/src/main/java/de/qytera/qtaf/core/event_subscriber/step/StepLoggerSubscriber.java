@@ -18,7 +18,6 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 
-import javax.lang.model.type.NullType;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Parameter;
@@ -115,22 +114,8 @@ public class StepLoggerSubscriber implements IEventSubscriber {
 
         // Add arguments to log message
         for (int i = 0; i < params.length; i++) {
-            String argClassName;
-
-            // Check if the value of the argument is null
-            if (args[i] == null) {
-                argClassName = NullType.class.getName();
-            } else {
-                argClassName = args[i].getClass().getName();
-            }
-
             // Add information about the parameters to the log message
-            logMessage
-                    .addStepParameter(
-                            params[i].getName(),
-                            argClassName,
-                            args[i]
-                    );
+            logMessage.addStepParameter(params[i].getName(), args[i]);
         }
     }
 

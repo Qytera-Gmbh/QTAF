@@ -1,0 +1,75 @@
+# Taken from: https://docs.github.com/en/actions/publishing-packages/publishing-java-packages-with-maven#publishing-packages-to-the-maven-central-repository
+# Also: https://gist.github.com/sualeh/ae78dc16123899d7942bc38baba5203c
+name: Publish Maven Central
+on:
+  release:
+    types: ["published"]
+
+env:
+  JAVA_VERSION: "17"
+  JAVA_DISTRIBUTION: "zulu"
+
+jobs:
+  # Workaround: a job for providing env variables as arguments to reusable workflows.
+  # See: https://github.com/orgs/community/discussions/26671#discussioncomment-4295807
+  vars:
+    runs-on: ubuntu-latest
+    outputs:
+      java-version: ${{ env.JAVA_VERSION }}
+      java-distribution: ${{ env.JAVA_DISTRIBUTION }}
+    steps:
+      - run: echo "Exposing env vars"
+
+  test:
+    needs: vars
+    uses: ./.github/workflows/Test.yml
+    with:
+      java-version: ${{ needs.vars.outputs.java-version }}
+      java-distribution: ${{ needs.vars.outputs.java-distribution }}
+    secrets: inherit
+
+  publish:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: ${{ env.JAVA_DISTRIBUTION }}
+          cache: maven
+          server-id: ossrh
+          server-username: MAVEN_USERNAME
+          server-password: MAVEN_PASSWORD
+      - name: Install gpg secret key
+        run: cat <(echo -e "${{ secrets.OSSRH_GPG_SECRET_KEY }}") | gpg --batch --import
+      - name: Publish package
+        # Skip tests during deployment, we have tested everything already.
+        run: |
+          mvn --batch-mode \
+          -Dgpg.passphrase=${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }} \
+          -DskipTests \
+          clean deploy
+        env:
+          MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
+
+  create-pull-request:
+    needs: publish
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Create pull request
+        # See: https://cli.github.com/manual/gh_pr_create
+        # See: https://docs.github.com/en/webhooks-and-events/webhooks/webhook-events-and-payloads?actionType=published#release
+        run: |
+          gh pr create \
+          --base ${{ env.TARGET_BRANCH }} \
+          --head ${{ env.SOURCE_BRANCH }} \
+          --title 'Version ${{ github.event.release.name }}' \
+          --body 'Created by GitHub action to push release `${{ github.event.release.name }}` to branch `${{ env.TARGET_BRANCH }}`.' \
+          --assignee ${{ github.event.release.author.login }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TARGET_BRANCH: main
+          SOURCE_BRANCH: ${{ github.event.repository.default_branch }}

@@ -40,7 +40,7 @@ public class XrayHTTPDaoFactory {
     public static HTTPJsonDao getXrayServerHTTPJsonDao() {
         if (xrayServerHttpDao == null) {
             xrayServerHttpDao = new HTTPJsonDao(XrayConfigHelper.getServerUrl() + "/rest/raven/1.0");
-            xrayServerHttpDao.setAuthorizationHeaderValue("Bearer " + XrayConfigHelper.getBearerToken());
+            xrayServerHttpDao.setAuthorizationHeaderValue("Bearer " + XrayConfigHelper.getAuthenticationXrayBearerToken());
         }
 
         return xrayServerHttpDao;

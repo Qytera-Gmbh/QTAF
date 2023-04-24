@@ -26,7 +26,7 @@ public class DriverTest {
         DriverFactory.clearDriver();
     }
 
-    @Test(groups = {"driver"})
+    @Test(groups = {"driver", "chrome"})
     public void testChromeDriverInstantiation() {
         DriverFactory.clearDriver();
         WebDriver webDriver = DriverFactory.getDriver("chrome");
@@ -35,7 +35,7 @@ public class DriverTest {
         DriverFactory.clearDriver();
     }
 
-    @Test(groups = {"driver"})
+    @Test(groups = {"driver", "firefox"})
     public void testFirefoxDriverInstantiation() {
         DriverFactory.clearDriver();
         WebDriver webDriver = DriverFactory.getDriver("firefox");
@@ -44,7 +44,7 @@ public class DriverTest {
         DriverFactory.clearDriver();
     }
 
-    @Test(groups = {"driver"})
+    @Test(groups = {"driver", "edge"})
     public void testEdgeDriverInstantiation() {
         DriverFactory.clearDriver();
         WebDriver webDriver = DriverFactory.getDriver("edge");
@@ -53,7 +53,7 @@ public class DriverTest {
         DriverFactory.clearDriver();
     }
 
-    @Test(groups = {"driver"})
+    @Test(groups = {"driver", "ie"})
     public void testIEDriverInstantiation() {
         DriverFactory.clearDriver();
         WebDriver webDriver = DriverFactory.getDriver("ie");

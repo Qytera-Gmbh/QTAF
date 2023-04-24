@@ -1,10 +1,11 @@
 package de.qytera.qtaf.xray.repository;
 
-import de.qytera.qtaf.core.QtafFactory;
-import de.qytera.qtaf.core.config.entity.ConfigMap;
 import de.qytera.qtaf.core.io.DirectoryHelper;
-import de.qytera.qtaf.xray.service.XrayServiceFactory;
+import de.qytera.qtaf.xray.config.XrayConfigHelper;
+import de.qytera.qtaf.xray.entity.XrayAuthCredentials;
+import de.qytera.qtaf.xray.service.XrayCloudService;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
@@ -14,12 +15,14 @@ import java.util.ArrayList;
 
 public class XrayCloudCucumberRepositoryTest {
 
-    /**
-     * Set configuration variables for authentication against Xray API
-     */
-    private void setConfigurationVariablesForXrayAuthentication() {
-        ConfigMap configMap = QtafFactory.getConfiguration();
-        configMap.setString("xray.service", "cloud");
+    @BeforeMethod
+    public void setupCredentials() {
+        XrayCloudService.getInstance().setAuthCredentials(
+                new XrayAuthCredentials(
+                        XrayConfigHelper.getAuthenticationXrayClientId(),
+                        XrayConfigHelper.getAuthenticationXrayClientSecret()
+                )
+        );
     }
 
     /**
@@ -27,12 +30,6 @@ public class XrayCloudCucumberRepositoryTest {
      */
     @Test
     public void testCucumberZipFileDownload() {
-        // Set configuration values
-        setConfigurationVariablesForXrayAuthentication();
-
-        // We have to initialize the xray service, otherwise authentication against API will not work
-        XrayServiceFactory.getInstance();
-
         // Get file content
         XrayCloudCucumberRepository repo = new XrayCloudCucumberRepository();
         String fileContent = repo.getFeatureFileDefinition(new String[]{"QTAF-670"});
@@ -44,12 +41,6 @@ public class XrayCloudCucumberRepositoryTest {
      */
     @Test
     public void testCucumberZipFilesDownload() throws IOException {
-        // Set configuration values
-        setConfigurationVariablesForXrayAuthentication();
-
-        // We have to initialize the xray service, otherwise authentication against API will not work
-        XrayServiceFactory.getInstance();
-
         // Get file content
         XrayCloudCucumberRepository repo = new XrayCloudCucumberRepository();
         ArrayList<String> fileContents = repo.getFeatureFileDefinitions(new String[]{"QTAF-670"});
@@ -69,13 +60,6 @@ public class XrayCloudCucumberRepositoryTest {
                 Files.exists(path),
                 String.format("There should be a no file named '%S' in the directory '%s' before downloading and storing ZIP file from Xray Cloud API", filename, dir)
         );
-
-        // Set configuration values
-        setConfigurationVariablesForXrayAuthentication();
-
-        // We have to initialize the xray service, otherwise authentication against API will not work
-        XrayServiceFactory.getInstance();
-
         // Get file content
         XrayCloudCucumberRepository repo = new XrayCloudCucumberRepository();
         repo.getAndStoreFeatureFileDefinitions(new String[]{"QTAF-670"}, dir);

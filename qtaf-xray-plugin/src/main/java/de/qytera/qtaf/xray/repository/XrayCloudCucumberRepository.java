@@ -71,7 +71,7 @@ public class XrayCloudCucumberRepository implements IXrayCucumberRepository {
     private void authenticateAgainstXrayAPI() {
         // Authenticate against Xray API
         AbstractXrayService service = XrayCloudService.getInstance();
-        service.authenticate();
+        service.authorizationHeaderXray();
         httpDao.setAuthorizationHeaderValue("Bearer " + service.getJwtToken());
     }
 

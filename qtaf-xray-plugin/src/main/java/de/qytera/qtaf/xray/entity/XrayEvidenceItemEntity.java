@@ -3,6 +3,10 @@ package de.qytera.qtaf.xray.entity;
 import de.qytera.qtaf.core.log.model.error.ErrorLogCollection;
 import de.qytera.qtaf.core.util.Base64Helper;
 import de.qytera.qtaf.xray.error.EvidenceUploadError;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.activation.FileTypeMap;
 import java.io.IOException;
@@ -10,24 +14,27 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 /**
- * Xray Evidence Entity
+ * Xray evidence item entity.
+ *
+ * @see <a href="https://docs.getxray.app/display/XRAY/Import+Execution+Results#ImportExecutionResults-XrayJSONSchema">Xray Server JSON format</a>
+ * @see <a href="https://docs.getxray.app/display/XRAYCLOUD/Using+Xray+JSON+format+to+import+execution+results">Xray Cloud JSON format</a>
  */
+@Getter
+@Setter
+@Builder(access = AccessLevel.PRIVATE)
 public class XrayEvidenceItemEntity {
     /**
-     * Base64 encoded content of file
+     * The attachment data encoded in <b>base64</b>.
      */
-    private String data;
-
+    private final String data;
     /**
-     * Filename
+     * The file name for the attachment.
      */
-    private String filename;
-
+    private final String filename;
     /**
-     * MIME type of file
+     * The Content-Type representation header is used to indicate the original media type of the resource.
      */
     private String contentType;
-
 
     /**
      * Transforms the provided file into an evidence entity.
@@ -51,10 +58,11 @@ public class XrayEvidenceItemEntity {
         try {
             Path path = Paths.get(filepath);
             String mimeType = FileTypeMap.getDefaultFileTypeMap().getContentType(path.toFile());
-            return new XrayEvidenceItemEntity()
-                    .setFilename(evidenceName == null ? path.getFileName().toString() : evidenceName)
-                    .setContentType(mimeType)
-                    .setData(Base64Helper.encodeFileContent(path.toAbsolutePath().toString()));
+            return XrayEvidenceItemEntity.builder()
+                    .filename(evidenceName == null ? path.getFileName().toString() : evidenceName)
+                    .data(Base64Helper.encodeFileContent(path.toAbsolutePath().toString()))
+                    .contentType(mimeType)
+                    .build();
         } catch (IOException | NullPointerException e) {
             EvidenceUploadError error = new EvidenceUploadError(e)
                     .setFilepath(filepath);
@@ -73,73 +81,15 @@ public class XrayEvidenceItemEntity {
     public static XrayEvidenceItemEntity fromString(String data, String evidenceName) {
         try {
             String mimeType = FileTypeMap.getDefaultFileTypeMap().getContentType(data);
-            return new XrayEvidenceItemEntity()
-                    .setFilename(evidenceName)
-                    .setContentType(mimeType)
-                    .setData(Base64Helper.encode(data));
+            return XrayEvidenceItemEntity.builder()
+                    .filename(evidenceName)
+                    .data(Base64Helper.encode(data))
+                    .contentType(mimeType)
+                    .build();
         } catch (NullPointerException e) {
             ErrorLogCollection.getInstance().addErrorLog(new EvidenceUploadError(e));
         }
         return null;
     }
 
-    /**
-     * Get data
-     *
-     * @return data
-     */
-    public String getData() {
-        return data;
-    }
-
-    /**
-     * Set data
-     *
-     * @param data Data
-     * @return this
-     */
-    public XrayEvidenceItemEntity setData(String data) {
-        this.data = data;
-        return this;
-    }
-
-    /**
-     * Get filename
-     *
-     * @return filename
-     */
-    public String getFilename() {
-        return filename;
-    }
-
-    /**
-     * Set filename
-     *
-     * @param filename Filename
-     * @return this
-     */
-    public XrayEvidenceItemEntity setFilename(String filename) {
-        this.filename = filename;
-        return this;
-    }
-
-    /**
-     * Get contentType
-     *
-     * @return contentType
-     */
-    public String getContentType() {
-        return contentType;
-    }
-
-    /**
-     * Set contentType
-     *
-     * @param contentType ContentType
-     * @return this
-     */
-    public XrayEvidenceItemEntity setContentType(String contentType) {
-        this.contentType = contentType;
-        return this;
-    }
 }

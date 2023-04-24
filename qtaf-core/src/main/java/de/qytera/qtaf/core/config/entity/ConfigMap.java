@@ -1,23 +1,32 @@
 package de.qytera.qtaf.core.config.entity;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonSyntaxException;
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.PathNotFoundException;
 import de.qytera.qtaf.core.QtafFactory;
-import de.qytera.qtaf.core.log.Logger;
+import de.qytera.qtaf.core.gson.GsonFactory;
 import de.qytera.qtaf.core.log.model.error.ConfigurationError;
 import de.qytera.qtaf.core.log.model.error.ErrorLogCollection;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
 /**
  * Configuration entity
  */
+@RequiredArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 public class ConfigMap extends HashMap<String, Object> {
     /**
      * Error log collection
      */
-    private ErrorLogCollection errorLogCollection = ErrorLogCollection.getInstance();
+    private static final ErrorLogCollection ERROR_LOG_COLLECTION = ErrorLogCollection.getInstance();
 
     /**
      * Json context
@@ -25,18 +34,10 @@ public class ConfigMap extends HashMap<String, Object> {
     private final DocumentContext documentContext;
 
     /**
-     * Constructor
-     *
-     * @param documentContext json context
+     * The path of the underlying document used to build the configuration map.
      */
-    public ConfigMap(DocumentContext documentContext) {
-        this.documentContext = documentContext;
-    }
-
-    /**
-     * Logger
-     */
-    protected Logger logger = QtafFactory.getLogger();
+    @Getter
+    private final String location;
 
     private Object getValue(String key) {
         // First check if this key has been overwritten
@@ -51,11 +52,7 @@ public class ConfigMap extends HashMap<String, Object> {
         }
         // Finally try to find key in configuration file
         if (value == null || value.equals("")) {
-            try {
-                value = documentContext.read("$." + key);
-            } catch (PathNotFoundException e) {
-                return null;
-            }
+            value = documentContext.read("$." + key);
         }
         return value;
     }
@@ -65,9 +62,11 @@ public class ConfigMap extends HashMap<String, Object> {
         if (value != null) {
             try {
                 return clazz.cast(value);
-            } catch (ClassCastException e) {
-                logger.error(String.format("Value '%s' of key '%s' could not be parsed as %s", value, key, clazz.getName()));
-                this.errorLogCollection.addErrorLog(new ConfigurationError(e));
+            } catch (ClassCastException exception) {
+                QtafFactory.getLogger().error(
+                        String.format("Value '%s' of key '%s' could not be parsed as %s", value, key, clazz.getName())
+                );
+                ERROR_LOG_COLLECTION.addErrorLog(new ConfigurationError(exception));
             }
         }
         return null;
@@ -77,18 +76,23 @@ public class ConfigMap extends HashMap<String, Object> {
      * Retrieves the value for the given key, interpreted as a {@link String}.
      *
      * @param key the key of the value to retrieve
-     * @return the key's value or null if there is no value
+     * @return the key's value or null if there is no value or if the value cannot be interpreted as a {@code String}
      */
     public String getString(String key) {
-        return this.getValue(key, String.class);
+        try {
+            return this.getValue(key, String.class);
+        } catch (PathNotFoundException exception) {
+            logMissingKey(key);
+        }
+        return null;
     }
 
     /**
-     * Retrieves the value for the given key, interpreted as a {@link String}. If the value does not exist or is null,
-     * returns {@code valueIfNull} instead.
+     * Retrieves the value for the given key, interpreted as a {@link String}. Returns {@code valueIfNull} if the value
+     * does not exist, cannot be interpreted as a {@code String} or is null.
      *
-     * @param key         the key of the value to retrieve
-     * @param valueIfNull the value to return if there is no value attached to the key
+     * @param key         the key of the value to retrieve if possible
+     * @param valueIfNull the value to return if retrieval was unsuccessful
      * @return the key's value or the provided default value
      */
     public String getString(String key, String valueIfNull) {
@@ -97,23 +101,23 @@ public class ConfigMap extends HashMap<String, Object> {
     }
 
     /**
-     * Get value from environment variable
+     * Retrieves the value for the given key from environment variables.
      *
      * @param key configuration key
-     * @return configuration value
+     * @return the environment variable's value or null if the environment variable has not been set
      */
     public String getStringFromEnvironment(String key) {
         // Search for lower case and upper case keys
-        String keyLower = key.trim().replace('.', '_').toLowerCase();
-        String keyUpper = keyLower.toUpperCase();
-
-        String s = System.getenv(keyLower);
-
-        if (s != null) {
-            return s;
+        String environmentVariable = keyAsEnvironmentVariable(key);
+        String s = System.getenv(environmentVariable);
+        if (s == null) {
+            s = System.getenv(environmentVariable.toLowerCase());
         }
+        return s;
+    }
 
-        return System.getenv(keyUpper);
+    private String keyAsEnvironmentVariable(String key) {
+        return key.trim().replace('.', '_').toUpperCase();
     }
 
     /**
@@ -127,33 +131,36 @@ public class ConfigMap extends HashMap<String, Object> {
     }
 
     /**
-     * Set string value
+     * Set the value for the given key to the provided {@link String}.
      *
-     * @param key   Key
-     * @param value Key
-     * @return self
+     * @param key   the key of the value to set
+     * @param value the value to set
      */
-    public ConfigMap setString(String key, String value) {
+    public void setString(String key, String value) {
         this.put(key, value);
-        return this;
     }
 
     /**
      * Retrieves the value for the given key, interpreted as an {@link Integer}.
      *
      * @param key the key of the value to retrieve
-     * @return the key's value or null if there is no value
+     * @return the key's value or null if there is no value or if the value cannot be interpreted as an {@code Integer}
      */
     public Integer getInt(String key) {
-        return this.getValue(key, Integer.class);
+        try {
+            return this.getValue(key, Integer.class);
+        } catch (PathNotFoundException exception) {
+            logMissingKey(key);
+        }
+        return null;
     }
 
     /**
-     * Retrieves the value for the given key, interpreted as an {@link Integer}. If the value does not exist or is null,
-     * returns {@code valueIfNull} instead.
+     * Retrieves the value for the given key, interpreted as an {@link Integer}. Returns {@code valueIfNull} if the
+     * value does not exist, cannot be interpreted as an {@code Integer} or is null.
      *
-     * @param key         the key of the value to retrieve
-     * @param valueIfNull the value to return if there is no value attached to the key
+     * @param key         the key of the value to retrieve if possible
+     * @param valueIfNull the value to return if retrieval was unsuccessful
      * @return the key's value or the provided default value
      */
     public Integer getInt(String key, Integer valueIfNull) {
@@ -162,33 +169,36 @@ public class ConfigMap extends HashMap<String, Object> {
     }
 
     /**
-     * Set int value
+     * Set the value for the given key to the provided {@link Integer}.
      *
-     * @param key   Key
-     * @param value Key
-     * @return self
+     * @param key   the key of the value to set
+     * @param value the value to set
      */
-    public ConfigMap setInt(String key, Integer value) {
+    public void setInt(String key, Integer value) {
         this.put(key, value);
-        return this;
     }
 
     /**
      * Retrieves the value for the given key, interpreted as a {@link Double}.
      *
      * @param key the key of the value to retrieve
-     * @return the key's value or null if there is no value
+     * @return the key's value or null if there is no value or if the value cannot be interpreted as a {@code Double}
      */
     public Double getDouble(String key) {
-        return this.getValue(key, Double.class);
+        try {
+            return this.getValue(key, Double.class);
+        } catch (PathNotFoundException exception) {
+            logMissingKey(key);
+        }
+        return null;
     }
 
     /**
-     * Retrieves the value for the given key, interpreted as a {@link Double}. If the value does not exist or is null,
-     * returns {@code valueIfNull} instead.
+     * Retrieves the value for the given key, interpreted as a {@link Double}. Returns {@code valueIfNull} if the value
+     * does not exist, cannot be interpreted as a {@code Double} or is null.
      *
-     * @param key         the key of the value to retrieve
-     * @param valueIfNull the value to return if there is no value attached to the key
+     * @param key         the key of the value to retrieve if possible
+     * @param valueIfNull the value to return if retrieval was unsuccessful
      * @return the key's value or the provided default value
      */
     public Double getDouble(String key, Double valueIfNull) {
@@ -197,33 +207,36 @@ public class ConfigMap extends HashMap<String, Object> {
     }
 
     /**
-     * Set double value
+     * Set the value for the given key to the provided {@link Double}.
      *
-     * @param key   Key
-     * @param value Key
-     * @return self
+     * @param key   the key of the value to set
+     * @param value the value to set
      */
-    public ConfigMap setDouble(String key, Double value) {
+    public void setDouble(String key, Double value) {
         this.put(key, value);
-        return this;
     }
 
     /**
      * Retrieves the value for the given key, interpreted as a {@link Boolean}.
      *
      * @param key the key of the value to retrieve
-     * @return the key's value or the provided default value
+     * @return the key's value or null if there is no value or if the value cannot be interpreted as a {@code Boolean}
      */
     public Boolean getBoolean(String key) {
-        return this.getValue(key, Boolean.class);
+        try {
+            return this.getValue(key, Boolean.class);
+        } catch (PathNotFoundException exception) {
+            logMissingKey(key);
+        }
+        return null;
     }
 
     /**
-     * Retrieves the value for the given key, interpreted as a {@link Double}. If the value does not exist or is null,
-     * returns {@code valueIfNull} instead.
+     * Retrieves the value for the given key, interpreted as a {@link Boolean}. Returns {@code valueIfNull} if the value
+     * does not exist, cannot be interpreted as a {@code Boolean} or is null.
      *
-     * @param key         the key of the value to retrieve
-     * @param valueIfNull the value to return if there is no value attached to the key
+     * @param key         the key of the value to retrieve if possible
+     * @param valueIfNull the value to return if retrieval was unsuccessful
      * @return the key's value or the provided default value
      */
     public Boolean getBoolean(String key, Boolean valueIfNull) {
@@ -232,24 +245,109 @@ public class ConfigMap extends HashMap<String, Object> {
     }
 
     /**
-     * Set boolean value
+     * Set the value for the given key to the provided {@link Boolean}.
      *
-     * @param key   Key
-     * @param value Key
-     * @return self
+     * @param key   the key of the value to set
+     * @param value the value to set
      */
-    public ConfigMap setBoolean(String key, Boolean value) {
+    public void setBoolean(String key, Boolean value) {
         this.put(key, value);
-        return this;
     }
 
     /**
-     * Get array
+     * Retrieves a list of values for the given key.
      *
-     * @param key Json path
-     * @return array
+     * @param key the key of the array to retrieve
+     * @return the list or null if there is no value or if the value cannot be interpreted as a list of {@link JsonElement}
      */
-    public List<?> getArray(String key) {
-        return documentContext.read("$." + key);
+    public List<JsonElement> getList(String key) {
+        Object value = null;
+        try {
+            value = getValue(key);
+            if (value != null) {
+                return GsonFactory.getInstance().fromJson(value.toString(), JsonArray.class).asList();
+            }
+        } catch (PathNotFoundException exception) {
+            logMissingKey(key);
+        } catch (JsonSyntaxException exception) {
+            QtafFactory.getLogger().error(
+                    String.format(
+                            "Value '%s' of key '%s' could not be parsed as a list (%s)",
+                            value,
+                            key,
+                            exception
+                    )
+            );
+            ERROR_LOG_COLLECTION.addErrorLog(new ConfigurationError(exception));
+        }
+        return null;
     }
+
+    private void logMissingKey(String key) {
+        QtafFactory.getLogger().error(
+                String.format(
+                        "Failed to find key '%s' in JVM arguments (-D%s), environment variables (%s) or configuration file %s",
+                        key,
+                        key,
+                        keyAsEnvironmentVariable(key),
+                        location
+                )
+        );
+    }
+
+    /**
+     * Logs an error describing that a value was null (a missing key) and that a fallback value will be used instead.
+     *
+     * @param key           the missing key
+     * @param fallbackValue the value that will be used instead
+     * @param <T>           the fallback value type
+     * @return the fallback value
+     */
+    public final <T> T logMissingValue(String key, T fallbackValue) {
+        QtafFactory.getLogger().error(
+                String.format(
+                        "Value for '%s' was null, defaulting to '%s'.",
+                        key,
+                        fallbackValue
+                )
+        );
+        return fallbackValue;
+    }
+
+    /**
+     * Logs an error that an unknown value was encountered for the given key. An optional array of known values can
+     * be provided to provide more detail.
+     *
+     * @param key           the key for which an unknown value was retrieved
+     * @param unknownValue  the unknown value
+     * @param fallbackValue the value that will be used instead
+     * @param knownValues   the array of known values
+     * @param <T>           the value type
+     * @return the fallback value
+     */
+    @SafeVarargs
+    public final <T> T logUnknownValue(String key, T unknownValue, T fallbackValue, T... knownValues) {
+        if (knownValues.length == 0) {
+            QtafFactory.getLogger().error(
+                    String.format(
+                            "Unknown value for '%s': '%s'. Defaulting to '%s'.",
+                            key,
+                            unknownValue,
+                            fallbackValue
+                    )
+            );
+        } else {
+            QtafFactory.getLogger().error(
+                    String.format(
+                            "Unknown value for '%s': '%s' (known values: '%s'). Defaulting to '%s'.",
+                            key,
+                            unknownValue,
+                            Arrays.toString(knownValues),
+                            fallbackValue
+                    )
+            );
+        }
+        return fallbackValue;
+    }
+
 }

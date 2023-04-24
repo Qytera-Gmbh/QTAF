@@ -17,14 +17,14 @@ public class XrayServiceFactory {
 
         if (XrayConfigHelper.isXrayServerService()) {
             xrayService = XrayServerService.getInstance();
-            ((XrayServerService) xrayService).setJwtToken(XrayConfigHelper.getBearerToken());
+            xrayService.setJwtToken(XrayConfigHelper.getAuthenticationXrayBearerToken());
         } else {
             xrayService = XrayCloudService.getInstance();
 
             // Set Authentication credentials
             ((XrayCloudService) xrayService).setAuthCredentials(new XrayAuthCredentials(
-                    XrayConfigHelper.getClientId(),
-                    XrayConfigHelper.getClientSecret()
+                    XrayConfigHelper.getAuthenticationXrayClientId(),
+                    XrayConfigHelper.getAuthenticationXrayClientSecret()
             ));
         }
 

@@ -1,29 +1,49 @@
 package de.qytera.qtaf.xray.entity;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Xray Test Info entity
+ * Xray test info entity.
  *
- * @see "https://docs.getxray.app/display/XRAY/Import+Execution+Results#ImportExecutionResults-XrayJSONSchema"
+ * @see <a href="https://docs.getxray.app/display/XRAY/Import+Execution+Results#ImportExecutionResults-XrayJSONSchema">Xray Server JSON format</a>
+ * @see <a href="https://docs.getxray.app/display/XRAYCLOUD/Using+Xray+JSON+format+to+import+execution+results">Xray Cloud JSON format</a>
  */
-public class XrayTestInfoEntity {
-    private String summary;
-    private String description;
-    private String projectKey;
+@Getter
+@Setter
+@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
+public abstract class XrayTestInfoEntity {
+    /**
+     * The summary for the test issue.
+     */
+    private final String summary;
+    /**
+     * The project key where the test issue will be created.
+     */
+    private final String projectKey;
+    /**
+     * An array of requirement issue keys to associate with the test.
+     */
     private List<String> requirementKeys = new ArrayList<>();
+    /**
+     * The test issue labels.
+     */
     private List<String> labels = new ArrayList<>();
-    private String testType;
-    private List<XrayTestInfoStepEntity> steps = new ArrayList<>();
+    /**
+     * An array of test steps (for Manual tests).
+     */
+    private List<XrayTestStepEntity> steps = new ArrayList<>();
+    /**
+     * The BDD scenario.
+     */
     private String scenario;
-    private String scenarioType;
+    /**
+     * The generic test definition.
+     */
     private String definition;
-
-
-    class XrayTestInfoStepEntity {
-        private String action;
-        private String data;
-        private String result;
-    }
 }

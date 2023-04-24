@@ -2,61 +2,31 @@ package de.qytera.qtaf.xray.dto.request;
 
 import de.qytera.qtaf.xray.entity.XrayTestEntity;
 import de.qytera.qtaf.xray.entity.XrayTestExecutionInfoEntity;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Xray import request DTO. This class represents the JSON structure that Xray API expects when importing tests.
+ *
+ * @see <a href="https://docs.getxray.app/display/XRAY/Import+Execution+Results#ImportExecutionResults-XrayJSONformat">Xray Server REST documentation</a>
+ * @see <a href="https://docs.getxray.app/display/XRAYCLOUD/Using+Xray+JSON+format+to+import+execution+results#UsingXrayJSONformattoimportexecutionresults-JSONformat">Xray Cloud REST documentation</a>
  */
+@Getter
+@Setter
 public class XrayImportRequestDto {
     /**
-     * Tests
+     * The test execution key where to import the execution results.
      */
-    private final List<XrayTestEntity> tests = new ArrayList<>();
-
+    private String testExecutionKey;
     /**
-     * Test EXecution Info Entity
+     * The info object for creating new Test Execution issues.
      */
     private XrayTestExecutionInfoEntity info;
-
     /**
-     * Get tests
-     *
-     * @return tests
+     * The Test Run result details.
      */
-    public List<XrayTestEntity> getTests() {
-        return tests;
-    }
+    private List<XrayTestEntity> tests;
 
-    /**
-     * Add test to list
-     *
-     * @param xrayTestEntity xray test entity
-     * @return this
-     */
-    public XrayImportRequestDto addTest(XrayTestEntity xrayTestEntity) {
-        this.tests.add(xrayTestEntity);
-        return this;
-    }
-
-    /**
-     * Get info
-     *
-     * @return info
-     */
-    public XrayTestExecutionInfoEntity getInfo() {
-        return info;
-    }
-
-    /**
-     * Set info
-     *
-     * @param info Info
-     * @return this
-     */
-    public XrayImportRequestDto setInfo(XrayTestExecutionInfoEntity info) {
-        this.info = info;
-        return this;
-    }
 }

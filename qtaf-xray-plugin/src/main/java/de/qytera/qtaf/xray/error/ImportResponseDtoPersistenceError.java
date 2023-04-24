@@ -3,6 +3,9 @@ package de.qytera.qtaf.xray.error;
 import de.qytera.qtaf.core.log.model.error.ErrorLog;
 import de.qytera.qtaf.xray.dto.response.XrayImportResponseDto;
 
+/**
+ * An error log entry describing an error occurring when persisting test result import responses.
+ */
 public class ImportResponseDtoPersistenceError extends ErrorLog {
     /**
      * Import DTO

@@ -2,99 +2,40 @@ package de.qytera.qtaf.xray.entity;
 
 import de.qytera.qtaf.core.log.model.message.StepInformationLogMessage;
 import de.qytera.qtaf.xray.config.XrayStatusHelper;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Xray test step entity
+ * Xray manual test step result entity.
+ *
+ * @see <a href="https://docs.getxray.app/display/XRAY/Import+Execution+Results#ImportExecutionResults-XrayJSONSchema">Xray Server JSON format</a>
+ * @see <a href="https://docs.getxray.app/display/XRAYCLOUD/Using+Xray+JSON+format+to+import+execution+results">Xray Cloud JSON format</a>
  */
-public class XrayManualTestStepResultEntity {
+@Getter
+@Setter
+public abstract class XrayManualTestStepResultEntity {
     /**
-     * The concrete test step status, e.g. {@code "PASSED"} or {@code "FAIL"}.
-     * Depends on the Xray instance configuration.
+     * The status for the test step (PASSED, FAILED, EXECUTING, TO DO, custom statuses ...).
      */
-    private String status;
-
+    private final String status;
     /**
-     * Step comment
+     * The comment for the step result.
      */
     private String comment;
-
     /**
-     * Step evidences
+     * An array of defect issue keys to associate with the test run.
      */
-    private List<XrayEvidenceItemEntity> evidences = new ArrayList<>();
-
+    private List<String> defects = new ArrayList<>();
     /**
-     * Step defects
-     */
-    private List<XrayDefectEntity> defects = new ArrayList<>();
-
-    /**
-     * Actual step result
+     * The actual result field for the step result.
      */
     private String actualResult;
 
-    /**
-     * Returns the concrete test step status, e.g. {@code "PASSED"} or {@code "FAIL"}.
-     * Depends on the Xray instance configuration.
-     *
-     * @return the status text
-     */
-    public String getStatus() {
-        return status;
-    }
-
-    /**
-     * Set the status of the test step.
-     *
-     * @param status the test step status
-     * @return this
-     */
-    public XrayManualTestStepResultEntity setStatus(StepInformationLogMessage.Status status) {
+    protected XrayManualTestStepResultEntity(StepInformationLogMessage.Status status) {
         this.status = XrayStatusHelper.statusToText(status);
-        return this;
-    }
-
-    /**
-     * Get comment
-     *
-     * @return comment Comment
-     */
-    public String getComment() {
-        return comment;
-    }
-
-    /**
-     * Set comment
-     *
-     * @param comment Comment
-     * @return this
-     */
-    public XrayManualTestStepResultEntity setComment(String comment) {
-        this.comment = comment;
-        return this;
-    }
-
-    /**
-     * Get evidences
-     *
-     * @return evidences Evidences
-     */
-    public List<XrayEvidenceItemEntity> getEvidences() {
-        return evidences;
-    }
-
-    /**
-     * Set evidences
-     *
-     * @param evidences Evidences
-     * @return this
-     */
-    public XrayManualTestStepResultEntity setEvidences(List<XrayEvidenceItemEntity> evidences) {
-        this.evidences = evidences;
-        return this;
     }
 
     /**
@@ -102,53 +43,14 @@ public class XrayManualTestStepResultEntity {
      * evidences remains unchanged.
      *
      * @param evidence the evidence to add
-     * @return this
      */
-    public XrayManualTestStepResultEntity addEvidenceIfPresent(XrayEvidenceItemEntity evidence) {
-        if (evidence != null) {
-            this.evidences.add(evidence);
-        }
-        return this;
-    }
+    public abstract void addEvidenceIfPresent(XrayEvidenceItemEntity evidence);
 
     /**
-     * Get defects
+     * Retrieve a list of all evidence items attached to this step result.
      *
-     * @return defects Defects
+     * @return the list of evidence
      */
-    public List<XrayDefectEntity> getDefects() {
-        return defects;
-    }
-
-    /**
-     * Set defects
-     *
-     * @param defects Defects
-     * @return this
-     */
-    public XrayManualTestStepResultEntity setDefects(List<XrayDefectEntity> defects) {
-        this.defects = defects;
-        return this;
-    }
-
-    /**
-     * Get actualResult
-     *
-     * @return actualResult
-     */
-    public String getActualResult() {
-        return actualResult;
-    }
-
-    /**
-     * Set actualResult
-     *
-     * @param actualResult ActualResult
-     * @return this
-     */
-    public XrayManualTestStepResultEntity setActualResult(String actualResult) {
-        this.actualResult = actualResult;
-        return this;
-    }
+    public abstract List<XrayEvidenceItemEntity> getAllEvidence();
 
 }

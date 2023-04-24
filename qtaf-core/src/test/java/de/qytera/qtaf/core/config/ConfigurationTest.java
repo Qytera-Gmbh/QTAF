@@ -4,33 +4,39 @@ import de.qytera.qtaf.core.QtafFactory;
 import de.qytera.qtaf.core.config.entity.ConfigMap;
 import de.qytera.qtaf.core.io.DirectoryHelper;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class ConfigurationTest {
-    /**
-     * Instantiation of configuration should create a configuration file if it does not exist
-     */
+
+    private static final Path CONFIG_PATH = Paths.get(
+            DirectoryHelper.preparePath(ConfigurationFactory.QTAF_CONFIG_RESOURCES_BASE_DIR),
+            ConfigurationFactory.CONFIGURATION_RESOURCE_URL
+    );
+
+    @BeforeMethod
+    @AfterMethod
+    public void deleteConfiguration() {
+        File configFile = CONFIG_PATH.toFile();
+        if (configFile.exists()) {
+            Assert.assertTrue(configFile.delete(), String.format("failed to delete configuration file %s", configFile));
+        }
+    }
+
     @Test
     public void testCreationOfConfigurationFile() throws IOException {
-        String resourcesPath = DirectoryHelper.preparePath("$USER_DIR/src/test/resources/de/qytera/qtaf/core/config");
-        String configFilePath = DirectoryHelper.preparePath(resourcesPath);
-
-        File configFile = new File(configFilePath);
-
-        // First delete existing resources
-        DirectoryHelper.deleteDirectory(resourcesPath);
-
+        File configFile = CONFIG_PATH.toFile();
         Assert.assertFalse(configFile.exists());
-
-        // Instantiation of configuration should create configuration file
         ConfigurationFactory.createConfigurationFileIfNotExists(
-                resourcesPath,
-                "configuration.json"
+                ConfigurationFactory.QTAF_CONFIG_RESOURCES_BASE_DIR,
+                ConfigurationFactory.CONFIGURATION_RESOURCE_URL
         );
-
         Assert.assertTrue(configFile.exists());
     }
 
@@ -92,19 +98,6 @@ public class ConfigurationTest {
     }
 
     /**
-     * Test default Xray configuration
-     */
-    @Test
-    public void testXrayConfiguration() {
-        ConfigMap config = ConfigurationFactory.getInstance();
-
-        // Xray configuration
-        Assert.assertFalse(config.getBoolean("xray.enabled"));
-        Assert.assertNull(config.getString("xray.authentication.client_id"));
-        Assert.assertNull(config.getString("xray.authentication.client_secret"));
-    }
-
-    /**
      * Test default HTML configuration
      */
     @Test
@@ -123,7 +116,7 @@ public class ConfigurationTest {
         ConfigMap config = ConfigurationFactory.getInstance();
 
         // Framework
-        Assert.assertEquals(config.getArray("framework.packageNames").size(), 0);
+        Assert.assertEquals(config.getList("framework.packageNames").size(), 0);
     }
 
     @Test
@@ -165,4 +158,27 @@ public class ConfigurationTest {
         config.setBoolean(key, Boolean.FALSE);
         Assert.assertEquals(config.getBoolean(key), Boolean.FALSE);
     }
+
+    @Test
+    public void testGetList() {
+        String key = "hello.there.array";
+        ConfigMap config = ConfigurationFactory.getInstance();
+        Assert.assertNull(config.getList(key));
+        System.setProperty(key, "[a, 1, 2, \"hello\"]");
+        Assert.assertEquals(config.getList(key).size(), 4);
+        System.setProperty(key, "null");
+        Assert.assertNull(config.getList(key));
+        System.setProperty(key, "[\"missingQuote]");
+        Assert.assertNull(config.getList(key));
+        config.setString(key, null);
+        System.clearProperty(key);
+        Assert.assertNull(config.getList(key));
+    }
+
+    @Test
+    public void testLocation() {
+        ConfigMap config = ConfigurationFactory.getInstance();
+        Assert.assertEquals(config.getLocation(), CONFIG_PATH.toAbsolutePath().toString());
+    }
+
 }
