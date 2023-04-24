@@ -12,11 +12,12 @@ import org.testng.annotations.Test;
 /**
  * Test instantiation of selenium drivers
  */
+@Test(groups = {"driver"})
 public class DriverTest {
     /**
      * Test if the driver gets cached
      */
-    @Test(groups = {"driver"})
+    @Test
     public void testDriverCache() {
         WebDriver webDriver1 = DriverFactory.getDriver("chrome");
         webDriver1.quit();
@@ -26,7 +27,7 @@ public class DriverTest {
         DriverFactory.clearDriver();
     }
 
-    @Test(groups = {"driver", "chrome"})
+    @Test(groups = {"chrome"})
     public void testChromeDriverInstantiation() {
         DriverFactory.clearDriver();
         WebDriver webDriver = DriverFactory.getDriver("chrome");
@@ -35,7 +36,7 @@ public class DriverTest {
         DriverFactory.clearDriver();
     }
 
-    @Test(groups = {"driver", "firefox"})
+    @Test(groups = {"firefox"})
     public void testFirefoxDriverInstantiation() {
         DriverFactory.clearDriver();
         WebDriver webDriver = DriverFactory.getDriver("firefox");
@@ -44,7 +45,7 @@ public class DriverTest {
         DriverFactory.clearDriver();
     }
 
-    @Test(groups = {"driver", "edge"})
+    @Test(groups = {"edge"})
     public void testEdgeDriverInstantiation() {
         DriverFactory.clearDriver();
         WebDriver webDriver = DriverFactory.getDriver("edge");
@@ -53,7 +54,7 @@ public class DriverTest {
         DriverFactory.clearDriver();
     }
 
-    @Test(groups = {"driver", "ie"})
+    @Test(groups = {"ie"})
     public void testIEDriverInstantiation() {
         DriverFactory.clearDriver();
         WebDriver webDriver = DriverFactory.getDriver("ie");
