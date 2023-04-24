@@ -12,7 +12,7 @@ public class ChromeAndroidDriver extends AbstractAndroidDriver {
     }
 
     @Override
-    public WebDriver getDriver() {
+    public WebDriver getDriverInstance() {
         return getAndroidDriver(getDesiredCapabilitiesBrowser("Chrome"));
     }
 }

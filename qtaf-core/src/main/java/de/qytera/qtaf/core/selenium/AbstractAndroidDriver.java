@@ -2,6 +2,7 @@ package de.qytera.qtaf.core.selenium;
 
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.remote.MobileCapabilityType;
+import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.net.MalformedURLException;
@@ -13,20 +14,34 @@ import java.net.URL;
 public abstract class AbstractAndroidDriver extends AbstractDriver {
 
     /**
+     * Creates a new android driver.
+     */
+    protected AbstractAndroidDriver() {
+        super(false);
+    }
+
+    /**
      * Get driver capabilities
      *
      * @return driver capabilities
      */
     protected DesiredCapabilities getCapabilities() {
         DesiredCapabilities dc = new DesiredCapabilities();
-
-        logInfo("[DesiredCapabilities] " + MobileCapabilityType.DEVICE_NAME + ": " + configMap.getString("appium.capabilities.deviceName"));
-        dc.setCapability(MobileCapabilityType.DEVICE_NAME, configMap.getString("appium.capabilities.deviceName"));
-
-        logInfo("[DesiredCapabilities] " + MobileCapabilityType.PLATFORM_NAME + ": " + configMap.getString("appium.capabilities.platformName"));
-        dc.setCapability(MobileCapabilityType.PLATFORM_NAME, configMap.getString("appium.capabilities.platformName"));
-
+        logDesiredCapability(MobileCapabilityType.DEVICE_NAME, CONFIG.getString("appium.capabilities.deviceName"));
+        logDesiredCapability(CapabilityType.PLATFORM_NAME, CONFIG.getString("appium.capabilities.platformName"));
+        dc.setCapability(MobileCapabilityType.DEVICE_NAME, CONFIG.getString("appium.capabilities.deviceName"));
+        dc.setCapability(CapabilityType.PLATFORM_NAME, CONFIG.getString("appium.capabilities.platformName"));
         return dc;
+    }
+
+    /**
+     * Creates a log message describing the desired capability and its desired value.
+     *
+     * @param capability the desired capability
+     * @param value      the desired value
+     */
+    protected void logDesiredCapability(String capability, String value) {
+        logInfo(String.format("[DesiredCapabilities] %s: %s", capability, value));
     }
 
     /**
@@ -37,9 +52,8 @@ public abstract class AbstractAndroidDriver extends AbstractDriver {
      */
     protected DesiredCapabilities getDesiredCapabilitiesBrowser(String browserName) {
         DesiredCapabilities dc = getCapabilities();
-
-        logInfo("[DesiredCapabilities] " + MobileCapabilityType.BROWSER_NAME + ": " + browserName);
-        dc.setCapability(MobileCapabilityType.BROWSER_NAME, browserName);
+        logDesiredCapability(CapabilityType.BROWSER_NAME, browserName);
+        dc.setCapability(CapabilityType.BROWSER_NAME, browserName);
 
         return dc;
     }
@@ -52,12 +66,8 @@ public abstract class AbstractAndroidDriver extends AbstractDriver {
      */
     protected AndroidDriver getAndroidDriver(DesiredCapabilities dc) {
         try {
-            logInfo("[Android Driver] " + "URL" + ": " + configMap.getString("appium.driverSettings.url"));
-
-            AndroidDriver androidDriver = new AndroidDriver(
-                    new URL(configMap.getString("appium.driverSettings.url")), dc);
-
-            return androidDriver;
+            logInfo("[Android Driver] " + "URL" + ": " + CONFIG.getString("appium.driverSettings.url"));
+            return new AndroidDriver(new URL(CONFIG.getString("appium.driverSettings.url")), dc);
         } catch (MalformedURLException e) {
             e.printStackTrace();
             return null;

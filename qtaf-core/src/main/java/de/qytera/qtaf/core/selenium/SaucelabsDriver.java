@@ -7,13 +7,21 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class SaucelabsDriver extends AbstractDriver {
+
+    /**
+     * Creates a new sauce driver.
+     */
+    public SaucelabsDriver() {
+        super(false);
+    }
+
     @Override
     public String getName() {
         return "sauce";
     }
 
     @Override
-    public WebDriver getDriver() {
+    public WebDriver getDriverInstance() {
         return new RemoteWebDriver(SeleniumDriverConfigHelper.getRemoteUrl(), getCapabilities());
     }
 
