@@ -101,23 +101,23 @@ public class ConfigMap extends HashMap<String, Object> {
     }
 
     /**
-     * Get value from environment variable
+     * Retrieves the value for the given key from environment variables.
      *
      * @param key configuration key
-     * @return configuration value
+     * @return the environment variable's value or null if the environment variable has not been set
      */
     public String getStringFromEnvironment(String key) {
         // Search for lower case and upper case keys
-        String keyLower = key.trim().replace('.', '_').toLowerCase();
-        String keyUpper = keyLower.toUpperCase();
-
-        String s = System.getenv(keyLower);
-
-        if (s != null) {
-            return s;
+        String environmentVariable = keyAsEnvironmentVariable(key);
+        String s = System.getenv(environmentVariable);
+        if (s == null) {
+            s = System.getenv(environmentVariable.toLowerCase());
         }
+        return s;
+    }
 
-        return System.getenv(keyUpper);
+    private String keyAsEnvironmentVariable(String key) {
+        return key.trim().replace('.', '_').toUpperCase();
     }
 
     /**
@@ -258,13 +258,15 @@ public class ConfigMap extends HashMap<String, Object> {
      * Retrieves a list of values for the given key.
      *
      * @param key the key of the array to retrieve
-     * @return the list or null if there is no value
+     * @return the list or null if there is no value or if the value cannot be interpreted as a list of {@link JsonElement}
      */
     public List<JsonElement> getList(String key) {
         Object value = null;
         try {
             value = getValue(key);
-            return GsonFactory.getInstance().fromJson(value.toString(), JsonArray.class).asList();
+            if (value != null) {
+                return GsonFactory.getInstance().fromJson(value.toString(), JsonArray.class).asList();
+            }
         } catch (PathNotFoundException exception) {
             logMissingKey(key);
         } catch (JsonSyntaxException exception) {
@@ -284,8 +286,10 @@ public class ConfigMap extends HashMap<String, Object> {
     private void logMissingKey(String key) {
         QtafFactory.getLogger().error(
                 String.format(
-                        "Failed to find key '%s' in configuration file %s",
+                        "Failed to find key '%s' in JVM arguments (-D%s), environment variables (%s) or configuration file %s",
                         key,
+                        key,
+                        keyAsEnvironmentVariable(key),
                         location
                 )
         );
