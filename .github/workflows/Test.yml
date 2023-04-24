@@ -4,7 +4,7 @@ on:
     inputs:
       java-version:
         required: true
-        type: number
+        type: string
       java-distribution:
         required: false
         type: string

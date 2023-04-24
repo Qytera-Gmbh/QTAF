@@ -6,11 +6,12 @@ on:
     types: ["published"]
 
 env:
-  JAVA_VERSION: 17
+  JAVA_VERSION: "17"
   JAVA_DISTRIBUTION: "zulu"
 
 jobs:
-  # Workaround: a job for setting up variables: https://github.com/orgs/community/discussions/26671#discussioncomment-4295807
+  # Workaround: a job for providing env variables as arguments to reusable workflows.
+  # See: https://github.com/orgs/community/discussions/26671#discussioncomment-4295807
   vars:
     runs-on: ubuntu-latest
     outputs:
