@@ -10,6 +10,8 @@ import de.qytera.qtaf.core.log.model.error.ErrorLogCollection;
 import de.qytera.qtaf.core.reflection.ClassLoader;
 import de.qytera.qtaf.core.selenium.helper.SeleniumDriverConfigHelper;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.remote.LocalFileDetector;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.util.concurrent.TimeUnit;
 
@@ -94,6 +96,10 @@ public class DriverFactory {
 
         // Initialize driver
         if (driver != null) {
+            // See: https://www.selenium.dev/documentation/webdriver/drivers/remote_webdriver/#local-file-detector
+            if (driver instanceof RemoteWebDriver remoteDriver) {
+                remoteDriver.setFileDetector(new LocalFileDetector());
+            }
             logInfo("Driver initialized: " + driverName);
             QtafEvents.afterDriverInitialization.onNext(d);
         } else {
