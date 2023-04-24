@@ -11,13 +11,20 @@ import org.openqa.selenium.remote.RemoteWebDriver;
  */
 public class ChromeRemoteDriver extends AbstractDriver {
 
+    /**
+     * Creates a new chrome-remote driver.
+     */
+    public ChromeRemoteDriver() {
+        super(true);
+    }
+
     @Override
     public String getName() {
         return "chrome-remote";
     }
 
     @Override
-    public WebDriver getDriver() {
+    public WebDriver getDriverInstance() {
         return new RemoteWebDriver(SeleniumDriverConfigHelper.getRemoteUrl(), getCapabilities());
     }
 

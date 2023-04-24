@@ -9,15 +9,16 @@ import de.qytera.qtaf.core.log.model.error.DriverInitializationError;
 import de.qytera.qtaf.core.log.model.error.ErrorLogCollection;
 import de.qytera.qtaf.core.reflection.ClassLoader;
 import de.qytera.qtaf.core.selenium.helper.SeleniumDriverConfigHelper;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.remote.LocalFileDetector;
-import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.util.concurrent.TimeUnit;
 
 /**
  * Driver factory class
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class DriverFactory {
     /**
      * Selenium Web Driver object
@@ -37,7 +38,7 @@ public class DriverFactory {
     /**
      * Logger
      */
-    private static Logger logger = QtafFactory.getLogger();
+    private static final Logger LOGGER = QtafFactory.getLogger();
 
     /**
      * Get default web driver instance. The default driver name is fetched from the QTAF configuration.
@@ -79,7 +80,7 @@ public class DriverFactory {
                     break;
                 }
             }
-        } catch (Throwable e) {
+        } catch (Exception e) {
             // Add error log
             errorLogCollection.addErrorLog(new DriverInitializationError(e));
 
@@ -96,10 +97,6 @@ public class DriverFactory {
 
         // Initialize driver
         if (driver != null) {
-            // See: https://www.selenium.dev/documentation/webdriver/drivers/remote_webdriver/#local-file-detector
-            if (driver instanceof RemoteWebDriver remoteDriver) {
-                remoteDriver.setFileDetector(new LocalFileDetector());
-            }
             logInfo("Driver initialized: " + driverName);
             QtafEvents.afterDriverInitialization.onNext(d);
         } else {
@@ -184,7 +181,7 @@ public class DriverFactory {
      * @param message Log message
      */
     private static void logInfo(String message) {
-        logger.info("[DriverFactory] " + message);
+        LOGGER.info("[DriverFactory] " + message);
     }
 
     /**
@@ -193,7 +190,7 @@ public class DriverFactory {
      * @param message Log message
      */
     private static void logError(String message) {
-        logger.error("[DriverFactory] " + message);
+        LOGGER.error("[DriverFactory] " + message);
     }
 
 }
