@@ -160,7 +160,7 @@ public class ConfigurationTest {
     }
 
     @Test
-    public void testGetArray() {
+    public void testGetList() {
         String key = "hello.there.array";
         ConfigMap config = ConfigurationFactory.getInstance();
         Assert.assertNull(config.getList(key));
@@ -169,6 +169,9 @@ public class ConfigurationTest {
         System.setProperty(key, "null");
         Assert.assertNull(config.getList(key));
         System.setProperty(key, "[\"missingQuote]");
+        Assert.assertNull(config.getList(key));
+        config.setString(key, null);
+        System.clearProperty(key);
         Assert.assertNull(config.getList(key));
     }
 
