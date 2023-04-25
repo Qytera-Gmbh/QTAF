@@ -393,4 +393,14 @@ public class XrayJsonImportBuilderTest {
         Assert.assertEquals(dto.getTests().get(0).getIterations().get(0).getSteps().get(0).getAllEvidence().size(), 3);
     }
 
+    @Test
+    public void testTestPlanKey() throws XrayJsonImportBuilder.NoXrayTestException {
+        TestScenarioLogCollection scenarioCollection = scenario(1, "feature-test-plan-key");
+        scenarioCollection.addLogMessage(successfulStep("stepWithoutParameters"));
+        scenarioCollection.setStatus(TestScenarioLogCollection.Status.SUCCESS);
+        ConfigurationFactory.getInstance().setString(XrayConfigHelper.RESULTS_UPLOAD_TEST_PLAN_KEY, "QTAF-765");
+        XrayImportRequestDto dto = new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance()).buildRequest();
+        Assert.assertEquals(dto.getInfo().getTestPlanKey(), "QTAF-765");
+    }
+
 }
