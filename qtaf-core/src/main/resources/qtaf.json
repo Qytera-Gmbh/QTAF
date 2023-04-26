@@ -46,17 +46,17 @@
       "scenarioImageEvidence": true,
       "customStatus": {
         "test": {
-          "passed": null,
-          "failed": null,
-          "pending": null,
-          "skipped": null
+          "passed": "PASSED",
+          "failed": "FAILED",
+          "pending": "PENDING",
+          "skipped": "SKIPPED"
         },
         "step": {
-          "passed": null,
-          "failed": null,
-          "pending": null,
-          "skipped": null,
-          "undefined": null
+          "passed": "PASSED",
+          "failed": "FAILED",
+          "pending": "PENDING",
+          "skipped": "SKIPPED",
+          "undefined": "UNDEFINED"
         }
       },
       "tests": {
