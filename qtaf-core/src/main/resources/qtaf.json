@@ -32,9 +32,9 @@
     "projectKey": null,
     "authentication": {
       "xray": {
-        "clientId": null,
-        "clientSecret": null,
-        "bearerToken": null
+        "clientId": "your-client-id",
+        "clientSecret": "your-client-secret",
+        "bearerToken": "your-bearer-token"
       },
       "jira": {
         "username": null,
@@ -77,6 +77,17 @@
         }
       }
     }
+  },
+  "testrail": {
+    "enabled": false,
+    "url": "https://your-domain.testrail.net",
+    "authentication": {
+      "clientId": "",
+      "clientSecret": ""
+    }
+  },
+  "security": {
+    "key": "your-security-key"
   },
   "htmlReport": {
     "enabled": true
