@@ -8,13 +8,21 @@ import org.openqa.selenium.edge.EdgeOptions;
  * This class is responsible for connecting to a local edge browser
  */
 public class EdgeDriver extends AbstractDriver {
+
+    /**
+     * Creates a new edge driver.
+     */
+    public EdgeDriver() {
+        super(false);
+    }
+
     @Override
     public String getName() {
         return "edge";
     }
 
     @Override
-    public WebDriver getDriver() {
+    public WebDriver getDriverInstance() {
         WebDriverManager webDriverManager = WebDriverManager.edgedriver();
         initWebDriverManager(webDriverManager);
         return new org.openqa.selenium.edge.EdgeDriver(getCapabilities());
@@ -24,7 +32,6 @@ public class EdgeDriver extends AbstractDriver {
     protected EdgeOptions getCapabilities() {
         // Make selenium use the selenium-http-jdk-client package
         System.setProperty("webdriver.http.factory", "jdk-http-client");
-        EdgeOptions options = new EdgeOptions();
-        return options;
+        return new EdgeOptions();
     }
 }

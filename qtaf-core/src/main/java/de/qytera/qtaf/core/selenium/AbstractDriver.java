@@ -7,6 +7,8 @@ import de.qytera.qtaf.core.selenium.helper.SeleniumDriverConfigHelper;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.remote.LocalFileDetector;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 /**
  * Abstract driver class that all driver classes inherit from
@@ -16,12 +18,26 @@ public abstract class AbstractDriver {
     /**
      * Configuration
      */
-    protected ConfigMap configMap = QtafFactory.getConfiguration();
+    protected static final ConfigMap CONFIG = QtafFactory.getConfiguration();
 
     /**
      * Logger
      */
-    protected static Logger logger = QtafFactory.getLogger();
+    protected static final Logger LOGGER = QtafFactory.getLogger();
+
+    /**
+     * Whether the driver runs on a different machine, e.g. when using chrome-remote or firefox-remote.
+     */
+    private final boolean isRunningRemotely;
+
+    /**
+     * Creates a new driver.
+     *
+     * @param isRunningRemotely whether the driver runs on a different machine
+     */
+    protected AbstractDriver(boolean isRunningRemotely) {
+        this.isRunningRemotely = isRunningRemotely;
+    }
 
     /**
      * Get Driver name
@@ -35,7 +51,16 @@ public abstract class AbstractDriver {
      *
      * @return selenium web driver object
      */
-    public abstract WebDriver getDriver();
+    public final WebDriver getDriver() {
+        WebDriver driver = getDriverInstance();
+        if (isRunningRemotely) {
+            // See: https://www.selenium.dev/documentation/webdriver/drivers/remote_webdriver/#local-file-detector
+            ((RemoteWebDriver) driver).setFileDetector(new LocalFileDetector());
+        }
+        return driver;
+    }
+
+    protected abstract WebDriver getDriverInstance();
 
     /**
      * Log an info message
@@ -43,7 +68,7 @@ public abstract class AbstractDriver {
      * @param message Log message
      */
     static void logInfo(String message) {
-        logger.info("[DriverFactory] " + message);
+        LOGGER.info("[DriverFactory] " + message);
     }
 
     /**

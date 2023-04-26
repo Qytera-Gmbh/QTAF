@@ -2,6 +2,7 @@ package de.qytera.qtaf.core.selenium;
 
 import io.appium.java_client.remote.MobileCapabilityType;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 /**
@@ -14,10 +15,8 @@ public class AndroidDriver extends AbstractAndroidDriver {
     }
 
     @Override
-    public WebDriver getDriver() {
-        DesiredCapabilities dc = getCapabilities();
-        WebDriver driver = getAndroidDriver(dc);
-        return driver;
+    public WebDriver getDriverInstance() {
+        return getAndroidDriver(getCapabilities());
     }
 
     /**
@@ -25,21 +24,17 @@ public class AndroidDriver extends AbstractAndroidDriver {
      *
      * @return capabilities
      */
+    @Override
     protected DesiredCapabilities getCapabilities() {
-        DesiredCapabilities dc = getCapabilities();
-
-        logInfo("[DesiredCapabilities] " + MobileCapabilityType.UDID + ": " + configMap.getString("appium.capabilities.udid"));
-        dc.setCapability(MobileCapabilityType.UDID, configMap.getString("appium.capabilities.udid"));
-
-        logInfo("[DesiredCapabilities] " + MobileCapabilityType.VERSION + ": " + configMap.getString("appium.capabilities.androidVersion"));
-        dc.setCapability(MobileCapabilityType.VERSION, configMap.getString("appium.capabilities.androidVersion"));
-
-        logInfo("[DesiredCapabilities] " + "appPackage" + ": " + configMap.getString("appium.capabilities.appPackage"));
-        dc.setCapability("appPackage", configMap.getString("appium.capabilities.appPackage"));
-
-        logInfo("[DesiredCapabilities] " + "appActivity" + ": " + configMap.getString("appium.capabilities.appActivity"));
-        dc.setCapability("appActivity", configMap.getString("appium.capabilities.appActivity"));
-
+        DesiredCapabilities dc = super.getCapabilities();
+        logDesiredCapability(MobileCapabilityType.UDID, CONFIG.getString("appium.capabilities.udid"));
+        logDesiredCapability(CapabilityType.BROWSER_VERSION, CONFIG.getString("appium.capabilities.androidVersion"));
+        logDesiredCapability("appPackage", CONFIG.getString("appium.capabilities.appPackage"));
+        logDesiredCapability("appActivity", CONFIG.getString("appium.capabilities.appActivity"));
+        dc.setCapability(MobileCapabilityType.UDID, CONFIG.getString("appium.capabilities.udid"));
+        dc.setCapability(CapabilityType.BROWSER_VERSION, CONFIG.getString("appium.capabilities.androidVersion"));
+        dc.setCapability("appPackage", CONFIG.getString("appium.capabilities.appPackage"));
+        dc.setCapability("appActivity", CONFIG.getString("appium.capabilities.appActivity"));
         return dc;
     }
 

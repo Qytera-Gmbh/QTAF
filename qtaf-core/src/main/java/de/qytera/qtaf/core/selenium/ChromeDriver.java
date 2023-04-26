@@ -8,13 +8,21 @@ import org.openqa.selenium.chrome.ChromeOptions;
  * This class is responsible for managing the selenium chrome driver
  */
 public class ChromeDriver extends AbstractDriver {
+
+    /**
+     * Creates a new chrome driver.
+     */
+    public ChromeDriver() {
+        super(false);
+    }
+
     @Override
     public String getName() {
         return "chrome";
     }
 
     @Override
-    public WebDriver getDriver() {
+    public WebDriver getDriverInstance() {
         WebDriverManager webDriverManager = WebDriverManager.chromedriver();
         initWebDriverManager(webDriverManager);
         return new org.openqa.selenium.chrome.ChromeDriver(getCapabilities());
