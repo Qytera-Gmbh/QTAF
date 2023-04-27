@@ -15,4 +15,9 @@ public class ChromeAndroidDriver extends AbstractAndroidDriver {
     public WebDriver getDriverInstance() {
         return getAndroidDriver(getDesiredCapabilitiesBrowser("Chrome"));
     }
+
+    @Override
+    protected boolean isRemoteDriver() {
+        return false;
+    }
 }

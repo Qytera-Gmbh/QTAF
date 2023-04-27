@@ -38,4 +38,9 @@ public class AndroidDriver extends AbstractAndroidDriver {
         return dc;
     }
 
+    @Override
+    protected boolean isRemoteDriver() {
+        return false;
+    }
+
 }
