@@ -1,14 +1,24 @@
 package de.qytera.qtaf.xray.importer;
 
+import de.qytera.qtaf.core.QtafFactory;
+import de.qytera.qtaf.core.config.entity.ConfigMap;
 import de.qytera.qtaf.core.io.FileHelper;
+import de.qytera.qtaf.xray.config.XrayConfigHelper;
 import de.qytera.qtaf.xray.dto.XrayTestDto;
 import de.qytera.qtaf.xray.dto.XrayTestDtoCollection;
 import org.junit.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
 
 public class XrayFeatureImporterTest {
+    @BeforeMethod
+    public void setXrayPlatform() {
+        ConfigMap configMap = QtafFactory.getConfiguration();
+        configMap.setString(XrayConfigHelper.XRAY_SERVICE_SELECTOR, "cloud");
+    }
+
     @Test
     public void testScenarioTextCreation() {
         String scenarioDefinition = "When I am late\nThen I have to work longer";
