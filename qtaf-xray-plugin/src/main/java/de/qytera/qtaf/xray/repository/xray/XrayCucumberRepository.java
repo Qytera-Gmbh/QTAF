@@ -5,7 +5,7 @@ import de.qytera.qtaf.core.config.exception.MissingConfigurationValueException;
 import java.net.URISyntaxException;
 
 /**
- * Every repository class that downloads feature file definitions from Xray should implement this interface
+ * Every repository class that downloads feature file definitions from Xray should implement this interface.
  */
 public interface XrayCucumberRepository {
     /**

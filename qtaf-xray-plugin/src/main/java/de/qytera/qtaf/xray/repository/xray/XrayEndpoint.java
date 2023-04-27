@@ -5,8 +5,9 @@ import de.qytera.qtaf.core.config.exception.MissingConfigurationValueException;
 import de.qytera.qtaf.xray.config.XrayConfigHelper;
 import de.qytera.qtaf.xray.config.XrayRestPaths;
 
-import java.net.URISyntaxException;
-
+/**
+ * An interface describing Xray endpoints. It provides a default implementation for retrieving authorization headers.
+ */
 public interface XrayEndpoint {
 
     /**
@@ -15,7 +16,7 @@ public interface XrayEndpoint {
      * @return the authorization header value
      * @throws MissingConfigurationValueException if no Jira username or API token have been configured
      */
-    default String getXrayAuthorizationHeaderValue() throws MissingConfigurationValueException, URISyntaxException {
+    default String getXrayAuthorizationHeaderValue() throws MissingConfigurationValueException {
         if (XrayConfigHelper.isXrayCloudService()) {
             return getHeaderCloud();
         }
@@ -34,7 +35,7 @@ public interface XrayEndpoint {
         return XrayConfigHelper.getServerUrl();
     }
 
-    private static String getHeaderCloud() throws MissingConfigurationValueException, URISyntaxException {
+    private static String getHeaderCloud() throws MissingConfigurationValueException {
         return XrayCloudAuthenticator.getXrayAuthorizationHeaderValue();
     }
 

@@ -20,6 +20,9 @@ import java.net.URISyntaxException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * A class for interacting with issues in Xray Cloud.
+ */
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
 public class XrayTestRepositoryCloud implements XrayTestRepository {
 

@@ -20,6 +20,9 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * A class for interacting with issues in Xray Server.
+ */
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
 public class XrayTestRepositoryServer implements XrayTestRepository {
 

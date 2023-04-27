@@ -21,6 +21,10 @@ import java.net.URISyntaxException;
 import java.util.Collection;
 import java.util.Map;
 
+/**
+ * A class for interacting with Xray issues, such as retrieving test steps or creating test execution issues from
+ * local test results.
+ */
 public interface XrayTestRepository extends XrayEndpoint {
 
     static XrayTestRepository getInstance() {

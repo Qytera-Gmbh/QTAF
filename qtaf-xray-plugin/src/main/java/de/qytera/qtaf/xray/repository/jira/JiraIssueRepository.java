@@ -20,11 +20,19 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.*;
 
+/**
+ * A class for interacting with Jira issues, such as searching for issues or updating existing issues' fields.
+ */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class JiraIssueRepository implements JiraEndpoint {
 
     private static final JiraIssueRepository INSTANCE = new JiraIssueRepository();
 
+    /**
+     * Retrieve a {@link JiraIssueRepository} instance.
+     *
+     * @return an instance to work with
+     */
     public static JiraIssueRepository getInstance() {
         return INSTANCE;
     }
