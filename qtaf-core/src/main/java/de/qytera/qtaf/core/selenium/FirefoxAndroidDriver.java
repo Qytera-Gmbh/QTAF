@@ -15,4 +15,9 @@ public class FirefoxAndroidDriver extends AbstractAndroidDriver {
     public WebDriver getDriverInstance() {
         return getAndroidDriver(getDesiredCapabilitiesBrowser("Firefox"));
     }
+
+    @Override
+    protected boolean isRemoteDriver() {
+        return false;
+    }
 }
