@@ -39,7 +39,7 @@ public class XrayCloudAuthenticator {
                     ErrorLogCollection.getInstance().addErrorLog(authErrorLog);
                 } else {
                     XrayEvents.authenticationSuccess.onNext(true);
-                    JWT_TOKEN = responseData;
+                    JWT_TOKEN = responseData.replaceAll("(^\")|(\"$)", "");
                 }
             }
         }
