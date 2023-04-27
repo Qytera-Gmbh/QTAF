@@ -33,7 +33,6 @@ public class ChromeDriver extends AbstractDriver {
         // Make selenium use the selenium-http-jdk-client package
         System.setProperty("webdriver.http.factory", "jdk-http-client");
         ChromeOptions options = new ChromeOptions();
-        options.setCapability("remote-allow-origins", "");
         return options;
     }
 }
