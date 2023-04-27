@@ -14,13 +14,6 @@ import java.net.URL;
 public abstract class AbstractAndroidDriver extends AbstractDriver {
 
     /**
-     * Creates a new android driver.
-     */
-    protected AbstractAndroidDriver() {
-        super(false);
-    }
-
-    /**
      * Get driver capabilities
      *
      * @return driver capabilities
