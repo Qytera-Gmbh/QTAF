@@ -172,6 +172,7 @@ public class ReportCreator implements IReportCreator {
     /**
      * Build report path
      *
+     * @param logCollection the log collection
      * @return report path
      */
     public String getReportPath(TestSuiteLogCollection logCollection) {

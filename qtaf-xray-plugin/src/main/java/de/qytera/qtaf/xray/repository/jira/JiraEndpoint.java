@@ -5,6 +5,9 @@ import de.qytera.qtaf.core.config.exception.MissingConfigurationValueException;
 import de.qytera.qtaf.core.util.Base64Helper;
 import de.qytera.qtaf.xray.config.XrayConfigHelper;
 
+/**
+ * An interface describing Jira endpoints. It provides a default implementation for retrieving authorization headers.
+ */
 public interface JiraEndpoint {
 
     /**

@@ -537,7 +537,10 @@ public class TestSuiteLogCollection {
         }
     }
 
-    public class ProcessInfo {
+    /**
+     * A class describing {@link Process} information.
+     */
+    public static class ProcessInfo {
         /**
          * Current Process
          */

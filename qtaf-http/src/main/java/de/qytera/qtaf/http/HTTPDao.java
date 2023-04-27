@@ -63,9 +63,10 @@ public class HTTPDao {
     /**
      * Perform GET Requests
      *
-     * @param path Url Path
-     * @param c    Class that the result gets mapped to
-     * @param <T>  Type that the Result gets mapped to
+     * @param path      Url Path
+     * @param mediaType the request's media type
+     * @param c         Class that the result gets mapped to
+     * @param <T>       Type that the Result gets mapped to
      * @return Response of Type T
      */
     protected <T> T get(String path, String mediaType, Class<T> c) {
@@ -104,6 +105,7 @@ public class HTTPDao {
      * Perform POST Requests
      *
      * @param path          Url Path
+     * @param mediaType     the request's media type
      * @param c             Class that the result gets mapped to
      * @param <T>           Type that the Result gets mapped to
      * @param requestEntity Request body
@@ -146,6 +148,7 @@ public class HTTPDao {
      * Perform PUT Requests
      *
      * @param path          Url Path
+     * @param mediaType     the request's media type
      * @param c             Class that the result gets mapped to
      * @param <T>           Type that the Result gets mapped to
      * @param requestEntity Request body
@@ -187,9 +190,10 @@ public class HTTPDao {
     /**
      * Perform DELETE Requests
      *
-     * @param path Url Path
-     * @param c    Class that the result gets mapped to
-     * @param <T>  Type that the Result gets mapped to
+     * @param path      Url Path
+     * @param mediaType the request's media type
+     * @param c         Class that the result gets mapped to
+     * @param <T>       Type that the Result gets mapped to
      * @return Response of Type T
      */
     protected <T> T delete(String path, String mediaType, Class<T> c) {

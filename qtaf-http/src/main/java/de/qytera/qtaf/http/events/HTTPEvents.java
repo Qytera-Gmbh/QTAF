@@ -5,6 +5,9 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import rx.subjects.BehaviorSubject;
 
+/**
+ * Events dispatched by the HTTP plugin.
+ */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class HTTPEvents {
     /**

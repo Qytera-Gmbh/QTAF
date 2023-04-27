@@ -3,6 +3,9 @@ package de.qytera.qtaf.http;
 import de.qytera.qtaf.core.gson.GsonHelper;
 import jakarta.ws.rs.core.MediaType;
 
+/**
+ * A DAO for HTTP requests with JSON content.
+ */
 public class HTTPJsonDao extends HTTPDao {
 
     /**

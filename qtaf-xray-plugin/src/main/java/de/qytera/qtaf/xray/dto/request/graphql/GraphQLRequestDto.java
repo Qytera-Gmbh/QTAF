@@ -15,7 +15,13 @@ import lombok.Setter;
 @Setter
 public class GraphQLRequestDto {
 
+    /**
+     * The GraphQL query.
+     */
     private String query;
+    /**
+     * A GraphQL variable mapping.
+     */
     private JsonObject variables;
 
     /**

@@ -25,7 +25,9 @@ public abstract class HTTPJsonEntityRepository<T> {
     /**
      * Constructor
      *
-     * @param dao DAO
+     * @param dao         DAO
+     * @param path        the HTTP resource path
+     * @param entityClass the entity's class
      */
     protected HTTPJsonEntityRepository(HTTPJsonDao dao, String path, Class<T> entityClass) {
         this.dao = dao;
@@ -37,6 +39,7 @@ public abstract class HTTPJsonEntityRepository<T> {
      * Build path where to look for single entities
      *
      * @param id Entity id
+     * @return the path
      */
     public String buildItemPath(int id) {
         return path + "/" + id;
@@ -46,6 +49,7 @@ public abstract class HTTPJsonEntityRepository<T> {
      * Build path where to look for single entities
      *
      * @param id Entity id
+     * @return the path
      */
     public String buildItemPath(String id) {
         return path + "/" + id;
@@ -55,6 +59,7 @@ public abstract class HTTPJsonEntityRepository<T> {
      * Build path where to look for single entities
      *
      * @param entity Entity object
+     * @return the path
      */
     public abstract String buildItemPath(T entity);
 

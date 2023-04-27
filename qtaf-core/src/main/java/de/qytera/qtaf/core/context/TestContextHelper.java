@@ -1,6 +1,8 @@
 package de.qytera.qtaf.core.context;
 
 import de.qytera.qtaf.core.reflection.FieldHelper;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -8,10 +10,13 @@ import java.util.ArrayList;
 /**
  * Helper methods for ITestContext implementations
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class TestContextHelper {
 
     /**
      * Add logger to all instance fields
+     *
+     * @param testContext the test context
      */
     public static void addLoggerToFieldsRecursively(IQtafTestContext testContext) {
         // Get all declared fields of the test context class and its super classes

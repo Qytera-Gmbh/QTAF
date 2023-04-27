@@ -6,6 +6,9 @@ import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
+/**
+ * The sauce driver class.
+ */
 public class SaucelabsDriver extends AbstractDriver {
 
     /**
