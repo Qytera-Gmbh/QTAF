@@ -26,20 +26,6 @@ public abstract class AbstractDriver {
     protected static final Logger LOGGER = QtafFactory.getLogger();
 
     /**
-     * Whether the driver runs on a different machine, e.g. when using chrome-remote or firefox-remote.
-     */
-    private final boolean isRunningRemotely;
-
-    /**
-     * Creates a new driver.
-     *
-     * @param isRunningRemotely whether the driver runs on a different machine
-     */
-    protected AbstractDriver(boolean isRunningRemotely) {
-        this.isRunningRemotely = isRunningRemotely;
-    }
-
-    /**
      * Get Driver name
      *
      * @return driver name
@@ -53,7 +39,7 @@ public abstract class AbstractDriver {
      */
     public final WebDriver getDriver() {
         WebDriver driver = getDriverInstance();
-        if (isRunningRemotely) {
+        if (isRemoteDriver()) {
             // See: https://www.selenium.dev/documentation/webdriver/drivers/remote_webdriver/#local-file-detector
             ((RemoteWebDriver) driver).setFileDetector(new LocalFileDetector());
         }
@@ -99,4 +85,11 @@ public abstract class AbstractDriver {
             webDriverManager.driverVersion(SeleniumDriverConfigHelper.getDriverVersion());
         }
     }
+
+    /**
+     * Whether the driver runs on a different machine, e.g. when using chrome-remote or firefox-remote.
+     *
+     * @return whether the driver runs on a different machine
+     */
+    protected abstract boolean isRemoteDriver();
 }
