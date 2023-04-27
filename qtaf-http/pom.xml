@@ -5,7 +5,7 @@
     <parent>
         <groupId>de.qytera</groupId>
         <artifactId>qtaf</artifactId>
-        <version>LOCAL_2023_04_26_002</version>
+        <version>LOCAL_2023_04_27_001</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -42,7 +42,7 @@
         <dependency>
             <groupId>de.qytera</groupId>
             <artifactId>qtaf-core</artifactId>
-            <version>LOCAL_2023_04_26_002</version>
+            <version>LOCAL_2023_04_27_001</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
