@@ -9,13 +9,6 @@ import org.openqa.selenium.chrome.ChromeOptions;
  */
 public class ChromeDriver extends AbstractDriver {
 
-    /**
-     * Creates a new chrome driver.
-     */
-    public ChromeDriver() {
-        super(false);
-    }
-
     @Override
     public String getName() {
         return "chrome";
@@ -35,5 +28,10 @@ public class ChromeDriver extends AbstractDriver {
         ChromeOptions options = new ChromeOptions();
         options.setCapability("remote-allow-origins", "");
         return options;
+    }
+
+    @Override
+    protected boolean isRemoteDriver() {
+        return false;
     }
 }
