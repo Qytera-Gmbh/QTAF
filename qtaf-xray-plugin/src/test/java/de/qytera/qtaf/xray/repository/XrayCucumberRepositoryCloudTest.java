@@ -1,9 +1,12 @@
 package de.qytera.qtaf.xray.repository;
 
+import de.qytera.qtaf.core.QtafFactory;
 import de.qytera.qtaf.core.config.exception.MissingConfigurationValueException;
 import de.qytera.qtaf.core.io.DirectoryHelper;
+import de.qytera.qtaf.xray.config.XrayConfigHelper;
 import de.qytera.qtaf.xray.repository.xray.XrayCucumberRepositoryCloud;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
@@ -13,6 +16,11 @@ import java.nio.file.Path;
 import java.util.List;
 
 public class XrayCucumberRepositoryCloudTest {
+
+    @BeforeMethod
+    public void setupConfig() {
+        QtafFactory.getConfiguration().setString(XrayConfigHelper.XRAY_SERVICE_SELECTOR, "cloud");
+    }
 
     /**
      * Test Download content of Cucumber ZIP file from Xray Cloud
