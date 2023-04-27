@@ -68,10 +68,9 @@ public class XrayCucumberRepositoryCloud implements XrayCucumberRepository, Xray
         request.getBuilder()
                 .header(HttpHeaders.AUTHORIZATION, getXrayAuthorizationHeaderValue())
                 .accept("application/zip");
-        try (Response response = WebService.get(request)) {
-            InputStream inputStream = response.readEntity(InputStream.class);
-            return new ZipInputStream(inputStream);
-        }
+        Response response = WebService.get(request);
+        InputStream inputStream = response.readEntity(InputStream.class);
+        return new ZipInputStream(inputStream);
     }
 
     private URI getURIExportFeatureFiles(String keys) throws URISyntaxException {
