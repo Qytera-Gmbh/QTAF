@@ -400,13 +400,13 @@ public class XrayJsonImportBuilderTest {
     }
 
     @Test(description = "whether a configured test plan key will be included in the import request")
-    public void testTestPlanKey() throws XrayJsonImportBuilder.NoXrayTestException {
+    public void testTestPlanKey() throws XrayJsonImportBuilder.NoXrayTestException, URISyntaxException, MissingConfigurationValueException {
         TestScenarioLogCollection scenarioCollection = scenario(1, "feature-test-plan-key");
         scenarioCollection.addLogMessage(successfulStep("stepWithoutParameters"));
         scenarioCollection.setStatus(TestScenarioLogCollection.Status.SUCCESS);
         // Build import request.
         ConfigurationFactory.getInstance().setString(XrayConfigHelper.RESULTS_UPLOAD_TEST_PLAN_KEY, "QTAF-765");
-        XrayImportRequestDto dto = new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance()).buildRequest();
+        ImportExecutionResultsRequestDto dto = new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance()).buildRequest();
         Assert.assertEquals(dto.getInfo().getTestPlanKey(), "QTAF-765");
     }
 
