@@ -8,13 +8,6 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 
 public class SaucelabsDriver extends AbstractDriver {
 
-    /**
-     * Creates a new sauce driver.
-     */
-    public SaucelabsDriver() {
-        super(false);
-    }
-
     @Override
     public String getName() {
         return "sauce";
@@ -38,5 +31,10 @@ public class SaucelabsDriver extends AbstractDriver {
         capabilities.setCapability("sauce:options", sauceOptions);
 
         return capabilities;
+    }
+
+    @Override
+    protected boolean isRemoteDriver() {
+        return false;
     }
 }
