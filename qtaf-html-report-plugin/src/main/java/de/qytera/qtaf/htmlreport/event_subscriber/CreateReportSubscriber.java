@@ -10,6 +10,9 @@ import de.qytera.qtaf.htmlreport.creator.ReportCreator;
 import de.qytera.qtaf.htmlreport.creator.ScenarioReportCreator;
 import rx.Subscription;
 
+/**
+ * A subscriber that creates HTML reports on log persistence.
+ */
 public class CreateReportSubscriber implements IEventSubscriber {
 
     /**

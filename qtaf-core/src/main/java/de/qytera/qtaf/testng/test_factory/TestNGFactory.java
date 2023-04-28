@@ -19,6 +19,11 @@ import java.util.Set;
  */
 public class TestNGFactory implements ITestObjectFactory {
 
+    /**
+     * Creates test class instances.
+     *
+     * @return the instances
+     */
     @Factory()
     public Object[] createInstances() {
         // Get Guice instance

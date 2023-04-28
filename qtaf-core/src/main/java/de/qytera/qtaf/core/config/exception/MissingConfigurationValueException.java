@@ -6,7 +6,7 @@ import de.qytera.qtaf.core.config.entity.ConfigMap;
 /**
  * Exception thrown when a configuration value has not been set.
  */
-public class MissingConfigurationValueException extends RuntimeException {
+public class MissingConfigurationValueException extends Exception {
 
     /**
      * Construct a new exception indicating that no value was provided for the given key.

@@ -8,8 +8,16 @@ import org.testng.annotations.Guice;
 
 import java.util.Collections;
 
+/**
+ * Main class for running TestNG tests.
+ */
 @Guice(modules = {QtafModule.class})
 public class QtafTestNGRunner {
+    /**
+     * Main method for running TestNG tests.
+     *
+     * @param args (command line) arguments
+     */
     public static void main(String[] args) {
         // Create TestNG instance
         TestNG testNG = new TestNG();

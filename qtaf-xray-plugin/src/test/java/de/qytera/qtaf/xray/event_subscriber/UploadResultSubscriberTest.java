@@ -6,9 +6,9 @@ import de.qytera.qtaf.core.events.QtafEvents;
 import de.qytera.qtaf.core.events.payload.QtafTestContextPayload;
 import de.qytera.qtaf.xray.commands.AuthenticationCommand;
 import de.qytera.qtaf.xray.commands.UploadImportCommand;
-import de.qytera.qtaf.xray.dto.request.XrayImportRequestDto;
-import de.qytera.qtaf.xray.dto.response.XrayCloudImportResponseDto;
-import de.qytera.qtaf.xray.dto.response.XrayImportResponseDto;
+import de.qytera.qtaf.xray.dto.request.xray.ImportExecutionResultsRequestDto;
+import de.qytera.qtaf.xray.dto.response.xray.ImportExecutionResultsResponseCloudDto;
+import de.qytera.qtaf.xray.dto.response.xray.ImportExecutionResultsResponseDto;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.internal.util.reflection.Whitebox;
@@ -16,8 +16,8 @@ import org.mockito.internal.util.reflection.Whitebox;
 
 public class UploadResultSubscriberTest {
     AuthenticationCommand authenticationCommand = new AuthenticationCommand();
-    XrayImportRequestDto xrayImportRequestDto = new XrayImportRequestDto();
-    XrayImportResponseDto xrayImportResponseDto = new XrayCloudImportResponseDto();
+    ImportExecutionResultsRequestDto xrayImportRequestDto = new ImportExecutionResultsRequestDto();
+    ImportExecutionResultsResponseDto xrayImportResponseDto = new ImportExecutionResultsResponseCloudDto();
     UploadResultsSubscriber uploadResultsSubscriber = new UploadResultsSubscriber();
 
     //@Mock
