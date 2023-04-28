@@ -1,13 +1,16 @@
 package de.qytera.qtaf.xray.net.http;
 
-import de.qytera.qtaf.core.net.http.HTTPJsonDao;
+import de.qytera.qtaf.http.HTTPJsonDao;
 import de.qytera.qtaf.xray.commands.AuthenticationCommand;
 import de.qytera.qtaf.xray.config.XrayConfigHelper;
 import de.qytera.qtaf.xray.config.XrayRestPaths;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 /**
  * Factory class for HTTP Dao obejcts
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class XrayHTTPDaoFactory {
     /**
      * Xray Server HTTP Dao

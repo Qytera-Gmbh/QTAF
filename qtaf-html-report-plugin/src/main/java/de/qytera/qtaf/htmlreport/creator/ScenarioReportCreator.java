@@ -26,6 +26,7 @@ public class ScenarioReportCreator extends ReportCreator {
      *
      * @param logCollection         Log collection
      * @param scenarioLogCollection Scenario Log Collection
+     * @return true on success
      */
     public boolean createReport(
             TestSuiteLogCollection logCollection,
@@ -35,6 +36,13 @@ public class ScenarioReportCreator extends ReportCreator {
         return createReport(logCollection);
     }
 
+    /**
+     * Create a rendered template based on the provided collections.
+     *
+     * @param logCollection         the log collection
+     * @param scenarioLogCollection the scenario log collection
+     * @return a writer instance
+     */
     public Writer getRenderedTemplate(
             TestSuiteLogCollection logCollection,
             TestScenarioLogCollection scenarioLogCollection
