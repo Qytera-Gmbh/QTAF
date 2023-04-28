@@ -46,6 +46,10 @@
       "scenarioReportEvidence": true,
       "scenarioImageEvidence": true,
       "customStatus": {
+        "testExecutionIssue": {
+          "passed": null,
+          "failed": null
+        },
         "test": {
           "passed": null,
           "failed": null,

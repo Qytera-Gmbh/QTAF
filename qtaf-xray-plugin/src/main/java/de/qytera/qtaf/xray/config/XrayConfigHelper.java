@@ -29,6 +29,8 @@ public class XrayConfigHelper {
     public static final String RESULTS_UPLOAD_TEST_PLAN_KEY = "xray.resultsUpload.testPlanKey";
     public static final String RESULTS_UPLOAD_SCENARIO_REPORT_EVIDENCE = "xray.resultsUpload.scenarioReportEvidence";
     public static final String RESULTS_UPLOAD_SCENARIO_IMAGE_EVIDENCE = "xray.resultsUpload.scenarioImageEvidence";
+    public static final String RESULTS_UPLOAD_CUSTOM_STATUS_TEST_EXECUTION_ISSUE_PASSED = "xray.resultsUpload.customStatus.testExecutionIssue.passed";
+    public static final String RESULTS_UPLOAD_CUSTOM_STATUS_TEST_EXECUTION_ISSUE_FAILED = "xray.resultsUpload.customStatus.testExecutionIssue.failed";
     public static final String RESULTS_UPLOAD_CUSTOM_STATUS_TEST_PASSED = "xray.resultsUpload.customStatus.test.passed";
     public static final String RESULTS_UPLOAD_CUSTOM_STATUS_TEST_FAILED = "xray.resultsUpload.customStatus.test.failed";
     public static final String RESULTS_UPLOAD_CUSTOM_STATUS_TEST_PENDING = "xray.resultsUpload.customStatus.test.pending";
@@ -109,6 +111,24 @@ public class XrayConfigHelper {
      */
     public static String getJiraUrl() {
         return CONFIG.getString(URL_JIRA_SELECTOR);
+    }
+
+    /**
+     * Returns the Jira test execution issue status for successful test runs.
+     *
+     * @return the status if configured, otherwise null
+     */
+    public static String getResultsUploadCustomStatusTestExecutionIssuePassed() {
+        return CONFIG.getString(RESULTS_UPLOAD_CUSTOM_STATUS_TEST_EXECUTION_ISSUE_PASSED);
+    }
+
+    /**
+     * Returns the Jira test execution issue status for test runs containing failed tests.
+     *
+     * @return the status if configured, otherwise null
+     */
+    public static String getResultsUploadCustomStatusTestExecutionIssueFailed() {
+        return CONFIG.getString(RESULTS_UPLOAD_CUSTOM_STATUS_TEST_EXECUTION_ISSUE_FAILED);
     }
 
     /**
