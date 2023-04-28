@@ -26,14 +26,14 @@ import java.util.stream.Collectors;
 
 public class XrayJsonImportBuilderTest {
 
-    @BeforeMethod
+    @BeforeMethod(description = "clear the entire configuration and set appropriate values for testing")
     public void clearSuite() {
         TestSuiteLogCollection.getInstance().clear();
         TestFeatureLogCollection.clearIndex();
         TestScenarioLogCollection.clearIndex();
         QtafFactory.getConfiguration().clear();
         QtafFactory.getConfiguration().setString(XrayConfigHelper.PROJECT_KEY, "QTAF");
-        // We're not actually uploading anything, no need to query Jira for actual issue summaries.
+        // We're not actually uploading anything, no need to query Jira for actual issue summaries during testing.
         QtafFactory.getConfiguration().setBoolean(XrayConfigHelper.RESULTS_UPLOAD_TESTS_INFO_KEEP_JIRA_SUMMARY, false);
     }
 
@@ -136,7 +136,7 @@ public class XrayJsonImportBuilderTest {
         return message;
     }
 
-    @Test
+    @Test(description = "whether long parameters are truncated to the proper length")
     public void testLongParameterValueTruncation() throws XrayJsonImportBuilder.NoXrayTestException {
         ConfigMap configMap = QtafFactory.getConfiguration();
         configMap.setInt(XrayConfigHelper.RESULTS_UPLOAD_TESTS_ITERATIONS_PARAMETERS_MAX_LENGTH_VALUE, 3);
@@ -168,7 +168,7 @@ public class XrayJsonImportBuilderTest {
         );
     }
 
-    @Test
+    @Test(description = "whether test iteration statuses are correctly set")
     public void testIterationStatus() throws XrayJsonImportBuilder.NoXrayTestException {
 
         // Iteration with no failing step and an assumed successful assertion.
@@ -192,6 +192,7 @@ public class XrayJsonImportBuilderTest {
         scenarioCollection.addLogMessage(failingStep("clickLogin"));
         scenarioCollection.setStatus(TestScenarioLogCollection.Status.FAILURE);
 
+        // Build import request.
         ConfigurationFactory.getInstance().setString(XrayConfigHelper.XRAY_SERVICE_SELECTOR, "server");
         XrayImportRequestDto dto = new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance()).buildRequest();
         List<XrayIterationResultEntity> iterations = dto.getTests().get(0).getIterations();
@@ -200,7 +201,7 @@ public class XrayJsonImportBuilderTest {
         Assert.assertEquals(iterations.get(2).getStatus(), XrayStatusHelper.statusToText(TestScenarioLogCollection.Status.FAILURE));
     }
 
-    @Test
+    @Test(description = "whether screenshot evidence can be attached to a single iteration")
     public void testSingleRunScreenshotEvidence() throws XrayJsonImportBuilder.NoXrayTestException {
         // Iteration with no failing step and an assumed successful assertion.
         TestScenarioLogCollection scenarioCollection = scenario(0, "feature-1");
@@ -212,7 +213,7 @@ public class XrayJsonImportBuilderTest {
                 "src/test/resources/images/turtle.png")
         );
         scenarioCollection.setStatus(TestScenarioLogCollection.Status.FAILURE);
-
+        // Build import request.
         ConfigurationFactory.getInstance().setString(XrayConfigHelper.XRAY_SERVICE_SELECTOR, "server");
         XrayImportRequestDto dto = new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance()).buildRequest();
         List<XrayManualTestStepResultEntity> steps = dto.getTests().get(0).getSteps();
@@ -225,9 +226,8 @@ public class XrayJsonImportBuilderTest {
         Assert.assertEquals(steps.get(2).getAllEvidence().get(1).getFilename(), "turtle.png");
     }
 
-    @Test
+    @Test(description = "whether screenshot evidence can be attached to multiple iterations")
     public void testIterationsScreenshotEvidence() throws XrayJsonImportBuilder.NoXrayTestException {
-
         // Iteration with no failing step and an assumed successful assertion.
         TestScenarioLogCollection scenarioCollection = scenario(0, "feature-1");
         scenarioCollection.addLogMessage(successfulStep("enterUsername"));
@@ -238,7 +238,6 @@ public class XrayJsonImportBuilderTest {
                 "src/test/resources/images/turtle.png")
         );
         scenarioCollection.setStatus(TestScenarioLogCollection.Status.FAILURE);
-
         scenarioCollection = scenario(1, "feature-1");
         scenarioCollection.addLogMessage(successfulStep("enterUsername"));
         scenarioCollection.addLogMessage(failingStep(
@@ -246,17 +245,15 @@ public class XrayJsonImportBuilderTest {
                 "src/test/resources/images/turtle.png")
         );
         scenarioCollection.setStatus(TestScenarioLogCollection.Status.FAILURE);
-
+        // Build import request.
         ConfigurationFactory.getInstance().setString(XrayConfigHelper.XRAY_SERVICE_SELECTOR, "cloud");
         XrayImportRequestDto dto = new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance()).buildRequest();
         List<XrayIterationResultEntity> iterations = dto.getTests().get(0).getIterations();
-
         Assert.assertTrue(iterations.get(0).getSteps().get(0).getAllEvidence().isEmpty());
         Assert.assertTrue(iterations.get(0).getSteps().get(1).getAllEvidence().isEmpty());
         Assert.assertEquals(iterations.get(0).getSteps().get(2).getAllEvidence().size(), 1);
         Assert.assertEquals(iterations.get(0).getSteps().get(2).getAllEvidence().get(0).getContentType(), "image/png");
         Assert.assertEquals(iterations.get(0).getSteps().get(2).getAllEvidence().get(0).getFilename(), "turtle.png");
-
         Assert.assertTrue(iterations.get(1).getSteps().get(0).getAllEvidence().isEmpty());
         Assert.assertEquals(iterations.get(1).getSteps().get(1).getAllEvidence().size(), 1);
         Assert.assertEquals(iterations.get(1).getSteps().get(1).getAllEvidence().get(0).getContentType(), "image/png");
@@ -264,6 +261,7 @@ public class XrayJsonImportBuilderTest {
     }
 
     @Test(
+            description = "whether single test iterations throw an exception if the scenarios are not Xray-annotated",
             expectedExceptions = {
                     XrayJsonImportBuilder.NoXrayTestException.class
             }
@@ -277,10 +275,12 @@ public class XrayJsonImportBuilderTest {
         scenarioCollection.addLogMessage(successfulStep("successfulStep"));
         scenarioCollection.addLogMessage(failingStep("failingStep"));
         scenarioCollection.setStatus(TestScenarioLogCollection.Status.FAILURE);
+        // Build import request.
         new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance()).buildRequest();
     }
 
     @Test(
+            description = "whether multiple test iterations throw an exception if the scenario is not Xray-annotated",
             expectedExceptions = {
                     XrayJsonImportBuilder.NoXrayTestException.class
             }
@@ -294,10 +294,11 @@ public class XrayJsonImportBuilderTest {
         scenarioCollection.addLogMessage(successfulStep("successStep"));
         scenarioCollection.addLogMessage(failingStep("clickSomething", "path/to/something.png"));
         scenarioCollection.setStatus(TestScenarioLogCollection.Status.FAILURE);
+        // Build import request.
         new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance()).buildRequest();
     }
 
-    @Test
+    @Test(description = "whether an upload without step updates enabled contains step information to update")
     public void testXrayTestInfoWithoutUpdate() throws XrayJsonImportBuilder.NoXrayTestException {
         TestScenarioLogCollection scenarioCollection = scenario(1, "feature-no-step-update");
         StepInformationLogMessage step = successfulStep("step1");
@@ -308,13 +309,14 @@ public class XrayJsonImportBuilderTest {
         step.addStepParameter("array", new String[]{"hello", "there"});
         scenarioCollection.addLogMessage(step);
         scenarioCollection.setStatus(TestScenarioLogCollection.Status.FAILURE);
+        // Build import request.
         ConfigurationFactory.getInstance().setBoolean(XrayConfigHelper.RESULTS_UPLOAD_TESTS_INFO_STEPS_UPDATE, false);
         XrayImportRequestDto dto = new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance()).buildRequest();
         Assert.assertEquals(dto.getTests().size(), 1);
         Assert.assertNull(dto.getTests().get(0).getTestInfo());
     }
 
-    @Test
+    @Test(description = "whether an upload with one iteration updates test step information with step updates enabled")
     public void testSingleRunStepUpdate() throws XrayJsonImportBuilder.NoXrayTestException {
         TestScenarioLogCollection scenarioCollection = scenario(1, "feature-step-update");
         StepInformationLogMessage step = successfulStep("stepWithoutParameters");
@@ -335,6 +337,7 @@ public class XrayJsonImportBuilderTest {
         step.addStepParameter("complex", complexParameter);
         scenarioCollection.addLogMessage(step);
         scenarioCollection.setStatus(TestScenarioLogCollection.Status.FAILURE);
+        // Build import request.
         ConfigurationFactory.getInstance().setBoolean(XrayConfigHelper.RESULTS_UPLOAD_TESTS_INFO_STEPS_UPDATE, true);
         // Step merging should not have any effect on single runs.
         ConfigurationFactory.getInstance().setBoolean(XrayConfigHelper.RESULTS_UPLOAD_TESTS_INFO_STEPS_MERGE, true);
@@ -347,7 +350,7 @@ public class XrayJsonImportBuilderTest {
         Assert.assertEquals(steps.get(2).getData(), "array=[hello, there]\ncomplex={a=15, b=\"Jeff\", c=[]}");
     }
 
-    @Test
+    @Test(description = "whether multiple test iterations (DDT) are merged into a single step if merging is enabled")
     public void testMultipleRunStepMerge() throws XrayJsonImportBuilder.NoXrayTestException {
         // First iteration.
         TestScenarioLogCollection scenarioCollection = scenario(1, "feature-step-merge");
@@ -382,6 +385,7 @@ public class XrayJsonImportBuilderTest {
         step.addStepParameter("array", new String[]{"knock", "knock", "who's", "there?"});
         scenarioCollection.addLogMessage(step);
         scenarioCollection.setStatus(TestScenarioLogCollection.Status.SUCCESS);
+        // Build import request.
         ConfigurationFactory.getInstance().setBoolean(XrayConfigHelper.RESULTS_UPLOAD_TESTS_INFO_STEPS_UPDATE, true);
         ConfigurationFactory.getInstance().setBoolean(XrayConfigHelper.RESULTS_UPLOAD_TESTS_INFO_STEPS_MERGE, true);
         XrayImportRequestDto dto = new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance()).buildRequest();
@@ -393,11 +397,12 @@ public class XrayJsonImportBuilderTest {
         Assert.assertEquals(dto.getTests().get(0).getIterations().get(0).getSteps().get(0).getAllEvidence().size(), 3);
     }
 
-    @Test
+    @Test(description = "whether a configured test plan key will be included in the import request")
     public void testTestPlanKey() throws XrayJsonImportBuilder.NoXrayTestException {
         TestScenarioLogCollection scenarioCollection = scenario(1, "feature-test-plan-key");
         scenarioCollection.addLogMessage(successfulStep("stepWithoutParameters"));
         scenarioCollection.setStatus(TestScenarioLogCollection.Status.SUCCESS);
+        // Build import request.
         ConfigurationFactory.getInstance().setString(XrayConfigHelper.RESULTS_UPLOAD_TEST_PLAN_KEY, "QTAF-765");
         XrayImportRequestDto dto = new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance()).buildRequest();
         Assert.assertEquals(dto.getInfo().getTestPlanKey(), "QTAF-765");
