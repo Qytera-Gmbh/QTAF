@@ -42,6 +42,7 @@
       }
     },
     "resultsUpload": {
+      "testPlanKey": null,
       "scenarioReportEvidence": true,
       "scenarioImageEvidence": true,
       "customStatus": {
