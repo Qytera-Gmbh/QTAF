@@ -7,6 +7,7 @@ import de.qytera.qtaf.http.RequestBuilder;
 import de.qytera.qtaf.http.WebService;
 import de.qytera.qtaf.xray.config.XrayConfigHelper;
 import de.qytera.qtaf.xray.dto.jira.IssueUpdateDto;
+import de.qytera.qtaf.xray.dto.jira.StatusDto;
 import de.qytera.qtaf.xray.dto.jira.TransitionDto;
 import de.qytera.qtaf.xray.dto.jira.TransitionsMetaDto;
 import de.qytera.qtaf.xray.dto.request.issues.AdditionalField;
@@ -167,19 +168,20 @@ public class JiraIssueRepository implements JiraEndpoint {
      * Performs an issue transition to the provided status.
      * <p>
      * Before the request is made, the issue's possible transitions are queried. The actual follow-up transition request
-     * is only made if the possible transitions contain a transition belonging to the one provided.
+     * is only made if the possible transitions contain a transition belonging to the provided status.
      *
-     * @param issueIdOrKey   the ID or key of the issue
-     * @param transitionName the transition to apply
+     * @param issueIdOrKey the ID or key of the issue
+     * @param statusName   the target status to transition to
      * @return whether the transition was successful
      * @throws MissingConfigurationValueException if necessary configuration values are missing
      * @throws URISyntaxException                 if the URI for transitioning the issue cannot be constructed
      * @see JiraIssueRepository#transitionIssue(String, IssueUpdateDto)
      */
-    public boolean transitionIssue(String issueIdOrKey, String transitionName) throws MissingConfigurationValueException, URISyntaxException {
+    public boolean transitionIssue(String issueIdOrKey, String statusName) throws MissingConfigurationValueException, URISyntaxException {
         List<TransitionDto> transitions = getIssueTransitions(issueIdOrKey);
         for (TransitionDto transition : transitions) {
-            if (transition.getName() != null && transition.getName().equalsIgnoreCase(transitionName)) {
+            StatusDto status = transition.getTo();
+            if (status != null && status.getName() != null && status.getName().equalsIgnoreCase(statusName)) {
                 IssueUpdateDto dto = new IssueUpdateDto();
                 dto.setTransition(transition);
                 return transitionIssue(issueIdOrKey, dto);
@@ -187,11 +189,15 @@ public class JiraIssueRepository implements JiraEndpoint {
         }
         QtafFactory.getLogger().error(
                 String.format(
-                        "[QTAF Xray Plugin] Failed to transition issue %s to %s: %s. Possible transitions: %s",
+                        "[QTAF Xray Plugin] Failed to transition issue %s to status %s: %s. Possible transitions: %s",
                         issueIdOrKey,
-                        transitionName,
+                        statusName,
                         "The workflow prohibits the transition or it does not exist",
-                        transitions.stream().map(TransitionDto::getName).collect(Collectors.joining(","))
+                        transitions.stream()
+                                .map(TransitionDto::getTo)
+                                .filter(Objects::nonNull)
+                                .map(StatusDto::getName)
+                                .collect(Collectors.joining(","))
                 )
         );
         return false;
