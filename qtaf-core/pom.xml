@@ -35,13 +35,12 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <!-- Dependency Versions -->
-        <seleniumJavaVersion>4.8.1</seleniumJavaVersion>
+        <seleniumJavaVersion>4.9.0</seleniumJavaVersion>
         <testNGVersion>7.7.1</testNGVersion>
         <testNGCucumberVersion>7.11.1</testNGCucumberVersion>
         <gsonVersion>2.10.1</gsonVersion>
         <guiceVersion>5.1.0</guiceVersion>
-        <jerseyClientVersion>1.19.4</jerseyClientVersion>
-        <jerseyBundleVersion>1.19.4</jerseyBundleVersion>
+        <jerseyClientVersion>3.1.1</jerseyClientVersion>
         <pebbleVersion>3.2.0</pebbleVersion>
         <allureVersion>2.21.0</allureVersion>
         <rxJavaVersion>1.3.8</rxJavaVersion>
@@ -152,28 +151,6 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>${commonsLangVersion}</version>
-        </dependency>
-
-        <!-- REST API client -->
-        <!-- https://mvnrepository.com/artifact/com.sun.jersey/jersey-client -->
-        <dependency>
-            <groupId>com.sun.jersey</groupId>
-            <artifactId>jersey-client</artifactId>
-            <version>${jerseyBundleVersion}</version>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/com.sun.jersey/jersey-json -->
-        <dependency>
-            <groupId>com.sun.jersey</groupId>
-            <artifactId>jersey-json</artifactId>
-            <version>${jerseyBundleVersion}</version>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/com.sun.jersey/jersey-bundle -->
-        <dependency>
-            <groupId>com.sun.jersey</groupId>
-            <artifactId>jersey-bundle</artifactId>
-            <version>${jerseyBundleVersion}</version>
         </dependency>
 
         <!-- Reactive X -->

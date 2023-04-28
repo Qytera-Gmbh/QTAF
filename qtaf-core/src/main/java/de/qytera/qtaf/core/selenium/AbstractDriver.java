@@ -46,6 +46,11 @@ public abstract class AbstractDriver {
         return driver;
     }
 
+    /**
+     * Get the concrete {@link WebDriver} instance.
+     *
+     * @return the instance
+     */
     protected abstract WebDriver getDriverInstance();
 
     /**

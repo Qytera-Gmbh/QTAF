@@ -4,8 +4,7 @@ import de.qytera.qtaf.core.QtafFactory;
 import de.qytera.qtaf.core.config.entity.ConfigMap;
 import de.qytera.qtaf.core.log.Logger;
 import de.qytera.qtaf.core.patterns.Command;
-import de.qytera.qtaf.xray.service.AbstractXrayService;
-import de.qytera.qtaf.xray.service.XrayServiceFactory;
+import de.qytera.qtaf.xray.repository.xray.XrayTestRepository;
 
 /**
  * Command for Xray authentication
@@ -40,10 +39,8 @@ public class AuthenticationCommand implements Command {
 
     @Override
     public void execute() {
-        AbstractXrayService xrayService = XrayServiceFactory.getInstance();
-
         try {
-            jwtToken = xrayService.authorizationHeaderXray();
+            jwtToken = XrayTestRepository.getInstance().getXrayAuthorizationHeaderValue();
         } catch (Exception e) {
             logger.error("Could not authenticate");
             logger.error(e.getMessage());
