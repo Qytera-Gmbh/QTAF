@@ -41,7 +41,7 @@
         <gsonVersion>2.10.1</gsonVersion>
         <guiceVersion>5.1.0</guiceVersion>
         <jerseyClientVersion>3.1.1</jerseyClientVersion>
-        <pebbleVersion>3.2.0</pebbleVersion>
+        <pebbleVersion>3.2.1</pebbleVersion>
         <allureVersion>2.21.0</allureVersion>
         <rxJavaVersion>1.3.8</rxJavaVersion>
         <zip4JVersion>2.11.5</zip4JVersion>
