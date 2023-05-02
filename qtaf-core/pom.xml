@@ -42,7 +42,7 @@
         <guiceVersion>5.1.0</guiceVersion>
         <jerseyClientVersion>3.1.1</jerseyClientVersion>
         <pebbleVersion>3.2.1</pebbleVersion>
-        <allureVersion>2.21.0</allureVersion>
+        <allureVersion>2.22.0</allureVersion>
         <rxJavaVersion>1.3.8</rxJavaVersion>
         <zip4JVersion>2.11.5</zip4JVersion>
         <log4JVersion>2.20.0</log4JVersion>
