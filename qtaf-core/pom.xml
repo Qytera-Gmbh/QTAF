@@ -37,7 +37,7 @@
         <!-- Dependency Versions -->
         <seleniumJavaVersion>4.9.0</seleniumJavaVersion>
         <testNGVersion>7.7.1</testNGVersion>
-        <testNGCucumberVersion>7.11.1</testNGCucumberVersion>
+        <testNGCucumberVersion>7.12.0</testNGCucumberVersion>
         <gsonVersion>2.10.1</gsonVersion>
         <guiceVersion>5.1.0</guiceVersion>
         <jerseyClientVersion>3.1.1</jerseyClientVersion>
