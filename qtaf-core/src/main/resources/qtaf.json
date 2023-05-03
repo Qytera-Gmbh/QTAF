@@ -32,9 +32,9 @@
     "projectKey": null,
     "authentication": {
       "xray": {
-        "clientId": "your-client-id",
-        "clientSecret": "your-client-secret",
-        "bearerToken": "your-bearer-token"
+        "clientId": null,
+        "clientSecret": null,
+        "bearerToken": null
       },
       "jira": {
         "username": null,
@@ -46,17 +46,17 @@
       "scenarioImageEvidence": true,
       "customStatus": {
         "test": {
-          "passed": "PASSED",
-          "failed": "FAILED",
-          "pending": "PENDING",
-          "skipped": "SKIPPED"
+          "passed": null,
+          "failed": null,
+          "pending": null,
+          "skipped": null
         },
         "step": {
-          "passed": "PASSED",
-          "failed": "FAILED",
-          "pending": "PENDING",
-          "skipped": "SKIPPED",
-          "undefined": "UNDEFINED"
+          "passed": null,
+          "failed": null,
+          "pending": null,
+          "skipped": null,
+          "undefined": null
         }
       },
       "tests": {
@@ -80,14 +80,14 @@
   },
   "testrail": {
     "enabled": false,
-    "url": "https://your-domain.testrail.net",
+    "url": null,
     "authentication": {
-      "clientId": "",
-      "clientSecret": ""
+      "clientId": null,
+      "clientSecret": null
     }
   },
   "security": {
-    "key": "your-security-key"
+    "key": null
   },
   "htmlReport": {
     "enabled": true
