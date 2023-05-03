@@ -304,7 +304,7 @@ public class ConfigMap extends HashMap<String, Object> {
      * @return the fallback value
      */
     public final <T> T logMissingValue(String key, T fallbackValue) {
-        QtafFactory.getLogger().error(
+        QtafFactory.getLogger().warn(
                 String.format(
                         "Value for '%s' was null, defaulting to '%s'.",
                         key,
