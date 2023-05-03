@@ -139,6 +139,7 @@ public class StepInformationLogMessage extends LogMessage {
      *
      * @param name  the name of the parameter
      * @param value the value of the parameter
+     * @param <T>   the parameter type
      */
     public <T> void addStepParameter(String name, T value) {
         String className = value == null ? NullType.class.getName() : value.getClass().getSimpleName();
@@ -393,10 +394,25 @@ public class StepInformationLogMessage extends LogMessage {
      * Step status
      */
     public enum Status {
+        /**
+         * The step is still pending execution.
+         */
         PENDING,
+        /**
+         * The step was executed successfully.
+         */
         PASS,
+        /**
+         * There were errors during step execution.
+         */
         ERROR,
+        /**
+         * The step's execution was skipped.
+         */
         SKIPPED,
+        /**
+         * The step status could not be determined.
+         */
         UNDEFINED,
     }
 

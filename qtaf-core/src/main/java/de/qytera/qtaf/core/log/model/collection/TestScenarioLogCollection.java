@@ -862,9 +862,21 @@ public class TestScenarioLogCollection {
      * Test execution status
      */
     public enum Status {
+        /**
+         * The scenario is still pending execution.
+         */
         PENDING,
+        /**
+         * The scenario was executed successfully.
+         */
         SUCCESS,
+        /**
+         * The scenario execution resulted in errors.
+         */
         FAILURE,
+        /**
+         * The scenario execution was skipped.
+         */
         SKIPPED,
     }
 

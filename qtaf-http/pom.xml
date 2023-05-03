@@ -14,36 +14,40 @@
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
+        <jerseyClientVersion>3.1.1</jerseyClientVersion>
+        <jakartaActivationVersion>2.1.1</jakartaActivationVersion>
     </properties>
 
     <dependencies>
-        <!-- REST API client -->
-        <!-- https://mvnrepository.com/artifact/com.sun.jersey/jersey-client -->
-        <dependency>
-            <groupId>com.sun.jersey</groupId>
-            <artifactId>jersey-client</artifactId>
-            <version>1.19.4</version>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/com.sun.jersey/jersey-json -->
-        <dependency>
-            <groupId>com.sun.jersey</groupId>
-            <artifactId>jersey-json</artifactId>
-            <version>1.19.4</version>
-        </dependency>
-
-        <!-- Gson: Java to Json conversion -->
-        <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>2.10.1</version>
-            <scope>compile</scope>
-        </dependency>
         <dependency>
             <groupId>de.qytera</groupId>
             <artifactId>qtaf-core</artifactId>
             <version>0.1.0</version>
             <scope>compile</scope>
+        </dependency>
+        <!-- REST API client -->
+        <dependency>
+            <groupId>org.glassfish.jersey.core</groupId>
+            <artifactId>jersey-client</artifactId>
+            <version>${jerseyClientVersion}</version>
+        </dependency>
+        <!-- Integrates Gson into Jersey -->
+        <dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-json-gson</artifactId>
+            <version>${jerseyClientVersion}</version>
+        </dependency>
+        <!-- Necessary because otherwise: https://stackoverflow.com/questions/44088493/jersey-stopped-working-with-injectionmanagerfactory-not-found -->
+        <dependency>
+            <groupId>org.glassfish.jersey.inject</groupId>
+            <artifactId>jersey-hk2</artifactId>
+            <version>${jerseyClientVersion}</version>
+        </dependency>
+        <!-- Prevents warnings of the form "WARNING: A class jakarta.activation.DataSource for a default provider MessageBodyWriter was not found." -->
+        <dependency>
+            <groupId>jakarta.activation</groupId>
+            <artifactId>jakarta.activation-api</artifactId>
+            <version>${jakartaActivationVersion}</version>
         </dependency>
     </dependencies>
 

@@ -159,6 +159,8 @@ public class QtafTestNGCucumberContext extends AbstractTestNGCucumberTests imple
 
     /**
      * Before hooks run before the first step of each scenario.
+     *
+     * @param scenario the scenario
      */
     @Before
     public void initializeTest(Scenario scenario) {
@@ -256,6 +258,8 @@ public class QtafTestNGCucumberContext extends AbstractTestNGCucumberTests imple
 
     /**
      * Step hooks invoked before and after a step.
+     *
+     * @param scenario the scenario
      */
     @BeforeStep
     public void beforeStep(Scenario scenario) {
@@ -265,6 +269,8 @@ public class QtafTestNGCucumberContext extends AbstractTestNGCucumberTests imple
 
     /**
      * Step hooks invoked before and after a step.
+     *
+     * @param scenario the scenario
      */
     @AfterStep
     public void afterStep(Scenario scenario) {
@@ -276,7 +282,7 @@ public class QtafTestNGCucumberContext extends AbstractTestNGCucumberTests imple
      * After hooks run after the last step of each scenario,
      * even when the step result is failed, undefined, pending, or skipped
      *
-     * @param scenario
+     * @param scenario the scenario
      */
     @After
     public void embedScreenshot(Scenario scenario) {

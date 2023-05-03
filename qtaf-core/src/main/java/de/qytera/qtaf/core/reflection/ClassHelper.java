@@ -1,9 +1,16 @@
 package de.qytera.qtaf.core.reflection;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
 import javax.lang.model.type.NullType;
 import java.lang.reflect.Method;
 import java.util.*;
 
+/**
+ * Utility class containing reflection methods dealing with Java classes.
+ */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ClassHelper {
     /**
      * Return all superclasses of the given object until stopAt is reached
@@ -34,6 +41,12 @@ public class ClassHelper {
         return ClassHelper.getSuperclasses(object, NullType.class);
     }
 
+    /**
+     * Return all interfaces of a given object.
+     *
+     * @param object the object to inspect
+     * @return all interfaces of the object
+     */
     public static Set<Class<?>> getInterfaces(Object object) {
         Set<Class<?>> superclasses = ClassHelper.getSuperclasses(object);
         Set<Class<?>> allInterfaces = new HashSet<>(List.of(object.getClass().getInterfaces()));

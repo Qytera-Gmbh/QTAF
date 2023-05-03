@@ -9,13 +9,6 @@ import org.openqa.selenium.edge.EdgeOptions;
  */
 public class EdgeDriver extends AbstractDriver {
 
-    /**
-     * Creates a new edge driver.
-     */
-    public EdgeDriver() {
-        super(false);
-    }
-
     @Override
     public String getName() {
         return "edge";
@@ -33,5 +26,10 @@ public class EdgeDriver extends AbstractDriver {
         // Make selenium use the selenium-http-jdk-client package
         System.setProperty("webdriver.http.factory", "jdk-http-client");
         return new EdgeOptions();
+    }
+
+    @Override
+    protected boolean isRemoteDriver() {
+        return false;
     }
 }

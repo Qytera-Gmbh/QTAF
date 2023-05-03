@@ -2,6 +2,7 @@ package de.qytera.qtaf.xray.builder;
 
 import com.google.inject.Singleton;
 import de.qytera.qtaf.core.QtafFactory;
+import de.qytera.qtaf.core.config.exception.MissingConfigurationValueException;
 import de.qytera.qtaf.core.log.model.collection.TestFeatureLogCollection;
 import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
 import de.qytera.qtaf.core.log.model.collection.TestSuiteLogCollection;
@@ -11,14 +12,14 @@ import de.qytera.qtaf.xray.builder.test.MultipleIterationsXrayTestEntityBuilder;
 import de.qytera.qtaf.xray.builder.test.SingleIterationXrayTestEntityBuilder;
 import de.qytera.qtaf.xray.builder.test.XrayTestEntityBuilder;
 import de.qytera.qtaf.xray.config.XrayConfigHelper;
-import de.qytera.qtaf.xray.dto.request.XrayImportRequestDto;
 import de.qytera.qtaf.xray.dto.request.issues.AdditionalField;
+import de.qytera.qtaf.xray.dto.request.xray.ImportExecutionResultsRequestDto;
 import de.qytera.qtaf.xray.dto.response.issues.JiraIssueResponseDto;
 import de.qytera.qtaf.xray.entity.XrayTestEntity;
 import de.qytera.qtaf.xray.entity.XrayTestExecutionInfoEntity;
-import de.qytera.qtaf.xray.service.XrayCloudService;
-import de.qytera.qtaf.xray.service.XrayServerService;
+import de.qytera.qtaf.xray.repository.jira.JiraIssueRepository;
 
+import java.net.URISyntaxException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -53,7 +54,7 @@ public class XrayJsonImportBuilder {
      */
     private final XrayTestEntityBuilder<List<TestScenarioLogCollection>> multipleIterationsBuilder;
 
-    public XrayJsonImportBuilder(TestSuiteLogCollection collection) {
+    public XrayJsonImportBuilder(TestSuiteLogCollection collection) throws URISyntaxException, MissingConfigurationValueException {
         this.collection = collection;
         Map<String, String> issueSummaries = getIssueSummaries(collection);
         this.singleIterationBuilder = new SingleIterationXrayTestEntityBuilder(this.collection, issueSummaries);
@@ -65,8 +66,8 @@ public class XrayJsonImportBuilder {
      *
      * @return the execution import DTO
      */
-    public XrayImportRequestDto buildRequest() throws NoXrayTestException {
-        XrayImportRequestDto xrayImportRequestDto = new XrayImportRequestDto();
+    public ImportExecutionResultsRequestDto buildRequest() throws NoXrayTestException {
+        ImportExecutionResultsRequestDto xrayImportRequestDto = new ImportExecutionResultsRequestDto();
         xrayImportRequestDto.setInfo(buildTestExecutionInfoEntity());
         xrayImportRequestDto.setTests(buildTestEntities());
         if (xrayImportRequestDto.getTests().isEmpty()) {
@@ -85,6 +86,7 @@ public class XrayJsonImportBuilder {
             String finishDate = XrayJsonHelper.isoDateString(collection.getEnd());
             entity.setFinishDate(finishDate);
         }
+        entity.setTestPlanKey(XrayConfigHelper.getResultsUploadTestPlanKey());
         entity.addTestEnvironment(collection.getOsName());
         entity.addTestEnvironment(collection.getDriverName());
         return entity;
@@ -154,7 +156,7 @@ public class XrayJsonImportBuilder {
         return xrayTest;
     }
 
-    private static Map<String, String> getIssueSummaries(TestSuiteLogCollection collection) {
+    private static Map<String, String> getIssueSummaries(TestSuiteLogCollection collection) throws URISyntaxException, MissingConfigurationValueException {
         // Jira issue summaries are only required when updating test issue steps.
         if (!XrayConfigHelper.shouldResultsUploadTestsInfoStepsUpdate()) {
             return Collections.emptyMap();
@@ -174,7 +176,7 @@ public class XrayJsonImportBuilder {
         return issueSummaries;
     }
 
-    private static Map<String, String> getIssueSummariesFromJira(TestSuiteLogCollection collection) {
+    private static Map<String, String> getIssueSummariesFromJira(TestSuiteLogCollection collection) throws URISyntaxException, MissingConfigurationValueException {
         Map<String, String> issueSummaries = new HashMap<>();
         Set<String> testKeys = collection.getTestFeatureLogCollections().stream()
                 .map(TestFeatureLogCollection::getScenarioLogCollection)
@@ -183,12 +185,7 @@ public class XrayJsonImportBuilder {
                 .filter(Objects::nonNull)
                 .map(XrayTest::key)
                 .collect(Collectors.toSet());
-        List<JiraIssueResponseDto> issues;
-        if (XrayConfigHelper.isXrayCloudService()) {
-            issues = XrayCloudService.getInstance().searchJiraIssues(testKeys, AdditionalField.SUMMARY);
-        } else {
-            issues = XrayServerService.getInstance().searchJiraIssues(testKeys, AdditionalField.SUMMARY);
-        }
+        List<JiraIssueResponseDto> issues = JiraIssueRepository.getInstance().searchJiraIssues(testKeys, AdditionalField.SUMMARY);
         for (JiraIssueResponseDto issue : issues) {
             issueSummaries.put(issue.getKey(), issue.getFields().get(AdditionalField.SUMMARY.text).getAsString());
             testKeys.remove(issue.getKey());
