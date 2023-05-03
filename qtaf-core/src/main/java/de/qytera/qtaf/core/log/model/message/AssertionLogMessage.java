@@ -1,6 +1,7 @@
 package de.qytera.qtaf.core.log.model.message;
 
 import de.qytera.qtaf.core.log.model.LogLevel;
+import de.qytera.qtaf.core.log.model.error.ThrowableWrapper;
 
 /**
  * Entity class for assertion log messages
@@ -39,7 +40,7 @@ public class AssertionLogMessage extends LogMessage {
     /**
      * Assertion Error
      */
-    protected AssertionError error;
+    protected ThrowableWrapper error;
 
     /**
      * Constructor
@@ -99,12 +100,12 @@ public class AssertionLogMessage extends LogMessage {
         return this;
     }
 
-    public AssertionError error() {
+    public ThrowableWrapper error() {
         return error;
     }
 
     public AssertionLogMessage setError(AssertionError error) {
-        this.error = error;
+        this.error = new ThrowableWrapper(error);
         return this;
     }
 
