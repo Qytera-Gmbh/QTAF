@@ -156,7 +156,6 @@ public class TestScenarioLogCollection {
                         scenarioName
                 )
         );
-        QtafFactory.getConfiguration().getString("page.url");
         QtafFactory.getLogger().debug(
                 String.format(
                         "feature log index: size=%s, scenario log index: size=%s",
