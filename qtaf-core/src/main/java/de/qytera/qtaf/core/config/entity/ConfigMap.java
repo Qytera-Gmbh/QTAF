@@ -284,7 +284,7 @@ public class ConfigMap extends HashMap<String, Object> {
     }
 
     private void logMissingKey(String key) {
-        QtafFactory.getLogger().error(
+        QtafFactory.getLogger().warn(
                 String.format(
                         "Failed to find key '%s' in JVM arguments (-D%s), environment variables (%s) or configuration file %s",
                         key,
