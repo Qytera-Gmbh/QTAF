@@ -94,6 +94,7 @@ public class TestFeatureLogCollection {
      *
      * @param featureId   Collection ID
      * @param featureName Collection Name
+     * @return the log collection
      */
     public static synchronized TestFeatureLogCollection createFeatureLogCollectionIfNotExists(
             String featureId,
@@ -122,6 +123,7 @@ public class TestFeatureLogCollection {
      *
      * @param featureId             Collection ID
      * @param testFeatureAnnotation Test feature annotation
+     * @return the log collection
      */
     public static synchronized TestFeatureLogCollection createFeatureLogCollectionIfNotExists(
             String featureId,
@@ -219,9 +221,10 @@ public class TestFeatureLogCollection {
     /**
      * Add new Scenario Log Collection
      *
-     * @param featureId    Unique test hash code
-     * @param instanceId   Method ID / Scenario name
-     * @param scenarioName Test ID / Feature name
+     * @param featureId          Unique test hash code
+     * @param abstractScenarioId the scenario ID
+     * @param instanceId         Method ID / Scenario name
+     * @param scenarioName       Test ID / Feature name
      * @return this
      */
     public synchronized TestScenarioLogCollection createScenarioIfNotExists(String featureId, String abstractScenarioId, String instanceId, String scenarioName) {

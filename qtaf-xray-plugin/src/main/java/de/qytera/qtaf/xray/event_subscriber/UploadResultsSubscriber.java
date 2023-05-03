@@ -9,11 +9,9 @@ import de.qytera.qtaf.core.log.Logger;
 import de.qytera.qtaf.xray.builder.XrayJsonImportBuilder;
 import de.qytera.qtaf.xray.commands.UploadImportCommand;
 import de.qytera.qtaf.xray.config.XrayConfigHelper;
-import de.qytera.qtaf.xray.dto.request.XrayImportRequestDto;
-import de.qytera.qtaf.xray.dto.response.XrayCloudImportResponseDto;
-import de.qytera.qtaf.xray.dto.response.XrayImportResponseDto;
-import de.qytera.qtaf.xray.dto.response.XrayServerImportResponseDto;
-import de.qytera.qtaf.xray.events.QtafXrayEvents;
+import de.qytera.qtaf.xray.dto.request.xray.ImportExecutionResultsRequestDto;
+import de.qytera.qtaf.xray.dto.response.xray.ImportExecutionResultsResponseDto;
+import de.qytera.qtaf.xray.events.XrayEvents;
 import rx.Subscription;
 
 /**
@@ -70,35 +68,30 @@ public class UploadResultsSubscriber implements IEventSubscriber {
 
         logger.info("[QTAF Xray Plugin] Uploading Xray results ...");
 
-        if (XrayConfigHelper.getProjectKey() == null) {
-            throw new MissingConfigurationValueException(XrayConfigHelper.PROJECT_KEY, QtafFactory.getConfiguration());
-        }
-
         try {
+
+            if (XrayConfigHelper.getProjectKey() == null) {
+                throw new MissingConfigurationValueException(XrayConfigHelper.PROJECT_KEY, QtafFactory.getConfiguration());
+            }
             // Build Request DTO for Xray API
-            XrayImportRequestDto xrayImportRequestDto = new XrayJsonImportBuilder(QtafFactory.getTestSuiteLogCollection()).buildRequest();
+            ImportExecutionResultsRequestDto xrayImportRequestDto = new XrayJsonImportBuilder(QtafFactory.getTestSuiteLogCollection()).buildRequest();
 
             // Dispatch Event for Import DTO
-            QtafXrayEvents.importDtoCreated.onNext(xrayImportRequestDto);
+            XrayEvents.importDtoCreated.onNext(xrayImportRequestDto);
 
             // Upload test execution data
             UPLOAD_IMPORT_COMMAND.setXrayImportRequestDto(xrayImportRequestDto).execute();
 
             // Log result key to console
-            XrayImportResponseDto responseDto = UPLOAD_IMPORT_COMMAND.getXrayImportResponseDto();
+            ImportExecutionResultsResponseDto responseDto = UPLOAD_IMPORT_COMMAND.getXrayImportResponseDto();
 
             // Log test execution key to console
-            String key = null;
-            if (responseDto instanceof XrayCloudImportResponseDto xrayCloudImportResponseDto) {
-                key = xrayCloudImportResponseDto.getKey();
-            } else if (responseDto instanceof XrayServerImportResponseDto xrayServerImportResponseDto) {
-                key = xrayServerImportResponseDto.getTestExecIssue().getKey();
-            }
+            String key = responseDto.getKey();
             logger.info(String.format("[QTAF Xray Plugin] Uploaded test execution. Key is %s", key));
 
             // Dispatch events
-            QtafXrayEvents.responseDtoAvailable.onNext(responseDto);
-            QtafXrayEvents.responseDtoAvailable.onCompleted();
+            XrayEvents.responseDtoAvailable.onNext(responseDto);
+            XrayEvents.responseDtoAvailable.onCompleted();
         } catch (XrayJsonImportBuilder.NoXrayTestException e) {
             logger.info("[QTAF Xray Plugin] No tests linked to Xray issues were executed. Skipping upload.");
         } catch (Exception e) {

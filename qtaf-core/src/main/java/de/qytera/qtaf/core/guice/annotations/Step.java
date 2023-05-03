@@ -6,7 +6,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-
 /**
  * Method annotation for test steps
  */
@@ -16,13 +15,15 @@ public @interface Step {
 
     /**
      * Test step name
+     *
+     * @return the step's name
      */
-
     String name() default "";
 
     /**
      * Test step description
+     *
+     * @return the step's description
      */
-
     String description() default "";
 }

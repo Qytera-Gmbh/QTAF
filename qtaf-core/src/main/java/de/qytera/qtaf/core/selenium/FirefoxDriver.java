@@ -9,13 +9,6 @@ import org.openqa.selenium.firefox.FirefoxOptions;
  */
 public class FirefoxDriver extends AbstractDriver {
 
-    /**
-     * Creates a new firefox driver.
-     */
-    public FirefoxDriver() {
-        super(false);
-    }
-
     @Override
     public String getName() {
         return "firefox";
@@ -33,5 +26,10 @@ public class FirefoxDriver extends AbstractDriver {
         // Make selenium use the selenium-http-jdk-client package
         System.setProperty("webdriver.http.factory", "jdk-http-client");
         return new FirefoxOptions();
+    }
+
+    @Override
+    protected boolean isRemoteDriver() {
+        return false;
     }
 }

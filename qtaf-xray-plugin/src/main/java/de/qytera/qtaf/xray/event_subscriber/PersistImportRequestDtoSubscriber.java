@@ -6,9 +6,9 @@ import de.qytera.qtaf.core.gson.GsonFactory;
 import de.qytera.qtaf.core.io.FileHelper;
 import de.qytera.qtaf.core.log.model.collection.TestSuiteLogCollection;
 import de.qytera.qtaf.core.log.model.error.ErrorLogCollection;
-import de.qytera.qtaf.xray.dto.request.XrayImportRequestDto;
+import de.qytera.qtaf.xray.dto.request.xray.ImportExecutionResultsRequestDto;
 import de.qytera.qtaf.xray.error.ImportRequestDtoPersistenceError;
-import de.qytera.qtaf.xray.events.QtafXrayEvents;
+import de.qytera.qtaf.xray.events.XrayEvents;
 
 import java.io.IOException;
 
@@ -18,10 +18,10 @@ import java.io.IOException;
 public class PersistImportRequestDtoSubscriber implements IEventSubscriber {
     @Override
     public void initialize() {
-        QtafXrayEvents.importDtoCreated.subscribe(this::persistImportRequestDto);
+        XrayEvents.importDtoCreated.subscribe(this::persistImportRequestDto);
     }
 
-    private void persistImportRequestDto(XrayImportRequestDto xrayImportRequestDto) {
+    private void persistImportRequestDto(ImportExecutionResultsRequestDto xrayImportRequestDto) {
         TestSuiteLogCollection suiteLogCollection = TestSuiteLogCollection.getInstance();
 
         Gson gson = GsonFactory.getInstance();

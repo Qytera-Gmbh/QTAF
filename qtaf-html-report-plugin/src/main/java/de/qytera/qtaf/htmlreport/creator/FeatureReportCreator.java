@@ -25,6 +25,7 @@ public class FeatureReportCreator extends ReportCreator {
      *
      * @param logCollection        Log collection
      * @param featureLogCollection Feature Log Collection
+     * @return true on success
      */
     public boolean createReport(
             TestSuiteLogCollection logCollection,

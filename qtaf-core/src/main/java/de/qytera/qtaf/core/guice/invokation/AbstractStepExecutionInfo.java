@@ -4,8 +4,13 @@ import org.aopalliance.intercept.MethodInvocation;
 
 import java.util.Arrays;
 
-
+/**
+ * Base class for managing step execution information.
+ */
 public abstract class AbstractStepExecutionInfo {
+    /**
+     * The step ID.
+     */
     protected int id;
     private MethodInvocation methodInvocation;
     private Object result = null;
