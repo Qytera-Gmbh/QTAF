@@ -14,6 +14,7 @@ import java.util.HexFormat;
 public class AESTest {
     /**
      * Test if AES can encrypt a plain text and decrypt the ciphertext
+     *
      * @throws GeneralSecurityException Security Exception
      */
     @Test(testName = "Test AES encryption and decryption")
@@ -25,6 +26,7 @@ public class AESTest {
 
     /**
      * Test if AES can encrypt a plain text and decrypt the ciphertext
+     *
      * @throws GeneralSecurityException Security Exception
      */
     @Test(testName = "Test random salts being used in AES encryption and decryption")
@@ -40,6 +42,7 @@ public class AESTest {
 
     /**
      * Test if AES can encrypt a plain text and decrypt the ciphertext
+     *
      * @throws GeneralSecurityException Security Exception
      */
     @Test(testName = "Test AES encryption and decryption with custom salt")
@@ -53,6 +56,7 @@ public class AESTest {
 
     /**
      * Test if ciphertext can only be decrypted with a valid key
+     *
      * @throws GeneralSecurityException Security exception
      */
     @Test(
