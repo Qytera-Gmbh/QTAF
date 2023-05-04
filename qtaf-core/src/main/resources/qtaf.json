@@ -79,6 +79,9 @@
       }
     }
   },
+  "security": {
+    "key": null
+  },
   "htmlReport": {
     "enabled": true
   },
