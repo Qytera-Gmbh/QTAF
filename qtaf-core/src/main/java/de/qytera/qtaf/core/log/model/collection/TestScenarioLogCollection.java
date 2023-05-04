@@ -531,13 +531,8 @@ public class TestScenarioLogCollection {
      * @return  Step log object of the currently pending step
      */
     public synchronized StepInformationLogMessage getStepLogOfPendingStep() {
-        List<LogMessage> logMessages = LogMessageIndex.getInstance().getByScenarioIdAndPending(getScenarioId());
-
-        if (logMessages.size() > 0) {
-            return (StepInformationLogMessage) logMessages.get(0);
-        }
-
-        return null;
+        List<StepInformationLogMessage> logMessages = LogMessageIndex.getInstance().getByScenarioIdAndPending(getScenarioId());
+        return logMessages.isEmpty() ? null : logMessages.get(0);
     }
 
     /**
