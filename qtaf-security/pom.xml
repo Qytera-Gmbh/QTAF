@@ -22,7 +22,7 @@
         <dependency>
             <groupId>de.qytera</groupId>
             <artifactId>qtaf-io</artifactId>
-            <version>0.1.0</version>
+            <version>0.0.9</version>
         </dependency>
         <dependency>
             <groupId>org.testng</groupId>
