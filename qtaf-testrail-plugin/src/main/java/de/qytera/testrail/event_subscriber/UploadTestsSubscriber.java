@@ -51,7 +51,7 @@ public class UploadTestsSubscriber implements IEventSubscriber {
     /**
      * testRail API client
      */
-    APIClient client = null;
+    private APIClient client = null;
 
     /**
      * Create a Client for the TestRail API
