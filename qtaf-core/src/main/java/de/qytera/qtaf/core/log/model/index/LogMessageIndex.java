@@ -2,6 +2,7 @@ package de.qytera.qtaf.core.log.model.index;
 
 import de.qytera.qtaf.core.QtafFactory;
 import de.qytera.qtaf.core.log.model.message.LogMessage;
+import de.qytera.qtaf.core.log.model.message.StepInformationLogMessage;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -120,6 +121,57 @@ public class LogMessageIndex {
                 .values()
                 .stream()
                 .filter(m -> m.getScenarioId().equals(scenarioId))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Get all log messages for a given scenario ID that are pending
+     *
+     * @param scenarioId Scenario ID
+     * @return List of log messages for the given scenario ID
+     */
+    public List<LogMessage> getByScenarioIdAndPending(String scenarioId) {
+        return this.index
+                .values()
+                .stream()
+                .filter(m -> m instanceof StepInformationLogMessage
+                        && m.getScenarioId().equals(scenarioId)
+                        && ((StepInformationLogMessage) m).getStatus() == StepInformationLogMessage.Status.PENDING
+                )
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Get all log messages for a given scenario ID that have passed
+     *
+     * @param scenarioId Scenario ID
+     * @return List of log messages for the given scenario ID
+     */
+    public List<LogMessage> getByScenarioIdAndPassed(String scenarioId) {
+        return this.index
+                .values()
+                .stream()
+                .filter(m -> m instanceof StepInformationLogMessage
+                        && m.getScenarioId().equals(scenarioId)
+                        && ((StepInformationLogMessage) m).getStatus() == StepInformationLogMessage.Status.PASS
+                )
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Get all log messages for a given scenario ID that have failed
+     *
+     * @param scenarioId Scenario ID
+     * @return List of log messages for the given scenario ID
+     */
+    public List<LogMessage> getByScenarioIdAndFailed(String scenarioId) {
+        return this.index
+                .values()
+                .stream()
+                .filter(m -> m instanceof StepInformationLogMessage
+                        && m.getScenarioId().equals(scenarioId)
+                        && ((StepInformationLogMessage) m).getStatus() == StepInformationLogMessage.Status.ERROR
+                )
                 .collect(Collectors.toList());
     }
 }
