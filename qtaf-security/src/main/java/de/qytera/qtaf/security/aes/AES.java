@@ -1,11 +1,13 @@
 package de.qytera.qtaf.security.aes;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
+import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
-import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.GCMParameterSpec;
-import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
@@ -20,6 +22,7 @@ import java.util.Objects;
 /**
  * Class that provides methods for encryption and decryption with the AES algorithm
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class AES {
 
     /**
@@ -44,19 +47,19 @@ public class AES {
     /**
      * AES algorithm
      */
-    private static String SECRET_KEY_ALGORITHM = "PBKDF2WithHmacSHA512";
+    private static final String SECRET_KEY_ALGORITHM = "PBKDF2WithHmacSHA512";
 
     /**
      * Cipher transformation algorithm
      */
-    private static String CIPHER_TRANSFORMATION = "AES/GCM/NoPadding";
+    private static final String CIPHER_TRANSFORMATION = "AES/GCM/NoPadding";
 
 
     /**
      * Encrypts string content using the provided passphrase.
      *
-     * @param plainText     the plaintext that should be encrypted
-     * @param key           the AES secret key
+     * @param plainText the plaintext that should be encrypted
+     * @param key       the AES secret key
      * @return the encrypted ciphertext
      * @throws GeneralSecurityException whenever encryption fails
      */
@@ -68,9 +71,9 @@ public class AES {
     /**
      * Encrypts string content using the provided passphrase.
      *
-     * @param plainText     the plaintext that should be encrypted
-     * @param key           the AES secret key
-     * @param salt          the salt
+     * @param plainText the plaintext that should be encrypted
+     * @param key       the AES secret key
+     * @param salt      the salt
      * @return the encrypted ciphertext
      * @throws GeneralSecurityException whenever encryption fails
      */
@@ -114,8 +117,16 @@ public class AES {
                 base64Decoder.decode(iv)
         );
         pbeCipher.init(Cipher.DECRYPT_MODE, aesKey, gcmParameterSpec);
-
-        return new String(pbeCipher.doFinal(base64Decoder.decode(content)), StandardCharsets.UTF_8);
+        try {
+            return new String(pbeCipher.doFinal(base64Decoder.decode(content)), StandardCharsets.UTF_8);
+        } catch (BadPaddingException exception) {
+            throw new BadPaddingException(
+                    String.format(
+                            "%s Make sure you're using the correct key",
+                            exception.getMessage()
+                    )
+            );
+        }
     }
 
 
