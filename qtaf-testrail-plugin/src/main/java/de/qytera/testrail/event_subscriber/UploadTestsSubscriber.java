@@ -38,10 +38,10 @@ public class UploadTestsSubscriber implements IEventSubscriber {
 
     @Override
     public void initialize() {
-        this.testFinishedSubscription = QtafEvents.logsPersisted.subscribe(this::onFinishedTesting);
+        if (testFinishedSubscription != null) {
+            this.testFinishedSubscription = QtafEvents.logsPersisted.subscribe(this::onFinishedTesting);
+        }
     }
-
-    private static final String RAILS_ENGINE_URL = "https://jedox.testrail.net";
 
     /**
      * Configuration
