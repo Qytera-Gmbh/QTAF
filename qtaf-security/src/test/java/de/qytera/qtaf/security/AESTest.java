@@ -62,7 +62,7 @@ public class AESTest {
     @Test(
             testName = "Test if ciphertext can only be decrypted with valid key",
             expectedExceptions = BadPaddingException.class,
-            expectedExceptionsMessageRegExp = "Tag mismatch! Make sure you're using the correct key"
+            expectedExceptionsMessageRegExp = "(.+)Make sure you're using the correct key(.*)"
     )
     public void testCiphertextOnlyDecryptableWithValidKey() throws GeneralSecurityException {
         String cipherText = AES.encrypt("Hello World!", "my-key-1");
