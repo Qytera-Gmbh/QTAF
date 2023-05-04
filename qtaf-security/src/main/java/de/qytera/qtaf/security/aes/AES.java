@@ -4,6 +4,7 @@ import javax.crypto.Cipher;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
@@ -48,7 +49,7 @@ public class AES {
     /**
      * Cipher transformation algorithm
      */
-    private static String CIPHER_TRANSFORMATION = "AES/CBC/PKCS5Padding";
+    private static String CIPHER_TRANSFORMATION = "AES/GCM/NoPadding";
 
 
     /**
@@ -79,10 +80,10 @@ public class AES {
         Cipher pbeCipher = Cipher.getInstance(CIPHER_TRANSFORMATION);
         pbeCipher.init(Cipher.ENCRYPT_MODE, aesKey);
         AlgorithmParameters parameters = pbeCipher.getParameters();
-        IvParameterSpec ivParameterSpec = parameters.getParameterSpec(IvParameterSpec.class);
+        GCMParameterSpec gcmParameterSpec = parameters.getParameterSpec(GCMParameterSpec.class);
 
         byte[] cipherText = pbeCipher.doFinal(Objects.requireNonNull(plainText).getBytes(StandardCharsets.UTF_8));
-        byte[] iv = ivParameterSpec.getIV();
+        byte[] iv = gcmParameterSpec.getIV();
 
         return base64Encoder.encodeToString(salt) + ":" + base64Encoder.encodeToString(iv) + ":" + base64Encoder.encodeToString(cipherText);
     }
@@ -107,7 +108,12 @@ public class AES {
         );
 
         Cipher pbeCipher = Cipher.getInstance(CIPHER_TRANSFORMATION);
-        pbeCipher.init(Cipher.DECRYPT_MODE, aesKey, new IvParameterSpec(base64Decoder.decode(iv)));
+        AlgorithmParameters parameters = pbeCipher.getParameters();
+        GCMParameterSpec gcmParameterSpec = new GCMParameterSpec(
+                parameters.getParameterSpec(GCMParameterSpec.class).getTLen(),
+                base64Decoder.decode(iv)
+        );
+        pbeCipher.init(Cipher.DECRYPT_MODE, aesKey, gcmParameterSpec);
 
         return new String(pbeCipher.doFinal(base64Decoder.decode(content)), StandardCharsets.UTF_8);
     }
