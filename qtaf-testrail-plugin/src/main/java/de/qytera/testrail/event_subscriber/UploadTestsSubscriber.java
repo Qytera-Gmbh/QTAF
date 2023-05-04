@@ -46,7 +46,7 @@ public class UploadTestsSubscriber implements IEventSubscriber {
     /**
      * Configuration
      */
-    ConfigMap config = QtafFactory.getConfiguration();
+    private static ConfigMap CONFIG = QtafFactory.getConfiguration();
 
     /**
      * testRail API client
@@ -61,10 +61,10 @@ public class UploadTestsSubscriber implements IEventSubscriber {
 
         try {
             // Get configuration values
-            String url = config.getString(TestRailConfigHelper.TESTRAIL_URL);
-            String clientId = config.getString(TestRailConfigHelper.TESTRAIL_AUTHENTICATION_CLIENT_ID);
-            String clientSecret = config.getString(TestRailConfigHelper.TESTRAIL_AUTHENTICATION_CLIENT_SECRET);
-            String key = config.getString(TestRailConfigHelper.SECURITY_KEY);
+            String url = CONFIG.getString(TestRailConfigHelper.TESTRAIL_URL);
+            String clientId = CONFIG.getString(TestRailConfigHelper.TESTRAIL_AUTHENTICATION_CLIENT_ID);
+            String clientSecret = CONFIG.getString(TestRailConfigHelper.TESTRAIL_AUTHENTICATION_CLIENT_SECRET);
+            String key = CONFIG.getString(TestRailConfigHelper.SECURITY_KEY);
 
             // Check configuration values
             if (clientId == null || clientId.equals("")) {
@@ -95,7 +95,7 @@ public class UploadTestsSubscriber implements IEventSubscriber {
      */
     private void onFinishedTesting(String testingContext) {
         // Check if plugin is enabled
-        if (!config.getBoolean(TestRailConfigHelper.TESTRAIL_ENABLED)) {
+        if (!CONFIG.getBoolean(TestRailConfigHelper.TESTRAIL_ENABLED)) {
             return;
         }
 
