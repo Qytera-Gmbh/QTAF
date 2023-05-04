@@ -41,6 +41,7 @@
         <module>qtaf-html-report-plugin</module>
         <module>qtaf-allure-plugin</module>
         <module>qtaf-xray-plugin</module>
+        <module>qtaf-testrail-plugin</module>
         <module>qtaf-http</module>
         <module>qtaf-data</module>
     </modules>
