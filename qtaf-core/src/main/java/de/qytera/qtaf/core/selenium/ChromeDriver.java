@@ -15,7 +15,7 @@ public class ChromeDriver extends AbstractDriver {
     }
 
     @Override
-    public WebDriver getDriverInstance() {
+    public WebDriver getDriver() {
         WebDriverManager webDriverManager = WebDriverManager.chromedriver();
         initWebDriverManager(webDriverManager);
         return new org.openqa.selenium.chrome.ChromeDriver(getCapabilities());
