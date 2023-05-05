@@ -29,11 +29,6 @@ public class UploadResultsSubscriber implements IEventSubscriber {
     private Subscription testFinishedSubscription;
 
     /**
-     * Command to upload test results to Xray API
-     */
-    private static final UploadImportCommand UPLOAD_IMPORT_COMMAND = new UploadImportCommand();
-
-    /**
      * QTAF logger.
      */
     private static final Logger logger = QtafFactory.getLogger();
@@ -80,10 +75,7 @@ public class UploadResultsSubscriber implements IEventSubscriber {
             XrayEvents.importDtoCreated.onNext(xrayImportRequestDto);
 
             // Upload test execution data
-            UPLOAD_IMPORT_COMMAND.setXrayImportRequestDto(xrayImportRequestDto).execute();
-
-            // Log result key to console
-            ImportExecutionResultsResponseDto responseDto = UPLOAD_IMPORT_COMMAND.getXrayImportResponseDto();
+            ImportExecutionResultsResponseDto responseDto = XrayTestRepository.getInstance().importExecutionResults(xrayImportRequestDto);
 
             // Log test execution key to console
             String key = responseDto.getKey();
