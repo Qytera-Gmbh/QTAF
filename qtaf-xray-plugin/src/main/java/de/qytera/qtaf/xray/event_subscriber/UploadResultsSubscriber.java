@@ -7,11 +7,11 @@ import de.qytera.qtaf.core.events.interfaces.IEventSubscriber;
 import de.qytera.qtaf.core.events.payload.IQtafTestingContext;
 import de.qytera.qtaf.core.log.Logger;
 import de.qytera.qtaf.xray.builder.XrayJsonImportBuilder;
-import de.qytera.qtaf.xray.commands.UploadImportCommand;
 import de.qytera.qtaf.xray.config.XrayConfigHelper;
 import de.qytera.qtaf.xray.dto.request.xray.ImportExecutionResultsRequestDto;
 import de.qytera.qtaf.xray.dto.response.xray.ImportExecutionResultsResponseDto;
 import de.qytera.qtaf.xray.events.XrayEvents;
+import de.qytera.qtaf.xray.repository.xray.XrayTestRepository;
 import rx.Subscription;
 
 /**
@@ -49,7 +49,7 @@ public class UploadResultsSubscriber implements IEventSubscriber {
      *
      * @param testContext the test context payload
      */
-    public static void onTestFinished(IQtafTestingContext testContext) {
+    private static void onTestFinished(IQtafTestingContext testContext) {
         // Check if Xray Plugin is enabled
         if (!XrayConfigHelper.isEnabled()) {
             return;
