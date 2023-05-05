@@ -17,6 +17,7 @@ public class XrayConfigHelper {
     private static final ConfigMap CONFIG = QtafFactory.getConfiguration();
 
     // Keys
+    public static final String ENABLED_SELECTOR = "xray.enabled";
     public static final String XRAY_SERVICE_SELECTOR = "xray.service";
     public static final String URL_XRAY_SELECTOR = "xray.url.xray";
     public static final String URL_JIRA_SELECTOR = "xray.url.jira";
@@ -47,6 +48,16 @@ public class XrayConfigHelper {
     // Values
     private static final String XRAY_SERVICE_CLOUD = "cloud";
     private static final String XRAY_SERVICE_SERVER = "server";
+
+    /**
+     * Returns whether the Xray plugin is enabled. Defaults to false if
+     * the value has not been specified.
+     *
+     * @return whether the plugin is enabled or false by default
+     */
+    public static boolean isEnabled() {
+        return CONFIG.getBoolean(ENABLED_SELECTOR, false);
+    }
 
     /**
      * Returns the bearer token for authenticating against Xray server.

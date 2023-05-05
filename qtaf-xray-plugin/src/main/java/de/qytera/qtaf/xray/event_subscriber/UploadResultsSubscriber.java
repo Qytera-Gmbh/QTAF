@@ -56,7 +56,7 @@ public class UploadResultsSubscriber implements IEventSubscriber {
      */
     public static void onTestFinished(IQtafTestingContext testContext) {
         // Check if Xray Plugin is enabled
-        if (!Boolean.TRUE.equals(QtafFactory.getConfiguration().getBoolean("xray.enabled"))) {
+        if (!XrayConfigHelper.isEnabled()) {
             return;
         }
 
