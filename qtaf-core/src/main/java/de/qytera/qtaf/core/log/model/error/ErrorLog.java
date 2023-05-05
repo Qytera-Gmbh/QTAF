@@ -19,6 +19,11 @@ public class ErrorLog {
     protected String type = "";
 
     /**
+     * Error message
+     */
+    protected String message;
+
+    /**
      * Error type
      */
     protected List<String> stack = null;
@@ -31,6 +36,7 @@ public class ErrorLog {
     public ErrorLog(String message) {
         this.setError(new Exception(message));
         this.stack = null;
+        this.message = message;
     }
 
     /**
@@ -40,6 +46,7 @@ public class ErrorLog {
      */
     public ErrorLog(Throwable e) {
         this.setError(e);
+        this.message = e.getMessage();
         this.stack = Arrays.stream(e.getStackTrace())
                 .map(StackTraceElement::toString)
                 .collect(Collectors.toList());
@@ -62,6 +69,24 @@ public class ErrorLog {
      */
     public ErrorLog setError(Throwable error) {
         this.error = error;
+        return this;
+    }
+
+    /**
+     * Get message
+     * @return  message
+     */
+    public String message() {
+        return message;
+    }
+
+    /**
+     * Set message
+     * @param message   Message
+     * @return  this
+     */
+    public ErrorLog setMessage(String message) {
+        this.message = message;
         return this;
     }
 
