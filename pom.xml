@@ -43,6 +43,7 @@
         <module>qtaf-xray-plugin</module>
         <module>qtaf-http</module>
         <module>qtaf-data</module>
+        <module>qtaf-security</module>
     </modules>
 
     <properties>
