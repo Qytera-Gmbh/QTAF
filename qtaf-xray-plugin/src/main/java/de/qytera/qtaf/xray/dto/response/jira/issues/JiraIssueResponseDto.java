@@ -1,4 +1,4 @@
-package de.qytera.qtaf.xray.dto.response.issues;
+package de.qytera.qtaf.xray.dto.response.jira.issues;
 
 import com.google.gson.JsonObject;
 import lombok.Getter;
