@@ -1,18 +1,22 @@
 package de.qytera.qtaf.xray.repository.jira;
 
+import com.google.gson.reflect.TypeToken;
 import de.qytera.qtaf.core.QtafFactory;
 import de.qytera.qtaf.core.config.exception.MissingConfigurationValueException;
 import de.qytera.qtaf.core.gson.GsonFactory;
 import de.qytera.qtaf.http.RequestBuilder;
 import de.qytera.qtaf.http.WebService;
 import de.qytera.qtaf.xray.config.XrayConfigHelper;
-import de.qytera.qtaf.xray.dto.response.jira.ProjectDto;
+import de.qytera.qtaf.xray.dto.jira.ProjectCloudDto;
+import de.qytera.qtaf.xray.dto.jira.ProjectDto;
+import de.qytera.qtaf.xray.dto.jira.ProjectServerDto;
 import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
+import java.lang.reflect.Type;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -39,7 +43,7 @@ public class JiraProjectRepository implements JiraEndpoint {
      * @param projectIdOrKey the project ID or project key (case-sensitive)
      * @return the project details
      */
-    public ProjectDto getProject(String projectIdOrKey) throws URISyntaxException, MissingConfigurationValueException {
+    public <P extends ProjectDto<?, ?, ?>> P getProject(String projectIdOrKey) throws URISyntaxException, MissingConfigurationValueException {
         RequestBuilder request = WebService.buildRequest(getProjectPathURI(projectIdOrKey));
         request.getBuilder()
                 .accept(MediaType.APPLICATION_JSON_TYPE)
@@ -62,9 +66,15 @@ public class JiraProjectRepository implements JiraEndpoint {
                 );
                 return null;
             }
+            Type type;
+            if (XrayConfigHelper.isXrayCloudService()) {
+                type = TypeToken.get(ProjectCloudDto.class).getType();
+            } else {
+                type = TypeToken.get(ProjectServerDto.class).getType();
+            }
             return GsonFactory.getInstance().fromJson(
                     responseData,
-                    ProjectDto.class
+                    type
             );
         }
     }

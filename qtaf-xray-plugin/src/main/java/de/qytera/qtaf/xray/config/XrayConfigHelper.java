@@ -46,8 +46,8 @@ public class XrayConfigHelper {
     public static final String RESULTS_UPLOAD_TESTS_ITERATIONS_PARAMETERS_MAX_LENGTH_VALUE = "xray.resultsUpload.tests.iterations.parameters.maxLength.value";
 
     // Values
-    private static final String XRAY_SERVICE_CLOUD = "cloud";
-    private static final String XRAY_SERVICE_SERVER = "server";
+    public static final String XRAY_SERVICE_CLOUD = "cloud";
+    public static final String XRAY_SERVICE_SERVER = "server";
 
     /**
      * Returns whether the Xray plugin is enabled. Defaults to false if
