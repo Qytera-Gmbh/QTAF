@@ -27,17 +27,15 @@ public class JiraProjectRepositoryTest {
 
     private static final ConfigMap CONFIG = QtafFactory.getConfiguration();
 
-    private static final String JIRA_URL = "https://example.org";
-    private static final String JIRA_USERNAME = "Jeff";
-    private static final String JIRA_TOKEN = "Charlie123";
     private static final String PROJECT_KEY = "QTAF";
 
     @BeforeClass
     public void beforeClass() {
         CONFIG.setString(XrayConfigHelper.PROJECT_KEY, PROJECT_KEY);
-        CONFIG.setString(XrayConfigHelper.URL_JIRA_SELECTOR, JIRA_URL);
-        CONFIG.setString(XrayConfigHelper.AUTHENTICATION_JIRA_USERNAME, JIRA_USERNAME);
-        CONFIG.setString(XrayConfigHelper.AUTHENTICATION_JIRA_API_TOKEN, JIRA_TOKEN);
+        CONFIG.setString(XrayConfigHelper.URL_JIRA_SELECTOR, "https://example.org");
+        CONFIG.setString(XrayConfigHelper.AUTHENTICATION_JIRA_USERNAME, "Jeff");
+        CONFIG.setString(XrayConfigHelper.AUTHENTICATION_JIRA_API_TOKEN, "Charlie123");
+        CONFIG.setString(XrayConfigHelper.AUTHENTICATION_XRAY_BEARER_TOKEN, "hello");
     }
 
     @Test(description = "get project details should return a proper cloud DTO on successful calls")
@@ -54,7 +52,7 @@ public class JiraProjectRepositoryTest {
                 Response.status(Response.Status.OK).entity(GsonFactory.getInstance().toJson(expectedDto)).build()
         );
         try (MockedStatic<WebService> webService = Mockito.mockStatic(WebService.class)) {
-            webService.when(() -> WebService.get(any())).thenReturn(response);
+            webService.when(() -> WebService.get(any()).close()).thenReturn(response);
             webService.when(() -> WebService.buildRequest(any())).thenCallRealMethod();
             Assert.assertEquals(JiraProjectRepository.getInstance().getProject(PROJECT_KEY), expectedDto);
         } catch (URISyntaxException | MissingConfigurationValueException exception) {
@@ -72,12 +70,11 @@ public class JiraProjectRepositoryTest {
         expectedDto.setIssueTypes(List.of(new IssueTypeServerDto()));
         expectedDto.setVersions(List.of(new VersionServerDto()));
         CONFIG.setString(XrayConfigHelper.XRAY_SERVICE_SELECTOR, XrayConfigHelper.XRAY_SERVICE_SERVER);
-        CONFIG.setString(XrayConfigHelper.AUTHENTICATION_XRAY_BEARER_TOKEN, "hello");
         Response response = Mocking.simulateInbound(
                 Response.status(Response.Status.OK).entity(GsonFactory.getInstance().toJson(expectedDto)).build()
         );
         try (MockedStatic<WebService> webService = Mockito.mockStatic(WebService.class)) {
-            webService.when(() -> WebService.get(any())).thenReturn(response);
+            webService.when(() -> WebService.get(any()).close()).thenReturn(response);
             webService.when(() -> WebService.buildRequest(any())).thenCallRealMethod();
             Assert.assertEquals(JiraProjectRepository.getInstance().getProject(PROJECT_KEY), expectedDto);
         } catch (URISyntaxException | MissingConfigurationValueException exception) {
@@ -91,7 +88,7 @@ public class JiraProjectRepositoryTest {
                 Response.status(Response.Status.BAD_REQUEST).entity("{\"error\": 42}").build()
         );
         try (MockedStatic<WebService> webService = Mockito.mockStatic(WebService.class)) {
-            webService.when(() -> WebService.get(any())).thenReturn(response);
+            webService.when(() -> WebService.get(any()).close()).thenReturn(response);
             webService.when(() -> WebService.buildRequest(any())).thenCallRealMethod();
             Assert.assertNull(JiraProjectRepository.getInstance().getProject(PROJECT_KEY));
         } catch (URISyntaxException | MissingConfigurationValueException exception) {

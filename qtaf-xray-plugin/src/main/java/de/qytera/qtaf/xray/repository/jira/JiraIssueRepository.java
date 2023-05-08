@@ -6,6 +6,7 @@ import de.qytera.qtaf.core.gson.GsonFactory;
 import de.qytera.qtaf.http.RequestBuilder;
 import de.qytera.qtaf.http.WebService;
 import de.qytera.qtaf.xray.config.XrayConfigHelper;
+import de.qytera.qtaf.xray.dto.jira.UserDto;
 import de.qytera.qtaf.xray.dto.request.jira.issues.AdditionalField;
 import de.qytera.qtaf.xray.dto.request.jira.issues.JiraIssueSearchRequestDto;
 import de.qytera.qtaf.xray.dto.response.jira.issues.JiraIssueResponseDto;
@@ -98,6 +99,50 @@ public class JiraIssueRepository implements JiraEndpoint {
             return new URI(XrayConfigHelper.getJiraUrl() + "/rest/api/3/search");
         }
         return new URI(XrayConfigHelper.getJiraUrl() + "/rest/api/2/search");
+    }
+
+    /**
+     * Assigns an issue to a user.
+     *
+     * @param issueIdOrKey the ID or key of the issue to be assigned
+     * @param user         the user to assign the issue to
+     * @return true if it was successfully assigned, otherwise false
+     * @see <a href="https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-issueidorkey-assignee-put">Assign issue (Jira Cloud)</a>
+     * @see <a href="https://docs.atlassian.com/software/jira/docs/api/REST/9.8.0/#api/2/issue-assign">Assign (Jira Server)</a>
+     */
+    public <U extends UserDto<?, ?>> boolean assign(String issueIdOrKey, U user) throws URISyntaxException, MissingConfigurationValueException {
+        RequestBuilder request = WebService.buildRequest(getAssignURI(issueIdOrKey));
+        request.getBuilder()
+                .accept(MediaType.APPLICATION_JSON_TYPE)
+                .header(HttpHeaders.AUTHORIZATION, getJiraAuthorizationHeaderValue());
+        try (Response response = WebService.put(request, GsonFactory.getInstance().toJsonTree(user))) {
+            String responseData = response.readEntity(String.class);
+            if (response.getStatus() != Response.Status.NO_CONTENT.getStatusCode()) {
+                String reason = String.format(
+                        "%d %s: %s",
+                        response.getStatus(),
+                        response.getStatusInfo().getReasonPhrase(),
+                        responseData
+                );
+                QtafFactory.getLogger().error(
+                        String.format(
+                                "[QTAF Xray Plugin] Failed to assign issue '%s' to user '%s': %s",
+                                issueIdOrKey,
+                                user,
+                                reason
+                        )
+                );
+                return false;
+            }
+            return true;
+        }
+    }
+
+    private static URI getAssignURI(String issueIdOrKey) throws URISyntaxException {
+        if (XrayConfigHelper.isXrayCloudService()) {
+            return new URI(String.format("%s/rest/api/3/issue/%s/assignee", XrayConfigHelper.getJiraUrl(), issueIdOrKey));
+        }
+        return new URI(String.format("%s/rest/api/2/issue/%s/assignee", XrayConfigHelper.getJiraUrl(), issueIdOrKey));
     }
 
     /**
