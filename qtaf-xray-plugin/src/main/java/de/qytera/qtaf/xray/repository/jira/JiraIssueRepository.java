@@ -46,7 +46,7 @@ public class JiraIssueRepository implements JiraEndpoint {
      * @see <a href="https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-search/#api-rest-api-3-search-post">Search (Jira Cloud)</a>
      * @see <a href="https://docs.atlassian.com/software/jira/docs/api/REST/9.7.0/#api/2/search">Search (Jira Server)</a>
      */
-    public List<JiraIssueResponseDto> searchJiraIssues(
+    public List<JiraIssueResponseDto> search(
             Collection<String> testIssueKeys,
             AdditionalField... fields
     ) throws URISyntaxException, MissingConfigurationValueException {
@@ -109,7 +109,7 @@ public class JiraIssueRepository implements JiraEndpoint {
      */
     public Map<String, String> getIssueIds(Collection<String> testIssueKeys) throws URISyntaxException, MissingConfigurationValueException {
         Map<String, String> issueIds = new HashMap<>();
-        List<JiraIssueResponseDto> issues = searchJiraIssues(
+        List<JiraIssueResponseDto> issues = search(
                 testIssueKeys,
                 AdditionalField.ISSUE_KEY,
                 AdditionalField.ID

@@ -185,7 +185,7 @@ public class XrayJsonImportBuilder {
                 .filter(Objects::nonNull)
                 .map(XrayTest::key)
                 .collect(Collectors.toSet());
-        List<JiraIssueResponseDto> issues = JiraIssueRepository.getInstance().searchJiraIssues(testKeys, AdditionalField.SUMMARY);
+        List<JiraIssueResponseDto> issues = JiraIssueRepository.getInstance().search(testKeys, AdditionalField.SUMMARY);
         for (JiraIssueResponseDto issue : issues) {
             issueSummaries.put(issue.getKey(), issue.getFields().get(AdditionalField.SUMMARY.text).getAsString());
             testKeys.remove(issue.getKey());
