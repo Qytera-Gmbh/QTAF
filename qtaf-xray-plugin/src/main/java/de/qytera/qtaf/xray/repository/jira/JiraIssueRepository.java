@@ -6,6 +6,8 @@ import de.qytera.qtaf.core.gson.GsonFactory;
 import de.qytera.qtaf.http.RequestBuilder;
 import de.qytera.qtaf.http.WebService;
 import de.qytera.qtaf.xray.config.XrayConfigHelper;
+import de.qytera.qtaf.xray.dto.jira.ApplicationRoleDto;
+import de.qytera.qtaf.xray.dto.jira.GroupDto;
 import de.qytera.qtaf.xray.dto.jira.UserDto;
 import de.qytera.qtaf.xray.dto.request.jira.issues.AdditionalField;
 import de.qytera.qtaf.xray.dto.request.jira.issues.JiraIssueSearchRequestDto;
@@ -110,7 +112,9 @@ public class JiraIssueRepository implements JiraEndpoint {
      * @see <a href="https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-issueidorkey-assignee-put">Assign issue (Jira Cloud)</a>
      * @see <a href="https://docs.atlassian.com/software/jira/docs/api/REST/9.8.0/#api/2/issue-assign">Assign (Jira Server)</a>
      */
-    public <U extends UserDto<?, ?>> boolean assign(String issueIdOrKey, U user) throws URISyntaxException, MissingConfigurationValueException {
+    public <R extends ApplicationRoleDto, G extends GroupDto, U extends UserDto<R, G>> boolean assign(
+            String issueIdOrKey, U user
+    ) throws URISyntaxException, MissingConfigurationValueException {
         RequestBuilder request = WebService.buildRequest(getAssignURI(issueIdOrKey));
         request.getBuilder()
                 .accept(MediaType.APPLICATION_JSON_TYPE)
