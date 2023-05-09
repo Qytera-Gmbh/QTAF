@@ -42,6 +42,7 @@
       }
     },
     "resultsUpload": {
+      "assignee": null,
       "testPlanKey": null,
       "scenarioReportEvidence": true,
       "scenarioImageEvidence": true,
