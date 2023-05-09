@@ -27,12 +27,12 @@ import java.util.stream.Collectors;
  * Transforms log collection into Xray Execution Import DTO
  */
 @Singleton
-public class XrayJsonImportBuilder {
+public class XrayJsonImportBuilder implements RequestBodyBuilder<ImportExecutionResultsRequestDto> {
 
     /**
      * An exception thrown when a test suite did not execute any test marked with {@link XrayTest}.
      */
-    public static class NoXrayTestException extends Exception {
+    public static class NoXrayTestException extends RuntimeException {
         /**
          * Constructs a new exception with a predefined error message.
          */
@@ -65,8 +65,9 @@ public class XrayJsonImportBuilder {
      * Creates an execution import DTO based on the test suite logs.
      *
      * @return the execution import DTO
+     * @throws NoXrayTestException if no test annotated with {@link XrayTest} was executed
      */
-    public ImportExecutionResultsRequestDto buildRequest() throws NoXrayTestException {
+    public ImportExecutionResultsRequestDto build() {
         ImportExecutionResultsRequestDto xrayImportRequestDto = new ImportExecutionResultsRequestDto();
         xrayImportRequestDto.setInfo(buildTestExecutionInfoEntity());
         xrayImportRequestDto.setTests(buildTestEntities());

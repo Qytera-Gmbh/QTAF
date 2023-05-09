@@ -158,7 +158,7 @@ public class XrayJsonImportBuilderTest {
                 "abcdefghijklmnopqrstuvwxyz012345"
         });
 
-        ImportExecutionResultsRequestDto dto = new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance()).buildRequest();
+        ImportExecutionResultsRequestDto dto = new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance()).build();
         List<XrayIterationResultEntity> iterations = dto.getTests().get(0).getIterations();
         Assert.assertEquals(
                 iterations.get(0).getParameters().stream().map(XrayIterationParameterEntity::getValue).collect(Collectors.toList()),
@@ -196,7 +196,7 @@ public class XrayJsonImportBuilderTest {
 
         // Build import request.
         ConfigurationFactory.getInstance().setString(XrayConfigHelper.XRAY_SERVICE_SELECTOR, "server");
-        ImportExecutionResultsRequestDto dto = new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance()).buildRequest();
+        ImportExecutionResultsRequestDto dto = new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance()).build();
         List<XrayIterationResultEntity> iterations = dto.getTests().get(0).getIterations();
         Assert.assertEquals(iterations.get(0).getStatus(), XrayStatusHelper.statusToText(TestScenarioLogCollection.Status.SUCCESS));
         Assert.assertEquals(iterations.get(1).getStatus(), XrayStatusHelper.statusToText(TestScenarioLogCollection.Status.FAILURE));
@@ -217,7 +217,7 @@ public class XrayJsonImportBuilderTest {
         scenarioCollection.setStatus(TestScenarioLogCollection.Status.FAILURE);
         // Build import request.
         ConfigurationFactory.getInstance().setString(XrayConfigHelper.XRAY_SERVICE_SELECTOR, "server");
-        ImportExecutionResultsRequestDto dto = new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance()).buildRequest();
+        ImportExecutionResultsRequestDto dto = new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance()).build();
         List<XrayManualTestStepResultEntity> steps = dto.getTests().get(0).getSteps();
         Assert.assertTrue(steps.get(0).getAllEvidence().isEmpty());
         Assert.assertTrue(steps.get(1).getAllEvidence().isEmpty());
@@ -249,7 +249,7 @@ public class XrayJsonImportBuilderTest {
         scenarioCollection.setStatus(TestScenarioLogCollection.Status.FAILURE);
         // Build import request.
         ConfigurationFactory.getInstance().setString(XrayConfigHelper.XRAY_SERVICE_SELECTOR, "cloud");
-        ImportExecutionResultsRequestDto dto = new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance()).buildRequest();
+        ImportExecutionResultsRequestDto dto = new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance()).build();
         List<XrayIterationResultEntity> iterations = dto.getTests().get(0).getIterations();
         Assert.assertTrue(iterations.get(0).getSteps().get(0).getAllEvidence().isEmpty());
         Assert.assertTrue(iterations.get(0).getSteps().get(1).getAllEvidence().isEmpty());
@@ -278,7 +278,7 @@ public class XrayJsonImportBuilderTest {
         scenarioCollection.addLogMessage(failingStep("failingStep"));
         scenarioCollection.setStatus(TestScenarioLogCollection.Status.FAILURE);
         // Build import request.
-        new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance()).buildRequest();
+        new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance()).build();
     }
 
     @Test(
@@ -297,7 +297,7 @@ public class XrayJsonImportBuilderTest {
         scenarioCollection.addLogMessage(failingStep("clickSomething", "path/to/something.png"));
         scenarioCollection.setStatus(TestScenarioLogCollection.Status.FAILURE);
         // Build import request.
-        new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance()).buildRequest();
+        new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance()).build();
     }
 
     @Test(description = "whether an upload without step updates enabled contains step information to update")
@@ -313,7 +313,7 @@ public class XrayJsonImportBuilderTest {
         scenarioCollection.setStatus(TestScenarioLogCollection.Status.FAILURE);
         // Build import request.
         ConfigurationFactory.getInstance().setBoolean(XrayConfigHelper.RESULTS_UPLOAD_TESTS_INFO_STEPS_UPDATE, false);
-        ImportExecutionResultsRequestDto dto = new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance()).buildRequest();
+        ImportExecutionResultsRequestDto dto = new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance()).build();
         Assert.assertEquals(dto.getTests().size(), 1);
         Assert.assertNull(dto.getTests().get(0).getTestInfo());
     }
@@ -343,7 +343,7 @@ public class XrayJsonImportBuilderTest {
         ConfigurationFactory.getInstance().setBoolean(XrayConfigHelper.RESULTS_UPLOAD_TESTS_INFO_STEPS_UPDATE, true);
         // Step merging should not have any effect on single runs.
         ConfigurationFactory.getInstance().setBoolean(XrayConfigHelper.RESULTS_UPLOAD_TESTS_INFO_STEPS_MERGE, true);
-        ImportExecutionResultsRequestDto dto = new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance()).buildRequest();
+        ImportExecutionResultsRequestDto dto = new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance()).build();
         Assert.assertEquals(dto.getTests().size(), 1);
         List<XrayTestStepEntity> steps = dto.getTests().get(0).getTestInfo().getSteps();
         Assert.assertEquals(steps.size(), 3);
@@ -390,7 +390,7 @@ public class XrayJsonImportBuilderTest {
         // Build import request.
         ConfigurationFactory.getInstance().setBoolean(XrayConfigHelper.RESULTS_UPLOAD_TESTS_INFO_STEPS_UPDATE, true);
         ConfigurationFactory.getInstance().setBoolean(XrayConfigHelper.RESULTS_UPLOAD_TESTS_INFO_STEPS_MERGE, true);
-        ImportExecutionResultsRequestDto dto = new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance()).buildRequest();
+        ImportExecutionResultsRequestDto dto = new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance()).build();
         Assert.assertEquals(dto.getTests().size(), 1);
         Assert.assertEquals(dto.getTests().get(0).getTestInfo().getSteps().size(), 1);
         Assert.assertEquals(dto.getTests().get(0).getIterations().size(), 2);
@@ -406,7 +406,7 @@ public class XrayJsonImportBuilderTest {
         scenarioCollection.setStatus(TestScenarioLogCollection.Status.SUCCESS);
         // Build import request.
         ConfigurationFactory.getInstance().setString(XrayConfigHelper.RESULTS_UPLOAD_TEST_PLAN_KEY, "QTAF-765");
-        ImportExecutionResultsRequestDto dto = new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance()).buildRequest();
+        ImportExecutionResultsRequestDto dto = new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance()).build();
         Assert.assertEquals(dto.getInfo().getTestPlanKey(), "QTAF-765");
     }
 

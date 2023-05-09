@@ -69,7 +69,7 @@ public class UploadResultsSubscriber implements IEventSubscriber {
                 throw new MissingConfigurationValueException(XrayConfigHelper.PROJECT_KEY, QtafFactory.getConfiguration());
             }
             // Build Request DTO for Xray API
-            ImportExecutionResultsRequestDto xrayImportRequestDto = new XrayJsonImportBuilder(QtafFactory.getTestSuiteLogCollection()).buildRequest();
+            ImportExecutionResultsRequestDto xrayImportRequestDto = new XrayJsonImportBuilder(QtafFactory.getTestSuiteLogCollection()).build();
 
             // Dispatch Event for Import DTO
             XrayEvents.importDtoCreated.onNext(xrayImportRequestDto);
