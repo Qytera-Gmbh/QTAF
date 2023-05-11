@@ -30,13 +30,13 @@ jobs:
             # Exclude Firefox, as it currently does not work on Windows: https://github.com/browser-actions/setup-firefox/issues/252
             command: |
               mvn clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -q `
-              "-Dxray.authentication.xray.clientId=$Env:XRAY_CLIENT_ID" `
-              "-Dxray.authentication.xray.clientSecret=$Env:XRAY_CLIENT_SECRET" `
-              "-DexcludedGroups=firefox" `
               "-Dsonar.host.url=https://sonarcloud.io" `
               "-Dsonar.organization=qytera-gmbh" `
               "-Dsonar.projectKey=Qytera-Gmbh_QTAF" `
-              "-Dsonar.login=$Env:SONAR_TOKEN"
+              "-Dsonar.login=$Env:SONAR_TOKEN" `
+              "-Dxray.authentication.xray.clientId=$Env:XRAY_CLIENT_ID" `
+              "-Dxray.authentication.xray.clientSecret=$Env:XRAY_CLIENT_SECRET" `
+              "-DexcludedGroups=firefox"
           - os: "ubuntu-latest"
             # Exclude Internet Explorer, as it does not run on Linux: https://www.selenium.dev/documentation/ie_driver_server/
             # Also: https://stackoverflow.com/questions/63125480/running-a-gui-application-on-a-ci-service-without-x11
@@ -44,13 +44,13 @@ jobs:
               export DISPLAY=:99
               sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 &
               mvn clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -q \
-              -Dxray.authentication.xray.clientId=$XRAY_CLIENT_ID \
-              -Dxray.authentication.xray.clientSecret=$XRAY_CLIENT_SECRET \
-              -DexcludedGroups=ie \
               -Dsonar.host.url=https://sonarcloud.io \
               -Dsonar.organization=qytera-gmbh \
               -Dsonar.projectKey=Qytera-Gmbh_QTAF \
-              -Dsonar.login=$SONAR_TOKEN
+              -Dsonar.login=$SONAR_TOKEN \
+              -Dxray.authentication.xray.clientId=$XRAY_CLIENT_ID \
+              -Dxray.authentication.xray.clientSecret=$XRAY_CLIENT_SECRET \
+              -DexcludedGroups=ie
 
     runs-on: ${{ matrix.os }}
     timeout-minutes: 10
