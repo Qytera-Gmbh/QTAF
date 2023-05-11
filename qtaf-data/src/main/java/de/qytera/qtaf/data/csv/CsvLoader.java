@@ -26,7 +26,7 @@ public class CsvLoader {
     /**
      * Header names array
      */
-    protected String[] HEADERS = {};
+    protected String[] headers = {};
 
     /**
      * Get CSV file path
@@ -41,11 +41,9 @@ public class CsvLoader {
      * Set filePath
      *
      * @param filePath FilePath
-     * @return this
      */
-    public CsvLoader setFilePath(String filePath) {
+    public void setFilePath(String filePath) {
         this.filePath = filePath;
-        return this;
     }
 
     /**
@@ -72,7 +70,7 @@ public class CsvLoader {
      * @return CSV headers
      */
     protected String[] getHeaders() {
-        return HEADERS;
+        return headers;
     }
 
     /**

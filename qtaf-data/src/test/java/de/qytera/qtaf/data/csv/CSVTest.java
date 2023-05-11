@@ -14,6 +14,5 @@ public class CSVTest {
     public void testLoadCSVFile() throws IOException {
         CsvLoader loader = new CsvLoader();
         loader.setFilePath("$USER_DIR/src/test/resources/credentials.csv");
-        Iterable<CSVRecord> records = loader.getCsvRecords();
     }
 }

@@ -24,9 +24,6 @@ public class CucumberScenarioHelper {
         TestCaseState testCaseState = null;
 
         for (Field field : FieldHelper.getDeclaredFieldsRecursively(scenario.getClass())) {
-            // Make field accessible
-            field.setAccessible(true);
-
             try {
                 Object fieldObject = field.get(scenario);
 
