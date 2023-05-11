@@ -1,4 +1,4 @@
-<li class="list-group-item">
+<ul><li class="list-group-item">
     <h5>
         {% if stepLog.status == "PASS" %}
         <span class="text-success">
@@ -36,7 +36,7 @@
     <br>
     <h5>Information</h5>
     <br>
-    <table class="table table-striped table-bordered" width="100%">
+    <table class="table table-striped table-bordered">
         <tbody>
         <tr>
             <th>Method Name</th>
@@ -73,7 +73,7 @@
     {% if stepLog.stepParameters | length > 0 %}
     <h5>Parameters</h5>
     <br>
-    <table class="table table-striped table-bordered" width="100%">
+    <table class="table table-striped table-bordered">
         <thead>
         <tr>
             <th>Name</th>
@@ -96,7 +96,7 @@
     {% if stepLog.error is defined %}
     <h5>Error</h5>
     <br>
-    <table class="table table-striped table-bordered" width="100%">
+    <table class="table table-striped table-bordered">
         <tbody>
         <tr>
             <td>Type</td>
@@ -110,4 +110,4 @@
     </table>
     {% endif %}
 
-</li>
+</li></ul>

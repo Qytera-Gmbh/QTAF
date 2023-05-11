@@ -16,6 +16,8 @@ import java.util.*;
  * This class is responsible for loading other classes and create instances from them
  */
 public class ClassLoader {
+    private ClassLoader() {
+    }
     /**
      * package names that are searched for classes
      */
@@ -142,9 +144,6 @@ public class ClassLoader {
         ConfigMap configMap = QtafFactory.getConfiguration();
 
         List<JsonElement> packageNames = configMap.getList("framework.packageNames");
-        if (packageNames == null) {
-            packageNames = new ArrayList<>();
-        }
         String testsPackage = configMap.getString("tests.package", "de.qytera.qtaf");
         packageNames.add(GsonFactory.getInstance().toJsonTree(testsPackage));
         packageNames.stream().map(JsonElement::getAsString).forEach(ClassLoader::addPackageName);
@@ -214,7 +213,7 @@ public class ClassLoader {
      */
     public static Object getInstance(Class<?> c) throws IllegalAccessException, InvocationTargetException, InstantiationException, NoSuchMethodException {
         // Get class constructor instance
-        Constructor<?> constructor = (Constructor<?>) c.getConstructor();
+        Constructor<?> constructor = c.getConstructor();
 
         // Skip abstract classes
         if (Modifier.isAbstract(c.getModifiers()))

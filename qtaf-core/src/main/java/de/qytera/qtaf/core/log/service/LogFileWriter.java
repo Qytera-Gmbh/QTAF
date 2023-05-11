@@ -16,6 +16,7 @@ import java.util.Date;
  * Class for writing log file
  */
 public class LogFileWriter {
+    private LogFileWriter() {}
     /**
      * File separator
      */

@@ -7,6 +7,7 @@ import de.qytera.qtaf.core.log.model.index.ScenarioLogCollectionIndex;
  * Helper class for finding scenario logs
  */
 public class ScenarioLogCollectionRepository {
+    private ScenarioLogCollectionRepository() {}
     /**
      * Index that holds scenario logs
      */

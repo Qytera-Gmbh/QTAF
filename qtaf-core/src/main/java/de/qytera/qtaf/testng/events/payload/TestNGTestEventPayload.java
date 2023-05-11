@@ -55,17 +55,6 @@ public class TestNGTestEventPayload extends QtafTestEventPayload {
         this.methodInfo = this.getMethodInfoEntity(iTestResult, realClass);
         this.handleMethodInfo(this.getMethodInfoEntity(iTestResult, realClass));
 
-        // Handle TestFeature annotation of test class
-        TestFeature testFeatureAnnotation = realClass.getAnnotation(TestFeature.class);
-
-        /*
-        if (testFeatureAnnotation != null) {
-            this.handleTestFeatureAnnotation(testFeatureAnnotation);
-        } else {
-            throw new AssertionError("It seems like you have missed to set the @TestFeature annotation " +
-                    "in the class '" + realClass.getName() + "'");
-        }*/
-
         // Handle test annotation of test method
         Test testNGTestAnnotation = this.getTestAnnotation(methodInfo.getMethod());
 

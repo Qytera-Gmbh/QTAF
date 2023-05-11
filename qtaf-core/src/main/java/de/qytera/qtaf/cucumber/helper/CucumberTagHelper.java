@@ -13,9 +13,10 @@ import java.util.regex.Pattern;
  * Class that provides helper methods for extracting information from cucumber tags
  */
 public class CucumberTagHelper {
-    private static final String keyValueRegex = "^@([A-Za-z0-9-_]+):(.*)$";
-    private static final String tagRegex = "^@([A-Za-z0-9-_]+)";
-    private static final String testIDRegex = "^@TestName:(.*)$";
+    private CucumberTagHelper() {}
+    private static final String KEY_VALUE_REGEX = "^@([A-Za-z0-9-_]+):(.*)$";
+    private static final String TAG_REGEX = "^@([A-Za-z0-9-_]+)";
+    private static final String TEST_ID_REGEX = "^@TestName:(.*)$";
 
     /**
      * Check if a given string is a key-value-pair (matches keyValueRegex)
@@ -24,7 +25,7 @@ public class CucumberTagHelper {
      * @return true if string is a key-value-pair, false otherwise
      */
     public static boolean isKeyValuePair(String s) {
-        return s.matches(keyValueRegex);
+        return s.matches(KEY_VALUE_REGEX);
     }
 
     /**
@@ -34,7 +35,7 @@ public class CucumberTagHelper {
      * @return true if string is a tag
      */
     public static boolean isTag(String s) {
-        return s.matches(tagRegex);
+        return s.matches(TAG_REGEX);
     }
 
     /**
@@ -44,7 +45,7 @@ public class CucumberTagHelper {
      * @return Matcher object
      */
     public static Matcher getKeyAndValueMatch(String s) {
-        return Pattern.compile(keyValueRegex).matcher(s);
+        return Pattern.compile(KEY_VALUE_REGEX).matcher(s);
     }
 
     /**
@@ -126,8 +127,8 @@ public class CucumberTagHelper {
      */
     public static String getTestId(List<String> tags) {
         for (String tag : tags) {
-            if (tag.matches(testIDRegex)) {
-                Matcher m = Pattern.compile(testIDRegex).matcher(tag);
+            if (tag.matches(TEST_ID_REGEX)) {
+                Matcher m = Pattern.compile(TEST_ID_REGEX).matcher(tag);
 
                 if (m.find()) {
                     return m.group(1);

@@ -16,6 +16,7 @@ import java.io.File;
  * This class manages events emitted by the Qtaf framework
  */
 public class QtafEvents {
+    private QtafEvents() {}
     // Qtaf Framework events
 
     /**

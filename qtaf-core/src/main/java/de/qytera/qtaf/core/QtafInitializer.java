@@ -17,6 +17,7 @@ public class QtafInitializer {
     /**
      * Initialization status
      */
+
     private static boolean isInitialized = false;
 
     /**
@@ -24,6 +25,7 @@ public class QtafInitializer {
      */
     private static final ErrorLogCollection errorLogs = ErrorLogCollection.getInstance();
 
+    private QtafInitializer() {}
     /**
      * Initialize the framework
      */

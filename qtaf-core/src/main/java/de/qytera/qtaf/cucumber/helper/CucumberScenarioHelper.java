@@ -12,6 +12,7 @@ import java.util.Map;
  * Helper class for extracting information from Cucumber Scenario objects
  */
 public class CucumberScenarioHelper {
+    private CucumberScenarioHelper() {}
 
     /**
      * Get the test case state object from a scenario object

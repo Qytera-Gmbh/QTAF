@@ -7,6 +7,7 @@ import io.cucumber.testng.Pickle;
  * Helper class that provides methods for extracting information from cucumber Pickle objects
  */
 public class CucumberTestNGPickleHelper {
+    private CucumberTestNGPickleHelper() {}
     /**
      * Get Gherkin Pickle object from TestNG Pickle object
      *

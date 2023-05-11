@@ -11,7 +11,7 @@ public class ErrorLog {
     /**
      * Error object
      */
-    protected transient Throwable error;
+    protected Throwable error;
 
     /**
      * Error type
@@ -49,7 +49,7 @@ public class ErrorLog {
         this.message = e.getMessage();
         this.stack = Arrays.stream(e.getStackTrace())
                 .map(StackTraceElement::toString)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     /**

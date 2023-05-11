@@ -34,7 +34,7 @@ public class TestNGEventListener implements ITestListener {
     /**
      * Map that contains test results
      */
-    private static Map<Integer, ITestResult> testResultIdMap = new HashMap<>();
+    private static final Map<Integer, ITestResult> testResultIdMap = new HashMap<>();
 
     /**
      * Selenium Web Driver

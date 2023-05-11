@@ -15,6 +15,7 @@ import java.util.List;
  * Helper class that creates log messages from test steps
  */
 public class CucumberLogMessageHelper {
+    private CucumberLogMessageHelper() {}
 
     /**
      * Cucumber log index
@@ -115,8 +116,6 @@ public class CucumberLogMessageHelper {
             CucumberStepLogMessage message,
             Result testResult
     ) {
-        // Add duration and status of test step
-        message.setDuration(testResult.getDuration().getNano() / 1000000);
         message.setStatus(mapCucumberStatusToLogStatus(testResult.getStatus()));
 
         // Add error message if there is one

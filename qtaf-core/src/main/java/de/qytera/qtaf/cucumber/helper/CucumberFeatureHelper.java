@@ -8,6 +8,7 @@ import io.cucumber.core.gherkin.Feature;
  */
 public class CucumberFeatureHelper {
 
+    private CucumberFeatureHelper() {}
     /**
      * Get feature file path relative to project's source directory
      *

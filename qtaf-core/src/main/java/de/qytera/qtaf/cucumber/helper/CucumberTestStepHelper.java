@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
  * Helper class for extracting information from Cucumber TestStep objects
  */
 public class CucumberTestStepHelper {
+    private CucumberTestStepHelper() {}
 
     /**
      * Get all test steps that are derived from the PickleStepTestStep class
@@ -26,9 +27,9 @@ public class CucumberTestStepHelper {
     public static List<PickleStepTestStep> getPickleStepTestSteps(List<TestStep> testSteps) {
         return testSteps
                 .stream()
-                .filter(ts -> ts instanceof PickleStepTestStep)
+                .filter(PickleStepTestStep.class::isInstance)
                 .map(ts -> (PickleStepTestStep) ts)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     /**
@@ -44,7 +45,7 @@ public class CucumberTestStepHelper {
                 .stream()
                 .filter(ts -> ts instanceof PickleStepTestStep)
                 .map(testSteps::indexOf)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     /**
@@ -58,14 +59,11 @@ public class CucumberTestStepHelper {
         Optional<Integer> pos = testSteps
                 .stream()
                 .filter(ts -> ts.getId().equals(testStep.getId()))
-                .map(ts -> testSteps.indexOf(ts))
+                .map(testSteps::indexOf)
                 .findFirst();
 
-        if (pos.isPresent()) {
-            return pos.get();
-        }
+        return pos.orElse(-1);
 
-        return -1;
     }
 
     /**

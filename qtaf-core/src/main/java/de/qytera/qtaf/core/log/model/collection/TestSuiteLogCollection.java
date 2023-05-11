@@ -546,7 +546,7 @@ public class TestSuiteLogCollection {
         /**
          * Current Process
          */
-        private transient ProcessHandle currentProcess = ProcessHandle.current();
+        private ProcessHandle currentProcess = ProcessHandle.current();
 
         /**
          * Current processes PID

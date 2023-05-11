@@ -52,11 +52,6 @@ public class StepInformationLogMessage extends LogMessage {
     private Date end = null;
 
     /**
-     * Time needed for executing the step method
-     */
-    private long duration = 0L;
-
-    /**
      * The list of the step's method parameters.
      */
     @Getter
@@ -307,17 +302,6 @@ public class StepInformationLogMessage extends LogMessage {
         }
 
         return 0;
-    }
-
-    /**
-     * Set duration
-     *
-     * @param duration Duration
-     * @return this
-     */
-    public StepInformationLogMessage setDuration(long duration) {
-        this.duration = duration;
-        return this;
     }
 
     /**
