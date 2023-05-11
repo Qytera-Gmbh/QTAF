@@ -33,7 +33,7 @@ jobs:
               "-Dxray.authentication.xray.clientId=$Env:XRAY_CLIENT_ID" `
               "-Dxray.authentication.xray.clientSecret=$Env:XRAY_CLIENT_SECRET" `
               "-DexcludedGroups=firefox" `
-              "-Dsonar.host.url=Dhttps://sonarcloud.io" `
+              "-Dsonar.host.url=https://sonarcloud.io" `
               "-Dsonar.organization=qytera-gmbh" `
               "-Dsonar.projectKey=Qytera-Gmbh_QTAF" `
               "-Dsonar.login=$Env:SONAR_TOKEN"
@@ -47,7 +47,7 @@ jobs:
               -Dxray.authentication.xray.clientId=$XRAY_CLIENT_ID \
               -Dxray.authentication.xray.clientSecret=$XRAY_CLIENT_SECRET \
               -DexcludedGroups=ie \
-              -Dsonar.host.url=Dhttps://sonarcloud.io \
+              -Dsonar.host.url=https://sonarcloud.io \
               -Dsonar.organization=qytera-gmbh \
               -Dsonar.projectKey=Qytera-Gmbh_QTAF \
               -Dsonar.login=$SONAR_TOKEN
