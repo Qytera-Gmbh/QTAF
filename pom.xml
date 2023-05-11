@@ -55,6 +55,8 @@
         <mavenCompilerPluginVersion>3.11.0</mavenCompilerPluginVersion>
         <lombokPluginVersion>1.18.20.0</lombokPluginVersion>
         <surefirePluginVersion>3.0.0</surefirePluginVersion>
+        <jacocoMavenPluginVersion>0.8.10</jacocoMavenPluginVersion>
+        <sonarMavenPluginVersion>3.9.1.2184</sonarMavenPluginVersion>
     </properties>
 
     <profiles>
@@ -165,6 +167,51 @@
                         </executions>
                         <configuration>
                             <sourcepath>${delombokDirectory}</sourcepath>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <!--
+        A profile for code quality.
+        See: https://docs.sonarcloud.io/advanced-setup/ci-based-analysis/sonarscanner-for-maven/
+        -->
+        <profile>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <id>quality-profile</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.jacoco</groupId>
+                        <artifactId>jacoco-maven-plugin</artifactId>
+                        <version>${jacocoMavenPluginVersion}</version>
+                        <executions>
+                            <execution>
+                                <id>prepare-agent</id>
+                                <goals>
+                                    <goal>prepare-agent</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>report</id>
+                                <goals>
+                                    <goal>report</goal>
+                                </goals>
+                                <configuration>
+                                    <formats>
+                                        <format>XML</format>
+                                    </formats>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.sonarsource.scanner.maven</groupId>
+                        <artifactId>sonar-maven-plugin</artifactId>
+                        <version>${sonarMavenPluginVersion}</version>
+                        <configuration>
                         </configuration>
                     </plugin>
                 </plugins>
