@@ -119,6 +119,7 @@ public class MultipleIterationsXrayTestEntityBuilder extends XrayTestEntityBuild
             } else {
                 iteration = new XrayIterationResultEntityServer(scenarioLog.getStatus());
             }
+            iterations.add(iteration);
             for (TestScenarioLogCollection.TestParameter testParameter : scenarioLog.getTestParameters()) {
                 XrayIterationParameterEntity parameterEntity = new XrayIterationParameterEntity();
                 parameterEntity.setName(XrayJsonHelper.truncateParameterName(testParameter.getName()));
@@ -126,6 +127,10 @@ public class MultipleIterationsXrayTestEntityBuilder extends XrayTestEntityBuild
                 iteration.getParameters().add(parameterEntity);
             }
             List<StepInformationLogMessage> steps = scenarioLog.getLogMessages(StepInformationLogMessage.class);
+            // Can happen if there's an error in a Before() or BeforeMethod() call.
+            if (steps.isEmpty()) {
+                continue;
+            }
             if (XrayConfigHelper.shouldResultsUploadTestsInfoStepsMerge()) {
                 if (!XrayConfigHelper.shouldResultsUploadTestsInfoStepsUpdate()) {
                     QtafFactory.getLogger().warn(
@@ -141,7 +146,6 @@ public class MultipleIterationsXrayTestEntityBuilder extends XrayTestEntityBuild
             } else {
                 steps.stream().map(XrayTestEntityBuilder::buildManualTestStepResultEntity).forEach(iteration.getSteps()::add);
             }
-            iterations.add(iteration);
         }
         return iterations;
     }
