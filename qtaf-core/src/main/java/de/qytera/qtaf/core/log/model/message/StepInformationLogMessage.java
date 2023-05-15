@@ -24,7 +24,7 @@ public class StepInformationLogMessage extends LogMessage {
     /**
      * Log message type
      */
-    private final String type = "STEP_LOG";
+    private static final String type = "STEP_LOG";
 
     /**
      * Step name
@@ -91,7 +91,6 @@ public class StepInformationLogMessage extends LogMessage {
         this.methodName = methodName;
     }
 
-    @Override
     protected void finalize() throws Throwable {
         QtafFactory.getLogger().warn("[StepLog] Destroying log message '" + getMessage() + "'");
         super.finalize();

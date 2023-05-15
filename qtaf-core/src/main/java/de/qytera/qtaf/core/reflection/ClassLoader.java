@@ -21,7 +21,7 @@ public class ClassLoader {
     /**
      * package names that are searched for classes
      */
-    private static List<String> packageNames = new ArrayList<String>(
+    private static final List<String> packageNames = new ArrayList<>(
             Collections.singletonList("de.qytera.qtaf")
     );
 
@@ -73,7 +73,7 @@ public class ClassLoader {
     /**
      * Get a set of classes that are derived from the given class
      *
-     * @param clazz        sub type
+     * @param clazz        subtype
      * @param classes      set of classes where found classes are added to
      * @param packageNames List of package names where to look for these classes
      * @return set of classes that were found
@@ -95,7 +95,7 @@ public class ClassLoader {
         Set<Class<?>> newClasses = getSubTypesOf(clazz, packageNames);
         classes.addAll(newClasses);
 
-        // Repeat this step recursively for the found sub classes
+        // Repeat this step recursively for the found subclasses
         for (Class<?> subClass : newClasses) {
             classes.addAll(getSubTypesOfRecursively(subClass, classes, packageNames));
         }
@@ -106,7 +106,7 @@ public class ClassLoader {
     /**
      * Get a set of classes that are directly derived from the given class
      *
-     * @param clazz        sub type
+     * @param clazz        subtype
      * @param packageNames package names where to search for this class
      * @return set of classes
      */
@@ -120,6 +120,7 @@ public class ClassLoader {
         Set<Class<?>> classes = new HashSet<>();
 
         // Find all classes that implement or extend the given interface / class
+        if(packageNames != null) {
         for (String packageName : packageNames) {
             try {
                 Reflections ref = new Reflections(packageName);
@@ -127,9 +128,8 @@ public class ClassLoader {
             } catch (Exception e) {
                 // This exception occurs when no matching class is found in the package
                 // It#s no critical exception, just continue with the next package
-                continue;
             }
-        }
+        }}
 
         return classes;
     }
@@ -137,7 +137,7 @@ public class ClassLoader {
     /**
      * Get a set of classes that are directly derived from the given class
      *
-     * @param clazz sub type
+     * @param clazz subtype
      * @return set of classes
      */
     public static Set<Class<?>> getSubTypesOf(Class<?> clazz) {
@@ -152,7 +152,7 @@ public class ClassLoader {
     }
 
     /**
-     * Get all sub types of a given class
+     * Get all subtypes of a given class
      *
      * @param clazz Instance class type
      * @return Instances

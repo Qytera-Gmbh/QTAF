@@ -4,7 +4,6 @@ import io.cucumber.plugin.event.Result;
 import io.cucumber.plugin.event.Status;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Helper class for extracting information from Cucumber test result objects

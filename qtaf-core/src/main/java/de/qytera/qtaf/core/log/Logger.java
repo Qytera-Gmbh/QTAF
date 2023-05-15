@@ -13,7 +13,7 @@ public class Logger {
     /**
      * Log4J logger
      */
-    private org.apache.logging.log4j.Logger logger;
+    private final org.apache.logging.log4j.Logger logger;
 
     /**
      * Error logs
@@ -23,7 +23,7 @@ public class Logger {
     /**
      * Instances
      */
-    private static Map<String, Logger> instances = new HashMap<>();
+    private static final Map<String, Logger> instances = new HashMap<>();
 
     /**
      * Constructor
@@ -50,14 +50,9 @@ public class Logger {
      * @return logger  instance
      */
     public static Logger getInstance(String name) {
-        if (instances.get(name) == null) {
-            Logger logger = new Logger(name);
-            instances.put(name, logger);
-        }
-
+        instances.computeIfAbsent(name, Logger::new);
         return instances.get(name);
     }
-
     /**
      * Log at trace level
      *

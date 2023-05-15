@@ -41,6 +41,7 @@ public class StepExecutionInfo extends AbstractStepExecutionInfo {
      *
      * @return methodInvocation
      */
+    @Override
     public MethodInvocation getMethodInvocation() {
         return methodInvocation;
     }
@@ -51,6 +52,7 @@ public class StepExecutionInfo extends AbstractStepExecutionInfo {
      * @param methodInvocation MethodInvocation
      * @return this
      */
+    @Override
     public StepExecutionInfo setMethodInvocation(MethodInvocation methodInvocation) {
         this.methodInvocation = methodInvocation;
         return this;
@@ -61,6 +63,7 @@ public class StepExecutionInfo extends AbstractStepExecutionInfo {
      *
      * @return result
      */
+    @Override
     public Object getResult() {
         return result;
     }
@@ -71,6 +74,7 @@ public class StepExecutionInfo extends AbstractStepExecutionInfo {
      * @param result Result
      * @return this
      */
+    @Override
     public StepExecutionInfo setResult(Object result) {
         this.result = result;
         return this;
@@ -81,6 +85,7 @@ public class StepExecutionInfo extends AbstractStepExecutionInfo {
      *
      * @return error
      */
+    @Override
     public Throwable getError() {
         return error;
     }
@@ -91,6 +96,7 @@ public class StepExecutionInfo extends AbstractStepExecutionInfo {
      * @param error Error
      * @return this
      */
+    @Override
     public StepExecutionInfo setError(Throwable error) {
         this.error = error;
         return this;
@@ -101,6 +107,7 @@ public class StepExecutionInfo extends AbstractStepExecutionInfo {
      *
      * @return thread
      */
+    @Override
     public Thread getThread() {
         return thread;
     }
@@ -111,6 +118,7 @@ public class StepExecutionInfo extends AbstractStepExecutionInfo {
      * @param thread Thread
      * @return this
      */
+    @Override
     public StepExecutionInfo setThread(Thread thread) {
         this.thread = thread;
         return this;
@@ -121,6 +129,7 @@ public class StepExecutionInfo extends AbstractStepExecutionInfo {
      *
      * @return stackTraceElements
      */
+    @Override
     public StackTraceElement[] getStackTraceElements() {
         return stackTraceElements;
     }
@@ -131,6 +140,7 @@ public class StepExecutionInfo extends AbstractStepExecutionInfo {
      * @param stackTraceElements StackTraceElements
      * @return this
      */
+    @Override
     public StepExecutionInfo setStackTraceElements(StackTraceElement[] stackTraceElements) {
         // We want to filter out the irrelevant parts of the stack trace
         this.stackTraceElements = Arrays.stream(stackTraceElements)

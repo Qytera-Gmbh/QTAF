@@ -43,7 +43,7 @@ public class CucumberTestStepHelper {
     public static List<Integer> getTestStepPositions(List<TestStep> testSteps) {
         return testSteps
                 .stream()
-                .filter(ts -> ts instanceof PickleStepTestStep)
+                .filter(PickleStepTestStep.class::isInstance)
                 .map(testSteps::indexOf)
                 .toList();
     }

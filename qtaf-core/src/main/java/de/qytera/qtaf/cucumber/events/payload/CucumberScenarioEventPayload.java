@@ -37,7 +37,6 @@ public class CucumberScenarioEventPayload extends QtafTestEventPayload {
         TestCaseState testCaseState = CucumberScenarioHelper.getTestCaseState(scenario);
         TestCase testCase = CucumberTestCaseStateHelper.getTestCase(testCaseState);
         assert testCase != null;
-        List<TestStep> testSteps = testCase.getTestSteps();
         List<Result> testStepResults = CucumberTestCaseStateHelper.getStepResults(testCaseState);
 
         this.abstractScenarioId = scenario.getId().replace(DirectoryHelper.preparePath("file:///$USER_DIR/"), "");

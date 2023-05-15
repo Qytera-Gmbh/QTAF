@@ -6,8 +6,6 @@ import de.qytera.qtaf.cucumber.log.model.message.index.CucumberStepIndex;
 import io.cucumber.core.backend.TestCaseState;
 import io.cucumber.java.Scenario;
 import io.cucumber.plugin.event.*;
-
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,9 +49,6 @@ public class CucumberLogMessageHelper {
             // Create log message
             CucumberStepLogMessage logMessage = createCucumberStepLogMessageFromTestStep(testStep);
 
-            URI uri = ((PickleStepTestStep) testStep).getUri();
-            String codeLocation = testStep.getCodeLocation();
-
             stepLogMessages.add(logMessage);
         }
 
@@ -81,12 +76,6 @@ public class CucumberLogMessageHelper {
         String stepText = step.getText();       // Text after Given / When / Then
 
         StepArgument stepArgument = step.getArgument(); // Argument passed to step (i.e. DataTable, DocString)
-        int stepLine = step.getLine();                  // Line of the step definition in the feature file
-
-        // Extract information about location of step definition in the feature file
-        Location stepLocation = step.getLocation();
-        int locationColumn = stepLocation.getColumn();
-        int locationLine = stepLocation.getLine();
 
         // Create new log message
         CucumberStepLogMessage message = new CucumberStepLogMessage(

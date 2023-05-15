@@ -1,12 +1,13 @@
 package de.qytera.qtaf.allure;
 
+import com.google.common.net.MediaType;
 import de.qytera.qtaf.core.log.model.collection.TestFeatureLogCollection;
 import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
 import de.qytera.qtaf.core.log.model.collection.TestSuiteLogCollection;
 import de.qytera.qtaf.core.log.model.message.LogMessage;
 import de.qytera.qtaf.core.log.model.message.StepInformationLogMessage;
 import io.qameta.allure.model.*;
-
+import io.qameta.allure.model.Label;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -15,6 +16,7 @@ import java.util.UUID;
  * Class for mapping QTAF data structure to Allure data structure
  */
 public class AllureTestResultGenerator {
+    private AllureTestResultGenerator() {}
     /**
      * QTAF Test Suite is mapped to list of Allure TestResult entities
      *
@@ -113,13 +115,12 @@ public class AllureTestResultGenerator {
     }
 
     private static StatusDetails getAllureStepResultStatusDetailsFromQtafStep(StepInformationLogMessage stepLog) {
-        StatusDetails statusDetails = (new StatusDetails())
+        return new StatusDetails()
                 .setTrace(stepLog.getMessage())
                 .setMessage("")
                 .setMuted(false)
                 .setKnown(false)
                 .setFlaky(false);
-        return statusDetails;
     }
 
     /**
@@ -183,12 +184,12 @@ public class AllureTestResultGenerator {
     public static List<Attachment> getAllureTestResultAttachments(TestScenarioLogCollection scenarioLogCollection) {
         Attachment beforeScreenshot = (new Attachment())
                 .setName("Before Scenario")
-                .setType("image/png")
+                .setType(MediaType.PNG.type())
                 .setSource(scenarioLogCollection.getScreenshotBefore());
 
         Attachment afterScreenshot = (new Attachment())
                 .setName("After Scenario")
-                .setType("image/png")
+                .setType(MediaType.PNG.type())
                 .setSource(scenarioLogCollection.getScreenshotAfter());
 
         return List.of(beforeScreenshot, afterScreenshot);
@@ -203,12 +204,12 @@ public class AllureTestResultGenerator {
     public static List<Attachment> getAllureStepResultAttachments(StepInformationLogMessage stepLog) {
         Attachment beforeScreenshot = (new Attachment())
                 .setName("Before Step")
-                .setType("image/png")
+                .setType(MediaType.PNG.type())
                 .setSource(stepLog.getScreenshotBefore());
 
         Attachment afterScreenshot = (new Attachment())
                 .setName("After Step")
-                .setType("image/png")
+                .setType(MediaType.PNG.type())
                 .setSource(stepLog.getScreenshotAfter());
 
         return List.of(beforeScreenshot, afterScreenshot);

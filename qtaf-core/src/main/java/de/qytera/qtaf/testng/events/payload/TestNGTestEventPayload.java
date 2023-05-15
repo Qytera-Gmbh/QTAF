@@ -63,16 +63,6 @@ public class TestNGTestEventPayload extends QtafTestEventPayload {
     }
 
     /**
-     * Handle TestFeature annotation
-     *
-     * @param testFeatureAnnotation TestFeature annotation
-     */
-    private void handleTestFeatureAnnotation(TestFeature testFeatureAnnotation) {
-        this.featureName = testFeatureAnnotation.name();
-        this.featureDescription = testFeatureAnnotation.description();
-    }
-
-    /**
      * Handle TestNG original event
      *
      * @param iTestResult original event
@@ -197,6 +187,7 @@ public class TestNGTestEventPayload extends QtafTestEventPayload {
      *
      * @return methodInfo
      */
+    @Override
     public MethodInfoEntity getMethodInfo() {
         return methodInfo;
     }
@@ -207,6 +198,7 @@ public class TestNGTestEventPayload extends QtafTestEventPayload {
      * @param methodInfo MethodInfo
      * @return this
      */
+    @Override
     public TestNGTestEventPayload setMethodInfo(MethodInfoEntity methodInfo) {
         this.methodInfo = methodInfo;
         return this;

@@ -14,7 +14,7 @@ public class QtafTestExecutionConfigHelper {
     /**
      * Holds values from JSON configuration files
      */
-    public static ConfigMap config = QtafFactory.getConfiguration();
+    protected static final ConfigMap config = QtafFactory.getConfiguration();
 
     /**
      * Get all groups that should run

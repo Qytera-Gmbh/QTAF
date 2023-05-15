@@ -8,33 +8,33 @@ public class XrayAuthCredentials {
     /**
      * Client ID
      */
-    private String client_id;
+    private String clientId;
 
     /**
      * Client secret
      */
-    private String client_secret;
+    private String clientSecret;
 
-    public XrayAuthCredentials(String client_id, String client_secret) {
-        this.client_id = client_id;
-        this.client_secret = client_secret;
+    public XrayAuthCredentials(String clientId, String clientSecret) {
+        this.clientId = clientId;
+        this.clientSecret = clientSecret;
     }
 
-    public String getClient_id() {
-        return client_id;
+    public String getClientId() {
+        return clientId;
     }
 
-    public XrayAuthCredentials setClient_id(String client_id) {
-        this.client_id = client_id;
+    public XrayAuthCredentials setClientId(String clientId) {
+        this.clientId = clientId;
         return this;
     }
 
-    public String getClient_secret() {
-        return client_secret;
+    public String getClientSecret() {
+        return clientSecret;
     }
 
-    public XrayAuthCredentials setClient_secret(String client_secret) {
-        this.client_secret = client_secret;
+    public XrayAuthCredentials setClientSecret(String clientSecret) {
+        this.clientSecret = clientSecret;
         return this;
     }
 }

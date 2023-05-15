@@ -16,10 +16,10 @@ import java.lang.annotation.Annotation;
 /**
  * Method interceptor for methods that are annotated with the Step annotation
  */
-public class QtafTestNGAfterMethodInterceptor extends AbstractTestNGAnnotatedMethodInterceptor implements MethodInterceptor {
-    private final PublishSubject<AfterMethodExecutionInfo> beforeStepExecution = QtafEvents.afterTestScenario;
-    private final PublishSubject<AfterMethodExecutionInfo> afterStepExecutionSuccess = QtafEvents.afterTestScenarioSuccess;
-    private final PublishSubject<AfterMethodExecutionInfo> afterStepExecutionFailure = QtafEvents.afterTestScenarioFailure;
+public class QtafTestNGAfterMethodInterceptor implements MethodInterceptor, AbstractTestNGAnnotatedMethodInterceptor {
+    private static final PublishSubject<AfterMethodExecutionInfo> beforeStepExecution = QtafEvents.afterTestScenario;
+    private static final PublishSubject<AfterMethodExecutionInfo> afterStepExecutionSuccess = QtafEvents.afterTestScenarioSuccess;
+    private static final PublishSubject<AfterMethodExecutionInfo> afterStepExecutionFailure = QtafEvents.afterTestScenarioFailure;
 
     /**
      * This method works as a proxy for methods. Instead of executing the annotated method directly this method will
@@ -33,7 +33,7 @@ public class QtafTestNGAfterMethodInterceptor extends AbstractTestNGAnnotatedMet
     public Object invoke(MethodInvocation methodInvocation) throws Throwable {
         Object instance = methodInvocation.getThis();
 
-        if (instance instanceof IQtafTestContext) { // executed if this is instance of IQtafTestContext
+        if (instance instanceof IQtafTestContext iqtafInstance) { // executed if this is instance of IQtafTestContext
             QtafFactory.getLogger().debug(String.format("Intercept @AfterMethod method: name=%s", methodInvocation.getMethod().getName()));
 
             // Try to execute method and listen for errors. If an error occurs it will be logged.
@@ -46,9 +46,9 @@ public class QtafTestNGAfterMethodInterceptor extends AbstractTestNGAnnotatedMet
             beforeStepExecution.onNext(stepExecution);
 
             // Create a log collection for the current method
-            TestFeatureLogCollection featureLogCollection = buildFeatureLogCollection(methodInvocation, instance);
-            TestScenarioLogCollection scenarioLogCollection = buildScenarioLogCollection(featureLogCollection, methodInvocation, instance);
-            updateTestContextWithLogCollection((IQtafTestContext) instance, scenarioLogCollection);
+            TestFeatureLogCollection featureLogCollection = buildFeatureLogCollection(methodInvocation, iqtafInstance);
+            TestScenarioLogCollection scenarioLogCollection = buildScenarioLogCollection(featureLogCollection, methodInvocation, iqtafInstance);
+            updateTestContextWithLogCollection(iqtafInstance, scenarioLogCollection);
 
             try {
                 // Execute step method

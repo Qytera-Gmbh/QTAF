@@ -14,7 +14,7 @@ import java.util.Date;
  * This class serves as a base class for all interceptor classes that intercept methods annotated with TestNG
  * annotations that deal with the test flow like @BeforeTest and @AfterTest
  */
-public abstract class AbstractTestNGAnnotatedMethodInterceptor {
+public interface AbstractTestNGAnnotatedMethodInterceptor {
     /**
      * Build an entity that contains information about the executed method
      *
@@ -56,7 +56,7 @@ public abstract class AbstractTestNGAnnotatedMethodInterceptor {
      * @param instance         The object that called the method
      * @return Feature log collection object
      */
-    public TestFeatureLogCollection buildFeatureLogCollection(MethodInvocation methodInvocation, Object instance) {
+    public default TestFeatureLogCollection buildFeatureLogCollection(MethodInvocation methodInvocation, Object instance) {
         // Create new feature log collection that will collect log messages for the current feature
         String featureId = methodInvocation.getMethod().getDeclaringClass().getName();
         String featureName = methodInvocation.getMethod().getDeclaringClass().getAnnotation(TestFeature.class).name();
@@ -76,7 +76,7 @@ public abstract class AbstractTestNGAnnotatedMethodInterceptor {
      * @param instance             The object that called the method
      * @return Scenario log collection object
      */
-    public TestScenarioLogCollection buildScenarioLogCollection(TestFeatureLogCollection featureLogCollection, MethodInvocation methodInvocation, Object instance) {
+    public default TestScenarioLogCollection buildScenarioLogCollection(TestFeatureLogCollection featureLogCollection, MethodInvocation methodInvocation, Object instance) {
         String featureId = featureLogCollection.getFeatureId();
         String featureName = featureLogCollection.getFeatureName();
 
@@ -106,7 +106,7 @@ public abstract class AbstractTestNGAnnotatedMethodInterceptor {
      * @param instance              The object that called the method
      * @param scenarioLogCollection The scenario log collection object
      */
-    public void updateTestContextWithLogCollection(IQtafTestContext instance, TestScenarioLogCollection scenarioLogCollection) {
+    public default void updateTestContextWithLogCollection(IQtafTestContext instance, TestScenarioLogCollection scenarioLogCollection) {
         // Update test instance with log collection
         instance.setLogCollection(scenarioLogCollection);
         instance.addLoggerToFieldsRecursively();
@@ -120,7 +120,7 @@ public abstract class AbstractTestNGAnnotatedMethodInterceptor {
      * @return The result of the intercepted method
      * @throws Throwable Exception that was thrown by the intercepted method
      */
-    public Object executeStepMethod(MethodInvocation methodInvocation, TestScenarioLogCollection scenarioLogCollection) throws Throwable {
+    public default Object executeStepMethod(MethodInvocation methodInvocation, TestScenarioLogCollection scenarioLogCollection) throws Throwable {
         // Log the start time
         scenarioLogCollection.setStart(new Date());
 
@@ -139,7 +139,7 @@ public abstract class AbstractTestNGAnnotatedMethodInterceptor {
      *
      * @param scenarioLogCollection The scenario log collection object for the method that was intercepted
      */
-    public void handleStepExecutionFailure(TestScenarioLogCollection scenarioLogCollection) {
+    public default void handleStepExecutionFailure(TestScenarioLogCollection scenarioLogCollection) {
         scenarioLogCollection.setEnd(new Date());
         scenarioLogCollection.setDuration(scenarioLogCollection.getDuration());
         scenarioLogCollection.setStatus(TestScenarioLogCollection.Status.FAILURE);

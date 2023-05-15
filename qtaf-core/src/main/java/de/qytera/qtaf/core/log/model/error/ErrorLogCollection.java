@@ -11,7 +11,7 @@ public class ErrorLogCollection {
     /**
      * Singleton instance of ErrorLogCollection
      */
-    private static ErrorLogCollection instance = new ErrorLogCollection();
+    private static final ErrorLogCollection instance = new ErrorLogCollection();
 
     /**
      * Error logs

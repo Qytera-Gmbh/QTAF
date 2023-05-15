@@ -1,7 +1,4 @@
 package de.qytera.qtaf.core.reflection;
-
-import org.junit.Assert;
-
 import java.lang.reflect.Field;
 import java.util.*;
 
