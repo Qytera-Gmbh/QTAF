@@ -45,16 +45,16 @@ public class AllureTestResultGenerator {
     public static TestResult fromQtafTestScenario(TestScenarioLogCollection scenario) {
         List<StepResult> testResultSteps = AllureTestResultGenerator.getStepResultsFromQtafScenario(scenario);
         List<Attachment> testResultAttachments = AllureTestResultGenerator.getAllureTestResultAttachments(scenario);
-        List<Parameter> testResultParameters = new ArrayList<>(); // TODO
-        List<Label> testResultLabels = new ArrayList<>(); // TODO
-        List<Link> testResultLinks = new ArrayList<>(); // TODO
+        List<Parameter> testResultParameters = new ArrayList<>();
+        List<Label> testResultLabels = new ArrayList<>();
+        List<Link> testResultLinks = new ArrayList<>();
 
         StatusDetails statusDetails = (new StatusDetails())
                 .setKnown(false)
                 .setMuted(false)
                 .setFlaky(false)
-                .setMessage("") // TODO
-                .setTrace(""); // TODO
+                .setMessage("")
+                .setTrace("");
 
         return (new TestResult())
                 .setUuid(UUID.randomUUID().toString())

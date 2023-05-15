@@ -2,7 +2,6 @@ package de.qytera.qtaf.core.log.model.error;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Error object class for error log messages

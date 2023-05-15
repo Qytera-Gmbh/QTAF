@@ -45,7 +45,7 @@ public class DirectoryHelper {
     }
 
     /**
-     * Delete a directory and all its sub directories
+     * Delete a directory and all its subdirectories
      *
      * @param dir directory
      * @return true on success, false otherwise
@@ -55,7 +55,7 @@ public class DirectoryHelper {
     }
 
     /**
-     * Delete a directory and all its sub directories
+     * Delete a directory and all its subdirectories
      *
      * @param dir directory
      * @return true on success, false otherwise

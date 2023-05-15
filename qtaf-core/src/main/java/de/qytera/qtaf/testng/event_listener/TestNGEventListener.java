@@ -8,7 +8,6 @@ import de.qytera.qtaf.core.events.payload.QtafTestEventPayload;
 import de.qytera.qtaf.core.log.Logger;
 import de.qytera.qtaf.testng.events.payload.TestNGTestContextPayload;
 import de.qytera.qtaf.testng.events.payload.TestNGTestEventPayload;
-import org.openqa.selenium.WebDriver;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
@@ -100,7 +99,6 @@ public class TestNGEventListener implements ITestListener {
         } catch (NoSuchMethodException e) { // Can be caused by cucumber
             return;
         }
-        // TODO add evidence to step log
         try {
             // generalHelperFunctions.TakeScreenShort(TestResultHelper.getTestMethodName(iTestResult));
         } catch (Exception e) {

@@ -7,7 +7,7 @@ import org.testng.annotations.Test;
         name = "sample-test-feature-annotation-name",
         description = "sample-test-feature-annotation-description"
 )
-public class SampleRealTestClass {
+public class SampleRealClassTest {
     /**
      * Sample test method
      */

@@ -1,9 +1,6 @@
 package de.qytera.qtaf.data.csv;
 
 import de.qytera.qtaf.core.io.DirectoryHelper;
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVRecord;
-
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -89,16 +86,4 @@ public class CsvLoader {
      * @return List of CSV records
      * @throws IOException Error reading file
      */
-    public Iterable<CSVRecord> getCsvRecords() throws IOException {
-        Reader in = getReader();
-
-        CSVFormat csv = CSVFormat.DEFAULT;
-        csv = csv.withDelimiter(getDelimiter()).withIgnoreSurroundingSpaces().withIgnoreEmptyLines();
-
-        if (hasHeaders()) {
-            csv = csv.withHeader(getHeaders()).withFirstRecordAsHeader();
-        }
-
-        return csv.parse(in);
-    }
 }

@@ -39,7 +39,7 @@ public class QuitDriverSubscriber implements IEventSubscriber {
 
             try {
                 driver.manage().deleteAllCookies();
-            } catch (Exception ignored) {
+            } catch (Exception e) {
 
             }
 

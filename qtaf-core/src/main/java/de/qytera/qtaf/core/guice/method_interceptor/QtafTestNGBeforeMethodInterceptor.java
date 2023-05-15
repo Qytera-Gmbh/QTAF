@@ -17,9 +17,9 @@ import java.lang.annotation.Annotation;
  * Method interceptor for methods that are annotated with the Step annotation
  */
 public class QtafTestNGBeforeMethodInterceptor implements MethodInterceptor, AbstractTestNGAnnotatedMethodInterceptor {
-    private final PublishSubject<BeforeMethodExecutionInfo> beforeStepExecution = QtafEvents.beforeTestScenario;
-    private final PublishSubject<BeforeMethodExecutionInfo> afterStepExecutionSuccess = QtafEvents.beforeTestScenarioSuccess;
-    private final PublishSubject<BeforeMethodExecutionInfo> afterStepExecutionFailure = QtafEvents.beforeTestScenarioFailure;
+    private static final PublishSubject<BeforeMethodExecutionInfo> beforeStepExecution = QtafEvents.beforeTestScenario;
+    private static final PublishSubject<BeforeMethodExecutionInfo> afterStepExecutionSuccess = QtafEvents.beforeTestScenarioSuccess;
+    private static final PublishSubject<BeforeMethodExecutionInfo> afterStepExecutionFailure = QtafEvents.beforeTestScenarioFailure;
 
     /**
      * This method works as a proxy for methods. Instead of executing the annotated method directly this method will

@@ -27,7 +27,7 @@ public class SampleTestNGTestClass implements IClass {
 
     @Override
     public Class<?> getRealClass() {
-        return SampleRealTestClass.class;
+        return SampleRealClassTest.class;
     }
 
     @Override

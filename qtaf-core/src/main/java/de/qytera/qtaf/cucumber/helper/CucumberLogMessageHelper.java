@@ -131,9 +131,7 @@ public class CucumberLogMessageHelper {
                 return StepInformationLogMessage.Status.UNDEFINED;
             case PENDING:
                 return StepInformationLogMessage.Status.PENDING;
-            // TODO handle the following status
-            case UNUSED:
-            case AMBIGUOUS:
+            case UNUSED, AMBIGUOUS:
         }
         return null;
     }
