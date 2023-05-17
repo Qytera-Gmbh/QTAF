@@ -1,6 +1,7 @@
 package de.qytera.qtaf.core.log.model.error;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Collection for error log messages
@@ -10,7 +11,7 @@ public class ErrorLogCollection {
     /**
      * Singleton instance of ErrorLogCollection
      */
-    private static ErrorLogCollection instance = new ErrorLogCollection();
+    private static final ErrorLogCollection instance = new ErrorLogCollection();
 
     /**
      * Error logs
@@ -37,7 +38,7 @@ public class ErrorLogCollection {
      *
      * @return errorLogs
      */
-    public ArrayList<ErrorLog> getErrorLogs() {
+    public List<ErrorLog> getErrorLogs() {
         return errorLogs;
     }
 

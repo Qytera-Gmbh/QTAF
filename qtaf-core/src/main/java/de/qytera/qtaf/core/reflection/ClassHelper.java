@@ -23,7 +23,7 @@ public class ClassHelper {
         Set<Class<?>> set = new HashSet<>();
         Class<?> clazz = object.getClass().getSuperclass();
 
-        while (clazz != null && !stopAt.getName().equals(clazz.getName())) {
+        while (clazz != null && !stopAt.equals(clazz)) {
             set.add(clazz);
             clazz = clazz.getSuperclass();
         }

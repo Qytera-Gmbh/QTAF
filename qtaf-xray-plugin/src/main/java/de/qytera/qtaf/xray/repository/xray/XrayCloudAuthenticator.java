@@ -26,7 +26,7 @@ import java.util.Map;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class XrayCloudAuthenticator {
 
-    private static String JWT_TOKEN;
+    private static String jwtToken;
 
     /**
      * Return the authorization header value based on the configured Xray Cloud credentials.
@@ -35,7 +35,7 @@ public class XrayCloudAuthenticator {
      * @throws MissingConfigurationValueException if the Xray Cloud credentials have not been configured
      */
     public static String getXrayAuthorizationHeaderValue() throws MissingConfigurationValueException {
-        if (JWT_TOKEN == null) {
+        if (jwtToken == null) {
             try {
                 RequestBuilder request = WebService.buildRequest(new URI(XrayRestPaths.XRAY_CLOUD_API_V2 + "/authenticate"));
                 try (Response response = WebService.post(request, GsonFactory.getInstance().toJsonTree(getAuthenticationBody()))) {
@@ -49,7 +49,7 @@ public class XrayCloudAuthenticator {
                         ErrorLogCollection.getInstance().addErrorLog(authErrorLog);
                     } else {
                         XrayEvents.authenticationSuccess.onNext(true);
-                        JWT_TOKEN = responseData.replaceAll("(^\")|(\"$)", "");
+                        jwtToken = responseData.replaceAll("(^\")|(\"$)", "");
                     }
                 }
             } catch (URISyntaxException exception) {
@@ -58,7 +58,7 @@ public class XrayCloudAuthenticator {
                 ErrorLogCollection.getInstance().addErrorLog(authErrorLog);
             }
         }
-        return String.format("Bearer %s", JWT_TOKEN);
+        return String.format("Bearer %s", jwtToken);
     }
 
     private static JsonElement getAuthenticationBody() throws MissingConfigurationValueException {

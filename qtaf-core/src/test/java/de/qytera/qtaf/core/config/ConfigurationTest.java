@@ -163,16 +163,16 @@ public class ConfigurationTest {
     public void testGetList() {
         String key = "hello.there.array";
         ConfigMap config = ConfigurationFactory.getInstance();
-        Assert.assertNull(config.getList(key));
+        Assert.assertNotNull(config.getList(key));
         System.setProperty(key, "[a, 1, 2, \"hello\"]");
         Assert.assertEquals(config.getList(key).size(), 4);
         System.setProperty(key, "null");
-        Assert.assertNull(config.getList(key));
+        Assert.assertTrue(config.getList(key).isEmpty());
         System.setProperty(key, "[\"missingQuote]");
-        Assert.assertNull(config.getList(key));
+        Assert.assertTrue(config.getList(key).isEmpty());
         config.setString(key, null);
         System.clearProperty(key);
-        Assert.assertNull(config.getList(key));
+        Assert.assertTrue(config.getList(key).isEmpty());
     }
 
     @Test

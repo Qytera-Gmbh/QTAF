@@ -104,7 +104,7 @@ public class TestScenarioLogCollection {
     /**
      * Annotations of the corresponding test method
      */
-    private transient Annotation[] annotations;
+    private Annotation[] annotations;
 
     /**
      * Test status
@@ -404,11 +404,9 @@ public class TestScenarioLogCollection {
      * Set test method dependencies
      *
      * @param methodDependencies test method dependencies
-     * @return this
      */
-    public TestScenarioLogCollection setMethodDependencies(String[] methodDependencies) {
+    public void setMethodDependencies(String[] methodDependencies) {
         this.methodDependencies = methodDependencies;
-        return this;
     }
 
     /**
@@ -445,9 +443,8 @@ public class TestScenarioLogCollection {
      * Add test parameters to log
      *
      * @param parameterValues method values
-     * @return this
      */
-    public TestScenarioLogCollection addParameters(Object[] parameterValues) {
+    public void addParameters(Object[] parameterValues) {
         for (int i = 0; i < parameterValues.length; i++) {
             TestParameter testParameter = new TestParameter(
                     "arg" + i,
@@ -458,7 +455,6 @@ public class TestScenarioLogCollection {
             this.testParameters.add(testParameter);
         }
 
-        return this;
     }
 
 
@@ -528,11 +524,12 @@ public class TestScenarioLogCollection {
 
     /**
      * Get the log message object of the step that is currently pending
-     * @return  Step log object of the currently pending step
+     *
+     * @return Step log object of the currently pending step
      */
     public synchronized StepInformationLogMessage getStepLogOfPendingStep() {
-        List<StepInformationLogMessage> logMessages = LogMessageIndex.getInstance().getByScenarioIdAndPending(getScenarioId());
-        return logMessages.isEmpty() ? null : logMessages.get(0);
+        List<StepInformationLogMessage> stepLogMessages = LogMessageIndex.getInstance().getByScenarioIdAndPending(getScenarioId());
+        return stepLogMessages.isEmpty() ? null : stepLogMessages.get(0);
     }
 
     /**
@@ -540,9 +537,8 @@ public class TestScenarioLogCollection {
      * This methods needs to run synchronized because of the check for existence.
      *
      * @param logMessage log message object
-     * @return this
      */
-    public synchronized TestScenarioLogCollection addLogMessage(LogMessage logMessage) {
+    public synchronized void addLogMessage(LogMessage logMessage) {
         if (!logMessages.contains(logMessage)) {
             // Add information about the scenario to the log message
             logMessage
@@ -560,7 +556,6 @@ public class TestScenarioLogCollection {
             QtafFactory.getLogger().debug(String.format("Scenario %s: log_messages_size=%s, scenario_hash=%s, log_messages_list_hash=%s", this.getScenarioId(), this.logMessages.size(), this.hashCode(), this.logMessages.hashCode()));
         }
 
-        return this;
     }
 
     /**
@@ -568,12 +563,10 @@ public class TestScenarioLogCollection {
      *
      * @param level   log level
      * @param message log message
-     * @return this
      */
-    public synchronized TestScenarioLogCollection addLogMessage(LogLevel level, String message) {
+    public synchronized void addLogMessage(LogLevel level, String message) {
         LogMessage logMessage = new LogMessage(level, message);
         logMessages.add(logMessage);
-        return this;
     }
 
     /**
@@ -589,11 +582,9 @@ public class TestScenarioLogCollection {
      * Add screenshot path to test scenario log
      *
      * @param filepath Path to screenshot file
-     * @return this
      */
-    public TestScenarioLogCollection addScreenshotPath(String filepath) {
+    public void addScreenshotPath(String filepath) {
         screenshotPaths.add(filepath);
-        return this;
     }
 
     /**
@@ -609,11 +600,9 @@ public class TestScenarioLogCollection {
      * Set screenshotBefore
      *
      * @param screenshotBefore ScreenshotBefore
-     * @return this
      */
-    public TestScenarioLogCollection setScreenshotBefore(String screenshotBefore) {
+    public void setScreenshotBefore(String screenshotBefore) {
         this.screenshotBefore = screenshotBefore;
-        return this;
     }
 
     /**
@@ -629,11 +618,9 @@ public class TestScenarioLogCollection {
      * Set screenshotAfter
      *
      * @param screenshotAfter ScreenshotAfter
-     * @return this
      */
-    public TestScenarioLogCollection setScreenshotAfter(String screenshotAfter) {
+    public void setScreenshotAfter(String screenshotAfter) {
         this.screenshotAfter = screenshotAfter;
-        return this;
     }
 
     /**
