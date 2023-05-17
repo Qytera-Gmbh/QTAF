@@ -17,6 +17,9 @@ import java.util.Map;
  * Factory class for QTAF Cucumber Scenario Entities
  */
 public class QTAFCucumberScenarioEntityFactory {
+    private QTAFCucumberScenarioEntityFactory() {
+    }
+
     /**
      * Get instance from FeatureWrapper and PickleWrapper
      *

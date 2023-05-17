@@ -1,6 +1,5 @@
 package de.qytera.qtaf.testng.events.payload;
 
-import de.qytera.qtaf.core.config.annotations.TestFeature;
 import de.qytera.qtaf.core.events.payload.MethodInfoEntity;
 import de.qytera.qtaf.core.events.payload.QtafTestEventPayload;
 import de.qytera.qtaf.core.reflection.ClassHelper;
@@ -55,32 +54,11 @@ public class TestNGTestEventPayload extends QtafTestEventPayload {
         this.methodInfo = this.getMethodInfoEntity(iTestResult, realClass);
         this.handleMethodInfo(this.getMethodInfoEntity(iTestResult, realClass));
 
-        // Handle TestFeature annotation of test class
-        TestFeature testFeatureAnnotation = realClass.getAnnotation(TestFeature.class);
-
-        /*
-        if (testFeatureAnnotation != null) {
-            this.handleTestFeatureAnnotation(testFeatureAnnotation);
-        } else {
-            throw new AssertionError("It seems like you have missed to set the @TestFeature annotation " +
-                    "in the class '" + realClass.getName() + "'");
-        }*/
-
         // Handle test annotation of test method
         Test testNGTestAnnotation = this.getTestAnnotation(methodInfo.getMethod());
 
         assert testNGTestAnnotation != null;
         this.handleTestNGTestAnnotation(testNGTestAnnotation);
-    }
-
-    /**
-     * Handle TestFeature annotation
-     *
-     * @param testFeatureAnnotation TestFeature annotation
-     */
-    private void handleTestFeatureAnnotation(TestFeature testFeatureAnnotation) {
-        this.featureName = testFeatureAnnotation.name();
-        this.featureDescription = testFeatureAnnotation.description();
     }
 
     /**
@@ -208,6 +186,7 @@ public class TestNGTestEventPayload extends QtafTestEventPayload {
      *
      * @return methodInfo
      */
+    @Override
     public MethodInfoEntity getMethodInfo() {
         return methodInfo;
     }
@@ -218,6 +197,7 @@ public class TestNGTestEventPayload extends QtafTestEventPayload {
      * @param methodInfo MethodInfo
      * @return this
      */
+    @Override
     public TestNGTestEventPayload setMethodInfo(MethodInfoEntity methodInfo) {
         this.methodInfo = methodInfo;
         return this;

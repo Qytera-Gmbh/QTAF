@@ -17,7 +17,7 @@ public class CucumberStepLogMessage extends StepInformationLogMessage {
     /**
      * Cucumber scenario ID
      */
-    String scenarioId;
+    String scenarioID;
 
     /**
      * Internal cucumber step index
@@ -27,7 +27,7 @@ public class CucumberStepLogMessage extends StepInformationLogMessage {
     /**
      * Flag that indicates if log message was already dispatched
      */
-    transient boolean dispatched = false;
+    boolean dispatched = false;
 
     /**
      * Constructor
@@ -96,8 +96,9 @@ public class CucumberStepLogMessage extends StepInformationLogMessage {
      *
      * @return scenarioId
      */
+    @Override
     public String getScenarioId() {
-        return scenarioId;
+        return scenarioID;
     }
 
     /**
@@ -106,8 +107,9 @@ public class CucumberStepLogMessage extends StepInformationLogMessage {
      * @param scenarioId ScenarioId
      * @return this
      */
+    @Override
     public CucumberStepLogMessage setScenarioId(String scenarioId) {
-        this.scenarioId = scenarioId;
+        this.scenarioID = scenarioId;
         return this;
     }
 

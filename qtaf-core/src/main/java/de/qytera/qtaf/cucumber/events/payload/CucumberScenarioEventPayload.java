@@ -11,7 +11,6 @@ import io.cucumber.core.backend.TestCaseState;
 import io.cucumber.java.Scenario;
 import io.cucumber.plugin.event.Result;
 import io.cucumber.plugin.event.TestCase;
-import io.cucumber.plugin.event.TestStep;
 
 import java.net.URI;
 import java.util.Date;
@@ -37,7 +36,6 @@ public class CucumberScenarioEventPayload extends QtafTestEventPayload {
         TestCaseState testCaseState = CucumberScenarioHelper.getTestCaseState(scenario);
         TestCase testCase = CucumberTestCaseStateHelper.getTestCase(testCaseState);
         assert testCase != null;
-        List<TestStep> testSteps = testCase.getTestSteps();
         List<Result> testStepResults = CucumberTestCaseStateHelper.getStepResults(testCaseState);
 
         this.abstractScenarioId = scenario.getId().replace(DirectoryHelper.preparePath("file:///$USER_DIR/"), "");

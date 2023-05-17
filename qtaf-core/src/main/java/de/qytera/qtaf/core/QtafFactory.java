@@ -13,6 +13,9 @@ import org.openqa.selenium.WebDriver;
  * Factory Class
  */
 public class QtafFactory {
+    private QtafFactory() {
+    }
+
     /**
      * Get configuration
      *

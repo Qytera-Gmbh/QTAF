@@ -8,6 +8,9 @@ import java.util.stream.Collectors;
  * Helper for token separated strings
  */
 public class TokenSeparatedStringHelper {
+    private TokenSeparatedStringHelper() {
+    }
+
     /**
      * Transform a token separated string of values to a list of values
      *
