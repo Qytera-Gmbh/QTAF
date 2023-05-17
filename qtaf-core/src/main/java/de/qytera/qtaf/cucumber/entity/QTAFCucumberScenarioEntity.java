@@ -77,11 +77,9 @@ public class QTAFCucumberScenarioEntity {
      *
      * @param key   Tag key
      * @param value Tag value
-     * @return this
      */
-    public QTAFCucumberScenarioEntity addFeatureTag(String key, String value) {
+    public void addFeatureTag(String key, String value) {
         this.featureTags.put(key, value);
-        return this;
     }
 
     /**
@@ -99,11 +97,9 @@ public class QTAFCucumberScenarioEntity {
      * Remove feature tag
      *
      * @param key Tag key
-     * @return this
      */
-    public QTAFCucumberScenarioEntity removeFeatureTag(String key) {
+    public void removeFeatureTag(String key) {
         this.featureTags.remove(key);
-        return this;
     }
 
     /**
@@ -160,10 +156,9 @@ public class QTAFCucumberScenarioEntity {
      *
      * @param key   Tag key
      * @param value Tag value
-     * @return this
      */
-    public QTAFCucumberScenarioEntity addScenarioTag(String key, String value) {
-        return this.addScenarioTag(
+    public void addScenarioTag(String key, String value) {
+        this.addScenarioTag(
                 key,
                 (ArrayList<String>) Stream.of(value).collect(Collectors.toCollection(ArrayList::new))
         );
@@ -174,9 +169,8 @@ public class QTAFCucumberScenarioEntity {
      *
      * @param key    Tag key
      * @param values List of values
-     * @return this
      */
-    public QTAFCucumberScenarioEntity addScenarioTag(String key, List<String> values) {
+    public void addScenarioTag(String key, List<String> values) {
         if (this.scenarioTags.get(key) != null) { // Key already exists
             // Update list of values by appending new list to the end of existing list
             this.scenarioTags.get(key).addAll(values);
@@ -184,7 +178,6 @@ public class QTAFCucumberScenarioEntity {
             // Create new key and add list of values for this key
             this.scenarioTags.put(key, values);
         }
-        return this;
     }
 
     /**
@@ -202,11 +195,9 @@ public class QTAFCucumberScenarioEntity {
      * Remove scenario tag
      *
      * @param key Tag key
-     * @return this
      */
-    public QTAFCucumberScenarioEntity removeScenarioTag(String key) {
+    public void removeScenarioTag(String key) {
         this.scenarioTags.remove(key);
-        return this;
     }
 
     /**
@@ -222,22 +213,18 @@ public class QTAFCucumberScenarioEntity {
      * Add group name
      *
      * @param groupName Name of group
-     * @return this
      */
-    public QTAFCucumberScenarioEntity addGroupName(String groupName) {
+    public void addGroupName(String groupName) {
         this.groupNames.add(groupName);
-        return this;
     }
 
     /**
      * Set groupNames
      *
      * @param groupNames GroupNames
-     * @return this
      */
-    public QTAFCucumberScenarioEntity setGroupNames(List<String> groupNames) {
+    public void setGroupNames(List<String> groupNames) {
         this.groupNames = groupNames;
-        return this;
     }
 
     /**
@@ -293,11 +280,9 @@ public class QTAFCucumberScenarioEntity {
      * Add test set
      *
      * @param testSet Name of test set
-     * @return this
      */
-    public QTAFCucumberScenarioEntity addTestSet(String testSet) {
+    public void addTestSet(String testSet) {
         this.testSets.add(testSet);
-        return this;
     }
 
     /**
@@ -315,11 +300,9 @@ public class QTAFCucumberScenarioEntity {
      * Remove test set
      *
      * @param testSet test set
-     * @return this
      */
-    public QTAFCucumberScenarioEntity removeTestSet(String testSet) {
+    public void removeTestSet(String testSet) {
         this.testSets.remove(testSet);
-        return this;
     }
 
     /**
@@ -366,11 +349,9 @@ public class QTAFCucumberScenarioEntity {
      * Remove group name
      *
      * @param groupName Group name
-     * @return this
      */
-    public QTAFCucumberScenarioEntity removeGroupName(String groupName) {
+    public void removeGroupName(String groupName) {
         this.groupNames.remove(groupName);
-        return this;
     }
 
     /**
@@ -395,14 +376,12 @@ public class QTAFCucumberScenarioEntity {
 
     /**
      * Parse test set tag
-     *
-     * @return this
      */
-    public QTAFCucumberScenarioEntity parseTestSetTags() {
+    public void parseTestSetTags() {
         List<String> testSetTagValues = this.getScenarioTags().get(TEST_SET_TAG_NAME);
 
         if (testSetTagValues == null) { // There is nothing to do if there are no tags of interest
-            return this;
+            return;
         }
 
         // Iterate over all @TestSet tags and parse their values
@@ -410,6 +389,5 @@ public class QTAFCucumberScenarioEntity {
             this.testSets.addAll(TokenSeparatedStringHelper.toList(value, ",", true));
         }
 
-        return this;
     }
 }

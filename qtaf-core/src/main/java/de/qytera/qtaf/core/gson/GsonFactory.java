@@ -13,6 +13,9 @@ import de.qytera.qtaf.core.guice.annotations.Step;
  * Generate GSON object with custom serializers
  */
 public class GsonFactory {
+    private GsonFactory() {
+    }
+
     /**
      * GSON singleton instance
      */
