@@ -17,7 +17,6 @@ public class QtafInitializer {
     /**
      * Initialization status
      */
-
     private static boolean isInitialized = false;
 
     /**

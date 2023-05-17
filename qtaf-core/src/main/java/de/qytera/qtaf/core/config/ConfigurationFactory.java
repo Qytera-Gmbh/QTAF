@@ -174,7 +174,7 @@ public class ConfigurationFactory {
             logFatal("Error: Syntax error in " + fileName);
         }
 
-        return configMaps.get((fileName));
+        return null;
     }
 
     /**
