@@ -5,7 +5,6 @@ import de.qytera.qtaf.core.events.QtafEvents;
 import de.qytera.qtaf.core.guice.invokation.AfterTestExecutionInfo;
 import org.aopalliance.intercept.MethodInvocation;
 import org.testng.annotations.AfterTest;
-import rx.subjects.PublishSubject;
 
 import java.lang.annotation.Annotation;
 
@@ -13,12 +12,9 @@ import java.lang.annotation.Annotation;
  * Method interceptor for methods that are annotated with the Step annotation
  */
 public class QtafTestNGAfterTestInterceptor extends QtafTestNGAnnotatedMethodInterceptor<AfterTestExecutionInfo> {
-    private static final PublishSubject<AfterTestExecutionInfo> beforeStepExecution = QtafEvents.afterTestFeature;
-    private static final PublishSubject<AfterTestExecutionInfo> afterStepExecutionSuccess = QtafEvents.afterTestFeatureSuccess;
-    private static final PublishSubject<AfterTestExecutionInfo> afterStepExecutionFailure = QtafEvents.afterTestFeatureFailure;
 
     public QtafTestNGAfterTestInterceptor() {
-        super(beforeStepExecution, afterStepExecutionSuccess, afterStepExecutionFailure);
+        super(QtafEvents.afterTestFeature, QtafEvents.afterTestFeatureSuccess, QtafEvents.afterTestFeatureFailure);
     }
 
     @Override
