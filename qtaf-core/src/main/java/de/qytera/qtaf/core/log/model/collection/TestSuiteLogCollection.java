@@ -544,11 +544,6 @@ public class TestSuiteLogCollection {
      */
     public static class ProcessInfo {
         /**
-         * Current Process
-         */
-        private ProcessHandle currentProcess = ProcessHandle.current();
-
-        /**
          * Current processes PID
          */
         private long pid;
@@ -557,7 +552,7 @@ public class TestSuiteLogCollection {
          * Constructor
          */
         ProcessInfo() {
-            pid = currentProcess.pid();
+            pid = ProcessHandle.current().pid();
         }
 
         /**
