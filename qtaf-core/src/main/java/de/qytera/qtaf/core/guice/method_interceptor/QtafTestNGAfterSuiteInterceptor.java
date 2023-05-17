@@ -17,7 +17,7 @@ public class QtafTestNGAfterSuiteInterceptor extends QtafTestNGAnnotatedMethodIn
     private static final PublishSubject<AfterSuiteExecutionInfo> afterStepExecutionSuccess = QtafEvents.afterTestSuiteSuccess;
     private static final PublishSubject<AfterSuiteExecutionInfo> afterStepExecutionFailure = QtafEvents.afterTestSuiteFailure;
 
-    protected QtafTestNGAfterSuiteInterceptor() {
+    public QtafTestNGAfterSuiteInterceptor() {
         super(beforeStepExecution, afterStepExecutionSuccess, afterStepExecutionFailure);
     }
 
