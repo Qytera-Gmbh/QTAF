@@ -46,9 +46,9 @@ public class QtafTestNGBeforeTestInterceptor implements MethodInterceptor, Abstr
             beforeStepExecution.onNext(stepExecution);
 
             // Create a log collection for the current method
-            TestFeatureLogCollection featureLogCollection = buildFeatureLogCollection(methodInvocation,  iqtafInstance);
-            TestScenarioLogCollection scenarioLogCollection = buildScenarioLogCollection(featureLogCollection, methodInvocation,  iqtafInstance);
-            updateTestContextWithLogCollection( iqtafInstance, scenarioLogCollection);
+            TestFeatureLogCollection featureLogCollection = buildFeatureLogCollection(methodInvocation, iqtafInstance);
+            TestScenarioLogCollection scenarioLogCollection = buildScenarioLogCollection(featureLogCollection, methodInvocation, iqtafInstance);
+            updateTestContextWithLogCollection(iqtafInstance, scenarioLogCollection);
 
             try {
                 // Execute step method

@@ -18,6 +18,7 @@ import java.util.*;
 public class ClassLoader {
     private ClassLoader() {
     }
+
     /**
      * package names that are searched for classes
      */
@@ -120,16 +121,17 @@ public class ClassLoader {
         Set<Class<?>> classes = new HashSet<>();
 
         // Find all classes that implement or extend the given interface / class
-        if(packageNames != null) {
-        for (String packageName : packageNames) {
-            try {
-                Reflections ref = new Reflections(packageName);
-                classes.addAll(ref.getSubTypesOf((Class<Object>) clazz));
-            } catch (Exception e) {
-                // This exception occurs when no matching class is found in the package
-                // It#s no critical exception, just continue with the next package
+        if (packageNames != null) {
+            for (String packageName : packageNames) {
+                try {
+                    Reflections ref = new Reflections(packageName);
+                    classes.addAll(ref.getSubTypesOf((Class<Object>) clazz));
+                } catch (Exception e) {
+                    // This exception occurs when no matching class is found in the package
+                    // It#s no critical exception, just continue with the next package
+                }
             }
-        }}
+        }
 
         return classes;
     }

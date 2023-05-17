@@ -73,7 +73,8 @@ public class ErrorLog {
 
     /**
      * Get message
-     * @return  message
+     *
+     * @return message
      */
     public String message() {
         return message;
@@ -81,8 +82,9 @@ public class ErrorLog {
 
     /**
      * Set message
-     * @param message   Message
-     * @return  this
+     *
+     * @param message Message
+     * @return this
      */
     public ErrorLog setMessage(String message) {
         this.message = message;

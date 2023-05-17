@@ -53,6 +53,7 @@ public class Logger {
         instances.computeIfAbsent(name, Logger::new);
         return instances.get(name);
     }
+
     /**
      * Log at trace level
      *

@@ -13,7 +13,9 @@ import java.util.regex.Pattern;
  * Class that provides helper methods for extracting information from cucumber tags
  */
 public class CucumberTagHelper {
-    private CucumberTagHelper() {}
+    private CucumberTagHelper() {
+    }
+
     private static final String KEY_VALUE_REGEX = "^@([A-Za-z0-9-_]+):(.*)$";
     private static final String TAG_REGEX = "^@([A-Za-z0-9-_]+)";
     private static final String TEST_ID_REGEX = "^@TestName:(.*)$";

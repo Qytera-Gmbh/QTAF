@@ -1,12 +1,17 @@
 package de.qytera.qtaf.core.reflection;
+
 import java.lang.reflect.Field;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Class that provides helper methods for reflective field access and manipulation
  */
 public class FieldHelper {
-    private FieldHelper() {}
+    private FieldHelper() {
+    }
 
     /**
      * Get declared fields of a class and its superclasses
@@ -64,7 +69,7 @@ public class FieldHelper {
     public static Field getFieldByName(String name, Class<?> clazz) {
         List<Field> fields = getDeclaredFieldsRecursively(clazz);
         Optional<Field> fieldOptional = fields.stream().filter(field -> field.getName().equals(name)).findAny();
-            return fieldOptional.orElse(null);
+        return fieldOptional.orElse(null);
     }
 
     /**

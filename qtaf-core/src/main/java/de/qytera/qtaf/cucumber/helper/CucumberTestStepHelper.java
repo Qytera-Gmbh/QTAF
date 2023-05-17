@@ -15,7 +15,8 @@ import java.util.stream.Collectors;
  * Helper class for extracting information from Cucumber TestStep objects
  */
 public class CucumberTestStepHelper {
-    private CucumberTestStepHelper() {}
+    private CucumberTestStepHelper() {
+    }
 
     /**
      * Get all test steps that are derived from the PickleStepTestStep class

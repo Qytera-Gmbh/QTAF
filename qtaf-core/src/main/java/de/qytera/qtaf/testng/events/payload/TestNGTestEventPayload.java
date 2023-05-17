@@ -1,4 +1,5 @@
 package de.qytera.qtaf.testng.events.payload;
+
 import de.qytera.qtaf.core.events.payload.MethodInfoEntity;
 import de.qytera.qtaf.core.events.payload.QtafTestEventPayload;
 import de.qytera.qtaf.core.reflection.ClassHelper;

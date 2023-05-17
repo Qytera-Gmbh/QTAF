@@ -28,6 +28,7 @@ public class ReportCreator implements IReportCreator {
      * Filename of the rendered template
      */
     protected String filename = "Report.html";
+
     /**
      * Create report and save it to the disk
      *

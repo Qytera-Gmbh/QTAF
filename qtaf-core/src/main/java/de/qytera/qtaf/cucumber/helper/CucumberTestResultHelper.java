@@ -9,7 +9,8 @@ import java.util.List;
  * Helper class for extracting information from Cucumber test result objects
  */
 public class CucumberTestResultHelper {
-    private CucumberTestResultHelper() {}
+    private CucumberTestResultHelper() {
+    }
 
     /**
      * Checks if all steps passed

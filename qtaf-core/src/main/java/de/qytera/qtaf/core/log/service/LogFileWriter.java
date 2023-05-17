@@ -14,7 +14,8 @@ import java.nio.file.Paths;
  * Class for writing log file
  */
 public class LogFileWriter {
-    private LogFileWriter() {}
+    private LogFileWriter() {
+    }
     /**
      * Log file date format
      */

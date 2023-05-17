@@ -8,7 +8,9 @@ import io.cucumber.testng.PickleWrapper;
  * Helper class that provides methods for extracting information from cucumber pickle wrapper objects
  */
 public class CucumberPickleWrapperHelper {
-    private CucumberPickleWrapperHelper() {}
+    private CucumberPickleWrapperHelper() {
+    }
+
     /**
      * Get Pickle object from PickleWrapper object
      *

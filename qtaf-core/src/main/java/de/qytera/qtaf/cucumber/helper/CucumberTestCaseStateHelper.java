@@ -13,7 +13,8 @@ import java.util.List;
  * Helper class for extracting information from Cucumber Scenario objects
  */
 public class CucumberTestCaseStateHelper {
-    private CucumberTestCaseStateHelper() {}
+    private CucumberTestCaseStateHelper() {
+    }
 
     /**
      * Get TestCase object from TestCaseState object

@@ -1,6 +1,5 @@
 package de.qytera.qtaf.data.csv;
 
-import org.apache.commons.csv.CSVRecord;
 import org.testng.annotations.Test;
 
 import java.io.IOException;

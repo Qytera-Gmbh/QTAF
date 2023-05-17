@@ -6,6 +6,7 @@ import de.qytera.qtaf.cucumber.log.model.message.index.CucumberStepIndex;
 import io.cucumber.core.backend.TestCaseState;
 import io.cucumber.java.Scenario;
 import io.cucumber.plugin.event.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +14,8 @@ import java.util.List;
  * Helper class that creates log messages from test steps
  */
 public class CucumberLogMessageHelper {
-    private CucumberLogMessageHelper() {}
+    private CucumberLogMessageHelper() {
+    }
 
     /**
      * Cucumber log index

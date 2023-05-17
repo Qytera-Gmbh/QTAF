@@ -8,7 +8,9 @@ import com.google.inject.Injector;
  * is only one instance of the injector at runtime (singleton pattern)
  */
 public class QtafInjector {
-    private QtafInjector() {}
+    private QtafInjector() {
+    }
+
     /**
      * Qtaf Guice Injector
      */

@@ -25,7 +25,9 @@ public class QtafInitializer {
      */
     private static final ErrorLogCollection errorLogs = ErrorLogCollection.getInstance();
 
-    private QtafInitializer() {}
+    private QtafInitializer() {
+    }
+
     /**
      * Initialize the framework
      */

@@ -10,7 +10,9 @@ import java.util.List;
  * Class that provides methods for extracting information about the test execution from the configuration
  */
 public class QtafTestExecutionConfigHelper {
-    private QtafTestExecutionConfigHelper() {}
+    private QtafTestExecutionConfigHelper() {
+    }
+
     /**
      * Holds values from JSON configuration files
      */

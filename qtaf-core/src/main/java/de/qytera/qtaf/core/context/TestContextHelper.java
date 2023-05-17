@@ -3,6 +3,7 @@ package de.qytera.qtaf.core.context;
 import de.qytera.qtaf.core.reflection.FieldHelper;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+
 import java.lang.reflect.Field;
 import java.util.List;
 

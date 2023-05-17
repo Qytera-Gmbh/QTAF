@@ -1,14 +1,14 @@
 package de.qytera.qtaf.xray.importer;
 
-import de.qytera.qtaf.core.QtafFactory;
-import de.qytera.qtaf.core.config.entity.ConfigMap;
 import de.qytera.qtaf.xray.config.XrayConfigHelper;
 
 /**
  * Factory class for Xray Importer objects
  */
 public class XrayImporterFactory {
-    private XrayImporterFactory() {}
+    private XrayImporterFactory() {
+    }
+
     /**
      * Created instance of XrayServerCucumberImporter
      */

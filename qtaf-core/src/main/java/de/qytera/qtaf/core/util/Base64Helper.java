@@ -13,7 +13,8 @@ public class Base64Helper {
      * Base64 Encoder
      */
 
-    private Base64Helper() {}
+    private Base64Helper() {
+    }
 
     private static final Base64.Encoder encoder = Base64.getEncoder();
 

@@ -7,7 +7,7 @@ import de.qytera.qtaf.core.log.model.collection.TestSuiteLogCollection;
 import de.qytera.qtaf.core.log.model.message.LogMessage;
 import de.qytera.qtaf.core.log.model.message.StepInformationLogMessage;
 import io.qameta.allure.model.*;
-import io.qameta.allure.model.Label;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -16,7 +16,9 @@ import java.util.UUID;
  * Class for mapping QTAF data structure to Allure data structure
  */
 public class AllureTestResultGenerator {
-    private AllureTestResultGenerator() {}
+    private AllureTestResultGenerator() {
+    }
+
     /**
      * QTAF Test Suite is mapped to list of Allure TestResult entities
      *

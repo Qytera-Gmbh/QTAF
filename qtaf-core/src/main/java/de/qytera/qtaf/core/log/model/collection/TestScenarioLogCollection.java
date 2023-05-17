@@ -524,7 +524,8 @@ public class TestScenarioLogCollection {
 
     /**
      * Get the log message object of the step that is currently pending
-     * @return  Step log object of the currently pending step
+     *
+     * @return Step log object of the currently pending step
      */
     public synchronized StepInformationLogMessage getStepLogOfPendingStep() {
         List<StepInformationLogMessage> stepLogMessages = LogMessageIndex.getInstance().getByScenarioIdAndPending(getScenarioId());
