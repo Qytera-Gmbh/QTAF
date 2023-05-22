@@ -23,7 +23,7 @@
     <developers>
         <developer>
             <name>Qytera Development</name>
-            <email>info@qytera.de</email>
+            <email>dev@qytera.de</email>
             <organization>Qytera Software Testing Solutions GmbH</organization>
             <organizationUrl>https://www.qytera.de/</organizationUrl>
         </developer>
@@ -55,6 +55,8 @@
         <mavenCompilerPluginVersion>3.11.0</mavenCompilerPluginVersion>
         <lombokPluginVersion>1.18.20.0</lombokPluginVersion>
         <surefirePluginVersion>3.0.0</surefirePluginVersion>
+        <jacocoMavenPluginVersion>0.8.10</jacocoMavenPluginVersion>
+        <sonarMavenPluginVersion>3.9.1.2184</sonarMavenPluginVersion>
     </properties>
 
     <profiles>
@@ -91,7 +93,6 @@
                             <outputDirectory>${delombokDirectory}</outputDirectory>
                             <addOutputDirectory>false</addOutputDirectory>
                             <encoding>UTF-8</encoding>
-                            <verbose>true</verbose>
                         </configuration>
                         <executions>
                             <execution>
@@ -170,6 +171,103 @@
                 </plugins>
             </build>
         </profile>
+        <!--
+        A profile for code quality.
+        See: https://docs.sonarcloud.io/advanced-setup/ci-based-analysis/sonarscanner-for-maven/
+        -->
+        <profile>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <id>quality-profile</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.jacoco</groupId>
+                        <artifactId>jacoco-maven-plugin</artifactId>
+                        <version>${jacocoMavenPluginVersion}</version>
+                        <executions>
+                            <execution>
+                                <id>prepare-agent</id>
+                                <goals>
+                                    <goal>prepare-agent</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>report</id>
+                                <goals>
+                                    <goal>report</goal>
+                                </goals>
+                                <configuration>
+                                    <formats>
+                                        <format>XML</format>
+                                    </formats>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.sonarsource.scanner.maven</groupId>
+                        <artifactId>sonar-maven-plugin</artifactId>
+                        <version>${sonarMavenPluginVersion}</version>
+                        <configuration>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <!-- A profile for signing and deploying artifacts to Sonatype. -->
+        <profile>
+            <id>release-profile</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <!-- This maven plugin is responsible for generating the GPG signatures -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>3.0.1</version>
+                        <executions>
+                            <execution>
+                                <id>sgn-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                                <configuration>
+                                    <keyname>0x643DE5DE</keyname>
+                                    <passphraseServerId>0x643DE5DE</passphraseServerId>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <!-- This maven plugin deploys the artifacts to OSSRH -->
+                    <plugin>
+                        <groupId>org.sonatype.plugins</groupId>
+                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                        <version>1.6.13</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <serverId>ossrh</serverId>
+                            <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
+                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+            <distributionManagement>
+                <snapshotRepository>
+                    <id>ossrh</id>
+                    <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+                </snapshotRepository>
+                <repository>
+                    <id>ossrh</id>
+                    <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+                </repository>
+            </distributionManagement>
+        </profile>
     </profiles>
 
     <dependencies>
@@ -218,39 +316,6 @@
                 </configuration>
             </plugin>
 
-            <!-- This maven plugin is responsible for generating the GPG signatures -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-gpg-plugin</artifactId>
-                <version>3.0.1</version>
-                <executions>
-                    <execution>
-                        <id>sgn-artifacts</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>sign</goal>
-                        </goals>
-                        <configuration>
-                            <keyname>0x643DE5DE</keyname>
-                            <passphraseServerId>0x643DE5DE</passphraseServerId>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <!-- This maven plugin deploys the artifacts to OSSRH -->
-            <plugin>
-                <groupId>org.sonatype.plugins</groupId>
-                <artifactId>nexus-staging-maven-plugin</artifactId>
-                <version>1.6.13</version>
-                <extensions>true</extensions>
-                <configuration>
-                    <serverId>ossrh</serverId>
-                    <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
-                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
-                </configuration>
-            </plugin>
-
             <!-- A plugin for running testng test (suites, groups, ...). -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -260,16 +325,5 @@
 
         </plugins>
     </build>
-
-    <distributionManagement>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-        <repository>
-            <id>ossrh</id>
-            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>
-    </distributionManagement>
 
 </project>

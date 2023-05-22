@@ -25,8 +25,7 @@ public class ChromeDriver extends AbstractDriver {
     protected ChromeOptions getCapabilities() {
         // Make selenium use the selenium-http-jdk-client package
         System.setProperty("webdriver.http.factory", "jdk-http-client");
-        ChromeOptions options = new ChromeOptions();
-        return options;
+        return new ChromeOptions();
     }
 
     @Override

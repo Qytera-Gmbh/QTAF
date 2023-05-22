@@ -4,6 +4,9 @@ package de.qytera.qtaf.xray.config;
  * Xray REST API Paths
  */
 public class XrayRestPaths {
+    private XrayRestPaths() {
+    }
+
     /**
      * Xray Cloud API v1
      */

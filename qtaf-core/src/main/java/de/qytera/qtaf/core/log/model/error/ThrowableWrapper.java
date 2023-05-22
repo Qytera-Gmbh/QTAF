@@ -7,7 +7,7 @@ public class ThrowableWrapper {
     /**
      * Original object
      */
-    private transient Throwable throwable;
+    private Throwable throwable;
 
     /**
      * Constructor

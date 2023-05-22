@@ -63,7 +63,7 @@ public abstract class QtafTestNGContext implements IQtafTestContext {
     /**
      * Constructor
      */
-    public QtafTestNGContext() {
+    protected QtafTestNGContext() {
         initialize();
     }
 
