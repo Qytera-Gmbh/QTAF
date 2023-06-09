@@ -59,7 +59,6 @@
         <mavenCompilerPluginVersion>3.11.0</mavenCompilerPluginVersion>
         <mavenGpgPluginVersion>3.0.1</mavenGpgPluginVersion>
         <mavenJarPluginVersion>3.3.0</mavenJarPluginVersion>
-        <mavenJavadocPluginVersion>3.5.0</mavenJavadocPluginVersion>
         <mavenSourcePluginVersion>3.2.1</mavenSourcePluginVersion>
         <nexusStagingMavenPluginVersion>1.6.13</nexusStagingMavenPluginVersion>
         <sonarMavenPluginVersion>3.9.1.2184</sonarMavenPluginVersion>
@@ -270,20 +269,6 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${surefirePluginVersion}</version>
-            </plugin>
-            <!-- A plugin for creating Javadoc files. -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>${mavenJavadocPluginVersion}</version>
-                <executions>
-                    <execution>
-                        <id>attach-javadocs</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>
