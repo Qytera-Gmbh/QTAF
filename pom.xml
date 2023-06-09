@@ -52,6 +52,8 @@
         <maven.compiler.target>17</maven.compiler.target>
         <!-- Allows specifying different source directories to compile, e.g. when compiling 'delomboked' code. -->
         <qtafSourceDirectory>${project.basedir}/src/main/java</qtafSourceDirectory>
+        <!-- JavaDoc linting needs to be disabled after Delombokization, but can be enabled beforehand/by default. -->
+        <javadocPluginDoclint>all</javadocPluginDoclint>
         <!-- Versions. -->
         <jacocoMavenPluginVersion>0.8.10</jacocoMavenPluginVersion>
         <lombokPluginVersion>1.18.20.0</lombokPluginVersion>
@@ -59,6 +61,7 @@
         <mavenCompilerPluginVersion>3.11.0</mavenCompilerPluginVersion>
         <mavenGpgPluginVersion>3.0.1</mavenGpgPluginVersion>
         <mavenJarPluginVersion>3.3.0</mavenJarPluginVersion>
+        <mavenJavadocPluginVersion>3.5.0</mavenJavadocPluginVersion>
         <mavenSourcePluginVersion>3.2.1</mavenSourcePluginVersion>
         <nexusStagingMavenPluginVersion>1.6.13</nexusStagingMavenPluginVersion>
         <sonarMavenPluginVersion>3.9.1.2184</sonarMavenPluginVersion>
@@ -82,6 +85,7 @@
             <properties>
                 <delombokDirectory>${project.build.directory}/sources-delomboked</delombokDirectory>
                 <qtafSourceDirectory>${delombokDirectory}</qtafSourceDirectory>
+                <javadocPluginDoclint>none</javadocPluginDoclint>
             </properties>
             <build>
                 <plugins>
@@ -269,6 +273,23 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${surefirePluginVersion}</version>
+            </plugin>
+            <!-- A plugin for creating Javadoc files. -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>${mavenJavadocPluginVersion}</version>
+                <configuration>
+                    <doclint>${javadocPluginDoclint}</doclint>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
