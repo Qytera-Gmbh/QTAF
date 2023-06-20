@@ -54,7 +54,7 @@
         <lombokVersion>1.18.26</lombokVersion>
         <mavenCompilerPluginVersion>3.11.0</mavenCompilerPluginVersion>
         <lombokPluginVersion>1.18.20.0</lombokPluginVersion>
-        <surefirePluginVersion>3.1.2</surefirePluginVersion>
+        <surefirePluginVersion>3.0.0</surefirePluginVersion>
         <jacocoMavenPluginVersion>0.8.10</jacocoMavenPluginVersion>
         <sonarMavenPluginVersion>3.9.1.2184</sonarMavenPluginVersion>
     </properties>
@@ -130,7 +130,7 @@
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>build-helper-maven-plugin</artifactId>
-                        <version>3.4.0</version>
+                        <version>3.3.0</version>
                         <executions>
                             <execution>
                                 <id>attach-source-jar</id>
@@ -228,7 +228,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
-                        <version>3.1.0</version>
+                        <version>3.0.1</version>
                         <executions>
                             <execution>
                                 <id>sgn-artifacts</id>
