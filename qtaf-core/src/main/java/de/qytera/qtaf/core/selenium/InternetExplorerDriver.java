@@ -15,7 +15,7 @@ public class InternetExplorerDriver extends AbstractDriver {
     }
 
     @Override
-    public WebDriver getDriverInstance() {
+    public WebDriver getDriver() {
         WebDriverManager.iedriver().setup();
         return new org.openqa.selenium.ie.InternetExplorerDriver(this.getCapabilities());
     }
