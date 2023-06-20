@@ -49,7 +49,7 @@
         <appiumVersion>8.5.1</appiumVersion>
         <jsonSimpleVersion>1.1.1</jsonSimpleVersion>
         <jsonPathVersion>2.8.0</jsonPathVersion>
-        <guavaVersion>31.1-jre</guavaVersion>
+        <guavaVersion>32.0.1-jre</guavaVersion>
         <commonsLangVersion>3.12.0</commonsLangVersion>
         <reflectionsVersion>0.10.2</reflectionsVersion>
         <webDriverManagerVersion>5.3.3</webDriverManagerVersion>
