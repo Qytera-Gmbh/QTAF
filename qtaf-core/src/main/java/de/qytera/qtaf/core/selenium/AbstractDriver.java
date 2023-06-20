@@ -37,8 +37,8 @@ public abstract class AbstractDriver {
      *
      * @return selenium web driver object
      */
-    public final WebDriver getDriver() {
-        WebDriver driver = getDriverInstance();
+    public final WebDriver getDriverInstance() {
+        WebDriver driver = getDriver();
         if (isRemoteDriver()) {
             // See: https://www.selenium.dev/documentation/webdriver/drivers/remote_webdriver/#local-file-detector
             ((RemoteWebDriver) driver).setFileDetector(new LocalFileDetector());
@@ -51,7 +51,7 @@ public abstract class AbstractDriver {
      *
      * @return the instance
      */
-    protected abstract WebDriver getDriverInstance();
+    protected abstract WebDriver getDriver();
 
     /**
      * Log an info message
