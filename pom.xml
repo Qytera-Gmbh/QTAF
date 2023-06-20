@@ -50,13 +50,19 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <!-- versions -->
-        <lombokVersion>1.18.26</lombokVersion>
-        <mavenCompilerPluginVersion>3.11.0</mavenCompilerPluginVersion>
-        <lombokPluginVersion>1.18.20.0</lombokPluginVersion>
-        <surefirePluginVersion>3.1.2</surefirePluginVersion>
+        <!-- Dependency versions -->
+        <gpgPluginVersion>3.1.0</gpgPluginVersion>
         <jacocoMavenPluginVersion>0.8.10</jacocoMavenPluginVersion>
+        <javaDocVersion>3.5.0</javaDocVersion>
+        <lombokVersion>1.18.26</lombokVersion>
+        <lombokPluginVersion>1.18.20.0</lombokPluginVersion>
+        <mavenAntRunVersion>3.1.0</mavenAntRunVersion>
+        <mavenBuildHelperVersion>3.4.0</mavenBuildHelperVersion>
+        <mavenCompilerPluginVersion>3.11.0</mavenCompilerPluginVersion>
+        <mavenJarPluginVersion>3.3.0</mavenJarPluginVersion>
+        <nexusStagingPluginVersion>1.6.13</nexusStagingPluginVersion>
         <sonarMavenPluginVersion>3.9.1.2184</sonarMavenPluginVersion>
+        <surefirePluginVersion>3.1.2</surefirePluginVersion>
     </properties>
 
     <profiles>
@@ -84,6 +90,7 @@
             <build>
                 <plugins>
                     <!-- A plugin for transforming lombok-annotated classes back into vanilla Java. -->
+                    <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok-maven-plugin -->
                     <plugin>
                         <groupId>org.projectlombok</groupId>
                         <artifactId>lombok-maven-plugin</artifactId>
@@ -104,10 +111,11 @@
                         </executions>
                     </plugin>
                     <!-- A plugin for packaging the delomboked sources into a JAR file. -->
+                    <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-antrun-plugin -->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-antrun-plugin</artifactId>
-                        <version>3.1.0</version>
+                        <version>${mavenAntRunVersion}</version>
                         <executions>
                             <execution>
                                 <id>generate-delomboked-sources-jar</id>
@@ -127,10 +135,11 @@
                         </executions>
                     </plugin>
                     <!-- A plugin for attaching the packaged sources to the overall build artifacts. -->
+                    <!-- https://mvnrepository.com/artifact/org.codehaus.mojo/build-helper-maven-plugin -->
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>build-helper-maven-plugin</artifactId>
-                        <version>3.3.0</version>
+                        <version>${mavenBuildHelperVersion}</version>
                         <executions>
                             <execution>
                                 <id>attach-source-jar</id>
@@ -152,10 +161,11 @@
                         </executions>
                     </plugin>
                     <!-- A plugin for creating Javadoc files from the delombokized sources. -->
+                    <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-javadoc-plugin -->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>3.5.0</version>
+                        <version>${javaDocVersion}</version>
                         <executions>
                             <execution>
                                 <id>attach-javadocs</id>
@@ -171,10 +181,7 @@
                 </plugins>
             </build>
         </profile>
-        <!--
-        A profile for code quality.
-        See: https://docs.sonarcloud.io/advanced-setup/ci-based-analysis/sonarscanner-for-maven/
-        -->
+        <!-- A profile for code quality. See: https://docs.sonarcloud.io/advanced-setup/ci-based-analysis/sonarscanner-for-maven/ -->
         <profile>
             <activation>
                 <activeByDefault>true</activeByDefault>
@@ -182,6 +189,7 @@
             <id>quality-profile</id>
             <build>
                 <plugins>
+                    <!-- https://mvnrepository.com/artifact/org.jacoco/jacoco-maven-plugin -->
                     <plugin>
                         <groupId>org.jacoco</groupId>
                         <artifactId>jacoco-maven-plugin</artifactId>
@@ -206,6 +214,7 @@
                             </execution>
                         </executions>
                     </plugin>
+                    <!-- https://mvnrepository.com/artifact/org.sonarsource.scanner.maven/sonar-maven-plugin -->
                     <plugin>
                         <groupId>org.sonarsource.scanner.maven</groupId>
                         <artifactId>sonar-maven-plugin</artifactId>
@@ -226,9 +235,10 @@
                 <plugins>
                     <!-- This maven plugin is responsible for generating the GPG signatures -->
                     <plugin>
+                        <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-gpg-plugin -->
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
-                        <version>3.1.0</version>
+                        <version>${gpgPluginVersion}</version>
                         <executions>
                             <execution>
                                 <id>sgn-artifacts</id>
@@ -244,10 +254,11 @@
                         </executions>
                     </plugin>
                     <!-- This maven plugin deploys the artifacts to OSSRH -->
+                    <!-- https://mvnrepository.com/artifact/org.sonatype.plugins/nexus-staging-maven-plugin -->
                     <plugin>
                         <groupId>org.sonatype.plugins</groupId>
                         <artifactId>nexus-staging-maven-plugin</artifactId>
-                        <version>1.6.13</version>
+                        <version>${nexusStagingPluginVersion}</version>
                         <extensions>true</extensions>
                         <configuration>
                             <serverId>ossrh</serverId>
@@ -271,6 +282,7 @@
     </profiles>
 
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -286,9 +298,9 @@
                 <filtering>true</filtering>
             </resource>
         </resources>
-
-        <plugins>
+       <plugins>
             <!-- Plugin to compile the code -->
+            <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-compiler-plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -298,13 +310,12 @@
                     <target>${maven.compiler.target}</target>
                 </configuration>
             </plugin>
-
             <!-- Plugin to build a JAR file -->
+            <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-jar-plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>3.3.0</version>
-
+                <version>${mavenJarPluginVersion}</version>
                 <configuration>
                     <archive>
                         <manifest>
@@ -315,15 +326,13 @@
                     </archive>
                 </configuration>
             </plugin>
-
             <!-- A plugin for running testng test (suites, groups, ...). -->
+            <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-surefire-plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${surefirePluginVersion}</version>
             </plugin>
-
-        </plugins>
+       </plugins>
     </build>
-
 </project>
