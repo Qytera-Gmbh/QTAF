@@ -17,7 +17,7 @@ public class ChromeRemoteDriver extends AbstractDriver {
     }
 
     @Override
-    public WebDriver getDriverInstance() {
+    public WebDriver getDriver() {
         return new RemoteWebDriver(SeleniumDriverConfigHelper.getRemoteUrl(), getCapabilities());
     }
 
