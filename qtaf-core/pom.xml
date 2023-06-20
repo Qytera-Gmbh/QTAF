@@ -35,7 +35,7 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <!-- Dependency Versions -->
-        <seleniumJavaVersion>4.9.0</seleniumJavaVersion>
+        <seleniumJavaVersion>4.9.1</seleniumJavaVersion>
         <testNGVersion>7.8.0</testNGVersion>
         <testNGCucumberVersion>7.12.0</testNGCucumberVersion>
         <gsonVersion>2.10.1</gsonVersion>
