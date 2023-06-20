@@ -76,7 +76,7 @@ public class DriverFactory {
                 d = (AbstractDriver) o;
 
                 if (d.getName() != null && d.getName().equals(driverName)) {
-                    driver = d.getDriver();
+                    driver = d.getDriverInstance();
                     break;
                 }
             }
