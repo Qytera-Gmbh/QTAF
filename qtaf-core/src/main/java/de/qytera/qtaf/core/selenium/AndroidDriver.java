@@ -15,7 +15,7 @@ public class AndroidDriver extends AbstractAndroidDriver {
     }
 
     @Override
-    public WebDriver getDriverInstance() {
+    public WebDriver getDriver() {
         return getAndroidDriver(getCapabilities());
     }
 
