@@ -15,7 +15,7 @@ public class EdgeDriver extends AbstractDriver {
     }
 
     @Override
-    public WebDriver getDriverInstance() {
+    public WebDriver getDriver() {
         WebDriverManager webDriverManager = WebDriverManager.edgedriver();
         initWebDriverManager(webDriverManager);
         return new org.openqa.selenium.edge.EdgeDriver(getCapabilities());
