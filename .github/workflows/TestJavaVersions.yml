@@ -2,6 +2,12 @@
 name: Test Java Versions
 
 on:
+  push:
+    branches:
+      - develop
+    paths:
+      - qtaf-*/**
+      - pom.xml
   pull_request:
     branches:
       - develop

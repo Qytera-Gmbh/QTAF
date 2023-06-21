@@ -50,36 +50,42 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <!-- versions -->
+        <!-- Allows specifying different source directories to compile, e.g. when compiling 'delomboked' code. -->
+        <qtafSourceDirectory>${project.basedir}/src/main/java</qtafSourceDirectory>
+        <!-- JavaDoc linting needs to be disabled after Delombokization, but can be enabled beforehand/by default. -->
+        <javadocPluginDoclint>all</javadocPluginDoclint>
+        <!-- Versions. -->
+        <jacocoMavenPluginVersion>0.8.10</jacocoMavenPluginVersion>
+        <lombokPluginVersion>1.18.20.0</lombokPluginVersion>
         <lombokVersion>1.18.26</lombokVersion>
         <mavenCompilerPluginVersion>3.11.0</mavenCompilerPluginVersion>
-        <lombokPluginVersion>1.18.20.0</lombokPluginVersion>
-        <surefirePluginVersion>3.0.0</surefirePluginVersion>
-        <jacocoMavenPluginVersion>0.8.10</jacocoMavenPluginVersion>
+        <mavenGpgPluginVersion>3.0.1</mavenGpgPluginVersion>
+        <mavenJarPluginVersion>3.3.0</mavenJarPluginVersion>
+        <mavenJavadocPluginVersion>3.5.0</mavenJavadocPluginVersion>
+        <mavenSourcePluginVersion>3.2.1</mavenSourcePluginVersion>
+        <nexusStagingMavenPluginVersion>1.6.13</nexusStagingMavenPluginVersion>
         <sonarMavenPluginVersion>3.9.1.2184</sonarMavenPluginVersion>
+        <surefirePluginVersion>3.0.0</surefirePluginVersion>
     </properties>
 
     <profiles>
         <!--
-        A profile that automatically 'delomboks' submodules (i.e. converts them into vanilla Java). Delombokization is
-        necessary because otherwise, the compiled and packaged class files would not match the packaged sources. This
-        is problematic when QTAF is used as a dependency and developers would like to step through QTAF code during
-        debugging. They would not be able to put 'proper' breakpoints into QTAF code, since the executed code
-        (classfile) would not be consistent with the visible code (source file).
-
-        The root module is excluded as it simply does not contain any sources to package into a JAR. Submodules are
-        identified through absence of the 'qtaf-core' directory.
+        A profile that 'delomboks' submodules (i.e. converts them into vanilla Java).
+        Delombokization is necessary because otherwise, the compiled/packaged class files would not match the
+        packaged sources. This is problematic when QTAF is used as a dependency and developers would like to step
+        through QTAF code during debugging. They would not be able to put 'proper' breakpoints into QTAF code, since
+        the executed code (classfile) would not be consistent with the visible code (source file).
         -->
         <profile>
             <id>delombok-profile</id>
+            <!-- Activate the profile only if activated through the command line. -->
             <activation>
                 <activeByDefault>false</activeByDefault>
-                <file>
-                    <missing>qtaf-core</missing>
-                </file>
             </activation>
             <properties>
-                <delombokDirectory>${project.build.directory}/delombok</delombokDirectory>
+                <delombokDirectory>${project.build.directory}/sources-delomboked</delombokDirectory>
+                <qtafSourceDirectory>${delombokDirectory}</qtafSourceDirectory>
+                <javadocPluginDoclint>none</javadocPluginDoclint>
             </properties>
             <build>
                 <plugins>
@@ -130,7 +136,7 @@
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>build-helper-maven-plugin</artifactId>
-                        <version>3.3.0</version>
+                        <version>3.4.0</version>
                         <executions>
                             <execution>
                                 <id>attach-source-jar</id>
@@ -154,19 +160,17 @@
                     <!-- A plugin for creating Javadoc files from the delombokized sources. -->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>3.5.0</version>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>${mavenSourcePluginVersion}</version>
                         <executions>
                             <execution>
-                                <id>attach-javadocs</id>
+                                <id>attach-sources</id>
+                                <phase>verify</phase>
                                 <goals>
-                                    <goal>jar</goal>
+                                    <goal>jar-no-fork</goal>
                                 </goals>
                             </execution>
                         </executions>
-                        <configuration>
-                            <sourcepath>${delombokDirectory}</sourcepath>
-                        </configuration>
                     </plugin>
                 </plugins>
             </build>
@@ -210,8 +214,6 @@
                         <groupId>org.sonarsource.scanner.maven</groupId>
                         <artifactId>sonar-maven-plugin</artifactId>
                         <version>${sonarMavenPluginVersion}</version>
-                        <configuration>
-                        </configuration>
                     </plugin>
                 </plugins>
             </build>
@@ -228,7 +230,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
-                        <version>3.0.1</version>
+                        <version>${mavenGpgPluginVersion}</version>
                         <executions>
                             <execution>
                                 <id>sgn-artifacts</id>
@@ -247,7 +249,7 @@
                     <plugin>
                         <groupId>org.sonatype.plugins</groupId>
                         <artifactId>nexus-staging-maven-plugin</artifactId>
-                        <version>1.6.13</version>
+                        <version>${nexusStagingMavenPluginVersion}</version>
                         <extensions>true</extensions>
                         <configuration>
                             <serverId>ossrh</serverId>
@@ -280,6 +282,7 @@
     </dependencies>
 
     <build>
+        <sourceDirectory>${qtafSourceDirectory}</sourceDirectory>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
@@ -298,13 +301,11 @@
                     <target>${maven.compiler.target}</target>
                 </configuration>
             </plugin>
-
             <!-- Plugin to build a JAR file -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>3.3.0</version>
-
+                <version>${mavenJarPluginVersion}</version>
                 <configuration>
                     <archive>
                         <manifest>
@@ -315,14 +316,29 @@
                     </archive>
                 </configuration>
             </plugin>
-
             <!-- A plugin for running testng test (suites, groups, ...). -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${surefirePluginVersion}</version>
             </plugin>
-
+            <!-- A plugin for creating Javadoc files. -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>${mavenJavadocPluginVersion}</version>
+                <configuration>
+                    <doclint>${javadocPluginDoclint}</doclint>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 

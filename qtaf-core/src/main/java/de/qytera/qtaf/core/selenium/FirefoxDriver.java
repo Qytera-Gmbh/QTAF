@@ -15,7 +15,7 @@ public class FirefoxDriver extends AbstractDriver {
     }
 
     @Override
-    public WebDriver getDriverInstance() {
+    public WebDriver getDriver() {
         WebDriverManager webDriverManager = WebDriverManager.firefoxdriver();
         initWebDriverManager(webDriverManager);
         return new org.openqa.selenium.firefox.FirefoxDriver(getCapabilities());
