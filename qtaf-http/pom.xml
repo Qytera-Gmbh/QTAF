@@ -14,41 +14,47 @@
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
+        <!-- Dependency versions -->
+        <qtafVersion>0.0.9</qtafVersion>
+        <jakartaActivationVersion>2.1.2</jakartaActivationVersion>
         <jerseyClientVersion>3.1.2</jerseyClientVersion>
-        <jakartaActivationVersion>2.1.1</jakartaActivationVersion>
     </properties>
 
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/de.qytera/qtaf-core -->
         <dependency>
             <groupId>de.qytera</groupId>
             <artifactId>qtaf-core</artifactId>
-            <version>0.0.9</version>
+            <version>${qtafVersion}</version>
             <scope>compile</scope>
         </dependency>
         <!-- REST API client -->
+        <!-- https://mvnrepository.com/artifact/org.glassfish.jersey.core/jersey-client -->
         <dependency>
             <groupId>org.glassfish.jersey.core</groupId>
             <artifactId>jersey-client</artifactId>
             <version>${jerseyClientVersion}</version>
         </dependency>
         <!-- Integrates Gson into Jersey -->
+        <!-- https://mvnrepository.com/artifact/org.glassfish.jersey.media/jersey-media-json-gson -->
         <dependency>
             <groupId>org.glassfish.jersey.media</groupId>
             <artifactId>jersey-media-json-gson</artifactId>
             <version>${jerseyClientVersion}</version>
         </dependency>
         <!-- Necessary because otherwise: https://stackoverflow.com/questions/44088493/jersey-stopped-working-with-injectionmanagerfactory-not-found -->
+        <!-- https://mvnrepository.com/artifact/org.glassfish.jersey.inject/jersey-hk2 -->
         <dependency>
             <groupId>org.glassfish.jersey.inject</groupId>
             <artifactId>jersey-hk2</artifactId>
             <version>${jerseyClientVersion}</version>
         </dependency>
         <!-- Prevents warnings of the form "WARNING: A class jakarta.activation.DataSource for a default provider MessageBodyWriter was not found." -->
+        <!-- https://mvnrepository.com/artifact/jakarta.activation/jakarta.activation-api -->
         <dependency>
             <groupId>jakarta.activation</groupId>
             <artifactId>jakarta.activation-api</artifactId>
             <version>${jakartaActivationVersion}</version>
         </dependency>
     </dependencies>
-
 </project>
