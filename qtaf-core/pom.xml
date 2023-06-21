@@ -35,8 +35,8 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <!-- Dependency Versions -->
-        <seleniumJavaVersion>4.9.0</seleniumJavaVersion>
-        <testNGVersion>7.7.1</testNGVersion>
+        <seleniumJavaVersion>4.9.1</seleniumJavaVersion>
+        <testNGVersion>7.8.0</testNGVersion>
         <testNGCucumberVersion>7.12.0</testNGCucumberVersion>
         <gsonVersion>2.10.1</gsonVersion>
         <guiceVersion>5.1.0</guiceVersion>
@@ -49,7 +49,7 @@
         <appiumVersion>8.3.0</appiumVersion>
         <jsonSimpleVersion>1.1.1</jsonSimpleVersion>
         <jsonPathVersion>2.8.0</jsonPathVersion>
-        <guavaVersion>31.1-jre</guavaVersion>
+        <guavaVersion>32.0.0-jre</guavaVersion>
         <commonsLangVersion>3.12.0</commonsLangVersion>
         <reflectionsVersion>0.10.2</reflectionsVersion>
         <webDriverManagerVersion>5.3.2</webDriverManagerVersion>

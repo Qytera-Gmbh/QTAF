@@ -20,7 +20,7 @@ public class TestFeatureLogCollection {
     /**
      * Search index
      */
-    private static final transient FeatureLogCollectionIndex index = FeatureLogCollectionIndex.getInstance();
+    private static final FeatureLogCollectionIndex index = FeatureLogCollectionIndex.getInstance();
 
     /**
      * Test feature unique ID
@@ -228,7 +228,7 @@ public class TestFeatureLogCollection {
      * @return this
      */
     public synchronized TestScenarioLogCollection createScenarioIfNotExists(String featureId, String abstractScenarioId, String instanceId, String scenarioName) {
-        TestScenarioLogCollection testScenarioLogCollection = TestScenarioLogCollection
+        TestScenarioLogCollection testScenarioLog = TestScenarioLogCollection
                 .createTestScenarioLogCollection(
                         featureId,
                         abstractScenarioId,
@@ -237,11 +237,11 @@ public class TestFeatureLogCollection {
                 );
 
         // Check if log collection already has a scenario log collection with the given scenario ID
-        if (!this.testScenarioLogCollection.contains(testScenarioLogCollection)) {
-            this.testScenarioLogCollection.add(testScenarioLogCollection);
+        if (!this.testScenarioLogCollection.contains(testScenarioLog)) {
+            this.testScenarioLogCollection.add(testScenarioLog);
         }
 
-        return testScenarioLogCollection;
+        return testScenarioLog;
     }
 
     /**

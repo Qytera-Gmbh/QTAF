@@ -42,23 +42,32 @@ public final class WebService {
 
     private static Response wrapInRetry(Invocation request, URI path) {
         for (int i = 0; i < MAX_RETRIES; i++) {
+            if (i == 0) {
+                QtafFactory.getLogger().info(
+                        String.format(
+                                "[QTAF HTTP] Sending request to %s...",
+                                path
+                        )
+                );
+            }
             try {
                 return request.invoke();
             } catch (ProcessingException exception) {
                 if (i < MAX_RETRIES - 1) {
                     QtafFactory.getLogger().warn(
                             String.format(
-                                    "[QTAF HTTP] Request %s failed, retrying (%d/%d)... (reason: %s)",
+                                    "[QTAF HTTP] Request %s failed, sending attempt %d/%d... (reason: %s)",
                                     path,
-                                    i,
+                                    i + 2,
                                     MAX_RETRIES,
                                     exception
                             )
                     );
+                } else {
+                    QtafFactory.getLogger().error(String.format("[QTAF HTTP] Request %s failed.", request));
                 }
             }
         }
-        QtafFactory.getLogger().error(String.format("[QTAF HTTP] Request %s failed.", request));
         return null;
     }
 

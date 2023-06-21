@@ -73,7 +73,7 @@ public class StepLoggerSubscriber implements IEventSubscriber {
         // Create log message object
         StepInformationLogMessage logMessage = new StepInformationLogMessage(
                 className + "." + methodInvocation.getMethod().getName(),
-                "Step " + step.name() + "executed"
+                "Step " + step.name() + " executed"
         )
                 .setStep(step)
                 .setStart(new Date());
@@ -133,7 +133,6 @@ public class StepLoggerSubscriber implements IEventSubscriber {
         // Add information to log message
         logMessage
                 .setEnd(new Date())
-                .setDuration(logMessage.getEnd().getTime() - logMessage.getStart().getTime())
                 .setResult(stepExecutionInfo.getResult());
 
         if (SeleniumDriverConfigHelper.shouldTakeScreenshotsAfterStep()) {
@@ -159,7 +158,6 @@ public class StepLoggerSubscriber implements IEventSubscriber {
         // Add information to log message
         logMessage
                 .setEnd(new Date())
-                .setDuration(logMessage.getEnd().getTime() - logMessage.getStart().getTime())
                 .setError(stepExecutionInfo.getError());
 
         if (SeleniumDriverConfigHelper.shouldTakeScreenshotsAfterStep() ||

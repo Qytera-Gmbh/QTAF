@@ -2,7 +2,6 @@ package de.qytera.qtaf.core.log.model.error;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Error object class for error log messages
@@ -11,12 +10,17 @@ public class ErrorLog {
     /**
      * Error object
      */
-    protected transient Throwable error;
+    protected Throwable error;
 
     /**
      * Error type
      */
     protected String type = "";
+
+    /**
+     * Error message
+     */
+    protected String message;
 
     /**
      * Error type
@@ -31,6 +35,7 @@ public class ErrorLog {
     public ErrorLog(String message) {
         this.setError(new Exception(message));
         this.stack = null;
+        this.message = message;
     }
 
     /**
@@ -40,9 +45,10 @@ public class ErrorLog {
      */
     public ErrorLog(Throwable e) {
         this.setError(e);
+        this.message = e.getMessage();
         this.stack = Arrays.stream(e.getStackTrace())
                 .map(StackTraceElement::toString)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     /**
@@ -62,6 +68,26 @@ public class ErrorLog {
      */
     public ErrorLog setError(Throwable error) {
         this.error = error;
+        return this;
+    }
+
+    /**
+     * Get message
+     *
+     * @return message
+     */
+    public String message() {
+        return message;
+    }
+
+    /**
+     * Set message
+     *
+     * @param message Message
+     * @return this
+     */
+    public ErrorLog setMessage(String message) {
+        this.message = message;
         return this;
     }
 

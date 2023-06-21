@@ -19,7 +19,7 @@ public class TestNGContextPayloadTest {
 
         // Test original event class
         Assert.assertEquals(
-                payload.getOriginalEvent().getClass().getName(),
+                payload.getiTestContext().getClass().getName(),
                 iTestContext.getClass().getName()
         );
     }
@@ -31,7 +31,7 @@ public class TestNGContextPayloadTest {
 
         // Test equality
         Assert.assertEquals(
-                payload.getOriginalEvent(),
+                payload.getiTestContext(),
                 iTestContext
         );
 

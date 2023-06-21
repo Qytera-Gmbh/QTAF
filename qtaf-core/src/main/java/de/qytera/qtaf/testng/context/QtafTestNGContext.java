@@ -71,7 +71,7 @@ public abstract class QtafTestNGContext implements IQtafTestContext, AssertionCo
     /**
      * Constructor
      */
-    public QtafTestNGContext() {
+    protected QtafTestNGContext() {
         initialize();
     }
 
