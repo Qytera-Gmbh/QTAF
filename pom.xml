@@ -109,7 +109,55 @@
                             </execution>
                         </executions>
                     </plugin>
-                    <!-- A plugin for attach the delomboked source files to the build artifacts. -->
+                    <!-- A plugin for packaging the delomboked sources into a JAR file. -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <version>3.1.0</version>
+                        <executions>
+                            <execution>
+                                <id>generate-delomboked-sources-jar</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <target>
+                                        <jar
+                                                destfile="${project.build.directory}/${project.build.finalName}-sources.jar"
+                                                basedir="${delombokDirectory}"
+                                        />
+                                    </target>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <!-- A plugin for attaching the packaged sources to the overall build artifacts. -->
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>build-helper-maven-plugin</artifactId>
+                        <version>3.4.0</version>
+                        <executions>
+                            <execution>
+                                <id>attach-source-jar</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>attach-artifact</goal>
+                                </goals>
+                                <configuration>
+                                    <artifacts>
+                                        <artifact>
+                                            <file>${project.build.directory}/${project.build.finalName}-sources.jar
+                                            </file>
+                                            <type>jar</type>
+                                            <classifier>sources</classifier>
+                                        </artifact>
+                                    </artifacts>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <!-- A plugin for creating Javadoc files from the delombokized sources. -->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-source-plugin</artifactId>
