@@ -16,4 +16,9 @@ public class AWSEdge extends AbstractAWSDeviceFarmDriver {
         options.setCapability("ms:edgeChromium", true);
         return options;
     }
+
+    @Override
+    protected boolean isRemoteDriver() {
+        return true;
+    }
 }
