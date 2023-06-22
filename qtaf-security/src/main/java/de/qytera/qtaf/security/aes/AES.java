@@ -49,19 +49,19 @@ public class AES {
     /**
      * AES algorithm
      */
-    private static String SECRET_KEY_ALGORITHM = "PBKDF2WithHmacSHA512";
+    private static final String SECRET_KEY_ALGORITHM = "PBKDF2WithHmacSHA512";
 
     /**
      * Cipher transformation algorithm
      */
-    private static String CIPHER_TRANSFORMATION = "AES/CBC/PKCS5Padding";
+    private static final String CIPHER_TRANSFORMATION = "AES/GCM/NoPadding";
 
 
     /**
      * Encrypts string content using the provided passphrase.
      *
-     * @param plainText     the plaintext that should be encrypted
-     * @param key           the AES secret key
+     * @param plainText the plaintext that should be encrypted
+     * @param key       the AES secret key
      * @return the encrypted ciphertext
      * @throws GeneralSecurityException whenever encryption fails
      */
@@ -73,9 +73,9 @@ public class AES {
     /**
      * Encrypts string content using the provided passphrase.
      *
-     * @param plainText     the plaintext that should be encrypted
-     * @param key           the AES secret key
-     * @param salt          the salt
+     * @param plainText the plaintext that should be encrypted
+     * @param key       the AES secret key
+     * @param salt      the salt
      * @return the encrypted ciphertext
      * @throws GeneralSecurityException whenever encryption fails
      */
@@ -85,10 +85,10 @@ public class AES {
         Cipher pbeCipher = Cipher.getInstance(CIPHER_TRANSFORMATION);
         pbeCipher.init(Cipher.ENCRYPT_MODE, aesKey);
         AlgorithmParameters parameters = pbeCipher.getParameters();
-        IvParameterSpec ivParameterSpec = parameters.getParameterSpec(IvParameterSpec.class);
+        GCMParameterSpec gcmParameterSpec = parameters.getParameterSpec(GCMParameterSpec.class);
 
         byte[] cipherText = pbeCipher.doFinal(Objects.requireNonNull(plainText).getBytes(StandardCharsets.UTF_8));
-        byte[] iv = ivParameterSpec.getIV();
+        byte[] iv = gcmParameterSpec.getIV();
 
         return base64Encoder.encodeToString(salt) + ":" + base64Encoder.encodeToString(iv) + ":" + base64Encoder.encodeToString(cipherText);
     }
@@ -113,9 +113,22 @@ public class AES {
         );
 
         Cipher pbeCipher = Cipher.getInstance(CIPHER_TRANSFORMATION);
-        pbeCipher.init(Cipher.DECRYPT_MODE, aesKey, new IvParameterSpec(base64Decoder.decode(iv)));
-
-        return new String(pbeCipher.doFinal(base64Decoder.decode(content)), StandardCharsets.UTF_8);
+        AlgorithmParameters parameters = pbeCipher.getParameters();
+        GCMParameterSpec gcmParameterSpec = new GCMParameterSpec(
+                parameters.getParameterSpec(GCMParameterSpec.class).getTLen(),
+                base64Decoder.decode(iv)
+        );
+        pbeCipher.init(Cipher.DECRYPT_MODE, aesKey, gcmParameterSpec);
+        try {
+            return new String(pbeCipher.doFinal(base64Decoder.decode(content)), StandardCharsets.UTF_8);
+        } catch (BadPaddingException exception) {
+            throw new BadPaddingException(
+                    String.format(
+                            "%s Make sure you're using the correct key",
+                            exception.getMessage()
+                    )
+            );
+        }
     }
 
 
@@ -136,5 +149,4 @@ public class AES {
         SecretKey keyTmp = keyFactory.generateSecret(keySpec);
         return new SecretKeySpec(keyTmp.getEncoded(), "AES");
     }
-
 }
