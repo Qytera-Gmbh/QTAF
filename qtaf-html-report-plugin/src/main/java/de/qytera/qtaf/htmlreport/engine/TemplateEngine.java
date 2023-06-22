@@ -8,6 +8,9 @@ import io.pebbletemplates.pebble.template.PebbleTemplate;
  * Template file rendering engine
  */
 public class TemplateEngine {
+    private TemplateEngine() {
+    }
+
     /**
      * Pebble template rendering engine
      */

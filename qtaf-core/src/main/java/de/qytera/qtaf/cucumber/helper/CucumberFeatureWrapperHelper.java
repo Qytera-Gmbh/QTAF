@@ -8,6 +8,9 @@ import io.cucumber.testng.FeatureWrapper;
  * Helper class that provides methods to extract information from Cucumber feature wrapper objects
  */
 public class CucumberFeatureWrapperHelper {
+    private CucumberFeatureWrapperHelper() {
+    }
+
     /**
      * Get Feature object from FeatureWrapper object
      *

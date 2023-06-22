@@ -7,6 +7,9 @@ import org.testng.ITestResult;
  * Helper class for extracting attributes from TestResult objects
  */
 public class TestResultHelper {
+    private TestResultHelper() {
+    }
+
     /**
      * Get test context object
      *

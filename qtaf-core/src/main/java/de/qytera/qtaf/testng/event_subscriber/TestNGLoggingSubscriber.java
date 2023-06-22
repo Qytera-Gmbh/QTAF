@@ -61,6 +61,8 @@ public class TestNGLoggingSubscriber implements IEventSubscriber {
      * @param iQtafTestEventPayload Test context object
      * @deprecated
      */
+
+    @Deprecated
     private void onTestStarted(IQtafTestEventPayload iQtafTestEventPayload) {
         // Check if this listener is responsible for this event
         if (!(iQtafTestEventPayload.getOriginalEvent() instanceof ITestResult iTestResult)) {

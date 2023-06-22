@@ -11,17 +11,14 @@ import java.io.IOException;
  * Class that imports Test definitions from Xray API and saves them locally
  */
 public class XrayImporter {
-    private static XrayServerTestRepository repository = new XrayServerTestRepository();
+    private XrayImporter() {
+    }
+
+    private static final XrayServerTestRepository repository = new XrayServerTestRepository();
 
     public static void importTestAsFeature(String testId, String featureFilePath) throws IOException {
         XrayTestDto testDto = repository.findByTestId(testId);
         createFeatureFileFromSingleTest(testDto, featureFilePath);
-    }
-
-    public static void importTestSetAsFeature(String testSetId, String featureFilePath) throws IOException {
-        XrayTestDtoCollection testDtoCollection = repository.findByTestSetId(testSetId);
-        createFeatureFileFromTestSet(testSetId, testDtoCollection, featureFilePath);
-        ;
     }
 
     public static void createFeatureFileFromSingleTest(XrayTestDto testDto, String filePath) throws IOException {

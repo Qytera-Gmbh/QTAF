@@ -21,7 +21,7 @@ public class StepInformationLogMessage extends LogMessage {
     /**
      * Log message type
      */
-    private final String type = "STEP_LOG";
+    private static final String TYPE = "STEP_LOG";
 
     /**
      * Step name
@@ -31,7 +31,7 @@ public class StepInformationLogMessage extends LogMessage {
     /**
      * Step annotation
      */
-    private Step step = new Step();
+    private final Step step = new Step();
 
     /**
      * Step status
@@ -98,7 +98,6 @@ public class StepInformationLogMessage extends LogMessage {
         this.methodName = methodName;
     }
 
-    @Override
     protected void finalize() throws Throwable {
         QtafFactory.getLogger().warn("[StepLog] Destroying log message '" + getMessage() + "'");
         super.finalize();
@@ -190,16 +189,6 @@ public class StepInformationLogMessage extends LogMessage {
      *
      * @return true if an error occurred during method execution, false otherwise
      */
-    public boolean hasError() {
-        return this.error != null;
-    }
-
-    /**
-     * Set step error
-     *
-     * @param error step error
-     * @return this
-     */
     public StepInformationLogMessage setError(Throwable error) {
         this.error = new ThrowableWrapper(error);
         this.status = Status.ERROR;
@@ -223,8 +212,8 @@ public class StepInformationLogMessage extends LogMessage {
      *
      * @return type
      */
-    public String getType() {
-        return type;
+    public String getTYPE() {
+        return TYPE;
     }
 
     /**
@@ -309,17 +298,6 @@ public class StepInformationLogMessage extends LogMessage {
         }
 
         return 0;
-    }
-
-    /**
-     * Set duration
-     *
-     * @param duration Duration
-     * @return this
-     */
-    public StepInformationLogMessage setDuration(long duration) {
-        this.duration = duration;
-        return this;
     }
 
     /**

@@ -5,6 +5,11 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.IvParameterSpec;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
@@ -19,6 +24,7 @@ import java.util.Objects;
 /**
  * Class that provides methods for encryption and decryption with the AES algorithm
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class AES {
 
     /**

@@ -14,28 +14,33 @@
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
+        <!-- Dependency versions -->
+        <qtafVersion>0.0.9</qtafVersion>
+        <commonCSVVersion>1.10.0</commonCSVVersion>
+        <testNGVersion>7.8.0</testNGVersion>
     </properties>
 
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/de.qytera/qtaf-core -->
         <dependency>
             <groupId>de.qytera</groupId>
             <artifactId>qtaf-io</artifactId>
-            <version>0.1.0</version>
+            <version>${qtafVersion}</version>
             <scope>compile</scope>
         </dependency>
-
         <!-- CSV library -->
+        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-csv -->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-csv</artifactId>
-            <version>1.10.0</version>
+            <version>${commonCSVVersion}</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.testng/testng -->
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
-            <version>7.7.1</version>
+            <version>${testNGVersion}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
-
 </project>

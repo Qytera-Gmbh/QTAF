@@ -5,7 +5,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Helper methods for ITestContext implementations
@@ -20,7 +20,7 @@ public class TestContextHelper {
      */
     public static void addLoggerToFieldsRecursively(IQtafTestContext testContext) {
         // Get all declared fields of the test context class and its super classes
-        ArrayList<Field> fields = FieldHelper.getDeclaredFieldsRecursively(
+        List<Field> fields = FieldHelper.getDeclaredFieldsRecursively(
                 testContext.getClass()
         );
 
@@ -45,8 +45,7 @@ public class TestContextHelper {
                 Object fieldObject = field.get(testContext);
 
                 // Check if field is instance of TestContext
-                if (fieldObject instanceof IQtafTestContext) {
-                    IQtafTestContext fieldContext = (IQtafTestContext) fieldObject;
+                if (fieldObject instanceof IQtafTestContext fieldContext) {
                     fieldContext.setLogCollection(testContext.getLogCollection());
                 }
             } catch (IllegalAccessException e) {

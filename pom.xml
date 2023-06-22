@@ -23,7 +23,7 @@
     <developers>
         <developer>
             <name>Qytera Development</name>
-            <email>info@qytera.de</email>
+            <email>dev@qytera.de</email>
             <organization>Qytera Software Testing Solutions GmbH</organization>
             <organizationUrl>https://www.qytera.de/</organizationUrl>
         </developer>
@@ -51,11 +51,19 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <!-- versions -->
+        <!-- Dependency versions -->
+        <gpgPluginVersion>3.1.0</gpgPluginVersion>
+        <jacocoMavenPluginVersion>0.8.10</jacocoMavenPluginVersion>
+        <javaDocVersion>3.5.0</javaDocVersion>
         <lombokVersion>1.18.26</lombokVersion>
-        <mavenCompilerPluginVersion>3.11.0</mavenCompilerPluginVersion>
         <lombokPluginVersion>1.18.20.0</lombokPluginVersion>
-        <surefirePluginVersion>3.0.0</surefirePluginVersion>
+        <mavenAntRunVersion>3.1.0</mavenAntRunVersion>
+        <mavenBuildHelperVersion>3.4.0</mavenBuildHelperVersion>
+        <mavenCompilerPluginVersion>3.11.0</mavenCompilerPluginVersion>
+        <mavenJarPluginVersion>3.3.0</mavenJarPluginVersion>
+        <nexusStagingPluginVersion>1.6.13</nexusStagingPluginVersion>
+        <sonarMavenPluginVersion>3.9.1.2184</sonarMavenPluginVersion>
+        <surefirePluginVersion>3.1.2</surefirePluginVersion>
     </properties>
 
     <profiles>
@@ -83,6 +91,7 @@
             <build>
                 <plugins>
                     <!-- A plugin for transforming lombok-annotated classes back into vanilla Java. -->
+                    <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok-maven-plugin -->
                     <plugin>
                         <groupId>org.projectlombok</groupId>
                         <artifactId>lombok-maven-plugin</artifactId>
@@ -92,7 +101,6 @@
                             <outputDirectory>${delombokDirectory}</outputDirectory>
                             <addOutputDirectory>false</addOutputDirectory>
                             <encoding>UTF-8</encoding>
-                            <verbose>true</verbose>
                         </configuration>
                         <executions>
                             <execution>
@@ -130,7 +138,7 @@
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>build-helper-maven-plugin</artifactId>
-                        <version>3.3.0</version>
+                        <version>3.4.0</version>
                         <executions>
                             <execution>
                                 <id>attach-source-jar</id>
@@ -154,8 +162,58 @@
                     <!-- A plugin for creating Javadoc files from the delombokized sources. -->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <version>${mavenAntRunVersion}</version>
+                        <executions>
+                            <execution>
+                                <id>generate-delomboked-sources-jar</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <target>
+                                        <jar
+                                                destfile="${project.build.directory}/${project.build.finalName}-sources.jar"
+                                                basedir="${delombokDirectory}"
+                                        />
+                                    </target>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <!-- A plugin for attaching the packaged sources to the overall build artifacts. -->
+                    <!-- https://mvnrepository.com/artifact/org.codehaus.mojo/build-helper-maven-plugin -->
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>build-helper-maven-plugin</artifactId>
+                        <version>${mavenBuildHelperVersion}</version>
+                        <executions>
+                            <execution>
+                                <id>attach-source-jar</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>attach-artifact</goal>
+                                </goals>
+                                <configuration>
+                                    <artifacts>
+                                        <artifact>
+                                            <file>${project.build.directory}/${project.build.finalName}-sources.jar
+                                            </file>
+                                            <type>jar</type>
+                                            <classifier>sources</classifier>
+                                        </artifact>
+                                    </artifacts>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <!-- A plugin for creating Javadoc files from the delombokized sources. -->
+                    <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-javadoc-plugin -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>3.5.0</version>
+                        <version>${javaDocVersion}</version>
                         <executions>
                             <execution>
                                 <id>attach-javadocs</id>
@@ -171,9 +229,108 @@
                 </plugins>
             </build>
         </profile>
+        <!-- A profile for code quality. See: https://docs.sonarcloud.io/advanced-setup/ci-based-analysis/sonarscanner-for-maven/ -->
+        <profile>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <id>quality-profile</id>
+            <build>
+                <plugins>
+                    <!-- https://mvnrepository.com/artifact/org.jacoco/jacoco-maven-plugin -->
+                    <plugin>
+                        <groupId>org.jacoco</groupId>
+                        <artifactId>jacoco-maven-plugin</artifactId>
+                        <version>${jacocoMavenPluginVersion}</version>
+                        <executions>
+                            <execution>
+                                <id>prepare-agent</id>
+                                <goals>
+                                    <goal>prepare-agent</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>report</id>
+                                <goals>
+                                    <goal>report</goal>
+                                </goals>
+                                <configuration>
+                                    <formats>
+                                        <format>XML</format>
+                                    </formats>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <!-- https://mvnrepository.com/artifact/org.sonarsource.scanner.maven/sonar-maven-plugin -->
+                    <plugin>
+                        <groupId>org.sonarsource.scanner.maven</groupId>
+                        <artifactId>sonar-maven-plugin</artifactId>
+                        <version>${sonarMavenPluginVersion}</version>
+                        <configuration>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <!-- A profile for signing and deploying artifacts to Sonatype. -->
+        <profile>
+            <id>release-profile</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <!-- This maven plugin is responsible for generating the GPG signatures -->
+                    <plugin>
+                        <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-gpg-plugin -->
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>${gpgPluginVersion}</version>
+                        <executions>
+                            <execution>
+                                <id>sgn-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                                <configuration>
+                                    <keyname>0x643DE5DE</keyname>
+                                    <passphraseServerId>0x643DE5DE</passphraseServerId>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <!-- This maven plugin deploys the artifacts to OSSRH -->
+                    <!-- https://mvnrepository.com/artifact/org.sonatype.plugins/nexus-staging-maven-plugin -->
+                    <plugin>
+                        <groupId>org.sonatype.plugins</groupId>
+                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                        <version>${nexusStagingPluginVersion}</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <serverId>ossrh</serverId>
+                            <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
+                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+            <distributionManagement>
+                <snapshotRepository>
+                    <id>ossrh</id>
+                    <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+                </snapshotRepository>
+                <repository>
+                    <id>ossrh</id>
+                    <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+                </repository>
+            </distributionManagement>
+        </profile>
     </profiles>
 
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -189,9 +346,9 @@
                 <filtering>true</filtering>
             </resource>
         </resources>
-
-        <plugins>
+       <plugins>
             <!-- Plugin to compile the code -->
+            <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-compiler-plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -201,13 +358,12 @@
                     <target>${maven.compiler.target}</target>
                 </configuration>
             </plugin>
-
             <!-- Plugin to build a JAR file -->
+            <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-jar-plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>3.3.0</version>
-
+                <version>${mavenJarPluginVersion}</version>
                 <configuration>
                     <archive>
                         <manifest>
@@ -218,59 +374,13 @@
                     </archive>
                 </configuration>
             </plugin>
-
-            <!-- This maven plugin is responsible for generating the GPG signatures -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-gpg-plugin</artifactId>
-                <version>3.0.1</version>
-                <executions>
-                    <execution>
-                        <id>sgn-artifacts</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>sign</goal>
-                        </goals>
-                        <configuration>
-                            <keyname>0x643DE5DE</keyname>
-                            <passphraseServerId>0x643DE5DE</passphraseServerId>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <!-- This maven plugin deploys the artifacts to OSSRH -->
-            <plugin>
-                <groupId>org.sonatype.plugins</groupId>
-                <artifactId>nexus-staging-maven-plugin</artifactId>
-                <version>1.6.13</version>
-                <extensions>true</extensions>
-                <configuration>
-                    <serverId>ossrh</serverId>
-                    <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
-                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
-                </configuration>
-            </plugin>
-
             <!-- A plugin for running testng test (suites, groups, ...). -->
+            <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-surefire-plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${surefirePluginVersion}</version>
             </plugin>
-
-        </plugins>
+       </plugins>
     </build>
-
-    <distributionManagement>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-        <repository>
-            <id>ossrh</id>
-            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>
-    </distributionManagement>
-
 </project>
