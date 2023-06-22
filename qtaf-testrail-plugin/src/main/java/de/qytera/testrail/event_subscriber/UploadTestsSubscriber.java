@@ -131,16 +131,16 @@ public class UploadTestsSubscriber implements IEventSubscriber {
                                 TestRailManager.addResultForTestCase(client, caseId, testRailIdAnnotation.runId().runId, 5, "Failure found in: " + errorMessage);
                                 TestRailManager.addAttachementForTestCase(client, caseId, QtafFactory.getTestSuiteLogCollection().getLogDirectory() + "/Report.html");
                                 TestRailManager.addAttachementForTestCase(client, caseId, entry.getValue().get(0).getScreenshotAfter());
-                                System.out.println("Results are uploaded to testRail");
+                                QtafFactory.getLogger().info("Results are uploaded to testRail");
                             } catch (Exception e) {
-                                System.out.println(e);
+                                QtafFactory.getLogger().error(e);
                             }
                         }
                     } else if (entry.getValue().get(0).getStatus().equals(TestScenarioLogCollection.Status.SUCCESS)) {
                         Arrays.stream(testRailIdAnnotation.caseId()).forEach(caseId -> {
                             try {
                                 TestRailManager.addResultForTestCase(client, caseId, testRailIdAnnotation.runId().runId, 1, "");
-                                System.out.println("Results are uploaded to testRail");
+                                QtafFactory.getLogger().info("Results are uploaded to testRail");
                                 JSONObject att = TestRailManager.getAttachementForTestCase(client, caseId);
 
                                 if (att != null) {
@@ -148,7 +148,7 @@ public class UploadTestsSubscriber implements IEventSubscriber {
                                     List<JSONObject> attachementItems = IntStream.range(0, attachements.size())
                                             .mapToObj(index -> (JSONObject) attachements.get(index))
                                             .toList();
-                                    attachementItems.stream().forEach(x -> {
+                                    attachementItems.forEach(x -> {
                                         try {
                                             TestRailManager.deleteAttachementForTestCase(client, x.get("id").toString());
                                         } catch (Exception e) {
@@ -157,7 +157,7 @@ public class UploadTestsSubscriber implements IEventSubscriber {
                                     });
                                 }
                             } catch (Exception e) {
-                                System.out.println(e);
+                                QtafFactory.getLogger().error(e);
                             }
                         });
                     }

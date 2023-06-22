@@ -1,14 +1,16 @@
 package de.qytera.testrail.utils;
 
+import lombok.Data;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
 import java.io.*;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
+@Data
 public class APIClient
 {
     private String m_user;
@@ -26,93 +28,43 @@ public class APIClient
     }
 
     /**
-     * Get/Set User
-     *
-     * Returns/sets the user used for authenticating the API requests.
-     */
-    public String getUser()
-    {
-        return this.m_user;
-    }
-
-    public void setUser(String user)
-    {
-        this.m_user = user;
-    }
-
-    /**
-     * Get/Set Password
-     *
-     * Returns/sets the password used for authenticating the API requests.
-     */
-    public String getPassword()
-    {
-        return this.m_password;
-    }
-
-    public void setPassword(String password)
-    {
-        this.m_password = password;
-    }
-
-    /**
-     * Send Get
-     *
-     * Issues a GET request (read) against the API and returns the result
-     * (as Object, see below).
-     *
-     * Arguments:
-     *
-     * uri                  The API method to call including parameters
-     *                      (e.g. get_case/1)
-     *
-     * Returns the parsed JSON response as standard object which can
-     * either be an instance of JSONObject or JSONArray (depending on the
-     * API method). In most cases, this returns a JSONObject instance which
-     * is basically the same as java.util.Map.
-     *
-     * If 'get_attachment/:attachment_id', returns a String
+     * Issues a GET request (write) against the API and returns the result (as Object, see below).
+     * @param uri       The API method to call including parameters
+     * @param data      The data to submit as part of the request (e.g., a map) If adding an attachment, must be the path to the file
+     * @return Returns the parsed JSON response as standard object which can either be an instance of JSONObject or JSONArray
+     * (depending on the API method). In most cases, this returns a JSONObject instance which is basically the same as java.util.Map.
+     * @throws IOException
+     * @throws APIException
      */
     public Object sendGet(String uri, String data)
-            throws MalformedURLException, IOException, APIException
+            throws IOException, APIException
     {
         return this.sendRequest("GET", uri, data);
     }
 
     public Object sendGet(String uri)
-            throws MalformedURLException, IOException, APIException
+            throws IOException, APIException
     {
         return this.sendRequest("GET", uri, null);
     }
 
     /**
-     * Send POST
-     *
-     * Issues a POST request (write) against the API and returns the result
-     * (as Object, see below).
-     *
-     * Arguments:
-     *
-     * uri                  The API method to call including parameters
-     *                      (e.g. add_case/1)
-     * data                 The data to submit as part of the request (e.g.,
-     *                      a map)
-     *                      If adding an attachment, must be the path
-     *                      to the file
-     *
-     * Returns the parsed JSON response as standard object which can
-     * either be an instance of JSONObject or JSONArray (depending on the
-     * API method). In most cases, this returns a JSONObject instance which
-     * is basically the same as java.util.Map.
+     * Issues a POST request (write) against the API and returns the result (as Object, see below).
+     * @param uri       The API method to call including parameters
+     * @param data      The data to submit as part of the request (e.g., a map) If adding an attachment, must be the path to the file
+     * @return Returns the parsed JSON response as standard object which can either be an instance of JSONObject or JSONArray
+     * (depending on the API method). In most cases, this returns a JSONObject instance which is basically the same as java.util.Map.
+     * @throws IOException
+     * @throws APIException
      */
     public Object sendPost(String uri, Object data)
-            throws MalformedURLException, IOException, APIException
+            throws IOException, APIException
     {
         return this.sendRequest("POST", uri, data);
     }
 
     private Object sendRequest(String method, String uri, Object data)
-            throws MalformedURLException, IOException, APIException
+            throws IOException, APIException
     {
         URL url = new URL(this.m_url + uri);
         // Create the connection object and set the required HTTP method
@@ -138,34 +90,30 @@ public class APIClient
                     conn.setDoOutput(true);
                     conn.addRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
 
-                    OutputStream ostreamBody = conn.getOutputStream();
-                    BufferedWriter bodyWriter = new BufferedWriter(new OutputStreamWriter(ostreamBody));
+                    try (OutputStream ostreamBody = conn.getOutputStream()) {
+                        try (BufferedWriter bodyWriter = new BufferedWriter(new OutputStreamWriter(ostreamBody))) {
+                            bodyWriter.write("\n\n--" + boundary + "\r\n");
+                            bodyWriter.write("Content-Disposition: form-data; name=\"attachment\"; filename=\""
+                                    + uploadFile.getName() + "\"");
+                            bodyWriter.write("\r\n\r\n");
+                            bodyWriter.flush();
 
-                    bodyWriter.write("\n\n--" + boundary + "\r\n");
-                    bodyWriter.write("Content-Disposition: form-data; name=\"attachment\"; filename=\""
-                            + uploadFile.getName() + "\"");
-                    bodyWriter.write("\r\n\r\n");
-                    bodyWriter.flush();
+                            //Read file into request
+                            try (InputStream istreamFile = new FileInputStream(uploadFile)) {
+                                int bytesRead;
+                                byte[] dataBuffer = new byte[1024];
+                                while ((bytesRead = istreamFile.read(dataBuffer)) != -1) {
+                                    ostreamBody.write(dataBuffer, 0, bytesRead);
+                                }
 
-                    //Read file into request
-                    InputStream istreamFile = new FileInputStream(uploadFile);
-                    int bytesRead;
-                    byte[] dataBuffer = new byte[1024];
-                    while ((bytesRead = istreamFile.read(dataBuffer)) != -1)
-                    {
-                        ostreamBody.write(dataBuffer, 0, bytesRead);
+                                ostreamBody.flush();
+
+                                //end of attachment, add boundary
+                                bodyWriter.write("\r\n--" + boundary + "--\r\n");
+                            }
+
+                        }
                     }
-
-                    ostreamBody.flush();
-
-                    //end of attachment, add boundary
-                    bodyWriter.write("\r\n--" + boundary + "--\r\n");
-                    bodyWriter.flush();
-
-                    //Close streams
-                    istreamFile.close();
-                    ostreamBody.close();
-                    bodyWriter.close();
                 }
                 else	// Not an attachment
                 {
@@ -233,7 +181,7 @@ public class APIClient
             BufferedReader reader = new BufferedReader(
                     new InputStreamReader(
                             istream,
-                            "UTF-8"
+                            StandardCharsets.UTF_8
                     )
             );
 
