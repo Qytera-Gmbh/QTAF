@@ -81,8 +81,8 @@ public class UploadTestsSubscriber implements IEventSubscriber {
 
             // Initialize client
             client = new APIClient(url);
-            client.setUser(AES.decrypt(clientId, key));
-            client.setPassword(AES.decrypt(clientSecret, key));
+            client.setM_user(AES.decrypt(clientId, key));
+            client.setM_password(AES.decrypt(clientSecret, key));
             return client;
         } catch (GeneralSecurityException e) {
             throw new RuntimeException(e);
