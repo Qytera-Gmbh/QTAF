@@ -159,18 +159,17 @@ public class APIClient
         if ((istream != null)
                 && (uri.startsWith("get_attachment/")))
         {
-            FileOutputStream outputStream = new FileOutputStream((String)data);
-
-            int bytesRead = 0;
-            byte[] buffer = new byte[1024];
-            while ((bytesRead = istream.read(buffer)) > 0)
-            {
-                outputStream.write(buffer, 0, bytesRead);
+            assert data != null;
+            try (FileOutputStream outputStream = new FileOutputStream((String) data)) {
+                int bytesRead = 0;
+                byte[] buffer = new byte[1024];
+                while ((bytesRead = istream.read(buffer)) > 0)
+                {
+                    outputStream.write(buffer, 0, bytesRead);
+                }
             }
-
-            outputStream.close();
             istream.close();
-            return (String) data;
+            return data;
         }
 
         // Not an attachment received
