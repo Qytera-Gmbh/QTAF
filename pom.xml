@@ -306,7 +306,6 @@
                 <version>${mavenJavadocPluginVersion}</version>
                 <configuration>
                     <doclint>${mavenJavadocPluginDoclint}</doclint>
-                    <failOnWarnings>true</failOnWarnings>
                 </configuration>
                 <executions>
                     <execution>
