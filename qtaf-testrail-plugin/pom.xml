@@ -15,6 +15,8 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <mockitoVersion>5.4.0</mockitoVersion>
+        <argLine>--add-opens java.base/java.lang=ALL-UNNAMED</argLine>
     </properties>
 
     <dependencies>
@@ -23,6 +25,13 @@
             <artifactId>qtaf-core</artifactId>
             <version>0.1.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>5.4.0</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
 </project>

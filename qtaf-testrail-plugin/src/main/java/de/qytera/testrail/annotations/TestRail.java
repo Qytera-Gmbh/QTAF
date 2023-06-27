@@ -11,5 +11,5 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 public @interface TestRail {
     String[] caseId() default "";
-    RunIds runId();
+    String runId();
 }

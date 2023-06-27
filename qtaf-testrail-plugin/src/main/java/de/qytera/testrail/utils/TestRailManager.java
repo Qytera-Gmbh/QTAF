@@ -14,15 +14,15 @@ public class   TestRailManager {
         client.sendPost("add_result_for_case/" + runId + "/" + caseId + "", data);
     }
 
-    public static void addAttachementForTestCase(APIClient client, String testCaseId, String path) throws APIException, IOException {
+    public static void addAttachmentForTestCase(APIClient client, String testCaseId, String path) throws APIException, IOException {
         client.sendPost("add_attachment_to_case/" + testCaseId, path);
     }
 
-    public static void deleteAttachementForTestCase(APIClient client, String attachementId) throws APIException, IOException {
-        client.sendPost("delete_attachment/" + attachementId, "");
+    public static void deleteAttachmentForTestCase(APIClient client, String attachmentId) throws APIException, IOException {
+        client.sendPost("delete_attachment/" + attachmentId, "");
     }
 
-    public static JSONObject getAttachementForTestCase(APIClient client, String testCaseId) throws APIException, IOException {
+    public static JSONObject getAttachmentForTestCase(APIClient client, String testCaseId) throws APIException, IOException {
         return (JSONObject) client.sendGet("get_attachments_for_case/" + testCaseId);
     }
 }
