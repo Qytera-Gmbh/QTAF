@@ -2,7 +2,6 @@ package de.qytera.testrail.event_subscriber;
 
 import de.qytera.qtaf.core.QtafFactory;
 import de.qytera.qtaf.core.config.entity.ConfigMap;
-import de.qytera.qtaf.core.events.QtafEvents;
 import de.qytera.qtaf.core.log.model.collection.TestFeatureLogCollection;
 import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
 import de.qytera.qtaf.core.log.model.collection.TestSuiteLogCollection;
@@ -13,7 +12,6 @@ import de.qytera.testrail.annotations.TestRail;
 import de.qytera.testrail.config.TestRailConfigHelper;
 import de.qytera.testrail.utils.APIClient;
 import de.qytera.testrail.utils.TestRailManager;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -22,13 +20,10 @@ import org.mockito.Mockito;
 import org.openqa.selenium.InvalidArgumentException;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import rx.subjects.PublishSubject;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.security.GeneralSecurityException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -180,6 +175,7 @@ public class UploadTestsSubscriberTest {
 
         // Clear all indices
         IndexHelper.clearAllIndices();
+        logCollectionMock.clearCollection();
     }
 
     @Test(description = "Test the onFinishedTesting event handler with pending scenario")
@@ -218,6 +214,7 @@ public class UploadTestsSubscriberTest {
 
         // Clear all indices
         IndexHelper.clearAllIndices();
+        suite.clearCollection();
     }
 
     @Test(description = "Test the onFinishedTesting event handler with successful scenario")
@@ -238,8 +235,8 @@ public class UploadTestsSubscriberTest {
         IndexHelper.clearAllIndices();
 
         // Build log collection
-        TestFeatureLogCollection feature1 = TestFeatureLogCollection.createFeatureLogCollectionIfNotExists("f1", "feature1");
-        TestScenarioLogCollection scenario1 = TestScenarioLogCollection.createTestScenarioLogCollection("f1", "s1", "i1", "scenario1");
+        TestFeatureLogCollection feature1 = TestFeatureLogCollection.createFeatureLogCollectionIfNotExists("f2", "feature2");
+        TestScenarioLogCollection scenario1 = TestScenarioLogCollection.createTestScenarioLogCollection("f2", "s2", "i1", "scenario2");
         scenario1.setAnnotations(new Annotation[] {testRailAnnotation});
         scenario1.setStatus(TestScenarioLogCollection.Status.SUCCESS);
         feature1.addScenarioLogCollection(scenario1);
@@ -260,6 +257,7 @@ public class UploadTestsSubscriberTest {
 
         // Clear all indices
         IndexHelper.clearAllIndices();
+        suite.clearCollection();
     }
 
     @Test(description = "Test the onFinishedTesting event handler with failed scenario")
@@ -286,6 +284,7 @@ public class UploadTestsSubscriberTest {
         scenario1.setStatus(TestScenarioLogCollection.Status.FAILURE);
         feature1.addScenarioLogCollection(scenario1);
         TestSuiteLogCollection suite = TestSuiteLogCollection.getInstance();
+        suite.clearCollection();
         suite.addTestClassLogCollection(feature1);
 
         // Test Subscriber
@@ -302,6 +301,7 @@ public class UploadTestsSubscriberTest {
 
         // Clear all indices
         IndexHelper.clearAllIndices();
+        suite.clearCollection();
     }
 
     @Test(description = "Test the onFinishedTesting event handler")
