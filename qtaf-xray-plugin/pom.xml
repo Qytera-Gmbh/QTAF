@@ -5,19 +5,16 @@
     <parent>
         <groupId>de.qytera</groupId>
         <artifactId>qtaf</artifactId>
-        <version>0.1.0</version>
+        <version>0.0.9</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>qtaf-xray-plugin</artifactId>
 
-
-
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <!-- Dependency versions -->
-        <qtafVersion>0.0.9</qtafVersion>
         <mockitoVersion>1.10.19</mockitoVersion>
     </properties>
 
@@ -26,21 +23,21 @@
         <dependency>
             <groupId>de.qytera</groupId>
             <artifactId>qtaf-core</artifactId>
-            <version>0.1.0</version>
+            <version>${project.parent.version}</version>
             <scope>compile</scope>
         </dependency>
         <!-- https://mvnrepository.com/artifact/de.qytera/qtaf-html-report-plugin -->
         <dependency>
             <groupId>de.qytera</groupId>
             <artifactId>qtaf-html-report-plugin</artifactId>
-            <version>0.1.0</version>
+            <version>${project.parent.version}</version>
             <scope>compile</scope>
         </dependency>
         <!-- https://mvnrepository.com/artifact/de.qytera/qtaf-http -->
         <dependency>
             <groupId>de.qytera</groupId>
             <artifactId>qtaf-http</artifactId>
-            <version>0.1.0</version>
+            <version>${project.parent.version}</version>
             <scope>compile</scope>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.mockito/mockito-all -->
