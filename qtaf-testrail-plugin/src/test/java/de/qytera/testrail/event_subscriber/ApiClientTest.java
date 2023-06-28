@@ -1,5 +1,7 @@
-package de.qytera.testrail.utils;
+package de.qytera.testrail.event_subscriber;
 
+import de.qytera.testrail.utils.APIClient;
+import de.qytera.testrail.utils.APIException;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

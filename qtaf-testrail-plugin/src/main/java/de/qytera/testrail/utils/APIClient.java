@@ -3,6 +3,7 @@ package de.qytera.testrail.utils;
 import lombok.Data;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
+import org.openqa.selenium.InvalidArgumentException;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -19,6 +20,9 @@ public class APIClient
 
     public APIClient(String base_url)
     {
+        if (base_url == null) {
+            throw new InvalidArgumentException("Testrail Base URL is null, please set the value in your configuration file");
+        }
         if (!base_url.endsWith("/"))
         {
             base_url += "/";

@@ -158,13 +158,13 @@ public class UploadTestsSubscriber implements IEventSubscriber {
      */
     public void handleScenarioFailure(Map.Entry<String, List<TestScenarioLogCollection>> entry, TestRail testRailIdAnnotation) {
         Supplier<Stream<LogMessage>> logMessagesStream = () -> entry.getValue().get(0).getLogMessages().stream().filter(x -> x instanceof StepInformationLogMessage);
-        var isErrorMessageFound = logMessagesStream.get().filter(d -> ((StepInformationLogMessage) d).getStatus().equals(StepInformationLogMessage.Status.ERROR)).map(n -> n.getMessage()).findFirst().isPresent();
+        boolean isErrorMessageFound = logMessagesStream.get().filter(d -> ((StepInformationLogMessage) d).getStatus().equals(StepInformationLogMessage.Status.ERROR)).map(n -> n.getMessage()).findFirst().isPresent();
 
         String errorMessage = null;
 
         if (!isErrorMessageFound) {
-            var count = logMessagesStream.get().map(n -> n.getMessage()).count();
-            errorMessage = logMessagesStream.get().map(n -> n.getMessage()).skip(count - 1).findFirst().get();
+            long count = logMessagesStream.get().map(LogMessage::getMessage).count();
+            errorMessage = logMessagesStream.get().map(LogMessage::getMessage).skip(count - 1).findFirst().get();
         } else {
             errorMessage = logMessagesStream.get().filter(d -> ((StepInformationLogMessage) d).getStatus().equals(StepInformationLogMessage.Status.ERROR)).map(n -> n.getMessage()).findFirst().get();
         }
