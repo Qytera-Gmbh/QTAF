@@ -98,7 +98,7 @@ public class UploadTestsSubscriberTest {
     @Test(
             description = "Test the setup function with a wrong security key",
             expectedExceptions = {RuntimeException.class},
-            expectedExceptionsMessageRegExp = "javax.crypto.BadPaddingException: Tag mismatch! Make sure you're using the correct key(.*)"
+            expectedExceptionsMessageRegExp = "javax.crypto.BadPaddingException: Tag mismatch(.+) Make sure you're using the correct key(.*)"
     )
     public void testClientSetupWrongSecurityKey() throws GeneralSecurityException {
         ConfigMap config = QtafFactory.getConfiguration();
