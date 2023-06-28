@@ -14,9 +14,9 @@ import java.util.Base64;
 @Data
 public class APIClient
 {
-    private String m_user;
-    private String m_password;
-    private String m_url;
+    String m_user;
+    String m_password;
+    String m_url;
 
     public APIClient(String base_url)
     {
@@ -67,7 +67,7 @@ public class APIClient
         return this.sendRequest("POST", uri, data);
     }
 
-    private Object sendRequest(String method, String uri, Object data)
+    Object sendRequest(String method, String uri, Object data)
             throws IOException, APIException
     {
         URL url = new URL(this.m_url + uri);
@@ -94,14 +94,7 @@ public class APIClient
         InputStream stream;
         if (status != 200)
         {
-            stream = conn.getErrorStream();
-            if (stream == null)
-            {
-                throw new APIException(
-                        "TestRail API return HTTP " + status +
-                                " (No additional error message received)"
-                );
-            }
+            stream = handleStatus200(conn, status);
         }
         else
         {
@@ -112,17 +105,7 @@ public class APIClient
         if ((stream != null)
                 && (uri.startsWith("get_attachment/")))
         {
-            assert data != null;
-            try (FileOutputStream outputStream = new FileOutputStream((String) data)) {
-                int bytesRead = 0;
-                byte[] buffer = new byte[1024];
-                while ((bytesRead = stream.read(buffer)) > 0)
-                {
-                    outputStream.write(buffer, 0, bytesRead);
-                }
-            }
-            stream.close();
-            return data;
+            return handleGetAttachmentEndpoint(data, stream);
         }
 
         // Not an attachment received
@@ -130,25 +113,11 @@ public class APIClient
         String text = "";
         if (stream != null)
         {
-            BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(
-                            stream,
-                            StandardCharsets.UTF_8
-                    )
-            );
-
-            String line;
-            while ((line = reader.readLine()) != null)
-            {
-                text += line;
-                text += System.getProperty("line.separator");
-            }
-
-            reader.close();
+            text = handleDefaultEndpoint(stream, text);
         }
 
         Object result;
-        if (!text.equals(""))
+        if (text != null && !text.equals(""))
         {
             result = JSONValue.parse(text);
         }
@@ -168,7 +137,53 @@ public class APIClient
         return result;
     }
 
-    private static void handleStatusNot200(int status, Object result) throws APIException {
+    static String handleDefaultEndpoint(InputStream stream, String text) throws IOException {
+        BufferedReader reader = new BufferedReader(
+                new InputStreamReader(
+                        stream,
+                        StandardCharsets.UTF_8
+                )
+        );
+
+        String line;
+        while ((line = reader.readLine()) != null)
+        {
+            text += line;
+            text += System.getProperty("line.separator");
+        }
+
+        reader.close();
+        return text;
+    }
+
+    static Object handleGetAttachmentEndpoint(Object data, InputStream stream) throws IOException {
+        assert data != null;
+        try (FileOutputStream outputStream = new FileOutputStream((String) data)) {
+            int bytesRead = 0;
+            byte[] buffer = new byte[1024];
+            while ((bytesRead = stream.read(buffer)) > 0)
+            {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+        }
+        stream.close();
+        return data;
+    }
+
+    static InputStream handleStatus200(HttpURLConnection conn, int status) throws APIException {
+        InputStream stream;
+        stream = conn.getErrorStream();
+        if (stream == null)
+        {
+            throw new APIException(
+                    "TestRail API return HTTP " + status +
+                            " (No additional error message received)"
+            );
+        }
+        return stream;
+    }
+
+    static void handleStatusNot200(int status, Object result) throws APIException {
         String error = "No additional error message received";
         if (result != null && result instanceof JSONObject)
         {
@@ -185,16 +200,16 @@ public class APIClient
         );
     }
 
-    private void addAuthorizationHeader(HttpURLConnection conn) {
+    void addAuthorizationHeader(HttpURLConnection conn) {
         String auth = getAuthorization(this.m_user, this.m_password);
         conn.addRequestProperty("Authorization", "Basic " + auth);
     }
 
-    private static void sendGetRequest(HttpURLConnection conn) {
+    static void sendGetRequest(HttpURLConnection conn) {
         conn.addRequestProperty("Content-Type", "application/json");
     }
 
-    private static void sendPostRequest(String uri, Object data, HttpURLConnection conn) throws IOException {
+    static void sendPostRequest(String uri, Object data, HttpURLConnection conn) throws IOException {
         conn.setRequestMethod("POST");
         // Add the POST arguments, if any. We just serialize the passed
         // data object (i.e. a dictionary) and then add it to the
@@ -212,7 +227,7 @@ public class APIClient
         }
     }
 
-    private static void sendAttachment(String data, HttpURLConnection conn) throws IOException {
+    static void sendAttachment(String data, HttpURLConnection conn) throws IOException {
         String boundary = "TestRailAPIAttachmentBoundary"; //Can be any random string
         File uploadFile = new File(data);
 
@@ -245,7 +260,7 @@ public class APIClient
         }
     }
 
-    private static void sendJson(Object data, HttpURLConnection conn) throws IOException {
+    static void sendJson(Object data, HttpURLConnection conn) throws IOException {
         sendGetRequest(conn);
         byte[] block = JSONValue.toJSONString(data).
                 getBytes("UTF-8");
@@ -256,7 +271,7 @@ public class APIClient
         ostream.close();
     }
 
-    private static String getAuthorization(String user, String password)
+    static String getAuthorization(String user, String password)
     {
         try
         {
