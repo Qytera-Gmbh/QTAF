@@ -36,7 +36,7 @@ public class UploadTestsSubscriber implements IEventSubscriber {
     /**
      * QTAF Event Subscription
      */
-    private Subscription testFinishedSubscription;
+    Subscription testFinishedSubscription;
 
     /**
      * Configuration
@@ -46,7 +46,7 @@ public class UploadTestsSubscriber implements IEventSubscriber {
     /**
      * testRail API client
      */
-    private APIClient client = null;
+    APIClient client = null;
 
     @Override
     public void initialize() {
@@ -99,9 +99,9 @@ public class UploadTestsSubscriber implements IEventSubscriber {
         }
 
         client = setUpClient();
-        TestSuiteLogCollection instance = TestSuiteLogCollection.getInstance();
+        TestSuiteLogCollection logCollection = TestSuiteLogCollection.getInstance();
 
-        for (TestFeatureLogCollection testFeatureLogCollection : instance.getTestFeatureLogCollections()) {
+        for (TestFeatureLogCollection testFeatureLogCollection : logCollection.getTestFeatureLogCollections()) {
 
             Map<String, List<TestScenarioLogCollection>> groupedScenarioLogs = testFeatureLogCollection.getScenariosGroupedByAbstractScenarioId();
 

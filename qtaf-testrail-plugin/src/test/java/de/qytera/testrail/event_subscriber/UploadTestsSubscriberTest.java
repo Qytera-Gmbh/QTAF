@@ -2,6 +2,8 @@ package de.qytera.testrail.event_subscriber;
 
 import de.qytera.qtaf.core.QtafFactory;
 import de.qytera.qtaf.core.config.entity.ConfigMap;
+import de.qytera.qtaf.core.events.QtafEvents;
+import de.qytera.qtaf.core.log.model.collection.TestFeatureLogCollection;
 import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
 import de.qytera.qtaf.core.log.model.collection.TestSuiteLogCollection;
 import de.qytera.qtaf.core.log.model.index.IndexHelper;
@@ -11,15 +13,22 @@ import de.qytera.testrail.annotations.TestRail;
 import de.qytera.testrail.config.TestRailConfigHelper;
 import de.qytera.testrail.utils.APIClient;
 import de.qytera.testrail.utils.TestRailManager;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.openqa.selenium.InvalidArgumentException;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import rx.subjects.PublishSubject;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.security.GeneralSecurityException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -27,6 +36,15 @@ import java.util.Map;
  * Testrail upload subscriber tests
  */
 public class UploadTestsSubscriberTest {
+
+    @Test(description = "Test initialization")
+    public void testInitialization() {
+        UploadTestsSubscriber subscriber = new UploadTestsSubscriber();
+        subscriber.initialize();
+        Assert.assertNotNull(subscriber.testFinishedSubscription);
+        subscriber.testFinishedSubscription.unsubscribe();
+    }
+
     @Test(description = "Test the setup function")
     public void testClientSetup() throws GeneralSecurityException {
         ConfigMap config = QtafFactory.getConfiguration();
@@ -140,15 +158,150 @@ public class UploadTestsSubscriberTest {
         config.setString(TestRailConfigHelper.SECURITY_KEY, "my-key");
         config.setBoolean(TestRailConfigHelper.TESTRAIL_ENABLED, true);
 
-        TestSuiteLogCollection logCollection = Mockito.mock(TestSuiteLogCollection.class);
+        // Clear all indices
+        IndexHelper.clearAllIndices();
+
+        // Create log collection mock
+        TestSuiteLogCollection logCollectionMock = Mockito.mock(TestSuiteLogCollection.class);
 
         try (MockedStatic<TestSuiteLogCollection> suiteLogCollectionMock = Mockito.mockStatic(TestSuiteLogCollection.class)) {
-            suiteLogCollectionMock.when(TestSuiteLogCollection::getInstance).thenReturn(logCollection);
+            TestFeatureLogCollection feature1 = TestFeatureLogCollection.createFeatureLogCollectionIfNotExists("f1", "feature1");
+            feature1.addScenarioLogCollection(
+                    TestScenarioLogCollection.createTestScenarioLogCollection("f1", "s1", "i1", "scenario1")
+            );
+            logCollectionMock.addTestClassLogCollection(feature1);
+            suiteLogCollectionMock.when(TestSuiteLogCollection::getInstance).thenReturn(logCollectionMock);
+
             UploadTestsSubscriber subscriber = new UploadTestsSubscriber();
             subscriber.setUpClient();
             subscriber.onFinishedTesting("");
-            Mockito.verify(logCollection, Mockito.times(1)).getTestFeatureLogCollections();
+            Mockito.verify(logCollectionMock, Mockito.times(1)).getTestFeatureLogCollections();
         }
+
+        // Clear all indices
+        IndexHelper.clearAllIndices();
+    }
+
+    @Test(description = "Test the onFinishedTesting event handler with pending scenario")
+    public void testOnFinishedTestingActivatedWithPendingScenario() throws GeneralSecurityException, NoSuchMethodException {
+        ConfigMap config = QtafFactory.getConfiguration();
+        config.setString(TestRailConfigHelper.TESTRAIL_URL, "http://www.inet.com");
+        config.setString(TestRailConfigHelper.TESTRAIL_AUTHENTICATION_CLIENT_ID, AES.encrypt("Jane", "my-key"));
+        config.setString(TestRailConfigHelper.TESTRAIL_AUTHENTICATION_CLIENT_SECRET, AES.encrypt("mypass", "my-key"));
+        config.setString(TestRailConfigHelper.SECURITY_KEY, "my-key");
+        config.setBoolean(TestRailConfigHelper.TESTRAIL_ENABLED, true);
+
+        // Build demo scenario
+        DemoScenario demoScenario = new DemoScenario();
+        Method method = demoScenario.getClass().getMethod("demoTestMethod");
+        TestRail testRailAnnotation = method.getAnnotation(TestRail.class);
+
+        // Clear all indices
+        IndexHelper.clearAllIndices();
+
+        // Build log collection
+        TestFeatureLogCollection feature1 = TestFeatureLogCollection.createFeatureLogCollectionIfNotExists("f1", "feature1");
+        TestScenarioLogCollection scenario1 = TestScenarioLogCollection.createTestScenarioLogCollection("f1", "s1", "i1", "scenario1");
+        scenario1.setAnnotations(new Annotation[] {testRailAnnotation});
+        feature1.addScenarioLogCollection(scenario1);
+        TestSuiteLogCollection suite = TestSuiteLogCollection.getInstance();
+        suite.addTestClassLogCollection(feature1);
+
+        // Test Subscriber
+        UploadTestsSubscriber subscriber = Mockito.mock(UploadTestsSubscriber.class);
+        subscriber.setUpClient();
+        subscriber.onFinishedTesting("");
+
+        // We set no status for the scenario log, so both handlers shouldn't be called
+        Mockito.verify(subscriber, Mockito.times(0)).handleScenarioSuccess(Mockito.any());
+        Mockito.verify(subscriber, Mockito.times(0)).handleScenarioFailure(Mockito.any(), Mockito.any());
+
+        // Clear all indices
+        IndexHelper.clearAllIndices();
+    }
+
+    @Test(description = "Test the onFinishedTesting event handler with successful scenario")
+    public void testOnFinishedTestingActivatedWithSuccessfulScenario() throws GeneralSecurityException, NoSuchMethodException, NoSuchFieldException, IllegalAccessException {
+        ConfigMap config = QtafFactory.getConfiguration();
+        config.setString(TestRailConfigHelper.TESTRAIL_URL, "http://www.inet.com");
+        config.setString(TestRailConfigHelper.TESTRAIL_AUTHENTICATION_CLIENT_ID, AES.encrypt("Jane", "my-key"));
+        config.setString(TestRailConfigHelper.TESTRAIL_AUTHENTICATION_CLIENT_SECRET, AES.encrypt("mypass", "my-key"));
+        config.setString(TestRailConfigHelper.SECURITY_KEY, "my-key");
+        config.setBoolean(TestRailConfigHelper.TESTRAIL_ENABLED, true);
+
+        // Build demo scenario
+        DemoScenario demoScenario = new DemoScenario();
+        Method method = demoScenario.getClass().getMethod("demoTestMethod");
+        TestRail testRailAnnotation = method.getAnnotation(TestRail.class);
+
+        // Clear all indices
+        IndexHelper.clearAllIndices();
+
+        // Build log collection
+        TestFeatureLogCollection feature1 = TestFeatureLogCollection.createFeatureLogCollectionIfNotExists("f1", "feature1");
+        TestScenarioLogCollection scenario1 = TestScenarioLogCollection.createTestScenarioLogCollection("f1", "s1", "i1", "scenario1");
+        scenario1.setAnnotations(new Annotation[] {testRailAnnotation});
+        scenario1.setStatus(TestScenarioLogCollection.Status.SUCCESS);
+        feature1.addScenarioLogCollection(scenario1);
+        TestSuiteLogCollection suite = TestSuiteLogCollection.getInstance();
+        suite.addTestClassLogCollection(feature1);
+
+        // Test Subscriber
+        UploadTestsSubscriber subscriber = Mockito.mock(UploadTestsSubscriber.class);
+        Mockito.doCallRealMethod().when(subscriber).setUpClient();
+        Mockito.doCallRealMethod().when(subscriber).onFinishedTesting(Mockito.any());
+        subscriber.config = config;
+        subscriber.setUpClient();
+        subscriber.onFinishedTesting("");
+
+        // We set no status for the scenario log, so both handlers shouldn't be called
+        Mockito.verify(subscriber, Mockito.times(1)).handleScenarioSuccess(Mockito.any());
+        Mockito.verify(subscriber, Mockito.times(0)).handleScenarioFailure(Mockito.any(), Mockito.any());
+
+        // Clear all indices
+        IndexHelper.clearAllIndices();
+    }
+
+    @Test(description = "Test the onFinishedTesting event handler with failed scenario")
+    public void testOnFinishedTestingActivatedWithFailedScenario() throws GeneralSecurityException, NoSuchMethodException, NoSuchFieldException, IllegalAccessException {
+        ConfigMap config = QtafFactory.getConfiguration();
+        config.setString(TestRailConfigHelper.TESTRAIL_URL, "http://www.inet.com");
+        config.setString(TestRailConfigHelper.TESTRAIL_AUTHENTICATION_CLIENT_ID, AES.encrypt("Jane", "my-key"));
+        config.setString(TestRailConfigHelper.TESTRAIL_AUTHENTICATION_CLIENT_SECRET, AES.encrypt("mypass", "my-key"));
+        config.setString(TestRailConfigHelper.SECURITY_KEY, "my-key");
+        config.setBoolean(TestRailConfigHelper.TESTRAIL_ENABLED, true);
+
+        // Build demo scenario
+        DemoScenario demoScenario = new DemoScenario();
+        Method method = demoScenario.getClass().getMethod("demoTestMethod");
+        TestRail testRailAnnotation = method.getAnnotation(TestRail.class);
+
+        // Clear all indices
+        IndexHelper.clearAllIndices();
+
+        // Build log collection
+        TestFeatureLogCollection feature1 = TestFeatureLogCollection.createFeatureLogCollectionIfNotExists("f1", "feature1");
+        TestScenarioLogCollection scenario1 = TestScenarioLogCollection.createTestScenarioLogCollection("f1", "s1", "i1", "scenario1");
+        scenario1.setAnnotations(new Annotation[] {testRailAnnotation});
+        scenario1.setStatus(TestScenarioLogCollection.Status.FAILURE);
+        feature1.addScenarioLogCollection(scenario1);
+        TestSuiteLogCollection suite = TestSuiteLogCollection.getInstance();
+        suite.addTestClassLogCollection(feature1);
+
+        // Test Subscriber
+        UploadTestsSubscriber subscriber = Mockito.mock(UploadTestsSubscriber.class);
+        Mockito.doCallRealMethod().when(subscriber).setUpClient();
+        Mockito.doCallRealMethod().when(subscriber).onFinishedTesting(Mockito.any());
+        subscriber.config = config;
+        subscriber.setUpClient();
+        subscriber.onFinishedTesting("");
+
+        // We set no status for the scenario log, so both handlers shouldn't be called
+        Mockito.verify(subscriber, Mockito.times(0)).handleScenarioSuccess(Mockito.any());
+        Mockito.verify(subscriber, Mockito.times(1)).handleScenarioFailure(Mockito.any(), Mockito.any());
+
+        // Clear all indices
+        IndexHelper.clearAllIndices();
     }
 
     @Test(description = "Test the onFinishedTesting event handler")
@@ -172,7 +325,7 @@ public class UploadTestsSubscriberTest {
     }
 
     @Test
-    public void testHandleScenarioSuccess() throws NoSuchMethodException, GeneralSecurityException {
+    public void testHandleScenarioSuccess() throws NoSuchMethodException, GeneralSecurityException, ParseException {
         ConfigMap config = QtafFactory.getConfiguration();
         config.setString(TestRailConfigHelper.TESTRAIL_URL, "http://www.inet.com");
         config.setString(TestRailConfigHelper.TESTRAIL_AUTHENTICATION_CLIENT_ID, AES.encrypt("Jane", "my-key"));
@@ -186,7 +339,8 @@ public class UploadTestsSubscriberTest {
         UploadTestsSubscriber subscriber = new UploadTestsSubscriber();
         subscriber.setUpClient();
 
-        JSONObject jsonObject = new JSONObject(Map.of("key1", "val1"));
+        JSONParser parser = new JSONParser();
+        JSONObject jsonObject = (JSONObject) parser.parse("{\"attachments\": [{\"id\": 1}]}");
 
         try (MockedStatic<TestRailManager> manager = Mockito.mockStatic(TestRailManager.class)) {
             // Mock TestRailManager methods
@@ -220,7 +374,7 @@ public class UploadTestsSubscriberTest {
 
             manager.verify(
                     () -> TestRailManager.deleteAttachmentForTestCase(Mockito.any(APIClient.class), Mockito.anyString()),
-                    Mockito.times(0)
+                    Mockito.times(1)
             );
 
             manager.verify(
