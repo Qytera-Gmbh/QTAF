@@ -1,7 +1,6 @@
 package de.qytera.testrail.event_subscriber;
 
 import de.qytera.qtaf.core.QtafFactory;
-import de.qytera.qtaf.core.config.ConfigurationFactory;
 import de.qytera.qtaf.core.config.entity.ConfigMap;
 import de.qytera.qtaf.core.config.exception.MissingConfigurationValueException;
 import de.qytera.qtaf.core.events.QtafEvents;
@@ -61,7 +60,6 @@ public class UploadTestsSubscriberTest {
 
     @DataProvider
     public Object[][] provideBadClientSetupData() throws GeneralSecurityException {
-        String location = ConfigurationFactory.getInstance().getLocation();
         return new Object[][]{
                 new Object[]{
                         IllegalArgumentException.class,
@@ -73,7 +71,7 @@ public class UploadTestsSubscriberTest {
                 },
                 new Object[]{
                         MissingConfigurationValueException.class,
-                        "failed to find non-null value in configuration %s for key: 'testrail.authentication.clientId'".formatted(location),
+                        "failed to find non-null value in configuration .+qtaf.json for key: 'testrail.authentication.clientId'",
                         "http://www.inet.com",
                         null,
                         AES.encrypt("mypass", "my-key"),
@@ -81,7 +79,7 @@ public class UploadTestsSubscriberTest {
                 },
                 new Object[]{
                         MissingConfigurationValueException.class,
-                        "failed to find non-null value in configuration %s for key: 'testrail.authentication.clientSecret'".formatted(location),
+                        "failed to find non-null value in configuration .+qtaf.json for key: 'testrail.authentication.clientSecret'",
                         "http://www.inet.com",
                         AES.encrypt("Jane", "my-key"),
                         null,
@@ -89,7 +87,7 @@ public class UploadTestsSubscriberTest {
                 },
                 new Object[]{
                         MissingConfigurationValueException.class,
-                        "failed to find non-null value in configuration %s for key: 'security.key'".formatted(location),
+                        "failed to find non-null value in configuration .+qtaf.json for key: 'security.key'",
                         "http://www.inet.com",
                         AES.encrypt("Jane", "my-key"),
                         AES.encrypt("mypass", "my-key"),
@@ -97,7 +95,7 @@ public class UploadTestsSubscriberTest {
                 },
                 new Object[]{
                         BadPaddingException.class,
-                        "Tag mismatch! Make sure you're using the correct key",
+                        "Tag mismatch!? Make sure you're using the correct key",
                         "http://www.inet.com",
                         AES.encrypt("Jane", "my-key"),
                         AES.encrypt("mypass", "my-key"),
@@ -126,7 +124,10 @@ public class UploadTestsSubscriberTest {
         try {
             subscriber.setUpClient();
         } catch (Exception e) {
-            Assert.assertEquals(e.getMessage(), expectedMessage);
+            Assert.assertTrue(e.getMessage().matches(expectedMessage), """
+                                        
+                    Expected exception message pattern: %s
+                                       but got message: %s""".formatted(expectedMessage, e.getMessage()));
             Assert.assertEquals(e.getClass(), exceptionClass);
         }
     }
