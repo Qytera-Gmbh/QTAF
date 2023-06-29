@@ -23,6 +23,11 @@ public class AssertionLogMessage extends LogMessage {
     protected Status status;
 
     /**
+     * Assertion object
+     */
+    protected Object object;
+
+    /**
      * Assertion condition
      */
     protected boolean condition;
@@ -82,6 +87,15 @@ public class AssertionLogMessage extends LogMessage {
         return this;
     }
 
+    public Object object() {
+        return object;
+    }
+
+    public AssertionLogMessage setObject(Object object) {
+        this.object = object;
+        return this;
+    }
+
     public Object actual() {
         return actual;
     }
@@ -105,7 +119,11 @@ public class AssertionLogMessage extends LogMessage {
     }
 
     public AssertionLogMessage setError(AssertionError error) {
-        this.error = new ThrowableWrapper(error);
+        if (error != null) {
+            this.error = new ThrowableWrapper(error);
+        } else {
+            this.error = null;
+        }
         return this;
     }
 
