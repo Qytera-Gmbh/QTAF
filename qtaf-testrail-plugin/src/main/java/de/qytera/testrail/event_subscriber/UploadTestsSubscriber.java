@@ -20,10 +20,12 @@ import org.json.simple.JSONObject;
 import org.openqa.selenium.InvalidArgumentException;
 import rx.Subscription;
 
+import javax.swing.text.html.Option;
 import java.security.GeneralSecurityException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Supplier;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -158,15 +160,19 @@ public class UploadTestsSubscriber implements IEventSubscriber {
      */
     public void handleScenarioFailure(Map.Entry<String, List<TestScenarioLogCollection>> entry, TestRail testRailIdAnnotation) {
         Supplier<Stream<LogMessage>> logMessagesStream = () -> entry.getValue().get(0).getLogMessages().stream().filter(x -> x instanceof StepInformationLogMessage);
-        boolean isErrorMessageFound = logMessagesStream.get().filter(d -> ((StepInformationLogMessage) d).getStatus().equals(StepInformationLogMessage.Status.ERROR)).map(n -> n.getMessage()).findFirst().isPresent();
+        boolean isErrorMessageFound = logMessagesStream.get().filter(d -> ((StepInformationLogMessage) d).getStatus().equals(StepInformationLogMessage.Status.ERROR)).map(LogMessage::getMessage).findFirst().isPresent();
 
-        String errorMessage = null;
+        String errorMessage;
 
         if (!isErrorMessageFound) {
             long count = logMessagesStream.get().map(LogMessage::getMessage).count();
-            errorMessage = logMessagesStream.get().map(LogMessage::getMessage).skip(count - 1).findFirst().get();
+            Optional<String> errorMessageOption = logMessagesStream.get().map(LogMessage::getMessage).skip(count - 1).findFirst();
+            assert errorMessageOption.isPresent() : "expected that there are log messages";
+            errorMessage = errorMessageOption.get();
         } else {
-            errorMessage = logMessagesStream.get().filter(d -> ((StepInformationLogMessage) d).getStatus().equals(StepInformationLogMessage.Status.ERROR)).map(n -> n.getMessage()).findFirst().get();
+            Optional<String> errorMessageOption = logMessagesStream.get().filter(d -> ((StepInformationLogMessage) d).getStatus().equals(StepInformationLogMessage.Status.ERROR)).map(LogMessage::getMessage).findFirst();
+            assert errorMessageOption.isPresent() : "expected that there are log messages";
+            errorMessage = errorMessageOption.get();
         }
 
         for (String caseId : testRailIdAnnotation.caseId()) {
