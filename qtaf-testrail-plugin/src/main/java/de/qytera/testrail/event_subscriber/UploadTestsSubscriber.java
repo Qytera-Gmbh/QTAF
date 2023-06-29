@@ -2,6 +2,7 @@ package de.qytera.testrail.event_subscriber;
 
 import de.qytera.qtaf.core.QtafFactory;
 import de.qytera.qtaf.core.config.entity.ConfigMap;
+import de.qytera.qtaf.core.config.exception.MissingConfigurationValueException;
 import de.qytera.qtaf.core.events.QtafEvents;
 import de.qytera.qtaf.core.events.interfaces.IEventSubscriber;
 import de.qytera.qtaf.core.log.model.collection.TestFeatureLogCollection;
@@ -12,23 +13,15 @@ import de.qytera.qtaf.core.log.model.message.StepInformationLogMessage;
 import de.qytera.qtaf.security.aes.AES;
 import de.qytera.testrail.annotations.TestRail;
 import de.qytera.testrail.config.TestRailConfigHelper;
+import de.qytera.testrail.entity.Attachment;
+import de.qytera.testrail.entity.Attachments;
 import de.qytera.testrail.utils.APIClient;
 import de.qytera.testrail.utils.TestRailManager;
 import lombok.Data;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.openqa.selenium.InvalidArgumentException;
 import rx.Subscription;
 
-import javax.swing.text.html.Option;
 import java.security.GeneralSecurityException;
 import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.function.Supplier;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 /**
  * This subscriber binds to the test finished event and uploads the tests to the TestRail API
@@ -38,114 +31,100 @@ public class UploadTestsSubscriber implements IEventSubscriber {
     /**
      * QTAF Event Subscription
      */
-    Subscription testFinishedSubscription;
+    private Subscription testFinishedSubscription;
 
     /**
      * Configuration
      */
-    ConfigMap config = QtafFactory.getConfiguration();
+    private static final ConfigMap CONFIG = QtafFactory.getConfiguration();
 
     /**
      * testRail API client
      */
-    APIClient client = null;
+    private APIClient client = null;
 
     @Override
     public void initialize() {
-        this.testFinishedSubscription = QtafEvents.logsPersisted.subscribe(this::onFinishedTesting);
+        if (this.testFinishedSubscription == null) {
+            this.testFinishedSubscription = QtafEvents.logsPersisted.subscribe(this::onFinishedTesting);
+        }
     }
 
     /**
-     * Create a Client for the TestRail API
-     * @return  TestRail API client
+     * Set up the client for the TestRail API.
      */
-    public APIClient setUpClient() {
-        try {
-            // Get configuration values
-            String url = config.getString(TestRailConfigHelper.TESTRAIL_URL);
-            String clientId = config.getString(TestRailConfigHelper.TESTRAIL_AUTHENTICATION_CLIENT_ID);
-            String clientSecret = config.getString(TestRailConfigHelper.TESTRAIL_AUTHENTICATION_CLIENT_SECRET);
-            String key = config.getString(TestRailConfigHelper.SECURITY_KEY);
-
-            // Check configuration values
-            if (clientId == null || clientId.equals("")) {
-                throw new InvalidArgumentException(String.format("The parameter '%s' is not set", TestRailConfigHelper.TESTRAIL_AUTHENTICATION_CLIENT_ID));
+    public APIClient setUpClient() throws GeneralSecurityException, MissingConfigurationValueException {
+        if (client == null) {
+            String url = CONFIG.getString(TestRailConfigHelper.TESTRAIL_URL);
+            String clientId = CONFIG.getString(TestRailConfigHelper.TESTRAIL_AUTHENTICATION_CLIENT_ID);
+            String clientSecret = CONFIG.getString(TestRailConfigHelper.TESTRAIL_AUTHENTICATION_CLIENT_SECRET);
+            String key = CONFIG.getString(TestRailConfigHelper.SECURITY_KEY);
+            if (clientId == null || clientId.isBlank()) {
+                throw new MissingConfigurationValueException(TestRailConfigHelper.TESTRAIL_AUTHENTICATION_CLIENT_ID, CONFIG);
             }
-
-            if (clientSecret == null || clientSecret.equals("")) {
-                throw new InvalidArgumentException(String.format("The parameter '%s' is not set", TestRailConfigHelper.TESTRAIL_AUTHENTICATION_CLIENT_SECRET));
+            if (clientSecret == null || clientSecret.isBlank()) {
+                throw new MissingConfigurationValueException(TestRailConfigHelper.TESTRAIL_AUTHENTICATION_CLIENT_SECRET, CONFIG);
             }
-
-            if (key == null || key.equals("")) {
-                throw new InvalidArgumentException(String.format("The parameter '%s' is not set", TestRailConfigHelper.SECURITY_KEY));
+            if (key == null || key.isBlank()) {
+                throw new MissingConfigurationValueException(TestRailConfigHelper.SECURITY_KEY, CONFIG);
             }
-
-            // Initialize client
             client = new APIClient(url);
-            client.setM_user(AES.decrypt(clientId, key));
-            client.setM_password(AES.decrypt(clientSecret, key));
-            return client;
-        } catch (GeneralSecurityException e) {
-            throw new RuntimeException(e);
+            client.setUser(AES.decrypt(clientId, key));
+            client.setPassword(AES.decrypt(clientSecret, key));
         }
+        return client;
     }
 
     /**
      * Event handler for finished testing event
-     * @param testingContext    Test context event payload
+     *
+     * @param testingContext Test context event payload
      */
     public void onFinishedTesting(String testingContext) {
-        // Check if plugin is enabled
-        if (!config.getBoolean(TestRailConfigHelper.TESTRAIL_ENABLED)) {
+        if (Boolean.FALSE.equals(CONFIG.getBoolean(TestRailConfigHelper.TESTRAIL_ENABLED))) {
             return;
         }
-
-        client = setUpClient();
+        try {
+            client = setUpClient();
+        } catch (GeneralSecurityException | MissingConfigurationValueException exception) {
+            QtafFactory.getLogger().error("[QTAF Testrail Plugin] Failed to set up API client", exception);
+            return;
+        }
         TestSuiteLogCollection logCollection = TestSuiteLogCollection.getInstance();
-
         for (TestFeatureLogCollection testFeatureLogCollection : logCollection.getTestFeatureLogCollections()) {
+            testFeatureLogCollection.getScenarioLogCollection().forEach(this::handleScenario);
+        }
+    }
 
-            Map<String, List<TestScenarioLogCollection>> groupedScenarioLogs = testFeatureLogCollection.getScenariosGroupedByAbstractScenarioId();
-
-            for (Map.Entry<String, List<TestScenarioLogCollection>> entry : groupedScenarioLogs.entrySet()) {
-                TestRail testRailIdAnnotation = (TestRail) entry.getValue().get(0).getAnnotation(TestRail.class);
-                if (entry.getValue().get(0).getStatus() == null) {
-                    return;
-                }
-                if (testRailIdAnnotation != null) {
-                    if (entry.getValue().get(0).getStatus().equals(TestScenarioLogCollection.Status.FAILURE)) {
-                        handleScenarioFailure(entry, testRailIdAnnotation);
-                    } else if (entry.getValue().get(0).getStatus().equals(TestScenarioLogCollection.Status.SUCCESS)) {
-                        handleScenarioSuccess(testRailIdAnnotation);
-                    }
-                }
+    private void handleScenario(TestScenarioLogCollection scenarioLog) {
+        if (scenarioLog.getStatus() == null) {
+            return;
+        }
+        TestRail testRailIdAnnotation = scenarioLog.getAnnotation(TestRail.class);
+        if (testRailIdAnnotation != null) {
+            if (scenarioLog.getStatus().equals(TestScenarioLogCollection.Status.FAILURE)) {
+                handleScenarioFailure(scenarioLog, testRailIdAnnotation);
+            } else if (scenarioLog.getStatus().equals(TestScenarioLogCollection.Status.SUCCESS)) {
+                handleScenarioSuccess(testRailIdAnnotation);
             }
         }
     }
 
     /**
      * Handle scenario success
-     * @param testRailIdAnnotation  testrail annotation of scenario
+     *
+     * @param testRailIdAnnotation testrail annotation of scenario
      */
     public void handleScenarioSuccess(TestRail testRailIdAnnotation) {
         Arrays.stream(testRailIdAnnotation.caseId()).forEach(caseId -> {
             try {
                 TestRailManager.addResultForTestCase(client, caseId, testRailIdAnnotation.runId(), 1, "");
                 QtafFactory.getLogger().info("Results are uploaded to testRail");
-                JSONObject att = TestRailManager.getAttachmentForTestCase(client, caseId);
-
-                if (att != null) {
-                    JSONArray attachments = (JSONArray) att.get("attachments");
-                    List<JSONObject> attachmentItems = IntStream.range(0, attachments.size())
-                            .mapToObj(index -> (JSONObject) attachments.get(index))
-                            .toList();
-                    attachmentItems.forEach(x -> {
-                        try {
-                            TestRailManager.deleteAttachmentForTestCase(client, x.get("id").toString());
-                        } catch (Exception e) {
-                            throw new RuntimeException(e);
-                        }
-                    });
+                Attachments attachments = TestRailManager.getAttachmentsForTestCase(client, caseId);
+                if (attachments != null) {
+                    for (Attachment attachment : attachments.getAttachments()) {
+                        TestRailManager.deleteAttachmentForTestCase(client, attachment.getId());
+                    }
                 }
             } catch (Exception e) {
                 QtafFactory.getLogger().error(e);
@@ -155,31 +134,21 @@ public class UploadTestsSubscriber implements IEventSubscriber {
 
     /**
      * Handle scenario failure
-     * @param entry                 step logs
-     * @param testRailIdAnnotation  testrail annotation of scenario
+     *
+     * @param scenarioLog          step logs
+     * @param testRailIdAnnotation testrail annotation of scenario
      */
-    public void handleScenarioFailure(Map.Entry<String, List<TestScenarioLogCollection>> entry, TestRail testRailIdAnnotation) {
-        Supplier<Stream<LogMessage>> logMessagesStream = () -> entry.getValue().get(0).getLogMessages().stream().filter(x -> x instanceof StepInformationLogMessage);
-        boolean isErrorMessageFound = logMessagesStream.get().filter(d -> ((StepInformationLogMessage) d).getStatus().equals(StepInformationLogMessage.Status.ERROR)).map(LogMessage::getMessage).findFirst().isPresent();
-
-        String errorMessage;
-
-        if (!isErrorMessageFound) {
-            long count = logMessagesStream.get().map(LogMessage::getMessage).count();
-            Optional<String> errorMessageOption = logMessagesStream.get().map(LogMessage::getMessage).skip(count - 1).findFirst();
-            assert errorMessageOption.isPresent() : "expected that there are log messages";
-            errorMessage = errorMessageOption.get();
-        } else {
-            Optional<String> errorMessageOption = logMessagesStream.get().filter(d -> ((StepInformationLogMessage) d).getStatus().equals(StepInformationLogMessage.Status.ERROR)).map(LogMessage::getMessage).findFirst();
-            assert errorMessageOption.isPresent() : "expected that there are log messages";
-            errorMessage = errorMessageOption.get();
-        }
-
+    public void handleScenarioFailure(TestScenarioLogCollection scenarioLog, TestRail testRailIdAnnotation) {
+        String errorMessage = scenarioLog.getLogMessages(StepInformationLogMessage.class).stream()
+                .filter(d -> d.getStatus().equals(StepInformationLogMessage.Status.ERROR))
+                .map(LogMessage::getMessage)
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("expected at least one failed step"));
         for (String caseId : testRailIdAnnotation.caseId()) {
             try {
                 TestRailManager.addResultForTestCase(client, caseId, testRailIdAnnotation.runId(), 5, "Failure found in: " + errorMessage);
                 TestRailManager.addAttachmentForTestCase(client, caseId, QtafFactory.getTestSuiteLogCollection().getLogDirectory() + "/Report.html");
-                TestRailManager.addAttachmentForTestCase(client, caseId, entry.getValue().get(0).getScreenshotAfter());
+                TestRailManager.addAttachmentForTestCase(client, caseId, scenarioLog.getScreenshotAfter());
                 QtafFactory.getLogger().info("Results are uploaded to testRail");
             } catch (Exception e) {
                 QtafFactory.getLogger().error(e);

@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Link {
-    private int next;
-    private int prev;
+    private Integer next;
+    private Integer prev;
 }

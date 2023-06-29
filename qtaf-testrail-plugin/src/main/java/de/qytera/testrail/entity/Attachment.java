@@ -1,5 +1,6 @@
 package de.qytera.testrail.entity;
 
+import com.google.gson.annotations.SerializedName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,17 +11,26 @@ import lombok.NoArgsConstructor;
 public class Attachment {
     private String filetype;
     private String icon;
-    private String entity_id;
-    private int client_id;
-    private String entity_type;
+    @SerializedName("entity_id")
+    private String entityId;
+    @SerializedName("client_id")
+    private int clientId;
+    @SerializedName("entity_type")
+    private String entityType;
     private String filename;
     private int size;
-    private int project_id;
-    private int created_on;
-    private String data_id;
-    private int user_id;
+    @SerializedName("project_id")
+    private int projectId;
+    @SerializedName("created_on")
+    private int createdOn;
+    @SerializedName("data_id")
+    private String dataId;
+    @SerializedName("user_id")
+    private int userId;
     private String name;
-    private int legacy_id;
-    private boolean is_image;
+    @SerializedName("legacy_id")
+    private int legacyId;
+    @SerializedName("is_image")
+    private boolean isImage;
     private String id;
 }

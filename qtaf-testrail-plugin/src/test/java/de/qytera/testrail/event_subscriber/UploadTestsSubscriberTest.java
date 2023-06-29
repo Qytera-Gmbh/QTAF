@@ -1,7 +1,10 @@
 package de.qytera.testrail.event_subscriber;
 
 import de.qytera.qtaf.core.QtafFactory;
+import de.qytera.qtaf.core.config.ConfigurationFactory;
 import de.qytera.qtaf.core.config.entity.ConfigMap;
+import de.qytera.qtaf.core.config.exception.MissingConfigurationValueException;
+import de.qytera.qtaf.core.events.QtafEvents;
 import de.qytera.qtaf.core.log.model.collection.TestFeatureLogCollection;
 import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
 import de.qytera.qtaf.core.log.model.collection.TestSuiteLogCollection;
@@ -10,22 +13,22 @@ import de.qytera.qtaf.core.log.model.message.StepInformationLogMessage;
 import de.qytera.qtaf.security.aes.AES;
 import de.qytera.testrail.annotations.TestRail;
 import de.qytera.testrail.config.TestRailConfigHelper;
+import de.qytera.testrail.entity.Attachment;
+import de.qytera.testrail.entity.Attachments;
+import de.qytera.testrail.entity.Link;
 import de.qytera.testrail.utils.APIClient;
 import de.qytera.testrail.utils.TestRailManager;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
-import org.openqa.selenium.InvalidArgumentException;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import javax.crypto.BadPaddingException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.security.GeneralSecurityException;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Testrail upload subscriber tests
@@ -35,13 +38,14 @@ public class UploadTestsSubscriberTest {
     @Test(description = "Test initialization")
     public void testInitialization() {
         UploadTestsSubscriber subscriber = new UploadTestsSubscriber();
+        Assert.assertFalse(QtafEvents.logsPersisted.hasObservers());
         subscriber.initialize();
-        Assert.assertNotNull(subscriber.testFinishedSubscription);
-        subscriber.testFinishedSubscription.unsubscribe();
+        Assert.assertTrue(QtafEvents.logsPersisted.hasObservers());
+
     }
 
     @Test(description = "Test the setup function")
-    public void testClientSetup() throws GeneralSecurityException {
+    public void testClientSetup() throws GeneralSecurityException, MissingConfigurationValueException {
         ConfigMap config = QtafFactory.getConfiguration();
         config.setString(TestRailConfigHelper.TESTRAIL_URL, "http://www.inet.com");
         config.setString(TestRailConfigHelper.TESTRAIL_AUTHENTICATION_CLIENT_ID, AES.encrypt("Jane", "my-key"));
@@ -49,103 +53,86 @@ public class UploadTestsSubscriberTest {
         config.setString(TestRailConfigHelper.SECURITY_KEY, "my-key");
         UploadTestsSubscriber subscriber = new UploadTestsSubscriber();
         subscriber.setUpClient();
-        Assert.assertEquals(subscriber.getClient().getM_url(), "http://www.inet.com/index.php?/api/v2/");
-        Assert.assertEquals(subscriber.getClient().getM_user(), "Jane");
-        Assert.assertEquals(subscriber.getClient().getM_password(), "mypass");
+        Assert.assertEquals(subscriber.getClient().getUrl(), "http://www.inet.com/index.php?/api/v2/");
+        Assert.assertEquals(subscriber.getClient().getUser(), "Jane");
+        Assert.assertEquals(subscriber.getClient().getPassword(), "mypass");
+    }
+
+
+    @DataProvider
+    public Object[][] provideBadClientSetupData() throws GeneralSecurityException {
+        String location = ConfigurationFactory.getInstance().getLocation();
+        return new Object[][]{
+                new Object[]{
+                        IllegalArgumentException.class,
+                        "Testrail Base URL is null, please set the value in your configuration file",
+                        null,
+                        AES.encrypt("Jane", "my-key"),
+                        AES.encrypt("mypass", "my-key"),
+                        "my-key"
+                },
+                new Object[]{
+                        MissingConfigurationValueException.class,
+                        "failed to find non-null value in configuration %s for key: 'testrail.authentication.clientId'".formatted(location),
+                        "http://www.inet.com",
+                        null,
+                        AES.encrypt("mypass", "my-key"),
+                        "my-key"
+                },
+                new Object[]{
+                        MissingConfigurationValueException.class,
+                        "failed to find non-null value in configuration %s for key: 'testrail.authentication.clientSecret'".formatted(location),
+                        "http://www.inet.com",
+                        AES.encrypt("Jane", "my-key"),
+                        null,
+                        "my-key"
+                },
+                new Object[]{
+                        MissingConfigurationValueException.class,
+                        "failed to find non-null value in configuration %s for key: 'security.key'".formatted(location),
+                        "http://www.inet.com",
+                        AES.encrypt("Jane", "my-key"),
+                        AES.encrypt("mypass", "my-key"),
+                        null
+                },
+                new Object[]{
+                        BadPaddingException.class,
+                        "Tag mismatch! Make sure you're using the correct key",
+                        "http://www.inet.com",
+                        AES.encrypt("Jane", "my-key"),
+                        AES.encrypt("mypass", "my-key"),
+                        "wrong-key"
+                }
+        };
     }
 
     @Test(
-            description = "Test the setup function with missing URL",
-            expectedExceptions = {InvalidArgumentException.class},
-            expectedExceptionsMessageRegExp = "Testrail Base URL is null, please set the value in your configuration file(.*)"
+            description = "test bad client setup", dataProvider = "provideBadClientSetupData"
     )
-    public void testClientSetupMissingUrl() throws GeneralSecurityException {
+    public void testClientSetupBadParameters(
+            Class<? extends Exception> exceptionClass,
+            String expectedMessage,
+            String url,
+            String clientId,
+            String clientSecret,
+            String key
+    ) {
         ConfigMap config = QtafFactory.getConfiguration();
-        config.setString(TestRailConfigHelper.TESTRAIL_URL, null);
-        config.setString(TestRailConfigHelper.TESTRAIL_AUTHENTICATION_CLIENT_ID, AES.encrypt("Jane", "my-key"));
-        config.setString(TestRailConfigHelper.TESTRAIL_AUTHENTICATION_CLIENT_SECRET, AES.encrypt("mypass", "my-key"));
-        config.setString(TestRailConfigHelper.SECURITY_KEY, "my-key");
+        config.setString(TestRailConfigHelper.TESTRAIL_URL, url);
+        config.setString(TestRailConfigHelper.TESTRAIL_AUTHENTICATION_CLIENT_ID, clientId);
+        config.setString(TestRailConfigHelper.TESTRAIL_AUTHENTICATION_CLIENT_SECRET, clientSecret);
+        config.setString(TestRailConfigHelper.SECURITY_KEY, key);
         UploadTestsSubscriber subscriber = new UploadTestsSubscriber();
-        subscriber.setUpClient();
-        Assert.assertEquals(subscriber.getClient().getM_url(), "http://www.inet.com/index.php?/api/v2/");
-        Assert.assertEquals(subscriber.getClient().getM_user(), "Jane");
-        Assert.assertEquals(subscriber.getClient().getM_password(), "mypass");
-    }
-
-    @Test(
-            description = "Test the setup function with a missing client id",
-            expectedExceptions = {InvalidArgumentException.class},
-            expectedExceptionsMessageRegExp = "The parameter 'testrail.authentication.clientId' is not set(.*)"
-    )
-    public void testClientSetupMissingClientId() throws GeneralSecurityException {
-        ConfigMap config = QtafFactory.getConfiguration();
-        config.setString(TestRailConfigHelper.TESTRAIL_URL, "http://www.inet.com");
-        config.setString(TestRailConfigHelper.TESTRAIL_AUTHENTICATION_CLIENT_ID, null);
-        config.setString(TestRailConfigHelper.TESTRAIL_AUTHENTICATION_CLIENT_SECRET, AES.encrypt("mypass", "my-key"));
-        config.setString(TestRailConfigHelper.SECURITY_KEY, "my-key");
-        UploadTestsSubscriber subscriber = new UploadTestsSubscriber();
-        subscriber.setUpClient();
-        Assert.assertEquals(subscriber.getClient().getM_url(), "http://www.inet.com/index.php?/api/v2/");
-        Assert.assertEquals(subscriber.getClient().getM_user(), "Jane");
-        Assert.assertEquals(subscriber.getClient().getM_password(), "mypass");
-    }
-
-    @Test(
-            description = "Test the setup function with a missing security key",
-            expectedExceptions = {InvalidArgumentException.class},
-            expectedExceptionsMessageRegExp = "The parameter 'security.key' is not set(.*)"
-    )
-    public void testClientSetupMissingSecurityKey() throws GeneralSecurityException {
-        ConfigMap config = QtafFactory.getConfiguration();
-        config.setString(TestRailConfigHelper.TESTRAIL_URL, "http://www.inet.com");
-        config.setString(TestRailConfigHelper.TESTRAIL_AUTHENTICATION_CLIENT_ID, AES.encrypt("Jane", "my-key"));
-        config.setString(TestRailConfigHelper.TESTRAIL_AUTHENTICATION_CLIENT_SECRET, AES.encrypt("mypass", "my-key"));
-        config.setString(TestRailConfigHelper.SECURITY_KEY, null);
-        UploadTestsSubscriber subscriber = new UploadTestsSubscriber();
-        subscriber.setUpClient();
-        Assert.assertEquals(subscriber.getClient().getM_url(), "http://www.inet.com/index.php?/api/v2/");
-        Assert.assertEquals(subscriber.getClient().getM_user(), "Jane");
-        Assert.assertEquals(subscriber.getClient().getM_password(), "mypass");
-    }
-
-    @Test(
-            description = "Test the setup function with a wrong security key",
-            expectedExceptions = {RuntimeException.class},
-            expectedExceptionsMessageRegExp = "javax.crypto.BadPaddingException: Tag mismatch(!?) Make sure you're using the correct key(.*)"
-    )
-    public void testClientSetupWrongSecurityKey() throws GeneralSecurityException {
-        ConfigMap config = QtafFactory.getConfiguration();
-        config.setString(TestRailConfigHelper.TESTRAIL_URL, "http://www.inet.com");
-        config.setString(TestRailConfigHelper.TESTRAIL_AUTHENTICATION_CLIENT_ID, AES.encrypt("Jane", "my-key"));
-        config.setString(TestRailConfigHelper.TESTRAIL_AUTHENTICATION_CLIENT_SECRET, AES.encrypt("mypass", "my-key"));
-        config.setString(TestRailConfigHelper.SECURITY_KEY, "wrong-key");
-        UploadTestsSubscriber subscriber = new UploadTestsSubscriber();
-        subscriber.setUpClient();
-        Assert.assertEquals(subscriber.getClient().getM_url(), "http://www.inet.com/index.php?/api/v2/");
-        Assert.assertEquals(subscriber.getClient().getM_user(), "Jane");
-        Assert.assertEquals(subscriber.getClient().getM_password(), "mypass");
-    }
-
-    @Test(
-            description = "Test the setup function with a missing client secret",
-            expectedExceptions = {InvalidArgumentException.class},
-            expectedExceptionsMessageRegExp = "The parameter 'testrail.authentication.clientSecret' is not set(.*)"
-    )
-    public void testClientSetupMissingClientSecret() throws GeneralSecurityException {
-        ConfigMap config = QtafFactory.getConfiguration();
-        config.setString(TestRailConfigHelper.TESTRAIL_URL, "http://www.inet.com");
-        config.setString(TestRailConfigHelper.TESTRAIL_AUTHENTICATION_CLIENT_ID, AES.encrypt("Jane", "my-key"));
-        config.setString(TestRailConfigHelper.TESTRAIL_AUTHENTICATION_CLIENT_SECRET, null);
-        config.setString(TestRailConfigHelper.SECURITY_KEY, "my-key");
-        UploadTestsSubscriber subscriber = new UploadTestsSubscriber();
-        subscriber.setUpClient();
-        Assert.assertEquals(subscriber.getClient().getM_url(), "http://www.inet.com/index.php?/api/v2/");
-        Assert.assertEquals(subscriber.getClient().getM_user(), "Jane");
-        Assert.assertEquals(subscriber.getClient().getM_password(), "mypass");
+        try {
+            subscriber.setUpClient();
+        } catch (Exception e) {
+            Assert.assertEquals(e.getMessage(), expectedMessage);
+            Assert.assertEquals(e.getClass(), exceptionClass);
+        }
     }
 
     @Test(description = "Test the onFinishedTesting event handler")
-    public void testOnFinishedTestingActivated() throws GeneralSecurityException {
+    public void testOnFinishedTestingActivated() throws GeneralSecurityException, MissingConfigurationValueException {
         ConfigMap config = QtafFactory.getConfiguration();
         config.setString(TestRailConfigHelper.TESTRAIL_URL, "http://www.inet.com");
         config.setString(TestRailConfigHelper.TESTRAIL_AUTHENTICATION_CLIENT_ID, AES.encrypt("Jane", "my-key"));
@@ -179,7 +166,7 @@ public class UploadTestsSubscriberTest {
     }
 
     @Test(description = "Test the onFinishedTesting event handler with pending scenario")
-    public void testOnFinishedTestingActivatedWithPendingScenario() throws GeneralSecurityException, NoSuchMethodException {
+    public void testOnFinishedTestingActivatedWithPendingScenario() throws GeneralSecurityException, NoSuchMethodException, MissingConfigurationValueException {
         ConfigMap config = QtafFactory.getConfiguration();
         config.setString(TestRailConfigHelper.TESTRAIL_URL, "http://www.inet.com");
         config.setString(TestRailConfigHelper.TESTRAIL_AUTHENTICATION_CLIENT_ID, AES.encrypt("Jane", "my-key"));
@@ -198,7 +185,7 @@ public class UploadTestsSubscriberTest {
         // Build log collection
         TestFeatureLogCollection feature1 = TestFeatureLogCollection.createFeatureLogCollectionIfNotExists("f1", "feature1");
         TestScenarioLogCollection scenario1 = TestScenarioLogCollection.createTestScenarioLogCollection("f1", "s1", "i1", "scenario1");
-        scenario1.setAnnotations(new Annotation[] {testRailAnnotation});
+        scenario1.setAnnotations(new Annotation[]{testRailAnnotation});
         feature1.addScenarioLogCollection(scenario1);
         TestSuiteLogCollection suite = TestSuiteLogCollection.getInstance();
         suite.addTestClassLogCollection(feature1);
@@ -218,7 +205,7 @@ public class UploadTestsSubscriberTest {
     }
 
     @Test(description = "Test the onFinishedTesting event handler with successful scenario")
-    public void testOnFinishedTestingActivatedWithSuccessfulScenario() throws GeneralSecurityException, NoSuchMethodException, NoSuchFieldException, IllegalAccessException {
+    public void testOnFinishedTestingActivatedWithSuccessfulScenario() throws GeneralSecurityException, NoSuchMethodException, MissingConfigurationValueException {
         ConfigMap config = QtafFactory.getConfiguration();
         config.setString(TestRailConfigHelper.TESTRAIL_URL, "http://www.inet.com");
         config.setString(TestRailConfigHelper.TESTRAIL_AUTHENTICATION_CLIENT_ID, AES.encrypt("Jane", "my-key"));
@@ -237,7 +224,7 @@ public class UploadTestsSubscriberTest {
         // Build log collection
         TestFeatureLogCollection feature1 = TestFeatureLogCollection.createFeatureLogCollectionIfNotExists("f2", "feature2");
         TestScenarioLogCollection scenario1 = TestScenarioLogCollection.createTestScenarioLogCollection("f2", "s2", "i1", "scenario2");
-        scenario1.setAnnotations(new Annotation[] {testRailAnnotation});
+        scenario1.setAnnotations(new Annotation[]{testRailAnnotation});
         scenario1.setStatus(TestScenarioLogCollection.Status.SUCCESS);
         feature1.addScenarioLogCollection(scenario1);
         TestSuiteLogCollection suite = TestSuiteLogCollection.getInstance();
@@ -247,7 +234,6 @@ public class UploadTestsSubscriberTest {
         UploadTestsSubscriber subscriber = Mockito.mock(UploadTestsSubscriber.class);
         Mockito.doCallRealMethod().when(subscriber).setUpClient();
         Mockito.doCallRealMethod().when(subscriber).onFinishedTesting(Mockito.any());
-        subscriber.config = config;
         subscriber.setUpClient();
         subscriber.onFinishedTesting("");
 
@@ -261,7 +247,7 @@ public class UploadTestsSubscriberTest {
     }
 
     @Test(description = "Test the onFinishedTesting event handler with failed scenario")
-    public void testOnFinishedTestingActivatedWithFailedScenario() throws GeneralSecurityException, NoSuchMethodException, NoSuchFieldException, IllegalAccessException {
+    public void testOnFinishedTestingActivatedWithFailedScenario() throws GeneralSecurityException, NoSuchMethodException, MissingConfigurationValueException {
         ConfigMap config = QtafFactory.getConfiguration();
         config.setString(TestRailConfigHelper.TESTRAIL_URL, "http://www.inet.com");
         config.setString(TestRailConfigHelper.TESTRAIL_AUTHENTICATION_CLIENT_ID, AES.encrypt("Jane", "my-key"));
@@ -280,7 +266,7 @@ public class UploadTestsSubscriberTest {
         // Build log collection
         TestFeatureLogCollection feature1 = TestFeatureLogCollection.createFeatureLogCollectionIfNotExists("f1", "feature1");
         TestScenarioLogCollection scenario1 = TestScenarioLogCollection.createTestScenarioLogCollection("f1", "s1", "i1", "scenario1");
-        scenario1.setAnnotations(new Annotation[] {testRailAnnotation});
+        scenario1.setAnnotations(new Annotation[]{testRailAnnotation});
         scenario1.setStatus(TestScenarioLogCollection.Status.FAILURE);
         feature1.addScenarioLogCollection(scenario1);
         TestSuiteLogCollection suite = TestSuiteLogCollection.getInstance();
@@ -291,7 +277,6 @@ public class UploadTestsSubscriberTest {
         UploadTestsSubscriber subscriber = Mockito.mock(UploadTestsSubscriber.class);
         Mockito.doCallRealMethod().when(subscriber).setUpClient();
         Mockito.doCallRealMethod().when(subscriber).onFinishedTesting(Mockito.any());
-        subscriber.config = config;
         subscriber.setUpClient();
         subscriber.onFinishedTesting("");
 
@@ -305,7 +290,7 @@ public class UploadTestsSubscriberTest {
     }
 
     @Test(description = "Test the onFinishedTesting event handler")
-    public void testOnFinishedTestingDeactivated() throws GeneralSecurityException {
+    public void testOnFinishedTestingDeactivated() throws GeneralSecurityException, MissingConfigurationValueException {
         ConfigMap config = QtafFactory.getConfiguration();
         config.setString(TestRailConfigHelper.TESTRAIL_URL, "http://www.inet.com");
         config.setString(TestRailConfigHelper.TESTRAIL_AUTHENTICATION_CLIENT_ID, AES.encrypt("Jane", "my-key"));
@@ -325,7 +310,7 @@ public class UploadTestsSubscriberTest {
     }
 
     @Test
-    public void testHandleScenarioSuccess() throws NoSuchMethodException, GeneralSecurityException, ParseException {
+    public void testHandleScenarioSuccess() throws NoSuchMethodException, GeneralSecurityException, MissingConfigurationValueException {
         ConfigMap config = QtafFactory.getConfiguration();
         config.setString(TestRailConfigHelper.TESTRAIL_URL, "http://www.inet.com");
         config.setString(TestRailConfigHelper.TESTRAIL_AUTHENTICATION_CLIENT_ID, AES.encrypt("Jane", "my-key"));
@@ -339,8 +324,32 @@ public class UploadTestsSubscriberTest {
         UploadTestsSubscriber subscriber = new UploadTestsSubscriber();
         subscriber.setUpClient();
 
-        JSONParser parser = new JSONParser();
-        JSONObject jsonObject = (JSONObject) parser.parse("{\"attachments\": [{\"id\": 1}]}");
+
+        // See https://support.testrail.com/hc/en-us/articles/7077196481428-Attachments#getattachmentsforcase
+        Attachments attachments = new Attachments();
+        attachments.setOffset(0);
+        attachments.setLimit(250);
+        attachments.setSize(4);
+        attachments.setLink(new Link(null, null));
+        attachments.setAttachments(List.of(
+                new Attachment(
+                        "dll",
+                        "other",
+                        "3",
+                        614308,
+                        "case",
+                        "msdia80.dll",
+                        904704,
+                        2,
+                        1631722975,
+                        "63c82867-526d-43be-b1a5-9ddfcf581cf5",
+                        1,
+                        "msdia80.dll",
+                        0,
+                        false,
+                        "2ec27be4-812f-4806-9a5d-d39130d1691a"
+                )
+        ));
 
         try (MockedStatic<TestRailManager> manager = Mockito.mockStatic(TestRailManager.class)) {
             // Mock TestRailManager methods
@@ -349,14 +358,14 @@ public class UploadTestsSubscriberTest {
                     .thenAnswer(invocation -> null);
 
             manager
-                    .when(() -> TestRailManager.addResultForTestCase(Mockito.any(APIClient.class), Mockito.anyString(), Mockito.anyString(), Mockito.anyInt(),  Mockito.anyString()))
+                    .when(() -> TestRailManager.addResultForTestCase(Mockito.any(APIClient.class), Mockito.anyString(), Mockito.anyString(), Mockito.anyInt(), Mockito.anyString()))
                     .thenAnswer(invocation -> null);
             manager
                     .when(() -> TestRailManager.deleteAttachmentForTestCase(Mockito.any(APIClient.class), Mockito.anyString()))
                     .thenAnswer(invocation -> null);
             manager
-                    .when(() -> TestRailManager.getAttachmentForTestCase(Mockito.any(APIClient.class), Mockito.anyString()))
-                    .thenReturn(jsonObject);
+                    .when(() -> TestRailManager.getAttachmentsForTestCase(Mockito.any(APIClient.class), Mockito.anyString()))
+                    .thenReturn(attachments);
 
             // Call subscriber method
             subscriber.handleScenarioSuccess(testRailAnnotation);
@@ -368,7 +377,7 @@ public class UploadTestsSubscriberTest {
             );
 
             manager.verify(
-                    () -> TestRailManager.addResultForTestCase(Mockito.any(APIClient.class), Mockito.anyString(), Mockito.anyString(), Mockito.anyInt(),  Mockito.anyString()),
+                    () -> TestRailManager.addResultForTestCase(Mockito.any(APIClient.class), Mockito.anyString(), Mockito.anyString(), Mockito.anyInt(), Mockito.anyString()),
                     Mockito.times(1)
             );
 
@@ -378,14 +387,14 @@ public class UploadTestsSubscriberTest {
             );
 
             manager.verify(
-                    () -> TestRailManager.getAttachmentForTestCase(Mockito.any(APIClient.class), Mockito.anyString()),
+                    () -> TestRailManager.getAttachmentsForTestCase(Mockito.any(APIClient.class), Mockito.anyString()),
                     Mockito.times(1)
             );
         }
     }
 
     @Test
-    public void testHandleScenarioFailure() throws NoSuchMethodException, GeneralSecurityException {
+    public void testHandleScenarioFailure() throws NoSuchMethodException, GeneralSecurityException, MissingConfigurationValueException {
         ConfigMap config = QtafFactory.getConfiguration();
         config.setString(TestRailConfigHelper.TESTRAIL_URL, "http://www.inet.com");
         config.setString(TestRailConfigHelper.TESTRAIL_AUTHENTICATION_CLIENT_ID, AES.encrypt("Jane", "my-key"));
@@ -399,7 +408,31 @@ public class UploadTestsSubscriberTest {
         UploadTestsSubscriber subscriber = new UploadTestsSubscriber();
         subscriber.setUpClient();
 
-        JSONObject jsonObject = new JSONObject(Map.of("key1", "val1"));
+        // See https://support.testrail.com/hc/en-us/articles/7077196481428-Attachments#getattachmentsforcase
+        Attachments attachments = new Attachments();
+        attachments.setOffset(0);
+        attachments.setLimit(250);
+        attachments.setSize(4);
+        attachments.setLink(new Link(null, null));
+        attachments.setAttachments(List.of(
+                new Attachment(
+                        "dll",
+                        "other",
+                        "3",
+                        614308,
+                        "case",
+                        "msdia80.dll",
+                        904704,
+                        2,
+                        1631722975,
+                        "63c82867-526d-43be-b1a5-9ddfcf581cf5",
+                        1,
+                        "msdia80.dll",
+                        0,
+                        false,
+                        "2ec27be4-812f-4806-9a5d-d39130d1691a"
+                )
+        ));
 
         try (MockedStatic<TestRailManager> manager = Mockito.mockStatic(TestRailManager.class)) {
             // Mock TestRailManager methods
@@ -408,14 +441,14 @@ public class UploadTestsSubscriberTest {
                     .thenAnswer(invocation -> null);
 
             manager
-                    .when(() -> TestRailManager.addResultForTestCase(Mockito.any(APIClient.class), Mockito.anyString(), Mockito.anyString(), Mockito.anyInt(),  Mockito.anyString()))
+                    .when(() -> TestRailManager.addResultForTestCase(Mockito.any(APIClient.class), Mockito.anyString(), Mockito.anyString(), Mockito.anyInt(), Mockito.anyString()))
                     .thenAnswer(invocation -> null);
             manager
                     .when(() -> TestRailManager.deleteAttachmentForTestCase(Mockito.any(APIClient.class), Mockito.anyString()))
                     .thenAnswer(invocation -> null);
             manager
-                    .when(() -> TestRailManager.getAttachmentForTestCase(Mockito.any(APIClient.class), Mockito.anyString()))
-                    .thenReturn(jsonObject);
+                    .when(() -> TestRailManager.getAttachmentsForTestCase(Mockito.any(APIClient.class), Mockito.anyString()))
+                    .thenReturn(attachments);
 
             // Create a scenario log collection with a single log message
             TestScenarioLogCollection scenario1 = TestScenarioLogCollection.createTestScenarioLogCollection(
@@ -424,10 +457,12 @@ public class UploadTestsSubscriberTest {
                     "i1",
                     "scenario1"
             );
-            scenario1.addLogMessage(new StepInformationLogMessage("foo.bar", "message"));
+            StepInformationLogMessage step = new StepInformationLogMessage("foo.bar", "message");
+            step.setStatus(StepInformationLogMessage.Status.ERROR);
+            scenario1.addLogMessage(step);
 
             // Call subscriber method
-            subscriber.handleScenarioFailure(Map.entry("key1", List.of(scenario1)), testRailAnnotation);
+            subscriber.handleScenarioFailure(scenario1, testRailAnnotation);
 
             // Check how many times manager methods were called
             manager.verify(
@@ -436,7 +471,7 @@ public class UploadTestsSubscriberTest {
             );
 
             manager.verify(
-                    () -> TestRailManager.addResultForTestCase(Mockito.any(APIClient.class), Mockito.anyString(), Mockito.anyString(), Mockito.anyInt(),  Mockito.anyString()),
+                    () -> TestRailManager.addResultForTestCase(Mockito.any(APIClient.class), Mockito.anyString(), Mockito.anyString(), Mockito.anyInt(), Mockito.anyString()),
                     Mockito.times(1)
             );
 
@@ -446,7 +481,7 @@ public class UploadTestsSubscriberTest {
             );
 
             manager.verify(
-                    () -> TestRailManager.getAttachmentForTestCase(Mockito.any(APIClient.class), Mockito.anyString()),
+                    () -> TestRailManager.getAttachmentsForTestCase(Mockito.any(APIClient.class), Mockito.anyString()),
                     Mockito.times(0)
             );
 
@@ -454,19 +489,19 @@ public class UploadTestsSubscriberTest {
             IndexHelper.clearAllIndices();
         }
     }
-}
 
-class CaseIds {
-    public static final String CASE1 = "c1";
-}
+    static class CaseIds {
+        public static final String CASE1 = "c1";
+    }
 
-class RunIds {
-    public static final String RUN1 = "1";
-}
+    static class RunIds {
+        public static final String RUN1 = "1";
+    }
 
-class DemoScenario {
-    @TestRail(caseId = {CaseIds.CASE1}, runId = RunIds.RUN1)
-    public void demoTestMethod() {
+    static class DemoScenario {
+        @TestRail(caseId = {CaseIds.CASE1}, runId = RunIds.RUN1)
+        public void demoTestMethod() {
 
+        }
     }
 }

@@ -17,6 +17,7 @@
         <!-- Dependency versions -->
         <jakartaActivationVersion>2.1.2</jakartaActivationVersion>
         <jerseyClientVersion>3.1.2</jerseyClientVersion>
+        <jerseyMediaMultipartVersion>3.1.2</jerseyMediaMultipartVersion>
     </properties>
 
     <dependencies>
@@ -33,6 +34,12 @@
             <groupId>org.glassfish.jersey.core</groupId>
             <artifactId>jersey-client</artifactId>
             <version>${jerseyClientVersion}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.glassfish.jersey.media/jersey-media-multipart -->
+        <dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-multipart</artifactId>
+            <version>${jerseyMediaMultipartVersion}</version>
         </dependency>
         <!-- Integrates Gson into Jersey -->
         <!-- https://mvnrepository.com/artifact/org.glassfish.jersey.media/jersey-media-json-gson -->
