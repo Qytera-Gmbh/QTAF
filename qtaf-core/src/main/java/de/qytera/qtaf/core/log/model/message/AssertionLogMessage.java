@@ -109,6 +109,14 @@ public class AssertionLogMessage extends LogMessage {
         return this;
     }
 
+    public boolean hasPassed() {
+        return status == Status.PASSED;
+    }
+
+    public boolean hasFailed() {
+        return status == Status.FAILED;
+    }
+
     public AssertionLogMessage setStatusToPassed() {
         this.status = Status.PASSED;
         return this;

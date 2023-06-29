@@ -45,6 +45,7 @@
         <module>qtaf-data</module>
         <module>qtaf-testrail-plugin</module>
         <module>qtaf-security</module>
+        <module>qtaf-aws-devicefarm</module>
     </modules>
 
     <properties>
