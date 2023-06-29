@@ -48,7 +48,7 @@ public interface AssertionContext {
             }
         }
 
-        handleAssertTrue(condition, message, null);
+        handleAssertTrue(true, message, null);
     }
 
     /**
@@ -78,7 +78,7 @@ public interface AssertionContext {
             }
         }
 
-        handleAssertFalse(condition, message, null);
+        handleAssertFalse(false, message, null);
     }
 
     /**
@@ -95,7 +95,28 @@ public interface AssertionContext {
      * @param message   The message that should be displayed if the assertion fails
      */
     default void assertNull(Object object, String message) {
-        Assert.assertNull(object, message);
+        assertNull(object, message, false);
+    }
+
+    /**
+     * Assert that an object is null
+     * @param object    The object
+     * @param message   The message that should be displayed if the assertion fails
+     * @param continueOnFailure Should the assertion stop the test case on failure?
+     */
+    default void assertNull(Object object, String message, boolean continueOnFailure) {
+        try {
+            Assert.assertNull(object, message);
+        } catch(AssertionError error) {
+            handleAssertNull(object, message, error);
+            if (!continueOnFailure) {
+                throw error;
+            } else {
+                return;
+            }
+        }
+
+        handleAssertNull(object, message, null);
     }
 
     /**
@@ -112,7 +133,28 @@ public interface AssertionContext {
      * @param message   The message that should be displayed if the assertion fails
      */
     default void assertNotNull(Object object, String message) {
-        Assert.assertNotNull(object, message);
+        assertNotNull(object, message, false);
+    }
+
+    /**
+     * Assert that an object is not null
+     * @param object    The object
+     * @param message   The message that should be displayed if the assertion fails
+     * @param continueOnFailure Should the assertion stop the test case on failure?
+     */
+    default void assertNotNull(Object object, String message, boolean continueOnFailure) {
+        try {
+            Assert.assertNotNull(object, message);
+        } catch(AssertionError error) {
+            handleAssertNotNull(object, message, error);
+            if (!continueOnFailure) {
+                throw error;
+            } else {
+                return;
+            }
+        }
+
+        handleAssertNotNull(object, message, null);
     }
 
     /**
@@ -131,7 +173,29 @@ public interface AssertionContext {
      * @param message   The message that should be displayed if the assertion fails
      */
     default void assertSame(Object actual, Object expected, String message) {
-        Assert.assertSame(actual, expected, message);
+        assertSame(actual, expected, message, false);
+    }
+
+    /**
+     * Assert that two objects refer to the same object
+     * @param object    Actual object
+     * @param expected  Expected object
+     * @param message   The message that should be displayed if the assertion fails
+     * @param continueOnFailure Should the assertion stop the test case on failure?
+     */
+    default void assertSame(Object object, Object expected, String message, boolean continueOnFailure) {
+        try {
+            Assert.assertSame(object, expected, message);
+        } catch(AssertionError error) {
+            handleAssertSame(object, expected, message, error);
+            if (!continueOnFailure) {
+                throw error;
+            } else {
+                return;
+            }
+        }
+
+        handleAssertSame(object, expected, message, null);
     }
 
     /**
@@ -150,7 +214,29 @@ public interface AssertionContext {
      * @param message   The message that should be displayed if the assertion fails
      */
     default void assertNotSame(Object actual, Object expected, String message) {
-        Assert.assertNotSame(actual, expected, message);
+        assertNotSame(actual, expected, message, false);
+    }
+
+    /**
+     * Assert that two objects do not refer to the same object
+     * @param object    Actual object
+     * @param expected  Expected object
+     * @param message   The message that should be displayed if the assertion fails
+     * @param continueOnFailure Should the assertion stop the test case on failure?
+     */
+    default void assertNotSame(Object object, Object expected, String message, boolean continueOnFailure) {
+        try {
+            Assert.assertNotSame(object, expected, message);
+        } catch(AssertionError error) {
+            handleAssertNotSame(object, expected, message, error);
+            if (!continueOnFailure) {
+                throw error;
+            } else {
+                return;
+            }
+        }
+
+        handleAssertNotSame(object, expected, message, null);
     }
 
     /**
@@ -169,7 +255,29 @@ public interface AssertionContext {
      * @param message   The message that should be displayed if the assertion fails
      */
     default void assertEquals(Object object1, Object object2, String message) {
-        Assert.assertEquals(object1, object2, message);
+        assertEquals(object1, object2, message, false);
+    }
+
+    /**
+     * Checks if two objects are equal
+     * @param object1    Actual object
+     * @param object2  Expected object
+     * @param message   The message that should be displayed if the assertion fails
+     * @param continueOnFailure Should the assertion stop the test case on failure?
+     */
+    default void assertEquals(Object object1, Object object2, String message, boolean continueOnFailure) {
+        try {
+            Assert.assertEquals(object1, object2, message);
+        } catch(AssertionError error) {
+            handleAssertEquals(object1, object2, message, error);
+            if (!continueOnFailure) {
+                throw error;
+            } else {
+                return;
+            }
+        }
+
+        handleAssertEquals(object1, object2, message, null);
     }
 
     /**
@@ -188,7 +296,7 @@ public interface AssertionContext {
      * @param message   The message that should be displayed if the assertion fails
      */
     default void assertEqualsDeep(Set<?> actual, Set<?> expected, String message) {
-        Assert.assertEqualsDeep(actual, expected, message);
+        assertEqualsDeep(actual, expected, message, false);
     }
 
     /**
@@ -207,7 +315,51 @@ public interface AssertionContext {
      * @param message   The message that should be displayed if the assertion fails
      */
     default void assertEqualsDeep(Map<?, ?> actual, Map<?, ?> expected, String message) {
-        Assert.assertEqualsDeep(actual, expected, message);
+        assertEqualsDeep(actual, expected, message, false);
+    }
+
+    /**
+     * Checks if two objects are equal
+     * @param object1    Actual object
+     * @param object2  Expected object
+     * @param message   The message that should be displayed if the assertion fails
+     * @param continueOnFailure Should the assertion stop the test case on failure?
+     */
+    default void assertEqualsDeep(Map<?, ?> object1, Map<?, ?> object2, String message, boolean continueOnFailure) {
+        try {
+            Assert.assertEqualsDeep(object1, object2, message);
+        } catch(AssertionError error) {
+            handleAssertEqualsDeep(object1, object2, message, error);
+            if (!continueOnFailure) {
+                throw error;
+            } else {
+                return;
+            }
+        }
+
+        handleAssertEqualsDeep(object1, object2, message, null);
+    }
+
+    /**
+     * Checks if two objects are equal
+     * @param object1    Actual object
+     * @param object2  Expected object
+     * @param message   The message that should be displayed if the assertion fails
+     * @param continueOnFailure Should the assertion stop the test case on failure?
+     */
+    default void assertEqualsDeep(Set<?> object1, Set<?> object2, String message, boolean continueOnFailure) {
+        try {
+            Assert.assertEqualsDeep(object1, object2, message);
+        } catch(AssertionError error) {
+            handleAssertEqualsDeep(object1, object2, message, error);
+            if (!continueOnFailure) {
+                throw error;
+            } else {
+                return;
+            }
+        }
+
+        handleAssertEqualsDeep(object1, object2, message, null);
     }
 
     /**
@@ -226,7 +378,7 @@ public interface AssertionContext {
      * @param message   The message that should be displayed if the assertion fails
      */
     default void assertNotEqualsDeep(Set<?> actual, Set<?> expected, String message) {
-        Assert.assertNotEqualsDeep(actual, expected, message);
+        assertNotEqualsDeep(actual, expected, message, false);
     }
 
     /**
@@ -245,7 +397,51 @@ public interface AssertionContext {
      * @param message   The message that should be displayed if the assertion fails
      */
     default void assertNotEqualsDeep(Map<?, ?> actual, Map<?, ?> expected, String message) {
-        Assert.assertNotEqualsDeep(actual, expected, message);
+        assertNotEqualsDeep(actual, expected, message, false);
+    }
+
+    /**
+     * Checks if two objects are not deeply equal
+     * @param object1    Actual object
+     * @param object2  Expected object
+     * @param message   The message that should be displayed if the assertion fails
+     * @param continueOnFailure Should the assertion stop the test case on failure?
+     */
+    default void assertNotEqualsDeep(Map<?, ?> object1, Map<?, ?> object2, String message, boolean continueOnFailure) {
+        try {
+            Assert.assertNotEqualsDeep(object1, object2, message);
+        } catch(AssertionError error) {
+            handleAssertNotEqualsDeep(object1, object2, message, error);
+            if (!continueOnFailure) {
+                throw error;
+            } else {
+                return;
+            }
+        }
+
+        handleAssertNotEqualsDeep(object1, object2, message, null);
+    }
+
+    /**
+     * Checks if two objects are not deeply equal
+     * @param object1    Actual object
+     * @param object2  Expected object
+     * @param message   The message that should be displayed if the assertion fails
+     * @param continueOnFailure Should the assertion stop the test case on failure?
+     */
+    default void assertNotEqualsDeep(Set<?> object1, Set<?> object2, String message, boolean continueOnFailure) {
+        try {
+            Assert.assertNotEqualsDeep(object1, object2, message);
+        } catch(AssertionError error) {
+            handleAssertNotEqualsDeep(object1, object2, message, error);
+            if (!continueOnFailure) {
+                throw error;
+            } else {
+                return;
+            }
+        }
+
+        handleAssertNotEqualsDeep(object1, object2, message, null);
     }
 
     /**
@@ -264,7 +460,29 @@ public interface AssertionContext {
      * @param message   The message that should be displayed if the assertion fails
      */
     default void assertEqualsNoOrder(Object[] object1, Object[] object2, String message) {
-        Assert.assertEqualsNoOrder(object1, object2, message);
+        assertEqualsNoOrder(object1, object2, message, false);
+    }
+
+    /**
+     * Asserts that two arrays contain the same elements in no particular order.
+     * @param object1 The first object
+     * @param object2 The second object
+     * @param message   The message that should be displayed if the assertion fails
+     * @param continueOnFailure Should the assertion stop the test case on failure?
+     */
+    default void assertEqualsNoOrder(Object[] object1, Object[] object2, String message, boolean continueOnFailure) {
+        try {
+            Assert.assertEqualsNoOrder(object1, object2, message);
+        } catch(AssertionError error) {
+            handleAssertEqualsNoOrder(object1, object2, message, error);
+            if (!continueOnFailure) {
+                throw error;
+            } else {
+                return;
+            }
+        }
+
+        handleAssertEqualsNoOrder(object1, object2, message, null);
     }
 
     /**
@@ -283,7 +501,29 @@ public interface AssertionContext {
      * @param message   The message that should be displayed if the assertion fails
      */
     default void assertNotEquals(Object object1, Object object2, String message) {
-        Assert.assertNotEquals(object1, object2, message);
+        assertNotEquals(object1, object2, message, false);
+    }
+
+    /**
+     * Checks if two objects are not equal
+     * @param object1    Actual object
+     * @param object2  Expected object
+     * @param message   The message that should be displayed if the assertion fails
+     * @param continueOnFailure Should the assertion stop the test case on failure?
+     */
+    default void assertNotEquals(Object object1, Object object2, String message, boolean continueOnFailure) {
+        try {
+            Assert.assertNotEquals(object1, object2, message);
+        } catch(AssertionError error) {
+            handleAssertNotEquals(object1, object2, message, error);
+            if (!continueOnFailure) {
+                throw error;
+            } else {
+                return;
+            }
+        }
+
+        handleAssertNotEquals(object1, object2, message, null);
     }
 
     /**
@@ -323,8 +563,54 @@ public interface AssertionContext {
         } else {
             assertionLogMessage.setStatusToPassed();
         }
+    }
 
-        System.out.println("-");
+    /**
+     * Handle condition assertions
+     * @param type      assertion type
+     * @param object    object that should be tested
+     * @param message   assertion message
+     * @param error     assertion error
+     */
+    default void handleAssertCondition(AssertionLogMessageType type, Object object, String message, AssertionError error) {
+        StepInformationLogMessage stepLog = getLogCollection().getStepLogOfPendingStep();
+        AssertionLogMessage assertionLogMessage = buildAssertionLogMessage(stepLog, message);
+        assertionLogMessage
+                .setType(type)
+                .setObject(object)
+                .setError(error);
+
+        // Check if there was an error
+        if (error != null) {
+            assertionLogMessage.setStatusToFailed();
+        } else {
+            assertionLogMessage.setStatusToPassed();
+        }
+    }
+
+    /**
+     * Handle condition assertions
+     * @param type      assertion type
+     * @param object    object that should be tested
+     * @param expected  object that was expected
+     * @param message   assertion message
+     * @param error     assertion error
+     */
+    default void handleAssertCondition(AssertionLogMessageType type, Object object, Object expected, String message, AssertionError error) {
+        StepInformationLogMessage stepLog = getLogCollection().getStepLogOfPendingStep();
+        AssertionLogMessage assertionLogMessage = buildAssertionLogMessage(stepLog, message);
+        assertionLogMessage
+                .setType(type)
+                .setObject(object)
+                .setExpected(expected)
+                .setError(error);
+
+        // Check if there was an error
+        if (error != null) {
+            assertionLogMessage.setStatusToFailed();
+        } else {
+            assertionLogMessage.setStatusToPassed();
+        }
     }
 
     /**
@@ -345,4 +631,102 @@ public interface AssertionContext {
      */
     default void handleAssertFalse(boolean condition, String message, AssertionError error) {
         handleAssertCondition(AssertionLogMessageType.ASSERT_FALSE, condition, message, error);
-    }}
+    }
+
+    /**
+     * Handle assertNull method call
+     * @param object    object that should be tested
+     * @param message   assertion message
+     * @param error     assertion error
+     */
+    default void handleAssertNull(Object object, String message, AssertionError error) {
+        handleAssertCondition(AssertionLogMessageType.ASSERT_NULL, object, message, error);
+    }
+
+    /**
+     * Handle assertNull method call
+     * @param object    object that should be tested
+     * @param message   assertion message
+     * @param error     assertion error
+     */
+    default void handleAssertNotNull(Object object, String message, AssertionError error) {
+        handleAssertCondition(AssertionLogMessageType.ASSERT_NOT_NULL, object, message, error);
+    }
+
+    /**
+     * Handle assertSame method call
+     * @param object    object that should be tested
+     * @param expected  object that is expected to be equal
+     * @param message   assertion message
+     * @param error     assertion error
+     */
+    default void handleAssertSame(Object object, Object expected, String message, AssertionError error) {
+        handleAssertCondition(AssertionLogMessageType.ASSERT_SAME, object, expected, message, error);
+    }
+
+    /**
+     * Handle assertNotSame method call
+     * @param object    object that should be tested
+     * @param expected  object that is expected to be equal
+     * @param message   assertion message
+     * @param error     assertion error
+     */
+    default void handleAssertNotSame(Object object, Object expected, String message, AssertionError error) {
+        handleAssertCondition(AssertionLogMessageType.ASSERT_NOT_SAME, object, expected, message, error);
+    }
+
+    /**
+     * Handle assertEquals method call
+     * @param object1    object that should be tested
+     * @param object2  object that is expected to be equal
+     * @param message   assertion message
+     * @param error     assertion error
+     */
+    default void handleAssertEquals(Object object1, Object object2, String message, AssertionError error) {
+        handleAssertCondition(AssertionLogMessageType.ASSERT_EQUALS, object1, object2, message, error);
+    }
+
+    /**
+     * Handle assertNotEquals method call
+     * @param object1    object that should be tested
+     * @param object2  object that is expected to be equal
+     * @param message   assertion message
+     * @param error     assertion error
+     */
+    default void handleAssertNotEquals(Object object1, Object object2, String message, AssertionError error) {
+        handleAssertCondition(AssertionLogMessageType.ASSERT_NOT_EQUALS, object1, object2, message, error);
+    }
+
+    /**
+     * Handle assertDeepEquals method call
+     * @param object1    object that should be tested
+     * @param object2  object that is expected to be equal
+     * @param message   assertion message
+     * @param error     assertion error
+     */
+    default void handleAssertEqualsDeep(Object object1, Object object2, String message, AssertionError error) {
+        handleAssertCondition(AssertionLogMessageType.ASSERT_EQUALS_DEEP, object1, object2, message, error);
+    }
+
+    /**
+     * Handle assertNotEqualsDeep method call
+     * @param object1    object that should be tested
+     * @param object2  object that is expected to be equal
+     * @param message   assertion message
+     * @param error     assertion error
+     */
+    default void handleAssertNotEqualsDeep(Object object1, Object object2, String message, AssertionError error) {
+        handleAssertCondition(AssertionLogMessageType.ASSERT_NOT_EQUALS_DEEP, object1, object2, message, error);
+    }
+
+    /**
+     * Handle assertEqualsNoOrder method call
+     * @param object1    object that should be tested
+     * @param object2  object that is expected to be equal
+     * @param message   assertion message
+     * @param error     assertion error
+     */
+    default void handleAssertEqualsNoOrder(Object[] object1, Object[] object2, String message, AssertionError error) {
+        handleAssertCondition(AssertionLogMessageType.ASSERT_EQUALS_NO_ORDER, object1, object2, message, error);
+    }
+}
