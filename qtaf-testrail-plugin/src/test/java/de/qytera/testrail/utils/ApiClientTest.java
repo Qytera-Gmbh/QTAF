@@ -1,15 +1,14 @@
 package de.qytera.testrail.utils;
 
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -91,33 +90,78 @@ public class ApiClientTest {
     @Test(description = "Test default endpoint handler")
     public void testHandleDefaultEndpoint() throws IOException {
         InputStream stream = new InputStream() {
+            int[] data = new int[]{72, 101, 108, 108, 111};
+            int c = -1;
+
             @Override
             public int read() throws IOException {
+                c += 1;
+                if (c < data.length) {
+                    return data[c];
+                }
                 return -1;
             }
         };
 
         String text = APIClient.handleDefaultEndpoint(stream, "");
-        Assert.assertEquals(text, "");
+        int[] expected = new int[]{72, 101, 108, 108, 111};
+        for (int i = 0; i < expected.length; i++) {
+            Assert.assertEquals(text.getBytes()[i], expected[i]);
+        }
     }
 
-    @Test(description = "Test GET attachment endpoint handler", expectedExceptions = {FileNotFoundException.class})
-    public void testHandleGetAttachmentEndpoint() throws IOException {
+    @Test(description = "Test GET attachment endpoint handler")
+    public void testHandleGetAttachmentEndpointWithExistingFile() throws IOException {
         InputStream stream = new InputStream() {
+            int[] data = new int[]{72, 101, 108, 108, 111};
+            int c = -1;
+
             @Override
             public int read() throws IOException {
+                c += 1;
+                if (c < data.length) {
+                    return data[c];
+                }
+                return -1;
+            }
+        };
+
+        Object obj = APIClient.handleGetAttachmentEndpoint("src/test/resources/dummyfile.txt", stream);
+        Assert.assertNotNull(obj);
+    }
+
+    @Test(description = "Test GET attachment endpoint handler with nonexistent file", expectedExceptions = {FileNotFoundException.class})
+    public void testHandleGetAttachmentEndpointWithNonexistentFile() throws IOException {
+        InputStream stream = new InputStream() {
+            int[] data = new int[]{72, 101, 108, 108, 111};
+            int c = -1;
+
+            @Override
+            public int read() throws IOException {
+                c += 1;
+                if (c < data.length) {
+                    return data[c];
+                }
                 return -1;
             }
         };
 
         Object obj = APIClient.handleGetAttachmentEndpoint("", stream);
+        Assert.assertNotNull(obj);
     }
 
     @Test(description = "Test 200 status handler")
     public void testHandleStatus200() throws APIException, MalformedURLException {
         InputStream errorStream = new InputStream() {
+            int[] data = new int[]{72, 101, 108, 108, 111};
+            int c = -1;
+
             @Override
             public int read() throws IOException {
+                c += 1;
+                if (c < data.length) {
+                    return data[c];
+                }
                 return -1;
             }
         };
@@ -146,9 +190,51 @@ public class ApiClientTest {
         InputStream inputStream = APIClient.handleStatus200(conn, 200);
     }
 
+    @Test(description = "Test 200 status handler", expectedExceptions = {APIException.class})
+    public void testHandleStatus200WithNoErrorStream() throws APIException, MalformedURLException {
+        InputStream errorStream = new InputStream() {
+            int[] data = new int[]{72, 101, 108, 108, 111};
+            int c = -1;
+
+            @Override
+            public int read() throws IOException {
+                c += 1;
+                if (c < data.length) {
+                    return data[c];
+                }
+                return -1;
+            }
+        };
+
+        HttpURLConnection conn = new HttpURLConnection(new URL("https://jsonplaceholder.typicode.com/todos")) {
+            @Override
+            public InputStream getErrorStream() {
+                return null;
+            }
+
+            @Override
+            public void disconnect() {
+            }
+
+            @Override
+            public boolean usingProxy() {
+                return false;
+            }
+
+            @Override
+            public void connect() throws IOException {
+                return;
+            }
+        };
+
+        InputStream inputStream = APIClient.handleStatus200(conn, 200);
+    }
+
     @Test(description = "Test not 200 status handler", expectedExceptions = {APIException.class}, expectedExceptionsMessageRegExp = "TestRail API returned HTTP 404(.*)")
-    public void testHandleStatusNot200() throws APIException {
-        APIClient.handleStatusNot200(404, new JSONObject());
+    public void testHandleStatusNot200() throws APIException, ParseException {
+        JSONParser parser = new JSONParser();
+        JSONObject jsonObject = (JSONObject) parser.parse("{\"error\": \"error message\"}");
+        APIClient.handleStatusNot200(404, jsonObject);
     }
 
     @Test(description = "Test add auth header")
@@ -207,8 +293,21 @@ public class ApiClientTest {
         }
     }
 
+    @Test(description = "Test send attachment")
+    public void testSendAttachmentWithExistingFile() throws IOException {
+        HttpURLConnection connMock = Mockito.mock(HttpURLConnection.class);
+        OutputStream outputStreamMock = Mockito.mock(OutputStream.class);
+        Mockito.when(connMock.getOutputStream()).thenReturn(outputStreamMock);
+
+        try (MockedStatic<APIClient> staticMock = Mockito.mockStatic(APIClient.class)) {
+            staticMock.when(() -> APIClient.sendAttachment(Mockito.any(), Mockito.any()))
+                    .thenCallRealMethod();
+            APIClient.sendAttachment("src/test/resources/dummyfile.txt", connMock);
+        }
+    }
+
     @Test(description = "Test send attachment", expectedExceptions = {FileNotFoundException.class})
-    public void testSendAttachment() throws IOException {
+    public void testSendAttachmentWithNonexistentFile() throws IOException {
         HttpURLConnection connMock = Mockito.mock(HttpURLConnection.class);
         OutputStream outputStreamMock = Mockito.mock(OutputStream.class);
         Mockito.when(connMock.getOutputStream()).thenReturn(outputStreamMock);

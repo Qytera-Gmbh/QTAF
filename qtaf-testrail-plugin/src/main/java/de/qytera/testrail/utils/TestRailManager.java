@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class   TestRailManager {
     public static void addResultForTestCase(APIClient client, String caseId, String runId, int status, String comment) throws APIException, IOException {
-        Map<String, Comparable> data = new HashMap<>();
+        Map<String, Comparable<?>> data = new HashMap<>();
         data.put("status_id", status);
         data.put("comment", comment);
         client.sendPost("add_result_for_case/" + runId + "/" + caseId + "", data);
