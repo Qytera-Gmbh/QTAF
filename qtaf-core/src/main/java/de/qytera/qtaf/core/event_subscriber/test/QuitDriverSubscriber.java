@@ -10,6 +10,9 @@ import de.qytera.qtaf.core.log.model.error.LoggingError;
 import de.qytera.qtaf.core.selenium.helper.SeleniumDriverConfigHelper;
 import org.openqa.selenium.WebDriver;
 
+/**
+ * A subscriber listening for driver quits.
+ */
 public class QuitDriverSubscriber implements IEventSubscriber {
     /**
      * Configuration
@@ -37,6 +40,7 @@ public class QuitDriverSubscriber implements IEventSubscriber {
             try {
                 driver.manage().deleteAllCookies();
             } catch (Exception e) {
+
             }
 
             driver.quit();

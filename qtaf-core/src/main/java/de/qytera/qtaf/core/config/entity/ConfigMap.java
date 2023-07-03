@@ -14,6 +14,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -30,8 +31,9 @@ public class ConfigMap extends HashMap<String, Object> {
 
     /**
      * Json context
+     * transient because hashMap need to be serializable
      */
-    private final DocumentContext documentContext;
+    private final transient DocumentContext documentContext;
 
     /**
      * The path of the underlying document used to build the configuration map.
@@ -280,11 +282,11 @@ public class ConfigMap extends HashMap<String, Object> {
             );
             ERROR_LOG_COLLECTION.addErrorLog(new ConfigurationError(exception));
         }
-        return null;
+        return Collections.emptyList();
     }
 
     private void logMissingKey(String key) {
-        QtafFactory.getLogger().error(
+        QtafFactory.getLogger().warn(
                 String.format(
                         "Failed to find key '%s' in JVM arguments (-D%s), environment variables (%s) or configuration file %s",
                         key,
@@ -304,7 +306,7 @@ public class ConfigMap extends HashMap<String, Object> {
      * @return the fallback value
      */
     public final <T> T logMissingValue(String key, T fallbackValue) {
-        QtafFactory.getLogger().error(
+        QtafFactory.getLogger().warn(
                 String.format(
                         "Value for '%s' was null, defaulting to '%s'.",
                         key,

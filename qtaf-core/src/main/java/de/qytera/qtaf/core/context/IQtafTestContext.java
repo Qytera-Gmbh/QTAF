@@ -33,6 +33,8 @@ public interface IQtafTestContext {
 
     /**
      * Initialize test context
+     *
+     * @return this
      */
     IQtafTestContext initialize();
 }

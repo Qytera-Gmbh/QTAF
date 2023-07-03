@@ -1,7 +1,7 @@
 package de.qytera.qtaf.xray.importer;
 
 import de.qytera.qtaf.core.io.FileHelper;
-import de.qytera.qtaf.xray.repository.XrayCloudCucumberRepository;
+import de.qytera.qtaf.xray.repository.xray.XrayCucumberRepositoryCloud;
 import net.lingala.zip4j.ZipFile;
 
 import java.io.IOException;
@@ -13,7 +13,7 @@ public class XrayCloudCucumberImporter implements IXrayImporter {
     /**
      * Xray Cucumber Server Repository
      */
-    private static final XrayCloudCucumberRepository repo = new XrayCloudCucumberRepository();
+    private static final XrayCucumberRepositoryCloud repo = new XrayCucumberRepositoryCloud();
 
     /**
      * Create feature file by Test Set ID
@@ -24,11 +24,10 @@ public class XrayCloudCucumberImporter implements IXrayImporter {
     public void createFeatureFileFromTestSetId(String testSetID, String filePath) throws IOException {
         String fileContent = repo.getFeatureFileDefinition(new String[]{testSetID});
         FileHelper.writeFile(filePath + ".zip", fileContent);
-        try {
-            ZipFile zipFile = new ZipFile(filePath + ".zip");
+        try (ZipFile zipFile = new ZipFile(filePath + ".zip")) {
             zipFile.extractAll(filePath);
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
     }
 

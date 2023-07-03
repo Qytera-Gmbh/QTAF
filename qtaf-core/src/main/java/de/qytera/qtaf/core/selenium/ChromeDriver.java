@@ -9,20 +9,13 @@ import org.openqa.selenium.chrome.ChromeOptions;
  */
 public class ChromeDriver extends AbstractDriver {
 
-    /**
-     * Creates a new chrome driver.
-     */
-    public ChromeDriver() {
-        super(false);
-    }
-
     @Override
     public String getName() {
         return "chrome";
     }
 
     @Override
-    public WebDriver getDriverInstance() {
+    public WebDriver getDriver() {
         WebDriverManager webDriverManager = WebDriverManager.chromedriver();
         initWebDriverManager(webDriverManager);
         return new org.openqa.selenium.chrome.ChromeDriver(getCapabilities());
@@ -32,8 +25,11 @@ public class ChromeDriver extends AbstractDriver {
     protected ChromeOptions getCapabilities() {
         // Make selenium use the selenium-http-jdk-client package
         System.setProperty("webdriver.http.factory", "jdk-http-client");
-        ChromeOptions options = new ChromeOptions();
-        options.setCapability("remote-allow-origins", "");
-        return options;
+        return new ChromeOptions();
+    }
+
+    @Override
+    protected boolean isRemoteDriver() {
+        return false;
     }
 }

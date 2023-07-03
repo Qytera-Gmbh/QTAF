@@ -24,21 +24,10 @@ public class ReportCreator implements IReportCreator {
      * Root template
      */
     protected String rootTemplate = "de/qytera/qtaf/htmlreport/templates/home.html";
-
-    /**
-     * Path where reports are stored
-     */
-    protected String reportPath = DirectoryHelper.preparePath("$USER_DIR/logs");
-
     /**
      * Filename of the rendered template
      */
     protected String filename = "Report.html";
-
-    /**
-     * Date format
-     */
-    protected String dateFormat = "yyyy-MM-dd_HH-mm-ss";
 
     /**
      * Create report and save it to the disk
@@ -172,6 +161,7 @@ public class ReportCreator implements IReportCreator {
     /**
      * Build report path
      *
+     * @param logCollection the log collection
      * @return report path
      */
     public String getReportPath(TestSuiteLogCollection logCollection) {

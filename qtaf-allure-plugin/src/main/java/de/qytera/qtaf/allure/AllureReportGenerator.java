@@ -5,6 +5,8 @@ import de.qytera.qtaf.core.gson.GsonFactory;
 import de.qytera.qtaf.core.io.DirectoryHelper;
 import de.qytera.qtaf.core.log.model.collection.TestSuiteLogCollection;
 import io.qameta.allure.model.TestResult;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -14,7 +16,14 @@ import java.util.List;
 /**
  * Class for generating Allure JSON files
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class AllureReportGenerator {
+    /**
+     * Generates an Allure report based on the provided test suite log collection.
+     *
+     * @param suite the log collection
+     * @throws IOException if the report cannot be created
+     */
     public static void generateReport(TestSuiteLogCollection suite) throws IOException {
         // Map QTAF data structure to Allure data structure
         List<TestResult> testResults = AllureTestResultGenerator.fromQtafTestSuiteCollection(suite);
@@ -44,9 +53,7 @@ public class AllureReportGenerator {
         String json = gson.toJson(testResult);
 
         // Build destination path for JSON file
-        String reportPath = DirectoryHelper.preparePath(
-                path + "/" + testResult.getName().replace(' ', '-').toLowerCase() + "-" + suite.getStart().getTime() + "-result.json"
-        );
+        String reportPath = DirectoryHelper.preparePath(Paths.get(path, testResult.getName().replace(' ', '-').toLowerCase() + "-" + suite.getStart().getTime() + "-result.json").toString());
 
         // Save file
         try {

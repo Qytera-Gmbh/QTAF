@@ -26,6 +26,7 @@ public class XrayConfigHelper {
     public static final String AUTHENTICATION_XRAY_BEARER_TOKEN = "xray.authentication.xray.bearerToken";
     public static final String AUTHENTICATION_JIRA_USERNAME = "xray.authentication.jira.username";
     public static final String AUTHENTICATION_JIRA_API_TOKEN = "xray.authentication.jira.apiToken";
+    public static final String RESULTS_UPLOAD_TEST_PLAN_KEY = "xray.resultsUpload.testPlanKey";
     public static final String RESULTS_UPLOAD_SCENARIO_REPORT_EVIDENCE = "xray.resultsUpload.scenarioReportEvidence";
     public static final String RESULTS_UPLOAD_SCENARIO_IMAGE_EVIDENCE = "xray.resultsUpload.scenarioImageEvidence";
     public static final String RESULTS_UPLOAD_CUSTOM_STATUS_TEST_PASSED = "xray.resultsUpload.customStatus.test.passed";
@@ -323,5 +324,14 @@ public class XrayConfigHelper {
      */
     public static String getProjectKey() {
         return CONFIG.getString(PROJECT_KEY);
+    }
+
+    /**
+     * Returns the test plan key to attach execution results to.
+     *
+     * @return the configured test plan key or null if no test plan has been defined
+     */
+    public static String getResultsUploadTestPlanKey() {
+        return CONFIG.getString(RESULTS_UPLOAD_TEST_PLAN_KEY);
     }
 }

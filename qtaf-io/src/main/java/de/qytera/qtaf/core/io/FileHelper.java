@@ -1,5 +1,8 @@
 package de.qytera.qtaf.core.io;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -12,6 +15,7 @@ import java.nio.file.Paths;
 /**
  * Class containing helper methods for handling files
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class FileHelper {
     /**
      * Check if a file exists
@@ -99,6 +103,7 @@ public class FileHelper {
      *
      * @param filePath File location
      * @param content  File content
+     * @throws IOException file not writable
      */
     public static void writeFile(String filePath, String content) throws IOException {
         filePath = DirectoryHelper.preparePath(filePath);

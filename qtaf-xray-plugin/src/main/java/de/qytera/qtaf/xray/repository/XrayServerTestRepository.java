@@ -1,6 +1,6 @@
 package de.qytera.qtaf.xray.repository;
 
-import de.qytera.qtaf.core.net.http.HTTPJsonDao;
+import de.qytera.qtaf.http.HTTPJsonDao;
 import de.qytera.qtaf.xray.dto.XrayTestDto;
 import de.qytera.qtaf.xray.dto.XrayTestDtoCollection;
 import de.qytera.qtaf.xray.net.http.XrayHTTPDaoFactory;

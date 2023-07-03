@@ -1,13 +1,19 @@
 package de.qytera.qtaf.core.io;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
 import java.io.File;
-import java.io.IOException;
 
 /**
  * Class containing helper methods for interacting with the file system
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class DirectoryHelper {
-    public static final String fs = System.getProperty("file.separator");
+    /**
+     * File separator shorthand.
+     */
+    public static final String SEP = System.getProperty("file.separator");
 
     /**
      * Replace variables and insert default file separator
@@ -20,8 +26,8 @@ public class DirectoryHelper {
                 .replace("$USER_DIR", System.getProperty("user.dir"))
                 .replace("$USER_HOME", System.getProperty("user.home"))
                 .replace("$USER_NAME", System.getProperty("user.name"))
-                .replace("/", fs)
-                .replace("\\", fs);
+                .replace("/", SEP)
+                .replace("\\", SEP);
     }
 
     /**
@@ -29,9 +35,8 @@ public class DirectoryHelper {
      *
      * @param dir File path relative to project's root directory
      * @return true on success, false otherwise
-     * @throws IOException error during file creation
      */
-    public static boolean createDirectoryIfNotExists(String dir) throws IOException {
+    public static boolean createDirectoryIfNotExists(String dir) {
         dir = preparePath(dir);
 
         File file = new File(dir);
@@ -40,7 +45,7 @@ public class DirectoryHelper {
     }
 
     /**
-     * Delete a directory and all its sub directories
+     * Delete a directory and all its subdirectories
      *
      * @param dir directory
      * @return true on success, false otherwise
@@ -50,7 +55,7 @@ public class DirectoryHelper {
     }
 
     /**
-     * Delete a directory and all its sub directories
+     * Delete a directory and all its subdirectories
      *
      * @param dir directory
      * @return true on success, false otherwise

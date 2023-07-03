@@ -123,15 +123,17 @@ public class TestSuiteLogCollection {
      * @return log directory path
      */
     public TestSuiteLogCollection buildLogDirectoryPath() {
-        SimpleDateFormat dirDateFormatter = new SimpleDateFormat("yyyy-MM-dd");
-        SimpleDateFormat dirHourFormatter = new SimpleDateFormat("HH-mm-ss");
+        if (this.logDirectory == null) {
+            SimpleDateFormat dirDateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat dirHourFormatter = new SimpleDateFormat("HH-mm-ss");
 
-        this.logDirectory = DirectoryHelper.preparePath(
-                "$USER_DIR/logs/"
-                        + dirDateFormatter.format(this.start)
-                        + "/" + dirHourFormatter.format(this.start)
-                        + "-" + this.getDriverName() + "-" + uuid
-        );
+            this.logDirectory = DirectoryHelper.preparePath(
+                    "$USER_DIR/logs/"
+                            + dirDateFormatter.format(this.start)
+                            + "/" + dirHourFormatter.format(this.start)
+                            + "-" + this.getDriverName() + "-" + uuid
+            );
+        }
 
         return this;
     }
@@ -192,7 +194,7 @@ public class TestSuiteLogCollection {
      *
      * @param instance Instance
      */
-    public synchronized static void setInstance(TestSuiteLogCollection instance) {
+    public synchronized void setInstance(TestSuiteLogCollection instance) {
         TestSuiteLogCollection.instance = instance;
     }
 
@@ -537,12 +539,10 @@ public class TestSuiteLogCollection {
         }
     }
 
-    public class ProcessInfo {
-        /**
-         * Current Process
-         */
-        private transient ProcessHandle currentProcess = ProcessHandle.current();
-
+    /**
+     * A class describing {@link Process} information.
+     */
+    public static class ProcessInfo {
         /**
          * Current processes PID
          */
@@ -552,7 +552,7 @@ public class TestSuiteLogCollection {
          * Constructor
          */
         ProcessInfo() {
-            pid = currentProcess.pid();
+            pid = ProcessHandle.current().pid();
         }
 
         /**

@@ -24,7 +24,7 @@ public class StepInformationLogMessage extends LogMessage {
     /**
      * Log message type
      */
-    private final String type = "STEP_LOG";
+    private static final String TYPE = "STEP_LOG";
 
     /**
      * Step name
@@ -34,7 +34,7 @@ public class StepInformationLogMessage extends LogMessage {
     /**
      * Step annotation
      */
-    private Step step = new Step();
+    private final Step step = new Step();
 
     /**
      * Step status
@@ -50,11 +50,6 @@ public class StepInformationLogMessage extends LogMessage {
      * Time when step was finished
      */
     private Date end = null;
-
-    /**
-     * Time needed for executing the step method
-     */
-    private long duration = 0L;
 
     /**
      * The list of the step's method parameters.
@@ -96,7 +91,6 @@ public class StepInformationLogMessage extends LogMessage {
         this.methodName = methodName;
     }
 
-    @Override
     protected void finalize() throws Throwable {
         QtafFactory.getLogger().warn("[StepLog] Destroying log message '" + getMessage() + "'");
         super.finalize();
@@ -137,6 +131,7 @@ public class StepInformationLogMessage extends LogMessage {
      *
      * @param name  the name of the parameter
      * @param value the value of the parameter
+     * @param <T>   the parameter type
      */
     public <T> void addStepParameter(String name, T value) {
         String className = value == null ? NullType.class.getName() : value.getClass().getSimpleName();
@@ -187,16 +182,6 @@ public class StepInformationLogMessage extends LogMessage {
      *
      * @return true if an error occurred during method execution, false otherwise
      */
-    public boolean hasError() {
-        return this.error != null;
-    }
-
-    /**
-     * Set step error
-     *
-     * @param error step error
-     * @return this
-     */
     public StepInformationLogMessage setError(Throwable error) {
         this.error = new ThrowableWrapper(error);
         this.status = Status.ERROR;
@@ -220,8 +205,8 @@ public class StepInformationLogMessage extends LogMessage {
      *
      * @return type
      */
-    public String getType() {
-        return type;
+    public String getTYPE() {
+        return TYPE;
     }
 
     /**
@@ -309,17 +294,6 @@ public class StepInformationLogMessage extends LogMessage {
     }
 
     /**
-     * Set duration
-     *
-     * @param duration Duration
-     * @return this
-     */
-    public StepInformationLogMessage setDuration(long duration) {
-        this.duration = duration;
-        return this;
-    }
-
-    /**
      * Get screenshotBefore
      *
      * @return screenshotBefore
@@ -363,10 +337,25 @@ public class StepInformationLogMessage extends LogMessage {
      * Step status
      */
     public enum Status {
+        /**
+         * The step is still pending execution.
+         */
         PENDING,
+        /**
+         * The step was executed successfully.
+         */
         PASS,
+        /**
+         * There were errors during step execution.
+         */
         ERROR,
+        /**
+         * The step's execution was skipped.
+         */
         SKIPPED,
+        /**
+         * The step status could not be determined.
+         */
         UNDEFINED,
     }
 

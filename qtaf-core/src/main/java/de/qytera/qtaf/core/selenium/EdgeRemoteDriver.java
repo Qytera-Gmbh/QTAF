@@ -11,25 +11,23 @@ import org.openqa.selenium.remote.RemoteWebDriver;
  */
 public class EdgeRemoteDriver extends AbstractDriver {
 
-    /**
-     * Creates a new edge-remote driver.
-     */
-    public EdgeRemoteDriver() {
-        super(false);
-    }
-
     @Override
     public String getName() {
         return "edge-remote";
     }
 
     @Override
-    public WebDriver getDriverInstance() {
+    public WebDriver getDriver() {
         return new RemoteWebDriver(SeleniumDriverConfigHelper.getRemoteUrl(), getCapabilities());
     }
 
     @Override
     protected Capabilities getCapabilities() {
         return new EdgeOptions();
+    }
+
+    @Override
+    protected boolean isRemoteDriver() {
+        return true;
     }
 }

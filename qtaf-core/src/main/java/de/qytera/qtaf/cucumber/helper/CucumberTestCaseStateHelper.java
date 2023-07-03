@@ -6,12 +6,15 @@ import io.cucumber.plugin.event.Result;
 import io.cucumber.plugin.event.TestCase;
 
 import java.lang.reflect.Field;
+import java.util.Collections;
 import java.util.List;
 
 /**
  * Helper class for extracting information from Cucumber Scenario objects
  */
 public class CucumberTestCaseStateHelper {
+    private CucumberTestCaseStateHelper() {
+    }
 
     /**
      * Get TestCase object from TestCaseState object
@@ -26,8 +29,7 @@ public class CucumberTestCaseStateHelper {
 
             try {
                 if (field.getName().equals("testCase")) {
-                    TestCase testCase = (TestCase) field.get(testCaseState);
-                    return testCase;
+                    return (TestCase) field.get(testCaseState);
                 }
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
@@ -50,15 +52,15 @@ public class CucumberTestCaseStateHelper {
 
             try {
                 if (field.getName().equals("stepResults")) {
-                    List<Result> results = (List<Result>) field.get(testCaseState);
-                    return results;
+                    return (List<Result>) field.get(testCaseState);
+
                 }
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
         }
 
-        return null;
+        return Collections.emptyList();
     }
 
 }

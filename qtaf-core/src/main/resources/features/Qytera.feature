@@ -7,7 +7,7 @@ Feature: Navigation test
   @TestName:QTAF-1
   Scenario: Navigate to page
     Given There are the following valid links
-      | testing-solutions |
+      | testing-solutions  |
       | seminare-trainings |
     When I visit the Qytera homepage
     Then I navigate to "testing-solutions"
@@ -25,9 +25,9 @@ Feature: Navigation test
   Scenario: Fill contact field
     Given I am at the contact form page
     When I enter the following contact data
-      | Name      | Email                 | Subject |
-      | John Doe  | john.doe@inet.com     | Hallo   |
-      | Jane Doe  | jane.doe@inet.com     | Hallo   |
+      | Name     | Email             | Subject |
+      | John Doe | john.doe@inet.com | Hallo   |
+      | Jane Doe | jane.doe@inet.com | Hallo   |
     And I enter the following message
       """
       Hallo Welt,

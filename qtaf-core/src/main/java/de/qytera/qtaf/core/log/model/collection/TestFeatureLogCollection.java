@@ -20,7 +20,7 @@ public class TestFeatureLogCollection {
     /**
      * Search index
      */
-    private static final transient FeatureLogCollectionIndex index = FeatureLogCollectionIndex.getInstance();
+    private static final FeatureLogCollectionIndex index = FeatureLogCollectionIndex.getInstance();
 
     /**
      * Test feature unique ID
@@ -94,6 +94,7 @@ public class TestFeatureLogCollection {
      *
      * @param featureId   Collection ID
      * @param featureName Collection Name
+     * @return the log collection
      */
     public static synchronized TestFeatureLogCollection createFeatureLogCollectionIfNotExists(
             String featureId,
@@ -122,6 +123,7 @@ public class TestFeatureLogCollection {
      *
      * @param featureId             Collection ID
      * @param testFeatureAnnotation Test feature annotation
+     * @return the log collection
      */
     public static synchronized TestFeatureLogCollection createFeatureLogCollectionIfNotExists(
             String featureId,
@@ -219,13 +221,14 @@ public class TestFeatureLogCollection {
     /**
      * Add new Scenario Log Collection
      *
-     * @param featureId    Unique test hash code
-     * @param instanceId   Method ID / Scenario name
-     * @param scenarioName Test ID / Feature name
+     * @param featureId          Unique test hash code
+     * @param abstractScenarioId the scenario ID
+     * @param instanceId         Method ID / Scenario name
+     * @param scenarioName       Test ID / Feature name
      * @return this
      */
     public synchronized TestScenarioLogCollection createScenarioIfNotExists(String featureId, String abstractScenarioId, String instanceId, String scenarioName) {
-        TestScenarioLogCollection testScenarioLogCollection = TestScenarioLogCollection
+        TestScenarioLogCollection testScenarioLog = TestScenarioLogCollection
                 .createTestScenarioLogCollection(
                         featureId,
                         abstractScenarioId,
@@ -234,11 +237,11 @@ public class TestFeatureLogCollection {
                 );
 
         // Check if log collection already has a scenario log collection with the given scenario ID
-        if (!this.testScenarioLogCollection.contains(testScenarioLogCollection)) {
-            this.testScenarioLogCollection.add(testScenarioLogCollection);
+        if (!this.testScenarioLogCollection.contains(testScenarioLog)) {
+            this.testScenarioLogCollection.add(testScenarioLog);
         }
 
-        return testScenarioLogCollection;
+        return testScenarioLog;
     }
 
     /**

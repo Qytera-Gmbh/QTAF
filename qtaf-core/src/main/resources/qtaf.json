@@ -42,6 +42,7 @@
       }
     },
     "resultsUpload": {
+      "testPlanKey": null,
       "scenarioReportEvidence": true,
       "scenarioImageEvidence": true,
       "customStatus": {
@@ -77,6 +78,9 @@
         }
       }
     }
+  },
+  "security": {
+    "key": null
   },
   "htmlReport": {
     "enabled": true

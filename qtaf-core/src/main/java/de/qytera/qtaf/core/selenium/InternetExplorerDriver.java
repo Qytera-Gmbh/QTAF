@@ -9,20 +9,13 @@ import org.openqa.selenium.ie.InternetExplorerOptions;
  */
 public class InternetExplorerDriver extends AbstractDriver {
 
-    /**
-     * Creates a new ie driver.
-     */
-    public InternetExplorerDriver() {
-        super(false);
-    }
-
     @Override
     public String getName() {
         return "ie";
     }
 
     @Override
-    public WebDriver getDriverInstance() {
+    public WebDriver getDriver() {
         WebDriverManager.iedriver().setup();
         return new org.openqa.selenium.ie.InternetExplorerDriver(this.getCapabilities());
     }
@@ -36,5 +29,10 @@ public class InternetExplorerDriver extends AbstractDriver {
         InternetExplorerOptions caps = new InternetExplorerOptions();
         caps.setCapability("ignoreZoomSetting", true);
         return caps;
+    }
+
+    @Override
+    protected boolean isRemoteDriver() {
+        return false;
     }
 }

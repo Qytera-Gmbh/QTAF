@@ -15,7 +15,7 @@ public class AndroidDriver extends AbstractAndroidDriver {
     }
 
     @Override
-    public WebDriver getDriverInstance() {
+    public WebDriver getDriver() {
         return getAndroidDriver(getCapabilities());
     }
 
@@ -36,6 +36,11 @@ public class AndroidDriver extends AbstractAndroidDriver {
         dc.setCapability("appPackage", CONFIG.getString("appium.capabilities.appPackage"));
         dc.setCapability("appActivity", CONFIG.getString("appium.capabilities.appActivity"));
         return dc;
+    }
+
+    @Override
+    protected boolean isRemoteDriver() {
+        return false;
     }
 
 }

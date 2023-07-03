@@ -11,25 +11,23 @@ import org.openqa.selenium.remote.RemoteWebDriver;
  */
 public class FirefoxRemoteDriver extends AbstractDriver {
 
-    /**
-     * Creates a new firefox-remote driver.
-     */
-    public FirefoxRemoteDriver() {
-        super(true);
-    }
-
     @Override
     public String getName() {
         return "firefox-remote";
     }
 
     @Override
-    public WebDriver getDriverInstance() {
+    public WebDriver getDriver() {
         return new RemoteWebDriver(SeleniumDriverConfigHelper.getRemoteUrl(), getCapabilities());
     }
 
     @Override
     protected Capabilities getCapabilities() {
         return new FirefoxOptions();
+    }
+
+    @Override
+    protected boolean isRemoteDriver() {
+        return true;
     }
 }

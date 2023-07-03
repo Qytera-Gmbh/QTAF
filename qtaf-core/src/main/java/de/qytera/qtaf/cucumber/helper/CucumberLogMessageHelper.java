@@ -7,7 +7,6 @@ import io.cucumber.core.backend.TestCaseState;
 import io.cucumber.java.Scenario;
 import io.cucumber.plugin.event.*;
 
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +14,8 @@ import java.util.List;
  * Helper class that creates log messages from test steps
  */
 public class CucumberLogMessageHelper {
+    private CucumberLogMessageHelper() {
+    }
 
     /**
      * Cucumber log index
@@ -50,9 +51,6 @@ public class CucumberLogMessageHelper {
             // Create log message
             CucumberStepLogMessage logMessage = createCucumberStepLogMessageFromTestStep(testStep);
 
-            URI uri = ((PickleStepTestStep) testStep).getUri();
-            String codeLocation = testStep.getCodeLocation();
-
             stepLogMessages.add(logMessage);
         }
 
@@ -80,12 +78,6 @@ public class CucumberLogMessageHelper {
         String stepText = step.getText();       // Text after Given / When / Then
 
         StepArgument stepArgument = step.getArgument(); // Argument passed to step (i.e. DataTable, DocString)
-        int stepLine = step.getLine();                  // Line of the step definition in the feature file
-
-        // Extract information about location of step definition in the feature file
-        Location stepLocation = step.getLocation();
-        int locationColumn = stepLocation.getColumn();
-        int locationLine = stepLocation.getLine();
 
         // Create new log message
         CucumberStepLogMessage message = new CucumberStepLogMessage(
@@ -115,8 +107,6 @@ public class CucumberLogMessageHelper {
             CucumberStepLogMessage message,
             Result testResult
     ) {
-        // Add duration and status of test step
-        message.setDuration(testResult.getDuration().getNano() / 1000000);
         message.setStatus(mapCucumberStatusToLogStatus(testResult.getStatus()));
 
         // Add error message if there is one
@@ -143,9 +133,7 @@ public class CucumberLogMessageHelper {
                 return StepInformationLogMessage.Status.UNDEFINED;
             case PENDING:
                 return StepInformationLogMessage.Status.PENDING;
-            // TODO handle the following status
-            case UNUSED:
-            case AMBIGUOUS:
+            case UNUSED, AMBIGUOUS:
         }
         return null;
     }
