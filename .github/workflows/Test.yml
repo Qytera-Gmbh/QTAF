@@ -40,8 +40,7 @@ jobs:
               -Dsonar.login=$SONAR_TOKEN \
               -Dxray.authentication.xray.clientId=$XRAY_CLIENT_ID \
               -Dxray.authentication.xray.clientSecret=$XRAY_CLIENT_SECRET \
-              -DexcludedGroups=ie \
-              -DexcludedGroups=edge
+              -DexcludedGroups=ie,edge
 
     runs-on: ${{ matrix.os }}
     timeout-minutes: 10
