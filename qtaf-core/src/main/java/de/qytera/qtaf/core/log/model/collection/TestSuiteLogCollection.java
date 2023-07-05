@@ -123,7 +123,7 @@ public class TestSuiteLogCollection {
      * @return log directory path
      */
     public TestSuiteLogCollection buildLogDirectoryPath() {
-        if (this.logDirectory == null) {
+        if (this.logDirectory == null && this.getDriverName() != null && !this.getDriverName().equals("") && !this.getDriverName().equals("none")) {
             SimpleDateFormat dirDateFormatter = new SimpleDateFormat("yyyy-MM-dd");
             SimpleDateFormat dirHourFormatter = new SimpleDateFormat("HH-mm-ss");
 
