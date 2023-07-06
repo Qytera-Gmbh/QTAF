@@ -16,10 +16,10 @@ public class AWSDeviceFarmConfigHelper {
     public static final String PROJECT_REGION = "aws.deviceFarm.region";
 
     public static String getProjectArn() {
-        return PROJECT_ARN;
+        return CONFIG.getString(PROJECT_ARN);
     }
 
     public static String getProjectRegion() {
-        return PROJECT_REGION;
+        return CONFIG.getString(PROJECT_REGION);
     }
 }
