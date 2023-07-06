@@ -1,5 +1,7 @@
 package de.qytera.qtaf.core.log.service;
 
+import de.qytera.qtaf.core.QtafFactory;
+import de.qytera.qtaf.core.config.entity.ConfigMap;
 import de.qytera.qtaf.core.log.model.LogLevel;
 import de.qytera.qtaf.core.log.model.collection.TestFeatureLogCollection;
 import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
@@ -13,6 +15,7 @@ public class LogFileWriterTest {
     @Test
     public void testLogFileWriter() {
         TestSuiteLogCollection slc = TestSuiteLogCollection.getInstance();
+        slc.setDriverName("chrome");
 
         // Mock feature logs
         TestFeatureLogCollection f1 = slc.createFeatureIfNotExists("feature1", "feature1");
