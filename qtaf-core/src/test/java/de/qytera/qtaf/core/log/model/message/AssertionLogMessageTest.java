@@ -28,12 +28,15 @@ public class AssertionLogMessageTest {
     @Test(description = "Test status of AssertionLogMessage")
     public void testStatus() {
         AssertionLogMessage message = new AssertionLogMessage(LogLevel.INFO, "m1");
+        Assert.assertFalse(message.wasExecuted());
         Assert.assertFalse(message.hasPassed());
         Assert.assertFalse(message.hasFailed());
         message.setStatusToPassed();
+        Assert.assertTrue(message.wasExecuted());
         Assert.assertTrue(message.hasPassed());
         Assert.assertFalse(message.hasFailed());
         message.setStatusToFailed();
+        Assert.assertTrue(message.wasExecuted());
         Assert.assertFalse(message.hasPassed());
         Assert.assertTrue(message.hasFailed());
     }

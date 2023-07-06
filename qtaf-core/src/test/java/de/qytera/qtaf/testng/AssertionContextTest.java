@@ -7,12 +7,24 @@ import de.qytera.qtaf.core.log.model.message.AssertionLogMessageType;
 import de.qytera.qtaf.core.log.model.message.StepInformationLogMessage;
 import de.qytera.qtaf.testng.context.AssertionContext;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.Map;
 import java.util.Set;
 
 public class AssertionContextTest {
+    @BeforeMethod
+    public void clearIndicesBeforeTest() {
+        IndexHelper.clearAllIndices();
+    }
+
+    @AfterMethod
+    public void clearIndicesAfterTest() {
+        IndexHelper.clearAllIndices();
+    }
+
     @Test(description = "Test no message string")
     public void testGetNoMessageString() {
         TestContext context = new TestContext();
@@ -21,7 +33,6 @@ public class AssertionContextTest {
 
     @Test(description = "Test assertTrue")
     public void testAssertTrue() {
-        IndexHelper.clearAllIndices();
         TestContext context = new TestContext();
         StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
@@ -37,12 +48,10 @@ public class AssertionContextTest {
         Assert.assertTrue(assertion.hasPassed());
         Assert.assertFalse(assertion.hasFailed());
 
-        IndexHelper.clearAllIndices();
     }
 
-    @Test(description = "Test assertTrue", expectedExceptions = {AssertionError.class})
+    @Test(description = "Test assertTrue", expectedExceptions = {AssertionError.class}, expectedExceptionsMessageRegExp = "should be true expected \\[true\\] but found \\[false\\](.*)")
     public void testAssertTrueFailure() {
-        IndexHelper.clearAllIndices();
         TestContext context = new TestContext();
         StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
@@ -53,7 +62,6 @@ public class AssertionContextTest {
 
     @Test(description = "Test assertTrue")
     public void testAssertTrueFailureButContinue() {
-        IndexHelper.clearAllIndices();
         TestContext context = new TestContext();
         StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
@@ -69,12 +77,10 @@ public class AssertionContextTest {
         Assert.assertFalse(assertion.hasPassed());
         Assert.assertTrue(assertion.hasFailed());
 
-        IndexHelper.clearAllIndices();
     }
 
     @Test(description = "Test assertFalse")
     public void testAssertFalse() {
-        IndexHelper.clearAllIndices();
         TestContext context = new TestContext();
         StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
@@ -90,12 +96,10 @@ public class AssertionContextTest {
         Assert.assertTrue(assertion.hasPassed());
         Assert.assertFalse(assertion.hasFailed());
 
-        IndexHelper.clearAllIndices();
     }
 
     @Test(description = "Test assertFalse", expectedExceptions = {AssertionError.class})
     public void testAssertFalseFailure() {
-        IndexHelper.clearAllIndices();
         TestContext context = new TestContext();
         StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
@@ -106,7 +110,6 @@ public class AssertionContextTest {
 
     @Test(description = "Test assertFalse")
     public void testAssertFalseFailureButContinue() {
-        IndexHelper.clearAllIndices();
         TestContext context = new TestContext();
         StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
@@ -122,12 +125,10 @@ public class AssertionContextTest {
         Assert.assertFalse(assertion.hasPassed());
         Assert.assertTrue(assertion.hasFailed());
 
-        IndexHelper.clearAllIndices();
     }
 
     @Test(description = "Test assertNull")
     public void testAssertNull() {
-        IndexHelper.clearAllIndices();
         TestContext context = new TestContext();
         StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
@@ -138,17 +139,15 @@ public class AssertionContextTest {
         Assert.assertEquals(logMessage.getAssertions().size(), 1);
         AssertionLogMessage assertion = logMessage.getAssertions().get(0);
         Assert.assertEquals(assertion.type(), AssertionLogMessageType.ASSERT_NULL);
-        Assert.assertNull(assertion.object());
+        Assert.assertNull(assertion.actual());
         Assert.assertNull(assertion.error());
         Assert.assertTrue(assertion.hasPassed());
         Assert.assertFalse(assertion.hasFailed());
 
-        IndexHelper.clearAllIndices();
     }
 
     @Test(description = "Test assertNull failure", expectedExceptions = {AssertionError.class})
     public void testAssertNullFailure() {
-        IndexHelper.clearAllIndices();
         TestContext context = new TestContext();
         StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
@@ -159,7 +158,6 @@ public class AssertionContextTest {
 
     @Test(description = "Test assertNull failure but continue")
     public void testAssertNullFailureButContinue() {
-        IndexHelper.clearAllIndices();
         TestContext context = new TestContext();
         StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
@@ -170,17 +168,15 @@ public class AssertionContextTest {
         Assert.assertEquals(logMessage.getAssertions().size(), 1);
         AssertionLogMessage assertion = logMessage.getAssertions().get(0);
         Assert.assertEquals(assertion.type(), AssertionLogMessageType.ASSERT_NULL);
-        Assert.assertEquals(assertion.object(), "abc");
+        Assert.assertEquals(assertion.actual(), "abc");
         Assert.assertNotNull(assertion.error());
         Assert.assertFalse(assertion.hasPassed());
         Assert.assertTrue(assertion.hasFailed());
 
-        IndexHelper.clearAllIndices();
     }
 
     @Test(description = "Test assertNotNull")
     public void testAssertNotNull() {
-        IndexHelper.clearAllIndices();
         TestContext context = new TestContext();
         StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
@@ -191,17 +187,15 @@ public class AssertionContextTest {
         Assert.assertEquals(logMessage.getAssertions().size(), 1);
         AssertionLogMessage assertion = logMessage.getAssertions().get(0);
         Assert.assertEquals(assertion.type(), AssertionLogMessageType.ASSERT_NOT_NULL);
-        Assert.assertEquals(assertion.object(), "abc");
+        Assert.assertEquals(assertion.actual(), "abc");
         Assert.assertNull(assertion.error());
         Assert.assertTrue(assertion.hasPassed());
         Assert.assertFalse(assertion.hasFailed());
 
-        IndexHelper.clearAllIndices();
     }
 
     @Test(description = "Test assertNotNull failure", expectedExceptions = {AssertionError.class})
     public void testAssertNotNullFailure() {
-        IndexHelper.clearAllIndices();
         TestContext context = new TestContext();
         StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
@@ -212,7 +206,6 @@ public class AssertionContextTest {
 
     @Test(description = "Test assertNull failure but continue")
     public void testAssertNotNullFailureButContinue() {
-        IndexHelper.clearAllIndices();
         TestContext context = new TestContext();
         StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
@@ -223,17 +216,15 @@ public class AssertionContextTest {
         Assert.assertEquals(logMessage.getAssertions().size(), 1);
         AssertionLogMessage assertion = logMessage.getAssertions().get(0);
         Assert.assertEquals(assertion.type(), AssertionLogMessageType.ASSERT_NOT_NULL);
-        Assert.assertNull(assertion.object());
+        Assert.assertNull(assertion.actual());
         Assert.assertNotNull(assertion.error());
         Assert.assertFalse(assertion.hasPassed());
         Assert.assertTrue(assertion.hasFailed());
 
-        IndexHelper.clearAllIndices();
     }
 
     @Test(description = "Test assertSame")
     public void testAssertSame() {
-        IndexHelper.clearAllIndices();
         TestContext context = new TestContext();
         StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
@@ -244,18 +235,16 @@ public class AssertionContextTest {
         Assert.assertEquals(logMessage.getAssertions().size(), 1);
         AssertionLogMessage assertion = logMessage.getAssertions().get(0);
         Assert.assertEquals(assertion.type(), AssertionLogMessageType.ASSERT_SAME);
-        Assert.assertEquals(assertion.object(), "abc");
+        Assert.assertEquals(assertion.actual(), "abc");
         Assert.assertEquals(assertion.expected(), "abc");
         Assert.assertNull(assertion.error());
         Assert.assertTrue(assertion.hasPassed());
         Assert.assertFalse(assertion.hasFailed());
 
-        IndexHelper.clearAllIndices();
     }
 
     @Test(description = "Test assertSame failure", expectedExceptions = {AssertionError.class})
     public void testAssertSameFailure() {
-        IndexHelper.clearAllIndices();
         TestContext context = new TestContext();
         StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
@@ -266,7 +255,6 @@ public class AssertionContextTest {
 
     @Test(description = "Test assertSame failure but continue")
     public void testAssertSameFailureButContinue() {
-        IndexHelper.clearAllIndices();
         TestContext context = new TestContext();
         StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
@@ -277,18 +265,16 @@ public class AssertionContextTest {
         Assert.assertEquals(logMessage.getAssertions().size(), 1);
         AssertionLogMessage assertion = logMessage.getAssertions().get(0);
         Assert.assertEquals(assertion.type(), AssertionLogMessageType.ASSERT_SAME);
-        Assert.assertEquals(assertion.object(), "abc");
+        Assert.assertEquals(assertion.actual(), "abc");
         Assert.assertEquals(assertion.expected(), "def");
         Assert.assertNotNull(assertion.error());
         Assert.assertFalse(assertion.hasPassed());
         Assert.assertTrue(assertion.hasFailed());
 
-        IndexHelper.clearAllIndices();
     }
 
     @Test(description = "Test assertNotSame")
     public void testAssertNotSame() {
-        IndexHelper.clearAllIndices();
         TestContext context = new TestContext();
         StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
@@ -299,18 +285,16 @@ public class AssertionContextTest {
         Assert.assertEquals(logMessage.getAssertions().size(), 1);
         AssertionLogMessage assertion = logMessage.getAssertions().get(0);
         Assert.assertEquals(assertion.type(), AssertionLogMessageType.ASSERT_NOT_SAME);
-        Assert.assertEquals(assertion.object(), "abc");
+        Assert.assertEquals(assertion.actual(), "abc");
         Assert.assertEquals(assertion.expected(), "def");
         Assert.assertNull(assertion.error());
         Assert.assertTrue(assertion.hasPassed());
         Assert.assertFalse(assertion.hasFailed());
 
-        IndexHelper.clearAllIndices();
     }
 
     @Test(description = "Test assertNotSame failure", expectedExceptions = {AssertionError.class})
     public void testAssertNotSameFailure() {
-        IndexHelper.clearAllIndices();
         TestContext context = new TestContext();
         StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
@@ -321,7 +305,6 @@ public class AssertionContextTest {
 
     @Test(description = "Test assertNotSame failure but continue")
     public void testAssertNotSameFailureButContinue() {
-        IndexHelper.clearAllIndices();
         TestContext context = new TestContext();
         StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
@@ -332,18 +315,16 @@ public class AssertionContextTest {
         Assert.assertEquals(logMessage.getAssertions().size(), 1);
         AssertionLogMessage assertion = logMessage.getAssertions().get(0);
         Assert.assertEquals(assertion.type(), AssertionLogMessageType.ASSERT_NOT_SAME);
-        Assert.assertEquals(assertion.object(), "abc");
+        Assert.assertEquals(assertion.actual(), "abc");
         Assert.assertEquals(assertion.expected(), "abc");
         Assert.assertNotNull(assertion.error());
         Assert.assertFalse(assertion.hasPassed());
         Assert.assertTrue(assertion.hasFailed());
 
-        IndexHelper.clearAllIndices();
     }
 
     @Test(description = "Test assertEquals")
     public void testAssertEquals() {
-        IndexHelper.clearAllIndices();
         TestContext context = new TestContext();
         StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
@@ -354,18 +335,16 @@ public class AssertionContextTest {
         Assert.assertEquals(logMessage.getAssertions().size(), 1);
         AssertionLogMessage assertion = logMessage.getAssertions().get(0);
         Assert.assertEquals(assertion.type(), AssertionLogMessageType.ASSERT_EQUALS);
-        Assert.assertEquals(assertion.object(), "abc");
+        Assert.assertEquals(assertion.actual(), "abc");
         Assert.assertEquals(assertion.expected(), "abc");
         Assert.assertNull(assertion.error());
         Assert.assertTrue(assertion.hasPassed());
         Assert.assertFalse(assertion.hasFailed());
 
-        IndexHelper.clearAllIndices();
     }
 
     @Test(description = "Test assertEquals failure", expectedExceptions = {AssertionError.class})
     public void testAssertEqualsFailure() {
-        IndexHelper.clearAllIndices();
         TestContext context = new TestContext();
         StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
@@ -376,7 +355,6 @@ public class AssertionContextTest {
 
     @Test(description = "Test assertEquals failure but continue")
     public void testAssertEqualsFailureButContinue() {
-        IndexHelper.clearAllIndices();
         TestContext context = new TestContext();
         StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
@@ -387,18 +365,16 @@ public class AssertionContextTest {
         Assert.assertEquals(logMessage.getAssertions().size(), 1);
         AssertionLogMessage assertion = logMessage.getAssertions().get(0);
         Assert.assertEquals(assertion.type(), AssertionLogMessageType.ASSERT_EQUALS);
-        Assert.assertEquals(assertion.object(), "abc");
+        Assert.assertEquals(assertion.actual(), "abc");
         Assert.assertEquals(assertion.expected(), "def");
         Assert.assertNotNull(assertion.error());
         Assert.assertFalse(assertion.hasPassed());
         Assert.assertTrue(assertion.hasFailed());
 
-        IndexHelper.clearAllIndices();
     }
 
     @Test(description = "Test assertNotEquals")
     public void testAssertNotEquals() {
-        IndexHelper.clearAllIndices();
         TestContext context = new TestContext();
         StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
@@ -409,18 +385,16 @@ public class AssertionContextTest {
         Assert.assertEquals(logMessage.getAssertions().size(), 1);
         AssertionLogMessage assertion = logMessage.getAssertions().get(0);
         Assert.assertEquals(assertion.type(), AssertionLogMessageType.ASSERT_NOT_EQUALS);
-        Assert.assertEquals(assertion.object(), "abc");
+        Assert.assertEquals(assertion.actual(), "abc");
         Assert.assertEquals(assertion.expected(), "def");
         Assert.assertNull(assertion.error());
         Assert.assertTrue(assertion.hasPassed());
         Assert.assertFalse(assertion.hasFailed());
 
-        IndexHelper.clearAllIndices();
     }
 
     @Test(description = "Test assertNotEquals failure", expectedExceptions = {AssertionError.class})
     public void testAssertNotEqualsFailure() {
-        IndexHelper.clearAllIndices();
         TestContext context = new TestContext();
         StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
@@ -431,7 +405,6 @@ public class AssertionContextTest {
 
     @Test(description = "Test assertNotEquals failure but continue")
     public void testAssertNotEqualsFailureButContinue() {
-        IndexHelper.clearAllIndices();
         TestContext context = new TestContext();
         StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
@@ -442,18 +415,16 @@ public class AssertionContextTest {
         Assert.assertEquals(logMessage.getAssertions().size(), 1);
         AssertionLogMessage assertion = logMessage.getAssertions().get(0);
         Assert.assertEquals(assertion.type(), AssertionLogMessageType.ASSERT_NOT_EQUALS);
-        Assert.assertEquals(assertion.object(), "abc");
+        Assert.assertEquals(assertion.actual(), "abc");
         Assert.assertEquals(assertion.expected(), "abc");
         Assert.assertNotNull(assertion.error());
         Assert.assertFalse(assertion.hasPassed());
         Assert.assertTrue(assertion.hasFailed());
 
-        IndexHelper.clearAllIndices();
     }
 
     @Test(description = "Test assertEquals")
     public void testAssertEqualsNoOrder() {
-        IndexHelper.clearAllIndices();
         TestContext context = new TestContext();
         StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
@@ -466,18 +437,16 @@ public class AssertionContextTest {
         Assert.assertEquals(logMessage.getAssertions().size(), 1);
         AssertionLogMessage assertion = logMessage.getAssertions().get(0);
         Assert.assertEquals(assertion.type(), AssertionLogMessageType.ASSERT_EQUALS_NO_ORDER);
-        Assert.assertEquals(assertion.object(), obj1);
+        Assert.assertEquals(assertion.actual(), obj1);
         Assert.assertEquals(assertion.expected(), obj2);
         Assert.assertNull(assertion.error());
         Assert.assertTrue(assertion.hasPassed());
         Assert.assertFalse(assertion.hasFailed());
 
-        IndexHelper.clearAllIndices();
     }
 
     @Test(description = "Test assertEquals failure", expectedExceptions = {AssertionError.class})
     public void testAssertEqualsNoOrderFailure() {
-        IndexHelper.clearAllIndices();
         TestContext context = new TestContext();
         StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
@@ -490,7 +459,6 @@ public class AssertionContextTest {
 
     @Test(description = "Test assertEquals failure but continue")
     public void testAssertEqualsNoOrderFailureButContinue() {
-        IndexHelper.clearAllIndices();
         TestContext context = new TestContext();
         StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
@@ -503,18 +471,16 @@ public class AssertionContextTest {
         Assert.assertEquals(logMessage.getAssertions().size(), 1);
         AssertionLogMessage assertion = logMessage.getAssertions().get(0);
         Assert.assertEquals(assertion.type(), AssertionLogMessageType.ASSERT_EQUALS_NO_ORDER);
-        Assert.assertEquals(assertion.object(), obj1);
+        Assert.assertEquals(assertion.actual(), obj1);
         Assert.assertEquals(assertion.expected(), obj2);
         Assert.assertNotNull(assertion.error());
         Assert.assertFalse(assertion.hasPassed());
         Assert.assertTrue(assertion.hasFailed());
 
-        IndexHelper.clearAllIndices();
     }
 
     @Test(description = "Test assertEqualsDeep")
     public void testAssertDeepEqualsWithMap() {
-        IndexHelper.clearAllIndices();
         TestContext context = new TestContext();
         StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
@@ -527,18 +493,16 @@ public class AssertionContextTest {
         Assert.assertEquals(logMessage.getAssertions().size(), 1);
         AssertionLogMessage assertion = logMessage.getAssertions().get(0);
         Assert.assertEquals(assertion.type(), AssertionLogMessageType.ASSERT_EQUALS_DEEP);
-        Assert.assertEquals(assertion.object(), obj1);
+        Assert.assertEquals(assertion.actual(), obj1);
         Assert.assertEquals(assertion.expected(), obj2);
         Assert.assertNull(assertion.error());
         Assert.assertTrue(assertion.hasPassed());
         Assert.assertFalse(assertion.hasFailed());
 
-        IndexHelper.clearAllIndices();
     }
 
     @Test(description = "Test assertEqualsDeep failure", expectedExceptions = {AssertionError.class})
     public void testAssertEqualsDeepFailureWithMap() {
-        IndexHelper.clearAllIndices();
         TestContext context = new TestContext();
         StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
@@ -551,7 +515,6 @@ public class AssertionContextTest {
 
     @Test(description = "Test assertEqualsDeep failure but continue")
     public void testAssertEqualsDeepFailureButContinueWithMap() {
-        IndexHelper.clearAllIndices();
         TestContext context = new TestContext();
         StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
@@ -564,18 +527,16 @@ public class AssertionContextTest {
         Assert.assertEquals(logMessage.getAssertions().size(), 1);
         AssertionLogMessage assertion = logMessage.getAssertions().get(0);
         Assert.assertEquals(assertion.type(), AssertionLogMessageType.ASSERT_EQUALS_DEEP);
-        Assert.assertEquals(assertion.object(), obj1);
+        Assert.assertEquals(assertion.actual(), obj1);
         Assert.assertEquals(assertion.expected(), obj2);
         Assert.assertNotNull(assertion.error());
         Assert.assertFalse(assertion.hasPassed());
         Assert.assertTrue(assertion.hasFailed());
 
-        IndexHelper.clearAllIndices();
     }
 
     @Test(description = "Test assertEqualsDeep with set")
     public void testAssertDeepEqualsWithSet() {
-        IndexHelper.clearAllIndices();
         TestContext context = new TestContext();
         StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
@@ -588,18 +549,16 @@ public class AssertionContextTest {
         Assert.assertEquals(logMessage.getAssertions().size(), 1);
         AssertionLogMessage assertion = logMessage.getAssertions().get(0);
         Assert.assertEquals(assertion.type(), AssertionLogMessageType.ASSERT_EQUALS_DEEP);
-        Assert.assertEquals(assertion.object(), obj1);
+        Assert.assertEquals(assertion.actual(), obj1);
         Assert.assertEquals(assertion.expected(), obj2);
         Assert.assertNull(assertion.error());
         Assert.assertTrue(assertion.hasPassed());
         Assert.assertFalse(assertion.hasFailed());
 
-        IndexHelper.clearAllIndices();
     }
 
     @Test(description = "Test assertEqualsDeep with set failure", expectedExceptions = {AssertionError.class})
     public void testAssertEqualsDeepFailureWithSet() {
-        IndexHelper.clearAllIndices();
         TestContext context = new TestContext();
         StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
@@ -612,7 +571,6 @@ public class AssertionContextTest {
 
     @Test(description = "Test assertEqualsDeep with set failure but continue")
     public void testAssertEqualsDeepFailureButContinueWithSet() {
-        IndexHelper.clearAllIndices();
         TestContext context = new TestContext();
         StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
@@ -625,18 +583,16 @@ public class AssertionContextTest {
         Assert.assertEquals(logMessage.getAssertions().size(), 1);
         AssertionLogMessage assertion = logMessage.getAssertions().get(0);
         Assert.assertEquals(assertion.type(), AssertionLogMessageType.ASSERT_EQUALS_DEEP);
-        Assert.assertEquals(assertion.object(), obj1);
+        Assert.assertEquals(assertion.actual(), obj1);
         Assert.assertEquals(assertion.expected(), obj2);
         Assert.assertNotNull(assertion.error());
         Assert.assertFalse(assertion.hasPassed());
         Assert.assertTrue(assertion.hasFailed());
 
-        IndexHelper.clearAllIndices();
     }
 
     @Test(description = "Test assertNotEqualsDeep")
     public void testAsserNotDeepEqualsWithMap() {
-        IndexHelper.clearAllIndices();
         TestContext context = new TestContext();
         StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
@@ -649,18 +605,16 @@ public class AssertionContextTest {
         Assert.assertEquals(logMessage.getAssertions().size(), 1);
         AssertionLogMessage assertion = logMessage.getAssertions().get(0);
         Assert.assertEquals(assertion.type(), AssertionLogMessageType.ASSERT_NOT_EQUALS_DEEP);
-        Assert.assertEquals(assertion.object(), obj1);
+        Assert.assertEquals(assertion.actual(), obj1);
         Assert.assertEquals(assertion.expected(), obj2);
         Assert.assertNull(assertion.error());
         Assert.assertTrue(assertion.hasPassed());
         Assert.assertFalse(assertion.hasFailed());
 
-        IndexHelper.clearAllIndices();
     }
 
     @Test(description = "Test assertNotEqualsDeep failure", expectedExceptions = {AssertionError.class})
     public void testAssertNotEqualsDeepFailureWithMap() {
-        IndexHelper.clearAllIndices();
         TestContext context = new TestContext();
         StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
@@ -673,7 +627,6 @@ public class AssertionContextTest {
 
     @Test(description = "Test assertNotEqualsDeep failure but continue")
     public void testAssertNotEqualsDeepFailureButContinueWithMap() {
-        IndexHelper.clearAllIndices();
         TestContext context = new TestContext();
         StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
@@ -686,18 +639,16 @@ public class AssertionContextTest {
         Assert.assertEquals(logMessage.getAssertions().size(), 1);
         AssertionLogMessage assertion = logMessage.getAssertions().get(0);
         Assert.assertEquals(assertion.type(), AssertionLogMessageType.ASSERT_NOT_EQUALS_DEEP);
-        Assert.assertEquals(assertion.object(), obj1);
+        Assert.assertEquals(assertion.actual(), obj1);
         Assert.assertEquals(assertion.expected(), obj2);
         Assert.assertNotNull(assertion.error());
         Assert.assertFalse(assertion.hasPassed());
         Assert.assertTrue(assertion.hasFailed());
 
-        IndexHelper.clearAllIndices();
     }
 
     @Test(description = "Test assertNotEqualsDeep")
     public void testAsserNotDeepEqualsWithSet() {
-        IndexHelper.clearAllIndices();
         TestContext context = new TestContext();
         StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
@@ -710,18 +661,16 @@ public class AssertionContextTest {
         Assert.assertEquals(logMessage.getAssertions().size(), 1);
         AssertionLogMessage assertion = logMessage.getAssertions().get(0);
         Assert.assertEquals(assertion.type(), AssertionLogMessageType.ASSERT_NOT_EQUALS_DEEP);
-        Assert.assertEquals(assertion.object(), obj1);
+        Assert.assertEquals(assertion.actual(), obj1);
         Assert.assertEquals(assertion.expected(), obj2);
         Assert.assertNull(assertion.error());
         Assert.assertTrue(assertion.hasPassed());
         Assert.assertFalse(assertion.hasFailed());
 
-        IndexHelper.clearAllIndices();
     }
 
     @Test(description = "Test assertNotEqualsDeep failure", expectedExceptions = {AssertionError.class})
     public void testAssertNotEqualsDeepFailureWithSet() {
-        IndexHelper.clearAllIndices();
         TestContext context = new TestContext();
         StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
@@ -734,7 +683,6 @@ public class AssertionContextTest {
 
     @Test(description = "Test assertNotEqualsDeep failure but continue")
     public void testAssertNotEqualsDeepFailureButContinueWithSet() {
-        IndexHelper.clearAllIndices();
         TestContext context = new TestContext();
         StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
@@ -747,13 +695,12 @@ public class AssertionContextTest {
         Assert.assertEquals(logMessage.getAssertions().size(), 1);
         AssertionLogMessage assertion = logMessage.getAssertions().get(0);
         Assert.assertEquals(assertion.type(), AssertionLogMessageType.ASSERT_NOT_EQUALS_DEEP);
-        Assert.assertEquals(assertion.object(), obj1);
+        Assert.assertEquals(assertion.actual(), obj1);
         Assert.assertEquals(assertion.expected(), obj2);
         Assert.assertNotNull(assertion.error());
         Assert.assertFalse(assertion.hasPassed());
         Assert.assertTrue(assertion.hasFailed());
 
-        IndexHelper.clearAllIndices();
     }
 
     static class TestContext implements AssertionContext {

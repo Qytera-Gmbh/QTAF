@@ -589,7 +589,7 @@ public interface AssertionContext {
         AssertionLogMessage assertionLogMessage = buildAssertionLogMessage(stepLog, message);
         assertionLogMessage
                 .setType(type)
-                .setObject(object)
+                .setActual(object)
                 .setExpected(expected)
                 .setError(error);
 
