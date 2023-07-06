@@ -7,6 +7,7 @@ import de.qytera.qtaf.core.config.annotations.TestFeature;
 import de.qytera.qtaf.core.gson.serializer.*;
 import de.qytera.qtaf.core.gson.strategy.QtafGsonExclusionStrategy;
 import de.qytera.qtaf.core.guice.annotations.Step;
+import de.qytera.qtaf.core.log.model.error.ErrorLogCollection;
 import de.qytera.qtaf.core.reflection.ClassLoader;
 import org.openqa.selenium.InvalidArgumentException;
 
@@ -114,7 +115,7 @@ public class GsonFactory {
         } catch (Throwable e) {
             System.out.println("GSON Initialization Error");
             System.out.println(e.getMessage());
-            e.printStackTrace();
+            ErrorLogCollection.getInstance().addErrorLog(e);
         }
     }
 
@@ -134,7 +135,7 @@ public class GsonFactory {
         } catch (Throwable e) {
             System.out.println("GSON Initialization Error");
             System.out.println(e.getMessage());
-            e.printStackTrace();
+            ErrorLogCollection.getInstance().addErrorLog(e);
         }
     }
 }
