@@ -118,6 +118,13 @@ public class TestSuiteLogCollection {
     }
 
     /**
+     * Reset the log directory
+     */
+    public void resetLogDirectory() {
+        logDirectory = null;
+    }
+
+    /**
      * Build the log directory path
      *
      * @return log directory path
@@ -152,6 +159,10 @@ public class TestSuiteLogCollection {
      */
     public synchronized void clearCollection() {
         testFeatureLogCollections.clear();
+        setDriverName("none");
+        setStart(null);
+        setEnd(null);
+        resetLogDirectory();
     }
 
     /**
