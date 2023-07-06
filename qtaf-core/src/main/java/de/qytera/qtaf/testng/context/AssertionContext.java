@@ -116,7 +116,7 @@ public interface AssertionContext {
             }
         }
 
-        handleAssertNull(object, message, null);
+        handleAssertNull(null, message, null);
     }
 
     /**
@@ -573,19 +573,7 @@ public interface AssertionContext {
      * @param error     assertion error
      */
     default void handleAssertCondition(AssertionLogMessageType type, Object object, String message, AssertionError error) {
-        StepInformationLogMessage stepLog = getLogCollection().getStepLogOfPendingStep();
-        AssertionLogMessage assertionLogMessage = buildAssertionLogMessage(stepLog, message);
-        assertionLogMessage
-                .setType(type)
-                .setObject(object)
-                .setError(error);
-
-        // Check if there was an error
-        if (error != null) {
-            assertionLogMessage.setStatusToFailed();
-        } else {
-            assertionLogMessage.setStatusToPassed();
-        }
+        handleAssertCondition(type, object, null, message, error);
     }
 
     /**

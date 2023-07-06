@@ -2,17 +2,13 @@ package de.qytera.qtaf.testng;
 
 import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
 import de.qytera.qtaf.core.log.model.index.IndexHelper;
-import de.qytera.qtaf.core.log.model.index.LogMessageIndex;
-import de.qytera.qtaf.core.log.model.index.ScenarioLogCollectionIndex;
 import de.qytera.qtaf.core.log.model.message.AssertionLogMessage;
 import de.qytera.qtaf.core.log.model.message.AssertionLogMessageType;
-import de.qytera.qtaf.core.log.model.message.LogMessage;
 import de.qytera.qtaf.core.log.model.message.StepInformationLogMessage;
 import de.qytera.qtaf.testng.context.AssertionContext;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -36,7 +32,7 @@ public class AssertionContextTest {
         Assert.assertEquals(logMessage.getAssertions().size(), 1);
         AssertionLogMessage assertion = logMessage.getAssertions().get(0);
         Assert.assertEquals(assertion.type(), AssertionLogMessageType.ASSERT_TRUE);
-        Assert.assertEquals(assertion.condition(), true);
+        Assert.assertTrue(assertion.condition());
         Assert.assertNull(assertion.error());
         Assert.assertTrue(assertion.hasPassed());
         Assert.assertFalse(assertion.hasFailed());
@@ -68,7 +64,7 @@ public class AssertionContextTest {
         Assert.assertEquals(logMessage.getAssertions().size(), 1);
         AssertionLogMessage assertion = logMessage.getAssertions().get(0);
         Assert.assertEquals(assertion.type(), AssertionLogMessageType.ASSERT_TRUE);
-        Assert.assertEquals(assertion.condition(), false);
+        Assert.assertFalse(assertion.condition());
         Assert.assertNotNull(assertion.error());
         Assert.assertFalse(assertion.hasPassed());
         Assert.assertTrue(assertion.hasFailed());
@@ -89,7 +85,7 @@ public class AssertionContextTest {
         Assert.assertEquals(logMessage.getAssertions().size(), 1);
         AssertionLogMessage assertion = logMessage.getAssertions().get(0);
         Assert.assertEquals(assertion.type(), AssertionLogMessageType.ASSERT_FALSE);
-        Assert.assertEquals(assertion.condition(), false);
+        Assert.assertFalse(assertion.condition());
         Assert.assertNull(assertion.error());
         Assert.assertTrue(assertion.hasPassed());
         Assert.assertFalse(assertion.hasFailed());
@@ -121,7 +117,7 @@ public class AssertionContextTest {
         Assert.assertEquals(logMessage.getAssertions().size(), 1);
         AssertionLogMessage assertion = logMessage.getAssertions().get(0);
         Assert.assertEquals(assertion.type(), AssertionLogMessageType.ASSERT_FALSE);
-        Assert.assertEquals(assertion.condition(), true);
+        Assert.assertTrue(assertion.condition());
         Assert.assertNotNull(assertion.error());
         Assert.assertFalse(assertion.hasPassed());
         Assert.assertTrue(assertion.hasFailed());
@@ -142,7 +138,7 @@ public class AssertionContextTest {
         Assert.assertEquals(logMessage.getAssertions().size(), 1);
         AssertionLogMessage assertion = logMessage.getAssertions().get(0);
         Assert.assertEquals(assertion.type(), AssertionLogMessageType.ASSERT_NULL);
-        Assert.assertEquals(assertion.object(), null);
+        Assert.assertNull(assertion.object());
         Assert.assertNull(assertion.error());
         Assert.assertTrue(assertion.hasPassed());
         Assert.assertFalse(assertion.hasFailed());
@@ -227,7 +223,7 @@ public class AssertionContextTest {
         Assert.assertEquals(logMessage.getAssertions().size(), 1);
         AssertionLogMessage assertion = logMessage.getAssertions().get(0);
         Assert.assertEquals(assertion.type(), AssertionLogMessageType.ASSERT_NOT_NULL);
-        Assert.assertEquals(assertion.object(), null);
+        Assert.assertNull(assertion.object());
         Assert.assertNotNull(assertion.error());
         Assert.assertFalse(assertion.hasPassed());
         Assert.assertTrue(assertion.hasFailed());
@@ -759,15 +755,16 @@ public class AssertionContextTest {
 
         IndexHelper.clearAllIndices();
     }
-}
 
-class TestContext implements AssertionContext {
-    @Override
-    public TestScenarioLogCollection getLogCollection() {
-        TestScenarioLogCollection scenario = TestScenarioLogCollection.createTestScenarioLogCollection("f1", "s1", "i1", "scenario1");
-        if (scenario.getLogMessages().size() == 0) {
-            scenario.addLogMessage(new StepInformationLogMessage("foo", "message"));
+    static class TestContext implements AssertionContext {
+        @Override
+        public TestScenarioLogCollection getLogCollection() {
+            TestScenarioLogCollection scenario = TestScenarioLogCollection.createTestScenarioLogCollection("f1", "s1", "i1", "scenario1");
+            if (scenario.getLogMessages().size() == 0) {
+                scenario.addLogMessage(new StepInformationLogMessage("foo", "message"));
+            }
+            return scenario;
         }
-        return scenario;
     }
 }
+

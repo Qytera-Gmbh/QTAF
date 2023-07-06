@@ -2,7 +2,7 @@ package de.qytera.qtaf.core.log.model.message;
 
 /**
  * All TestNG Assertion Types
- * @see <a href="https://www.javadoc.io/doc/org.testng/testng/latest/org/testng/Assert.html">...</a>
+ * @see <a href="https://www.javadoc.io/doc/org.testng/testng/latest/org/testng/Assert.html">TestNG Assetions</a>
  */
 public enum AssertionLogMessageType {
     ASSERT_EQUALS,

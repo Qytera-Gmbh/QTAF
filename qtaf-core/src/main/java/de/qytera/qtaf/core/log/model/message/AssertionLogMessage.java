@@ -149,7 +149,7 @@ public class AssertionLogMessage extends LogMessage {
     /**
      * Step status
      */
-    public enum Status {
+    private enum Status {
         PASSED,
         FAILED,
     }
