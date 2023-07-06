@@ -160,8 +160,7 @@ public class TestSuiteLogCollection {
     public synchronized void clearCollection() {
         testFeatureLogCollections.clear();
         setDriverName("none");
-        setStart(null);
-        setEnd(null);
+        setStart(new Date());
         resetLogDirectory();
     }
 

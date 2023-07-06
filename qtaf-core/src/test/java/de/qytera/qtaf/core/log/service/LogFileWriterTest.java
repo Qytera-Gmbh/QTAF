@@ -15,6 +15,7 @@ public class LogFileWriterTest {
     @Test
     public void testLogFileWriter() {
         TestSuiteLogCollection slc = TestSuiteLogCollection.getInstance();
+        slc.clearCollection();
         slc.setDriverName("chrome");
 
         // Mock feature logs
