@@ -3,10 +3,8 @@ package de.qytera.qtaf.core.gson;
 import com.google.gson.ExclusionStrategy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import de.qytera.qtaf.core.config.annotations.TestFeature;
+import de.qytera.qtaf.core.QtafFactory;
 import de.qytera.qtaf.core.gson.serializer.*;
-import de.qytera.qtaf.core.gson.strategy.QtafGsonExclusionStrategy;
-import de.qytera.qtaf.core.guice.annotations.Step;
 import de.qytera.qtaf.core.log.model.error.ErrorLogCollection;
 import de.qytera.qtaf.core.reflection.ClassLoader;
 import org.openqa.selenium.InvalidArgumentException;
@@ -112,9 +110,9 @@ public class GsonFactory {
 
                 serializers.put(s.getClass().getName(), s);
             }
-        } catch (Throwable e) {
-            System.out.println("GSON Initialization Error");
-            System.out.println(e.getMessage());
+        } catch (Exception e) {
+            QtafFactory.getLogger().error("GSON Initialization Error");
+            QtafFactory.getLogger().error(e.getMessage());
             ErrorLogCollection.getInstance().addErrorLog(e);
         }
     }
@@ -132,9 +130,9 @@ public class GsonFactory {
                 ExclusionStrategy s = (ExclusionStrategy) o;
                 exclusionStrategies.add(s);
             }
-        } catch (Throwable e) {
-            System.out.println("GSON Initialization Error");
-            System.out.println(e.getMessage());
+        } catch (Exception e) {
+            QtafFactory.getLogger().error("GSON Initialization Error");
+            QtafFactory.getLogger().error(e.getMessage());
             ErrorLogCollection.getInstance().addErrorLog(e);
         }
     }

@@ -24,7 +24,7 @@ public class TestScenarioAnnotationSerializer implements IQtafJsonSerializer, Js
         jsonObject.addProperty("alwaysRun", test.alwaysRun());
         jsonObject.addProperty("dataProvider", test.dataProvider());
         jsonObject.addProperty("dataProviderClass", test.dataProviderClass().toString());
-        jsonObject.addProperty("dataProviderDynamicClass", test.dataProviderDynamicClass().toString());
+        jsonObject.addProperty("dataProviderDynamicClass", test.dataProviderDynamicClass());
         jsonObject.addProperty("dependsOnGroups", Arrays.toString(test.dependsOnGroups()));
         jsonObject.addProperty("dependsOnMethods", Arrays.toString(test.dependsOnMethods()));
         jsonObject.addProperty("description", test.description());

@@ -60,7 +60,7 @@ public class AllureReportGenerator {
                                         .replace(' ', '-')
                                         .replace('.', '-')
                                         .replace('_', '-')
-                                        .replaceAll("'", "")
+                                        .replace("'", "")
                                         .toLowerCase() + suite.getStart().getTime() + "-result.json"
                         )
                         .toString()
