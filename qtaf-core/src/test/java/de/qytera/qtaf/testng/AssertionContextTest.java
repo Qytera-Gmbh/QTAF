@@ -50,7 +50,7 @@ public class AssertionContextTest {
 
     }
 
-    @Test(description = "Test assertTrue", expectedExceptions = {AssertionError.class}, expectedExceptionsMessageRegExp = "should be true expected \\[true\\] but found \\[false\\](.*)")
+    @Test(description = "Test assertTrue", expectedExceptions = {AssertionError.class}, expectedExceptionsMessageRegExp = "should be true expected \\[true] but found \\[false](.*)")
     public void testAssertTrueFailure() {
         TestContext context = new TestContext();
         StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
