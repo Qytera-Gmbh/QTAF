@@ -7,22 +7,14 @@ import de.qytera.qtaf.core.config.entity.ConfigMap;
 import de.qytera.qtaf.core.context.IQtafTestContext;
 import de.qytera.qtaf.core.context.TestContextHelper;
 import de.qytera.qtaf.core.guice.QtafModule;
-import de.qytera.qtaf.core.log.model.LogLevel;
 import de.qytera.qtaf.core.log.model.collection.TestFeatureLogCollection;
 import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
 import de.qytera.qtaf.core.log.model.collection.TestSuiteLogCollection;
-import de.qytera.qtaf.core.log.model.message.AssertionLogMessage;
-import de.qytera.qtaf.core.log.model.message.AssertionLogMessageType;
-import de.qytera.qtaf.core.log.model.message.StepInformationLogMessage;
 import de.qytera.qtaf.core.selenium.DriverFactory;
 import de.qytera.qtaf.testng.event_listener.TestNGEventListener;
 import org.openqa.selenium.WebDriver;
-import org.testng.Assert;
 import org.testng.annotations.Guice;
 import org.testng.annotations.Listeners;
-
-import java.util.Map;
-import java.util.Set;
 
 /**
  * Test context works as a factory class and state manager for test classes.

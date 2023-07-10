@@ -2,7 +2,6 @@ package de.qytera.qtaf.core.log.model.message;
 
 import de.qytera.qtaf.core.log.model.LogLevel;
 import de.qytera.qtaf.core.log.model.error.ThrowableWrapper;
-import org.openqa.selenium.InvalidArgumentException;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

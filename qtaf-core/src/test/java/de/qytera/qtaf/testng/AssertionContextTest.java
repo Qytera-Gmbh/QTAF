@@ -430,8 +430,8 @@ public class AssertionContextTest {
         logMessage.getAssertions().clear();
         Assert.assertEquals(logMessage.getAssertions().size(), 0);
 
-        Object[] obj1 = new Object[]{1,2,3};
-        Object[] obj2 = new Object[]{1,2,3};
+        Object[] obj1 = new Object[]{1, 2, 3};
+        Object[] obj2 = new Object[]{1, 2, 3};
         context.assertEqualsNoOrder(obj1, obj2, "should be equal");
 
         Assert.assertEquals(logMessage.getAssertions().size(), 1);
@@ -452,8 +452,8 @@ public class AssertionContextTest {
         logMessage.getAssertions().clear();
         Assert.assertEquals(logMessage.getAssertions().size(), 0);
 
-        Object[] obj1 = new Object[]{1,2,3};
-        Object[] obj2 = new Object[]{4,5,6};
+        Object[] obj1 = new Object[]{1, 2, 3};
+        Object[] obj2 = new Object[]{4, 5, 6};
         context.assertEqualsNoOrder(obj1, obj2, "should be null");
     }
 
@@ -464,8 +464,8 @@ public class AssertionContextTest {
         logMessage.getAssertions().clear();
         Assert.assertEquals(logMessage.getAssertions().size(), 0);
 
-        Object[] obj1 = new Object[]{1,2,3};
-        Object[] obj2 = new Object[]{4,5,6};
+        Object[] obj1 = new Object[]{1, 2, 3};
+        Object[] obj2 = new Object[]{4, 5, 6};
         context.assertEqualsNoOrder(obj1, obj2, "should be equal", true);
 
         Assert.assertEquals(logMessage.getAssertions().size(), 1);

@@ -353,7 +353,8 @@ public class StepInformationLogMessage extends LogMessage {
 
     /**
      * Get assertions
-     * @return  list of assertions
+     *
+     * @return list of assertions
      */
     public List<AssertionLogMessage> getAssertions() {
         return assertions;
@@ -361,8 +362,9 @@ public class StepInformationLogMessage extends LogMessage {
 
     /**
      * Set list of assertions
-     * @param assertions    list of assertions
-     * @return  this
+     *
+     * @param assertions list of assertions
+     * @return this
      */
     public StepInformationLogMessage setAssertions(List<AssertionLogMessage> assertions) {
         this.assertions = assertions;
@@ -371,8 +373,9 @@ public class StepInformationLogMessage extends LogMessage {
 
     /**
      * Add an assertion to the list
+     *
      * @param assertion Assertion
-     * @return  this
+     * @return this
      */
     public StepInformationLogMessage addAssertion(AssertionLogMessage assertion) {
         this.assertions.add(assertion);
