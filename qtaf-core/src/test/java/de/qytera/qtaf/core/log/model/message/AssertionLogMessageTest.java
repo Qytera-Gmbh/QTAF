@@ -63,7 +63,7 @@ public class AssertionLogMessageTest {
         AssertionLogMessage message = new AssertionLogMessage(LogLevel.INFO, "m1");
         AssertionError error = new AssertionError();
         message.setError(error);
-        Assert.assertEquals(message.error().getClass(), new ThrowableWrapper(error).getClass());
+        Assert.assertEquals(message.error().getClass(), ThrowableWrapper.class);
     }
 
     @Test(description = "Test step")
