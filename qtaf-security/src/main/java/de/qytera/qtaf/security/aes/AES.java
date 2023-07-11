@@ -147,5 +147,4 @@ public class AES {
         SecretKey keyTmp = keyFactory.generateSecret(keySpec);
         return new SecretKeySpec(keyTmp.getEncoded(), "AES");
     }
-
 }

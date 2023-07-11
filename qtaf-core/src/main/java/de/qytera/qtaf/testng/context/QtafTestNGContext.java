@@ -61,6 +61,11 @@ public abstract class QtafTestNGContext implements IQtafTestContext, AssertionCo
     private boolean isInitialized = false;
 
     /**
+     * Placeholder for missing messages in assertions
+     */
+    protected String NO_MESSAGE = "<no-message>";
+
+    /**
      * Constructor
      */
     protected QtafTestNGContext() {

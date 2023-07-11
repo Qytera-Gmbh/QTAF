@@ -79,6 +79,14 @@
       }
     }
   },
+  "testrail": {
+    "enabled": false,
+    "url": null,
+    "authentication": {
+      "clientId": null,
+      "clientSecret": null
+    }
+  },
   "security": {
     "key": null
   },
