@@ -23,7 +23,7 @@ import org.testng.annotations.Listeners;
  */
 @Listeners({TestNGEventListener.class})
 @Guice(modules = {QtafModule.class})
-public abstract class QtafTestNGContext implements IQtafTestContext {
+public abstract class QtafTestNGContext implements IQtafTestContext, AssertionContext {
 
     /**
      * Holds values from JSON configuration files
