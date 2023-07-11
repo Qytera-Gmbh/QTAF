@@ -59,7 +59,7 @@
         <slf4jVersion>2.0.7</slf4jVersion>
         <testNGCucumberVersion>7.12.1</testNGCucumberVersion>
         <testNGVersion>7.8.0</testNGVersion>
-        <webDriverManagerVersion>5.3.3</webDriverManagerVersion>
+        <webDriverManagerVersion>5.4.0</webDriverManagerVersion>
         <zip4JVersion>2.11.5</zip4JVersion>
     </properties>
 
