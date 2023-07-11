@@ -84,7 +84,7 @@ public class AllureTestResultGenerator {
      * @return  full name
      */
     public static String buildTestCaseId(TestScenarioLogCollection scenario) {
-        if (scenario.getInstanceId().equals("")) {
+        if (scenario.getInstanceId().isBlank()) {
             return scenario.getAbstractScenarioId() + "-" + UUID.randomUUID();
         }
 

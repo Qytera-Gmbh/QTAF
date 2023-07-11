@@ -11,7 +11,8 @@ public class TestFeatureAnnotationSerializerTest {
         TestFeatureAnnotationSerializer serializer = new TestFeatureAnnotationSerializer();
         TestFeature testFeature = DemoFeature.class.getAnnotation(TestFeature.class);
         JsonElement jsonElement = serializer.serialize(testFeature, null, null);
-        Assert.assertEquals(jsonElement.toString(), "{\"name\":\"Demo test feature\",\"description\":\"This is a demo test feature\"}");
+        Assert.assertEquals(jsonElement.toString(), """
+                {"name":"Demo test feature","description":"This is a demo test feature"}""");
     }
 
     @Test

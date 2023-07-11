@@ -11,7 +11,8 @@ public class StepAnnotationSerializerTest {
         StepAnnotationSerializer serializer = new StepAnnotationSerializer();
         Step step = DemoScenario.class.getMethod("demoStep").getAnnotation(Step.class);
         JsonElement jsonElement = serializer.serialize(step, null, null);
-        Assert.assertEquals(jsonElement.toString(), "{\"name\":\"Demo Step\",\"description\":\"This is a demonstration step\"}");
+        Assert.assertEquals(jsonElement.toString(), """
+                {"name":"Demo Step","description":"This is a demonstration step"}""");
     }
 
     @Test
