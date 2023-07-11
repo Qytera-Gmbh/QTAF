@@ -10,6 +10,7 @@ import io.qameta.allure.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -183,7 +184,7 @@ public class AllureTestResultGenerator {
             Parameter parameter = (new Parameter())
                     .setName(stepParameter.getName())
                     .setExcluded(true)
-                    .setValue(stepParameter.getValue().toString())
+                    .setValue(Objects.requireNonNullElse(stepParameter.getValue(), "null").toString())
                     .setMode(Parameter.Mode.DEFAULT);
 
             stepParameters.add(parameter);

@@ -12,6 +12,7 @@ import de.qytera.qtaf.xray.config.XrayConfigHelper;
 import de.qytera.qtaf.xray.config.XrayRestPaths;
 import de.qytera.qtaf.xray.events.XrayEvents;
 import de.qytera.qtaf.xray.log.XrayAuthenticationErrorLog;
+import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.Response;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -38,7 +39,7 @@ public class XrayCloudAuthenticator {
         if (jwtToken == null) {
             try {
                 RequestBuilder request = WebService.buildRequest(new URI(XrayRestPaths.XRAY_CLOUD_API_V2 + "/authenticate"));
-                try (Response response = WebService.post(request, GsonFactory.getInstance().toJsonTree(getAuthenticationBody()))) {
+                try (Response response = WebService.post(request, Entity.json(getAuthenticationBody()))) {
                     String responseData = response.readEntity(String.class);
                     XrayEvents.authenticationResponseAvailable.onNext(response);
                     if (response.getStatus() != Response.Status.OK.getStatusCode()) {

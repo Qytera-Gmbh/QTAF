@@ -12,6 +12,7 @@ import de.qytera.qtaf.xray.dto.response.xray.ImportExecutionResultsResponseCloud
 import de.qytera.qtaf.xray.dto.response.xray.ImportExecutionResultsResponseDto;
 import de.qytera.qtaf.xray.dto.response.xray.ImportExecutionResultsResponseServerDto;
 import de.qytera.qtaf.xray.events.XrayEvents;
+import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -54,7 +55,7 @@ public interface XrayTestRepository extends XrayEndpoint {
         request.getBuilder()
                 .accept(MediaType.APPLICATION_JSON_TYPE)
                 .header(HttpHeaders.AUTHORIZATION, getXrayAuthorizationHeaderValue());
-        try (Response response = WebService.post(request, GsonFactory.getInstance().toJsonTree(body))) {
+        try (Response response = WebService.post(request, Entity.json(body))) {
             String responseData = response.readEntity(String.class);
             if (response.getStatus() == Response.Status.OK.getStatusCode()) {
                 XrayEvents.uploadStatus.onNext(true);
