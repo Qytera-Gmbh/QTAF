@@ -7,10 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.lang.model.type.NullType;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Log message for called steps
@@ -55,6 +52,11 @@ public class StepInformationLogMessage extends LogMessage {
      * Time needed for executing the step method
      */
     private long duration = 0L;
+
+    /**
+     * List of assertions that were checked in this step
+     */
+    private List<AssertionLogMessage> assertions = Collections.synchronizedList(new ArrayList<>());
 
     /**
      * The list of the step's method parameters.
@@ -346,6 +348,37 @@ public class StepInformationLogMessage extends LogMessage {
      */
     public StepInformationLogMessage setScreenshotAfter(String screenshotAfter) {
         this.screenshotAfter = screenshotAfter;
+        return this;
+    }
+
+    /**
+     * Get assertions
+     *
+     * @return list of assertions
+     */
+    public List<AssertionLogMessage> getAssertions() {
+        return assertions;
+    }
+
+    /**
+     * Set list of assertions
+     *
+     * @param assertions list of assertions
+     * @return this
+     */
+    public StepInformationLogMessage setAssertions(List<AssertionLogMessage> assertions) {
+        this.assertions = assertions;
+        return this;
+    }
+
+    /**
+     * Add an assertion to the list
+     *
+     * @param assertion Assertion
+     * @return this
+     */
+    public StepInformationLogMessage addAssertion(AssertionLogMessage assertion) {
+        this.assertions.add(assertion);
         return this;
     }
 

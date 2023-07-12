@@ -13,6 +13,8 @@ import java.util.Date;
 public class AllureReportGeneratorTest {
     @Test
     public void testResult() {
+        TestSuiteLogCollection suiteLogCollection = TestSuiteLogCollection.getInstance();
+        suiteLogCollection.setDriverName("chrome");
         TestScenarioLogCollection scenarioLogCollection1 = TestScenarioLogCollection
                 .createTestScenarioLogCollection(
                         "feature1",
@@ -26,7 +28,7 @@ public class AllureReportGeneratorTest {
 
         TestResult testResult = AllureTestResultGenerator.fromQtafTestScenario(scenarioLogCollection1);
 
-        Assert.assertEquals(testResult.getHistoryId(), "scenario1-iteration1");
+        Assert.assertEquals(testResult.getHistoryId(), "scenario1");
     }
 
     @Test
@@ -35,6 +37,7 @@ public class AllureReportGeneratorTest {
         DirectoryHelper.createDirectoryIfNotExists(path);
 
         TestSuiteLogCollection testSuiteLogCollection = TestSuiteLogCollection.getInstance();
+        testSuiteLogCollection.setDriverName("chrome");
 
         TestScenarioLogCollection scenarioLogCollection1 = TestScenarioLogCollection
                 .createTestScenarioLogCollection(
