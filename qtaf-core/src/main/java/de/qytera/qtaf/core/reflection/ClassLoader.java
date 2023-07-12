@@ -147,7 +147,7 @@ public class ClassLoader {
 
         List<JsonElement> packageNames = configMap.getList("framework.packageNames");
         String testsPackage = configMap.getString("tests.package", "de.qytera.qtaf");
-        packageNames.add(GsonFactory.getInstance().toJsonTree(testsPackage));
+        packageNames.add(GsonFactory.getInstanceWithoutCustomSerializers().toJsonTree(testsPackage));
         packageNames.stream().map(JsonElement::getAsString).forEach(ClassLoader::addPackageName);
 
         return ClassLoader.getSubTypesOf(clazz, ClassLoader.packageNames);

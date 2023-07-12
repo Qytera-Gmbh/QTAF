@@ -11,7 +11,7 @@ import java.lang.reflect.Type;
 /**
  * Converts TestCase annotation to JSON
  */
-public class TestCaseAnnotationSerializer implements JsonSerializer<TestFeature> {
+public class TestFeatureAnnotationSerializer implements IQtafJsonSerializer, JsonSerializer<TestFeature> {
     @Override
     public JsonElement serialize(
             TestFeature testFeature,
@@ -23,5 +23,10 @@ public class TestCaseAnnotationSerializer implements JsonSerializer<TestFeature>
         jsonObject.addProperty("description", testFeature.description());
 
         return jsonObject;
+    }
+
+    @Override
+    public Class<TestFeature> getSerializedObjectClass() {
+        return TestFeature.class;
     }
 }

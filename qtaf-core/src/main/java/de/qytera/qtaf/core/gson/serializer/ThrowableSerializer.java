@@ -10,7 +10,7 @@ import java.lang.reflect.Type;
 /**
  * Converts Throwable object to JSON
  */
-public class ThrowableSerializer implements JsonSerializer<Throwable> {
+public class ThrowableSerializer implements IQtafJsonSerializer, JsonSerializer<Throwable> {
     @Override
     public JsonElement serialize(
             Throwable error,
@@ -22,5 +22,10 @@ public class ThrowableSerializer implements JsonSerializer<Throwable> {
         jsonObject.addProperty("message", error.getMessage());
 
         return jsonObject;
+    }
+
+    @Override
+    public Class<Throwable> getSerializedObjectClass() {
+        return Throwable.class;
     }
 }
