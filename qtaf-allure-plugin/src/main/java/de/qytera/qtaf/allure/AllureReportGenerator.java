@@ -53,7 +53,18 @@ public class AllureReportGenerator {
         String json = gson.toJson(testResult);
 
         // Build destination path for JSON file
-        String reportPath = DirectoryHelper.preparePath(Paths.get(path, testResult.getName().replace(' ', '-').toLowerCase() + "-" + suite.getStart().getTime() + "-result.json").toString());
+        String reportPath = DirectoryHelper.preparePath(
+                Paths.get(path,
+                                testResult
+                                        .getTestCaseId()
+                                        .replace(' ', '-')
+                                        .replace('.', '-')
+                                        .replace('_', '-')
+                                        .replace("'", "")
+                                        .toLowerCase() + suite.getStart().getTime() + "-result.json"
+                        )
+                        .toString()
+        );
 
         // Save file
         try {

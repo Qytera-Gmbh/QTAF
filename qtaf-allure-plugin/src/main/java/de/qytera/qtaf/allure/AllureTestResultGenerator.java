@@ -61,20 +61,36 @@ public class AllureTestResultGenerator {
 
         return (new TestResult())
                 .setUuid(UUID.randomUUID().toString())
-                .setHistoryId(scenario.getScenarioId())
-                .setFullName(scenario.getScenarioId())
+                .setHistoryId(scenario.getAbstractScenarioId())
+                .setFullName(scenario.getAbstractScenarioId())
+                .setTestCaseId(buildTestCaseId(scenario))
                 .setLabels(testResultLabels)
                 .setLinks(testResultLinks)
                 .setName(scenario.getDescription())
+                .setDescription(scenario.getDescription())
+                .setDescriptionHtml(null)
                 .setStatus(mapQtafScenarioStatusToAllureTestResultStatus(scenario.getStatus()))
                 .setStatusDetails(statusDetails)
                 .setStage(Stage.FINISHED)
                 .setSteps(testResultSteps)
                 .setAttachments(testResultAttachments)
                 .setParameters(testResultParameters)
-                .setDescriptionHtml(null)
                 .setStart(scenario.getStart().getTime())
                 .setStop(scenario.getEnd().getTime());
+    }
+
+    /**
+     * Build the full name of a Allure TestResult entity
+     *
+     * @param scenario TestScenarioLogCollection object
+     * @return full name
+     */
+    public static String buildTestCaseId(TestScenarioLogCollection scenario) {
+        if (scenario.getInstanceId().isBlank()) {
+            return scenario.getAbstractScenarioId() + "-" + UUID.randomUUID();
+        }
+
+        return scenario.getAbstractScenarioId() + "-" + scenario.getInstanceId();
     }
 
     /**
