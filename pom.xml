@@ -43,6 +43,7 @@
         <module>qtaf-xray-plugin</module>
         <module>qtaf-http</module>
         <module>qtaf-data</module>
+        <module>qtaf-testrail-plugin</module>
         <module>qtaf-security</module>
         <module>qtaf-aws-devicefarm</module>
     </modules>
@@ -70,14 +71,14 @@
         <!-- Dependency versions -->
         <jacocoMavenPluginVersion>0.8.10</jacocoMavenPluginVersion>
         <lombokPluginVersion>1.18.20.0</lombokPluginVersion>
-        <lombokVersion>1.18.26</lombokVersion>
+        <lombokVersion>1.18.28</lombokVersion>
         <mavenAntRunVersion>3.1.0</mavenAntRunVersion>
         <mavenBuildHelperVersion>3.4.0</mavenBuildHelperVersion>
         <mavenCompilerPluginVersion>3.11.0</mavenCompilerPluginVersion>
         <mavenGpgPluginVersion>3.1.0</mavenGpgPluginVersion>
         <mavenJarPluginVersion>3.3.0</mavenJarPluginVersion>
         <mavenJavadocPluginVersion>3.5.0</mavenJavadocPluginVersion>
-        <mavenSourcePluginVersion>3.2.1</mavenSourcePluginVersion>
+        <mavenSourcePluginVersion>3.3.0</mavenSourcePluginVersion>
         <mavenSurefirePluginVersion>3.1.2</mavenSurefirePluginVersion>
         <nexusStagingMavenPluginVersion>1.6.13</nexusStagingMavenPluginVersion>
         <sonarMavenPluginVersion>3.9.1.2184</sonarMavenPluginVersion>

@@ -12,9 +12,19 @@ import lombok.Setter;
 @Getter
 @Setter
 public class GraphQLResponseErrorDto {
-
+    /**
+     * message
+     */
     private String message;
+
+    /**
+     * locations
+     */
     private GraphQLResponseErrorLocationDto[] locations;
+
+    /**
+     * paths
+     */
     private String[] path;
 
 }

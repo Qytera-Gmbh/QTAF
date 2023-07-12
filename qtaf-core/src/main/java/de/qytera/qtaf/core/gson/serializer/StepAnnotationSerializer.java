@@ -11,7 +11,7 @@ import java.lang.reflect.Type;
 /**
  * Converts Step annotation to JSON
  */
-public class StepAnnotationSerializer implements JsonSerializer<Step> {
+public class StepAnnotationSerializer implements IQtafJsonSerializer, JsonSerializer<Step> {
     @Override
     public JsonElement serialize(
             Step step,
@@ -23,5 +23,10 @@ public class StepAnnotationSerializer implements JsonSerializer<Step> {
         jsonObject.addProperty("description", step.description());
 
         return jsonObject;
+    }
+
+    @Override
+    public Class<Step> getSerializedObjectClass() {
+        return Step.class;
     }
 }

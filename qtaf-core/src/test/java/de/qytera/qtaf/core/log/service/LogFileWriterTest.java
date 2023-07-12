@@ -13,6 +13,8 @@ public class LogFileWriterTest {
     @Test
     public void testLogFileWriter() {
         TestSuiteLogCollection slc = TestSuiteLogCollection.getInstance();
+        slc.clearCollection();
+        slc.setDriverName("chrome");
 
         // Mock feature logs
         TestFeatureLogCollection f1 = slc.createFeatureIfNotExists("feature1", "feature1");

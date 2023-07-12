@@ -62,7 +62,14 @@ import java.util.stream.Collectors;
 @Setter
 public abstract class GraphQLResponseDto<T> {
 
+    /**
+     * Response payload
+     */
     private T data;
+
+    /**
+     * Error DTO
+     */
     private GraphQLResponseErrorDto[] errors;
 
     /**

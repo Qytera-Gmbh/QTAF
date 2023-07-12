@@ -7,6 +7,8 @@ import de.qytera.qtaf.core.log.model.index.IndexHelper;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.util.Date;
+
 public class TestSuiteLogCollectionTest {
     /**
      * Assert that clearing of the TestSuiteLogCollection works
@@ -35,6 +37,26 @@ public class TestSuiteLogCollectionTest {
 
         // Clear indices
         IndexHelper.clearAllIndices();
+    }
+
+    @Test
+    public void testBuildLogDirectoryPath() {
+        TestSuiteLogCollection suiteLogCollection = TestSuiteLogCollection.getInstance();
+        suiteLogCollection.resetLogDirectory();
+        suiteLogCollection.setStart(new Date()).setEnd(new Date());
+
+
+        suiteLogCollection.setDriverName(null).buildLogDirectoryPath();
+        Assert.assertNull(suiteLogCollection.getLogDirectory());
+
+        suiteLogCollection.setDriverName("").buildLogDirectoryPath();
+        Assert.assertNull(suiteLogCollection.getLogDirectory());
+
+        suiteLogCollection.setDriverName("none").buildLogDirectoryPath();
+        Assert.assertNull(suiteLogCollection.getLogDirectory());
+
+        suiteLogCollection.setDriverName("chrome").buildLogDirectoryPath();
+        Assert.assertNotNull(suiteLogCollection.getLogDirectory());
     }
 
     /**
