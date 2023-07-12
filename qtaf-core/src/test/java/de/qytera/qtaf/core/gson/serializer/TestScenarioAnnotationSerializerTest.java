@@ -14,32 +14,32 @@ public class TestScenarioAnnotationSerializerTest {
         Test annotation = method.getAnnotation(Test.class);
         JsonElement jsonElement = serializer.serialize(annotation, null, null);
         Assert.assertEquals(jsonElement.toString(), """
-        {\
-        "attributes":"[]",\
-        "alwaysRun":false,\
-        "dataProvider":"",\
-        "dataProviderClass":"class java.lang.Object",\
-        "dataProviderDynamicClass":"",\
-        "dependsOnGroups":"[]",\
-        "dependsOnMethods":"[]",\
-        "description":"",\
-        "enabled":true,\
-        "expectedExceptions":"[]",\
-        "expectedExceptionsMessageRegExp":".*",\
-        "groups":"[]",\
-        "ignoreMissingDependencies":false,\
-        "invocationCount":1,\
-        "invocationTimeOut":0,\
-        "priority":0,\
-        "retryAnalyzer":"class org.testng.internal.annotations.DisabledRetryAnalyzer",\
-        "singleThreaded":false,\
-        "skipFailedInvocations":false,\
-        "successPercentage":100,\
-        "suiteName":"",\
-        "threadPoolSize":0,\
-        "timeOut":0,\
-        "testName":"Test TestScenarioAnnotationSerializer"\
-        }""");
+                {\
+                "attributes":"[]",\
+                "alwaysRun":false,\
+                "dataProvider":"",\
+                "dataProviderClass":"class java.lang.Object",\
+                "dataProviderDynamicClass":"",\
+                "dependsOnGroups":"[]",\
+                "dependsOnMethods":"[]",\
+                "description":"",\
+                "enabled":true,\
+                "expectedExceptions":"[]",\
+                "expectedExceptionsMessageRegExp":".*",\
+                "groups":"[]",\
+                "ignoreMissingDependencies":false,\
+                "invocationCount":1,\
+                "invocationTimeOut":0,\
+                "priority":0,\
+                "retryAnalyzer":"class org.testng.internal.annotations.DisabledRetryAnalyzer",\
+                "singleThreaded":false,\
+                "skipFailedInvocations":false,\
+                "successPercentage":100,\
+                "suiteName":"",\
+                "threadPoolSize":0,\
+                "timeOut":0,\
+                "testName":"Test TestScenarioAnnotationSerializer"\
+                }""");
     }
 
     @Test

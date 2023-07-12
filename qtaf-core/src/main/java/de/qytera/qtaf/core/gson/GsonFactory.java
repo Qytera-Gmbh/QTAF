@@ -4,7 +4,7 @@ import com.google.gson.ExclusionStrategy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import de.qytera.qtaf.core.QtafFactory;
-import de.qytera.qtaf.core.gson.serializer.*;
+import de.qytera.qtaf.core.gson.serializer.IQtafJsonSerializer;
 import de.qytera.qtaf.core.log.model.error.ErrorLogCollection;
 import de.qytera.qtaf.core.reflection.ClassLoader;
 import org.openqa.selenium.InvalidArgumentException;
@@ -44,7 +44,8 @@ public class GsonFactory {
     /**
      * Get a GSON instance without custom serializers. Sometimes this is needed, especially in the configuration class,
      * because otherwise you would have recursive and endless initialization loops.
-     * @return  GSON instance without serializers
+     *
+     * @return GSON instance without serializers
      */
     public static Gson getInstanceWithoutCustomSerializers() {
         if (instanceWithoutCustomSerializers == null) {

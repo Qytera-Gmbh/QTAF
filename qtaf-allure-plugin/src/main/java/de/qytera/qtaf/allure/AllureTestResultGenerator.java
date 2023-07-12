@@ -81,8 +81,9 @@ public class AllureTestResultGenerator {
 
     /**
      * Build the full name of a Allure TestResult entity
-     * @param scenario  TestScenarioLogCollection object
-     * @return  full name
+     *
+     * @param scenario TestScenarioLogCollection object
+     * @return full name
      */
     public static String buildTestCaseId(TestScenarioLogCollection scenario) {
         if (scenario.getInstanceId().isBlank()) {
