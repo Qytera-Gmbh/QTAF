@@ -28,7 +28,7 @@ public abstract class AbstractAWSDeviceFarmDriver extends AbstractDriver {
         CreateTestGridUrlRequest request = new CreateTestGridUrlRequest();
         request.setExpiresInSeconds(300);
         request.setProjectArn(myProjectARN);
-        CreateTestGridUrlResult response = client.createTestGridUrl(request);
+        CreateTestGridUrlResult response = getTestGridUrl(client, request);
         URL testGridUrl = null;
         try {
             testGridUrl = new URL(response.getUrl());
@@ -37,5 +37,9 @@ public abstract class AbstractAWSDeviceFarmDriver extends AbstractDriver {
         }
         // You can now pass this URL into RemoteWebDriver.
         return new RemoteWebDriver(testGridUrl, getCapabilities());
+    }
+
+    public CreateTestGridUrlResult getTestGridUrl(AWSDeviceFarm client, CreateTestGridUrlRequest request) {
+        return client.createTestGridUrl(request);
     }
 }
