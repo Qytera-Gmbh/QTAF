@@ -14,4 +14,9 @@ public class AWSChrome extends AbstractAWSDeviceFarmDriver {
     protected Capabilities getCapabilities() {
         return new ChromeOptions();
     }
+
+    @Override
+    protected boolean isRemoteDriver() {
+        return true;
+    }
 }
