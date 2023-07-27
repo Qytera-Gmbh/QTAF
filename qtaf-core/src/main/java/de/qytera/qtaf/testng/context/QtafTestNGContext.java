@@ -1,11 +1,13 @@
 package de.qytera.qtaf.testng.context;
 
+import com.google.inject.Injector;
 import de.qytera.qtaf.core.QtafFactory;
 import de.qytera.qtaf.core.QtafInitializer;
 import de.qytera.qtaf.core.config.annotations.TestFeature;
 import de.qytera.qtaf.core.config.entity.ConfigMap;
 import de.qytera.qtaf.core.context.IQtafTestContext;
 import de.qytera.qtaf.core.context.TestContextHelper;
+import de.qytera.qtaf.core.guice.QtafInjector;
 import de.qytera.qtaf.core.guice.QtafModule;
 import de.qytera.qtaf.core.log.model.collection.TestFeatureLogCollection;
 import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
@@ -66,6 +68,11 @@ public abstract class QtafTestNGContext implements IQtafTestContext, AssertionCo
     protected String NO_MESSAGE = "<no-message>";
 
     /**
+     * Guice injector
+     */
+    protected static final Injector injector = QtafInjector.getInstance();
+
+    /**
      * Constructor
      */
     protected QtafTestNGContext() {
@@ -96,6 +103,18 @@ public abstract class QtafTestNGContext implements IQtafTestContext, AssertionCo
         isInitialized = true;
 
         return this;
+    }
+
+    /**
+     * Load class instance
+     * @param context   The current test context (pass 'this' for this argument)
+     * @param c         The desired class you want to create an instance of
+     * @return          Instance of the desired class
+     */
+    protected static Object loadClassInstance(IQtafTestContext context, Class<?> c) {
+        IQtafTestContext pageObject = (IQtafTestContext) injector.getInstance(c);
+        pageObject.setLogCollection(context.getLogCollection());
+        return pageObject;
     }
 
     /**
