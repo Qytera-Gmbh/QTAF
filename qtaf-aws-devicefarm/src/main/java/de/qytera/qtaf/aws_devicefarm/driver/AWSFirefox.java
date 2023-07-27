@@ -14,4 +14,9 @@ public class AWSFirefox extends AbstractAWSDeviceFarmDriver {
     protected Capabilities getCapabilities() {
         return new FirefoxOptions();
     }
+
+    @Override
+    protected boolean isRemoteDriver() {
+        return true;
+    }
 }
