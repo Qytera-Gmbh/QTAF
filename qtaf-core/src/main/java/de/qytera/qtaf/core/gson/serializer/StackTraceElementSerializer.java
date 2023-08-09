@@ -10,7 +10,7 @@ import java.lang.reflect.Type;
 /**
  * Converts StackTraceElement object to JSON
  */
-public class StackTraceElementSerializer implements JsonSerializer<StackTraceElement> {
+public class StackTraceElementSerializer implements IQtafJsonSerializer, JsonSerializer<StackTraceElement> {
     @Override
     public JsonElement serialize(
             StackTraceElement stackTraceElement,
@@ -27,5 +27,10 @@ public class StackTraceElementSerializer implements JsonSerializer<StackTraceEle
         jsonObject.addProperty("lineNumber", stackTraceElement.getLineNumber());
 
         return jsonObject;
+    }
+
+    @Override
+    public Class<StackTraceElementSerializer> getSerializedObjectClass() {
+        return StackTraceElementSerializer.class;
     }
 }

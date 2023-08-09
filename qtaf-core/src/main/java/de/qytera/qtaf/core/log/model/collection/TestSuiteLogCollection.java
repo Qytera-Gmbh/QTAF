@@ -118,12 +118,19 @@ public class TestSuiteLogCollection {
     }
 
     /**
+     * Reset the log directory
+     */
+    public void resetLogDirectory() {
+        logDirectory = null;
+    }
+
+    /**
      * Build the log directory path
      *
      * @return log directory path
      */
     public TestSuiteLogCollection buildLogDirectoryPath() {
-        if (this.logDirectory == null) {
+        if (this.logDirectory == null && this.getDriverName() != null && !this.getDriverName().isBlank() && !this.getDriverName().equals("none")) {
             SimpleDateFormat dirDateFormatter = new SimpleDateFormat("yyyy-MM-dd");
             SimpleDateFormat dirHourFormatter = new SimpleDateFormat("HH-mm-ss");
 
@@ -152,6 +159,9 @@ public class TestSuiteLogCollection {
      */
     public synchronized void clearCollection() {
         testFeatureLogCollections.clear();
+        setDriverName("none");
+        setStart(new Date());
+        resetLogDirectory();
     }
 
     /**
@@ -271,7 +281,7 @@ public class TestSuiteLogCollection {
      * @return driverName
      */
     public String getDriverName() {
-        if (driverName == null || driverName.equals("")) {
+        if (driverName == null || driverName.isBlank()) {
             return "none";
         }
 
