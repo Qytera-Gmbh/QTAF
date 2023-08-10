@@ -107,20 +107,24 @@ public abstract class QtafTestNGContext implements IQtafTestContext, AssertionCo
 
     /**
      * Load class instance
-     * @param context   The current test context (pass 'this' for this argument)
-     * @param c         The desired class you want to create an instance of
-     * @return          Instance of the desired class
+     *
+     * @param context The current test context (pass 'this' for this argument)
+     * @param c       The desired class you want to create an instance of
+     * @return Instance of the desired class
      */
     protected static <T> T load(IQtafTestContext context, Class<T> c) {
-        IQtafTestContext pageObject = (IQtafTestContext) injector.getInstance(c);
-        pageObject.setLogCollection(context.getLogCollection());
-        return (T) pageObject;
+        T pageObject = injector.getInstance(c);
+        if (pageObject instanceof IQtafTestContext testContext) {
+            testContext.setLogCollection(context.getLogCollection());
+        }
+        return pageObject;
     }
 
     /**
      * Load class instance
-     * @param c         The desired class you want to create an instance of
-     * @return          Instance of the desired class
+     *
+     * @param c The desired class you want to create an instance of
+     * @return Instance of the desired class
      */
     protected <T> T load(Class<T> c) {
         return load(this, c);
