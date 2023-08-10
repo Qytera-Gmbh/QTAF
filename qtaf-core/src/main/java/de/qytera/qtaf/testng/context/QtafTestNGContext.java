@@ -111,10 +111,19 @@ public abstract class QtafTestNGContext implements IQtafTestContext, AssertionCo
      * @param c         The desired class you want to create an instance of
      * @return          Instance of the desired class
      */
-    protected static Object loadClassInstance(IQtafTestContext context, Class<?> c) {
+    protected static <T> T load(IQtafTestContext context, Class<T> c) {
         IQtafTestContext pageObject = (IQtafTestContext) injector.getInstance(c);
         pageObject.setLogCollection(context.getLogCollection());
-        return pageObject;
+        return (T) pageObject;
+    }
+
+    /**
+     * Load class instance
+     * @param c         The desired class you want to create an instance of
+     * @return          Instance of the desired class
+     */
+    protected <T> T load(Class<T> c) {
+        return load(this, c);
     }
 
     /**
