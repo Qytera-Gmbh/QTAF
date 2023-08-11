@@ -20,6 +20,7 @@ jobs:
             XRAY_CLIENT_ID
             XRAY_CLIENT_SECRET
             SONAR_TOKEN
+        env:
           XRAY_CLIENT_ID: ${{ secrets.XRAY_CLIENT_ID }}
           XRAY_CLIENT_SECRET: ${{ secrets.XRAY_CLIENT_SECRET }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
