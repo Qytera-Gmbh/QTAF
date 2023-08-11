@@ -1,6 +1,5 @@
 package de.qytera.qtaf.http;
 
-import com.google.gson.JsonElement;
 import de.qytera.qtaf.core.QtafFactory;
 import de.qytera.qtaf.http.events.HTTPEvents;
 import jakarta.ws.rs.ProcessingException;

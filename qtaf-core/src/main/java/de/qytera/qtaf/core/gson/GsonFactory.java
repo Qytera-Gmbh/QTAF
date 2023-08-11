@@ -18,7 +18,6 @@ import java.util.Map;
  * Generate GSON object with custom serializers
  */
 public class GsonFactory {
-
     /**
      * Private Constructor
      */
