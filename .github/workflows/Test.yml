@@ -11,7 +11,32 @@ on:
         default: "zulu"
 
 jobs:
+  check-secret:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check secret availability
+        run: |
+          if [ -z "${{ secrets.XRAY_CLIENT_ID }}" ]; then
+            echo '✖ XRAY_CLIENT_ID secret not available'        
+            exit 1
+          else
+            echo '✔ XRAY_CLIENT_ID secret is available'     
+          fi
+          if [ -z "${{ secrets.XRAY_CLIENT_SECRET }}" ]; then
+            echo '✖ XRAY_CLIENT_SECRET secret not available'        
+            exit 1
+          else
+            echo '✔ XRAY_CLIENT_SECRET secret is available'     
+          fi
+          if [ -z "${{ secrets.SONAR_TOKEN }}" ]; then
+            echo '✖ SONAR_TOKEN secret is not available'        
+            exit 1
+          else
+            echo '✔ SONAR_TOKEN secret is available'        
+          fi
+
   test:
+    needs: [check-secret]
     strategy:
       matrix:
         os: ["windows-latest", "ubuntu-latest"]
