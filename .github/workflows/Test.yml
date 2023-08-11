@@ -12,9 +12,9 @@ on:
 
 jobs:
   check-secrets:
-    uses: ./.github/workflows/CheckSecrets.yml
+    uses: qytera-gmbh/actions-check-secrets@v1.0.0
     with:
-      secret-names: |
+      names: |
         XRAY_CLIENT_ID
         XRAY_CLIENT_SECRET
         SONAR_TOKEN
