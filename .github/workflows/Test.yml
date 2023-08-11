@@ -17,16 +17,22 @@ jobs:
       - name: check secret availability
         run: |
           if [ -z "${{ secrets.XRAY_CLIENT_ID }}" ]; then
-            echo 'XRAY_CLIENT_ID secret is undefined'        
+            echo '✖ XRAY_CLIENT_ID secret not available'        
             exit 1
+          else
+            echo '✔ XRAY_CLIENT_ID secret is available'     
           fi
           if [ -z "${{ secrets.XRAY_CLIENT_SECRET }}" ]; then
-            echo 'XRAY_CLIENT_SECRET secret is undefined'        
+            echo '✖ XRAY_CLIENT_SECRET secret not available'        
             exit 1
+          else
+            echo '✔ XRAY_CLIENT_SECRET secret is available'     
           fi
           if [ -z "${{ secrets.SONAR_TOKEN }}" ]; then
-            echo 'SONAR_TOKEN secret is undefined'        
+            echo '✖ SONAR_TOKEN secret is not available'        
             exit 1
+          else
+            echo '✔ SONAR_TOKEN secret is available'        
           fi
 
   test:
