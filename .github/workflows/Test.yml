@@ -11,7 +11,26 @@ on:
         default: "zulu"
 
 jobs:
+  check-secret:
+    runs-on: ubuntu-latest
+    steps:
+      - name: check secret availability
+        run: |
+          if [ -z "${{ secrets.XRAY_CLIENT_ID }}" ]; then
+            echo 'XRAY_CLIENT_ID secret is undefined'        
+            exit 1
+          fi
+          if [ -z "${{ secrets.XRAY_CLIENT_SECRET }}" ]; then
+            echo 'XRAY_CLIENT_SECRET secret is undefined'        
+            exit 1
+          fi
+          if [ -z "${{ secrets.SONAR_TOKEN }}" ]; then
+            echo 'SONAR_TOKEN secret is undefined'        
+            exit 1
+          fi
+
   test:
+    needs: [check-secret]
     strategy:
       matrix:
         os: ["windows-latest", "ubuntu-latest"]
