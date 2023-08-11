@@ -138,7 +138,6 @@ public class StepInformationLogMessage extends LogMessage {
      *
      * @param name  the name of the parameter
      * @param value the value of the parameter
-     * @param <T>   the parameter type
      */
     public <T> void addStepParameter(String name, T value) {
         String className = value == null ? NullType.class.getName() : value.getClass().getSimpleName();
@@ -188,6 +187,16 @@ public class StepInformationLogMessage extends LogMessage {
      * Check if an error occurred
      *
      * @return true if an error occurred during method execution, false otherwise
+     */
+    public boolean hasError() {
+        return this.error != null;
+    }
+
+    /**
+     * Set step error
+     *
+     * @param error step error
+     * @return this
      */
     public StepInformationLogMessage setError(Throwable error) {
         this.error = new ThrowableWrapper(error);
