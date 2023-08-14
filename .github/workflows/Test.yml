@@ -11,32 +11,22 @@ on:
         default: "zulu"
 
 jobs:
-  check-secret:
+  check-secrets:
     runs-on: ubuntu-latest
     steps:
-      - name: Check secret availability
-        run: |
-          if [ -z "${{ secrets.XRAY_CLIENT_ID }}" ]; then
-            echo '✖ XRAY_CLIENT_ID secret not available'        
-            exit 1
-          else
-            echo '✔ XRAY_CLIENT_ID secret is available'     
-          fi
-          if [ -z "${{ secrets.XRAY_CLIENT_SECRET }}" ]; then
-            echo '✖ XRAY_CLIENT_SECRET secret not available'        
-            exit 1
-          else
-            echo '✔ XRAY_CLIENT_SECRET secret is available'     
-          fi
-          if [ -z "${{ secrets.SONAR_TOKEN }}" ]; then
-            echo '✖ SONAR_TOKEN secret is not available'        
-            exit 1
-          else
-            echo '✔ SONAR_TOKEN secret is available'        
-          fi
+      - uses: qytera-gmbh/actions-check-secrets@v1
+        with:
+          names: |
+            XRAY_CLIENT_ID
+            XRAY_CLIENT_SECRET
+            SONAR_TOKEN
+        env:
+          XRAY_CLIENT_ID: ${{ secrets.XRAY_CLIENT_ID }}
+          XRAY_CLIENT_SECRET: ${{ secrets.XRAY_CLIENT_SECRET }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   test:
-    needs: [check-secret]
+    needs: [check-secrets]
     strategy:
       matrix:
         os: ["windows-latest", "ubuntu-latest"]
