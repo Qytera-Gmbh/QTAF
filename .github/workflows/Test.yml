@@ -11,7 +11,22 @@ on:
         default: "zulu"
 
 jobs:
+  check-secrets:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: qytera-gmbh/actions-check-secrets@v1
+        with:
+          names: |
+            XRAY_CLIENT_ID
+            XRAY_CLIENT_SECRET
+            SONAR_TOKEN
+        env:
+          XRAY_CLIENT_ID: ${{ secrets.XRAY_CLIENT_ID }}
+          XRAY_CLIENT_SECRET: ${{ secrets.XRAY_CLIENT_SECRET }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
   test:
+    needs: [check-secrets]
     strategy:
       matrix:
         os: ["windows-latest", "ubuntu-latest"]
