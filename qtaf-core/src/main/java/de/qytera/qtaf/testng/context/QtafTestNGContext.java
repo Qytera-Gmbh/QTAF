@@ -15,6 +15,7 @@ import de.qytera.qtaf.core.log.model.collection.TestSuiteLogCollection;
 import de.qytera.qtaf.core.selenium.DriverFactory;
 import de.qytera.qtaf.testng.event_listener.TestNGEventListener;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.PageFactory;
 import org.testng.annotations.Guice;
 import org.testng.annotations.Listeners;
 
@@ -116,6 +117,7 @@ public abstract class QtafTestNGContext implements IQtafTestContext, AssertionCo
         T pageObject = injector.getInstance(c);
         if (pageObject instanceof IQtafTestContext testContext) {
             testContext.setLogCollection(context.getLogCollection());
+            PageFactory.initElements(driver, testContext);
         }
         return pageObject;
     }
@@ -128,6 +130,13 @@ public abstract class QtafTestNGContext implements IQtafTestContext, AssertionCo
      */
     protected <T> T load(Class<T> c) {
         return load(this, c);
+    }
+
+    /**
+     * Call the Selenium PageFactory initElements method on this instance
+     */
+    protected void initElements() {
+        PageFactory.initElements(driver, this);
     }
 
     /**
