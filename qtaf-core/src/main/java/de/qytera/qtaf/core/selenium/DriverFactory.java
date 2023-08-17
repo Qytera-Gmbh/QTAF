@@ -1,5 +1,6 @@
 package de.qytera.qtaf.core.selenium;
 
+import com.codeborne.selenide.WebDriverRunner;
 import com.google.inject.Provides;
 import de.qytera.qtaf.core.QtafFactory;
 import de.qytera.qtaf.core.config.entity.ConfigMap;
@@ -49,7 +50,9 @@ public class DriverFactory {
     public static WebDriver getDriver() {
         // Get driver name from configuration
         String driverName = config.getString("driver.name", "chrome");
-        return DriverFactory.getDriver(driverName);
+        WebDriver driver = DriverFactory.getDriver(driverName);
+        WebDriverRunner.setWebDriver(driver);
+        return driver;
     }
 
     /**
