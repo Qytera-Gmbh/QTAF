@@ -14,6 +14,7 @@ import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
 import de.qytera.qtaf.core.log.model.collection.TestSuiteLogCollection;
 import de.qytera.qtaf.core.selenium.DriverFactory;
 import de.qytera.qtaf.testng.event_listener.TestNGEventListener;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.annotations.Guice;
@@ -37,6 +38,11 @@ public abstract class QtafTestNGContext implements IQtafTestContext, AssertionCo
      * Web driver instance (chrome, firefox, ...)
      */
     public static WebDriver driver = null;
+
+    /**
+     * JavaScript executor
+     */
+    public static JavascriptExecutor js = null;
 
     /**
      * Global log collection that holds all log messages from the tests
@@ -97,6 +103,7 @@ public abstract class QtafTestNGContext implements IQtafTestContext, AssertionCo
 
         // Initialize driver
         driver = QtafFactory.getWebDriver();
+        js = (JavascriptExecutor) driver;
 
         // Get Test feature annotation
         testFeatureAnnotation = this.getClass().getAnnotation(TestFeature.class);

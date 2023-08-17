@@ -101,7 +101,8 @@ public class StepLoggerSubscriber implements IEventSubscriber {
                     The LogCollection of the context class was not initialized properly.
                     You may check the following points:
                     \t- All your methods that are annotated with @Test, @BeforeXXX, @AfterXXX must be public
-                    \t- If classes overwrite initialize() the parent method must be called first""");
+                    \t- If classes overwrite initialize() the parent method must be called first
+                    \t- load() must not be called in the constructor or in class attributes but in the initialize() method""");
         }
 
         // Add log message to collection
