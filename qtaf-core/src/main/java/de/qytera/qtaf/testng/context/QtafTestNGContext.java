@@ -156,6 +156,23 @@ public abstract class QtafTestNGContext implements IQtafTestContext, AssertionCo
     }
 
     /**
+     * Execute JavaScript code
+     * @param script JavaScript code
+     */
+    public void jsExec(String script) {
+        js.executeScript(script);
+    }
+
+    /**
+     * Execute JavaScript code
+     * @param script JavaScript code
+     * @param args   variables
+     */
+    public void jsExec(String script, Object... args) {
+        js.executeScript(script, args);
+    }
+
+    /**
      * Get current log collection
      *
      * @return log collection
