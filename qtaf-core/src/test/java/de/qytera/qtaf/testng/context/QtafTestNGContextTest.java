@@ -43,6 +43,27 @@ public class QtafTestNGContextTest {
         QtafFactory.getWebDriver().quit();
         IndexHelper.clearAllIndices();
     }
+
+    @Test
+    public void testJsExec1() {
+        QtafTestNGContext context = new MyContext();
+        context.jsExec("window.open('https://www.selenium.dev')");
+        QtafFactory.getWebDriver().quit();
+    }
+
+    @Test
+    public void testJsExec2() {
+        QtafTestNGContext context = new MyContext();
+        context.jsExec("window.open(arguments[0])", "https://www.selenium.dev");
+        QtafFactory.getWebDriver().quit();
+    }
+
+    @Test
+    public void testRestartDriver() {
+        QtafTestNGContext context = new MyContext();
+        context.restartDriver();
+        QtafFactory.getWebDriver().quit();
+    }
 }
 
 class MyContext extends QtafTestNGContext {
