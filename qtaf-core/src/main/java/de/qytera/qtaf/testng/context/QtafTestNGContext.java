@@ -42,7 +42,7 @@ public abstract class QtafTestNGContext implements IQtafTestContext, AssertionCo
     /**
      * JavaScript executor
      */
-    public static JavascriptExecutor js = null;
+    protected static JavascriptExecutor js = null;
 
     /**
      * Global log collection that holds all log messages from the tests
