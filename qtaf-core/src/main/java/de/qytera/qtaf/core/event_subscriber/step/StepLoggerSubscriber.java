@@ -100,7 +100,8 @@ public class StepLoggerSubscriber implements IEventSubscriber {
             throw new AssertionError("""
                     The LogCollection of the context class was not initialized properly.
                     You may check the following points:
-                    \t- All your methods that are annotated with @Test, @BeforeXXX, @AfterXXX must be public""");
+                    \t- All your methods that are annotated with @Test, @BeforeXXX, @AfterXXX must be public
+                    \t- If classes overwrite initialize() the parent method must be called first""");
         }
 
         // Add log message to collection
