@@ -3,6 +3,7 @@ package de.qytera.qtaf.core.gson.strategy;
 import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
 
+import java.io.ByteArrayOutputStream;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
 
@@ -17,6 +18,9 @@ public class QtafGsonExclusionStrategy implements ExclusionStrategy {
 
     @Override
     public boolean shouldSkipClass(Class<?> aClass) {
-        return aClass == InvocationHandler.class || aClass == Proxy.class;
+        return aClass == InvocationHandler.class
+                || aClass == Proxy.class
+                || aClass == byte[].class
+                || aClass == ByteArrayOutputStream.class;
     }
 }
