@@ -111,8 +111,11 @@ import de.qytera.qtaf.core.guice.annotations.Step;
 import de.qytera.qtaf.testng.context.QtafTestNGContext;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import static com.codeborne.selenide.Selenide.$
 
 public class DuckDuckGoPage extends QtafTestNGContext {
+    By searchInputSelector = By.id("search_form_input_homepage");
+    By searchButtonSelector = By.id("search_button_homepage")
 
     @Step(
             name = "open test page",
@@ -128,8 +131,7 @@ public class DuckDuckGoPage extends QtafTestNGContext {
             description = "enters the given search term into the search field"
     )
     public void enterSearchTerm(String term) {
-        WebElement inputField = driver.findElement(By.id("search_form_input_homepage"));
-        inputField.sendKeys(term);
+        $(searchInputSelector).sendKeys(term);
     }
 
     @Step(
@@ -137,7 +139,7 @@ public class DuckDuckGoPage extends QtafTestNGContext {
             description = "clicks on the search button next to the search field"
     )
     public void clickSearchButton() {
-        driver.findElement(By.id("search_button_homepage")).click();
+        $(searchButtonSelector).click();
     }
 
 }
@@ -153,24 +155,21 @@ import de.qytera.qtaf.core.config.annotations.TestFeature;
 import de.qytera.qtaf.testng.context.QtafTestNGContext;
 import org.testng.annotations.Test;
 
-import javax.inject.Singleton;
-
-import static org.testng.Assert.assertTrue;
 
 @TestFeature(
         name = "duckduckgo search",
         description = "tests the search feature from https://duckduckgo.com"
 )
-@Singleton
 public class DuckDuckGoPageTest extends QtafTestNGContext {
-
-    private static final DuckDuckGoPage examplePage = new DuckDuckGoPage();
-
-    @Test(testName = "QTAF-001", description = "test a simple search")
+    @Test(
+        testName = "QTAF-001",
+        description = "test a simple search"
+    )
     public void testSearch() {
-        examplePage.openTestPage();
-        examplePage.enterSearchTerm("test automation");
-        examplePage.clickSearchButton();
+        DuckDuckGoPage page = load(DuckDuckGoPage.class)
+        page.openTestPage();
+        page.enterSearchTerm("test automation");
+        page.clickSearchButton();
         assertTrue(driver.getTitle().contains("test automation"));
     }
 
