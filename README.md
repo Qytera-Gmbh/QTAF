@@ -56,7 +56,7 @@ To include QTAF as a testing dependency, add the following lines to your project
 <dependency>
     <groupId>de.qytera</groupId>
     <artifactId>qtaf-core</artifactId>
-    <version>0.0.1</version>
+    <version>0.2.0</version>
     <scope>test</scope>
 </dependency>
 ```
