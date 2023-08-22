@@ -14,8 +14,10 @@ public class AssertionLogMessage extends LogMessage {
 
     /**
      * Step of assertion
+     * This attribute needs to be transient so that it is ignored by JSON serializers.
+     * Otherwise, this causes a stack overflow, because it is a circular reference.
      */
-    protected StepInformationLogMessage step;
+    protected transient StepInformationLogMessage step;
 
     /**
      * Assertion status
