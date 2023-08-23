@@ -1,5 +1,6 @@
 package de.qytera.qtaf.testng.context;
 
+import de.qytera.qtaf.core.config.helper.QtafTestExecutionConfigHelper;
 import de.qytera.qtaf.core.log.model.LogLevel;
 import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
 import de.qytera.qtaf.core.log.model.message.AssertionLogMessage;
@@ -29,7 +30,7 @@ public interface AssertionContext {
      * @param message   The message that should be displayed if the assertion fails
      */
     default void assertTrue(boolean condition, String message) {
-        assertTrue(condition, message, false);
+        assertTrue(condition, message, QtafTestExecutionConfigHelper.continueOnAssertionFailure());
     }
 
     /**
@@ -61,7 +62,7 @@ public interface AssertionContext {
      * @param message   The message that should be displayed if the assertion fails
      */
     default void assertFalse(boolean condition, String message) {
-        assertFalse(condition, message, false);
+        assertFalse(condition, message, QtafTestExecutionConfigHelper.continueOnAssertionFailure());
     }
 
     /**
@@ -102,7 +103,7 @@ public interface AssertionContext {
      * @param message The message that should be displayed if the assertion fails
      */
     default void assertNull(Object object, String message) {
-        assertNull(object, message, false);
+        assertNull(object, message, QtafTestExecutionConfigHelper.continueOnAssertionFailure());
     }
 
     /**
@@ -143,7 +144,7 @@ public interface AssertionContext {
      * @param message The message that should be displayed if the assertion fails
      */
     default void assertNotNull(Object object, String message) {
-        assertNotNull(object, message, false);
+        assertNotNull(object, message, QtafTestExecutionConfigHelper.continueOnAssertionFailure());
     }
 
     /**
@@ -186,7 +187,7 @@ public interface AssertionContext {
      * @param message  The message that should be displayed if the assertion fails
      */
     default void assertSame(Object actual, Object expected, String message) {
-        assertSame(actual, expected, message, false);
+        assertSame(actual, expected, message, QtafTestExecutionConfigHelper.continueOnAssertionFailure());
     }
 
     /**
@@ -230,7 +231,7 @@ public interface AssertionContext {
      * @param message  The message that should be displayed if the assertion fails
      */
     default void assertNotSame(Object actual, Object expected, String message) {
-        assertNotSame(actual, expected, message, false);
+        assertNotSame(actual, expected, message, QtafTestExecutionConfigHelper.continueOnAssertionFailure());
     }
 
     /**
@@ -274,7 +275,7 @@ public interface AssertionContext {
      * @param message The message that should be displayed if the assertion fails
      */
     default void assertEquals(Object object1, Object object2, String message) {
-        assertEquals(object1, object2, message, false);
+        assertEquals(object1, object2, message, QtafTestExecutionConfigHelper.continueOnAssertionFailure());
     }
 
     /**
@@ -318,7 +319,7 @@ public interface AssertionContext {
      * @param message  The message that should be displayed if the assertion fails
      */
     default void assertEqualsDeep(Set<?> actual, Set<?> expected, String message) {
-        assertEqualsDeep(actual, expected, message, false);
+        assertEqualsDeep(actual, expected, message, QtafTestExecutionConfigHelper.continueOnAssertionFailure());
     }
 
     /**
@@ -339,7 +340,7 @@ public interface AssertionContext {
      * @param message  The message that should be displayed if the assertion fails
      */
     default void assertEqualsDeep(Map<?, ?> actual, Map<?, ?> expected, String message) {
-        assertEqualsDeep(actual, expected, message, false);
+        assertEqualsDeep(actual, expected, message, QtafTestExecutionConfigHelper.continueOnAssertionFailure());
     }
 
     /**
@@ -406,7 +407,7 @@ public interface AssertionContext {
      * @param message  The message that should be displayed if the assertion fails
      */
     default void assertNotEqualsDeep(Set<?> actual, Set<?> expected, String message) {
-        assertNotEqualsDeep(actual, expected, message, false);
+        assertNotEqualsDeep(actual, expected, message, QtafTestExecutionConfigHelper.continueOnAssertionFailure());
     }
 
     /**
@@ -427,7 +428,7 @@ public interface AssertionContext {
      * @param message  The message that should be displayed if the assertion fails
      */
     default void assertNotEqualsDeep(Map<?, ?> actual, Map<?, ?> expected, String message) {
-        assertNotEqualsDeep(actual, expected, message, false);
+        assertNotEqualsDeep(actual, expected, message, QtafTestExecutionConfigHelper.continueOnAssertionFailure());
     }
 
     /**
@@ -494,7 +495,7 @@ public interface AssertionContext {
      * @param message The message that should be displayed if the assertion fails
      */
     default void assertEqualsNoOrder(Object[] object1, Object[] object2, String message) {
-        assertEqualsNoOrder(object1, object2, message, false);
+        assertEqualsNoOrder(object1, object2, message, QtafTestExecutionConfigHelper.continueOnAssertionFailure());
     }
 
     /**
@@ -538,7 +539,7 @@ public interface AssertionContext {
      * @param message The message that should be displayed if the assertion fails
      */
     default void assertNotEquals(Object object1, Object object2, String message) {
-        assertNotEquals(object1, object2, message, false);
+        assertNotEquals(object1, object2, message, QtafTestExecutionConfigHelper.continueOnAssertionFailure());
     }
 
     /**
