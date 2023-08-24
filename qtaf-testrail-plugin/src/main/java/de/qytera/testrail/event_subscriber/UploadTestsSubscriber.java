@@ -50,28 +50,37 @@ public class UploadTestsSubscriber implements IEventSubscriber {
         }
     }
 
+
     /**
      * Set up the client for the TestRail API.
      */
     public APIClient setUpClient() throws GeneralSecurityException, MissingConfigurationValueException {
         if (client == null) {
+            // Load values from configuration file
             String url = CONFIG.getString(TestRailConfigHelper.TESTRAIL_URL);
             String clientId = CONFIG.getString(TestRailConfigHelper.TESTRAIL_AUTHENTICATION_CLIENT_ID);
             String clientSecret = CONFIG.getString(TestRailConfigHelper.TESTRAIL_AUTHENTICATION_CLIENT_SECRET);
             String key = CONFIG.getString(TestRailConfigHelper.SECURITY_KEY);
+
+            client = new APIClient(url);
+
+            // Check if id and secret exist
             if (clientId == null || clientId.isBlank()) {
                 throw new MissingConfigurationValueException(TestRailConfigHelper.TESTRAIL_AUTHENTICATION_CLIENT_ID, CONFIG);
             }
             if (clientSecret == null || clientSecret.isBlank()) {
                 throw new MissingConfigurationValueException(TestRailConfigHelper.TESTRAIL_AUTHENTICATION_CLIENT_SECRET, CONFIG);
             }
-            if (key == null || key.isBlank()) {
-                throw new MissingConfigurationValueException(TestRailConfigHelper.SECURITY_KEY, CONFIG);
+
+            if (key == null || key.isBlank()) { // credentials are not encrypted
+                client.setUser(clientId);
+                client.setPassword(clientSecret);
+            } else { // credentials are encrypted
+                client.setUser(AES.decrypt(clientId, key));
+                client.setPassword(AES.decrypt(clientSecret, key));
             }
-            client = new APIClient(url);
-            client.setUser(AES.decrypt(clientId, key));
-            client.setPassword(AES.decrypt(clientSecret, key));
         }
+
         return client;
     }
 
