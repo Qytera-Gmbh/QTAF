@@ -1,6 +1,7 @@
 package de.qytera.qtaf.core.selenium;
 
 import de.qytera.qtaf.core.QtafFactory;
+import de.qytera.qtaf.core.config.ConfigurationFactory;
 import de.qytera.qtaf.core.config.entity.ConfigMap;
 import de.qytera.qtaf.core.log.Logger;
 import de.qytera.qtaf.core.selenium.helper.SeleniumDriverConfigHelper;
@@ -97,4 +98,12 @@ public abstract class AbstractDriver {
      * @return whether the driver runs on a different machine
      */
     protected abstract boolean isRemoteDriver();
+
+    /**
+     * Check if driver should be started in headless mode
+     * @return true if headless, false otherwise
+     */
+    protected boolean headless() {
+        return ConfigurationFactory.getInstance().getBoolean("driver.headless");
+    }
 }
