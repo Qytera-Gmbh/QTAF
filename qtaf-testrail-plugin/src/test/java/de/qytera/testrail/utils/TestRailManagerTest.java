@@ -2,9 +2,12 @@ package de.qytera.testrail.utils;
 
 import de.qytera.qtaf.core.gson.GsonFactory;
 import de.qytera.qtaf.http.WebService;
-import de.qytera.testrail.entity.Attachment;
-import de.qytera.testrail.entity.Attachments;
-import de.qytera.testrail.entity.Link;
+import de.qytera.qtaf.testrail.entity.Attachment;
+import de.qytera.qtaf.testrail.entity.Attachments;
+import de.qytera.qtaf.testrail.entity.Link;
+import de.qytera.qtaf.testrail.utils.APIClient;
+import de.qytera.qtaf.testrail.utils.APIException;
+import de.qytera.qtaf.testrail.utils.TestRailManager;
 import de.qytera.testrail.util.Mocking;
 import jakarta.ws.rs.core.Response;
 import org.mockito.MockedStatic;

@@ -1,4 +1,4 @@
-package de.qytera.testrail.utils;
+package de.qytera.qtaf.testrail.utils;
 
 public class APIException extends Exception {
     public APIException(int status, String message) {
