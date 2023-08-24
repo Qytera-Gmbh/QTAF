@@ -23,8 +23,11 @@ public class DriverTest {
         WebDriver webDriver1 = DriverFactory.getDriver("chrome");
         webDriver1.quit();
         WebDriver webDriver2 = DriverFactory.getDriver("firefox");
-        webDriver1.quit();
+        webDriver2.quit();
+        WebDriver webDriver3 = DriverFactory.getDriver("edge");
+        webDriver3.quit();
         Assert.assertEquals(webDriver1.hashCode(), webDriver2.hashCode());
+        Assert.assertEquals(webDriver1.hashCode(), webDriver3.hashCode());
         DriverFactory.clearDriver();
     }
 
