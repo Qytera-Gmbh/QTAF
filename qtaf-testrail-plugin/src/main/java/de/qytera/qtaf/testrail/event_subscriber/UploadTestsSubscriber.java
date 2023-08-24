@@ -1,4 +1,4 @@
-package de.qytera.testrail.event_subscriber;
+package de.qytera.qtaf.testrail.event_subscriber;
 
 import de.qytera.qtaf.core.QtafFactory;
 import de.qytera.qtaf.core.config.entity.ConfigMap;
@@ -11,12 +11,12 @@ import de.qytera.qtaf.core.log.model.collection.TestSuiteLogCollection;
 import de.qytera.qtaf.core.log.model.message.LogMessage;
 import de.qytera.qtaf.core.log.model.message.StepInformationLogMessage;
 import de.qytera.qtaf.security.aes.AES;
-import de.qytera.testrail.annotations.TestRail;
-import de.qytera.testrail.config.TestRailConfigHelper;
-import de.qytera.testrail.entity.Attachment;
-import de.qytera.testrail.entity.Attachments;
-import de.qytera.testrail.utils.APIClient;
-import de.qytera.testrail.utils.TestRailManager;
+import de.qytera.qtaf.testrail.config.TestRailConfigHelper;
+import de.qytera.qtaf.testrail.annotations.TestRail;
+import de.qytera.qtaf.testrail.entity.Attachment;
+import de.qytera.qtaf.testrail.entity.Attachments;
+import de.qytera.qtaf.testrail.utils.APIClient;
+import de.qytera.qtaf.testrail.utils.TestRailManager;
 import lombok.Data;
 import rx.Subscription;
 
@@ -50,28 +50,37 @@ public class UploadTestsSubscriber implements IEventSubscriber {
         }
     }
 
+
     /**
      * Set up the client for the TestRail API.
      */
     public APIClient setUpClient() throws GeneralSecurityException, MissingConfigurationValueException {
         if (client == null) {
+            // Load values from configuration file
             String url = CONFIG.getString(TestRailConfigHelper.TESTRAIL_URL);
             String clientId = CONFIG.getString(TestRailConfigHelper.TESTRAIL_AUTHENTICATION_CLIENT_ID);
             String clientSecret = CONFIG.getString(TestRailConfigHelper.TESTRAIL_AUTHENTICATION_CLIENT_SECRET);
             String key = CONFIG.getString(TestRailConfigHelper.SECURITY_KEY);
+
+            client = new APIClient(url);
+
+            // Check if id and secret exist
             if (clientId == null || clientId.isBlank()) {
                 throw new MissingConfigurationValueException(TestRailConfigHelper.TESTRAIL_AUTHENTICATION_CLIENT_ID, CONFIG);
             }
             if (clientSecret == null || clientSecret.isBlank()) {
                 throw new MissingConfigurationValueException(TestRailConfigHelper.TESTRAIL_AUTHENTICATION_CLIENT_SECRET, CONFIG);
             }
-            if (key == null || key.isBlank()) {
-                throw new MissingConfigurationValueException(TestRailConfigHelper.SECURITY_KEY, CONFIG);
+
+            if (key == null || key.isBlank()) { // credentials are not encrypted
+                client.setUser(clientId);
+                client.setPassword(clientSecret);
+            } else { // credentials are encrypted
+                client.setUser(AES.decrypt(clientId, key));
+                client.setPassword(AES.decrypt(clientSecret, key));
             }
-            client = new APIClient(url);
-            client.setUser(AES.decrypt(clientId, key));
-            client.setPassword(AES.decrypt(clientSecret, key));
         }
+
         return client;
     }
 

@@ -1,4 +1,4 @@
-package de.qytera.testrail.entity;
+package de.qytera.qtaf.testrail.entity;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.AllArgsConstructor;

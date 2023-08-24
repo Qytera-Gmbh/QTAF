@@ -1,4 +1,4 @@
-package de.qytera.testrail.annotations;
+package de.qytera.qtaf.testrail.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
