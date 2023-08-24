@@ -1,4 +1,4 @@
-package de.qytera.testrail.config;
+package de.qytera.qtaf.testrail.config;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

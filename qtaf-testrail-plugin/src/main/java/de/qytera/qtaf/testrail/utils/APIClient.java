@@ -1,4 +1,4 @@
-package de.qytera.testrail.utils;
+package de.qytera.qtaf.testrail.utils;
 
 import lombok.Data;
 

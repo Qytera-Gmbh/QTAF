@@ -1,5 +1,6 @@
 package de.qytera.testrail.utils;
 
+import de.qytera.qtaf.testrail.utils.APIClient;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
