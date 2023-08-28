@@ -1,4 +1,4 @@
-package de.qytera.testrail.utils;
+package de.qytera.qtaf.testrail.utils;
 
 import com.google.common.net.HttpHeaders;
 import com.google.gson.JsonObject;
@@ -6,7 +6,7 @@ import com.google.gson.JsonPrimitive;
 import de.qytera.qtaf.core.gson.GsonFactory;
 import de.qytera.qtaf.http.RequestBuilder;
 import de.qytera.qtaf.http.WebService;
-import de.qytera.testrail.entity.Attachments;
+import de.qytera.qtaf.testrail.entity.Attachments;
 import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.EntityPart;
 import jakarta.ws.rs.core.MediaType;
