@@ -125,7 +125,6 @@ public abstract class QtafTestNGContext implements IQtafTestContext, AssertionCo
         if (pageObject instanceof IQtafTestContext testContext) {
             testContext.setLogCollection(context.getLogCollection());
             testContext.initialize();
-            PageFactory.initElements(driver, testContext);
         }
         return pageObject;
     }

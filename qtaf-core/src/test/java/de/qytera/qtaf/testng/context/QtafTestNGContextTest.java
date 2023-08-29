@@ -52,6 +52,8 @@ public class QtafTestNGContextTest {
         context.initElements();
         MyPageObject2 pageObject = context.load(MyPageObject2.class);
         Assert.assertNotNull(pageObject.getLogCollection(), "Log collection of page object class should not be empty");
+        Assert.assertNull(pageObject.element);
+        pageObject.initElements();
         Assert.assertNotNull(pageObject.element);
         IndexHelper.clearAllIndices();
     }
