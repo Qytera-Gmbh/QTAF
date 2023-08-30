@@ -25,7 +25,18 @@ public class FirefoxDriver extends AbstractDriver {
     protected FirefoxOptions getCapabilities() {
         // Make selenium use the selenium-http-jdk-client package
         System.setProperty("webdriver.http.factory", "jdk-http-client");
-        return new FirefoxOptions();
+        FirefoxOptions options = new FirefoxOptions();
+        if (headless()) {
+            options.addArguments(
+                    "--headless",
+                    "--disable-gpu",
+                    "--ignore-certificate-errors",
+                    "--disable-extensions",
+                    "--no-sandbox",
+                    "--disable-dev-shm-usage"
+            );
+        }
+        return options;
     }
 
     @Override

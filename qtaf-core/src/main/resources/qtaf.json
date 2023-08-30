@@ -12,6 +12,7 @@
     "remoteUrl": null,
     "implicitWaitTimeout": 0,
     "quitAfterTesting": true,
+    "headless": false,
     "screenshots": {
       "beforeScenario": true,
       "afterScenario": true,
