@@ -1,7 +1,5 @@
-package de.qytera.qtaf.selenium;
+package de.qytera.qtaf.core.selenium;
 
-import de.qytera.qtaf.core.selenium.DriverFactory;
-import de.qytera.qtaf.core.selenium.FirefoxDriver;
 import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;

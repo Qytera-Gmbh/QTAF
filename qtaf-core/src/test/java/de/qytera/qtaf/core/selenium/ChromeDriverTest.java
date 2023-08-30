@@ -1,43 +1,41 @@
-package de.qytera.qtaf.selenium;
+package de.qytera.qtaf.core.selenium;
 
-import de.qytera.qtaf.core.selenium.DriverFactory;
-import de.qytera.qtaf.core.selenium.EdgeDriver;
 import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.edge.EdgeOptions;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.Test;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-public class EdgeDriverTest {
-    @Test(testName = "testGetDriver", groups =  {"edge"})
+public class ChromeDriverTest {
+    @Test(testName = "testGetDriver", groups =  {"chrome"})
     public void testGetDriver(){
-        EdgeDriver edgeDriver = new EdgeDriver();
-        WebDriver driver = edgeDriver.getDriver();
+        ChromeDriver chromeDriver = new ChromeDriver();
+        WebDriver driver = chromeDriver.getDriver();
         driver.quit();
         DriverFactory.clearDriver();
     }
-    @Test(testName = "testGetCapabilities", groups =  {"edge"})
+    @Test(testName = "testGetCapabilities", groups =  {"chrome"})
     public void testGetCapabilities() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        EdgeDriver edgeDriver = new EdgeDriver();
-        Class<EdgeDriver> clazz = (Class<EdgeDriver>) edgeDriver.getClass();
+        ChromeDriver chromeDriver = new ChromeDriver();
+        Class<ChromeDriver> clazz = (Class<ChromeDriver>) chromeDriver.getClass();
         Method method = clazz.getDeclaredMethod("getCapabilities");
         // make method public
         method.setAccessible(true);
-        Assert.assertTrue(method.invoke(edgeDriver) instanceof EdgeOptions);
+        Assert.assertTrue(method.invoke(chromeDriver) instanceof ChromeOptions);
 
         // make method procteced
         method.setAccessible(false);
     }
-    @Test(testName = "testIsRemoteDriver", groups =  {"edge"})
+    @Test(testName = "testIsRemoteDriver", groups =  {"chrome"})
     public void testIsRemoteDriver() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        EdgeDriver edgeDriver = new EdgeDriver();
-        Class<EdgeDriver> clazz = (Class<EdgeDriver>) edgeDriver.getClass();
+        ChromeDriver chromeDriver = new ChromeDriver();
+        Class<ChromeDriver> clazz = (Class<ChromeDriver>) chromeDriver.getClass();
         Method method = clazz.getDeclaredMethod("isRemoteDriver");
         // make method public
         method.setAccessible(true);
-        Assert.assertFalse((Boolean) method.invoke(edgeDriver));
+        Assert.assertFalse((Boolean) method.invoke(chromeDriver));
 
         // make method procteced
         method.setAccessible(false);
