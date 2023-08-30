@@ -9,14 +9,14 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 public class EdgeDriverTest {
-    @Test(testName = "testGetDriver", groups =  {"edge"})
+    @Test(testName = "testGetDriver", groups = {"edge"})
     public void testGetDriver(){
         EdgeDriver edgeDriver = new EdgeDriver();
         WebDriver driver = edgeDriver.getDriver();
         driver.quit();
         DriverFactory.clearDriver();
     }
-    @Test(testName = "testGetCapabilities", groups =  {"edge"})
+    @Test(testName = "testGetCapabilities", groups = {"edge"})
     public void testGetCapabilities() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         EdgeDriver edgeDriver = new EdgeDriver();
         Class<EdgeDriver> clazz = (Class<EdgeDriver>) edgeDriver.getClass();
@@ -28,7 +28,7 @@ public class EdgeDriverTest {
         // make method procteced
         method.setAccessible(false);
     }
-    @Test(testName = "testIsRemoteDriver", groups =  {"edge"})
+    @Test(testName = "testIsRemoteDriver", groups = {"edge"})
     public void testIsRemoteDriver() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         EdgeDriver edgeDriver = new EdgeDriver();
         Class<EdgeDriver> clazz = (Class<EdgeDriver>) edgeDriver.getClass();

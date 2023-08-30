@@ -9,14 +9,14 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 public class FirefoxDriverTest {
-    @Test(testName = "testGetDriver", groups =  {"firefox"})
+    @Test(testName = "testGetDriver", groups = {"firefox"})
     public void testGetDriver(){
         FirefoxDriver firefoxDriver = new FirefoxDriver();
         WebDriver driver = firefoxDriver.getDriver();
         driver.quit();
         DriverFactory.clearDriver();
     }
-    @Test(testName = "testGetCapabilities", groups =  {"firefox"})
+    @Test(testName = "testGetCapabilities", groups = {"firefox"})
     public void testGetCapabilities() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         FirefoxDriver firefoxDriver = new FirefoxDriver();
         Class<FirefoxDriver> clazz = (Class<FirefoxDriver>) firefoxDriver.getClass();
@@ -28,7 +28,7 @@ public class FirefoxDriverTest {
         // make method procteced
         method.setAccessible(false);
     }
-    @Test(testName = "testIsRemoteDriver", groups =  {"firefox"})
+    @Test(testName = "testIsRemoteDriver", groups = {"firefox"})
     public void testIsRemoteDriver() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         FirefoxDriver firefoxDriver = new FirefoxDriver();
         Class<FirefoxDriver> clazz = (Class<FirefoxDriver>) firefoxDriver.getClass();
