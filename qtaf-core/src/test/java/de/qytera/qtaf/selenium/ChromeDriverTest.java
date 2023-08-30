@@ -11,14 +11,14 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 public class ChromeDriverTest {
-    @Test(testName = "testGetDriver")
+    @Test(testName = "testGetDriver", groups =  {"chrome"})
     public void testGetDriver(){
         ChromeDriver chromeDriver = new ChromeDriver();
         WebDriver driver = chromeDriver.getDriver();
         driver.quit();
         DriverFactory.clearDriver();
     }
-    @Test(testName = "testGetCapabilities")
+    @Test(testName = "testGetCapabilities", groups =  {"chrome"})
     public void testGetCapabilities() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         ChromeDriver chromeDriver = new ChromeDriver();
         Class<ChromeDriver> clazz = (Class<ChromeDriver>) chromeDriver.getClass();
@@ -30,7 +30,7 @@ public class ChromeDriverTest {
         // make method procteced
         method.setAccessible(false);
     }
-    @Test(testName = "testIsRemoteDriver")
+    @Test(testName = "testIsRemoteDriver", groups =  {"chrome"})
     public void testIsRemoteDriver() throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         ChromeDriver chromeDriver = new ChromeDriver();
         Class<ChromeDriver> clazz = (Class<ChromeDriver>) chromeDriver.getClass();
