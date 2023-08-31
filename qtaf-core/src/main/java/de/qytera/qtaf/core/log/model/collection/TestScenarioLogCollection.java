@@ -368,6 +368,17 @@ public class TestScenarioLogCollection {
     }
 
     /**
+     * Compute the status of the test scenario
+     */
+    public void computeStatus() {
+        if (LogMessageIndex.getInstance().getByScenarioIdAndFailed(getScenarioId()).size() > 0) {
+            status = Status.FAILURE;
+        } else {
+            status = Status.SUCCESS;
+        }
+    }
+
+    /**
      * Set test status
      *
      * @param status test status
@@ -753,6 +764,7 @@ public class TestScenarioLogCollection {
      */
     public TestScenarioLogCollection setEnd(Date end) {
         this.end = end;
+        computeStatus();
         return this;
     }
 
