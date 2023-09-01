@@ -17,7 +17,7 @@
         <!-- Dependency versions -->
         <jakartaActivationVersion>2.1.2</jakartaActivationVersion>
         <jerseyClientVersion>3.1.3</jerseyClientVersion>
-        <jerseyMediaMultipartVersion>3.1.2</jerseyMediaMultipartVersion>
+        <jerseyMediaMultipartVersion>3.1.3</jerseyMediaMultipartVersion>
     </properties>
 
     <dependencies>
