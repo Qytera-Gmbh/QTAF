@@ -59,7 +59,7 @@ public class UserCloudDto extends UserDto<ApplicationRoleCloudDto, GroupCloudDto
         if (this.accountType == null) {
             return null;
         }
-        return AccountType.valueOf(this.accountType);
+        return AccountType.valueOf(this.accountType.toUpperCase());
     }
 
 }
