@@ -3,6 +3,7 @@ package de.qytera.qtaf.xray.repository;
 import de.qytera.qtaf.core.QtafFactory;
 import de.qytera.qtaf.core.config.entity.ConfigMap;
 import de.qytera.qtaf.core.config.exception.MissingConfigurationValueException;
+import de.qytera.qtaf.core.log.Logger;
 import de.qytera.qtaf.http.RequestBuilder;
 import de.qytera.qtaf.http.WebService;
 import de.qytera.qtaf.xray.config.XrayConfigHelper;
@@ -144,11 +145,15 @@ public class JiraIssueRepositoryTest {
                                     public Response answer(InvocationOnMock invocation) {
                                         if (invocationCount++ == 0) {
                                             return Mocking.simulateInbound(
-                                                    Response.status(Response.Status.OK).entity(QtafFactory.getGson().toJson(dto1)).build()
+                                                    Response.status(Response.Status.OK)
+                                                            .entity(QtafFactory.getGson().toJson(dto1))
+                                                            .build()
                                             );
                                         }
                                         return Mocking.simulateInbound(
-                                                Response.status(Response.Status.OK).entity(QtafFactory.getGson().toJson(dto2)).build()
+                                                Response.status(Response.Status.OK)
+                                                        .entity(QtafFactory.getGson().toJson(dto2))
+                                                        .build()
                                         );
                                     }
                                 }
@@ -157,6 +162,63 @@ public class JiraIssueRepositoryTest {
             webService.when(() -> WebService.buildRequest(any())).thenCallRealMethod();
             List<JiraIssueResponseDto> issueData = JiraIssueRepository.getInstance().search(List.of("QTAF-123", "QTAF-456", "QTAF-789"));
             Assert.assertEquals(issueData, Arrays.asList(issue1, issue2, issue3));
+        } catch (URISyntaxException | MissingConfigurationValueException exception) {
+            Assert.fail("unexpected error during execution results import", exception);
+        }
+    }
+
+    @Test(description = "issue search should print errors for bad responses")
+    public void testSearchBadResponse() {
+        CONFIG.setString(XrayConfigHelper.XRAY_SERVICE_SELECTOR, XrayConfigHelper.XRAY_SERVICE_CLOUD);
+
+        JiraIssueResponseDto issue1 = new JiraIssueResponseDto();
+        issue1.setKey("QTAF-123");
+        JiraIssueResponseDto issue2 = new JiraIssueResponseDto();
+        issue1.setKey("QTAF-456");
+
+        JiraIssueResponseDto[] issues1 = new JiraIssueResponseDto[]{issue1, issue2};
+        JiraIssueSearchResponseDto dto1 = new JiraIssueSearchResponseDto();
+        dto1.setTotal(3);
+        dto1.setIssues(issues1);
+        try (MockedStatic<WebService> webService = Mockito.mockStatic(WebService.class)) {
+            webService.when(() -> WebService.post(any(), any()).close())
+                    .thenAnswer(new Answer<Response>() {
+                                    private int invocationCount = 0;
+
+                                    @Override
+                                    public Response answer(InvocationOnMock invocation) {
+                                        if (invocationCount++ == 0) {
+                                            return Mocking.simulateInbound(
+                                                    Response.status(Response.Status.OK)
+                                                            .entity(QtafFactory.getGson().toJson(dto1))
+                                                            .build()
+                                            );
+                                        }
+                                        return Mocking.simulateInbound(
+                                                Response.status(Response.Status.BAD_REQUEST)
+                                                        .entity("Project QTAF does not exist")
+                                                        .build()
+                                        );
+                                    }
+                                }
+
+                    );
+            webService.when(() -> WebService.buildRequest(any())).thenCallRealMethod();
+            Logger logger = Mockito.mock(Logger.class);
+            try (MockedStatic<QtafFactory> factory = Mockito.mockStatic(QtafFactory.class)) {
+                factory.when(QtafFactory::getLogger).thenReturn(logger);
+                factory.when(QtafFactory::getConfiguration).thenCallRealMethod();
+                factory.when(QtafFactory::getGson).thenCallRealMethod();
+                List<JiraIssueResponseDto> issueData = JiraIssueRepository.getInstance().search(
+                        List.of("QTAF-123", "QTAF-456", "QTAF-789")
+                );
+                Assert.assertEquals(issueData, Arrays.asList(issue1, issue2));
+                Mockito.verify(logger, Mockito.times(1))
+                        .error("""
+                                [QTAF Xray Plugin] \
+                                Failed to search for Jira issues using search body '{"jql":"issue in (QTAF-123,QTAF-456,QTAF-789)","startAt":2,"fields":[]}': \
+                                400 Bad Request: Project QTAF does not exist""");
+            }
         } catch (URISyntaxException | MissingConfigurationValueException exception) {
             Assert.fail("unexpected error during execution results import", exception);
         }
