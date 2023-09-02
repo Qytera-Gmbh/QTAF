@@ -7,9 +7,7 @@ import de.qytera.qtaf.core.log.Logger;
 import de.qytera.qtaf.http.RequestBuilder;
 import de.qytera.qtaf.http.WebService;
 import de.qytera.qtaf.xray.config.XrayConfigHelper;
-import de.qytera.qtaf.xray.dto.jira.UserCloudDto;
-import de.qytera.qtaf.xray.dto.jira.UserDto;
-import de.qytera.qtaf.xray.dto.jira.UserServerDto;
+import de.qytera.qtaf.xray.dto.jira.*;
 import de.qytera.qtaf.xray.dto.request.jira.issues.JiraIssueSearchRequestDto;
 import de.qytera.qtaf.xray.dto.response.jira.issues.JiraIssueResponseDto;
 import de.qytera.qtaf.xray.dto.response.jira.issues.JiraIssueSearchResponseDto;
@@ -73,7 +71,7 @@ public class JiraIssueRepositoryTest {
             webService.when(() -> WebService.buildRequest(any())).thenCallRealMethod();
             Assert.assertTrue(JiraIssueRepository.getInstance().assign("QTAF-123", user));
         } catch (URISyntaxException | MissingConfigurationValueException exception) {
-            Assert.fail("unexpected error during execution results import", exception);
+            Assert.fail("unexpected error", exception);
         }
     }
 
@@ -87,7 +85,7 @@ public class JiraIssueRepositoryTest {
             webService.when(() -> WebService.buildRequest(any())).thenCallRealMethod();
             Assert.assertFalse(JiraIssueRepository.getInstance().assign("QTAF-456", null));
         } catch (URISyntaxException | MissingConfigurationValueException exception) {
-            Assert.fail("unexpected error during execution results import", exception);
+            Assert.fail("unexpected error", exception);
         }
     }
 
@@ -113,7 +111,7 @@ public class JiraIssueRepositoryTest {
             webService.when(() -> WebService.buildRequest(any())).thenCallRealMethod();
             JiraIssueRepository.getInstance().search(List.of("QTAF-123"));
         } catch (URISyntaxException | MissingConfigurationValueException exception) {
-            Assert.fail("unexpected error during execution results import", exception);
+            Assert.fail("unexpected error", exception);
         }
     }
 
@@ -163,7 +161,7 @@ public class JiraIssueRepositoryTest {
             List<JiraIssueResponseDto> issueData = JiraIssueRepository.getInstance().search(List.of("QTAF-123", "QTAF-456", "QTAF-789"));
             Assert.assertEquals(issueData, Arrays.asList(issue1, issue2, issue3));
         } catch (URISyntaxException | MissingConfigurationValueException exception) {
-            Assert.fail("unexpected error during execution results import", exception);
+            Assert.fail("unexpected error", exception);
         }
     }
 
@@ -220,7 +218,219 @@ public class JiraIssueRepositoryTest {
                                 400 Bad Request: Project QTAF does not exist""");
             }
         } catch (URISyntaxException | MissingConfigurationValueException exception) {
-            Assert.fail("unexpected error during execution results import", exception);
+            Assert.fail("unexpected error", exception);
+        }
+    }
+
+    @Test(description = "issue transitions should print on successful transition")
+    public void testTransitionIssueWithBody() {
+
+        IssueUpdateDto dto = new IssueUpdateDto();
+        TransitionDto transitionDto = new TransitionDto();
+        transitionDto.setName("Begin work");
+        dto.setTransition(transitionDto);
+
+        Response response = Mocking.simulateInbound(
+                Response.status(Response.Status.NO_CONTENT)
+                        .build()
+        );
+
+        try (MockedStatic<WebService> webService = Mockito.mockStatic(WebService.class)) {
+            webService.when(() -> WebService.post(any(), any()).close()).thenReturn(response);
+            webService.when(() -> WebService.buildRequest(any())).thenCallRealMethod();
+            Logger logger = Mockito.mock(Logger.class);
+            try (MockedStatic<QtafFactory> factory = Mockito.mockStatic(QtafFactory.class)) {
+                factory.when(QtafFactory::getLogger).thenReturn(logger);
+                factory.when(QtafFactory::getConfiguration).thenCallRealMethod();
+                factory.when(QtafFactory::getGson).thenCallRealMethod();
+                boolean success = JiraIssueRepository.getInstance().transitionIssue(
+                        "QTAF-123",
+                        dto
+                );
+                Mockito.verify(logger, Mockito.times(1))
+                        .info("""
+                                [QTAF Xray Plugin] \
+                                Successfully transitioned issue QTAF-123 to status: TransitionDto(id=null, name=Begin work, opsbarSequence=0, to=null, fields={})"""
+                        );
+                Assert.assertTrue(success);
+            }
+        } catch (URISyntaxException | MissingConfigurationValueException exception) {
+            Assert.fail("unexpected error", exception);
+        }
+    }
+
+    @Test(description = "issue transitions should print on erroneous transition")
+    public void testTransitionIssueWithBodyError() {
+
+        IssueUpdateDto dto = new IssueUpdateDto();
+        TransitionDto transitionDto = new TransitionDto();
+        transitionDto.setName("Begin work");
+        dto.setTransition(transitionDto);
+
+        Response response = Mocking.simulateInbound(
+                Response.status(Response.Status.BAD_REQUEST)
+                        .entity("Transition In Progress does not exist")
+                        .build()
+        );
+
+        try (MockedStatic<WebService> webService = Mockito.mockStatic(WebService.class)) {
+            webService.when(() -> WebService.post(any(), any()).close()).thenReturn(response);
+            webService.when(() -> WebService.buildRequest(any())).thenCallRealMethod();
+            Logger logger = Mockito.mock(Logger.class);
+            try (MockedStatic<QtafFactory> factory = Mockito.mockStatic(QtafFactory.class)) {
+                factory.when(QtafFactory::getLogger).thenReturn(logger);
+                factory.when(QtafFactory::getConfiguration).thenCallRealMethod();
+                factory.when(QtafFactory::getGson).thenCallRealMethod();
+                boolean success = JiraIssueRepository.getInstance().transitionIssue(
+                        "QTAF-123",
+                        dto
+                );
+                Mockito.verify(logger, Mockito.times(1))
+                        .error("""
+                                [QTAF Xray Plugin] \
+                                Failed to transition issue QTAF-123 to status: \
+                                TransitionDto(id=null, name=Begin work, opsbarSequence=0, to=null, fields={}): \
+                                Transition In Progress does not exist"""
+                        );
+                Assert.assertFalse(success);
+            }
+        } catch (URISyntaxException | MissingConfigurationValueException exception) {
+            Assert.fail("unexpected error", exception);
+        }
+    }
+
+    @Test(description = "issue transitions by name should print on successful transition")
+    public void testTransitionIssueByName() {
+
+        TransitionsMetaDto dto = new TransitionsMetaDto();
+        TransitionDto transition1 = new TransitionDto();
+        transition1.setName("Begin work");
+        StatusDto status1 = new StatusDto();
+        status1.setName("In Progress");
+        transition1.setTo(status1);
+        TransitionDto transition2 = new TransitionDto();
+        transition2.setName("Finish work");
+        StatusDto status2 = new StatusDto();
+        status2.setName("Done");
+        transition2.setTo(status2);
+
+        dto.setTransitions(List.of(transition1, transition2));
+
+        Response allTransitionsResponse = Mocking.simulateInbound(
+                Response.status(Response.Status.OK)
+                        .entity(QtafFactory.getGson().toJson(dto))
+                        .build()
+        );
+
+        Response transitionResponse = Mocking.simulateInbound(
+                Response.status(Response.Status.NO_CONTENT)
+                        .build()
+        );
+
+        try (MockedStatic<WebService> webService = Mockito.mockStatic(WebService.class)) {
+            webService.when(() -> WebService.get(any()).close()).thenReturn(allTransitionsResponse);
+            webService.when(() -> WebService.post(any(), any()).close()).thenReturn(transitionResponse);
+            webService.when(() -> WebService.buildRequest(any())).thenCallRealMethod();
+            Logger logger = Mockito.mock(Logger.class);
+            try (MockedStatic<QtafFactory> factory = Mockito.mockStatic(QtafFactory.class)) {
+                factory.when(QtafFactory::getLogger).thenReturn(logger);
+                factory.when(QtafFactory::getConfiguration).thenCallRealMethod();
+                factory.when(QtafFactory::getGson).thenCallRealMethod();
+                boolean success = JiraIssueRepository.getInstance().transitionIssue(
+                        "QTAF-123",
+                        "In Progress"
+                );
+                Mockito.verify(logger, Mockito.times(1))
+                        .info("""
+                                [QTAF Xray Plugin] \
+                                Successfully transitioned issue QTAF-123 to status: \
+                                TransitionDto(id=null, name=Begin work, opsbarSequence=0, to=StatusDto(statusColor=null, description=null, iconUrl=null, name=In Progress, id=null, statusCategory=null), fields={})"""
+                        );
+                Assert.assertTrue(success);
+            }
+        } catch (URISyntaxException | MissingConfigurationValueException exception) {
+            Assert.fail("unexpected error", exception);
+        }
+    }
+
+    @Test(description = "issue transitions by name should handle nonexistent transitions gracefully")
+    public void testTransitionIssueByNameNonexistent() {
+
+        TransitionsMetaDto dto = new TransitionsMetaDto();
+        TransitionDto transition1 = new TransitionDto();
+        transition1.setName("Begin work");
+        StatusDto status1 = new StatusDto();
+        status1.setName("In Progress");
+        transition1.setTo(status1);
+        TransitionDto transition2 = new TransitionDto();
+        transition2.setName("Finish work");
+        StatusDto status2 = new StatusDto();
+        status2.setName("Done");
+        transition2.setTo(status2);
+
+        dto.setTransitions(List.of(transition1, transition2));
+
+        Response allTransitionsResponse = Mocking.simulateInbound(
+                Response.status(Response.Status.OK)
+                        .entity(QtafFactory.getGson().toJson(dto))
+                        .build()
+        );
+
+        try (MockedStatic<WebService> webService = Mockito.mockStatic(WebService.class)) {
+            webService.when(() -> WebService.get(any()).close()).thenReturn(allTransitionsResponse);
+            webService.when(() -> WebService.buildRequest(any())).thenCallRealMethod();
+            Logger logger = Mockito.mock(Logger.class);
+            try (MockedStatic<QtafFactory> factory = Mockito.mockStatic(QtafFactory.class)) {
+                factory.when(QtafFactory::getLogger).thenReturn(logger);
+                factory.when(QtafFactory::getConfiguration).thenCallRealMethod();
+                factory.when(QtafFactory::getGson).thenCallRealMethod();
+                boolean success = JiraIssueRepository.getInstance().transitionIssue(
+                        "QTAF-123",
+                        "Nonexistent"
+                );
+                Mockito.verify(logger, Mockito.times(1))
+                        .error("""
+                                [QTAF Xray Plugin] \
+                                Failed to transition issue QTAF-123 to status Nonexistent: \
+                                The workflow prohibits the transition or it does not exist. Possible statuses: In Progress,Done"""
+                        );
+                Assert.assertFalse(success);
+            }
+        } catch (URISyntaxException | MissingConfigurationValueException exception) {
+            Assert.fail("unexpected error", exception);
+        }
+    }
+
+    @Test(description = "issue transitions by name should handle transition retrieval failures gracefully")
+    public void testTransitionIssueByNameFailedGet() {
+
+        Response allTransitionsResponse = Mocking.simulateInbound(
+                Response.status(Response.Status.BAD_REQUEST)
+                        .entity("There are no transitions")
+                        .build()
+        );
+
+        try (MockedStatic<WebService> webService = Mockito.mockStatic(WebService.class)) {
+            webService.when(() -> WebService.get(any()).close()).thenReturn(allTransitionsResponse);
+            webService.when(() -> WebService.buildRequest(any())).thenCallRealMethod();
+            Logger logger = Mockito.mock(Logger.class);
+            try (MockedStatic<QtafFactory> factory = Mockito.mockStatic(QtafFactory.class)) {
+                factory.when(QtafFactory::getLogger).thenReturn(logger);
+                factory.when(QtafFactory::getConfiguration).thenCallRealMethod();
+                factory.when(QtafFactory::getGson).thenCallRealMethod();
+                boolean success = JiraIssueRepository.getInstance().transitionIssue(
+                        "QTAF-123",
+                        "In Progress"
+                );
+                Mockito.verify(logger, Mockito.times(1))
+                        .error("""
+                                [QTAF Xray Plugin] \
+                                Failed to get transitions for issue QTAF-123: There are no transitions"""
+                        );
+                Assert.assertFalse(success);
+            }
+        } catch (URISyntaxException | MissingConfigurationValueException exception) {
+            Assert.fail("unexpected error", exception);
         }
     }
 

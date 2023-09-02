@@ -188,7 +188,7 @@ public class JiraIssueRepository implements JiraEndpoint {
             if (response.getStatus() == Response.Status.NO_CONTENT.getStatusCode()) {
                 QtafFactory.getLogger().info(
                         String.format(
-                                "[QTAF Xray Plugin] Successfully transitioned issue %s to status %s.",
+                                "[QTAF Xray Plugin] Successfully transitioned issue %s to status: %s",
                                 issueIdOrKey,
                                 body.getTransition()
                         )
@@ -197,7 +197,7 @@ public class JiraIssueRepository implements JiraEndpoint {
             } else {
                 QtafFactory.getLogger().error(
                         String.format(
-                                "[QTAF Xray Plugin] Failed to transition issue %s to status %s: %s",
+                                "[QTAF Xray Plugin] Failed to transition issue %s to status: %s: %s",
                                 issueIdOrKey,
                                 body.getTransition(),
                                 responseJson
@@ -233,7 +233,7 @@ public class JiraIssueRepository implements JiraEndpoint {
         }
         QtafFactory.getLogger().error(
                 String.format(
-                        "[QTAF Xray Plugin] Failed to transition issue %s to status %s: %s. Possible transitions: %s",
+                        "[QTAF Xray Plugin] Failed to transition issue %s to status %s: %s. Possible statuses: %s",
                         issueIdOrKey,
                         statusName,
                         "The workflow prohibits the transition or it does not exist",
