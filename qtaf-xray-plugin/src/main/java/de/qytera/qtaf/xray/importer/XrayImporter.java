@@ -49,7 +49,7 @@ public class XrayImporter {
         StringBuilder fileContent = new StringBuilder();
 
         for (XrayTestDto testDto : testDtoCollection) {
-            fileContent.append("\n").append(addScenarioDefinition(testDto.getKey(), testDto.getDefinition()));
+            fileContent.append("%n".formatted()).append(addScenarioDefinition(testDto.getKey(), testDto.getDefinition()));
         }
 
         if (newDriver) {
@@ -81,7 +81,7 @@ public class XrayImporter {
      */
     public static String addScenarioDefinition(String scenarioName, String testDefinition) {
         String featureFileContent = String.format("Scenario: %s%n  ", scenarioName);
-        featureFileContent += testDefinition.replace("\n", "\n  ");
+        featureFileContent += testDefinition.replace("%n".formatted(), "%n  ".formatted());
         return featureFileContent;
     }
 
@@ -94,7 +94,7 @@ public class XrayImporter {
      */
     public static String addFeatureDefinition(String featureName, String testDefinition) {
         String featureFileContent = String.format("Feature: %s%n  ", featureName);
-        featureFileContent += testDefinition.replace("\n", "\n  ");
+        featureFileContent += testDefinition.replace("%n".formatted(), "%n  ".formatted());
         return featureFileContent;
     }
 

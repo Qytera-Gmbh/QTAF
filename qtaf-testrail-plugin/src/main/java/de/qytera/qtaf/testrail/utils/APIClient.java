@@ -21,7 +21,7 @@ public class APIClient {
      */
     public APIClient(String baseUrl) {
         if (baseUrl == null) {
-            throw new IllegalArgumentException("TestRail Base URL is null, please set the value in your configuration file");
+            throw new IllegalArgumentException("TestRail base URL is null, please set the value in your configuration file");
         }
         if (!baseUrl.endsWith("/")) {
             baseUrl += "/";
