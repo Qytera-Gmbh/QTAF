@@ -1,6 +1,7 @@
 package de.qytera.qtaf.xray.dto.response.jira.issues;
 
 import com.google.gson.JsonObject;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,6 +13,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@EqualsAndHashCode
 public class JiraIssueResponseDto {
     /**
      * Issue ID
