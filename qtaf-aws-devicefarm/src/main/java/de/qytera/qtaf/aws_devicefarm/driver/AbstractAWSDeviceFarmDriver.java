@@ -9,7 +9,6 @@ import de.qytera.qtaf.aws_devicefarm.config.AWSDeviceFarmConfigHelper;
 import de.qytera.qtaf.core.selenium.AbstractDriver;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import software.amazon.awssdk.regions.Region;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -24,7 +23,7 @@ public abstract class AbstractAWSDeviceFarmDriver extends AbstractDriver {
         AWSDeviceFarmClientBuilder builder = AWSDeviceFarmClient.builder();
         builder.setRegion(AWSDeviceFarmConfigHelper.getProjectRegion());
 
-        AWSDeviceFarm client  = builder.build();
+        AWSDeviceFarm client = builder.build();
         CreateTestGridUrlRequest request = new CreateTestGridUrlRequest();
         request.setExpiresInSeconds(300);
         request.setProjectArn(myProjectARN);

@@ -42,10 +42,10 @@ public interface JiraEndpoint {
     }
 
     private static String getHeaderServer() throws MissingConfigurationValueException {
-        String bearerToken = XrayConfigHelper.getAuthenticationXrayBearerToken();
+        String bearerToken = XrayConfigHelper.getAuthenticationJiraAPIToken();
         if (bearerToken == null) {
             throw new MissingConfigurationValueException(
-                    XrayConfigHelper.AUTHENTICATION_XRAY_BEARER_TOKEN,
+                    XrayConfigHelper.AUTHENTICATION_JIRA_API_TOKEN,
                     QtafFactory.getConfiguration());
         }
         return String.format("Bearer %s", bearerToken);

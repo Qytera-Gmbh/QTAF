@@ -156,6 +156,7 @@ public abstract class QtafTestNGContext implements IQtafTestContext, AssertionCo
 
     /**
      * Execute JavaScript code
+     *
      * @param script JavaScript code
      */
     public void jsExec(String script) {
@@ -164,6 +165,7 @@ public abstract class QtafTestNGContext implements IQtafTestContext, AssertionCo
 
     /**
      * Execute JavaScript code
+     *
      * @param script JavaScript code
      * @param args   variables
      */

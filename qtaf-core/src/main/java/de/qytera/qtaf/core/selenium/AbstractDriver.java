@@ -101,6 +101,7 @@ public abstract class AbstractDriver {
 
     /**
      * Check if driver should be started in headless mode
+     *
      * @return true if headless, false otherwise
      */
     protected boolean headless() {

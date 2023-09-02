@@ -22,7 +22,7 @@ public class UploadResultsSubscriber implements IEventSubscriber {
     /**
      * Whether tests have been uploaded already.
      */
-    private static boolean uploaded = false;
+    private boolean uploaded = false;
 
     /**
      * Event subscription
@@ -42,7 +42,7 @@ public class UploadResultsSubscriber implements IEventSubscriber {
         }
 
         // Subscribe to tests finished subject
-        this.testFinishedSubscription = QtafEvents.finishedTesting.subscribe(UploadResultsSubscriber::onTestFinished);
+        this.testFinishedSubscription = QtafEvents.finishedTesting.subscribe(this::onTestFinished);
     }
 
     /**
@@ -50,7 +50,7 @@ public class UploadResultsSubscriber implements IEventSubscriber {
      *
      * @param testContext the test context payload
      */
-    private static void onTestFinished(IQtafTestingContext testContext) {
+    private void onTestFinished(IQtafTestingContext testContext) {
         // Check if Xray Plugin is enabled
         if (!XrayConfigHelper.isEnabled()) {
             return;

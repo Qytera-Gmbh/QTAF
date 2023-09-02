@@ -44,7 +44,7 @@ public class UploadResultSubscriberTest {
 
     @Test(description = "import execution results should be called exactly once")
     public void testUploadSubscriberEnabled() {
-        QtafFactory.getConfiguration().setBoolean(XrayConfigHelper.ENABLED_SELECTOR, true);
+        QtafFactory.getConfiguration().setBoolean(XrayConfigHelper.XRAY_ENABLED, true);
         try (MockedStatic<XrayTestRepository> xrayRepository = Mockito.mockStatic(XrayTestRepository.class)) {
             xrayRepository.when(XrayTestRepository::getInstance).thenReturn(XRAY_TEST_REPOSITORY);
             QtafEvents.finishedTesting.onNext(new QtafTestContextPayload());
@@ -56,7 +56,7 @@ public class UploadResultSubscriberTest {
 
     @Test(description = "import execution results should be called zero times")
     public void testUploadSubscriberDisabled() {
-        QtafFactory.getConfiguration().setBoolean(XrayConfigHelper.ENABLED_SELECTOR, false);
+        QtafFactory.getConfiguration().setBoolean(XrayConfigHelper.XRAY_ENABLED, false);
         try (MockedStatic<XrayTestRepository> xrayRepository = Mockito.mockStatic(XrayTestRepository.class)) {
             xrayRepository.when(XrayTestRepository::getInstance).thenReturn(XRAY_TEST_REPOSITORY);
             QtafEvents.finishedTesting.onNext(new QtafTestContextPayload());
