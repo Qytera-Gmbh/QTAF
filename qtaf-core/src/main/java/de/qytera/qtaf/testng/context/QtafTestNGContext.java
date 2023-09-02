@@ -1,18 +1,22 @@
 package de.qytera.qtaf.testng.context;
 
+import com.google.inject.Injector;
 import de.qytera.qtaf.core.QtafFactory;
 import de.qytera.qtaf.core.QtafInitializer;
 import de.qytera.qtaf.core.config.annotations.TestFeature;
 import de.qytera.qtaf.core.config.entity.ConfigMap;
 import de.qytera.qtaf.core.context.IQtafTestContext;
 import de.qytera.qtaf.core.context.TestContextHelper;
+import de.qytera.qtaf.core.guice.QtafInjector;
 import de.qytera.qtaf.core.guice.QtafModule;
 import de.qytera.qtaf.core.log.model.collection.TestFeatureLogCollection;
 import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
 import de.qytera.qtaf.core.log.model.collection.TestSuiteLogCollection;
 import de.qytera.qtaf.core.selenium.DriverFactory;
 import de.qytera.qtaf.testng.event_listener.TestNGEventListener;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.PageFactory;
 import org.testng.annotations.Guice;
 import org.testng.annotations.Listeners;
 
@@ -23,7 +27,7 @@ import org.testng.annotations.Listeners;
  */
 @Listeners({TestNGEventListener.class})
 @Guice(modules = {QtafModule.class})
-public abstract class QtafTestNGContext implements IQtafTestContext {
+public abstract class QtafTestNGContext implements IQtafTestContext, AssertionContext {
 
     /**
      * Holds values from JSON configuration files
@@ -34,6 +38,11 @@ public abstract class QtafTestNGContext implements IQtafTestContext {
      * Web driver instance (chrome, firefox, ...)
      */
     public static WebDriver driver = null;
+
+    /**
+     * JavaScript executor
+     */
+    protected static JavascriptExecutor js = null;
 
     /**
      * Global log collection that holds all log messages from the tests
@@ -61,9 +70,19 @@ public abstract class QtafTestNGContext implements IQtafTestContext {
     private boolean isInitialized = false;
 
     /**
+     * Placeholder for missing messages in assertions
+     */
+    protected String NO_MESSAGE = "<no-message>";
+
+    /**
+     * Guice injector
+     */
+    protected static final Injector injector = QtafInjector.getInstance();
+
+    /**
      * Constructor
      */
-    public QtafTestNGContext() {
+    protected QtafTestNGContext() {
         initialize();
     }
 
@@ -84,6 +103,7 @@ public abstract class QtafTestNGContext implements IQtafTestContext {
 
         // Initialize driver
         driver = QtafFactory.getWebDriver();
+        js = (JavascriptExecutor) driver;
 
         // Get Test feature annotation
         testFeatureAnnotation = this.getClass().getAnnotation(TestFeature.class);
@@ -94,11 +114,61 @@ public abstract class QtafTestNGContext implements IQtafTestContext {
     }
 
     /**
+     * Load class instance
+     *
+     * @param context The current test context (pass 'this' for this argument)
+     * @param c       The desired class you want to create an instance of
+     * @return Instance of the desired class
+     */
+    protected static <T> T load(IQtafTestContext context, Class<T> c) {
+        T pageObject = injector.getInstance(c);
+        if (pageObject instanceof IQtafTestContext testContext) {
+            testContext.setLogCollection(context.getLogCollection());
+            testContext.initialize();
+        }
+        return pageObject;
+    }
+
+    /**
+     * Load class instance
+     *
+     * @param c The desired class you want to create an instance of
+     * @return Instance of the desired class
+     */
+    protected <T> T load(Class<T> c) {
+        return load(this, c);
+    }
+
+    /**
+     * Call the Selenium PageFactory initElements method on this instance
+     */
+    protected void initElements() {
+        PageFactory.initElements(driver, this);
+    }
+
+    /**
      * Restart browser
      */
     @Override
     public void restartDriver() {
         driver = DriverFactory.getDriver(true);
+    }
+
+    /**
+     * Execute JavaScript code
+     * @param script JavaScript code
+     */
+    public void jsExec(String script) {
+        js.executeScript(script);
+    }
+
+    /**
+     * Execute JavaScript code
+     * @param script JavaScript code
+     * @param args   variables
+     */
+    public void jsExec(String script, Object... args) {
+        js.executeScript(script, args);
     }
 
     /**

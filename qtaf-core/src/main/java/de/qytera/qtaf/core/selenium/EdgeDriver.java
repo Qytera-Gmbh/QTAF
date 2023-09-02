@@ -15,7 +15,7 @@ public class EdgeDriver extends AbstractDriver {
     }
 
     @Override
-    public WebDriver getDriverInstance() {
+    public WebDriver getDriver() {
         WebDriverManager webDriverManager = WebDriverManager.edgedriver();
         initWebDriverManager(webDriverManager);
         return new org.openqa.selenium.edge.EdgeDriver(getCapabilities());
@@ -25,7 +25,18 @@ public class EdgeDriver extends AbstractDriver {
     protected EdgeOptions getCapabilities() {
         // Make selenium use the selenium-http-jdk-client package
         System.setProperty("webdriver.http.factory", "jdk-http-client");
-        return new EdgeOptions();
+        EdgeOptions options = new EdgeOptions();
+        if (headless()) {
+            options.addArguments(
+                    "--headless",
+                    "--disable-gpu",
+                    "--ignore-certificate-errors",
+                    "--disable-extensions",
+                    "--no-sandbox",
+                    "--disable-dev-shm-usage"
+            );
+        }
+        return options;
     }
 
     @Override

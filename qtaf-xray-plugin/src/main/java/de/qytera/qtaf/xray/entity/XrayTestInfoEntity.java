@@ -1,9 +1,6 @@
 package de.qytera.qtaf.xray.entity;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +14,7 @@ import java.util.List;
 @Getter
 @Setter
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
+@EqualsAndHashCode
 public abstract class XrayTestInfoEntity {
     /**
      * The summary for the test issue.

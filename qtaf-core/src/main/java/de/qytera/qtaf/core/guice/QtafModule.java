@@ -60,7 +60,7 @@ public class QtafModule extends AbstractModule {
         bindInterceptor(
                 Matchers.any(),                             // Any class
                 Matchers.annotatedWith(Step.class),         // Any method annotated with @Step
-                new QtafStepMethodInterceptor()            // Logic for method invocation
+                new QtafStepMethodInterceptor()             // Logic for method invocation
         );
     }
 }

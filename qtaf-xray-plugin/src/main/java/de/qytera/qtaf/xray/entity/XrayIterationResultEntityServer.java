@@ -12,10 +12,11 @@ import lombok.Setter;
 @Getter
 @Setter
 public class XrayIterationResultEntityServer extends XrayIterationResultEntity {
-
-    // Empty because Xray Server does not add any additional or distinct fields in contrast to Xray Cloud.
-    // Nonetheless, keeping the abstract super class feels like the right thing to do.
-
+    /*
+     * Empty because Xray server does not add any additional or distinct fields to the abstract base class.
+     * Nonetheless, keeping the abstract super class feels like the right thing to do, as it keeps the cloud/server
+     * naming scheme consistent.
+     */
     public XrayIterationResultEntityServer(TestScenarioLogCollection.Status status) {
         super(status);
     }

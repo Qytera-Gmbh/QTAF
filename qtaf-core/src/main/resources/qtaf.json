@@ -4,13 +4,15 @@
       "name": ""
     },
     "package": "tests",
-    "groups": null
+    "groups": null,
+    "continueOnAssertionFailure": true
   },
   "driver": {
     "name": "chrome",
     "remoteUrl": null,
     "implicitWaitTimeout": 0,
     "quitAfterTesting": true,
+    "headless": false,
     "screenshots": {
       "beforeScenario": true,
       "afterScenario": true,
@@ -42,6 +44,7 @@
       }
     },
     "resultsUpload": {
+      "assignee": null,
       "testPlanKey": null,
       "scenarioReportEvidence": true,
       "scenarioImageEvidence": true,
@@ -82,6 +85,17 @@
         }
       }
     }
+  },
+  "testrail": {
+    "enabled": false,
+    "url": null,
+    "authentication": {
+      "clientId": null,
+      "clientSecret": null
+    }
+  },
+  "security": {
+    "key": null
   },
   "htmlReport": {
     "enabled": true

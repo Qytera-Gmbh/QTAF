@@ -39,5 +39,5 @@ public interface IQtafTestingContext {
      *
      * @return original event
      */
-    Object getOriginalEvent();
+    Object getiTestContext();
 }

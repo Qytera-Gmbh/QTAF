@@ -231,6 +231,9 @@ public class QtafTestNGCucumberContext extends AbstractTestNGCucumberTests imple
             description = "Runs Cucumber Scenarios",
             dataProvider = "scenarios"
     )
+
+
+    @Override
     public void runScenario(PickleWrapper pickleWrapper, FeatureWrapper featureWrapper) {
         QTAFCucumberScenarioEntity scenarioEntity = QTAFCucumberScenarioEntityFactory.getEntity(
                 pickleWrapper,

@@ -9,16 +9,24 @@ on:
         required: false
         type: string
         default: "zulu"
-    secrets:
-      XRAY_CLIENT_ID:
-        required: true
-        description: "Xray Cloud API client ID"
-      XRAY_CLIENT_SECRET:
-        required: true
-        description: "Xray Cloud API client secret"
 
 jobs:
+  check-secrets:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: qytera-gmbh/actions-check-secrets@v1
+        with:
+          names: |
+            XRAY_CLIENT_ID
+            XRAY_CLIENT_SECRET
+            SONAR_TOKEN
+        env:
+          XRAY_CLIENT_ID: ${{ secrets.XRAY_CLIENT_ID }}
+          XRAY_CLIENT_SECRET: ${{ secrets.XRAY_CLIENT_SECRET }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
   test:
+    needs: [check-secrets]
     strategy:
       matrix:
         os: ["windows-latest", "ubuntu-latest"]
@@ -26,7 +34,11 @@ jobs:
           - os: "windows-latest"
             # Exclude Firefox, as it currently does not work on Windows: https://github.com/browser-actions/setup-firefox/issues/252
             command: |
-              mvn clean test -q `
+              mvn clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -q `
+              "-Dsonar.host.url=https://sonarcloud.io" `
+              "-Dsonar.organization=qytera-gmbh" `
+              "-Dsonar.projectKey=Qytera-Gmbh_QTAF" `
+              "-Dsonar.login=$Env:SONAR_TOKEN" `
               "-Dxray.authentication.xray.clientId=$Env:XRAY_CLIENT_ID" `
               "-Dxray.authentication.xray.clientSecret=$Env:XRAY_CLIENT_SECRET" `
               "-DexcludedGroups=firefox"
@@ -36,10 +48,15 @@ jobs:
             command: |
               export DISPLAY=:99
               sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 &
-              mvn clean test -q \
+              mvn clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -q \
+              -Dsonar.host.url=https://sonarcloud.io \
+              -Dsonar.organization=qytera-gmbh \
+              -Dsonar.projectKey=Qytera-Gmbh_QTAF \
+              -Dsonar.login=$SONAR_TOKEN \
               -Dxray.authentication.xray.clientId=$XRAY_CLIENT_ID \
               -Dxray.authentication.xray.clientSecret=$XRAY_CLIENT_SECRET \
-              -DexcludedGroups=ie
+              -DexcludedGroups=ie,edge
+
     runs-on: ${{ matrix.os }}
     timeout-minutes: 10
     steps:
@@ -49,6 +66,8 @@ jobs:
         # See above reasoning for Firefox exclusion.
         if: matrix.os != 'windows-latest'
       - uses: browser-actions/setup-edge@v1
+        # Edge currently does not work.
+        if: matrix.os != 'ubuntu-latest'
       - uses: actions/setup-java@v3
         with:
           java-version: ${{ inputs.java-version }}
@@ -59,3 +78,4 @@ jobs:
         env:
           XRAY_CLIENT_ID: ${{ secrets.XRAY_CLIENT_ID }}
           XRAY_CLIENT_SECRET: ${{ secrets.XRAY_CLIENT_SECRET }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

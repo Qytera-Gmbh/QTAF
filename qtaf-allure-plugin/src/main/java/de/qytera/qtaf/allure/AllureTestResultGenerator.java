@@ -1,5 +1,6 @@
 package de.qytera.qtaf.allure;
 
+import com.google.common.net.MediaType;
 import de.qytera.qtaf.core.log.model.collection.TestFeatureLogCollection;
 import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
 import de.qytera.qtaf.core.log.model.collection.TestSuiteLogCollection;
@@ -9,12 +10,16 @@ import io.qameta.allure.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
  * Class for mapping QTAF data structure to Allure data structure
  */
 public class AllureTestResultGenerator {
+    private AllureTestResultGenerator() {
+    }
+
     /**
      * QTAF Test Suite is mapped to list of Allure TestResult entities
      *
@@ -43,33 +48,49 @@ public class AllureTestResultGenerator {
     public static TestResult fromQtafTestScenario(TestScenarioLogCollection scenario) {
         List<StepResult> testResultSteps = AllureTestResultGenerator.getStepResultsFromQtafScenario(scenario);
         List<Attachment> testResultAttachments = AllureTestResultGenerator.getAllureTestResultAttachments(scenario);
-        List<Parameter> testResultParameters = new ArrayList<>(); // TODO
-        List<Label> testResultLabels = new ArrayList<>(); // TODO
-        List<Link> testResultLinks = new ArrayList<>(); // TODO
+        List<Parameter> testResultParameters = new ArrayList<>();
+        List<Label> testResultLabels = new ArrayList<>();
+        List<Link> testResultLinks = new ArrayList<>();
 
         StatusDetails statusDetails = (new StatusDetails())
                 .setKnown(false)
                 .setMuted(false)
                 .setFlaky(false)
-                .setMessage("") // TODO
-                .setTrace(""); // TODO
+                .setMessage("")
+                .setTrace("");
 
         return (new TestResult())
                 .setUuid(UUID.randomUUID().toString())
-                .setHistoryId(scenario.getScenarioId())
-                .setFullName(scenario.getScenarioId())
+                .setHistoryId(scenario.getAbstractScenarioId())
+                .setFullName(scenario.getAbstractScenarioId())
+                .setTestCaseId(buildTestCaseId(scenario))
                 .setLabels(testResultLabels)
                 .setLinks(testResultLinks)
                 .setName(scenario.getDescription())
+                .setDescription(scenario.getDescription())
+                .setDescriptionHtml(null)
                 .setStatus(mapQtafScenarioStatusToAllureTestResultStatus(scenario.getStatus()))
                 .setStatusDetails(statusDetails)
                 .setStage(Stage.FINISHED)
                 .setSteps(testResultSteps)
                 .setAttachments(testResultAttachments)
                 .setParameters(testResultParameters)
-                .setDescriptionHtml(null)
                 .setStart(scenario.getStart().getTime())
                 .setStop(scenario.getEnd().getTime());
+    }
+
+    /**
+     * Build the full name of a Allure TestResult entity
+     *
+     * @param scenario TestScenarioLogCollection object
+     * @return full name
+     */
+    public static String buildTestCaseId(TestScenarioLogCollection scenario) {
+        if (scenario.getInstanceId().isBlank()) {
+            return scenario.getAbstractScenarioId() + "-" + UUID.randomUUID();
+        }
+
+        return scenario.getAbstractScenarioId() + "-" + scenario.getInstanceId();
     }
 
     /**
@@ -113,13 +134,12 @@ public class AllureTestResultGenerator {
     }
 
     private static StatusDetails getAllureStepResultStatusDetailsFromQtafStep(StepInformationLogMessage stepLog) {
-        StatusDetails statusDetails = (new StatusDetails())
+        return new StatusDetails()
                 .setTrace(stepLog.getMessage())
                 .setMessage("")
                 .setMuted(false)
                 .setKnown(false)
                 .setFlaky(false);
-        return statusDetails;
     }
 
     /**
@@ -165,7 +185,7 @@ public class AllureTestResultGenerator {
             Parameter parameter = (new Parameter())
                     .setName(stepParameter.getName())
                     .setExcluded(true)
-                    .setValue(stepParameter.getValue().toString())
+                    .setValue(Objects.requireNonNullElse(stepParameter.getValue(), "null").toString())
                     .setMode(Parameter.Mode.DEFAULT);
 
             stepParameters.add(parameter);
@@ -183,12 +203,12 @@ public class AllureTestResultGenerator {
     public static List<Attachment> getAllureTestResultAttachments(TestScenarioLogCollection scenarioLogCollection) {
         Attachment beforeScreenshot = (new Attachment())
                 .setName("Before Scenario")
-                .setType("image/png")
+                .setType(MediaType.PNG.type())
                 .setSource(scenarioLogCollection.getScreenshotBefore());
 
         Attachment afterScreenshot = (new Attachment())
                 .setName("After Scenario")
-                .setType("image/png")
+                .setType(MediaType.PNG.type())
                 .setSource(scenarioLogCollection.getScreenshotAfter());
 
         return List.of(beforeScreenshot, afterScreenshot);
@@ -203,12 +223,12 @@ public class AllureTestResultGenerator {
     public static List<Attachment> getAllureStepResultAttachments(StepInformationLogMessage stepLog) {
         Attachment beforeScreenshot = (new Attachment())
                 .setName("Before Step")
-                .setType("image/png")
+                .setType(MediaType.PNG.type())
                 .setSource(stepLog.getScreenshotBefore());
 
         Attachment afterScreenshot = (new Attachment())
                 .setName("After Step")
-                .setType("image/png")
+                .setType(MediaType.PNG.type())
                 .setSource(stepLog.getScreenshotAfter());
 
         return List.of(beforeScreenshot, afterScreenshot);

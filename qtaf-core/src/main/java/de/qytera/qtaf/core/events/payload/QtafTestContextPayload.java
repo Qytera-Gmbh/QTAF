@@ -126,7 +126,7 @@ public class QtafTestContextPayload implements IQtafTestingContext {
      * @return originalEvent
      */
     @Override
-    public Object getOriginalEvent() {
+    public Object getiTestContext() {
         return originalEvent;
     }
 

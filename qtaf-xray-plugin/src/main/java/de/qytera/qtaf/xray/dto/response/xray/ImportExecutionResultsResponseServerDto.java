@@ -21,6 +21,9 @@ public class ImportExecutionResultsResponseServerDto implements ImportExecutionR
 
     @Override
     public void setId(String id) {
+        if (this.testExecIssue == null) {
+            this.testExecIssue = new TestExecutionIssueDto();
+        }
         this.testExecIssue.setId(id);
     }
 
@@ -31,6 +34,9 @@ public class ImportExecutionResultsResponseServerDto implements ImportExecutionR
 
     @Override
     public void setKey(String key) {
+        if (this.testExecIssue == null) {
+            this.testExecIssue = new TestExecutionIssueDto();
+        }
         this.testExecIssue.setKey(key);
     }
 
@@ -41,6 +47,9 @@ public class ImportExecutionResultsResponseServerDto implements ImportExecutionR
 
     @Override
     public void setSelf(String self) {
+        if (this.testExecIssue == null) {
+            this.testExecIssue = new TestExecutionIssueDto();
+        }
         this.testExecIssue.setSelf(self);
     }
 

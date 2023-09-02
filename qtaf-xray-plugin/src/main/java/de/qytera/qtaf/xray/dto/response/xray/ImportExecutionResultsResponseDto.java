@@ -13,9 +13,9 @@ public interface ImportExecutionResultsResponseDto {
     String getId();
 
     /**
-     * Sets the ID of the created test execution issue.
+     * Set the ID of the created test execution issue.
      *
-     * @param id the id
+     * @param id the ID
      */
     void setId(String id);
 
@@ -27,7 +27,7 @@ public interface ImportExecutionResultsResponseDto {
     String getKey();
 
     /**
-     * Sets the key of the created test execution issue.
+     * Set the key of the created test execution issue.
      *
      * @param key the key
      */
@@ -41,9 +41,9 @@ public interface ImportExecutionResultsResponseDto {
     String getSelf();
 
     /**
-     * Sets the self link of the created test execution issue.
+     * Set the self link of the created test execution issue.
      *
-     * @param self the link
+     * @param self the self link
      */
     void setSelf(String self);
 
