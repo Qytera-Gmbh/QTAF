@@ -78,7 +78,7 @@ public abstract class XrayTestEntityBuilder<T> {
      * @param xrayTest     the {@link XrayTest} annotation of the test
      * @param scenarioData the scenario data to extract the status from
      * @return the test's status
-     * @see XrayTestEntity#getStatus()
+     * @see XrayTestEntity
      */
     protected abstract TestScenarioLogCollection.Status getStatus(XrayTest xrayTest, T scenarioData);
 
@@ -98,7 +98,7 @@ public abstract class XrayTestEntityBuilder<T> {
      * @param xrayTest     the {@link XrayTest} annotation of the test
      * @param scenarioData the scenario data to extract the start date from
      * @return the test's start date
-     * @see XrayTestEntity#getStart()
+     * @see XrayTestEntity
      */
     protected abstract Date getStartDate(XrayTest xrayTest, T scenarioData);
 
@@ -108,7 +108,7 @@ public abstract class XrayTestEntityBuilder<T> {
      * @param xrayTest     the {@link XrayTest} annotation of the test
      * @param scenarioData the scenario data to extract the end date from
      * @return the test's end date
-     * @see XrayTestEntity#getFinish()
+     * @see XrayTestEntity
      */
     protected abstract Date getEndDate(XrayTest xrayTest, T scenarioData);
 
@@ -118,7 +118,7 @@ public abstract class XrayTestEntityBuilder<T> {
      * @param xrayTest     the {@link XrayTest} annotation of the test
      * @param scenarioData the scenario data to extract the comment from
      * @return the test's comment
-     * @see XrayTestEntity#getComment()
+     * @see XrayTestEntity
      */
     protected abstract String getComment(XrayTest xrayTest, T scenarioData);
 
@@ -128,7 +128,7 @@ public abstract class XrayTestEntityBuilder<T> {
      * @param xrayTest     the {@link XrayTest} annotation of the test
      * @param scenarioData the scenario data to extract the user id from
      * @return the user id of the user who executed the test
-     * @see XrayTestEntity#getExecutedBy()
+     * @see XrayTestEntity
      */
     protected abstract String getExecutedBy(XrayTest xrayTest, T scenarioData);
 
@@ -138,7 +138,7 @@ public abstract class XrayTestEntityBuilder<T> {
      * @param xrayTest     the {@link XrayTest} annotation of the test
      * @param scenarioData the scenario data to extract the assignee from
      * @return the test's assignee
-     * @see XrayTestEntity#getAssignee()
+     * @see XrayTestEntity
      */
     protected abstract String getAssignee(XrayTest xrayTest, T scenarioData);
 
@@ -148,7 +148,7 @@ public abstract class XrayTestEntityBuilder<T> {
      * @param xrayTest     the {@link XrayTest} annotation of the test
      * @param scenarioData the scenario data to extract the steps from
      * @return the test's steps
-     * @see XrayTestEntity#getSteps()
+     * @see XrayTestEntity
      */
     protected abstract List<XrayManualTestStepResultEntity> getSteps(XrayTest xrayTest, T scenarioData);
 
@@ -158,7 +158,7 @@ public abstract class XrayTestEntityBuilder<T> {
      * @param xrayTest     the {@link XrayTest} annotation of the test
      * @param scenarioData the scenario data to extract the examples from
      * @return the test's examples
-     * @see XrayTestEntity#getExamples()
+     * @see XrayTestEntity
      */
     protected abstract List<String> getExamples(XrayTest xrayTest, T scenarioData);
 
@@ -168,7 +168,7 @@ public abstract class XrayTestEntityBuilder<T> {
      * @param xrayTest     the {@link XrayTest} annotation of the test
      * @param scenarioData the scenario data to extract the iterations from
      * @return the test's iterations
-     * @see XrayTestEntity#getIterations()
+     * @see XrayTestEntity
      */
     protected abstract List<XrayIterationResultEntity> getIterations(XrayTest xrayTest, T scenarioData);
 
@@ -178,7 +178,7 @@ public abstract class XrayTestEntityBuilder<T> {
      * @param xrayTest     the {@link XrayTest} annotation of the test
      * @param scenarioData the scenario data to extract the defects from
      * @return the test's defects
-     * @see XrayTestEntity#getDefects()
+     * @see XrayTestEntity
      */
     protected abstract List<String> getDefects(XrayTest xrayTest, T scenarioData);
 
@@ -188,7 +188,7 @@ public abstract class XrayTestEntityBuilder<T> {
      * @param xrayTest     the {@link XrayTest} annotation of the test
      * @param scenarioData the scenario data to extract the evidence from
      * @return the test's evidence
-     * @see XrayTestEntity#getEvidence()
+     * @see XrayTestEntity
      */
     protected abstract List<XrayEvidenceItemEntity> getEvidence(XrayTest xrayTest, T scenarioData);
 
@@ -198,7 +198,7 @@ public abstract class XrayTestEntityBuilder<T> {
      * @param xrayTest     the {@link XrayTest} annotation of the test
      * @param scenarioData the scenario data to extract the custom fields from
      * @return the test's custom field (values)
-     * @see XrayTestEntity#getCustomFields()
+     * @see XrayTestEntity
      */
     protected abstract List<XrayCustomFieldEntity> getCustomFields(XrayTest xrayTest, T scenarioData);
 

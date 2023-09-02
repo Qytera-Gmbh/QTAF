@@ -6,7 +6,7 @@
     <parent>
         <groupId>de.qytera</groupId>
         <artifactId>qtaf</artifactId>
-        <version>0.0.9</version>
+        <version>0.2.3</version>
     </parent>
 
     <artifactId>qtaf-security</artifactId>
@@ -15,7 +15,7 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <testNGVersion>7.7.1</testNGVersion>
+        <testNGVersion>7.8.0</testNGVersion>
     </properties>
 
     <dependencies>
@@ -26,5 +26,4 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
 </project>

@@ -100,7 +100,9 @@ public class StepLoggerSubscriber implements IEventSubscriber {
             throw new AssertionError("""
                     The LogCollection of the context class was not initialized properly.
                     You may check the following points:
-                    \t- All your methods that are annotated with @Test, @BeforeXXX, @AfterXXX must be public""");
+                    \t- All your methods that are annotated with @Test, @BeforeXXX, @AfterXXX must be public
+                    \t- If classes overwrite initialize() the parent method must be called first
+                    \t- load() must not be called in the constructor or in class attributes but in the initialize() method""");
         }
 
         // Add log message to collection
@@ -133,7 +135,6 @@ public class StepLoggerSubscriber implements IEventSubscriber {
         // Add information to log message
         logMessage
                 .setEnd(new Date())
-                .setDuration(logMessage.getEnd().getTime() - logMessage.getStart().getTime())
                 .setResult(stepExecutionInfo.getResult());
 
         if (SeleniumDriverConfigHelper.shouldTakeScreenshotsAfterStep()) {
@@ -159,7 +160,6 @@ public class StepLoggerSubscriber implements IEventSubscriber {
         // Add information to log message
         logMessage
                 .setEnd(new Date())
-                .setDuration(logMessage.getEnd().getTime() - logMessage.getStart().getTime())
                 .setError(stepExecutionInfo.getError());
 
         if (SeleniumDriverConfigHelper.shouldTakeScreenshotsAfterStep() ||

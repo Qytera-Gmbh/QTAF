@@ -35,7 +35,7 @@
 
         $("span.toggleScenarioInformation").click(function() {
             console.log("Click", $(this))
-            id = $(this).attr("scenario-id");
+            const id = $(this).attr("scenario-id");
             console.log("ID", id);
             const selector = 'div.scenario-information[scenario-id=\'' + id + '\']';
             console.log("Selector", selector)

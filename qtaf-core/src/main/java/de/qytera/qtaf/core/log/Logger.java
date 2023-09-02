@@ -13,7 +13,7 @@ public class Logger {
     /**
      * Log4J logger
      */
-    private org.apache.logging.log4j.Logger logger;
+    private final org.apache.logging.log4j.Logger logging;
 
     /**
      * Error logs
@@ -23,7 +23,7 @@ public class Logger {
     /**
      * Instances
      */
-    private static Map<String, Logger> instances = new HashMap<>();
+    private static final Map<String, Logger> instances = new HashMap<>();
 
     /**
      * Constructor
@@ -31,7 +31,7 @@ public class Logger {
      * @param name logger name
      */
     private Logger(String name) {
-        logger = LogManager.getLogger(name);
+        logging = LogManager.getLogger(name);
     }
 
     /**
@@ -50,11 +50,7 @@ public class Logger {
      * @return logger  instance
      */
     public static Logger getInstance(String name) {
-        if (instances.get(name) == null) {
-            Logger logger = new Logger(name);
-            instances.put(name, logger);
-        }
-
+        instances.computeIfAbsent(name, Logger::new);
         return instances.get(name);
     }
 
@@ -65,7 +61,7 @@ public class Logger {
      * @param params  Message parameters
      */
     public void trace(String message, Object... params) {
-        logger.trace(message, params);
+        logging.trace(message, params);
     }
 
     /**
@@ -75,7 +71,7 @@ public class Logger {
      * @param params  Message parameters
      */
     public void debug(String message, Object... params) {
-        logger.debug(message, params);
+        logging.debug(message, params);
     }
 
     /**
@@ -85,7 +81,7 @@ public class Logger {
      * @param params  Message parameters
      */
     public void info(String message, Object... params) {
-        logger.info(message, params);
+        logging.info(message, params);
     }
 
     /**
@@ -95,7 +91,7 @@ public class Logger {
      * @param params  Message parameters
      */
     public void warn(String message, Object... params) {
-        logger.warn(message, params);
+        logging.warn(message, params);
     }
 
     /**
@@ -105,7 +101,7 @@ public class Logger {
      * @param params Message parameters
      */
     public void error(Throwable t, Object... params) {
-        logger.error(t.getMessage(), params);
+        logging.error(t.getMessage(), params);
         errorLogCollection.addErrorLog(t);
     }
 
@@ -116,7 +112,7 @@ public class Logger {
      * @param params  Message parameters
      */
     public void error(String message, Object... params) {
-        logger.error(message, params);
+        logging.error(message, params);
         errorLogCollection.addErrorLog(message);
     }
 
@@ -127,7 +123,7 @@ public class Logger {
      * @param params Message parameters
      */
     public void fatal(Throwable t, Object... params) {
-        logger.fatal(t.getMessage(), params);
+        logging.fatal(t.getMessage(), params);
         errorLogCollection.addErrorLog(t);
     }
 
@@ -138,7 +134,7 @@ public class Logger {
      * @param params  Message parameters
      */
     public void fatal(String message, Object... params) {
-        logger.fatal(message, params);
+        logging.fatal(message, params);
         errorLogCollection.addErrorLog(message);
     }
 }

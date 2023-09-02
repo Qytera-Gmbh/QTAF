@@ -12,9 +12,19 @@ import lombok.Setter;
 @Getter
 @Setter
 public class JiraIssueSearchResponseDto {
-
+    /**
+     * Total number
+     */
     private Integer total;
+
+    /**
+     * Start at
+     */
     private Integer startAt;
+
+    /**
+     * Jira Issue Response DTO
+     */
     private JiraIssueResponseDto[] issues;
 
 }

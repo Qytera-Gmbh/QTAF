@@ -1,5 +1,6 @@
 package de.qytera.qtaf.core.selenium;
 
+import de.qytera.qtaf.core.config.ConfigurationFactory;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -15,7 +16,7 @@ public class ChromeDriver extends AbstractDriver {
     }
 
     @Override
-    public WebDriver getDriverInstance() {
+    public WebDriver getDriver() {
         WebDriverManager webDriverManager = WebDriverManager.chromedriver();
         initWebDriverManager(webDriverManager);
         return new org.openqa.selenium.chrome.ChromeDriver(getCapabilities());
@@ -26,6 +27,16 @@ public class ChromeDriver extends AbstractDriver {
         // Make selenium use the selenium-http-jdk-client package
         System.setProperty("webdriver.http.factory", "jdk-http-client");
         ChromeOptions options = new ChromeOptions();
+        if (headless()) {
+            options.addArguments(
+                    "--headless",
+                    "--disable-gpu",
+                    "--ignore-certificate-errors",
+                    "--disable-extensions",
+                    "--no-sandbox",
+                    "--disable-dev-shm-usage"
+            );
+        }
         return options;
     }
 

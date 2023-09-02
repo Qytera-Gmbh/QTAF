@@ -9,6 +9,7 @@ import de.qytera.qtaf.xray.dto.request.graphql.GraphQLRequestDto;
 import de.qytera.qtaf.xray.dto.response.steps.XrayCloudTestStepResponseDto;
 import de.qytera.qtaf.xray.dto.response.steps.XrayTestStepResponseDto;
 import de.qytera.qtaf.xray.repository.jira.JiraIssueRepository;
+import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -76,7 +77,7 @@ public class XrayTestRepositoryCloud implements XrayTestRepository {
                     .header(HttpHeaders.AUTHORIZATION, getXrayAuthorizationHeaderValue())
                     .accept(MediaType.APPLICATION_JSON_TYPE);
             String requestData = GsonFactory.getInstance().toJson(dto);
-            try (Response response = WebService.post(request, GsonFactory.getInstance().toJsonTree(dto))) {
+            try (Response response = WebService.post(request, Entity.json(dto))) {
                 String responseData = response.readEntity(String.class);
                 if (response.getStatus() == Response.Status.OK.getStatusCode()) {
                     stepsByIssue.putAll(parseTestStepResponse(requestData, responseData));

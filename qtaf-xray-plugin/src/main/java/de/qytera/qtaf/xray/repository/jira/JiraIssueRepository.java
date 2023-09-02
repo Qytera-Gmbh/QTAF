@@ -13,6 +13,7 @@ import de.qytera.qtaf.xray.dto.request.jira.issues.AdditionalField;
 import de.qytera.qtaf.xray.dto.request.jira.issues.JiraIssueSearchRequestDto;
 import de.qytera.qtaf.xray.dto.response.jira.issues.JiraIssueResponseDto;
 import de.qytera.qtaf.xray.dto.response.jira.issues.JiraIssueSearchResponseDto;
+import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -67,7 +68,7 @@ public class JiraIssueRepository implements JiraEndpoint {
             request.getBuilder()
                     .accept(MediaType.APPLICATION_JSON_TYPE)
                     .header(HttpHeaders.AUTHORIZATION, getJiraAuthorizationHeaderValue());
-            try (Response response = WebService.post(request, GsonFactory.getInstance().toJsonTree(dto))) {
+            try (Response response = WebService.post(request, Entity.json(dto))) {
                 String responseData = response.readEntity(String.class);
                 if (response.getStatus() != Response.Status.OK.getStatusCode()) {
                     String reason = String.format(

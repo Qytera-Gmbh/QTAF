@@ -410,4 +410,15 @@ public class XrayJsonImportBuilderTest {
         Assert.assertEquals(dto.getInfo().getTestPlanKey(), "QTAF-765");
     }
 
+    @Test(description = "empty step logs should not result in errors for multiple iterations")
+    public void testTestEmptyStepLogsMultipleIterations() throws XrayJsonImportBuilder.NoXrayTestException, URISyntaxException, MissingConfigurationValueException {
+        TestScenarioLogCollection scenarioCollection = scenario(1, "feature-test-plan-key");
+        scenarioCollection.setStatus(TestScenarioLogCollection.Status.FAILURE);
+        scenarioCollection = scenario(2, "feature-test-plan-key");
+        scenarioCollection.setStatus(TestScenarioLogCollection.Status.FAILURE);
+        // Build import request.
+        ConfigurationFactory.getInstance().setBoolean(XrayConfigHelper.RESULTS_UPLOAD_TESTS_INFO_STEPS_MERGE, true);
+        Assert.assertNotNull(new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance()).buildRequest());
+    }
+
 }

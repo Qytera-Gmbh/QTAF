@@ -11,8 +11,14 @@ import lombok.Setter;
 @Getter
 @Setter
 public class GraphQLResponseErrorLocationDto {
-
+    /**
+     * Line where the error occurred
+     */
     private int line;
+
+    /**
+     * Column where the error occurred
+     */
     private int column;
 
 }

@@ -13,11 +13,29 @@ import lombok.Setter;
 @Getter
 @Setter
 public class JiraIssueResponseDto {
-
+    /**
+     * Issue ID
+     */
     private String id;
+
+    /**
+     * Issue key
+     */
     private String key;
+
+    /**
+     * Self reference
+     */
     private String self;
+
+    /**
+     * Expand
+     */
     private String expand;
+
+    /**
+     * Issue fields
+     */
     private JsonObject fields;
 
 }

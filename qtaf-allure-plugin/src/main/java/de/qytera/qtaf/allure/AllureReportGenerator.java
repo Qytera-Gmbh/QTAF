@@ -54,7 +54,16 @@ public class AllureReportGenerator {
 
         // Build destination path for JSON file
         String reportPath = DirectoryHelper.preparePath(
-                path + "/" + testResult.getName().replace(' ', '-').toLowerCase() + "-" + suite.getStart().getTime() + "-result.json"
+                Paths.get(path,
+                                testResult
+                                        .getTestCaseId()
+                                        .replace(' ', '-')
+                                        .replace('.', '-')
+                                        .replace('_', '-')
+                                        .replace("'", "")
+                                        .toLowerCase() + suite.getStart().getTime() + "-result.json"
+                        )
+                        .toString()
         );
 
         // Save file

@@ -1,6 +1,5 @@
 package de.qytera.qtaf.http;
 
-import com.google.gson.JsonElement;
 import de.qytera.qtaf.core.QtafFactory;
 import de.qytera.qtaf.http.events.HTTPEvents;
 import jakarta.ws.rs.ProcessingException;
@@ -42,23 +41,32 @@ public final class WebService {
 
     private static Response wrapInRetry(Invocation request, URI path) {
         for (int i = 0; i < MAX_RETRIES; i++) {
+            if (i == 0) {
+                QtafFactory.getLogger().info(
+                        String.format(
+                                "[QTAF HTTP] Sending request to %s...",
+                                path
+                        )
+                );
+            }
             try {
                 return request.invoke();
             } catch (ProcessingException exception) {
                 if (i < MAX_RETRIES - 1) {
                     QtafFactory.getLogger().warn(
                             String.format(
-                                    "[QTAF HTTP] Request %s failed, retrying (%d/%d)... (reason: %s)",
+                                    "[QTAF HTTP] Request %s failed, sending attempt %d/%d... (reason: %s)",
                                     path,
-                                    i,
+                                    i + 2,
                                     MAX_RETRIES,
                                     exception
                             )
                     );
+                } else {
+                    QtafFactory.getLogger().error(String.format("[QTAF HTTP] Request %s failed.", request));
                 }
             }
         }
-        QtafFactory.getLogger().error(String.format("[QTAF HTTP] Request %s failed.", request));
         return null;
     }
 
@@ -68,8 +76,8 @@ public final class WebService {
      * @param uri the {@link URI} to which the request will be sent
      * @return a {@link RequestBuilder} to further modify the HTTP request
      * @see WebService#get(RequestBuilder)
-     * @see WebService#post(RequestBuilder, JsonElement)
-     * @see WebService#put(RequestBuilder, JsonElement)
+     * @see WebService#post(RequestBuilder, Entity)
+     * @see WebService#put(RequestBuilder, Entity)
      * @see WebService#delete(RequestBuilder)
      */
     public static RequestBuilder buildRequest(URI uri) {
@@ -85,46 +93,49 @@ public final class WebService {
      * @return the HTTP response
      */
     public static Response get(RequestBuilder request) {
-        return wrapInRetry(
-                request.getBuilder().buildGet(),
-                request.getPath()
-        );
+        return wrapInRetry(request.getBuilder().buildGet(), request.getPath());
     }
 
     /**
-     * Method for dispatching HTTP POST requests with JSON bodies. The body can be obtained using Gson's
-     * {@link com.google.gson.Gson#toJsonTree(Object)}:
+     * Method for dispatching HTTP POST requests with bodies. The body can be obtained using:
+     * {@link Entity#entity(Object, MediaType)} or its utility variants like {@link Entity#json(Object)}:
      * <pre>
-     * {@code Response response = WebService.post(request, toJsonTree(data));}
+     * {@code Response response = WebService.post(request, Entity.json(Map.of("x": 5));}
      * </pre>
      *
      * @param request the prepared HTTP request
-     * @param body    the request's JSON body
+     * @param body    the request's body
+     * @param <T>     the entity type
      * @return the HTTP response
      */
-    public static Response post(RequestBuilder request, JsonElement body) {
-        return wrapInRetry(
-                request.getBuilder().buildPost(Entity.entity(body, MediaType.APPLICATION_JSON_TYPE)),
-                request.getPath()
-        );
+    public static <T> Response post(RequestBuilder request, Entity<T> body) {
+        return wrapInRetry(request.getBuilder().buildPost(body), request.getPath());
     }
 
     /**
-     * Method for dispatching HTTP PUT requests with JSON bodies. The body can be obtained using Gson's
-     * {@link com.google.gson.Gson#toJsonTree(Object)}:
+     * Method for dispatching HTTP POST requests without bodies.
+     *
+     * @param request the prepared HTTP request
+     * @return the HTTP response
+     */
+    public static Response post(RequestBuilder request) {
+        return post(request, Entity.json(null));
+    }
+
+    /**
+     * Method for dispatching HTTP PUT requests with bodies. The body can be obtained using:
+     * {@link Entity#entity(Object, MediaType)} or its utility variants like {@link Entity#json(Object)}:
      * <pre>
-     * {@code Response response = WebService.put(request, toJsonTree(data));}
+     * {@code Response response = WebService.put(request, Entity.json(Map.of("x": 5));}
      * </pre>
      *
      * @param request the prepared HTTP request
-     * @param body    the request's JSON body
+     * @param body    the request's body
+     * @param <T>     the entity type
      * @return the HTTP response
      */
-    public static Response put(RequestBuilder request, JsonElement body) {
-        return wrapInRetry(
-                request.getBuilder().buildPut(Entity.entity(body, MediaType.APPLICATION_JSON_TYPE)),
-                request.getPath()
-        );
+    public static <T> Response put(RequestBuilder request, Entity<T> body) {
+        return wrapInRetry(request.getBuilder().buildPut(body), request.getPath());
     }
 
     /**
@@ -134,10 +145,7 @@ public final class WebService {
      * @return the HTTP response
      */
     public static Response delete(RequestBuilder request) {
-        return wrapInRetry(
-                request.getBuilder().buildDelete(),
-                request.getPath()
-        );
+        return wrapInRetry(request.getBuilder().buildDelete(), request.getPath());
     }
 
 }

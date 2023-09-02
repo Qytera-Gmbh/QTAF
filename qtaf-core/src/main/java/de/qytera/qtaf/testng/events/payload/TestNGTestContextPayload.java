@@ -7,7 +7,7 @@ import org.testng.ITestContext;
  * A class describing TestNG test context payloads.
  */
 public class TestNGTestContextPayload extends QtafTestContextPayload {
-    ITestContext originalEvent;
+    ITestContext iTestContext;
 
     /**
      * Creates a new payload instance.
@@ -15,7 +15,7 @@ public class TestNGTestContextPayload extends QtafTestContextPayload {
      * @param iTestContext the TestNG test context
      */
     public TestNGTestContextPayload(ITestContext iTestContext) {
-        this.originalEvent = iTestContext;
+        this.iTestContext = iTestContext;
         this.suiteName = iTestContext.getSuite().getName();
         this.startDate = iTestContext.getStartDate();
         this.endDate = iTestContext.getEndDate();
@@ -24,8 +24,8 @@ public class TestNGTestContextPayload extends QtafTestContextPayload {
     }
 
     @Override
-    public ITestContext getOriginalEvent() {
-        return this.originalEvent;
+    public ITestContext getiTestContext() {
+        return this.iTestContext;
     }
 
     /**
@@ -35,7 +35,7 @@ public class TestNGTestContextPayload extends QtafTestContextPayload {
      * @return this
      */
     public QtafTestContextPayload setOriginalEvent(ITestContext originalEvent) {
-        this.originalEvent = originalEvent;
+        this.iTestContext = originalEvent;
         return this;
     }
 }
