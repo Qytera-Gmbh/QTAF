@@ -120,7 +120,7 @@ public class JiraIssueRepository implements JiraEndpoint {
         request.getBuilder()
                 .accept(MediaType.APPLICATION_JSON_TYPE)
                 .header(HttpHeaders.AUTHORIZATION, getJiraAuthorizationHeaderValue());
-        try (Response response = WebService.put(request, GsonFactory.getInstance().toJsonTree(user))) {
+        try (Response response = WebService.put(request, Entity.json(user))) {
             String responseData = response.readEntity(String.class);
             if (response.getStatus() != Response.Status.NO_CONTENT.getStatusCode()) {
                 String reason = String.format(
