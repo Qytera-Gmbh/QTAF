@@ -11,6 +11,7 @@ import de.qytera.qtaf.xray.config.XrayConfigHelper;
 import de.qytera.qtaf.xray.dto.request.xray.ImportExecutionResultsRequestDto;
 import de.qytera.qtaf.xray.dto.response.xray.ImportExecutionResultsResponseDto;
 import de.qytera.qtaf.xray.events.XrayEvents;
+import de.qytera.qtaf.xray.repository.jira.JiraIssueRepository;
 import de.qytera.qtaf.xray.repository.xray.XrayTestRepository;
 import rx.Subscription;
 
@@ -69,7 +70,10 @@ public class UploadResultsSubscriber implements IEventSubscriber {
                 throw new MissingConfigurationValueException(XrayConfigHelper.PROJECT_KEY, QtafFactory.getConfiguration());
             }
             // Build Request DTO for Xray API
-            ImportExecutionResultsRequestDto xrayImportRequestDto = new XrayJsonImportBuilder(QtafFactory.getTestSuiteLogCollection()).build();
+            ImportExecutionResultsRequestDto xrayImportRequestDto = new XrayJsonImportBuilder(
+                    QtafFactory.getTestSuiteLogCollection(),
+                    JiraIssueRepository.getInstance()
+            ).build();
 
             // Dispatch Event for Import DTO
             XrayEvents.importDtoCreated.onNext(xrayImportRequestDto);
