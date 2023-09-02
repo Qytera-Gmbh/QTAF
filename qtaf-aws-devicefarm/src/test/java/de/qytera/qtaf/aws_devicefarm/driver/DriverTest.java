@@ -12,7 +12,6 @@ import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.SessionNotCreatedException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.annotations.Test;
 
 public class DriverTest {
@@ -125,7 +124,7 @@ public class DriverTest {
             }
 
             public CreateTestGridUrlResult getTestGridUrl(AWSDeviceFarm client, CreateTestGridUrlRequest request) {
-                CreateTestGridUrlResult result =  new CreateTestGridUrlResult();
+                CreateTestGridUrlResult result = new CreateTestGridUrlResult();
                 result.setUrl("http://foo.com");
                 return result;
             }

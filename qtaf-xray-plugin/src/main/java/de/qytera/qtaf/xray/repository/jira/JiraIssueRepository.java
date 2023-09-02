@@ -6,17 +6,7 @@ import de.qytera.qtaf.core.gson.GsonFactory;
 import de.qytera.qtaf.http.RequestBuilder;
 import de.qytera.qtaf.http.WebService;
 import de.qytera.qtaf.xray.config.XrayConfigHelper;
-import de.qytera.qtaf.xray.dto.jira.IssueUpdateDto;
-import de.qytera.qtaf.xray.dto.jira.StatusDto;
-import de.qytera.qtaf.xray.dto.jira.TransitionDto;
-import de.qytera.qtaf.xray.dto.jira.TransitionsMetaDto;
-import de.qytera.qtaf.xray.dto.request.issues.AdditionalField;
-import de.qytera.qtaf.xray.dto.request.issues.JiraIssueSearchRequestDto;
-import de.qytera.qtaf.xray.dto.response.issues.JiraIssueResponseDto;
-import de.qytera.qtaf.xray.dto.response.issues.JiraIssueSearchResponseDto;
-import de.qytera.qtaf.xray.dto.jira.ApplicationRoleDto;
-import de.qytera.qtaf.xray.dto.jira.GroupDto;
-import de.qytera.qtaf.xray.dto.jira.UserDto;
+import de.qytera.qtaf.xray.dto.jira.*;
 import de.qytera.qtaf.xray.dto.request.jira.issues.AdditionalField;
 import de.qytera.qtaf.xray.dto.request.jira.issues.JiraIssueSearchRequestDto;
 import de.qytera.qtaf.xray.dto.response.jira.issues.JiraIssueResponseDto;
@@ -31,6 +21,7 @@ import lombok.NoArgsConstructor;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * A class for interacting with Jira issues, such as searching for issues or updating existing issues' fields.
@@ -192,7 +183,7 @@ public class JiraIssueRepository implements JiraEndpoint {
         request.getBuilder()
                 .header(HttpHeaders.AUTHORIZATION, getJiraAuthorizationHeaderValue())
                 .accept(MediaType.APPLICATION_JSON_TYPE);
-        try (Response response = WebService.post(request, GsonFactory.getInstance().toJsonTree(body))) {
+        try (Response response = WebService.post(request, Entity.json(body))) {
             String responseJson = response.readEntity(String.class);
             if (response.getStatus() == Response.Status.NO_CONTENT.getStatusCode()) {
                 QtafFactory.getLogger().info(

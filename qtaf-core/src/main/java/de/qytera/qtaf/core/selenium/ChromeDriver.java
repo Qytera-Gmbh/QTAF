@@ -1,6 +1,5 @@
 package de.qytera.qtaf.core.selenium;
 
-import de.qytera.qtaf.core.config.ConfigurationFactory;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeOptions;

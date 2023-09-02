@@ -130,6 +130,9 @@ public class XrayJsonImportBuilder implements RequestBodyBuilder<ImportExecution
     }
 
     private static XrayTest getXrayAnnotation(List<TestScenarioLogCollection> scenarioLogs) {
+        System.out.println(scenarioLogs);
+        System.out.println(scenarioLogs.get(0));
+        System.out.println(scenarioLogs.get(0).getAnnotation(XrayTest.class));
         XrayTest xrayTest = scenarioLogs.isEmpty() ? null : scenarioLogs.get(0).getAnnotation(XrayTest.class);
         if (xrayTest == null) {
             return null;

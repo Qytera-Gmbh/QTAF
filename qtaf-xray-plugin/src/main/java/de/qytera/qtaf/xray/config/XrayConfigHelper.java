@@ -17,7 +17,7 @@ public class XrayConfigHelper {
     private static final ConfigMap CONFIG = QtafFactory.getConfiguration();
 
     // Keys
-    public static final String ENABLED_SELECTOR = "xray.enabled";
+    public static final String XRAY_ENABLED = "xray.enabled";
     public static final String XRAY_SERVICE_SELECTOR = "xray.service";
     public static final String URL_XRAY_SELECTOR = "xray.url.xray";
     public static final String URL_JIRA_SELECTOR = "xray.url.jira";
@@ -59,7 +59,7 @@ public class XrayConfigHelper {
      * @return whether the plugin is enabled or false by default
      */
     public static boolean isEnabled() {
-        return CONFIG.getBoolean(ENABLED_SELECTOR, false);
+        return CONFIG.getBoolean(XRAY_ENABLED, false);
     }
 
     /**

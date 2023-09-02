@@ -40,6 +40,7 @@ public class QtafTestExecutionConfigHelper {
 
     /**
      * A boolean value that indicates weather failed assertions should finish a running test immediately or if the test should continue
+     *
      * @return true if tests should continue when assertions fail, false otherwise
      */
     public static boolean continueOnAssertionFailure() {
