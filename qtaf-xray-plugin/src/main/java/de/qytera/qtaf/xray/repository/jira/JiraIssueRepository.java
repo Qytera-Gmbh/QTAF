@@ -6,10 +6,13 @@ import de.qytera.qtaf.core.gson.GsonFactory;
 import de.qytera.qtaf.http.RequestBuilder;
 import de.qytera.qtaf.http.WebService;
 import de.qytera.qtaf.xray.config.XrayConfigHelper;
-import de.qytera.qtaf.xray.dto.request.issues.AdditionalField;
-import de.qytera.qtaf.xray.dto.request.issues.JiraIssueSearchRequestDto;
-import de.qytera.qtaf.xray.dto.response.issues.JiraIssueResponseDto;
-import de.qytera.qtaf.xray.dto.response.issues.JiraIssueSearchResponseDto;
+import de.qytera.qtaf.xray.dto.jira.ApplicationRoleDto;
+import de.qytera.qtaf.xray.dto.jira.GroupDto;
+import de.qytera.qtaf.xray.dto.jira.UserDto;
+import de.qytera.qtaf.xray.dto.request.jira.issues.AdditionalField;
+import de.qytera.qtaf.xray.dto.request.jira.issues.JiraIssueSearchRequestDto;
+import de.qytera.qtaf.xray.dto.response.jira.issues.JiraIssueResponseDto;
+import de.qytera.qtaf.xray.dto.response.jira.issues.JiraIssueSearchResponseDto;
 import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.MediaType;
@@ -47,7 +50,7 @@ public class JiraIssueRepository implements JiraEndpoint {
      * @see <a href="https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-search/#api-rest-api-3-search-post">Search (Jira Cloud)</a>
      * @see <a href="https://docs.atlassian.com/software/jira/docs/api/REST/9.7.0/#api/2/search">Search (Jira Server)</a>
      */
-    public List<JiraIssueResponseDto> searchJiraIssues(
+    public List<JiraIssueResponseDto> search(
             Collection<String> testIssueKeys,
             AdditionalField... fields
     ) throws URISyntaxException, MissingConfigurationValueException {
@@ -102,6 +105,52 @@ public class JiraIssueRepository implements JiraEndpoint {
     }
 
     /**
+     * Assigns an issue to a user.
+     *
+     * @param issueIdOrKey the ID or key of the issue to be assigned
+     * @param user         the user to assign the issue to
+     * @return true if it was successfully assigned, otherwise false
+     * @see <a href="https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-issueidorkey-assignee-put">Assign issue (Jira Cloud)</a>
+     * @see <a href="https://docs.atlassian.com/software/jira/docs/api/REST/9.8.0/#api/2/issue-assign">Assign (Jira Server)</a>
+     */
+    public <R extends ApplicationRoleDto, G extends GroupDto, U extends UserDto<R, G>> boolean assign(
+            String issueIdOrKey, U user
+    ) throws URISyntaxException, MissingConfigurationValueException {
+        RequestBuilder request = WebService.buildRequest(getAssignURI(issueIdOrKey));
+        request.getBuilder()
+                .accept(MediaType.APPLICATION_JSON_TYPE)
+                .header(HttpHeaders.AUTHORIZATION, getJiraAuthorizationHeaderValue());
+        try (Response response = WebService.put(request, Entity.json(user))) {
+            String responseData = response.readEntity(String.class);
+            if (response.getStatus() != Response.Status.NO_CONTENT.getStatusCode()) {
+                String reason = String.format(
+                        "%d %s: %s",
+                        response.getStatus(),
+                        response.getStatusInfo().getReasonPhrase(),
+                        responseData
+                );
+                QtafFactory.getLogger().error(
+                        String.format(
+                                "[QTAF Xray Plugin] Failed to assign issue '%s' to user '%s': %s",
+                                issueIdOrKey,
+                                user,
+                                reason
+                        )
+                );
+                return false;
+            }
+            return true;
+        }
+    }
+
+    private static URI getAssignURI(String issueIdOrKey) throws URISyntaxException {
+        if (XrayConfigHelper.isXrayCloudService()) {
+            return new URI(String.format("%s/rest/api/3/issue/%s/assignee", XrayConfigHelper.getJiraUrl(), issueIdOrKey));
+        }
+        return new URI(String.format("%s/rest/api/2/issue/%s/assignee", XrayConfigHelper.getJiraUrl(), issueIdOrKey));
+    }
+
+    /**
      * Retrieve all issue IDs for the given test issues.
      *
      * @param testIssueKeys the test issues to retrieve the IDs for
@@ -110,7 +159,7 @@ public class JiraIssueRepository implements JiraEndpoint {
      */
     public Map<String, String> getIssueIds(Collection<String> testIssueKeys) throws URISyntaxException, MissingConfigurationValueException {
         Map<String, String> issueIds = new HashMap<>();
-        List<JiraIssueResponseDto> issues = searchJiraIssues(
+        List<JiraIssueResponseDto> issues = search(
                 testIssueKeys,
                 AdditionalField.ISSUE_KEY,
                 AdditionalField.ID

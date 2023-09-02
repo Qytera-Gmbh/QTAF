@@ -1,4 +1,4 @@
-package de.qytera.qtaf.xray.dto.request.issues;
+package de.qytera.qtaf.xray.dto.request.jira.issues;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

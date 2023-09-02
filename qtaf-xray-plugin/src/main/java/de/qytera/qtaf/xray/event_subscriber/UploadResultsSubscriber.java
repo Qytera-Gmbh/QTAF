@@ -7,11 +7,12 @@ import de.qytera.qtaf.core.events.interfaces.IEventSubscriber;
 import de.qytera.qtaf.core.events.payload.IQtafTestingContext;
 import de.qytera.qtaf.core.log.Logger;
 import de.qytera.qtaf.xray.builder.XrayJsonImportBuilder;
-import de.qytera.qtaf.xray.commands.UploadImportCommand;
 import de.qytera.qtaf.xray.config.XrayConfigHelper;
 import de.qytera.qtaf.xray.dto.request.xray.ImportExecutionResultsRequestDto;
 import de.qytera.qtaf.xray.dto.response.xray.ImportExecutionResultsResponseDto;
 import de.qytera.qtaf.xray.events.XrayEvents;
+import de.qytera.qtaf.xray.repository.jira.JiraIssueRepository;
+import de.qytera.qtaf.xray.repository.xray.XrayTestRepository;
 import rx.Subscription;
 
 /**
@@ -27,11 +28,6 @@ public class UploadResultsSubscriber implements IEventSubscriber {
      * Event subscription
      */
     private Subscription testFinishedSubscription;
-
-    /**
-     * Command to upload test results to Xray API
-     */
-    private static final UploadImportCommand UPLOAD_IMPORT_COMMAND = new UploadImportCommand();
 
     /**
      * QTAF logger.
@@ -54,9 +50,9 @@ public class UploadResultsSubscriber implements IEventSubscriber {
      *
      * @param testContext the test context payload
      */
-    public static void onTestFinished(IQtafTestingContext testContext) {
+    private static void onTestFinished(IQtafTestingContext testContext) {
         // Check if Xray Plugin is enabled
-        if (!Boolean.TRUE.equals(QtafFactory.getConfiguration().getBoolean("xray.enabled"))) {
+        if (!XrayConfigHelper.isEnabled()) {
             return;
         }
 
@@ -74,16 +70,16 @@ public class UploadResultsSubscriber implements IEventSubscriber {
                 throw new MissingConfigurationValueException(XrayConfigHelper.PROJECT_KEY, QtafFactory.getConfiguration());
             }
             // Build Request DTO for Xray API
-            ImportExecutionResultsRequestDto xrayImportRequestDto = new XrayJsonImportBuilder(QtafFactory.getTestSuiteLogCollection()).buildRequest();
+            ImportExecutionResultsRequestDto xrayImportRequestDto = new XrayJsonImportBuilder(
+                    QtafFactory.getTestSuiteLogCollection(),
+                    JiraIssueRepository.getInstance()
+            ).build();
 
             // Dispatch Event for Import DTO
             XrayEvents.importDtoCreated.onNext(xrayImportRequestDto);
 
             // Upload test execution data
-            UPLOAD_IMPORT_COMMAND.setXrayImportRequestDto(xrayImportRequestDto).execute();
-
-            // Log result key to console
-            ImportExecutionResultsResponseDto responseDto = UPLOAD_IMPORT_COMMAND.getXrayImportResponseDto();
+            ImportExecutionResultsResponseDto responseDto = XrayTestRepository.getInstance().importExecutionResults(xrayImportRequestDto);
 
             // Log test execution key to console
             String key = responseDto.getKey();
