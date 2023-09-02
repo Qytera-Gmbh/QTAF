@@ -1,84 +1,110 @@
 package de.qytera.qtaf.xray.event_subscriber;
 
 import de.qytera.qtaf.core.QtafFactory;
-import de.qytera.qtaf.core.config.entity.ConfigMap;
+import de.qytera.qtaf.core.config.exception.MissingConfigurationValueException;
 import de.qytera.qtaf.core.events.QtafEvents;
 import de.qytera.qtaf.core.events.payload.QtafTestContextPayload;
-import de.qytera.qtaf.xray.commands.AuthenticationCommand;
-import de.qytera.qtaf.xray.commands.UploadImportCommand;
-import de.qytera.qtaf.xray.dto.request.xray.ImportExecutionResultsRequestDto;
-import de.qytera.qtaf.xray.dto.response.xray.ImportExecutionResultsResponseCloudDto;
-import de.qytera.qtaf.xray.dto.response.xray.ImportExecutionResultsResponseDto;
+import de.qytera.qtaf.core.log.model.collection.TestFeatureLogCollection;
+import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
+import de.qytera.qtaf.xray.annotation.XrayTest;
+import de.qytera.qtaf.xray.config.XrayConfigHelper;
+import de.qytera.qtaf.xray.repository.xray.XrayTestRepository;
+import de.qytera.qtaf.xray.repository.xray.XrayTestRepositoryCloud;
+import org.mockito.MockedStatic;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import org.mockito.internal.util.reflection.Whitebox;
+import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import java.lang.annotation.Annotation;
+import java.net.URISyntaxException;
+import java.sql.Date;
+import java.time.Instant;
+import java.util.List;
+
+import static org.mockito.ArgumentMatchers.any;
 
 
 public class UploadResultSubscriberTest {
-    AuthenticationCommand authenticationCommand = new AuthenticationCommand();
-    ImportExecutionResultsRequestDto xrayImportRequestDto = new ImportExecutionResultsRequestDto();
-    ImportExecutionResultsResponseDto xrayImportResponseDto = new ImportExecutionResultsResponseCloudDto();
-    UploadResultsSubscriber uploadResultsSubscriber = new UploadResultsSubscriber();
 
-    //@Mock
-    UploadImportCommand uploadImportCommand;
+    private static final UploadResultsSubscriber uploadResultsSubscriber = new UploadResultsSubscriber();
+    private static final XrayTestRepository XRAY_TEST_REPOSITORY = Mockito.mock(XrayTestRepositoryCloud.class);
 
+    @BeforeClass
+    public void beforeClass() {
+        uploadResultsSubscriber.initialize();
+    }
 
-    //@BeforeTest
+    @BeforeMethod
     public void beforeTest() {
-        MockitoAnnotations.initMocks(this);
+        QtafFactory.getConfiguration().setString(XrayConfigHelper.PROJECT_KEY, "QTAF");
+        QtafFactory.getTestSuiteLogCollection().getTestFeatureLogCollections().addAll(createTestFeatures());
     }
 
-    /**
-     * Initialize Mock objects
-     *
-     * @param xrayEnabled Xray enabled / disabled configuration
-     */
-    private void initializeMocks(boolean xrayEnabled) {
-        // Set command object of subscriber object
-        Whitebox.setInternalState(uploadResultsSubscriber, "uploadImportCommand", uploadImportCommand);
-
-        // Set attributes of upload command
-        Whitebox.setInternalState(uploadImportCommand, "authenticationCommand", authenticationCommand);
-        Whitebox.setInternalState(uploadImportCommand, "xrayImportRequestDto", xrayImportRequestDto);
-        Whitebox.setInternalState(uploadImportCommand, "xrayImportResponseDto", xrayImportResponseDto);
-
-        // Mock methods
-        Mockito.when(uploadImportCommand.setXrayImportRequestDto(Mockito.anyObject())).thenReturn(uploadImportCommand);
-        Mockito.when(uploadImportCommand.getXrayImportResponseDto()).thenReturn(xrayImportResponseDto);
-
-        // Activate Xray Plugin
-        ConfigMap configMap = QtafFactory.getConfiguration();
-        configMap.setBoolean("xray.enabled", xrayEnabled);
-    }
-
-    //@Test
+    @Test(description = "import execution results should be called exactly once")
     public void testUploadSubscriberEnabled() {
-        // Set configuration
-        initializeMocks(true);
-
-        // Initialize event subscriber
-        uploadResultsSubscriber.initialize();
-
-        // Dispatch Event
-        QtafEvents.finishedTesting.onNext(new QtafTestContextPayload());
-
-        // Upload Import Command should be called one time
-        Mockito.verify(uploadImportCommand, Mockito.times(1)).execute();
+        QtafFactory.getConfiguration().setBoolean(XrayConfigHelper.XRAY_ENABLED, true);
+        try (MockedStatic<XrayTestRepository> xrayRepository = Mockito.mockStatic(XrayTestRepository.class)) {
+            xrayRepository.when(XrayTestRepository::getInstance).thenReturn(XRAY_TEST_REPOSITORY);
+            QtafEvents.finishedTesting.onNext(new QtafTestContextPayload());
+            Mockito.verify(XRAY_TEST_REPOSITORY, Mockito.times(1)).importExecutionResults(any());
+        } catch (URISyntaxException | MissingConfigurationValueException exception) {
+            Assert.fail("unexpected error during execution results import", exception);
+        }
     }
 
-    //@Test
+    @Test(description = "import execution results should be called zero times")
     public void testUploadSubscriberDisabled() {
-        // Set configuration
-        initializeMocks(false);
+        QtafFactory.getConfiguration().setBoolean(XrayConfigHelper.XRAY_ENABLED, false);
+        try (MockedStatic<XrayTestRepository> xrayRepository = Mockito.mockStatic(XrayTestRepository.class)) {
+            xrayRepository.when(XrayTestRepository::getInstance).thenReturn(XRAY_TEST_REPOSITORY);
+            QtafEvents.finishedTesting.onNext(new QtafTestContextPayload());
+            Mockito.verify(XRAY_TEST_REPOSITORY, Mockito.times(0)).importExecutionResults(any());
+        } catch (URISyntaxException | MissingConfigurationValueException exception) {
+            Assert.fail("unexpected error during execution results import", exception);
+        }
+    }
 
-        // Initialize event subscriber
-        uploadResultsSubscriber.initialize();
+    private static List<TestFeatureLogCollection> createTestFeatures() {
+        TestFeatureLogCollection feature = TestFeatureLogCollection.createFeatureLogCollectionIfNotExists(
+                "0",
+                "this is a test feature"
+        );
+        TestScenarioLogCollection scenario = TestScenarioLogCollection.createTestScenarioLogCollection(
+                "0",
+                "someScenario()",
+                "0",
+                "this is a test scenario"
+        );
+        scenario.setStart(Date.from(Instant.ofEpochMilli(42)));
+        scenario.setEnd(Date.from(Instant.ofEpochMilli(420)));
+        scenario.setAnnotations(
+                new Annotation[]{
+                        new XrayTest() {
 
-        // Dispatch Event
-        QtafEvents.finishedTesting.onNext(new QtafTestContextPayload());
+                            @Override
+                            public Class<? extends Annotation> annotationType() {
+                                return XrayTest.class;
+                            }
 
-        // Upload Import Command should be called zero times
-        Mockito.verify(uploadImportCommand, Mockito.times(0)).execute();
+                            @Override
+                            public String key() {
+                                return "QTAF-123";
+                            }
+
+                            @Override
+                            public boolean scenarioReport() {
+                                return false;
+                            }
+
+                            @Override
+                            public boolean screenshots() {
+                                return false;
+                            }
+                        }}
+        );
+        feature.addScenarioLogCollection(scenario);
+        return List.of(feature);
     }
 }

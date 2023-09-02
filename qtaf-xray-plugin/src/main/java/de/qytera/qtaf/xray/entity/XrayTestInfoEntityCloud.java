@@ -1,5 +1,6 @@
 package de.qytera.qtaf.xray.entity;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,6 +11,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@EqualsAndHashCode(callSuper = true)
 public class XrayTestInfoEntityCloud extends XrayTestInfoEntity {
     /**
      * The test type (e.g. Manual, Cucumber, Generic).

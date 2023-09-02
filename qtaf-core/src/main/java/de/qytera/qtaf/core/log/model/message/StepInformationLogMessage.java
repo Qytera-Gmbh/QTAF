@@ -7,10 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.lang.model.type.NullType;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Log message for called steps
@@ -50,6 +47,16 @@ public class StepInformationLogMessage extends LogMessage {
      * Time when step was finished
      */
     private Date end = null;
+
+    /**
+     * Time needed for executing the step method
+     */
+    private long duration = 0L;
+
+    /**
+     * List of assertions that were checked in this step
+     */
+    private List<AssertionLogMessage> assertions = Collections.synchronizedList(new ArrayList<>());
 
     /**
      * The list of the step's method parameters.
@@ -131,7 +138,6 @@ public class StepInformationLogMessage extends LogMessage {
      *
      * @param name  the name of the parameter
      * @param value the value of the parameter
-     * @param <T>   the parameter type
      */
     public <T> void addStepParameter(String name, T value) {
         String className = value == null ? NullType.class.getName() : value.getClass().getSimpleName();
@@ -181,6 +187,16 @@ public class StepInformationLogMessage extends LogMessage {
      * Check if an error occurred
      *
      * @return true if an error occurred during method execution, false otherwise
+     */
+    public boolean hasError() {
+        return this.error != null;
+    }
+
+    /**
+     * Set step error
+     *
+     * @param error step error
+     * @return this
      */
     public StepInformationLogMessage setError(Throwable error) {
         this.error = new ThrowableWrapper(error);
@@ -294,6 +310,17 @@ public class StepInformationLogMessage extends LogMessage {
     }
 
     /**
+     * Set duration
+     *
+     * @param duration Duration
+     * @return this
+     */
+    public StepInformationLogMessage setDuration(long duration) {
+        this.duration = duration;
+        return this;
+    }
+
+    /**
      * Get screenshotBefore
      *
      * @return screenshotBefore
@@ -330,6 +357,37 @@ public class StepInformationLogMessage extends LogMessage {
      */
     public StepInformationLogMessage setScreenshotAfter(String screenshotAfter) {
         this.screenshotAfter = screenshotAfter;
+        return this;
+    }
+
+    /**
+     * Get assertions
+     *
+     * @return list of assertions
+     */
+    public List<AssertionLogMessage> getAssertions() {
+        return assertions;
+    }
+
+    /**
+     * Set list of assertions
+     *
+     * @param assertions list of assertions
+     * @return this
+     */
+    public StepInformationLogMessage setAssertions(List<AssertionLogMessage> assertions) {
+        this.assertions = assertions;
+        return this;
+    }
+
+    /**
+     * Add an assertion to the list
+     *
+     * @param assertion Assertion
+     * @return this
+     */
+    public StepInformationLogMessage addAssertion(AssertionLogMessage assertion) {
+        this.assertions.add(assertion);
         return this;
     }
 

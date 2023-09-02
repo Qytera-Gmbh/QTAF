@@ -267,7 +267,7 @@ public class ConfigMap extends HashMap<String, Object> {
         try {
             value = getValue(key);
             if (value != null) {
-                return GsonFactory.getInstance().fromJson(value.toString(), JsonArray.class).asList();
+                return GsonFactory.getInstanceWithoutCustomSerializers().fromJson(value.toString(), JsonArray.class).asList();
             }
         } catch (PathNotFoundException exception) {
             logMissingKey(key);

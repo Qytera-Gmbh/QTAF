@@ -11,7 +11,22 @@ on:
         default: "zulu"
 
 jobs:
+  check-secrets:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: qytera-gmbh/actions-check-secrets@v1
+        with:
+          names: |
+            XRAY_CLIENT_ID
+            XRAY_CLIENT_SECRET
+            SONAR_TOKEN
+        env:
+          XRAY_CLIENT_ID: ${{ secrets.XRAY_CLIENT_ID }}
+          XRAY_CLIENT_SECRET: ${{ secrets.XRAY_CLIENT_SECRET }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
   test:
+    needs: [check-secrets]
     strategy:
       matrix:
         os: ["windows-latest", "ubuntu-latest"]
@@ -40,7 +55,7 @@ jobs:
               -Dsonar.login=$SONAR_TOKEN \
               -Dxray.authentication.xray.clientId=$XRAY_CLIENT_ID \
               -Dxray.authentication.xray.clientSecret=$XRAY_CLIENT_SECRET \
-              -DexcludedGroups=ie
+              -DexcludedGroups=ie,edge
 
     runs-on: ${{ matrix.os }}
     timeout-minutes: 10
@@ -51,6 +66,8 @@ jobs:
         # See above reasoning for Firefox exclusion.
         if: matrix.os != 'windows-latest'
       - uses: browser-actions/setup-edge@v1
+        # Edge currently does not work.
+        if: matrix.os != 'ubuntu-latest'
       - uses: actions/setup-java@v3
         with:
           java-version: ${{ inputs.java-version }}

@@ -1,9 +1,12 @@
 package de.qytera.qtaf.xray.builder;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import de.qytera.qtaf.core.QtafFactory;
 import de.qytera.qtaf.core.config.ConfigurationFactory;
 import de.qytera.qtaf.core.config.entity.ConfigMap;
 import de.qytera.qtaf.core.config.exception.MissingConfigurationValueException;
+import de.qytera.qtaf.core.log.Logger;
 import de.qytera.qtaf.core.log.model.collection.TestFeatureLogCollection;
 import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
 import de.qytera.qtaf.core.log.model.collection.TestSuiteLogCollection;
@@ -11,17 +14,20 @@ import de.qytera.qtaf.core.log.model.message.StepInformationLogMessage;
 import de.qytera.qtaf.xray.annotation.XrayTest;
 import de.qytera.qtaf.xray.config.XrayConfigHelper;
 import de.qytera.qtaf.xray.config.XrayStatusHelper;
+import de.qytera.qtaf.xray.dto.request.jira.issues.AdditionalField;
 import de.qytera.qtaf.xray.dto.request.xray.ImportExecutionResultsRequestDto;
-import de.qytera.qtaf.xray.entity.XrayIterationParameterEntity;
-import de.qytera.qtaf.xray.entity.XrayIterationResultEntity;
-import de.qytera.qtaf.xray.entity.XrayManualTestStepResultEntity;
-import de.qytera.qtaf.xray.entity.XrayTestStepEntity;
+import de.qytera.qtaf.xray.dto.response.jira.issues.JiraIssueResponseDto;
+import de.qytera.qtaf.xray.entity.*;
+import de.qytera.qtaf.xray.repository.jira.JiraIssueRepository;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.lang.annotation.Annotation;
 import java.net.URISyntaxException;
+import java.nio.file.Path;
 import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -158,7 +164,7 @@ public class XrayJsonImportBuilderTest {
                 "abcdefghijklmnopqrstuvwxyz012345"
         });
 
-        ImportExecutionResultsRequestDto dto = new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance()).buildRequest();
+        ImportExecutionResultsRequestDto dto = new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance(), JiraIssueRepository.getInstance()).build();
         List<XrayIterationResultEntity> iterations = dto.getTests().get(0).getIterations();
         Assert.assertEquals(
                 iterations.get(0).getParameters().stream().map(XrayIterationParameterEntity::getValue).collect(Collectors.toList()),
@@ -196,7 +202,7 @@ public class XrayJsonImportBuilderTest {
 
         // Build import request.
         ConfigurationFactory.getInstance().setString(XrayConfigHelper.XRAY_SERVICE_SELECTOR, "server");
-        ImportExecutionResultsRequestDto dto = new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance()).buildRequest();
+        ImportExecutionResultsRequestDto dto = new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance(), JiraIssueRepository.getInstance()).build();
         List<XrayIterationResultEntity> iterations = dto.getTests().get(0).getIterations();
         Assert.assertEquals(iterations.get(0).getStatus(), XrayStatusHelper.statusToText(TestScenarioLogCollection.Status.SUCCESS));
         Assert.assertEquals(iterations.get(1).getStatus(), XrayStatusHelper.statusToText(TestScenarioLogCollection.Status.FAILURE));
@@ -217,7 +223,7 @@ public class XrayJsonImportBuilderTest {
         scenarioCollection.setStatus(TestScenarioLogCollection.Status.FAILURE);
         // Build import request.
         ConfigurationFactory.getInstance().setString(XrayConfigHelper.XRAY_SERVICE_SELECTOR, "server");
-        ImportExecutionResultsRequestDto dto = new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance()).buildRequest();
+        ImportExecutionResultsRequestDto dto = new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance(), JiraIssueRepository.getInstance()).build();
         List<XrayManualTestStepResultEntity> steps = dto.getTests().get(0).getSteps();
         Assert.assertTrue(steps.get(0).getAllEvidence().isEmpty());
         Assert.assertTrue(steps.get(1).getAllEvidence().isEmpty());
@@ -249,7 +255,7 @@ public class XrayJsonImportBuilderTest {
         scenarioCollection.setStatus(TestScenarioLogCollection.Status.FAILURE);
         // Build import request.
         ConfigurationFactory.getInstance().setString(XrayConfigHelper.XRAY_SERVICE_SELECTOR, "cloud");
-        ImportExecutionResultsRequestDto dto = new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance()).buildRequest();
+        ImportExecutionResultsRequestDto dto = new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance(), JiraIssueRepository.getInstance()).build();
         List<XrayIterationResultEntity> iterations = dto.getTests().get(0).getIterations();
         Assert.assertTrue(iterations.get(0).getSteps().get(0).getAllEvidence().isEmpty());
         Assert.assertTrue(iterations.get(0).getSteps().get(1).getAllEvidence().isEmpty());
@@ -278,7 +284,7 @@ public class XrayJsonImportBuilderTest {
         scenarioCollection.addLogMessage(failingStep("failingStep"));
         scenarioCollection.setStatus(TestScenarioLogCollection.Status.FAILURE);
         // Build import request.
-        new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance()).buildRequest();
+        new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance(), JiraIssueRepository.getInstance()).build();
     }
 
     @Test(
@@ -297,7 +303,7 @@ public class XrayJsonImportBuilderTest {
         scenarioCollection.addLogMessage(failingStep("clickSomething", "path/to/something.png"));
         scenarioCollection.setStatus(TestScenarioLogCollection.Status.FAILURE);
         // Build import request.
-        new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance()).buildRequest();
+        new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance(), JiraIssueRepository.getInstance()).build();
     }
 
     @Test(description = "whether an upload without step updates enabled contains step information to update")
@@ -313,7 +319,7 @@ public class XrayJsonImportBuilderTest {
         scenarioCollection.setStatus(TestScenarioLogCollection.Status.FAILURE);
         // Build import request.
         ConfigurationFactory.getInstance().setBoolean(XrayConfigHelper.RESULTS_UPLOAD_TESTS_INFO_STEPS_UPDATE, false);
-        ImportExecutionResultsRequestDto dto = new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance()).buildRequest();
+        ImportExecutionResultsRequestDto dto = new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance(), JiraIssueRepository.getInstance()).build();
         Assert.assertEquals(dto.getTests().size(), 1);
         Assert.assertNull(dto.getTests().get(0).getTestInfo());
     }
@@ -343,7 +349,7 @@ public class XrayJsonImportBuilderTest {
         ConfigurationFactory.getInstance().setBoolean(XrayConfigHelper.RESULTS_UPLOAD_TESTS_INFO_STEPS_UPDATE, true);
         // Step merging should not have any effect on single runs.
         ConfigurationFactory.getInstance().setBoolean(XrayConfigHelper.RESULTS_UPLOAD_TESTS_INFO_STEPS_MERGE, true);
-        ImportExecutionResultsRequestDto dto = new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance()).buildRequest();
+        ImportExecutionResultsRequestDto dto = new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance(), JiraIssueRepository.getInstance()).build();
         Assert.assertEquals(dto.getTests().size(), 1);
         List<XrayTestStepEntity> steps = dto.getTests().get(0).getTestInfo().getSteps();
         Assert.assertEquals(steps.size(), 3);
@@ -390,7 +396,7 @@ public class XrayJsonImportBuilderTest {
         // Build import request.
         ConfigurationFactory.getInstance().setBoolean(XrayConfigHelper.RESULTS_UPLOAD_TESTS_INFO_STEPS_UPDATE, true);
         ConfigurationFactory.getInstance().setBoolean(XrayConfigHelper.RESULTS_UPLOAD_TESTS_INFO_STEPS_MERGE, true);
-        ImportExecutionResultsRequestDto dto = new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance()).buildRequest();
+        ImportExecutionResultsRequestDto dto = new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance(), JiraIssueRepository.getInstance()).build();
         Assert.assertEquals(dto.getTests().size(), 1);
         Assert.assertEquals(dto.getTests().get(0).getTestInfo().getSteps().size(), 1);
         Assert.assertEquals(dto.getTests().get(0).getIterations().size(), 2);
@@ -406,7 +412,7 @@ public class XrayJsonImportBuilderTest {
         scenarioCollection.setStatus(TestScenarioLogCollection.Status.SUCCESS);
         // Build import request.
         ConfigurationFactory.getInstance().setString(XrayConfigHelper.RESULTS_UPLOAD_TEST_PLAN_KEY, "QTAF-765");
-        ImportExecutionResultsRequestDto dto = new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance()).buildRequest();
+        ImportExecutionResultsRequestDto dto = new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance(), JiraIssueRepository.getInstance()).build();
         Assert.assertEquals(dto.getInfo().getTestPlanKey(), "QTAF-765");
     }
 
@@ -418,7 +424,136 @@ public class XrayJsonImportBuilderTest {
         scenarioCollection.setStatus(TestScenarioLogCollection.Status.FAILURE);
         // Build import request.
         ConfigurationFactory.getInstance().setBoolean(XrayConfigHelper.RESULTS_UPLOAD_TESTS_INFO_STEPS_MERGE, true);
-        Assert.assertNotNull(new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance()).buildRequest());
+        Assert.assertNotNull(new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance(), JiraIssueRepository.getInstance()).build());
     }
+
+    @Test
+    public void testScenarioWithWrongProjectTag() throws XrayJsonImportBuilder.NoXrayTestException, URISyntaxException, MissingConfigurationValueException {
+        QtafFactory.getConfiguration().setString(XrayConfigHelper.PROJECT_KEY, "ABC");
+        scenario(1, "feature-test-plan-key");
+        // Build import request.
+        Logger logger = Mockito.mock(Logger.class);
+        try (MockedStatic<QtafFactory> factory = Mockito.mockStatic(QtafFactory.class)) {
+            factory.when(QtafFactory::getLogger).thenReturn(logger);
+            factory.when(QtafFactory::getConfiguration).thenCallRealMethod();
+            try {
+                new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance(), JiraIssueRepository.getInstance()).build();
+            } catch (XrayJsonImportBuilder.NoXrayTestException exception) {
+                // Expected.
+            }
+            Mockito.verify(
+                            logger,
+                            Mockito.times(1))
+                    .warn("Xray annotation of scenario 'a test scenario' contains a project key that was not configured in %s: 'QTAF-42'. This scenario's results will not be uploaded.".formatted(Path.of("src", "test", "resources", "qtaf.json").toAbsolutePath())
+                    );
+        }
+    }
+
+    @Test
+    public void testScenarioWithUnparseableTag() throws XrayJsonImportBuilder.NoXrayTestException, URISyntaxException, MissingConfigurationValueException {
+        TestFeatureLogCollection featureLogCollection = TestFeatureLogCollection.createFeatureLogCollectionIfNotExists(
+                "frontend",
+                "login tests"
+        );
+        TestSuiteLogCollection.getInstance().addTestClassLogCollection(featureLogCollection);
+        TestScenarioLogCollection scenarioLogCollection = TestScenarioLogCollection.createTestScenarioLogCollection(
+                "frontend",
+                "FrontendTest.testLogin",
+                "1",
+                "test the login"
+        );
+        featureLogCollection.addScenarioLogCollection(scenarioLogCollection);
+        scenarioLogCollection.setAnnotations(new Annotation[]{new XrayTest() {
+
+            @Override
+            public String key() {
+                return "QTAF-12X";
+            }
+
+            @Override
+            public boolean scenarioReport() {
+                return false;
+            }
+
+            @Override
+            public boolean screenshots() {
+                return false;
+            }
+
+            @Override
+            public Class<? extends Annotation> annotationType() {
+                return XrayTest.class;
+            }
+        }});
+        // Build import request.
+        Logger logger = Mockito.mock(Logger.class);
+        try (MockedStatic<QtafFactory> factory = Mockito.mockStatic(QtafFactory.class)) {
+            factory.when(QtafFactory::getLogger).thenReturn(logger);
+            factory.when(QtafFactory::getConfiguration).thenCallRealMethod();
+            try {
+                new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance(), JiraIssueRepository.getInstance()).build();
+            } catch (XrayJsonImportBuilder.NoXrayTestException exception) {
+                // Expected.
+            }
+            Mockito.verify(logger, Mockito.times(1))
+                    .warn(
+                            "Found project key 'QTAF' in Xray annotation of scenario 'test the login', but failed to extract issue number: 'QTAF-12X'. This scenario's results will not be uploaded."
+                    );
+        }
+    }
+
+    @Test
+    public void testIssueSummaryRetrieval() throws XrayJsonImportBuilder.NoXrayTestException, URISyntaxException, MissingConfigurationValueException {
+        ConfigurationFactory.getInstance().setBoolean(XrayConfigHelper.RESULTS_UPLOAD_TESTS_INFO_KEEP_JIRA_SUMMARY, true);
+        ConfigurationFactory.getInstance().setBoolean(XrayConfigHelper.RESULTS_UPLOAD_TESTS_INFO_STEPS_UPDATE, true);
+        scenario(1, "feature-step-merge");
+        JiraIssueRepository jiraIssueRepository = Mockito.mock(JiraIssueRepository.class);
+        JiraIssueResponseDto dto = new JiraIssueResponseDto();
+        dto.setKey("QTAF-42");
+        JsonObject fields = new JsonObject();
+        fields.add(AdditionalField.SUMMARY.getText(), new JsonPrimitive("Hello 123"));
+        dto.setFields(fields);
+        Mockito
+                .when(jiraIssueRepository.search(Mockito.any(), Mockito.any()))
+                .thenReturn(List.of(dto));
+        ImportExecutionResultsRequestDto request = new XrayJsonImportBuilder(
+                TestSuiteLogCollection.getInstance(),
+                jiraIssueRepository
+        ).build();
+        Assert.assertEquals(request.getTests().size(), 1);
+        Assert.assertEquals(
+                request.getTests().get(0).getTestInfo(),
+                new XrayTestInfoEntityCloud("Hello 123", "QTAF", "Manual")
+        );
+    }
+
+    @Test
+    public void testIssueSummaryRetrievalMissingSummary() throws XrayJsonImportBuilder.NoXrayTestException, URISyntaxException, MissingConfigurationValueException {
+        ConfigurationFactory.getInstance().setBoolean(XrayConfigHelper.RESULTS_UPLOAD_TESTS_INFO_KEEP_JIRA_SUMMARY, true);
+        ConfigurationFactory.getInstance().setBoolean(XrayConfigHelper.RESULTS_UPLOAD_TESTS_INFO_STEPS_UPDATE, true);
+        scenario(1, "feature-step-merge");
+        JiraIssueRepository jiraIssueRepository = Mockito.mock(JiraIssueRepository.class);
+        JiraIssueResponseDto dto = new JiraIssueResponseDto();
+        dto.setKey("QTAF-123");
+        JsonObject fields = new JsonObject();
+        fields.add(AdditionalField.SUMMARY.getText(), new JsonPrimitive("Hello 123"));
+        dto.setFields(fields);
+        Mockito
+                .when(jiraIssueRepository.search(Mockito.any(), Mockito.any()))
+                .thenReturn(List.of(dto));
+        Logger logger = Mockito.mock(Logger.class);
+        String expectedErrorMessage = "Failed to retrieve issue summaries of the following issues from Jira: [QTAF-42]";
+        try (MockedStatic<QtafFactory> factory = Mockito.mockStatic(QtafFactory.class)) {
+            factory.when(QtafFactory::getLogger).thenReturn(logger);
+            factory.when(QtafFactory::getConfiguration).thenCallRealMethod();
+            new XrayJsonImportBuilder(
+                    TestSuiteLogCollection.getInstance(),
+                    jiraIssueRepository
+            ).build();
+            Mockito.verify(logger, Mockito.times(1))
+                    .error(expectedErrorMessage);
+        }
+    }
+
 
 }

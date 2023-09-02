@@ -20,13 +20,37 @@ public class ImportExecutionResultsResponseServerDto implements ImportExecutionR
     }
 
     @Override
+    public void setId(String id) {
+        if (this.testExecIssue == null) {
+            this.testExecIssue = new TestExecutionIssueDto();
+        }
+        this.testExecIssue.setId(id);
+    }
+
+    @Override
     public String getKey() {
         return testExecIssue.getKey();
     }
 
     @Override
+    public void setKey(String key) {
+        if (this.testExecIssue == null) {
+            this.testExecIssue = new TestExecutionIssueDto();
+        }
+        this.testExecIssue.setKey(key);
+    }
+
+    @Override
     public String getSelf() {
         return testExecIssue.getSelf();
+    }
+
+    @Override
+    public void setSelf(String self) {
+        if (this.testExecIssue == null) {
+            this.testExecIssue = new TestExecutionIssueDto();
+        }
+        this.testExecIssue.setSelf(self);
     }
 
     @Getter
