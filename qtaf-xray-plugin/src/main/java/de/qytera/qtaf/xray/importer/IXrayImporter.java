@@ -14,7 +14,9 @@ public interface IXrayImporter {
      *
      * @param testSetID ID of test set
      * @param filePath  Feature file location
-     * @throws IOException if the feature file cannot be created
+     * @throws IOException                        if the feature file cannot be created
+     * @throws URISyntaxException                 if any URLs used during importing are invalid
+     * @throws MissingConfigurationValueException if the configuration is invalid
      */
     void createFeatureFileFromTestSetId(String testSetID, String filePath) throws IOException, URISyntaxException, MissingConfigurationValueException;
 
@@ -23,7 +25,9 @@ public interface IXrayImporter {
      *
      * @param testIDs  Test IDs
      * @param filePath Feature file location
-     * @throws IOException if the feature files cannot be created
+     * @throws IOException                        if the feature file cannot be created
+     * @throws URISyntaxException                 if any URLs used during importing are invalid
+     * @throws MissingConfigurationValueException if the configuration is invalid
      */
     void createFeatureFileFromTestIds(String[] testIDs, String filePath) throws IOException, URISyntaxException, MissingConfigurationValueException;
 }

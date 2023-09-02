@@ -18,11 +18,4 @@ public class VersionServerDto extends VersionDto {
 
     private List<RemoteEntityLinkDto> remotelinks = new ArrayList<>();
 
-    @Data
-    public static class RemoteEntityLinkDto {
-        private String self;
-        private String name;
-        private JsonElement link;
-    }
-
 }

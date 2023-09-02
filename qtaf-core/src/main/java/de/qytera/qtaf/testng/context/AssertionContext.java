@@ -11,7 +11,15 @@ import org.testng.Assert;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * This interface contains all assertions QTAF supports natively.
+ */
 public interface AssertionContext {
+    /**
+     * Returns the collection containing all scenario logs.
+     *
+     * @return the scenario log collection
+     */
     TestScenarioLogCollection getLogCollection();
 
     /**

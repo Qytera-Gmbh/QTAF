@@ -13,6 +13,9 @@ import java.lang.annotation.Annotation;
  */
 public class QtafTestNGBeforeTestInterceptor extends QtafTestNGAnnotatedMethodInterceptor<BeforeTestExecutionInfo> {
 
+    /**
+     * Creates a new {@link QtafTestNGBeforeTestInterceptor}.
+     */
     public QtafTestNGBeforeTestInterceptor() {
         super(QtafEvents.beforeTestFeature, QtafEvents.beforeTestFeatureSuccess, QtafEvents.beforeTestFeatureFailure);
     }

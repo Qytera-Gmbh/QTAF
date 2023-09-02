@@ -13,6 +13,9 @@ import java.lang.annotation.Annotation;
  */
 public class QtafTestNGAfterSuiteInterceptor extends QtafTestNGAnnotatedMethodInterceptor<AfterSuiteExecutionInfo> {
 
+    /**
+     * Creates a new {@link QtafTestNGAfterSuiteInterceptor}.
+     */
     public QtafTestNGAfterSuiteInterceptor() {
         super(QtafEvents.afterTestSuite, QtafEvents.afterTestSuiteSuccess, QtafEvents.afterTestSuiteFailure);
     }

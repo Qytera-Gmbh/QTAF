@@ -2,6 +2,9 @@ package de.qytera.qtaf.xray.log;
 
 import de.qytera.qtaf.core.log.model.error.ErrorLog;
 
+/**
+ * An error log entry representing Xray authentication errors.
+ */
 public class XrayAuthenticationErrorLog extends ErrorLog {
     /**
      * HTTP Response status code

@@ -20,6 +20,9 @@ public class VersionCloudDto extends VersionDto {
      */
     private VersionIssueStatus issuesStatusForFixVersion;
 
+    /**
+     * Issue version statuses.
+     */
     @Data
     public static class VersionIssueStatus {
         /**

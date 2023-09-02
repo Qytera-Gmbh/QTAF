@@ -57,7 +57,7 @@ public class AssignTestExecutionIssueSubscriberTest {
     @Test(dataProvider = "assignProviderCloud", description = "verify that a correct assign issue call is made for Jira cloud")
     public void testAssignIssueCloud(String issueKey, String assignee, UserCloudDto expectedUser) {
         CONFIG.setString(XrayConfigHelper.RESULTS_UPLOAD_ASSIGNEE, assignee);
-        CONFIG.setString(XrayConfigHelper.XRAY_SERVICE_SELECTOR, XrayConfigHelper.XRAY_SERVICE_CLOUD);
+        CONFIG.setString(XrayConfigHelper.XRAY_SERVICE, XrayConfigHelper.XRAY_SERVICE_CLOUD);
         ImportExecutionResultsResponseDto response = new ImportExecutionResultsResponseCloudDto();
         response.setKey(issueKey);
         try (MockedStatic<JiraIssueRepository> jiraRepository = Mockito.mockStatic(JiraIssueRepository.class, Mockito.RETURNS_DEEP_STUBS)) {
@@ -81,7 +81,7 @@ public class AssignTestExecutionIssueSubscriberTest {
     @Test(dataProvider = "assignProviderServer", description = "verify that a correct assign issue call is made for Jira server")
     public void testAssignIssueServer(String issueKey, String assignee, UserServerDto expectedUser) {
         CONFIG.setString(XrayConfigHelper.RESULTS_UPLOAD_ASSIGNEE, assignee);
-        CONFIG.setString(XrayConfigHelper.XRAY_SERVICE_SELECTOR, XrayConfigHelper.XRAY_SERVICE_SERVER);
+        CONFIG.setString(XrayConfigHelper.XRAY_SERVICE, XrayConfigHelper.XRAY_SERVICE_SERVER);
         ImportExecutionResultsResponseDto response = new ImportExecutionResultsResponseServerDto();
         response.setKey(issueKey);
         try (MockedStatic<JiraIssueRepository> jiraRepository = Mockito.mockStatic(JiraIssueRepository.class, Mockito.RETURNS_DEEP_STUBS)) {
@@ -95,7 +95,7 @@ public class AssignTestExecutionIssueSubscriberTest {
 
     @Test(description = "verify that no assign issue call is made for non-existent assignees")
     public void testSkippedAssignment() {
-        CONFIG.setString(XrayConfigHelper.XRAY_SERVICE_SELECTOR, XrayConfigHelper.XRAY_SERVICE_CLOUD);
+        CONFIG.setString(XrayConfigHelper.XRAY_SERVICE, XrayConfigHelper.XRAY_SERVICE_CLOUD);
         ImportExecutionResultsResponseDto response = new ImportExecutionResultsResponseCloudDto();
         response.setKey("QTAF-123");
         try (MockedStatic<JiraIssueRepository> jiraRepository = Mockito.mockStatic(JiraIssueRepository.class, Mockito.RETURNS_DEEP_STUBS)) {

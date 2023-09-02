@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+/**
+ * Multiple TestRail attachments.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

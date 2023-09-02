@@ -53,6 +53,10 @@ public class UploadTestsSubscriber implements IEventSubscriber {
 
     /**
      * Set up the client for the TestRail API.
+     *
+     * @return the client
+     * @throws GeneralSecurityException           if encrypted values cannot be decrypted
+     * @throws MissingConfigurationValueException if the configuration is invalid
      */
     public APIClient setUpClient() throws GeneralSecurityException, MissingConfigurationValueException {
         if (client == null) {

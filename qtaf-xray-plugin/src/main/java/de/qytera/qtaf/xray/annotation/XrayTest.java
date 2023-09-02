@@ -19,12 +19,16 @@ public @interface XrayTest {
     String key();
 
     /**
-     * Flag that indicates whether an HTML report should be added as evidence to this test
+     * Flag that indicates whether an HTML report should be added as evidence to this test.
+     *
+     * @return whether HTML reports should be added
      */
     boolean scenarioReport() default false;
 
     /**
-     * Flag that indicates whether screenshots should be added as evidence to this test
+     * Flag that indicates whether screenshots should be added as evidence to this test.
+     *
+     * @return whether screenshots should be added
      */
     boolean screenshots() default false;
 }

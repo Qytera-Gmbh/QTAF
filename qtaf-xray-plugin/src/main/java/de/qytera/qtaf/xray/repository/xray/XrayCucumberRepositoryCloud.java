@@ -84,12 +84,14 @@ public class XrayCucumberRepositoryCloud implements XrayCucumberRepository, Xray
     }
 
     /**
-     * Get feature files from Xray Cloud API by Test(Set) IDs
+     * Get feature files from Xray Cloud API by Test(Set) IDs. Xray will return a ZIP file with multiple files in it.
+     * This method extracts all files and saves them in a list of strings which is returned.
      *
      * @param testIDs Array of Test IDs
-     * @return list of feature file contents. Xray will return a ZIP file with multiple files in it.
-     * This methods extracts all files and saves them in a string array which is returned
-     * @throws IOException Error during ZIP file extraction
+     * @return a list of feature file contents
+     * @throws IOException                        Error during ZIP file extraction
+     * @throws URISyntaxException                 if the download URLs are invalid
+     * @throws MissingConfigurationValueException if the configuration is invalid
      */
     public List<String> getFeatureFileDefinitions(String[] testIDs) throws IOException, URISyntaxException, MissingConfigurationValueException {
         String keys = StringUtils.join(testIDs, ";");
@@ -122,6 +124,8 @@ public class XrayCucumberRepositoryCloud implements XrayCucumberRepository, Xray
      * @param testIDs Array of Test IDs
      * @param dir     Name of directory where to store downloaded feature files
      * @throws IOException Error during ZIP file extraction
+     * @throws URISyntaxException                 if the download URLs are invalid
+     * @throws MissingConfigurationValueException if the configuration is invalid
      */
     public void getAndStoreFeatureFileDefinitions(String[] testIDs, String dir) throws IOException, URISyntaxException, MissingConfigurationValueException {
         String keys = StringUtils.join(testIDs, ";");

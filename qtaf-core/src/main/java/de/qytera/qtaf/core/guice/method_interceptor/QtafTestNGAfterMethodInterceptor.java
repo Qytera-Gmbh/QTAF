@@ -13,6 +13,9 @@ import java.lang.annotation.Annotation;
  */
 public class QtafTestNGAfterMethodInterceptor extends QtafTestNGAnnotatedMethodInterceptor<AfterMethodExecutionInfo> {
 
+    /**
+     * Creates a new {@link QtafTestNGAfterMethodInterceptor}.
+     */
     public QtafTestNGAfterMethodInterceptor() {
         super(QtafEvents.afterTestScenario, QtafEvents.afterTestScenarioSuccess, QtafEvents.afterTestScenarioFailure);
     }

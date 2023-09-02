@@ -16,7 +16,7 @@ public class XrayFeatureImporterTest {
     @BeforeMethod
     public void setXrayPlatform() {
         ConfigMap configMap = QtafFactory.getConfiguration();
-        configMap.setString(XrayConfigHelper.XRAY_SERVICE_SELECTOR, "cloud");
+        configMap.setString(XrayConfigHelper.XRAY_SERVICE, "cloud");
     }
 
     @Test
