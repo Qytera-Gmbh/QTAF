@@ -1,6 +1,5 @@
 package de.qytera.qtaf.xray.dto.jira;
 
-import com.google.gson.JsonElement;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

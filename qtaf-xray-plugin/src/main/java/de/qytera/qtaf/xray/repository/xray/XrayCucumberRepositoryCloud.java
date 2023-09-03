@@ -123,7 +123,7 @@ public class XrayCucumberRepositoryCloud implements XrayCucumberRepository, Xray
      *
      * @param testIDs Array of Test IDs
      * @param dir     Name of directory where to store downloaded feature files
-     * @throws IOException Error during ZIP file extraction
+     * @throws IOException                        Error during ZIP file extraction
      * @throws URISyntaxException                 if the download URLs are invalid
      * @throws MissingConfigurationValueException if the configuration is invalid
      */
