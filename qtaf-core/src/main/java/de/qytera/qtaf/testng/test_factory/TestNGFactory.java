@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * This class is responsible for creating instances of all test classes
+ * This class is responsible for creating instances of all test classes.
  */
 public class TestNGFactory implements ITestObjectFactory {
 

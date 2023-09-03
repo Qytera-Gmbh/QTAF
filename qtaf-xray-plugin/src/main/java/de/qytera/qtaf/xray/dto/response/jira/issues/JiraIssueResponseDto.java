@@ -16,27 +16,27 @@ import lombok.Setter;
 @EqualsAndHashCode
 public class JiraIssueResponseDto {
     /**
-     * Issue ID
+     * Issue ID.
      */
     private String id;
 
     /**
-     * Issue key
+     * Issue key.
      */
     private String key;
 
     /**
-     * Self reference
+     * Self reference.
      */
     private String self;
 
     /**
-     * Expand
+     * Expand.
      */
     private String expand;
 
     /**
-     * Issue fields
+     * Issue fields.
      */
     private JsonObject fields;
 

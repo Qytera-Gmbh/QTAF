@@ -5,14 +5,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Helper for token separated strings
+ * Helper for token separated strings.
  */
 public class TokenSeparatedStringHelper {
     private TokenSeparatedStringHelper() {
     }
 
     /**
-     * Transform a token separated string of values to a list of values
+     * Transform a token separated string of values to a list of values.
      *
      * @param s         Input string
      * @param separator Separator token
@@ -23,7 +23,7 @@ public class TokenSeparatedStringHelper {
     }
 
     /**
-     * Transform a token separated string of values to a list of values
+     * Transform a token separated string of values to a list of values.
      *
      * @param s          Input string
      * @param separator  Separator token

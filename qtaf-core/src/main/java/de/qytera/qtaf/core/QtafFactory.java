@@ -10,14 +10,14 @@ import de.qytera.qtaf.core.selenium.DriverFactory;
 import org.openqa.selenium.WebDriver;
 
 /**
- * Factory Class
+ * Factory Class.
  */
 public class QtafFactory {
     private QtafFactory() {
     }
 
     /**
-     * Get configuration
+     * Get configuration.
      *
      * @return Configuration
      */
@@ -26,7 +26,7 @@ public class QtafFactory {
     }
 
     /**
-     * Get Test suite log collection
+     * Get Test suite log collection.
      *
      * @return test suite log collection
      */
@@ -35,7 +35,7 @@ public class QtafFactory {
     }
 
     /**
-     * Get Selenium Web Driver instance
+     * Get Selenium Web Driver instance.
      *
      * @return Selenium Web Driver
      */
@@ -44,7 +44,7 @@ public class QtafFactory {
     }
 
     /**
-     * Get logger
+     * Get logger.
      *
      * @return logger
      */
@@ -53,7 +53,7 @@ public class QtafFactory {
     }
 
     /**
-     * Get GSON instance
+     * Get GSON instance.
      *
      * @return GSON instance
      */

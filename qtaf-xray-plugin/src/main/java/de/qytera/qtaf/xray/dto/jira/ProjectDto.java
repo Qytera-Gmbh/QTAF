@@ -9,6 +9,9 @@ import java.util.List;
 /**
  * The response when retrieving project data for a specific Jira project.
  *
+ * @param <U> the user type
+ * @param <I> the issue type
+ * @param <V> the version type
  * @see <a href="https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-projects/#api-rest-api-3-project-projectidorkey-get">Get project (Jira Cloud)</a>
  * @see <a href="https://docs.atlassian.com/software/jira/docs/api/REST/9.8.0/#api/2/project-getProject">Get project (Jira Server)</a>
  */

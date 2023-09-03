@@ -6,22 +6,22 @@ import java.util.HashMap;
 import java.util.UUID;
 
 /**
- * Index that holds all Cucumber log messages
+ * Index that holds all Cucumber log messages.
  */
 public class CucumberStepIndex extends HashMap<UUID, CucumberStepLogMessage> {
     /**
-     * Singleton instance
+     * Singleton instance.
      */
     private static final CucumberStepIndex instance = new CucumberStepIndex();
 
     /**
-     * Private constructor, part of the singleton design pattern
+     * Private constructor, part of the singleton design pattern.
      */
     private CucumberStepIndex() {
     }
 
     /**
-     * Get instance
+     * Get instance.
      *
      * @return instance
      */

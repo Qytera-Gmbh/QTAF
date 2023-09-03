@@ -8,13 +8,13 @@ import java.lang.reflect.Field;
 import java.util.List;
 
 /**
- * Helper methods for ITestContext implementations
+ * Helper methods for ITestContext implementations.
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class TestContextHelper {
 
     /**
-     * Add logger to all instance fields
+     * Add logger to all instance fields.
      *
      * @param testContext the test context
      */

@@ -4,48 +4,48 @@ import de.qytera.qtaf.core.log.model.LogLevel;
 import de.qytera.qtaf.core.log.model.error.ThrowableWrapper;
 
 /**
- * Entity class for assertion log messages
+ * Entity class for assertion log messages.
  */
 public class AssertionLogMessage extends LogMessage {
     /**
-     * Type of assertion
+     * Type of assertion.
      */
     protected AssertionLogMessageType type;
 
     /**
-     * Step of assertion
+     * Step of assertion.
      * This attribute needs to be transient so that it is ignored by JSON serializers.
      * Otherwise, this causes a stack overflow, because it is a circular reference.
      */
     protected transient StepInformationLogMessage step;
 
     /**
-     * Assertion status
+     * Assertion status.
      */
     protected Status status;
 
     /**
-     * Assertion condition
+     * Assertion condition.
      */
     protected boolean condition;
 
     /**
-     * Actual object
+     * Actual object.
      */
     protected Object actual;
 
     /**
-     * Expected object
+     * Expected object.
      */
     protected Object expected;
 
     /**
-     * Assertion Error
+     * Assertion Error.
      */
     protected ThrowableWrapper error;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param level   log level
      * @param message log message
@@ -230,7 +230,7 @@ public class AssertionLogMessage extends LogMessage {
 
 
     /**
-     * Step status
+     * Step status.
      */
     private enum Status {
         PASSED,

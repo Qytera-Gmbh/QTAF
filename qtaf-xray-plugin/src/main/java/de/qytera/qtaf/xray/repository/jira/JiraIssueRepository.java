@@ -219,9 +219,9 @@ public class JiraIssueRepository implements JiraEndpoint {
 
     /**
      * Performs an issue transition to the provided status.
-     * <p>
-     * Before the request is made, the issue's possible transitions are queried. The actual follow-up transition request
-     * is only made if the possible transitions contain a transition belonging to the provided status.
+     *
+     * <p>Before the request is made, the issue's possible transitions are queried. The actual follow-up transition
+     * request is only made if the possible transitions contain a transition belonging to the provided status.</p>
      *
      * @param issueIdOrKey the ID or key of the issue
      * @param statusName   the target status to transition to
@@ -268,9 +268,9 @@ public class JiraIssueRepository implements JiraEndpoint {
     /**
      * Get a list of the transitions possible for this issue by the current user, along with fields that are required
      * and their types.
-     * <p>
-     * Note, if a request is made for a transition that does not exist or cannot be performed on the issue, given its
-     * status, the response will return any empty transitions list.
+     *
+     * <p>Note, if a request is made for a transition that does not exist or cannot be performed on the issue, given its
+     * status, the response will return any empty transitions list.</p>
      *
      * @param issueIdOrKey the ID or key of the issue
      * @return a list of transitions possible for the issue

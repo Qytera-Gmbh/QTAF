@@ -14,16 +14,16 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * TestNG event payload information class
+ * TestNG event payload information class.
  */
 public class TestNGTestEventPayload extends QtafTestEventPayload {
     /**
-     * Original event dispatched by TestNG
+     * Original event dispatched by TestNG.
      */
     protected ITestResult originalEvent;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param iTestResult Original event
      * @throws NoSuchMethodException Thrown if method is not found
@@ -62,7 +62,7 @@ public class TestNGTestEventPayload extends QtafTestEventPayload {
     }
 
     /**
-     * Handle TestNG original event
+     * Handle TestNG original event.
      *
      * @param iTestResult original event
      */
@@ -73,7 +73,7 @@ public class TestNGTestEventPayload extends QtafTestEventPayload {
     }
 
     /**
-     * Initialize class atributes based on a testNGMethod object
+     * Initialize class atributes based on a testNGMethod object.
      *
      * @param testNGMethod TestNGMethod object
      */
@@ -84,7 +84,7 @@ public class TestNGTestEventPayload extends QtafTestEventPayload {
     }
 
     /**
-     * Get a method entity object from the test execution info object
+     * Get a method entity object from the test execution info object.
      *
      * @param iTestResult Info object that contains information about the test
      * @param clazz       Real class that contains the scenario method
@@ -132,7 +132,7 @@ public class TestNGTestEventPayload extends QtafTestEventPayload {
     }
 
     /**
-     * Initialize class attributes based on a MethodInfoEntity object
+     * Initialize class attributes based on a MethodInfoEntity object.
      *
      * @param methodInfo MethodInfoEntity object
      */
@@ -142,7 +142,7 @@ public class TestNGTestEventPayload extends QtafTestEventPayload {
     }
 
     /**
-     * Get the test annotation from the test method
+     * Get the test annotation from the test method.
      *
      * @param method Method reflection object
      * @return Test annotation object
@@ -152,7 +152,7 @@ public class TestNGTestEventPayload extends QtafTestEventPayload {
     }
 
     /**
-     * Method to initialize class attributes based on the Test annotation from TestNG
+     * Method to initialize class attributes based on the Test annotation from TestNG.
      *
      * @param testAnnotation Test annotation of the scenario
      */
@@ -161,7 +161,7 @@ public class TestNGTestEventPayload extends QtafTestEventPayload {
     }
 
     /**
-     * Get originalEvent
+     * Get originalEvent.
      *
      * @return originalEvent
      */
@@ -171,7 +171,7 @@ public class TestNGTestEventPayload extends QtafTestEventPayload {
     }
 
     /**
-     * Set originalEvent
+     * Set originalEvent.
      *
      * @param originalEvent OriginalEvent
      * @return this
@@ -182,7 +182,7 @@ public class TestNGTestEventPayload extends QtafTestEventPayload {
     }
 
     /**
-     * Get methodInfo
+     * Get methodInfo.
      *
      * @return methodInfo
      */
@@ -192,7 +192,7 @@ public class TestNGTestEventPayload extends QtafTestEventPayload {
     }
 
     /**
-     * Set methodInfo
+     * Set methodInfo.
      *
      * @param methodInfo MethodInfo
      * @return this

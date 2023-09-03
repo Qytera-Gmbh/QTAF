@@ -11,8 +11,8 @@ import java.net.URI;
  * A wrapper around {@link Invocation.Builder} used for building HTTP requests. The wrap is needed so that the request
  * path (e.g. <a href="https://example.org/a/b/c?d=f">https://example.org/a/b/c?d=f</a>) remains exposed, which is very
  * useful for error messages.
- * <p>
- * Instances of {@link RequestBuilder} can be obtained using {@link WebService#buildRequest(URI)}.
+ *
+ * <p>Instances of {@link RequestBuilder} can be obtained using {@link WebService#buildRequest(URI)}.</p>
  */
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)

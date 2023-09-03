@@ -15,7 +15,7 @@ import org.openqa.selenium.WebDriver;
  */
 public class QuitDriverSubscriber implements IEventSubscriber {
     /**
-     * Configuration
+     * Configuration.
      */
     ConfigMap configMap = QtafFactory.getConfiguration();
 
@@ -28,7 +28,7 @@ public class QuitDriverSubscriber implements IEventSubscriber {
     }
 
     /**
-     * onFinishedTesting event handler
+     * onFinishedTesting event handler.
      *
      * @param iTestContext event payload
      */
@@ -48,7 +48,7 @@ public class QuitDriverSubscriber implements IEventSubscriber {
     }
 
     /**
-     * Handle exceptions that occurred during invocation of subscriber method
+     * Handle exceptions that occurred during invocation of subscriber method.
      *
      * @param e Exception object
      */

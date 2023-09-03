@@ -9,7 +9,9 @@ import org.aopalliance.intercept.MethodInvocation;
 import rx.subjects.PublishSubject;
 
 /**
- * Method interceptor for methods that are annotated with the Step annotation
+ * Method interceptor for methods that are annotated with the Step annotation.
+ *
+ * @param <T> the test execution info type
  */
 public abstract class QtafTestNGAnnotatedMethodInterceptor<T extends AbstractStepExecutionInfo> implements MethodInterceptor, AbstractTestNGAnnotatedMethodInterceptor<T> {
     /**

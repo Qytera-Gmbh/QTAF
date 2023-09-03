@@ -5,7 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
 /**
- * This class is responsible for managing the selenium chrome driver
+ * This class is responsible for managing the selenium chrome driver.
  */
 public class ChromeDriver extends AbstractDriver {
 

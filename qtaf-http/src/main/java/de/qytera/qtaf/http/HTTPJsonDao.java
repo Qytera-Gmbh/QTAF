@@ -9,7 +9,7 @@ import jakarta.ws.rs.core.MediaType;
 public class HTTPJsonDao extends HTTPDao {
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param host host name
      */
@@ -18,7 +18,7 @@ public class HTTPJsonDao extends HTTPDao {
     }
 
     /**
-     * Send GET Request
+     * Send GET Request.
      *
      * @param path   URL path
      * @param tClass Entity class
@@ -31,7 +31,7 @@ public class HTTPJsonDao extends HTTPDao {
     }
 
     /**
-     * Send POST Request
+     * Send POST Request.
      *
      * @param path          URL path
      * @param tClass        Entity class
@@ -45,7 +45,7 @@ public class HTTPJsonDao extends HTTPDao {
     }
 
     /**
-     * Send PUT Request
+     * Send PUT Request.
      *
      * @param path          URL path
      * @param tClass        Entity class
@@ -59,7 +59,7 @@ public class HTTPJsonDao extends HTTPDao {
     }
 
     /**
-     * Send DELETE Request
+     * Send DELETE Request.
      *
      * @param path   URL path
      * @param tClass Entity class

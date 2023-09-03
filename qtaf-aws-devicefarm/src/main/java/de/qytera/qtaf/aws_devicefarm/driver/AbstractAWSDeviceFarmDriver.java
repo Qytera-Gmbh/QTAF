@@ -14,7 +14,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
- * Base class that all AWS DeviceFarm drivers should extend
+ * Base class that all AWS DeviceFarm drivers should extend.
  */
 public abstract class AbstractAWSDeviceFarmDriver extends AbstractDriver {
     @Override

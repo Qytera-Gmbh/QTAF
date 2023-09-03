@@ -1,9 +1,9 @@
 package de.qytera.qtaf.core.log.model.message;
 
 /**
- * All TestNG Assertion Types
+ * All TestNG Assertion Types.
  *
- * @see <a href="https://www.javadoc.io/doc/org.testng/testng/latest/org/testng/Assert.html">TestNG Assetions</a>
+ * @see <a href="https://www.javadoc.io/doc/org.testng/testng/latest/org/testng/Assert.html">TestNG Assertions</a>
  */
 public enum AssertionLogMessageType {
     /**

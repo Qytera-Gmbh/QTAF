@@ -13,44 +13,45 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * Collection that holds all log messages from a specific test case class
+ * Collection that holds all log messages from a specific test case class.
  */
 public class TestFeatureLogCollection {
 
     /**
-     * Search index
+     * Search index.
      */
     private static final FeatureLogCollectionIndex index = FeatureLogCollectionIndex.getInstance();
 
     /**
-     * Test feature unique ID
+     * Test feature unique ID.
      */
     private final String featureId;
 
     /**
-     * Test feature name
+     * Test feature name.
      */
     private String featureName = "";
 
     /**
-     * Test feature name
+     * Test feature name.
      */
     private String featureDescription = "";
 
     /**
-     * Page object
+     * Page object.
      */
     private TestFeature testFeatureAnnotation = null;
 
     /**
-     * Holds a collection of test log collection instances
+     * Holds a collection of test log collection instances.
      */
     private final List<TestScenarioLogCollection> testScenarioLogCollection = Collections.synchronizedList(new ArrayList<>());
 
     /**
-     * Constructor
+     * Constructor.
      *
-     * @param featureId Collection ID
+     * @param featureId             Collection ID
+     * @param testFeatureAnnotation the test feature annotation
      */
     private TestFeatureLogCollection(String featureId, TestFeature testFeatureAnnotation) {
         this.featureId = featureId;
@@ -69,7 +70,7 @@ public class TestFeatureLogCollection {
     }
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param featureId   Collection ID
      * @param featureName Collection Name
@@ -88,9 +89,9 @@ public class TestFeatureLogCollection {
     }
 
     /**
-     * Factory method
-     * <p>
-     * This method has to be synchronized so that only one thread at a time can execute this method
+     * Factory method.
+     *
+     * <p>This method has to be synchronized so that only one thread at a time can execute this method.</p>
      *
      * @param featureId   Collection ID
      * @param featureName Collection Name
@@ -117,9 +118,9 @@ public class TestFeatureLogCollection {
     }
 
     /**
-     * Factory method
-     * <p>
-     * This method has to be synchronized so that only one thread at a time can execute this method
+     * Factory method.
+     *
+     * <p>This method has to be synchronized so that only one thread at a time can execute this method.</p>
      *
      * @param featureId             Collection ID
      * @param testFeatureAnnotation Test feature annotation
@@ -139,7 +140,7 @@ public class TestFeatureLogCollection {
     }
 
     /**
-     * Override equals to compare two TestFeatureLogCollection objects
+     * Override equals to compare two TestFeatureLogCollection objects.
      *
      * @param o Object to compare with this instance
      * @return true if both are equal, false otherwise
@@ -161,7 +162,7 @@ public class TestFeatureLogCollection {
     }
 
     /**
-     * Calculate hash code for this instance
+     * Calculate hash code for this instance.
      * The contains() methods of the collections use the hash code to check if object is already stored.
      *
      * @return hash code
@@ -172,7 +173,7 @@ public class TestFeatureLogCollection {
     }
 
     /**
-     * Get collection ID
+     * Get collection ID.
      *
      * @return Collection ID
      */
@@ -181,7 +182,7 @@ public class TestFeatureLogCollection {
     }
 
     /**
-     * Get collection Name
+     * Get collection Name.
      *
      * @return Collection Name
      */
@@ -190,7 +191,7 @@ public class TestFeatureLogCollection {
     }
 
     /**
-     * Get collection Description
+     * Get collection Description.
      *
      * @return Collection Description
      */
@@ -199,7 +200,7 @@ public class TestFeatureLogCollection {
     }
 
     /**
-     * Get test step collections
+     * Get test step collections.
      *
      * @return log collections
      */
@@ -208,7 +209,7 @@ public class TestFeatureLogCollection {
     }
 
     /**
-     * Group scenario logs by abstract scenario ID
+     * Group scenario logs by abstract scenario ID.
      *
      * @return Map of grouped scenario logs
      */
@@ -219,7 +220,7 @@ public class TestFeatureLogCollection {
     }
 
     /**
-     * Add new Scenario Log Collection
+     * Add new Scenario Log Collection.
      *
      * @param featureId          Unique test hash code
      * @param abstractScenarioId the scenario ID
@@ -245,7 +246,7 @@ public class TestFeatureLogCollection {
     }
 
     /**
-     * Add a scenario log collection if it not already exists
+     * Add a scenario log collection if it not already exists.
      *
      * @param collection scenario log collection
      * @return scenario log collection
@@ -259,7 +260,7 @@ public class TestFeatureLogCollection {
     }
 
     /**
-     * Get testCaseAnnotation
+     * Get testCaseAnnotation.
      *
      * @return testCaseAnnotation
      */
@@ -268,7 +269,7 @@ public class TestFeatureLogCollection {
     }
 
     /**
-     * Set testCaseAnnotation
+     * Set testCaseAnnotation.
      *
      * @param testFeatureAnnotation TestCaseAnnotation
      * @return this
@@ -279,7 +280,7 @@ public class TestFeatureLogCollection {
     }
 
     /**
-     * Count the number of scenario log collections
+     * Count the number of scenario log collections.
      *
      * @return number of scenario log collections
      */
@@ -295,7 +296,7 @@ public class TestFeatureLogCollection {
     }
 
     /**
-     * Check if feature log with given ID already exists
+     * Check if feature log with given ID already exists.
      *
      * @param featureId Feature ID
      * @return true if exists, false otherwise
@@ -305,7 +306,7 @@ public class TestFeatureLogCollection {
     }
 
     /**
-     * Count the number of scenario log collections
+     * Count the number of scenario log collections.
      *
      * @return number of scenario log collections
      */
@@ -314,7 +315,7 @@ public class TestFeatureLogCollection {
     }
 
     /**
-     * Remove all scenario log collections
+     * Remove all scenario log collections.
      */
     public static void clearIndex() {
         index.clear();

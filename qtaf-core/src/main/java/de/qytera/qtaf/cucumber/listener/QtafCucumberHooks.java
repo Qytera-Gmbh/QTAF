@@ -25,11 +25,11 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * Class that listens to Cucumber events and dispatches QTAF events
+ * Class that listens to Cucumber events and dispatches QTAF events.
  */
 public class QtafCucumberHooks extends QtafTestNGContext {
     /**
-     * Cucumber log message index
+     * Cucumber log message index.
      */
     private static CucumberStepIndex index = CucumberStepIndex.getInstance();
 
@@ -62,7 +62,7 @@ public class QtafCucumberHooks extends QtafTestNGContext {
     }
 
     /**
-     * This code is executed before every step
+     * This code is executed before every step.
      *
      * @param scenario Scenario
      */
@@ -80,7 +80,7 @@ public class QtafCucumberHooks extends QtafTestNGContext {
     }
 
     /**
-     * This code is executed after every step
+     * This code is executed after every step.
      *
      * @param scenario Scenario
      */
@@ -116,7 +116,7 @@ public class QtafCucumberHooks extends QtafTestNGContext {
     }
 
     /**
-     * This code is executed after every Cucumber scenario
+     * This code is executed after every Cucumber scenario.
      *
      * @param scenario Scenario
      */
@@ -144,7 +144,7 @@ public class QtafCucumberHooks extends QtafTestNGContext {
     }
 
     /**
-     * Create list of log messages and dispatch an event for each one
+     * Create list of log messages and dispatch an event for each one.
      *
      * @param scenario    Scenario object
      * @param logMessages List og log messages

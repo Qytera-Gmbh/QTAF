@@ -5,31 +5,31 @@ import java.lang.reflect.Method;
 
 
 /**
- * Entity class for test scenario methods
+ * Entity class for test scenario methods.
  */
 public class MethodInfoEntity {
     /**
-     * Method reflection object
+     * Method reflection object.
      */
     private Method method;
 
     /**
-     * List of scenario parameter types
+     * List of scenario parameter types.
      */
     private Class<?>[] methodParamTypes;
 
     /**
-     * List of scenario parameter values
+     * List of scenario parameter values.
      */
     private Object[] methodParamValues;
 
     /**
-     * Method annotations
+     * Method annotations.
      */
     private Annotation[] annotations;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param method            Method object of the test scenario
      * @param methodParamTypes  Types of the scenario parameters
@@ -44,7 +44,7 @@ public class MethodInfoEntity {
     }
 
     /**
-     * Get method
+     * Get method.
      *
      * @return method
      */
@@ -53,7 +53,7 @@ public class MethodInfoEntity {
     }
 
     /**
-     * Set method
+     * Set method.
      *
      * @param method Method
      * @return this
@@ -64,7 +64,7 @@ public class MethodInfoEntity {
     }
 
     /**
-     * Get methodParamTypes
+     * Get methodParamTypes.
      *
      * @return methodParamTypes
      */
@@ -73,7 +73,7 @@ public class MethodInfoEntity {
     }
 
     /**
-     * Set methodParamTypes
+     * Set methodParamTypes.
      *
      * @param methodParamTypes MethodParamTypes
      * @return this
@@ -84,7 +84,7 @@ public class MethodInfoEntity {
     }
 
     /**
-     * Get methodParamValues
+     * Get methodParamValues.
      *
      * @return methodParamValues
      */
@@ -93,7 +93,7 @@ public class MethodInfoEntity {
     }
 
     /**
-     * Set methodParamValues
+     * Set methodParamValues.
      *
      * @param methodParamValues MethodParamValues
      * @return this
@@ -104,7 +104,7 @@ public class MethodInfoEntity {
     }
 
     /**
-     * Get annotations
+     * Get annotations.
      *
      * @return annotations
      */
@@ -113,7 +113,7 @@ public class MethodInfoEntity {
     }
 
     /**
-     * Set annotations
+     * Set annotations.
      *
      * @param annotations Annotations
      * @return this

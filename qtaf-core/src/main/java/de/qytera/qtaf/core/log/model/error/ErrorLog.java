@@ -4,31 +4,31 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Error object class for error log messages
+ * Error object class for error log messages.
  */
 public class ErrorLog {
     /**
-     * Error object
+     * Error object.
      */
     protected Throwable error;
 
     /**
-     * Error type
+     * Error type.
      */
     protected String type = "";
 
     /**
-     * Error message
+     * Error message.
      */
     protected String message;
 
     /**
-     * Error type
+     * Error type.
      */
     protected List<String> stack = null;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param message Error message
      */
@@ -39,7 +39,7 @@ public class ErrorLog {
     }
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param e Error
      */
@@ -52,7 +52,7 @@ public class ErrorLog {
     }
 
     /**
-     * Get error
+     * Get error.
      *
      * @return error
      */
@@ -61,7 +61,7 @@ public class ErrorLog {
     }
 
     /**
-     * Set error
+     * Set error.
      *
      * @param error Error
      * @return this
@@ -72,7 +72,7 @@ public class ErrorLog {
     }
 
     /**
-     * Get message
+     * Get message.
      *
      * @return message
      */
@@ -81,7 +81,7 @@ public class ErrorLog {
     }
 
     /**
-     * Set message
+     * Set message.
      *
      * @param message Message
      * @return this
@@ -92,7 +92,7 @@ public class ErrorLog {
     }
 
     /**
-     * Get stack trace
+     * Get stack trace.
      *
      * @return stack trace
      */
@@ -101,7 +101,7 @@ public class ErrorLog {
     }
 
     /**
-     * Get error message
+     * Get error message.
      *
      * @return error message
      */
@@ -110,7 +110,7 @@ public class ErrorLog {
     }
 
     /**
-     * Get type
+     * Get type.
      *
      * @return type
      */
@@ -119,7 +119,7 @@ public class ErrorLog {
     }
 
     /**
-     * Set type
+     * Set type.
      *
      * @param type Type
      * @return this
@@ -130,7 +130,7 @@ public class ErrorLog {
     }
 
     /**
-     * Get stack
+     * Get stack.
      *
      * @return stack
      */

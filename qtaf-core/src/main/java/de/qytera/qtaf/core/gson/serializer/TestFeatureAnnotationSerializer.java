@@ -9,7 +9,7 @@ import de.qytera.qtaf.core.config.annotations.TestFeature;
 import java.lang.reflect.Type;
 
 /**
- * Converts TestCase annotation to JSON
+ * Converts TestCase annotation to JSON.
  */
 public class TestFeatureAnnotationSerializer implements IQtafJsonSerializer, JsonSerializer<TestFeature> {
     @Override

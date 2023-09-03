@@ -6,7 +6,7 @@ import org.aopalliance.intercept.MethodInvocation;
 import java.util.Arrays;
 
 /**
- * Information object that contains Step execution information
+ * Information object that contains Step execution information.
  */
 public class StepExecutionInfo extends AbstractStepExecutionInfo {
     private Step step;
@@ -17,7 +17,7 @@ public class StepExecutionInfo extends AbstractStepExecutionInfo {
     private StackTraceElement[] stackTraceElements;
 
     /**
-     * Get step
+     * Get step.
      *
      * @return step
      */
@@ -26,7 +26,7 @@ public class StepExecutionInfo extends AbstractStepExecutionInfo {
     }
 
     /**
-     * Set step
+     * Set step.
      *
      * @param step Step
      * @return this
@@ -37,7 +37,7 @@ public class StepExecutionInfo extends AbstractStepExecutionInfo {
     }
 
     /**
-     * Get methodInvocation
+     * Get methodInvocation.
      *
      * @return methodInvocation
      */
@@ -47,7 +47,7 @@ public class StepExecutionInfo extends AbstractStepExecutionInfo {
     }
 
     /**
-     * Set methodInvocation
+     * Set methodInvocation.
      *
      * @param methodInvocation MethodInvocation
      * @return this
@@ -59,7 +59,7 @@ public class StepExecutionInfo extends AbstractStepExecutionInfo {
     }
 
     /**
-     * Get result
+     * Get result.
      *
      * @return result
      */
@@ -69,7 +69,7 @@ public class StepExecutionInfo extends AbstractStepExecutionInfo {
     }
 
     /**
-     * Set result
+     * Set result.
      *
      * @param result Result
      * @return this
@@ -81,7 +81,7 @@ public class StepExecutionInfo extends AbstractStepExecutionInfo {
     }
 
     /**
-     * Get error
+     * Get error.
      *
      * @return error
      */
@@ -91,7 +91,7 @@ public class StepExecutionInfo extends AbstractStepExecutionInfo {
     }
 
     /**
-     * Set error
+     * Set error.
      *
      * @param error Error
      * @return this
@@ -103,7 +103,7 @@ public class StepExecutionInfo extends AbstractStepExecutionInfo {
     }
 
     /**
-     * Get thread
+     * Get thread.
      *
      * @return thread
      */
@@ -113,7 +113,7 @@ public class StepExecutionInfo extends AbstractStepExecutionInfo {
     }
 
     /**
-     * Set thread
+     * Set thread.
      *
      * @param thread Thread
      * @return this
@@ -125,7 +125,7 @@ public class StepExecutionInfo extends AbstractStepExecutionInfo {
     }
 
     /**
-     * Get stackTraceElements
+     * Get stackTraceElements.
      *
      * @return stackTraceElements
      */
@@ -135,7 +135,7 @@ public class StepExecutionInfo extends AbstractStepExecutionInfo {
     }
 
     /**
-     * Set stackTraceElements
+     * Set stackTraceElements.
      *
      * @param stackTraceElements StackTraceElements
      * @return this

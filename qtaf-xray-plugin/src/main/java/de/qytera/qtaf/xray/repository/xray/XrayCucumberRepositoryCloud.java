@@ -23,11 +23,11 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 /**
- * Export Tests from Xray Server as Cucumber Feature File
+ * Export Tests from Xray Server as Cucumber Feature File.
  */
 public class XrayCucumberRepositoryCloud implements XrayCucumberRepository, XrayEndpoint {
     /**
-     * Logger
+     * Logger.
      */
     private static final Logger logger = QtafFactory.getLogger();
 
@@ -58,7 +58,7 @@ public class XrayCucumberRepositoryCloud implements XrayCucumberRepository, Xray
     }
 
     /**
-     * Send HTTP request to API, get ZIP file as a response and transform it to a ZipInputStream object
+     * Send HTTP request to API, get ZIP file as a response and transform it to a ZipInputStream object.
      *
      * @param keys Test keys
      * @return ZIP content as ZipInputStream
@@ -119,7 +119,7 @@ public class XrayCucumberRepositoryCloud implements XrayCucumberRepository, Xray
     }
 
     /**
-     * Get feature files from Xray Cloud API by Test(Set) IDs and store them in files
+     * Get feature files from Xray Cloud API by Test(Set) IDs and store them in files.
      *
      * @param testIDs Array of Test IDs
      * @param dir     Name of directory where to store downloaded feature files

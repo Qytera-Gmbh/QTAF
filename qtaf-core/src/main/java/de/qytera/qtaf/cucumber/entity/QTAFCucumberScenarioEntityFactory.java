@@ -14,14 +14,14 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Factory class for QTAF Cucumber Scenario Entities
+ * Factory class for QTAF Cucumber Scenario Entities.
  */
 public class QTAFCucumberScenarioEntityFactory {
     private QTAFCucumberScenarioEntityFactory() {
     }
 
     /**
-     * Get instance from FeatureWrapper and PickleWrapper
+     * Get instance from FeatureWrapper and PickleWrapper.
      *
      * @param pickleWrapper  PickleWrapper object
      * @param featureWrapper FeatureWrapper object

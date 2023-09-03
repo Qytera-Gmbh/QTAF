@@ -30,64 +30,64 @@ import org.testng.annotations.Listeners;
 public abstract class QtafTestNGContext implements IQtafTestContext, AssertionContext {
 
     /**
-     * Holds values from JSON configuration files
+     * Holds values from JSON configuration files.
      */
     public static ConfigMap config;
 
     /**
-     * Web driver instance (chrome, firefox, ...)
+     * Web driver instance (chrome, firefox, ...).
      */
     public static WebDriver driver = null;
 
     /**
-     * JavaScript executor
+     * JavaScript executor.
      */
     protected static JavascriptExecutor js = null;
 
     /**
-     * Global log collection that holds all log messages from the tests
+     * Global log collection that holds all log messages from the tests.
      */
     public static final TestSuiteLogCollection testSuiteLogCollection = QtafFactory.getTestSuiteLogCollection();
 
     /**
-     * Page object annotation reference
+     * Page object annotation reference.
      */
     protected TestFeature testFeatureAnnotation;
 
     /**
-     * Log collection for all methods in this class
+     * Log collection for all methods in this class.
      */
     protected TestFeatureLogCollection testFeatureLogCollection = null;
 
     /**
-     * Log collection for the current method
+     * Log collection for the current method.
      */
     protected TestScenarioLogCollection logCollection;
 
     /**
-     * Flag for controlling if test context has been initialized
+     * Flag for controlling if test context has been initialized.
      */
     private boolean isInitialized = false;
 
     /**
-     * Placeholder for missing messages in assertions
+     * Placeholder for missing messages in assertions.
      */
     protected String NO_MESSAGE = "<no-message>";
 
     /**
-     * Guice injector
+     * Guice injector.
      */
     protected static final Injector injector = QtafInjector.getInstance();
 
     /**
-     * Constructor
+     * Constructor.
      */
     protected QtafTestNGContext() {
         initialize();
     }
 
     /**
-     * Initialize test context
+     * Initialize test context.
      */
     @Override
     public QtafTestNGContext initialize() {
@@ -114,7 +114,7 @@ public abstract class QtafTestNGContext implements IQtafTestContext, AssertionCo
     }
 
     /**
-     * Load class instance
+     * Load class instance.
      *
      * @param context The current test context (pass 'this' for this argument)
      * @param c       The desired class you want to create an instance of
@@ -131,7 +131,7 @@ public abstract class QtafTestNGContext implements IQtafTestContext, AssertionCo
     }
 
     /**
-     * Load class instance
+     * Load class instance.
      *
      * @param c   The desired class you want to create an instance of
      * @param <T> the class type
@@ -142,14 +142,14 @@ public abstract class QtafTestNGContext implements IQtafTestContext, AssertionCo
     }
 
     /**
-     * Call the Selenium PageFactory initElements method on this instance
+     * Call the Selenium PageFactory initElements method on this instance.
      */
     protected void initElements() {
         PageFactory.initElements(driver, this);
     }
 
     /**
-     * Restart browser
+     * Restart browser.
      */
     @Override
     public void restartDriver() {
@@ -157,7 +157,7 @@ public abstract class QtafTestNGContext implements IQtafTestContext, AssertionCo
     }
 
     /**
-     * Execute JavaScript code
+     * Execute JavaScript code.
      *
      * @param script JavaScript code
      */
@@ -166,7 +166,7 @@ public abstract class QtafTestNGContext implements IQtafTestContext, AssertionCo
     }
 
     /**
-     * Execute JavaScript code
+     * Execute JavaScript code.
      *
      * @param script JavaScript code
      * @param args   variables
@@ -176,7 +176,7 @@ public abstract class QtafTestNGContext implements IQtafTestContext, AssertionCo
     }
 
     /**
-     * Get current log collection
+     * Get current log collection.
      *
      * @return log collection
      */
@@ -186,7 +186,7 @@ public abstract class QtafTestNGContext implements IQtafTestContext, AssertionCo
     }
 
     /**
-     * Set the current log collection
+     * Set the current log collection.
      *
      * @param collection log collection
      * @return this
@@ -198,7 +198,7 @@ public abstract class QtafTestNGContext implements IQtafTestContext, AssertionCo
     }
 
     /**
-     * Add logger to all instance fields
+     * Add logger to all instance fields.
      */
     @Override
     public void addLoggerToFieldsRecursively() {

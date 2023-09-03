@@ -10,7 +10,7 @@ import java.lang.reflect.Type;
 import java.util.Arrays;
 
 /**
- * Converts TestCase annotation to JSON
+ * Converts TestCase annotation to JSON.
  */
 public class TestScenarioAnnotationSerializer implements IQtafJsonSerializer, JsonSerializer<Test> {
     @Override

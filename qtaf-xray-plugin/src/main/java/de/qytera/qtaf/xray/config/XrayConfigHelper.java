@@ -7,12 +7,12 @@ import lombok.NoArgsConstructor;
 import org.testng.annotations.Test;
 
 /**
- * Xray configuration helper
+ * Xray configuration helper.
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class XrayConfigHelper {
     /**
-     * QTAF Configuration
+     * QTAF Configuration.
      */
     private static final ConfigMap CONFIG = QtafFactory.getConfiguration();
 
@@ -204,7 +204,7 @@ public class XrayConfigHelper {
     }
 
     /**
-     * Get Xray server URL
+     * Get Xray server URL.
      *
      * @return Xray server URL
      */
@@ -321,7 +321,7 @@ public class XrayConfigHelper {
     }
 
     /**
-     * Get xray service (cloud | server)
+     * Get xray service (cloud | server).
      *
      * @return xray service (cloud | server)
      */
@@ -344,7 +344,7 @@ public class XrayConfigHelper {
     }
 
     /**
-     * Check if Xray server is enabled
+     * Check if Xray server is enabled.
      *
      * @return true if enabled, false otherwise
      */
@@ -353,7 +353,7 @@ public class XrayConfigHelper {
     }
 
     /**
-     * Check if Xray cloud is enabled
+     * Check if Xray cloud is enabled.
      *
      * @return true if enabled, false otherwise
      */
@@ -362,7 +362,7 @@ public class XrayConfigHelper {
     }
 
     /**
-     * Check if HTML report should be attached as evidence to Xray test execution import
+     * Check if HTML report should be attached as evidence to Xray test execution import.
      *
      * @return true if enabled, false otherwise
      */
@@ -375,7 +375,7 @@ public class XrayConfigHelper {
     }
 
     /**
-     * Check if images should be attached as evidence to Xray test execution import
+     * Check if images should be attached as evidence to Xray test execution import.
      *
      * @return true if enabled, false otherwise
      */

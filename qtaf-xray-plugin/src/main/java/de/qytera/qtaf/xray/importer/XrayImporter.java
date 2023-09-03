@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import java.io.IOException;
 
 /**
- * Class that imports Test definitions from Xray API and saves them locally
+ * Class that imports Test definitions from Xray API and saves them locally.
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class XrayImporter {

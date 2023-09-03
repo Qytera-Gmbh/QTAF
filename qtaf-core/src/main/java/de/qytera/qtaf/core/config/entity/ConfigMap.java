@@ -19,18 +19,18 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Configuration entity
+ * Configuration entity.
  */
 @RequiredArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class ConfigMap extends HashMap<String, Object> {
     /**
-     * Error log collection
+     * Error log collection.
      */
     private static final ErrorLogCollection ERROR_LOG_COLLECTION = ErrorLogCollection.getInstance();
 
     /**
-     * Json context
+     * Json context.
      * transient because hashMap need to be serializable
      */
     private final transient DocumentContext documentContext;
@@ -123,7 +123,7 @@ public class ConfigMap extends HashMap<String, Object> {
     }
 
     /**
-     * Get value from system properties
+     * Get value from system properties.
      *
      * @param key configuration key
      * @return configuration value

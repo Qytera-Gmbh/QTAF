@@ -5,7 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 
 /**
- * This class is responsible for connecting to a local firefox browser
+ * This class is responsible for connecting to a local firefox browser.
  */
 public class FirefoxDriver extends AbstractDriver {
 

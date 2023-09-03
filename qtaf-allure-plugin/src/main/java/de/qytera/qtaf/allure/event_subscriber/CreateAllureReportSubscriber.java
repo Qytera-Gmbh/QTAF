@@ -8,7 +8,7 @@ import de.qytera.qtaf.core.log.model.collection.TestSuiteLogCollection;
 import java.io.IOException;
 
 /**
- * Event listener for Allure Report Plugin
+ * Event listener for Allure Report Plugin.
  */
 public class CreateAllureReportSubscriber implements IEventSubscriber {
     @Override
@@ -21,7 +21,7 @@ public class CreateAllureReportSubscriber implements IEventSubscriber {
     }
 
     /**
-     * Generate Allure JSON files
+     * Generate Allure JSON files.
      *
      * @param suite TestSuite
      */

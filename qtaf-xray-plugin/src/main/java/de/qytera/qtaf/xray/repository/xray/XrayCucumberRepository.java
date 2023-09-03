@@ -9,7 +9,7 @@ import java.net.URISyntaxException;
  */
 public interface XrayCucumberRepository {
     /**
-     * Get Tests as Cucumber Feature File
+     * Get Tests as Cucumber Feature File.
      *
      * @param testIDs the test issue IDs whose feature files to retrieve
      * @return Contents of feature file

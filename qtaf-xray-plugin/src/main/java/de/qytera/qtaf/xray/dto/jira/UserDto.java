@@ -6,6 +6,8 @@ import lombok.Data;
 /**
  * The DTO when working with Jira users.
  *
+ * @param <R> the application role type
+ * @param <G> the group type
  * @see <a href="https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-issueidorkey-assignee-put">Assign issue (Jira Cloud)</a>
  * @see <a href="https://docs.atlassian.com/software/jira/docs/api/REST/9.8.0/#api/2/issue-assign">Assign issue (Jira Server)</a>
  */

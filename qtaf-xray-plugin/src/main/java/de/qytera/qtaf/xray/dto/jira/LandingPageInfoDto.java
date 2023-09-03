@@ -26,7 +26,7 @@ public class LandingPageInfoDto {
      */
     private String projectKey;
     /**
-     * Landing page project type
+     * Landing page project type.
      */
     private String projectType;
     /**

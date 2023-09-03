@@ -9,7 +9,7 @@ import org.testng.annotations.AfterMethod;
 import java.lang.annotation.Annotation;
 
 /**
- * Method interceptor for methods that are annotated with the Step annotation
+ * Method interceptor for methods that are annotated with the Step annotation.
  */
 public class QtafTestNGAfterMethodInterceptor extends QtafTestNGAnnotatedMethodInterceptor<AfterMethodExecutionInfo> {
 

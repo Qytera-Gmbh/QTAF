@@ -6,12 +6,12 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 /**
- * Configuration Helper
+ * Configuration Helper.
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class AWSDeviceFarmConfigHelper {
     /**
-     * QTAF Configuration
+     * QTAF Configuration.
      */
     private static final ConfigMap CONFIG = QtafFactory.getConfiguration();
 

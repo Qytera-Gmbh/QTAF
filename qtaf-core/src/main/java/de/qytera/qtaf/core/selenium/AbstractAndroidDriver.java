@@ -9,12 +9,12 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
- * This class is responsible for managing android devices
+ * This class is responsible for managing android devices.
  */
 public abstract class AbstractAndroidDriver extends AbstractDriver {
 
     /**
-     * Get driver capabilities
+     * Get driver capabilities.
      *
      * @return driver capabilities
      */
@@ -38,7 +38,7 @@ public abstract class AbstractAndroidDriver extends AbstractDriver {
     }
 
     /**
-     * Get browser capabilities
+     * Get browser capabilities.
      *
      * @param browserName name of the browser
      * @return browser capabilities
@@ -52,7 +52,7 @@ public abstract class AbstractAndroidDriver extends AbstractDriver {
     }
 
     /**
-     * Get android driver
+     * Get android driver.
      *
      * @param dc capabilities
      * @return android capabilities

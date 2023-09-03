@@ -3,13 +3,13 @@ package de.qytera.qtaf.core.guice.invokation;
 import org.testng.annotations.BeforeMethod;
 
 /**
- * Information object that contains Step execution information
+ * Information object that contains Step execution information.
  */
 public class BeforeMethodExecutionInfo extends AbstractStepExecutionInfo {
     private BeforeMethod annotation;
 
     /**
-     * Get annotation
+     * Get annotation.
      *
      * @return annotation
      */
@@ -18,7 +18,7 @@ public class BeforeMethodExecutionInfo extends AbstractStepExecutionInfo {
     }
 
     /**
-     * Set BeforeMethod annotation
+     * Set BeforeMethod annotation.
      *
      * @param annotation BeforeMethod annotation
      * @return this

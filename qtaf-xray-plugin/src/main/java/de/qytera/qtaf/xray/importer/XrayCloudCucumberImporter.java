@@ -7,16 +7,16 @@ import net.lingala.zip4j.ZipFile;
 import java.io.IOException;
 
 /**
- * This class provides methods for importing Tests as Cucumber feature files from Xray Server
+ * This class provides methods for importing Tests as Cucumber feature files from Xray Server.
  */
 public class XrayCloudCucumberImporter implements IXrayImporter {
     /**
-     * Xray Cucumber Server Repository
+     * Xray Cucumber Server Repository.
      */
     private static final XrayCucumberRepositoryCloud repo = new XrayCucumberRepositoryCloud();
 
     /**
-     * Create feature file by Test Set ID
+     * Create feature file by Test Set ID.
      *
      * @param testSetID ID of test set
      * @param filePath  Feature file location
@@ -32,7 +32,7 @@ public class XrayCloudCucumberImporter implements IXrayImporter {
     }
 
     /**
-     * Create feature file by Test IDs
+     * Create feature file by Test IDs.
      *
      * @param testIDs  Test IDs
      * @param filePath Feature file location

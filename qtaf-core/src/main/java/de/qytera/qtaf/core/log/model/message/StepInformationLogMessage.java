@@ -10,51 +10,51 @@ import javax.lang.model.type.NullType;
 import java.util.*;
 
 /**
- * Log message for called steps
+ * Log message for called steps.
  */
 public class StepInformationLogMessage extends LogMessage {
     /**
-     * Unique id
+     * Unique id.
      */
     private final UUID uuid = UUID.randomUUID();
 
     /**
-     * Log message type
+     * Log message type.
      */
     private static final String TYPE = "STEP_LOG";
 
     /**
-     * Step name
+     * Step name.
      */
     private String methodName = "";
 
     /**
-     * Step annotation
+     * Step annotation.
      */
     private final Step step = new Step();
 
     /**
-     * Step status
+     * Step status.
      */
     private Status status = Status.PENDING;
 
     /**
-     * Time when step was started
+     * Time when step was started.
      */
     private Date start = null;
 
     /**
-     * Time when step was finished
+     * Time when step was finished.
      */
     private Date end = null;
 
     /**
-     * Time needed for executing the step method
+     * Time needed for executing the step method.
      */
     private long duration = 0L;
 
     /**
-     * List of assertions that were checked in this step
+     * List of assertions that were checked in this step.
      */
     private List<AssertionLogMessage> assertions = Collections.synchronizedList(new ArrayList<>());
 
@@ -72,12 +72,12 @@ public class StepInformationLogMessage extends LogMessage {
     private Object result = null;
 
     /**
-     * Path to screenshot file that was saved before execution of the step
+     * Path to screenshot file that was saved before execution of the step.
      */
     private String screenshotBefore = "";
 
     /**
-     * Path to screenshot file that was saved after execution of the step
+     * Path to screenshot file that was saved after execution of the step.
      */
     private String screenshotAfter = "";
 
@@ -88,7 +88,7 @@ public class StepInformationLogMessage extends LogMessage {
     private ThrowableWrapper error = null;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param methodName step name
      * @param message    log message
@@ -104,7 +104,7 @@ public class StepInformationLogMessage extends LogMessage {
     }
 
     /**
-     * Get uuid
+     * Get uuid.
      *
      * @return uuid
      */
@@ -113,7 +113,7 @@ public class StepInformationLogMessage extends LogMessage {
     }
 
     /**
-     * Get step annotation
+     * Get step annotation.
      *
      * @return step annotation
      */
@@ -122,7 +122,7 @@ public class StepInformationLogMessage extends LogMessage {
     }
 
     /**
-     * Set step annotation
+     * Set step annotation.
      *
      * @param step step annotation
      * @return this
@@ -146,7 +146,7 @@ public class StepInformationLogMessage extends LogMessage {
     }
 
     /**
-     * Get status
+     * Get status.
      *
      * @return status Status
      */
@@ -155,7 +155,7 @@ public class StepInformationLogMessage extends LogMessage {
     }
 
     /**
-     * Get step result
+     * Get step result.
      *
      * @return step result
      */
@@ -164,7 +164,7 @@ public class StepInformationLogMessage extends LogMessage {
     }
 
     /**
-     * Set step result
+     * Set step result.
      *
      * @param result step result
      * @return this
@@ -176,7 +176,7 @@ public class StepInformationLogMessage extends LogMessage {
     }
 
     /**
-     * Get step error
+     * Get step error.
      *
      * @return step error
      */
@@ -185,7 +185,7 @@ public class StepInformationLogMessage extends LogMessage {
     }
 
     /**
-     * Check if an error occurred
+     * Check if an error occurred.
      *
      * @return true if an error occurred during method execution, false otherwise
      */
@@ -194,7 +194,7 @@ public class StepInformationLogMessage extends LogMessage {
     }
 
     /**
-     * Set step error
+     * Set step error.
      *
      * @param error step error
      * @return this
@@ -206,7 +206,7 @@ public class StepInformationLogMessage extends LogMessage {
     }
 
     /**
-     * Set step error
+     * Set step error.
      *
      * @param error step error
      * @return this
@@ -218,7 +218,7 @@ public class StepInformationLogMessage extends LogMessage {
     }
 
     /**
-     * Get type
+     * Get type.
      *
      * @return type
      */
@@ -227,7 +227,7 @@ public class StepInformationLogMessage extends LogMessage {
     }
 
     /**
-     * Get methodName
+     * Get methodName.
      *
      * @return methodName
      */
@@ -236,7 +236,7 @@ public class StepInformationLogMessage extends LogMessage {
     }
 
     /**
-     * Set methodName
+     * Set methodName.
      *
      * @param methodName MethodName
      * @return this
@@ -247,7 +247,7 @@ public class StepInformationLogMessage extends LogMessage {
     }
 
     /**
-     * Set status
+     * Set status.
      *
      * @param status Status
      * @return this
@@ -258,7 +258,7 @@ public class StepInformationLogMessage extends LogMessage {
     }
 
     /**
-     * Get start
+     * Get start.
      *
      * @return start
      */
@@ -267,7 +267,7 @@ public class StepInformationLogMessage extends LogMessage {
     }
 
     /**
-     * Set start
+     * Set start.
      *
      * @param start Start
      * @return this
@@ -278,7 +278,7 @@ public class StepInformationLogMessage extends LogMessage {
     }
 
     /**
-     * Get end
+     * Get end.
      *
      * @return end
      */
@@ -287,7 +287,7 @@ public class StepInformationLogMessage extends LogMessage {
     }
 
     /**
-     * Set end
+     * Set end.
      *
      * @param end End
      * @return this
@@ -298,7 +298,7 @@ public class StepInformationLogMessage extends LogMessage {
     }
 
     /**
-     * Get duration
+     * Get duration.
      *
      * @return duration
      */
@@ -311,7 +311,7 @@ public class StepInformationLogMessage extends LogMessage {
     }
 
     /**
-     * Set duration
+     * Set duration.
      *
      * @param duration Duration
      * @return this
@@ -322,7 +322,7 @@ public class StepInformationLogMessage extends LogMessage {
     }
 
     /**
-     * Get screenshotBefore
+     * Get screenshotBefore.
      *
      * @return screenshotBefore
      */
@@ -331,7 +331,7 @@ public class StepInformationLogMessage extends LogMessage {
     }
 
     /**
-     * Set screenshotBefore
+     * Set screenshotBefore.
      *
      * @param screenshotBefore ScreenshotBefore
      * @return this
@@ -342,7 +342,7 @@ public class StepInformationLogMessage extends LogMessage {
     }
 
     /**
-     * Get screenshotAfter
+     * Get screenshotAfter.
      *
      * @return screenshotAfter
      */
@@ -351,7 +351,7 @@ public class StepInformationLogMessage extends LogMessage {
     }
 
     /**
-     * Set screenshotAfter
+     * Set screenshotAfter.
      *
      * @param screenshotAfter ScreenshotAfter
      * @return this
@@ -362,7 +362,7 @@ public class StepInformationLogMessage extends LogMessage {
     }
 
     /**
-     * Get assertions
+     * Get assertions.
      *
      * @return list of assertions
      */
@@ -371,7 +371,7 @@ public class StepInformationLogMessage extends LogMessage {
     }
 
     /**
-     * Set list of assertions
+     * Set list of assertions.
      *
      * @param assertions list of assertions
      * @return this
@@ -382,7 +382,7 @@ public class StepInformationLogMessage extends LogMessage {
     }
 
     /**
-     * Add an assertion to the list
+     * Add an assertion to the list.
      *
      * @param assertion Assertion
      * @return this
@@ -393,7 +393,7 @@ public class StepInformationLogMessage extends LogMessage {
     }
 
     /**
-     * Step status
+     * Step status.
      */
     public enum Status {
         /**
@@ -419,21 +419,21 @@ public class StepInformationLogMessage extends LogMessage {
     }
 
     /**
-     * This data class holds the information from the Step annotation
+     * This data class holds the information from the Step annotation.
      */
     public static class Step {
         /**
-         * Step name
+         * Step name.
          */
         private String name = "";
 
         /**
-         * Step description
+         * Step description.
          */
         private String description = "";
 
         /**
-         * Get name
+         * Get name.
          *
          * @return name
          */
@@ -442,7 +442,7 @@ public class StepInformationLogMessage extends LogMessage {
         }
 
         /**
-         * Set name
+         * Set name.
          *
          * @param name Name
          * @return this
@@ -453,7 +453,7 @@ public class StepInformationLogMessage extends LogMessage {
         }
 
         /**
-         * Get description
+         * Get description.
          *
          * @return description
          */
@@ -462,7 +462,7 @@ public class StepInformationLogMessage extends LogMessage {
         }
 
         /**
-         * Set description
+         * Set description.
          *
          * @param description Description
          * @return this
@@ -474,26 +474,26 @@ public class StepInformationLogMessage extends LogMessage {
     }
 
     /**
-     * Data class for step parameter information
+     * Data class for step parameter information.
      */
     public static class StepParameter {
         /**
-         * Parameter name
+         * Parameter name.
          */
         private String name;
 
         /**
-         * Parameter type
+         * Parameter type.
          */
         private String type;
 
         /**
-         * Parameter value
+         * Parameter value.
          */
         private Object value;
 
         /**
-         * Constructor
+         * Constructor.
          *
          * @param name  parameter name
          * @param type  parameter type
@@ -506,7 +506,7 @@ public class StepInformationLogMessage extends LogMessage {
         }
 
         /**
-         * Get name
+         * Get name.
          *
          * @return name
          */
@@ -515,7 +515,7 @@ public class StepInformationLogMessage extends LogMessage {
         }
 
         /**
-         * Set name
+         * Set name.
          *
          * @param name Name
          * @return this
@@ -526,7 +526,7 @@ public class StepInformationLogMessage extends LogMessage {
         }
 
         /**
-         * Get type
+         * Get type.
          *
          * @return type
          */
@@ -535,7 +535,7 @@ public class StepInformationLogMessage extends LogMessage {
         }
 
         /**
-         * Set type
+         * Set type.
          *
          * @param type Type
          * @return this
@@ -546,7 +546,7 @@ public class StepInformationLogMessage extends LogMessage {
         }
 
         /**
-         * Get value
+         * Get value.
          *
          * @return value
          */
@@ -555,7 +555,7 @@ public class StepInformationLogMessage extends LogMessage {
         }
 
         /**
-         * Set value
+         * Set value.
          *
          * @param value Value
          * @return this

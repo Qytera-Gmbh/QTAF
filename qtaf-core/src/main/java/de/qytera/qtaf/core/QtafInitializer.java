@@ -11,16 +11,16 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 /**
- * This class is responsible for initializing objects and workspaces (directories and files)
+ * This class is responsible for initializing objects and workspaces (directories and files).
  */
 public class QtafInitializer {
     /**
-     * Initialization status
+     * Initialization status.
      */
     private static boolean isInitialized = false;
 
     /**
-     * Error logger
+     * Error logger.
      */
     private static final ErrorLogCollection errorLogs = ErrorLogCollection.getInstance();
 
@@ -28,7 +28,7 @@ public class QtafInitializer {
     }
 
     /**
-     * Initialize the framework
+     * Initialize the framework.
      */
     public static void initialize() {
         // Check initialization status
@@ -70,7 +70,7 @@ public class QtafInitializer {
     }
 
     /**
-     * Get status of Initializer
+     * Get status of Initializer.
      *
      * @return initialization status
      */
@@ -79,7 +79,7 @@ public class QtafInitializer {
     }
 
     /**
-     * Created needed directories
+     * Created needed directories.
      *
      * @throws IOException error during file system initialization
      */
@@ -91,7 +91,7 @@ public class QtafInitializer {
     }
 
     /**
-     * Handle errors that occurred during the framework initialization process
+     * Handle errors that occurred during the framework initialization process.
      *
      * @param e Exception
      */

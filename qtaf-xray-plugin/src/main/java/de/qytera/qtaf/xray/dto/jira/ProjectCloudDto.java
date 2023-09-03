@@ -53,7 +53,7 @@ public class ProjectCloudDto extends ProjectDto<UserCloudDto, IssueTypeCloudDto,
      */
     private LandingPageInfoDto landingPageInfo;
     /**
-     * User permissions on the project
+     * User permissions on the project.
      */
     private ProjectPermissionsDto permissions;
     /**

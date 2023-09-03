@@ -7,21 +7,21 @@ import de.qytera.qtaf.core.log.model.collection.TestSuiteLogCollection;
 import java.util.Map;
 
 /**
- * HTML report creator for scenarios
+ * HTML report creator for scenarios.
  */
 public class FeatureReportCreator extends ReportCreator {
     /**
-     * Root template
+     * Root template.
      */
     protected String rootTemplate = "de/qytera/qtaf/htmlreport/templates/feature.html";
 
     /**
-     * Scenario Log Collection
+     * Scenario Log Collection.
      */
     protected TestFeatureLogCollection featureLog;
 
     /**
-     * Create feature report
+     * Create feature report.
      *
      * @param logCollection        Log collection
      * @param featureLogCollection Feature Log Collection

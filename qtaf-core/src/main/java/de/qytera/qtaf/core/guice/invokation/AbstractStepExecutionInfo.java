@@ -19,7 +19,7 @@ public abstract class AbstractStepExecutionInfo {
     private StackTraceElement[] stackTraceElements;
 
     /**
-     * Get id
+     * Get id.
      *
      * @return id
      */
@@ -28,7 +28,7 @@ public abstract class AbstractStepExecutionInfo {
     }
 
     /**
-     * Set id
+     * Set id.
      *
      * @param id Id
      * @return this
@@ -39,7 +39,7 @@ public abstract class AbstractStepExecutionInfo {
     }
 
     /**
-     * Get methodInvocation
+     * Get methodInvocation.
      *
      * @return methodInvocation
      */
@@ -48,7 +48,7 @@ public abstract class AbstractStepExecutionInfo {
     }
 
     /**
-     * Set methodInvocation
+     * Set methodInvocation.
      *
      * @param methodInvocation MethodInvocation
      * @return this
@@ -59,7 +59,7 @@ public abstract class AbstractStepExecutionInfo {
     }
 
     /**
-     * Get result
+     * Get result.
      *
      * @return result
      */
@@ -68,7 +68,7 @@ public abstract class AbstractStepExecutionInfo {
     }
 
     /**
-     * Set result
+     * Set result.
      *
      * @param result Result
      * @return this
@@ -79,7 +79,7 @@ public abstract class AbstractStepExecutionInfo {
     }
 
     /**
-     * Get error
+     * Get error.
      *
      * @return error
      */
@@ -88,7 +88,7 @@ public abstract class AbstractStepExecutionInfo {
     }
 
     /**
-     * Set error
+     * Set error.
      *
      * @param error Error
      * @return this
@@ -99,7 +99,7 @@ public abstract class AbstractStepExecutionInfo {
     }
 
     /**
-     * Get thread
+     * Get thread.
      *
      * @return thread
      */
@@ -108,7 +108,7 @@ public abstract class AbstractStepExecutionInfo {
     }
 
     /**
-     * Set thread
+     * Set thread.
      *
      * @param thread Thread
      * @return this
@@ -119,7 +119,7 @@ public abstract class AbstractStepExecutionInfo {
     }
 
     /**
-     * Get stackTraceElements
+     * Get stackTraceElements.
      *
      * @return stackTraceElements
      */
@@ -128,7 +128,7 @@ public abstract class AbstractStepExecutionInfo {
     }
 
     /**
-     * Set stackTraceElements
+     * Set stackTraceElements.
      *
      * @param stackTraceElements StackTraceElements
      * @return this

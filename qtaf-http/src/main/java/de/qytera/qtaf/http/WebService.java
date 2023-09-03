@@ -14,8 +14,7 @@ import java.net.URI;
 
 /**
  * Utility class for dispatching HTTP requests.
- * <p>
- * The typical workflow for dispatching requests looks as follows:
+ * <p>The typical workflow for dispatching requests looks as follows:</p>
  * <pre>
  *     {@code
  *  RequestBuilder request = WebService.buildRequest(new URI("https://some-url.you/need"));

@@ -27,16 +27,16 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- * This subscriber reacts to lifecycle events of step methods
+ * This subscriber reacts to lifecycle events of step methods.
  */
 public class StepLoggerSubscriber implements IEventSubscriber {
     /**
-     * Search index for step log objects
+     * Search index for step log objects.
      */
     private final Map<Integer, StepInformationLogMessage> stepIdLogMap = new HashMap<>();
 
     /**
-     * Logger
+     * Logger.
      */
     private final Logger logger = QtafFactory.getLogger();
 
@@ -48,7 +48,7 @@ public class StepLoggerSubscriber implements IEventSubscriber {
     }
 
     /**
-     * Method is executed before step is executed
+     * Method is executed before step is executed.
      *
      * @param stepExecutionInfo step execution info object
      */
@@ -122,7 +122,7 @@ public class StepLoggerSubscriber implements IEventSubscriber {
     }
 
     /**
-     * Method is executed when step is processed without throwing an exception
+     * Method is executed when step is processed without throwing an exception.
      *
      * @param stepExecutionInfo step execution info object
      */
@@ -147,7 +147,7 @@ public class StepLoggerSubscriber implements IEventSubscriber {
     }
 
     /**
-     * Method is executed when step is throwing an exception
+     * Method is executed when step is throwing an exception.
      *
      * @param stepExecutionInfo step execution info object
      */
@@ -174,7 +174,7 @@ public class StepLoggerSubscriber implements IEventSubscriber {
     }
 
     /**
-     * Take a screenshot
+     * Take a screenshot.
      *
      * @param stepExecutionInfo Step execution info object
      * @param status            Step status
@@ -209,7 +209,7 @@ public class StepLoggerSubscriber implements IEventSubscriber {
     }
 
     /**
-     * Take screenshot
+     * Take screenshot.
      *
      * @param driver WebDriver object
      * @return Screenshot file object
@@ -220,11 +220,12 @@ public class StepLoggerSubscriber implements IEventSubscriber {
     }
 
     /**
-     * Get destination path of screenshot file
+     * Get destination path of screenshot file.
      *
      * @param stepExecutionInfo Step execution info object
      * @param status            Step status
      * @param logDir            Log directory
+     * @param uuid              the screenshot UUID
      * @return Screenshot path
      */
     private String getStepScreenshotDestinationPath(
@@ -243,7 +244,7 @@ public class StepLoggerSubscriber implements IEventSubscriber {
     }
 
     /**
-     * Save step screenshot file
+     * Save step screenshot file.
      *
      * @param srcFile Screenshot file object
      * @param path    Destination path
@@ -268,7 +269,7 @@ public class StepLoggerSubscriber implements IEventSubscriber {
     }
 
     /**
-     * Logging to console
+     * Logging to console.
      *
      * @param stepExecutionInfo step execution info object
      * @param message           log message

@@ -8,27 +8,27 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Index that holds all FeatureLogCollection objects
+ * Index that holds all FeatureLogCollection objects.
  */
 public class FeatureLogCollectionIndex {
     /**
-     * Feature log index that holds all FeatureLogCollection objects
+     * Feature log index that holds all FeatureLogCollection objects.
      */
     private final Map<String, TestFeatureLogCollection> index = Collections.synchronizedMap(new HashMap<>());
 
     /**
-     * Singleton instance
+     * Singleton instance.
      */
     private static final FeatureLogCollectionIndex instance = new FeatureLogCollectionIndex();
 
     /**
-     * Private constructor
+     * Private constructor.
      */
     private FeatureLogCollectionIndex() {
     }
 
     /**
-     * Factory method
+     * Factory method.
      *
      * @return singleton instance
      */
@@ -37,7 +37,7 @@ public class FeatureLogCollectionIndex {
     }
 
     /**
-     * Get an object by its ID
+     * Get an object by its ID.
      *
      * @param id object ID
      * @return feature log collection
@@ -47,7 +47,7 @@ public class FeatureLogCollectionIndex {
     }
 
     /**
-     * Add a new object to the index
+     * Add a new object to the index.
      *
      * @param id  object's ID
      * @param obj object itself
@@ -64,7 +64,7 @@ public class FeatureLogCollectionIndex {
     }
 
     /**
-     * Get size of index (number of elements in the index)
+     * Get size of index (number of elements in the index).
      *
      * @return size of index
      */
@@ -73,7 +73,7 @@ public class FeatureLogCollectionIndex {
     }
 
     /**
-     * Clear the index
+     * Clear the index.
      */
     public synchronized void clear() {
         index.clear();

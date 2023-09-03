@@ -1,7 +1,7 @@
 package de.qytera.qtaf.xray.dto;
 
 /**
- * Class that models JSON response from Xray API
+ * Class that models JSON response from Xray API.
  */
 public class XrayTestDto {
     private String key;
@@ -16,7 +16,7 @@ public class XrayTestDto {
     private String definition;
 
     /**
-     * Get key
+     * Get key.
      *
      * @return key
      */
@@ -25,7 +25,7 @@ public class XrayTestDto {
     }
 
     /**
-     * Set key
+     * Set key.
      *
      * @param key Key
      * @return this
@@ -36,7 +36,7 @@ public class XrayTestDto {
     }
 
     /**
-     * Get id
+     * Get id.
      *
      * @return id
      */
@@ -45,7 +45,7 @@ public class XrayTestDto {
     }
 
     /**
-     * Set id
+     * Set id.
      *
      * @param id Id
      * @return this
@@ -56,7 +56,7 @@ public class XrayTestDto {
     }
 
     /**
-     * Get rank
+     * Get rank.
      *
      * @return rank
      */
@@ -65,7 +65,7 @@ public class XrayTestDto {
     }
 
     /**
-     * Set rank
+     * Set rank.
      *
      * @param rank Rank
      * @return this
@@ -76,7 +76,7 @@ public class XrayTestDto {
     }
 
     /**
-     * Get self
+     * Get self.
      *
      * @return self
      */
@@ -85,7 +85,7 @@ public class XrayTestDto {
     }
 
     /**
-     * Set self
+     * Set self.
      *
      * @param self Self
      * @return this
@@ -96,7 +96,7 @@ public class XrayTestDto {
     }
 
     /**
-     * Get reporter
+     * Get reporter.
      *
      * @return reporter
      */
@@ -105,7 +105,7 @@ public class XrayTestDto {
     }
 
     /**
-     * Set reporter
+     * Set reporter.
      *
      * @param reporter Reporter
      * @return this
@@ -116,7 +116,7 @@ public class XrayTestDto {
     }
 
     /**
-     * Get assignee
+     * Get assignee.
      *
      * @return assignee
      */
@@ -125,7 +125,7 @@ public class XrayTestDto {
     }
 
     /**
-     * Set assignee
+     * Set assignee.
      *
      * @param assignee Assignee
      * @return this
@@ -136,7 +136,7 @@ public class XrayTestDto {
     }
 
     /**
-     * Get precondition
+     * Get precondition.
      *
      * @return precondition
      */
@@ -145,7 +145,7 @@ public class XrayTestDto {
     }
 
     /**
-     * Set precondition
+     * Set precondition.
      *
      * @param precondition Precondition
      * @return this
@@ -156,7 +156,7 @@ public class XrayTestDto {
     }
 
     /**
-     * Get type
+     * Get type.
      *
      * @return type
      */
@@ -165,7 +165,7 @@ public class XrayTestDto {
     }
 
     /**
-     * Set type
+     * Set type.
      *
      * @param type Type
      * @return this
@@ -176,7 +176,7 @@ public class XrayTestDto {
     }
 
     /**
-     * Get status
+     * Get status.
      *
      * @return status
      */
@@ -185,7 +185,7 @@ public class XrayTestDto {
     }
 
     /**
-     * Set status
+     * Set status.
      *
      * @param status Status
      * @return this
@@ -196,7 +196,7 @@ public class XrayTestDto {
     }
 
     /**
-     * Get definition
+     * Get definition.
      *
      * @return definition
      */
@@ -205,7 +205,7 @@ public class XrayTestDto {
     }
 
     /**
-     * Set definition
+     * Set definition.
      *
      * @param definition Definition
      * @return this

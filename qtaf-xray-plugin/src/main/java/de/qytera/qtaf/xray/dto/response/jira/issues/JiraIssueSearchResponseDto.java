@@ -15,17 +15,17 @@ import lombok.Setter;
 @EqualsAndHashCode
 public class JiraIssueSearchResponseDto {
     /**
-     * Total number
+     * Total number.
      */
     private Integer total;
 
     /**
-     * Start at
+     * Start at.
      */
     private Integer startAt;
 
     /**
-     * Jira Issue Response DTO
+     * Jira Issue Response DTO.
      */
     private JiraIssueResponseDto[] issues;
 
