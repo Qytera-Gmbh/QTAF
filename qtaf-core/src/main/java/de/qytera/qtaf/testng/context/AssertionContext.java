@@ -11,7 +11,14 @@ import org.testng.Assert;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * This interface provides assertion methods that wrap TestNG's assertion messages
+ */
 public interface AssertionContext {
+    /**
+     * Get the log collection instance
+     * @return log collection
+     */
     TestScenarioLogCollection getLogCollection();
 
     /**
