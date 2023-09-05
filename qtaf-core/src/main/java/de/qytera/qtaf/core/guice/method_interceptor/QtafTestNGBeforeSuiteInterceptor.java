@@ -9,9 +9,12 @@ import org.testng.annotations.BeforeSuite;
 import java.lang.annotation.Annotation;
 
 /**
- * Method interceptor for methods that are annotated with the Step annotation
+ * Method interceptor for methods that are annotated with the @BeforeSuite annotation
  */
 public class QtafTestNGBeforeSuiteInterceptor extends QtafTestNGAnnotatedMethodInterceptor<BeforeSuiteExecutionInfo> {
+    /**
+     * Constructor
+     */
     public QtafTestNGBeforeSuiteInterceptor() {
         super(QtafEvents.beforeTestSuite, QtafEvents.beforeTestSuiteSuccess, QtafEvents.beforeTestSuiteFailure);
     }
