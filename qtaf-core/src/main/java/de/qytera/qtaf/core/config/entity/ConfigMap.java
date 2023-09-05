@@ -226,8 +226,23 @@ public class ConfigMap extends HashMap<String, Object> {
      */
     public Boolean getBoolean(String key) {
         try {
-            return this.getValue(key, Boolean.class);
-        } catch (PathNotFoundException exception) {
+            Object value = getValue(key);
+            if (value instanceof  String && List.of("1", "true", "y").contains(value)) {
+                return true;
+            }
+            else if (value instanceof String && List.of("0", "false", "n").contains(value)) {
+                return false;
+            }
+            else if (value instanceof Integer && (int) value < 1) {
+                return false;
+            }
+            else if (value instanceof Integer && (int) value > 0) {
+                return true;
+            }
+            else if (value instanceof Boolean) {
+                return this.getValue(key, Boolean.class);
+            }
+        } catch (PathNotFoundException | NullPointerException exception) {
             logMissingKey(key);
         }
         return null;
