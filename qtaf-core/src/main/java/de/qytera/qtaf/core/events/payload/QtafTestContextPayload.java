@@ -3,41 +3,41 @@ package de.qytera.qtaf.core.events.payload;
 import java.util.Date;
 
 /**
- * Entity class for payloads of TestContext events
+ * Entity class for payloads of TestContext events.
  */
 public class QtafTestContextPayload implements IQtafTestingContext {
     /**
-     * Name of the test suite
+     * Name of the test suite.
      */
     protected String suiteName;
 
     /**
-     * Start date of the test suite
+     * Start date of the test suite.
      */
     protected Date startDate;
 
     /**
-     * End date of the test suite
+     * End date of the test suite.
      */
     protected Date endDate;
 
     /**
-     * Directory where log files are persisted
+     * Directory where log files are persisted.
      */
     protected String logDirectory;
 
     /**
-     * Original event fired by the test framework (TestNG, Cucumber)
+     * Original event fired by the test framework (TestNG, Cucumber).
      */
     protected Object originalEvent;
 
     /**
-     * This attribute hold information about the thread the event was fired in
+     * This attribute hold information about the thread the event was fired in.
      */
     protected Thread thread;
 
     /**
-     * Get suiteName
+     * Get suiteName.
      *
      * @return suiteName
      */
@@ -47,7 +47,7 @@ public class QtafTestContextPayload implements IQtafTestingContext {
     }
 
     /**
-     * Set suiteName
+     * Set suiteName.
      *
      * @param suiteName SuiteName
      * @return this
@@ -58,7 +58,7 @@ public class QtafTestContextPayload implements IQtafTestingContext {
     }
 
     /**
-     * Get startDate
+     * Get startDate.
      *
      * @return startDate
      */
@@ -68,7 +68,7 @@ public class QtafTestContextPayload implements IQtafTestingContext {
     }
 
     /**
-     * Set startDate
+     * Set startDate.
      *
      * @param startDate StartDate
      * @return this
@@ -79,7 +79,7 @@ public class QtafTestContextPayload implements IQtafTestingContext {
     }
 
     /**
-     * Get endDate
+     * Get endDate.
      *
      * @return endDate
      */
@@ -89,7 +89,7 @@ public class QtafTestContextPayload implements IQtafTestingContext {
     }
 
     /**
-     * Set endDate
+     * Set endDate.
      *
      * @param endDate EndDate
      * @return this
@@ -100,7 +100,7 @@ public class QtafTestContextPayload implements IQtafTestingContext {
     }
 
     /**
-     * Get logDirectory
+     * Get logDirectory.
      *
      * @return logDirectory
      */
@@ -110,7 +110,7 @@ public class QtafTestContextPayload implements IQtafTestingContext {
     }
 
     /**
-     * Set logDirectory
+     * Set logDirectory.
      *
      * @param logDirectory LogDirectory
      * @return this
@@ -121,7 +121,7 @@ public class QtafTestContextPayload implements IQtafTestingContext {
     }
 
     /**
-     * Get originalEvent
+     * Get originalEvent.
      *
      * @return originalEvent
      */
@@ -131,7 +131,7 @@ public class QtafTestContextPayload implements IQtafTestingContext {
     }
 
     /**
-     * Set originalEvent
+     * Set originalEvent.
      *
      * @param originalEvent OriginalEvent
      * @return this
@@ -142,7 +142,7 @@ public class QtafTestContextPayload implements IQtafTestingContext {
     }
 
     /**
-     * Get thread
+     * Get thread.
      *
      * @return thread
      */
@@ -151,7 +151,7 @@ public class QtafTestContextPayload implements IQtafTestingContext {
     }
 
     /**
-     * Set thread
+     * Set thread.
      *
      * @param thread Thread
      * @return this

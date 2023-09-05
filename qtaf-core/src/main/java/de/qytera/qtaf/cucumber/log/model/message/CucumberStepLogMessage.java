@@ -5,32 +5,32 @@ import de.qytera.qtaf.core.log.model.message.StepInformationLogMessage;
 import java.util.UUID;
 
 /**
- * Cucumber log message
+ * Cucumber log message.
  */
 public class CucumberStepLogMessage extends StepInformationLogMessage {
 
     /**
-     * Hash code of message
+     * Hash code of message.
      */
     UUID id;
 
     /**
-     * Cucumber scenario ID
+     * Cucumber scenario ID.
      */
     String scenarioID;
 
     /**
-     * Internal cucumber step index
+     * Internal cucumber step index.
      */
     int stepPosition;
 
     /**
-     * Flag that indicates if log message was already dispatched
+     * Flag that indicates if log message was already dispatched.
      */
     boolean dispatched = false;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param methodName step name
      * @param message    log message
@@ -40,7 +40,7 @@ public class CucumberStepLogMessage extends StepInformationLogMessage {
     }
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param id         unique ID for the step
      * @param methodName step name
@@ -72,7 +72,7 @@ public class CucumberStepLogMessage extends StepInformationLogMessage {
     }
 
     /**
-     * Get id
+     * Get id.
      *
      * @return id
      */
@@ -81,7 +81,7 @@ public class CucumberStepLogMessage extends StepInformationLogMessage {
     }
 
     /**
-     * Set id
+     * Set id.
      *
      * @param id Id
      * @return this
@@ -92,7 +92,7 @@ public class CucumberStepLogMessage extends StepInformationLogMessage {
     }
 
     /**
-     * Get scenarioId
+     * Get scenarioId.
      *
      * @return scenarioId
      */
@@ -102,7 +102,7 @@ public class CucumberStepLogMessage extends StepInformationLogMessage {
     }
 
     /**
-     * Set scenarioId
+     * Set scenarioId.
      *
      * @param scenarioId ScenarioId
      * @return this
@@ -114,7 +114,7 @@ public class CucumberStepLogMessage extends StepInformationLogMessage {
     }
 
     /**
-     * Get stepIndex
+     * Get stepIndex.
      *
      * @return stepIndex
      */
@@ -123,7 +123,7 @@ public class CucumberStepLogMessage extends StepInformationLogMessage {
     }
 
     /**
-     * Set stepIndex
+     * Set stepIndex.
      *
      * @param stepPosition StepIndex
      * @return this
@@ -134,7 +134,7 @@ public class CucumberStepLogMessage extends StepInformationLogMessage {
     }
 
     /**
-     * Get dispatched
+     * Get dispatched.
      *
      * @return dispatched
      */
@@ -143,7 +143,7 @@ public class CucumberStepLogMessage extends StepInformationLogMessage {
     }
 
     /**
-     * Set dispatched
+     * Set dispatched.
      *
      * @param dispatched Dispatched
      * @return this

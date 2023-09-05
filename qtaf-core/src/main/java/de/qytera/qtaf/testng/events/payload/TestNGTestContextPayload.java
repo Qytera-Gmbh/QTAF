@@ -7,6 +7,9 @@ import org.testng.ITestContext;
  * A class describing TestNG test context payloads.
  */
 public class TestNGTestContextPayload extends QtafTestContextPayload {
+    /**
+     * The test context.
+     */
     ITestContext iTestContext;
 
     /**

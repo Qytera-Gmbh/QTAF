@@ -64,7 +64,7 @@ public class UploadTestsSubscriberTest {
         return new Object[][]{
                 new Object[]{
                         IllegalArgumentException.class,
-                        "Testrail Base URL is null, please set the value in your configuration file",
+                        "TestRail base URL is null, please set the value in your configuration file",
                         null,
                         AES.encrypt("Jane", "my-key"),
                         AES.encrypt("mypass", "my-key"),

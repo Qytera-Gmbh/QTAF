@@ -14,14 +14,14 @@ import java.util.Objects;
 import java.util.UUID;
 
 /**
- * Class for mapping QTAF data structure to Allure data structure
+ * Class for mapping QTAF data structure to Allure data structure.
  */
 public class AllureTestResultGenerator {
     private AllureTestResultGenerator() {
     }
 
     /**
-     * QTAF Test Suite is mapped to list of Allure TestResult entities
+     * QTAF Test Suite is mapped to list of Allure TestResult entities.
      *
      * @param collection QTAF Test suite entity
      * @return List of Allure TestResult entities
@@ -40,7 +40,7 @@ public class AllureTestResultGenerator {
     }
 
     /**
-     * Map QTAF Test feature entity to Allure TestResult entity
+     * Map QTAF Test feature entity to Allure TestResult entity.
      *
      * @param scenario QTAF Test Feature entity
      * @return Allure TestResult Entity
@@ -80,7 +80,7 @@ public class AllureTestResultGenerator {
     }
 
     /**
-     * Build the full name of a Allure TestResult entity
+     * Build the full name of a Allure TestResult entity.
      *
      * @param scenario TestScenarioLogCollection object
      * @return full name
@@ -94,7 +94,7 @@ public class AllureTestResultGenerator {
     }
 
     /**
-     * Get list of StepResult entities from QTAF scenario
+     * Get list of StepResult entities from QTAF scenario.
      *
      * @param scenario QTAF scenario
      * @return List of Allure StepResult entities
@@ -143,7 +143,7 @@ public class AllureTestResultGenerator {
     }
 
     /**
-     * Map QTAF Step to Allure StepResult stage
+     * Map QTAF Step to Allure StepResult stage.
      *
      * @param stepLog QTAF step entity
      * @return Allure Step status
@@ -157,7 +157,7 @@ public class AllureTestResultGenerator {
 
 
     /**
-     * Map QTAF Step status to Allure StepResult status
+     * Map QTAF Step status to Allure StepResult status.
      *
      * @param stepLog QTAF step entity
      * @return Allure Step status
@@ -172,7 +172,7 @@ public class AllureTestResultGenerator {
     }
 
     /**
-     * Get List of StepResult parameters from QTAF Step entity
+     * Get List of StepResult parameters from QTAF Step entity.
      *
      * @param stepLog QTAF step entity
      * @return List of Allure Step parameters
@@ -195,7 +195,7 @@ public class AllureTestResultGenerator {
     }
 
     /**
-     * Get Allure TestResult attachments from QTAF scenario entity
+     * Get Allure TestResult attachments from QTAF scenario entity.
      *
      * @param scenarioLogCollection QTAF scenario entity
      * @return List if attachments
@@ -215,7 +215,7 @@ public class AllureTestResultGenerator {
     }
 
     /**
-     * Get Allure StepResult attachments from QTAF step entity
+     * Get Allure StepResult attachments from QTAF step entity.
      *
      * @param stepLog QTAF step entity
      * @return List if attachments
@@ -235,7 +235,7 @@ public class AllureTestResultGenerator {
     }
 
     /**
-     * Map QTAF scenario status to Allure TestResult status
+     * Map QTAF scenario status to Allure TestResult status.
      *
      * @param status QTAF scenario status
      * @return Allure TestResult status

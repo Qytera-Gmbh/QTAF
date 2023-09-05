@@ -13,22 +13,22 @@ import lombok.Setter;
 @Setter
 public class JiraIssueSearchRequestDto {
     /**
-     * Jira Query Language statement
+     * Jira Query Language statement.
      */
     private String jql;
 
     /**
-     * Start at
+     * Start at.
      */
     private Integer startAt;
 
     /**
-     * Max results
+     * Max results.
      */
     private Integer maxResults;
 
     /**
-     * Fields
+     * Fields.
      */
     private String[] fields;
 

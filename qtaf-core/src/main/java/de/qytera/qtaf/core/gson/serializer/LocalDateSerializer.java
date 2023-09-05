@@ -9,7 +9,7 @@ import java.lang.reflect.Type;
 import java.time.LocalDate;
 
 /**
- * Serializer class for LocalDate objects
+ * Serializer class for LocalDate objects.
  */
 public class LocalDateSerializer implements IQtafJsonSerializer, JsonSerializer<LocalDate> {
 

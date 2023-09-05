@@ -7,49 +7,145 @@ import lombok.NoArgsConstructor;
 import org.testng.annotations.Test;
 
 /**
- * Xray configuration helper
+ * Xray configuration helper.
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class XrayConfigHelper {
     /**
-     * QTAF Configuration
+     * QTAF Configuration.
      */
     private static final ConfigMap CONFIG = QtafFactory.getConfiguration();
 
-    // Keys
+    /**
+     * The selector describing whether the Xray plugin is enabled or disabled.
+     */
     public static final String XRAY_ENABLED = "xray.enabled";
-    public static final String XRAY_SERVICE_SELECTOR = "xray.service";
+    /**
+     * The selector describing whether to use an Xray cloud or an Xray server instance.
+     *
+     * @see XrayConfigHelper#XRAY_SERVICE_SERVER
+     * @see XrayConfigHelper#XRAY_SERVICE_CLOUD
+     */
+    public static final String XRAY_SERVICE = "xray.service";
+    /**
+     * The selector for accessing the configured Xray URL.
+     */
     public static final String URL_XRAY_SELECTOR = "xray.url.xray";
+    /**
+     * The selector for accessing the configured Jira URL.
+     */
     public static final String URL_JIRA_SELECTOR = "xray.url.jira";
+    /**
+     * The selector for accessing the configured Jira project key.
+     */
     public static final String PROJECT_KEY = "xray.projectKey";
+    /**
+     * The selector for accessing the configured Xray client ID.
+     */
     public static final String AUTHENTICATION_XRAY_CLIENT_ID = "xray.authentication.xray.clientId";
+    /**
+     * The selector for accessing the configured Xray client secret.
+     */
     public static final String AUTHENTICATION_XRAY_CLIENT_SECRET = "xray.authentication.xray.clientSecret";
+    /**
+     * The selector for accessing the configured Xray PAT.
+     */
     public static final String AUTHENTICATION_XRAY_BEARER_TOKEN = "xray.authentication.xray.bearerToken";
+    /**
+     * The selector for accessing the configured Jira username.
+     */
     public static final String AUTHENTICATION_JIRA_USERNAME = "xray.authentication.jira.username";
+    /**
+     * The selector for accessing the configured Jira PAT.
+     */
     public static final String AUTHENTICATION_JIRA_API_TOKEN = "xray.authentication.jira.apiToken";
+    /**
+     * The selector for accessing the configured assignee to assign text execution issues to.
+     */
     public static final String RESULTS_UPLOAD_ASSIGNEE = "xray.resultsUpload.assignee";
+    /**
+     * The selector for accessing the configured test plan key to assign text execution issues to.
+     */
     public static final String RESULTS_UPLOAD_TEST_PLAN_KEY = "xray.resultsUpload.testPlanKey";
+    /**
+     * The selector for accessing whether to upload HTML reports as evidence to test execution issues.
+     */
     public static final String RESULTS_UPLOAD_SCENARIO_REPORT_EVIDENCE = "xray.resultsUpload.scenarioReportEvidence";
+    /**
+     * The selector for accessing whether to upload screenshots as evidence to test execution issues.
+     */
     public static final String RESULTS_UPLOAD_SCENARIO_IMAGE_EVIDENCE = "xray.resultsUpload.scenarioImageEvidence";
+    /**
+     * The selector for accessing the custom status for passed test executions.
+     */
     public static final String RESULTS_UPLOAD_CUSTOM_STATUS_TEST_EXECUTION_ISSUE_PASSED = "xray.resultsUpload.customStatus.testExecutionIssue.passed";
+    /**
+     * The selector for accessing the custom status for failed test executions.
+     */
     public static final String RESULTS_UPLOAD_CUSTOM_STATUS_TEST_EXECUTION_ISSUE_FAILED = "xray.resultsUpload.customStatus.testExecutionIssue.failed";
+    /**
+     * The selector for accessing the custom status for passed tests.
+     */
     public static final String RESULTS_UPLOAD_CUSTOM_STATUS_TEST_PASSED = "xray.resultsUpload.customStatus.test.passed";
+    /**
+     * The selector for accessing the custom status for failed tests.
+     */
     public static final String RESULTS_UPLOAD_CUSTOM_STATUS_TEST_FAILED = "xray.resultsUpload.customStatus.test.failed";
+    /**
+     * The selector for accessing the custom status for pending tests.
+     */
     public static final String RESULTS_UPLOAD_CUSTOM_STATUS_TEST_PENDING = "xray.resultsUpload.customStatus.test.pending";
+    /**
+     * The selector for accessing the custom status for skipped tests.
+     */
     public static final String RESULTS_UPLOAD_CUSTOM_STATUS_TEST_SKIPPED = "xray.resultsUpload.customStatus.test.skipped";
+    /**
+     * The selector for accessing the custom status for passed steps.
+     */
     public static final String RESULTS_UPLOAD_CUSTOM_STATUS_STEP_PASSED = "xray.resultsUpload.customStatus.step.passed";
+    /**
+     * The selector for accessing the custom status for failed steps.
+     */
     public static final String RESULTS_UPLOAD_CUSTOM_STATUS_STEP_FAILED = "xray.resultsUpload.customStatus.step.failed";
+    /**
+     * The selector for accessing the custom status for pending steps.
+     */
     public static final String RESULTS_UPLOAD_CUSTOM_STATUS_STEP_PENDING = "xray.resultsUpload.customStatus.step.pending";
+    /**
+     * The selector for accessing the custom status for skipped steps.
+     */
     public static final String RESULTS_UPLOAD_CUSTOM_STATUS_STEP_SKIPPED = "xray.resultsUpload.customStatus.step.skipped";
+    /**
+     * The selector for accessing the custom status for undefined steps.
+     */
     public static final String RESULTS_UPLOAD_CUSTOM_STATUS_STEP_UNDEFINED = "xray.resultsUpload.customStatus.step.undefined";
+    /**
+     * The selector for accessing whether test steps should be updated.
+     */
     public static final String RESULTS_UPLOAD_TESTS_INFO_STEPS_UPDATE = "xray.resultsUpload.tests.info.steps.update";
+    /**
+     * The selector for accessing whether test steps should be merged.
+     */
     public static final String RESULTS_UPLOAD_TESTS_INFO_STEPS_MERGE = "xray.resultsUpload.tests.info.steps.merge";
+    /**
+     * The selector for accessing whether test issue summaries should be pulled from Jira.
+     */
     public static final String RESULTS_UPLOAD_TESTS_INFO_KEEP_JIRA_SUMMARY = "xray.resultsUpload.tests.info.keepJiraSummary";
+    /**
+     * The selector for accessing the maximum name length of test iteration parameters.
+     */
     public static final String RESULTS_UPLOAD_TESTS_ITERATIONS_PARAMETERS_MAX_LENGTH_NAME = "xray.resultsUpload.tests.iterations.parameters.maxLength.name";
+    /**
+     * The selector for accessing the maximum value length of test iteration parameters.
+     */
     public static final String RESULTS_UPLOAD_TESTS_ITERATIONS_PARAMETERS_MAX_LENGTH_VALUE = "xray.resultsUpload.tests.iterations.parameters.maxLength.value";
-
-    // Values
+    /**
+     * The value the plugin uses to determine that Xray cloud should be targeted.
+     */
     public static final String XRAY_SERVICE_CLOUD = "cloud";
+    /**
+     * The value the plugin uses to determine that Xray server should be targeted.
+     */
     public static final String XRAY_SERVICE_SERVER = "server";
 
     /**
@@ -108,7 +204,7 @@ public class XrayConfigHelper {
     }
 
     /**
-     * Get Xray server URL
+     * Get Xray server URL.
      *
      * @return Xray server URL
      */
@@ -225,21 +321,21 @@ public class XrayConfigHelper {
     }
 
     /**
-     * Get xray service (cloud | server)
+     * Get xray service (cloud | server).
      *
      * @return xray service (cloud | server)
      */
     public static String getXrayService() {
-        String service = CONFIG.getString(XRAY_SERVICE_SELECTOR);
+        String service = CONFIG.getString(XRAY_SERVICE);
         if (service == null) {
-            CONFIG.logMissingValue(XRAY_SERVICE_SELECTOR, XRAY_SERVICE_CLOUD);
+            CONFIG.logMissingValue(XRAY_SERVICE, XRAY_SERVICE_CLOUD);
             return XRAY_SERVICE_CLOUD;
         }
         if (service.equals(XRAY_SERVICE_SERVER) || service.equals(XRAY_SERVICE_CLOUD)) {
             return service;
         }
         return CONFIG.logUnknownValue(
-                XRAY_SERVICE_SELECTOR,
+                XRAY_SERVICE,
                 service,
                 XRAY_SERVICE_CLOUD,
                 XRAY_SERVICE_SERVER,
@@ -248,7 +344,7 @@ public class XrayConfigHelper {
     }
 
     /**
-     * Check if Xray server is enabled
+     * Check if Xray server is enabled.
      *
      * @return true if enabled, false otherwise
      */
@@ -257,7 +353,7 @@ public class XrayConfigHelper {
     }
 
     /**
-     * Check if Xray cloud is enabled
+     * Check if Xray cloud is enabled.
      *
      * @return true if enabled, false otherwise
      */
@@ -266,7 +362,7 @@ public class XrayConfigHelper {
     }
 
     /**
-     * Check if HTML report should be attached as evidence to Xray test execution import
+     * Check if HTML report should be attached as evidence to Xray test execution import.
      *
      * @return true if enabled, false otherwise
      */
@@ -279,7 +375,7 @@ public class XrayConfigHelper {
     }
 
     /**
-     * Check if images should be attached as evidence to Xray test execution import
+     * Check if images should be attached as evidence to Xray test execution import.
      *
      * @return true if enabled, false otherwise
      */

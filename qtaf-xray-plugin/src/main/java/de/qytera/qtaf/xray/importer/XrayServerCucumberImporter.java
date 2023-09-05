@@ -8,16 +8,16 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 
 /**
- * This class provides methods for importing Tests as Cucumber feature files from Xray Server
+ * This class provides methods for importing Tests as Cucumber feature files from Xray Server.
  */
 public class XrayServerCucumberImporter implements IXrayImporter {
     /**
-     * Xray Cucumber Server Repository
+     * Xray Cucumber Server Repository.
      */
     private static final XrayCucumberRepositoryServer repo = new XrayCucumberRepositoryServer();
 
     /**
-     * Create feature file by Test Set ID
+     * Create feature file by Test Set ID.
      *
      * @param testSetID ID of test set
      * @param filePath  Feature file location
@@ -28,7 +28,7 @@ public class XrayServerCucumberImporter implements IXrayImporter {
     }
 
     /**
-     * Create feature file by Test IDs
+     * Create feature file by Test IDs.
      *
      * @param testIDs  Test IDs
      * @param filePath Feature file location

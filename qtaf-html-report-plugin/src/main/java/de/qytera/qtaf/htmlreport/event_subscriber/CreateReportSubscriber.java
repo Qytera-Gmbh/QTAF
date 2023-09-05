@@ -16,7 +16,7 @@ import rx.Subscription;
 public class CreateReportSubscriber implements IEventSubscriber {
 
     /**
-     * Subscription reference
+     * Subscription reference.
      */
     Subscription onBeforeLogsPersistedSub;
 
@@ -27,9 +27,6 @@ public class CreateReportSubscriber implements IEventSubscriber {
         );
     }
 
-    /**
-     * Event handler @param logCollection Log collection
-     */
     private void onBeforeLogsPersisted(TestSuiteLogCollection logCollection) {
         ReportCreator reportCreator = new ReportCreator();
         FeatureReportCreator featureReportCreator = new FeatureReportCreator();

@@ -9,11 +9,12 @@ import org.testng.annotations.BeforeMethod;
 import java.lang.annotation.Annotation;
 
 /**
- * Method interceptor for methods that are annotated with the @BeforeMethod annotation
+ * Method interceptor for methods that are annotated with the Step annotation.
  */
 public class QtafTestNGBeforeMethodInterceptor extends QtafTestNGAnnotatedMethodInterceptor<BeforeMethodExecutionInfo> {
+
     /**
-     * Constructor
+     * Creates a new {@link QtafTestNGBeforeMethodInterceptor}.
      */
     public QtafTestNGBeforeMethodInterceptor() {
         super(QtafEvents.beforeTestScenario, QtafEvents.beforeTestScenarioSuccess, QtafEvents.beforeTestScenarioFailure);

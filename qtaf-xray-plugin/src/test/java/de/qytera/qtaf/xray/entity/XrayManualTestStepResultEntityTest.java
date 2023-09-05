@@ -13,7 +13,7 @@ public class XrayManualTestStepResultEntityTest {
     @BeforeMethod
     public void clearConfigMap() {
         ConfigMap configMap = QtafFactory.getConfiguration();
-        configMap.remove(XrayConfigHelper.XRAY_SERVICE_SELECTOR);
+        configMap.remove(XrayConfigHelper.XRAY_SERVICE);
         configMap.remove(XrayConfigHelper.RESULTS_UPLOAD_CUSTOM_STATUS_STEP_PASSED);
         configMap.remove(XrayConfigHelper.RESULTS_UPLOAD_CUSTOM_STATUS_STEP_FAILED);
         configMap.remove(XrayConfigHelper.RESULTS_UPLOAD_CUSTOM_STATUS_STEP_PENDING);
@@ -24,7 +24,7 @@ public class XrayManualTestStepResultEntityTest {
     @Test
     public void testStatusServer() {
         ConfigMap configMap = QtafFactory.getConfiguration();
-        configMap.setString(XrayConfigHelper.XRAY_SERVICE_SELECTOR, "server");
+        configMap.setString(XrayConfigHelper.XRAY_SERVICE, "server");
         XrayManualTestStepResultEntity entity = new XrayManualTestStepResultEntityServer(StepInformationLogMessage.Status.PASS);
         Assert.assertEquals(entity.getStatus(), "PASS");
         entity = new XrayManualTestStepResultEntityServer(StepInformationLogMessage.Status.ERROR);
@@ -40,7 +40,7 @@ public class XrayManualTestStepResultEntityTest {
     @Test
     public void testStatusCloud() {
         ConfigMap configMap = QtafFactory.getConfiguration();
-        configMap.setString(XrayConfigHelper.XRAY_SERVICE_SELECTOR, "cloud");
+        configMap.setString(XrayConfigHelper.XRAY_SERVICE, "cloud");
         XrayManualTestStepResultEntity entity = new XrayManualTestStepResultEntityCloud(StepInformationLogMessage.Status.PASS);
         Assert.assertEquals(entity.getStatus(), "PASSED");
         entity = new XrayManualTestStepResultEntityCloud(StepInformationLogMessage.Status.ERROR);
@@ -61,7 +61,7 @@ public class XrayManualTestStepResultEntityTest {
         configMap.setString(XrayConfigHelper.RESULTS_UPLOAD_CUSTOM_STATUS_STEP_PENDING, "PENDING");
         configMap.setString(XrayConfigHelper.RESULTS_UPLOAD_CUSTOM_STATUS_STEP_SKIPPED, "SKIPPED");
         configMap.setString(XrayConfigHelper.RESULTS_UPLOAD_CUSTOM_STATUS_STEP_UNDEFINED, "UNDEFINED");
-        configMap.setString(XrayConfigHelper.XRAY_SERVICE_SELECTOR, "cloud");
+        configMap.setString(XrayConfigHelper.XRAY_SERVICE, "cloud");
         XrayManualTestStepResultEntity entity = new XrayManualTestStepResultEntityCloud(StepInformationLogMessage.Status.PASS);
         Assert.assertEquals(entity.getStatus(), "SUCCESS");
         entity = new XrayManualTestStepResultEntityCloud(StepInformationLogMessage.Status.ERROR);
@@ -82,7 +82,7 @@ public class XrayManualTestStepResultEntityTest {
         configMap.setString(XrayConfigHelper.RESULTS_UPLOAD_CUSTOM_STATUS_STEP_PENDING, "PENDING");
         configMap.setString(XrayConfigHelper.RESULTS_UPLOAD_CUSTOM_STATUS_STEP_SKIPPED, "SKIPPED");
         configMap.setString(XrayConfigHelper.RESULTS_UPLOAD_CUSTOM_STATUS_STEP_UNDEFINED, "UNDEFINED");
-        configMap.setString(XrayConfigHelper.XRAY_SERVICE_SELECTOR, "server");
+        configMap.setString(XrayConfigHelper.XRAY_SERVICE, "server");
         XrayManualTestStepResultEntity entity = new XrayManualTestStepResultEntityServer(StepInformationLogMessage.Status.PASS);
         Assert.assertEquals(entity.getStatus(), "SUCCESS");
         entity = new XrayManualTestStepResultEntityServer(StepInformationLogMessage.Status.ERROR);

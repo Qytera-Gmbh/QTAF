@@ -9,7 +9,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
- * Helper class for getting selenium driver configuration values
+ * Helper class for getting selenium driver configuration values.
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class SeleniumDriverConfigHelper {
@@ -68,7 +68,7 @@ public class SeleniumDriverConfigHelper {
     public static final String SAUCE_BROWSER_NAME = "sauce.browserName";
 
     /**
-     * Config
+     * Config.
      */
     private static ConfigMap config = QtafFactory.getConfiguration();
 
@@ -84,7 +84,7 @@ public class SeleniumDriverConfigHelper {
     }
 
     /**
-     * Get remote driver URL
+     * Get remote driver URL.
      *
      * @return remote URL
      */
@@ -100,7 +100,7 @@ public class SeleniumDriverConfigHelper {
     }
 
     /**
-     * Get Platform Name
+     * Get Platform Name.
      *
      * @return platform name
      */
@@ -109,7 +109,7 @@ public class SeleniumDriverConfigHelper {
     }
 
     /**
-     * Get Driver version
+     * Get Driver version.
      *
      * @return driver version
      */
@@ -118,7 +118,7 @@ public class SeleniumDriverConfigHelper {
     }
 
     /**
-     * Get Saucelab Browser Name
+     * Get Saucelab Browser Name.
      *
      * @return Saucelab Browser Name
      */
@@ -127,7 +127,7 @@ public class SeleniumDriverConfigHelper {
     }
 
     /**
-     * Get Saucelab Username
+     * Get Saucelab Username.
      *
      * @return Saucelab Username
      */
@@ -136,7 +136,7 @@ public class SeleniumDriverConfigHelper {
     }
 
     /**
-     * Get Saucelab Access Key
+     * Get Saucelab Access Key.
      *
      * @return Saucelab Access Key
      */
@@ -145,7 +145,7 @@ public class SeleniumDriverConfigHelper {
     }
 
     /**
-     * Determine if QTAF should quit driver after testing
+     * Determine if QTAF should quit driver after testing.
      *
      * @return value from configuration
      */
@@ -154,7 +154,7 @@ public class SeleniumDriverConfigHelper {
     }
 
     /**
-     * Determine if screenshots should be taken before a scenario
+     * Determine if screenshots should be taken before a scenario.
      *
      * @return value from configuration
      */
@@ -163,7 +163,7 @@ public class SeleniumDriverConfigHelper {
     }
 
     /**
-     * Determine if screenshots should be taken after a scenario
+     * Determine if screenshots should be taken after a scenario.
      *
      * @return value from configuration
      */
@@ -172,7 +172,7 @@ public class SeleniumDriverConfigHelper {
     }
 
     /**
-     * Determine if screenshots should be taken before a step
+     * Determine if screenshots should be taken before a step.
      *
      * @return value from configuration
      */
@@ -181,7 +181,7 @@ public class SeleniumDriverConfigHelper {
     }
 
     /**
-     * Determine if screenshots should be taken after a step
+     * Determine if screenshots should be taken after a step.
      *
      * @return value from configuration
      */
@@ -190,7 +190,7 @@ public class SeleniumDriverConfigHelper {
     }
 
     /**
-     * Determine if screenshots should be taken after a step failure
+     * Determine if screenshots should be taken after a step failure.
      *
      * @return value from configuration
      */

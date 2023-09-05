@@ -16,6 +16,11 @@ public class XrayManualTestStepResultEntityServer extends XrayManualTestStepResu
      */
     private final List<XrayEvidenceItemEntity> evidences = new ArrayList<>();
 
+    /**
+     * Create a new {@link XrayManualTestStepResultEntityServer} with the given step status.
+     *
+     * @param status the status
+     */
     public XrayManualTestStepResultEntityServer(StepInformationLogMessage.Status status) {
         super(status);
     }

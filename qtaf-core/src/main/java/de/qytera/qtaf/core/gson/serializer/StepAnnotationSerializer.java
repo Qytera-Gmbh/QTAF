@@ -9,7 +9,7 @@ import de.qytera.qtaf.core.guice.annotations.Step;
 import java.lang.reflect.Type;
 
 /**
- * Converts Step annotation to JSON
+ * Converts Step annotation to JSON.
  */
 public class StepAnnotationSerializer implements IQtafJsonSerializer, JsonSerializer<Step> {
     @Override

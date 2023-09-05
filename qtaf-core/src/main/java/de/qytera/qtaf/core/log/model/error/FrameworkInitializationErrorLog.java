@@ -1,11 +1,11 @@
 package de.qytera.qtaf.core.log.model.error;
 
 /**
- * Error entity class for framework initialization errors
+ * Error entity class for framework initialization errors.
  */
 public class FrameworkInitializationErrorLog extends ErrorLog {
     /**
-     * Constructor
+     * Constructor.
      *
      * @param e Error
      */

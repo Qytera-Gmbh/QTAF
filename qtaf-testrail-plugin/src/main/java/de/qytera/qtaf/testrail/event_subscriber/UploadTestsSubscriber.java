@@ -24,22 +24,22 @@ import java.security.GeneralSecurityException;
 import java.util.Arrays;
 
 /**
- * This subscriber binds to the test finished event and uploads the tests to the TestRail API
+ * This subscriber binds to the test finished event and uploads the tests to the TestRail API.
  */
 @Data
 public class UploadTestsSubscriber implements IEventSubscriber {
     /**
-     * QTAF Event Subscription
+     * QTAF Event Subscription.
      */
     private Subscription testFinishedSubscription;
 
     /**
-     * Configuration
+     * Configuration.
      */
     private static final ConfigMap CONFIG = QtafFactory.getConfiguration();
 
     /**
-     * testRail API client
+     * testRail API client.
      */
     private APIClient client = null;
 
@@ -53,6 +53,10 @@ public class UploadTestsSubscriber implements IEventSubscriber {
 
     /**
      * Set up the client for the TestRail API.
+     *
+     * @return the client
+     * @throws GeneralSecurityException           if encrypted values cannot be decrypted
+     * @throws MissingConfigurationValueException if the configuration is invalid
      */
     public APIClient setUpClient() throws GeneralSecurityException, MissingConfigurationValueException {
         if (client == null) {
@@ -85,7 +89,7 @@ public class UploadTestsSubscriber implements IEventSubscriber {
     }
 
     /**
-     * Event handler for finished testing event
+     * Event handler for finished testing event.
      *
      * @param testingContext Test context event payload
      */
@@ -120,7 +124,7 @@ public class UploadTestsSubscriber implements IEventSubscriber {
     }
 
     /**
-     * Handle scenario success
+     * Handle scenario success.
      *
      * @param testRailIdAnnotation testrail annotation of scenario
      */
@@ -142,7 +146,7 @@ public class UploadTestsSubscriber implements IEventSubscriber {
     }
 
     /**
-     * Handle scenario failure
+     * Handle scenario failure.
      *
      * @param scenarioLog          step logs
      * @param testRailIdAnnotation testrail annotation of scenario

@@ -19,7 +19,7 @@ public class XrayCucumberRepositoryCloudTest {
 
     @BeforeMethod
     public void setupConfig() {
-        QtafFactory.getConfiguration().setString(XrayConfigHelper.XRAY_SERVICE_SELECTOR, "cloud");
+        QtafFactory.getConfiguration().setString(XrayConfigHelper.XRAY_SERVICE, "cloud");
     }
 
     /**

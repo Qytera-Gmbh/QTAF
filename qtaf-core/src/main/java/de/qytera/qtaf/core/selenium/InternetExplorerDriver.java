@@ -5,7 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.ie.InternetExplorerOptions;
 
 /**
- * This class is responsible for connecting to a local Internet Explorer browser
+ * This class is responsible for connecting to a local Internet Explorer browser.
  */
 public class InternetExplorerDriver extends AbstractDriver {
 
@@ -21,7 +21,7 @@ public class InternetExplorerDriver extends AbstractDriver {
     }
 
     /**
-     * Get capabilities
+     * Get capabilities.
      *
      * @return capabilities
      */

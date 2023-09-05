@@ -4,28 +4,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Collection for error log messages
+ * Collection for error log messages.
  */
 public class ErrorLogCollection {
 
     /**
-     * Singleton instance of ErrorLogCollection
+     * Singleton instance of ErrorLogCollection.
      */
     private static final ErrorLogCollection instance = new ErrorLogCollection();
 
     /**
-     * Error logs
+     * Error logs.
      */
     private final ArrayList<ErrorLog> errorLogs = new ArrayList<>();
 
     /**
-     * Private constructor
+     * Private constructor.
      */
     private ErrorLogCollection() {
     }
 
     /**
-     * Get singleton instance of ErrorLogCollection
+     * Get singleton instance of ErrorLogCollection.
      *
      * @return ErrorLogCollection
      */
@@ -34,7 +34,7 @@ public class ErrorLogCollection {
     }
 
     /**
-     * Get errorLogs
+     * Get errorLogs.
      *
      * @return errorLogs
      */
@@ -43,7 +43,7 @@ public class ErrorLogCollection {
     }
 
     /**
-     * Add error log
+     * Add error log.
      *
      * @param t Throwable exception
      */
@@ -52,7 +52,7 @@ public class ErrorLogCollection {
     }
 
     /**
-     * Add error log
+     * Add error log.
      *
      * @param errorLog Error log
      */
@@ -61,7 +61,7 @@ public class ErrorLogCollection {
     }
 
     /**
-     * Add error log
+     * Add error log.
      *
      * @param message Error message
      */
@@ -70,7 +70,7 @@ public class ErrorLogCollection {
     }
 
     /**
-     * Check if there are no error logs
+     * Check if there are no error logs.
      *
      * @return True if there are no error logs, false otherwise
      */

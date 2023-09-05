@@ -3,16 +3,16 @@ package de.qytera.qtaf.xray.error;
 import de.qytera.qtaf.core.log.model.error.ErrorLog;
 
 /**
- * Error entity that is created when upload of Xray evidence fails
+ * Error entity that is created when upload of Xray evidence fails.
  */
 public class EvidenceUploadError extends ErrorLog {
     /**
-     * Evidence filepath
+     * Evidence filepath.
      */
     private String filepath;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param e Error
      */
@@ -22,7 +22,7 @@ public class EvidenceUploadError extends ErrorLog {
     }
 
     /**
-     * Get filepath
+     * Get filepath.
      *
      * @return filepath
      */
@@ -31,7 +31,7 @@ public class EvidenceUploadError extends ErrorLog {
     }
 
     /**
-     * Set filepath
+     * Set filepath.
      *
      * @param filepath Filepath
      * @return this

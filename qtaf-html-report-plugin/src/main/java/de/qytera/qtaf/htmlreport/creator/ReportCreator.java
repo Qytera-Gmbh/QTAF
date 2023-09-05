@@ -17,20 +17,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Class for creating HTML reports
+ * Class for creating HTML reports.
  */
 public class ReportCreator implements IReportCreator {
     /**
-     * Root template
+     * Root template.
      */
     protected String rootTemplate = "de/qytera/qtaf/htmlreport/templates/home.html";
     /**
-     * Filename of the rendered template
+     * Filename of the rendered template.
      */
     protected String filename = "Report.html";
 
     /**
-     * Create report and save it to the disk
+     * Create report and save it to the disk.
      *
      * @param logCollection Log collection
      * @return true on success
@@ -50,7 +50,7 @@ public class ReportCreator implements IReportCreator {
     }
 
     /**
-     * Get rendered template
+     * Get rendered template.
      *
      * @param logCollection Log collection
      * @return Writer object that contains rendered template
@@ -74,7 +74,7 @@ public class ReportCreator implements IReportCreator {
     }
 
     /**
-     * Persist rendered template
+     * Persist rendered template.
      *
      * @param logCollection Log collection
      * @param writer        Writer object
@@ -97,7 +97,7 @@ public class ReportCreator implements IReportCreator {
     }
 
     /**
-     * Render the template
+     * Render the template.
      *
      * @param compiledTemplate Pebble template object
      * @param context          Template context
@@ -117,7 +117,7 @@ public class ReportCreator implements IReportCreator {
     }
 
     /**
-     * Get template context
+     * Get template context.
      *
      * @param logCollection Logs
      * @return Template context
@@ -131,7 +131,7 @@ public class ReportCreator implements IReportCreator {
     }
 
     /**
-     * Load the Pebble Template
+     * Load the Pebble Template.
      *
      * @return Pebble template object
      */
@@ -150,7 +150,7 @@ public class ReportCreator implements IReportCreator {
     }
 
     /**
-     * Get root template path
+     * Get root template path.
      *
      * @return root template path
      */
@@ -159,7 +159,7 @@ public class ReportCreator implements IReportCreator {
     }
 
     /**
-     * Build report path
+     * Build report path.
      *
      * @param logCollection the log collection
      * @return report path

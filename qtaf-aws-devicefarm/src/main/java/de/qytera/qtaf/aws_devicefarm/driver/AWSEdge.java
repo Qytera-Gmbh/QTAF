@@ -3,6 +3,9 @@ package de.qytera.qtaf.aws_devicefarm.driver;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.edge.EdgeOptions;
 
+/**
+ * An AWS Edge driver.
+ */
 public class AWSEdge extends AbstractAWSDeviceFarmDriver {
 
     @Override

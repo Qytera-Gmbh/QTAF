@@ -13,11 +13,13 @@ import java.util.Date;
 
 /**
  * This class serves as a base class for all interceptor classes that intercept methods annotated with TestNG
- * annotations that deal with the test flow like @BeforeTest and @AfterTest
+ * annotations that deal with the test flow like @BeforeTest and @AfterTest.
+ *
+ * @param <T> the test execution entity type
  */
 public interface AbstractTestNGAnnotatedMethodInterceptor<T extends AbstractStepExecutionInfo> {
     /**
-     * Build an entity that contains information about the executed method
+     * Build an entity that contains information about the executed method.
      *
      * @param methodInvocation The method that was intercepted
      * @return Step execution information entity
@@ -25,7 +27,7 @@ public interface AbstractTestNGAnnotatedMethodInterceptor<T extends AbstractStep
     T buildStepExecutionInfoEntity(MethodInvocation methodInvocation);
 
     /**
-     * Get the TestNG Annotation of the intercepted method
+     * Get the TestNG Annotation of the intercepted method.
      *
      * @param methodInvocation The method that was intercepted
      * @return The TestNG annotation of the method
@@ -33,7 +35,7 @@ public interface AbstractTestNGAnnotatedMethodInterceptor<T extends AbstractStep
     Annotation getAnnotation(MethodInvocation methodInvocation);
 
     /**
-     * Build the name of the scenario for the log file
+     * Build the name of the scenario for the log file.
      *
      * @param featureName Name of the feature the scenario belongs to
      * @param scenarioId  ID of the scenario
@@ -42,7 +44,7 @@ public interface AbstractTestNGAnnotatedMethodInterceptor<T extends AbstractStep
     String buildScenarioName(String featureName, String scenarioId);
 
     /**
-     * Build the description of the scenario for the log file
+     * Build the description of the scenario for the log file.
      *
      * @param featureName  Name of the feature
      * @param scenarioName Name of the scenario
@@ -51,7 +53,7 @@ public interface AbstractTestNGAnnotatedMethodInterceptor<T extends AbstractStep
     String buildScenarioDescription(String featureName, String scenarioName);
 
     /**
-     * Get or build the feature log collection object that should be used for the intercepted method
+     * Get or build the feature log collection object that should be used for the intercepted method.
      *
      * @param methodInvocation The method that was intercepted
      * @param instance         The object that called the method
@@ -70,7 +72,7 @@ public interface AbstractTestNGAnnotatedMethodInterceptor<T extends AbstractStep
     }
 
     /**
-     * Get or build the scenario log collection object that should be used for the intercepted method
+     * Get or build the scenario log collection object that should be used for the intercepted method.
      *
      * @param featureLogCollection The feature log collection object the scenario log collection object belongs to
      * @param methodInvocation     The method that was intercepted
@@ -102,7 +104,7 @@ public interface AbstractTestNGAnnotatedMethodInterceptor<T extends AbstractStep
     }
 
     /**
-     * Add the scenario log collection to the TestContext object the method call came from and all its nested TestContext objects like page objects
+     * Add the scenario log collection to the TestContext object the method call came from and all its nested TestContext objects like page objects.
      *
      * @param instance              The object that called the method
      * @param scenarioLogCollection The scenario log collection object
@@ -114,7 +116,7 @@ public interface AbstractTestNGAnnotatedMethodInterceptor<T extends AbstractStep
     }
 
     /**
-     * Execute the original method that was intercepted by this interceptor
+     * Execute the original method that was intercepted by this interceptor.
      *
      * @param methodInvocation      The method that was intercepted
      * @param scenarioLogCollection The scenario log collection object for the current method
@@ -136,7 +138,7 @@ public interface AbstractTestNGAnnotatedMethodInterceptor<T extends AbstractStep
     }
 
     /**
-     * Deal with a failure of the execution of the intercepted method
+     * Deal with a failure of the execution of the intercepted method.
      *
      * @param scenarioLogCollection The scenario log collection object for the method that was intercepted
      */

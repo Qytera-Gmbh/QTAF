@@ -46,6 +46,8 @@ public class JiraIssueRepository implements JiraEndpoint {
      * @param testIssueKeys the Jira issues to search for
      * @param fields        additional fields to include in the response
      * @return a list of found issues
+     * @throws URISyntaxException                 if any URLs used during search are invalid
+     * @throws MissingConfigurationValueException if the configuration is invalid
      * @see <a href="https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issue-search/#api-rest-api-3-search-post">Search (Jira Cloud)</a>
      * @see <a href="https://docs.atlassian.com/software/jira/docs/api/REST/9.7.0/#api/2/search">Search (Jira Server)</a>
      */
@@ -108,7 +110,12 @@ public class JiraIssueRepository implements JiraEndpoint {
      *
      * @param issueIdOrKey the ID or key of the issue to be assigned
      * @param user         the user to assign the issue to
+     * @param <R>          the role type
+     * @param <G>          the group type
+     * @param <U>          the user type
      * @return true if it was successfully assigned, otherwise false
+     * @throws URISyntaxException                 if any URLs used during assignment are invalid
+     * @throws MissingConfigurationValueException if the configuration is invalid
      * @see <a href="https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-issues/#api-rest-api-3-issue-issueidorkey-assignee-put">Assign issue (Jira Cloud)</a>
      * @see <a href="https://docs.atlassian.com/software/jira/docs/api/REST/9.8.0/#api/2/issue-assign">Assign (Jira Server)</a>
      */
@@ -154,6 +161,8 @@ public class JiraIssueRepository implements JiraEndpoint {
      *
      * @param testIssueKeys the test issues to retrieve the IDs for
      * @return a mapping of test issue keys to their IDs
+     * @throws URISyntaxException                 if any URLs used during retrieval are invalid
+     * @throws MissingConfigurationValueException if the configuration is invalid
      * @see <a href="https://confluence.atlassian.com/cloudkb/how-to-identify-the-jira-issue-id-in-cloud-1167747456.html">Identifying Jira issue IDs in Jira Cloud</a>
      */
     public Map<String, String> getIssueIds(Collection<String> testIssueKeys) throws URISyntaxException, MissingConfigurationValueException {
@@ -210,9 +219,9 @@ public class JiraIssueRepository implements JiraEndpoint {
 
     /**
      * Performs an issue transition to the provided status.
-     * <p>
-     * Before the request is made, the issue's possible transitions are queried. The actual follow-up transition request
-     * is only made if the possible transitions contain a transition belonging to the provided status.
+     *
+     * <p>Before the request is made, the issue's possible transitions are queried. The actual follow-up transition
+     * request is only made if the possible transitions contain a transition belonging to the provided status.</p>
      *
      * @param issueIdOrKey the ID or key of the issue
      * @param statusName   the target status to transition to
@@ -259,9 +268,9 @@ public class JiraIssueRepository implements JiraEndpoint {
     /**
      * Get a list of the transitions possible for this issue by the current user, along with fields that are required
      * and their types.
-     * <p>
-     * Note, if a request is made for a transition that does not exist or cannot be performed on the issue, given its
-     * status, the response will return any empty transitions list.
+     *
+     * <p>Note, if a request is made for a transition that does not exist or cannot be performed on the issue, given its
+     * status, the response will return any empty transitions list.</p>
      *
      * @param issueIdOrKey the ID or key of the issue
      * @return a list of transitions possible for the issue

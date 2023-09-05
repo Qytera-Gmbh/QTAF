@@ -5,7 +5,7 @@ package de.qytera.qtaf.core.log.model.error;
  */
 public class SeleniumScreenshotError extends ErrorLog {
     /**
-     * Constructor
+     * Constructor.
      *
      * @param e Error
      */

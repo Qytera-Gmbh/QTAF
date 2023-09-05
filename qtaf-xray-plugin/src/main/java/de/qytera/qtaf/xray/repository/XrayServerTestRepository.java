@@ -6,26 +6,26 @@ import de.qytera.qtaf.xray.dto.XrayTestDtoCollection;
 import de.qytera.qtaf.xray.net.http.XrayHTTPDaoFactory;
 
 /**
- * Repository class that is responsible for fetching and updating Test Entities via the Xray API
+ * Repository class that is responsible for fetching and updating Test Entities via the Xray API.
  */
 public class XrayServerTestRepository implements IXrayTestRepository {
     /**
-     * API Path for tests of a given test set (%s is replaced with test set ID)
+     * API Path for tests of a given test set (%s is replaced with test set ID).
      */
     private static final String BY_TEST_SET_ID_PATH = "/api/testset/%s/test";
 
     /**
-     * API Path for tests
+     * API Path for tests.
      */
     private static final String BY_TEST_ID_PATH = "/api/test";
 
     /**
-     * Data Access Object for Xray API
+     * Data Access Object for Xray API.
      */
     private final HTTPJsonDao dao = XrayHTTPDaoFactory.getXrayCloudHTTPDao();
 
     /**
-     * Find Tests by ID
+     * Find Tests by ID.
      *
      * @param testId Test Set ID
      * @return Collection of test entities
@@ -39,7 +39,7 @@ public class XrayServerTestRepository implements IXrayTestRepository {
     }
 
     /**
-     * Find Tests by ID
+     * Find Tests by ID.
      *
      * @param testSetId Test Set ID
      * @return Collection of test entities

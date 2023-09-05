@@ -13,12 +13,12 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 /**
- * Class containing helper methods for handling files
+ * Class containing helper methods for handling files.
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class FileHelper {
     /**
-     * Check if a file exists
+     * Check if a file exists.
      *
      * @param filePath File location
      * @return true if exists, false otherwise
@@ -30,7 +30,7 @@ public class FileHelper {
     }
 
     /**
-     * Create an empty file and all its parent directories
+     * Create an empty file and all its parent directories.
      *
      * @param filePath File location
      * @return true on success, false otherwise
@@ -47,7 +47,7 @@ public class FileHelper {
     }
 
     /**
-     * Create a file
+     * Create a file.
      *
      * @param filePath    File path relative to project's root directory
      * @param fileContent File content
@@ -77,7 +77,7 @@ public class FileHelper {
     }
 
     /**
-     * Get file content
+     * Get file content.
      *
      * @param filepath path to file
      * @return file content
@@ -88,7 +88,7 @@ public class FileHelper {
     }
 
     /**
-     * Get file content as String
+     * Get file content as String.
      *
      * @param filepath path to file
      * @return file content
@@ -99,7 +99,7 @@ public class FileHelper {
     }
 
     /**
-     * Write file
+     * Write file.
      *
      * @param filePath File location
      * @param content  File content
@@ -111,7 +111,7 @@ public class FileHelper {
     }
 
     /**
-     * Delete a file
+     * Delete a file.
      *
      * @param filePath File location
      * @return true on success, false otherwise

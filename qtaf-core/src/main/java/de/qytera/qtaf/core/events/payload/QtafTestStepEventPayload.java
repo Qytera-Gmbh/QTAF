@@ -3,21 +3,21 @@ package de.qytera.qtaf.core.events.payload;
 import de.qytera.qtaf.core.log.model.message.LogMessage;
 
 /**
- * Step event payload object
+ * Step event payload object.
  */
 public class QtafTestStepEventPayload implements IQtafTestStepEventPayload {
     /**
-     * ID of the scenario the step belongs to
+     * ID of the scenario the step belongs to.
      */
     protected String scenarioId;
 
     /**
-     * Log message of the executed step
+     * Log message of the executed step.
      */
     protected LogMessage logMessage;
 
     /**
-     * Get scenarioId
+     * Get scenarioId.
      *
      * @return scenarioId
      */
@@ -26,7 +26,7 @@ public class QtafTestStepEventPayload implements IQtafTestStepEventPayload {
     }
 
     /**
-     * Set scenarioId
+     * Set scenarioId.
      *
      * @param scenarioId ScenarioId
      * @return this
@@ -37,7 +37,7 @@ public class QtafTestStepEventPayload implements IQtafTestStepEventPayload {
     }
 
     /**
-     * Get logMessage
+     * Get logMessage.
      *
      * @return logMessage
      */
@@ -47,7 +47,7 @@ public class QtafTestStepEventPayload implements IQtafTestStepEventPayload {
     }
 
     /**
-     * Set logMessage
+     * Set logMessage.
      *
      * @param logMessage LogMessage
      * @return this

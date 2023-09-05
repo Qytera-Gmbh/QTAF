@@ -8,7 +8,7 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
 
 /**
- * This class defines which classes or fields should be ignored by JSON
+ * This class defines which classes or fields should be ignored by JSON.
  */
 public class QtafGsonExclusionStrategy implements ExclusionStrategy {
     @Override

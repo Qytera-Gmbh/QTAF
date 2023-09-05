@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * Entity class that holds information about a scenario
+ * Entity class that holds information about a scenario.
  */
 public class QTAFCucumberScenarioEntity {
     private static final String GROUPS_TAG_NAME = "Groups";
@@ -24,7 +24,7 @@ public class QTAFCucumberScenarioEntity {
     private List<String> testSets = new ArrayList<>();
 
     /**
-     * Get featureName
+     * Get featureName.
      *
      * @return featureName
      */
@@ -33,7 +33,7 @@ public class QTAFCucumberScenarioEntity {
     }
 
     /**
-     * Set featureName
+     * Set featureName.
      *
      * @param featureName FeatureName
      * @return this
@@ -44,7 +44,7 @@ public class QTAFCucumberScenarioEntity {
     }
 
     /**
-     * Get feature Tag
+     * Get feature Tag.
      *
      * @param key Tag key
      * @return feature Tag value
@@ -54,7 +54,7 @@ public class QTAFCucumberScenarioEntity {
     }
 
     /**
-     * Get featureTags
+     * Get featureTags.
      *
      * @return featureTags
      */
@@ -63,7 +63,7 @@ public class QTAFCucumberScenarioEntity {
     }
 
     /**
-     * Check if feature tag exists
+     * Check if feature tag exists.
      *
      * @param key Tag key
      * @return true if feature tag exists, false otherwise
@@ -73,7 +73,7 @@ public class QTAFCucumberScenarioEntity {
     }
 
     /**
-     * Add feature tag
+     * Add feature tag.
      *
      * @param key   Tag key
      * @param value Tag value
@@ -83,7 +83,7 @@ public class QTAFCucumberScenarioEntity {
     }
 
     /**
-     * Set featureTags
+     * Set featureTags.
      *
      * @param featureTags FeatureTags
      * @return this
@@ -94,7 +94,7 @@ public class QTAFCucumberScenarioEntity {
     }
 
     /**
-     * Remove feature tag
+     * Remove feature tag.
      *
      * @param key Tag key
      */
@@ -103,7 +103,7 @@ public class QTAFCucumberScenarioEntity {
     }
 
     /**
-     * Get scenarioName
+     * Get scenarioName.
      *
      * @return scenarioName
      */
@@ -112,7 +112,7 @@ public class QTAFCucumberScenarioEntity {
     }
 
     /**
-     * Set scenarioName
+     * Set scenarioName.
      *
      * @param scenarioName ScenarioName
      * @return this
@@ -123,7 +123,7 @@ public class QTAFCucumberScenarioEntity {
     }
 
     /**
-     * Get scenario Tag
+     * Get scenario Tag.
      *
      * @param key Tag key
      * @return scenario Tag value
@@ -133,7 +133,7 @@ public class QTAFCucumberScenarioEntity {
     }
 
     /**
-     * Get scenarioTags
+     * Get scenarioTags.
      *
      * @return scenarioTags
      */
@@ -142,7 +142,7 @@ public class QTAFCucumberScenarioEntity {
     }
 
     /**
-     * Check if scenario tag exists
+     * Check if scenario tag exists.
      *
      * @param key Tag key
      * @return true if scenario tag exists, false otherwise
@@ -152,7 +152,7 @@ public class QTAFCucumberScenarioEntity {
     }
 
     /**
-     * Add scenario tag
+     * Add scenario tag.
      *
      * @param key   Tag key
      * @param value Tag value
@@ -165,7 +165,7 @@ public class QTAFCucumberScenarioEntity {
     }
 
     /**
-     * Add scenario tag
+     * Add scenario tag.
      *
      * @param key    Tag key
      * @param values List of values
@@ -181,7 +181,7 @@ public class QTAFCucumberScenarioEntity {
     }
 
     /**
-     * Set scenarioTags
+     * Set scenarioTags.
      *
      * @param scenarioTags ScenarioTags
      * @return this
@@ -192,7 +192,7 @@ public class QTAFCucumberScenarioEntity {
     }
 
     /**
-     * Remove scenario tag
+     * Remove scenario tag.
      *
      * @param key Tag key
      */
@@ -201,7 +201,7 @@ public class QTAFCucumberScenarioEntity {
     }
 
     /**
-     * Get groupNames
+     * Get groupNames.
      *
      * @return groupNames
      */
@@ -210,7 +210,7 @@ public class QTAFCucumberScenarioEntity {
     }
 
     /**
-     * Add group name
+     * Add group name.
      *
      * @param groupName Name of group
      */
@@ -219,7 +219,7 @@ public class QTAFCucumberScenarioEntity {
     }
 
     /**
-     * Set groupNames
+     * Set groupNames.
      *
      * @param groupNames GroupNames
      */
@@ -228,7 +228,7 @@ public class QTAFCucumberScenarioEntity {
     }
 
     /**
-     * Check if scenario entity has group name
+     * Check if scenario entity has group name.
      *
      * @param groupName Group name
      * @return true if entity has group name, false otherwise
@@ -238,7 +238,7 @@ public class QTAFCucumberScenarioEntity {
     }
 
     /**
-     * Check if scenario entity has all of the given group names
+     * Check if scenario entity has all of the given group names.
      *
      * @param names List of group names
      * @return true if entity has all of the given group names, false otherwise
@@ -253,7 +253,7 @@ public class QTAFCucumberScenarioEntity {
     }
 
     /**
-     * Check if scenario entity has any of the given group names
+     * Check if scenario entity has any of the given group names.
      *
      * @param names List of group names
      * @return true if entity has at least one of the given group names, false otherwise
@@ -268,7 +268,7 @@ public class QTAFCucumberScenarioEntity {
     }
 
     /**
-     * Get test sets
+     * Get test sets.
      *
      * @return List of test sets
      */
@@ -277,7 +277,7 @@ public class QTAFCucumberScenarioEntity {
     }
 
     /**
-     * Add test set
+     * Add test set.
      *
      * @param testSet Name of test set
      */
@@ -286,7 +286,7 @@ public class QTAFCucumberScenarioEntity {
     }
 
     /**
-     * Set test sets
+     * Set test sets.
      *
      * @param testSets List of test sets
      * @return this
@@ -297,7 +297,7 @@ public class QTAFCucumberScenarioEntity {
     }
 
     /**
-     * Remove test set
+     * Remove test set.
      *
      * @param testSet test set
      */
@@ -306,7 +306,7 @@ public class QTAFCucumberScenarioEntity {
     }
 
     /**
-     * Check if scenario entity belongs to test set
+     * Check if scenario entity belongs to test set.
      *
      * @param testSet test set name
      * @return true if entity belongs to test set, false otherwise
@@ -316,7 +316,7 @@ public class QTAFCucumberScenarioEntity {
     }
 
     /**
-     * Check if scenario entity belongs to any of the given test sets
+     * Check if scenario entity belongs to any of the given test sets.
      *
      * @param testSets List of test sets
      * @return true if entity belongs at least to one of the given test sets, false otherwise
@@ -331,7 +331,7 @@ public class QTAFCucumberScenarioEntity {
     }
 
     /**
-     * Check if scenario entity belongs to all of the given test sets
+     * Check if scenario entity belongs to all of the given test sets.
      *
      * @param names List of test sets
      * @return true if entity belongs to all of the given test sets, false otherwise
@@ -346,7 +346,7 @@ public class QTAFCucumberScenarioEntity {
     }
 
     /**
-     * Remove group name
+     * Remove group name.
      *
      * @param groupName Group name
      */
@@ -355,7 +355,7 @@ public class QTAFCucumberScenarioEntity {
     }
 
     /**
-     * Parse group tag
+     * Parse group tag.
      *
      * @return this
      */
@@ -375,7 +375,7 @@ public class QTAFCucumberScenarioEntity {
     }
 
     /**
-     * Parse test set tag
+     * Parse test set tag.
      */
     public void parseTestSetTags() {
         List<String> testSetTagValues = this.getScenarioTags().get(TEST_SET_TAG_NAME);

@@ -4,14 +4,14 @@ import de.qytera.qtaf.core.context.IQtafTestContext;
 import org.testng.ITestResult;
 
 /**
- * Helper class for extracting attributes from TestResult objects
+ * Helper class for extracting attributes from TestResult objects.
  */
 public class TestResultHelper {
     private TestResultHelper() {
     }
 
     /**
-     * Get test context object
+     * Get test context object.
      *
      * @param iTestResult test result
      * @return test context
@@ -22,7 +22,7 @@ public class TestResultHelper {
 
 
     /**
-     * Build Test ID from test class and test method name
+     * Build Test ID from test class and test method name.
      *
      * @param iTestResult Test result context
      * @return ID of the test
@@ -33,7 +33,7 @@ public class TestResultHelper {
     }
 
     /**
-     * Build Test ID from test class and test method name
+     * Build Test ID from test class and test method name.
      *
      * @param iTestResult Test result context
      * @return ID of the test

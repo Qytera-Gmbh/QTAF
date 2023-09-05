@@ -1,53 +1,53 @@
 package de.qytera.qtaf.core.log.model.message;
 
 /**
- * All TestNG Assertion Types
+ * All TestNG Assertion Types.
  *
- * @see <a href="https://www.javadoc.io/doc/org.testng/testng/latest/org/testng/Assert.html">TestNG Assetions</a>
+ * @see <a href="https://www.javadoc.io/doc/org.testng/testng/latest/org/testng/Assert.html">TestNG Assertions</a>
  */
 public enum AssertionLogMessageType {
     /**
-     * Assertion that checks if two values are equal
+     * Used for asserting object equality.
      */
     ASSERT_EQUALS,
     /**
-     * Assertion that checks if collections contain the same objects
+     * Used for asserting deep object equality.
      */
     ASSERT_EQUALS_DEEP,
     /**
-     * Check if two collections contain the same objects no mater in which order
+     * Used for asserting equality regardless of objects' internal ordering.
      */
     ASSERT_EQUALS_NO_ORDER,
     /**
-     * Assertion that checks if a value is false
+     * Used for asserting {@code false}.
      */
     ASSERT_FALSE,
     /**
-     * Assertion that checks if two values are not equal
+     * Used for asserting object inequality.
      */
     ASSERT_NOT_EQUALS,
     /**
-     * Assertion that checks if two collections differ from each other
+     * Used for asserting deep object inequality.
      */
     ASSERT_NOT_EQUALS_DEEP,
     /**
-     * Assertion that checks if a value is not null
+     * Used for asserting objects are not {@code null}.
      */
     ASSERT_NOT_NULL,
     /**
-     * Assertion that checks that two references do not point to the same object
+     * Used for asserting that objects do not share the same reference.
      */
     ASSERT_NOT_SAME,
     /**
-     * Assertion that checks if a value is null
+     * Used for asserting objects are {@code null}.
      */
     ASSERT_NULL,
     /**
-     * Assertion that checks if two variables have the same hash code
+     * Used for asserting that objects share the same reference.
      */
     ASSERT_SAME,
     /**
-     * Assertion that checks if a value is true
+     * Used for asserting {@code true}.
      */
     ASSERT_TRUE,
 }

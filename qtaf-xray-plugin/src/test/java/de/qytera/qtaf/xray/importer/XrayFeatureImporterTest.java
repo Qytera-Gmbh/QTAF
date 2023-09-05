@@ -16,13 +16,13 @@ public class XrayFeatureImporterTest {
     @BeforeMethod
     public void setXrayPlatform() {
         ConfigMap configMap = QtafFactory.getConfiguration();
-        configMap.setString(XrayConfigHelper.XRAY_SERVICE_SELECTOR, "cloud");
+        configMap.setString(XrayConfigHelper.XRAY_SERVICE, "cloud");
     }
 
     @Test
     public void testScenarioTextCreation() {
-        String scenarioDefinition = "When I am late\nThen I have to work longer";
-        String expectedFeatureFileContent = "Scenario: QTAF-1\n  When I am late\n  Then I have to work longer";
+        String scenarioDefinition = "When I am late%nThen I have to work longer".formatted();
+        String expectedFeatureFileContent = "Scenario: QTAF-1%n  When I am late%n  Then I have to work longer".formatted();
 
         String result = XrayImporter.addScenarioDefinition(
                 "QTAF-1",
@@ -34,8 +34,8 @@ public class XrayFeatureImporterTest {
 
     @Test
     public void testFeatureTextCreation() {
-        String scenarioDefinition = "Scenario: QTAF-1\n  When I am late\n  Then I have to work longer";
-        String expectedFeatureFileContent = "Feature: QTAF-100\n  Scenario: QTAF-1\n    When I am late\n    Then I have to work longer";
+        String scenarioDefinition = "Scenario: QTAF-1%n  When I am late%n  Then I have to work longer".formatted();
+        String expectedFeatureFileContent = "Feature: QTAF-100%n  Scenario: QTAF-1%n    When I am late%n    Then I have to work longer".formatted();
 
         String result = XrayImporter.addFeatureDefinition(
                 "QTAF-100",
@@ -47,8 +47,8 @@ public class XrayFeatureImporterTest {
 
     @Test
     public void testFeatureFileContentFromSingleTest() {
-        String scenarioDefinition = "When I am late\nThen I have to work longer";
-        String expectedFeatureFileContent = "Feature: QTAF-1\n  Scenario: QTAF-1\n    When I am late\n    Then I have to work longer";
+        String scenarioDefinition = "When I am late%nThen I have to work longer".formatted();
+        String expectedFeatureFileContent = "Feature: QTAF-1%n  Scenario: QTAF-1%n    When I am late%n    Then I have to work longer".formatted();
 
         XrayTestDto testDto = new XrayTestDto().setKey("QTAF-1").setDefinition(scenarioDefinition);
         String result = XrayImporter.getFeatureFileContentFromSingleTest(testDto);
@@ -58,11 +58,11 @@ public class XrayFeatureImporterTest {
 
     @Test
     public void testFeatureFileContentFromTestSet() {
-        String scenarioDefinition1 = "When I am late\nThen I have to work longer";
-        String scenarioDefinition2 = "When I am early\nThen I have to work shorter";
-        String expectedFeatureFileContent = "Feature: QTAF-100\n  \n" +
-                "  Scenario: QTAF-1\n    When I am late\n    Then I have to work longer\n" +
-                "  Scenario: QTAF-2\n    When I am early\n    Then I have to work shorter";
+        String scenarioDefinition1 = "When I am late%nThen I have to work longer".formatted();
+        String scenarioDefinition2 = "When I am early%nThen I have to work shorter".formatted();
+        String expectedFeatureFileContent = "Feature: QTAF-100%n  %n".formatted() +
+                "  Scenario: QTAF-1%n    When I am late%n    Then I have to work longer%n".formatted() +
+                "  Scenario: QTAF-2%n    When I am early%n    Then I have to work shorter".formatted();
 
         XrayTestDto testDto1 = new XrayTestDto().setKey("QTAF-1").setDefinition(scenarioDefinition1);
         XrayTestDto testDto2 = new XrayTestDto().setKey("QTAF-2").setDefinition(scenarioDefinition2);
@@ -81,7 +81,7 @@ public class XrayFeatureImporterTest {
         String key = "Name";
         String value = "Foo";
         String gherkin = "Feature: QTAF-123";
-        String expectedResult = "@Name:Foo\nFeature: QTAF-123";
+        String expectedResult = "@Name:Foo%nFeature: QTAF-123".formatted();
         String realResult = XrayImporter.addTag(key, value, gherkin);
         Assert.assertEquals(expectedResult, realResult);
     }
@@ -90,7 +90,7 @@ public class XrayFeatureImporterTest {
     public void testGroupTagAddition() {
         String featureName = "QTAF-123";
         String featureDefinition = "Feature: QTAF-123";
-        String expectedResult = "@Groups:QTAF-123\nFeature: QTAF-123";
+        String expectedResult = "@Groups:QTAF-123%nFeature: QTAF-123".formatted();
         String realResult = XrayImporter.addGroupTagToFeatureDefinition(featureName, featureDefinition);
         Assert.assertEquals(expectedResult, realResult);
     }
@@ -98,8 +98,8 @@ public class XrayFeatureImporterTest {
     @Test
     public void testFeatureFileCreationFromSingleTest() throws IOException {
         String filePath = "$USER_DIR/src/test/resources/scenario1.feature";
-        String scenarioDefinition = "When I am late\nThen I have to work longer";
-        String expectedFeatureFileContent = "Feature: QTAF-1\n  Scenario: QTAF-1\n    When I am late\n    Then I have to work longer";
+        String scenarioDefinition = "When I am late%nThen I have to work longer".formatted();
+        String expectedFeatureFileContent = "Feature: QTAF-1%n  Scenario: QTAF-1%n    When I am late%n    Then I have to work longer".formatted();
 
         Assert.assertFalse(FileHelper.exists(filePath));
 
@@ -115,11 +115,11 @@ public class XrayFeatureImporterTest {
     @Test
     public void testFeatureFileCreationFromTestSet() throws IOException {
         String filePath = "$USER_DIR/src/test/resources/scenario2.feature";
-        String scenarioDefinition1 = "When I am late\nThen I have to work longer";
-        String scenarioDefinition2 = "When I am early\nThen I have to work shorter";
-        String expectedFeatureFileContent = "Feature: QTAF-100\n  @newDriver\n  \n" +
-                "  Scenario: QTAF-1\n    When I am late\n    Then I have to work longer\n" +
-                "  Scenario: QTAF-2\n    When I am early\n    Then I have to work shorter";
+        String scenarioDefinition1 = "When I am late%nThen I have to work longer".formatted();
+        String scenarioDefinition2 = "When I am early%nThen I have to work shorter".formatted();
+        String expectedFeatureFileContent = "Feature: QTAF-100%n  @newDriver%n  %n".formatted() +
+                "  Scenario: QTAF-1%n    When I am late%n    Then I have to work longer%n".formatted() +
+                "  Scenario: QTAF-2%n    When I am early%n    Then I have to work shorter".formatted();
 
         Assert.assertFalse(FileHelper.exists(filePath));
 

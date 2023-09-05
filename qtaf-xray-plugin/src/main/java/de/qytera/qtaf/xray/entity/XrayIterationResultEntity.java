@@ -30,6 +30,11 @@ public abstract class XrayIterationResultEntity {
      */
     private List<XrayManualTestStepResultEntity> steps = new ArrayList<>();
 
+    /**
+     * Creates a new {@link XrayIterationResultEntity} with a given result status.
+     *
+     * @param status the status
+     */
     protected XrayIterationResultEntity(TestScenarioLogCollection.Status status) {
         this.status = XrayStatusHelper.statusToText(status);
     }

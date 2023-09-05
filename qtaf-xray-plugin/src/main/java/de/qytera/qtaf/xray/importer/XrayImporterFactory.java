@@ -3,24 +3,24 @@ package de.qytera.qtaf.xray.importer;
 import de.qytera.qtaf.xray.config.XrayConfigHelper;
 
 /**
- * Factory class for Xray Importer objects
+ * Factory class for Xray Importer objects.
  */
 public class XrayImporterFactory {
     private XrayImporterFactory() {
     }
 
     /**
-     * Created instance of XrayServerCucumberImporter
+     * Created instance of XrayServerCucumberImporter.
      */
     private static XrayServerCucumberImporter xrayServerCucumberImporter = null;
 
     /**
-     * Created instance of XrayCloudCucumberImporter
+     * Created instance of XrayCloudCucumberImporter.
      */
     private static XrayCloudCucumberImporter xrayCloudCucumberImporter;
 
     /**
-     * Get Cucumber Importer based on Configuration
+     * Get Cucumber Importer based on Configuration.
      *
      * @return Xray Importer
      */
@@ -35,7 +35,7 @@ public class XrayImporterFactory {
     }
 
     /**
-     * Get Xray Server Cucumber Importer
+     * Get Xray Server Cucumber Importer.
      *
      * @return Xray Server Cucumber Importer object
      */
@@ -48,7 +48,7 @@ public class XrayImporterFactory {
     }
 
     /**
-     * Get Xray Cloud Cucumber Importer
+     * Get Xray Cloud Cucumber Importer.
      *
      * @return Xray Server Cucumber Importer object
      */

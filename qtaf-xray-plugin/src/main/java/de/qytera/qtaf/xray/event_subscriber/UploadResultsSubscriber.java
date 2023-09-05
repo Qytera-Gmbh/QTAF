@@ -16,7 +16,7 @@ import de.qytera.qtaf.xray.repository.xray.XrayTestRepository;
 import rx.Subscription;
 
 /**
- * Event subscriber that uploads test results to Xray API
+ * Event subscriber that uploads test results to Xray API.
  */
 public class UploadResultsSubscriber implements IEventSubscriber {
     /**
@@ -25,7 +25,7 @@ public class UploadResultsSubscriber implements IEventSubscriber {
     private boolean uploaded = false;
 
     /**
-     * Event subscription
+     * Event subscription.
      */
     private Subscription testFinishedSubscription;
 

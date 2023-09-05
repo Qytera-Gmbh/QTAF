@@ -8,31 +8,31 @@ import jakarta.ws.rs.core.HttpHeaders;
 import jakarta.ws.rs.core.Response;
 
 /**
- * HTTP DAO
+ * HTTP DAO.
  */
 public class HTTPDao {
     /**
-     * Web Client that can perform HTTP Requests
+     * Web Client that can perform HTTP Requests.
      */
     protected Client client = ClientBuilder.newClient();
 
     /**
-     * Host: domain name (i.e. "https://www.google.de") or IP-Address (i.e. "8.8.8.8")
+     * Host: domain name (i.e. "https://www.google.de") or IP-Address (i.e. "8.8.8.8").
      */
     protected String host;
 
     /**
-     * Authorization header value
+     * Authorization header value.
      */
     protected String authorizationHeaderValue = null;
 
     /**
-     * String to JSON converter
+     * String to JSON converter.
      */
     protected final Gson gson = new Gson();
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param host host name
      */
@@ -41,7 +41,7 @@ public class HTTPDao {
     }
 
     /**
-     * Get authorizationHeaderValue
+     * Get authorizationHeaderValue.
      *
      * @return authorizationHeaderValue
      */
@@ -50,7 +50,7 @@ public class HTTPDao {
     }
 
     /**
-     * Set authorizationHeaderValue
+     * Set authorizationHeaderValue.
      *
      * @param authorizationHeaderValue AuthorizationHeaderValue
      * @return this
@@ -61,7 +61,7 @@ public class HTTPDao {
     }
 
     /**
-     * Perform GET Requests
+     * Perform GET Requests.
      *
      * @param path      Url Path
      * @param mediaType the request's media type
@@ -76,7 +76,7 @@ public class HTTPDao {
     }
 
     /**
-     * Perform GET Requests
+     * Perform GET Requests.
      *
      * @param path      Url Path
      * @param mediaType Media Type
@@ -91,7 +91,7 @@ public class HTTPDao {
     }
 
     /**
-     * Perform GET Requests
+     * Perform GET Requests.
      *
      * @param path      Url Path
      * @param mediaType Media Type
@@ -102,7 +102,7 @@ public class HTTPDao {
     }
 
     /**
-     * Perform POST Requests
+     * Perform POST Requests.
      *
      * @param path          Url Path
      * @param mediaType     the request's media type
@@ -118,7 +118,7 @@ public class HTTPDao {
     }
 
     /**
-     * Perform POST Requests
+     * Perform POST Requests.
      *
      * @param path          Url Path
      * @param mediaType     Media Type
@@ -133,7 +133,7 @@ public class HTTPDao {
     }
 
     /**
-     * Perform POST Requests
+     * Perform POST Requests.
      *
      * @param path          Url Path
      * @param mediaType     Media Type
@@ -145,7 +145,7 @@ public class HTTPDao {
     }
 
     /**
-     * Perform PUT Requests
+     * Perform PUT Requests.
      *
      * @param path          Url Path
      * @param mediaType     the request's media type
@@ -161,7 +161,7 @@ public class HTTPDao {
     }
 
     /**
-     * Perform PUT Requests
+     * Perform PUT Requests.
      *
      * @param path          Url Path
      * @param mediaType     Media Type
@@ -176,7 +176,7 @@ public class HTTPDao {
     }
 
     /**
-     * Perform PUT Requests
+     * Perform PUT Requests.
      *
      * @param path          Url Path
      * @param mediaType     Media Type
@@ -188,7 +188,7 @@ public class HTTPDao {
     }
 
     /**
-     * Perform DELETE Requests
+     * Perform DELETE Requests.
      *
      * @param path      Url Path
      * @param mediaType the request's media type
@@ -203,7 +203,7 @@ public class HTTPDao {
     }
 
     /**
-     * Perform DELETE Requests
+     * Perform DELETE Requests.
      *
      * @param path      Url Path
      * @param mediaType Media Type
@@ -219,7 +219,7 @@ public class HTTPDao {
     }
 
     /**
-     * Perform DELETE Requests
+     * Perform DELETE Requests.
      *
      * @param path      Url Path
      * @param mediaType Media Type

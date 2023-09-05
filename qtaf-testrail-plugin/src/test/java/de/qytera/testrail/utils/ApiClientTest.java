@@ -17,7 +17,7 @@ public class ApiClientTest {
     @Test(
             description = "Test the constructor of the API client with bad parameters",
             expectedExceptions = IllegalArgumentException.class,
-            expectedExceptionsMessageRegExp = "Testrail Base URL is null, please set the value in your configuration file"
+            expectedExceptionsMessageRegExp = "TestRail base URL is null, please set the value in your configuration file"
     )
     public void testApiClientConstructorBadUrl() {
         new APIClient(null);

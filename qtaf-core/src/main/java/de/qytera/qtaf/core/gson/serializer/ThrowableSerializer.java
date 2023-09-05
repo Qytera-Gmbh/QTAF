@@ -8,7 +8,7 @@ import com.google.gson.JsonSerializer;
 import java.lang.reflect.Type;
 
 /**
- * Converts Throwable object to JSON
+ * Converts Throwable object to JSON.
  */
 public class ThrowableSerializer implements IQtafJsonSerializer, JsonSerializer<Throwable> {
     @Override

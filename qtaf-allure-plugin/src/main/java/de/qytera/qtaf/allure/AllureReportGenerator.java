@@ -14,7 +14,7 @@ import java.nio.file.Paths;
 import java.util.List;
 
 /**
- * Class for generating Allure JSON files
+ * Class for generating Allure JSON files.
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class AllureReportGenerator {
@@ -39,7 +39,7 @@ public class AllureReportGenerator {
     }
 
     /**
-     * Generate an Allure JSON file
+     * Generate an Allure JSON file.
      *
      * @param suite      Test Suite entity
      * @param testResult Allure test result entity

@@ -8,17 +8,17 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 /**
- * Factory class for HTTP Dao obejcts
+ * Factory class for HTTP Dao obejcts.
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class XrayHTTPDaoFactory {
     /**
-     * Xray Server HTTP Dao
+     * Xray Server HTTP Dao.
      */
     private static HTTPJsonDao xrayServerHttpDao = null;
 
     /**
-     * Xray Cloud HTTP Dao
+     * Xray Cloud HTTP Dao.
      */
     private static HTTPJsonDao xrayClientHttpDao = null;
 
@@ -36,7 +36,7 @@ public class XrayHTTPDaoFactory {
     }
 
     /**
-     * Factory method for Xray Server HTTP Dao
+     * Factory method for Xray Server HTTP Dao.
      *
      * @return Xray Server HTTP Dao
      */
@@ -50,7 +50,7 @@ public class XrayHTTPDaoFactory {
     }
 
     /**
-     * Factory method for Xray Server HTTP Dao
+     * Factory method for Xray Server HTTP Dao.
      *
      * @return Xray Server HTTP Dao
      */

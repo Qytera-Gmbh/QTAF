@@ -74,6 +74,11 @@ public class XrayTestEntity {
      */
     private List<XrayCustomFieldEntity> customFields = new ArrayList<>();
 
+    /**
+     * Create a new {@link XrayTestEntity} with the given status.
+     *
+     * @param status the status
+     */
     public XrayTestEntity(TestScenarioLogCollection.Status status) {
         this.status = XrayStatusHelper.statusToText(status);
     }

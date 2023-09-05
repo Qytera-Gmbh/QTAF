@@ -17,22 +17,22 @@ import java.lang.annotation.Annotation;
 import java.util.Date;
 
 /**
- * Event subscriber that reacts to Qtaf lifecycle events and creates log messages
+ * Event subscriber that reacts to Qtaf lifecycle events and creates log messages.
  */
 public class TestNGLoggingSubscriber implements IEventSubscriber {
 
     /**
-     * Reference to global log collection
+     * Reference to global log collection.
      */
     private static final TestSuiteLogCollection testSuiteLogCollection = QtafFactory.getTestSuiteLogCollection();
 
     /**
-     * Logger
+     * Logger.
      */
     private final Logger logger = QtafFactory.getLogger();
 
     /**
-     * Subscribe to events and register event handlers
+     * Subscribe to events and register event handlers.
      */
     @Override
     public void initialize() {
@@ -56,7 +56,7 @@ public class TestNGLoggingSubscriber implements IEventSubscriber {
     }
 
     /**
-     * This method is called every time before a test is executed
+     * This method is called every time before a test is executed.
      *
      * @param iQtafTestEventPayload Test context object
      * @deprecated
@@ -139,7 +139,7 @@ public class TestNGLoggingSubscriber implements IEventSubscriber {
     }
 
     /**
-     * This method is called every time after a test has failed
+     * This method is called every time after a test has failed.
      *
      * @param iQtafTestEventPayload Test context object
      */
@@ -168,7 +168,7 @@ public class TestNGLoggingSubscriber implements IEventSubscriber {
     }
 
     /**
-     * This method is called every time after a test has failed but its success value is within a given percentage
+     * This method is called every time after a test has failed but its success value is within a given percentage.
      *
      * @param iQtafTestEventPayload Test context object
      */
@@ -187,7 +187,7 @@ public class TestNGLoggingSubscriber implements IEventSubscriber {
     }
 
     /**
-     * This method is called every time a test is skipped
+     * This method is called every time a test is skipped.
      *
      * @param iQtafTestEventPayload Test context object
      */
@@ -216,7 +216,7 @@ public class TestNGLoggingSubscriber implements IEventSubscriber {
     }
 
     /**
-     * Internal helper method for generating log messages
+     * Internal helper method for generating log messages.
      *
      * @param iTestResult Test result object
      * @param message     Log message
@@ -231,7 +231,7 @@ public class TestNGLoggingSubscriber implements IEventSubscriber {
     }
 
     /**
-     * Log error
+     * Log error.
      *
      * @param e Exception
      */

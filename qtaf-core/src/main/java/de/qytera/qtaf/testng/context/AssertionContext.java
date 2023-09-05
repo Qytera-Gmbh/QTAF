@@ -12,17 +12,18 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * This interface provides assertion methods that wrap TestNG's assertion messages
+ * This interface contains all assertions QTAF supports natively.
  */
 public interface AssertionContext {
     /**
-     * Get the log collection instance
-     * @return log collection
+     * Returns the collection containing all scenario logs.
+     *
+     * @return the scenario log collection
      */
     TestScenarioLogCollection getLogCollection();
 
     /**
-     * Get a string that will be set as the logging message when no logging message is given by the test case
+     * Get a string that will be set as the logging message when no logging message is given by the test case.
      *
      * @return default log message
      */
@@ -31,7 +32,7 @@ public interface AssertionContext {
     }
 
     /**
-     * Assert that a condition is true
+     * Assert that a condition is true.
      *
      * @param condition The condition
      * @param message   The message that should be displayed if the assertion fails
@@ -41,7 +42,7 @@ public interface AssertionContext {
     }
 
     /**
-     * Assert that a condition is true
+     * Assert that a condition is true.
      *
      * @param condition         The condition
      * @param message           The message that should be displayed if the assertion fails
@@ -63,7 +64,7 @@ public interface AssertionContext {
     }
 
     /**
-     * Assert that a condition is false
+     * Assert that a condition is false.
      *
      * @param condition The condition
      * @param message   The message that should be displayed if the assertion fails
@@ -73,7 +74,7 @@ public interface AssertionContext {
     }
 
     /**
-     * Assert that a condition is false
+     * Assert that a condition is false.
      *
      * @param condition         The condition
      * @param message           The message that should be displayed if the assertion fails
@@ -95,7 +96,7 @@ public interface AssertionContext {
     }
 
     /**
-     * Assert that an object is null
+     * Assert that an object is null.
      *
      * @param object The object
      */
@@ -104,7 +105,7 @@ public interface AssertionContext {
     }
 
     /**
-     * Assert that an object is null
+     * Assert that an object is null.
      *
      * @param object  The object
      * @param message The message that should be displayed if the assertion fails
@@ -114,7 +115,7 @@ public interface AssertionContext {
     }
 
     /**
-     * Assert that an object is null
+     * Assert that an object is null.
      *
      * @param object            The object
      * @param message           The message that should be displayed if the assertion fails
@@ -136,7 +137,7 @@ public interface AssertionContext {
     }
 
     /**
-     * Assert that an object is not null
+     * Assert that an object is not null.
      *
      * @param object The object
      */
@@ -145,7 +146,7 @@ public interface AssertionContext {
     }
 
     /**
-     * Assert that an object is not null
+     * Assert that an object is not null.
      *
      * @param object  The object
      * @param message The message that should be displayed if the assertion fails
@@ -155,7 +156,7 @@ public interface AssertionContext {
     }
 
     /**
-     * Assert that an object is not null
+     * Assert that an object is not null.
      *
      * @param object            The object
      * @param message           The message that should be displayed if the assertion fails
@@ -198,7 +199,7 @@ public interface AssertionContext {
     }
 
     /**
-     * Assert that two objects refer to the same object
+     * Assert that two objects refer to the same object.
      *
      * @param object            Actual object
      * @param expected          Expected object
@@ -242,7 +243,7 @@ public interface AssertionContext {
     }
 
     /**
-     * Assert that two objects do not refer to the same object
+     * Assert that two objects do not refer to the same object.
      *
      * @param object            Actual object
      * @param expected          Expected object
@@ -265,7 +266,7 @@ public interface AssertionContext {
     }
 
     /**
-     * Checks if two objects are equal
+     * Checks if two objects are equal.
      *
      * @param object1 The first object
      * @param object2 The second object
@@ -275,7 +276,7 @@ public interface AssertionContext {
     }
 
     /**
-     * Checks if two objects are equal
+     * Checks if two objects are equal.
      *
      * @param object1 The first object
      * @param object2 The second object
@@ -286,7 +287,7 @@ public interface AssertionContext {
     }
 
     /**
-     * Checks if two objects are equal
+     * Checks if two objects are equal.
      *
      * @param object1           Actual object
      * @param object2           Expected object
@@ -309,7 +310,7 @@ public interface AssertionContext {
     }
 
     /**
-     * Checks if two sets are deeply equal
+     * Checks if two sets are deeply equal.
      *
      * @param actual   The first object
      * @param expected The second object
@@ -319,7 +320,7 @@ public interface AssertionContext {
     }
 
     /**
-     * Checks if two sets are deeply equal
+     * Checks if two sets are deeply equal.
      *
      * @param actual   The first object
      * @param expected The second object
@@ -330,7 +331,7 @@ public interface AssertionContext {
     }
 
     /**
-     * Checks if two maps are deeply equal
+     * Checks if two maps are deeply equal.
      *
      * @param actual   The first object
      * @param expected The second object
@@ -340,7 +341,7 @@ public interface AssertionContext {
     }
 
     /**
-     * Checks if two maps are deeply equal
+     * Checks if two maps are deeply equal.
      *
      * @param actual   The first object
      * @param expected The second object
@@ -351,7 +352,7 @@ public interface AssertionContext {
     }
 
     /**
-     * Checks if two objects are equal
+     * Checks if two objects are equal.
      *
      * @param object1           Actual object
      * @param object2           Expected object
@@ -374,7 +375,7 @@ public interface AssertionContext {
     }
 
     /**
-     * Checks if two objects are equal
+     * Checks if two objects are equal.
      *
      * @param object1           Actual object
      * @param object2           Expected object
@@ -397,7 +398,7 @@ public interface AssertionContext {
     }
 
     /**
-     * Checks if two sets are not deeply equal
+     * Checks if two sets are not deeply equal.
      *
      * @param actual   The first object
      * @param expected The second object
@@ -407,7 +408,7 @@ public interface AssertionContext {
     }
 
     /**
-     * Checks if two sets are not deeply equal
+     * Checks if two sets are not deeply equal.
      *
      * @param actual   The first object
      * @param expected The second object
@@ -418,7 +419,7 @@ public interface AssertionContext {
     }
 
     /**
-     * Checks if two maps are not deeply equal
+     * Checks if two maps are not deeply equal.
      *
      * @param actual   The first object
      * @param expected The second object
@@ -428,7 +429,7 @@ public interface AssertionContext {
     }
 
     /**
-     * Checks if two maps are not deeply equal
+     * Checks if two maps are not deeply equal.
      *
      * @param actual   The first object
      * @param expected The second object
@@ -439,7 +440,7 @@ public interface AssertionContext {
     }
 
     /**
-     * Checks if two objects are not deeply equal
+     * Checks if two objects are not deeply equal.
      *
      * @param object1           Actual object
      * @param object2           Expected object
@@ -462,7 +463,7 @@ public interface AssertionContext {
     }
 
     /**
-     * Checks if two objects are not deeply equal
+     * Checks if two objects are not deeply equal.
      *
      * @param object1           Actual object
      * @param object2           Expected object
@@ -529,7 +530,7 @@ public interface AssertionContext {
     }
 
     /**
-     * Checks if two objects are not equal
+     * Checks if two objects are not equal.
      *
      * @param object1 The first object
      * @param object2 The second object
@@ -539,7 +540,7 @@ public interface AssertionContext {
     }
 
     /**
-     * Checks if two objects are not equal
+     * Checks if two objects are not equal.
      *
      * @param object1 The first object
      * @param object2 The second object
@@ -550,7 +551,7 @@ public interface AssertionContext {
     }
 
     /**
-     * Checks if two objects are not equal
+     * Checks if two objects are not equal.
      *
      * @param object1           Actual object
      * @param object2           Expected object
@@ -573,7 +574,7 @@ public interface AssertionContext {
     }
 
     /**
-     * Create a new assertion log message object
+     * Create a new assertion log message object.
      *
      * @param stepLog step log that belongs to the assertion log
      * @param message assertion message
@@ -590,7 +591,7 @@ public interface AssertionContext {
     }
 
     /**
-     * Handle condition assertions
+     * Handle condition assertions.
      *
      * @param type      assertion type
      * @param condition condition that should be tested
@@ -614,7 +615,7 @@ public interface AssertionContext {
     }
 
     /**
-     * Handle condition assertions
+     * Handle condition assertions.
      *
      * @param type    assertion type
      * @param object  object that should be tested
@@ -626,7 +627,7 @@ public interface AssertionContext {
     }
 
     /**
-     * Handle condition assertions
+     * Handle condition assertions.
      *
      * @param type     assertion type
      * @param object   object that should be tested
@@ -652,7 +653,7 @@ public interface AssertionContext {
     }
 
     /**
-     * Handle assertTrue method call
+     * Handle assertTrue method call.
      *
      * @param condition condition that should be tested
      * @param message   assertion message
@@ -663,7 +664,7 @@ public interface AssertionContext {
     }
 
     /**
-     * Handle assertFalse method call
+     * Handle assertFalse method call.
      *
      * @param condition condition that should be tested
      * @param message   assertion message
@@ -674,7 +675,7 @@ public interface AssertionContext {
     }
 
     /**
-     * Handle assertNull method call
+     * Handle assertNull method call.
      *
      * @param object  object that should be tested
      * @param message assertion message
@@ -685,7 +686,7 @@ public interface AssertionContext {
     }
 
     /**
-     * Handle assertNull method call
+     * Handle assertNull method call.
      *
      * @param object  object that should be tested
      * @param message assertion message
@@ -696,7 +697,7 @@ public interface AssertionContext {
     }
 
     /**
-     * Handle assertSame method call
+     * Handle assertSame method call.
      *
      * @param object   object that should be tested
      * @param expected object that is expected to be equal
@@ -708,7 +709,7 @@ public interface AssertionContext {
     }
 
     /**
-     * Handle assertNotSame method call
+     * Handle assertNotSame method call.
      *
      * @param object   object that should be tested
      * @param expected object that is expected to be equal
@@ -720,7 +721,7 @@ public interface AssertionContext {
     }
 
     /**
-     * Handle assertEquals method call
+     * Handle assertEquals method call.
      *
      * @param object1 object that should be tested
      * @param object2 object that is expected to be equal
@@ -732,7 +733,7 @@ public interface AssertionContext {
     }
 
     /**
-     * Handle assertNotEquals method call
+     * Handle assertNotEquals method call.
      *
      * @param object1 object that should be tested
      * @param object2 object that is expected to be equal
@@ -744,7 +745,7 @@ public interface AssertionContext {
     }
 
     /**
-     * Handle assertDeepEquals method call
+     * Handle assertDeepEquals method call.
      *
      * @param object1 object that should be tested
      * @param object2 object that is expected to be equal
@@ -756,7 +757,7 @@ public interface AssertionContext {
     }
 
     /**
-     * Handle assertNotEqualsDeep method call
+     * Handle assertNotEqualsDeep method call.
      *
      * @param object1 object that should be tested
      * @param object2 object that is expected to be equal
@@ -768,7 +769,7 @@ public interface AssertionContext {
     }
 
     /**
-     * Handle assertEqualsNoOrder method call
+     * Handle assertEqualsNoOrder method call.
      *
      * @param object1 object that should be tested
      * @param object2 object that is expected to be equal

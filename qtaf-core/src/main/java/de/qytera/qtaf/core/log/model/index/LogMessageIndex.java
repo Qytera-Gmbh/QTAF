@@ -11,27 +11,27 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * Index that holds all log messages
+ * Index that holds all log messages.
  */
 public class LogMessageIndex {
     /**
-     * Index that holds all LogMessage objects
+     * Index that holds all LogMessage objects.
      */
     private final Map<Integer, LogMessage> index = Collections.synchronizedMap(new HashMap<>());
 
     /**
-     * Singleton instance
+     * Singleton instance.
      */
     private static final LogMessageIndex instance = new LogMessageIndex();
 
     /**
-     * Private constructor
+     * Private constructor.
      */
     private LogMessageIndex() {
     }
 
     /**
-     * Factory method
+     * Factory method.
      *
      * @return singleton instance
      */
@@ -40,7 +40,7 @@ public class LogMessageIndex {
     }
 
     /**
-     * Get an object by its ID
+     * Get an object by its ID.
      *
      * @param id object ID
      * @return feature log collection
@@ -50,7 +50,7 @@ public class LogMessageIndex {
     }
 
     /**
-     * Add a new object to the index
+     * Add a new object to the index.
      *
      * @param id  object's ID
      * @param obj object itself
@@ -67,7 +67,7 @@ public class LogMessageIndex {
     }
 
     /**
-     * Get size of index (number of elements in the index)
+     * Get size of index (number of elements in the index).
      *
      * @return size of index
      */
@@ -76,14 +76,14 @@ public class LogMessageIndex {
     }
 
     /**
-     * Clear the index
+     * Clear the index.
      */
     public synchronized void clear() {
         index.clear();
     }
 
     /**
-     * Get all log messages for a given feature ID
+     * Get all log messages for a given feature ID.
      *
      * @param featureId Feature ID
      * @return List of log messages for the given feature ID
@@ -97,7 +97,7 @@ public class LogMessageIndex {
     }
 
     /**
-     * Get all log messages for a given abstract scenario ID
+     * Get all log messages for a given abstract scenario ID.
      *
      * @param abstractScenarioId Abstract Scenario ID
      * @return List of log messages for the given abstract scenario ID
@@ -111,7 +111,7 @@ public class LogMessageIndex {
     }
 
     /**
-     * Get all log messages for a given scenario ID
+     * Get all log messages for a given scenario ID.
      *
      * @param scenarioId Scenario ID
      * @return List of log messages for the given scenario ID
@@ -125,7 +125,7 @@ public class LogMessageIndex {
     }
 
     /**
-     * Get all log messages for a given scenario ID that are pending
+     * Get all log messages for a given scenario ID that are pending.
      *
      * @param scenarioId Scenario ID
      * @return List of log messages for the given scenario ID
@@ -141,7 +141,7 @@ public class LogMessageIndex {
     }
 
     /**
-     * Get all log messages for a given scenario ID that have passed
+     * Get all log messages for a given scenario ID that have passed.
      *
      * @param scenarioId Scenario ID
      * @return List of log messages for the given scenario ID
@@ -157,7 +157,7 @@ public class LogMessageIndex {
     }
 
     /**
-     * Get all log messages for a given scenario ID that have failed
+     * Get all log messages for a given scenario ID that have failed.
      *
      * @param scenarioId Scenario ID
      * @return List of log messages for the given scenario ID
