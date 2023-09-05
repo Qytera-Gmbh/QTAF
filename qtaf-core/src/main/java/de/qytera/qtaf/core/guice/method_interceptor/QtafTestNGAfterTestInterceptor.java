@@ -9,10 +9,12 @@ import org.testng.annotations.AfterTest;
 import java.lang.annotation.Annotation;
 
 /**
- * Method interceptor for methods that are annotated with the Step annotation
+ * Method interceptor for methods that are annotated with the @AfterTest annotation
  */
 public class QtafTestNGAfterTestInterceptor extends QtafTestNGAnnotatedMethodInterceptor<AfterTestExecutionInfo> {
-
+    /**
+     * Constructor
+     */
     public QtafTestNGAfterTestInterceptor() {
         super(QtafEvents.afterTestFeature, QtafEvents.afterTestFeatureSuccess, QtafEvents.afterTestFeatureFailure);
     }
