@@ -233,7 +233,13 @@ public class AssertionLogMessage extends LogMessage {
      * Step status.
      */
     private enum Status {
+        /**
+         * Status of passed assertions.
+         */
         PASSED,
+        /**
+         * Status of failed assertions.
+         */
         FAILED,
     }
 

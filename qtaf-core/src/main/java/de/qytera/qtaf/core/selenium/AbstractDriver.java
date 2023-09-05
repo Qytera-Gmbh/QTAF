@@ -105,6 +105,6 @@ public abstract class AbstractDriver {
      * @return true if headless, false otherwise
      */
     protected boolean headless() {
-        return ConfigurationFactory.getInstance().getBoolean("driver.headless");
+        return ConfigurationFactory.getInstance().getBoolean("driver.headless", false);
     }
 }
