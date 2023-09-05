@@ -12,9 +12,9 @@ import de.qytera.qtaf.xray.builder.test.MultipleIterationsXrayTestEntityBuilder;
 import de.qytera.qtaf.xray.builder.test.SingleIterationXrayTestEntityBuilder;
 import de.qytera.qtaf.xray.builder.test.XrayTestEntityBuilder;
 import de.qytera.qtaf.xray.config.XrayConfigHelper;
-import de.qytera.qtaf.xray.dto.request.issues.AdditionalField;
+import de.qytera.qtaf.xray.dto.request.jira.issues.AdditionalField;
 import de.qytera.qtaf.xray.dto.request.xray.ImportExecutionResultsRequestDto;
-import de.qytera.qtaf.xray.dto.response.issues.JiraIssueResponseDto;
+import de.qytera.qtaf.xray.dto.response.jira.issues.JiraIssueResponseDto;
 import de.qytera.qtaf.xray.entity.XrayTestEntity;
 import de.qytera.qtaf.xray.entity.XrayTestExecutionInfoEntity;
 import de.qytera.qtaf.xray.repository.jira.JiraIssueRepository;
@@ -27,12 +27,12 @@ import java.util.stream.Collectors;
  * Transforms log collection into Xray Execution Import DTO
  */
 @Singleton
-public class XrayJsonImportBuilder {
+public class XrayJsonImportBuilder implements RequestBodyBuilder<ImportExecutionResultsRequestDto> {
 
     /**
      * An exception thrown when a test suite did not execute any test marked with {@link XrayTest}.
      */
-    public static class NoXrayTestException extends Exception {
+    public static class NoXrayTestException extends RuntimeException {
         /**
          * Constructs a new exception with a predefined error message.
          */
@@ -46,6 +46,10 @@ public class XrayJsonImportBuilder {
      */
     private final TestSuiteLogCollection collection;
     /**
+     * An issue repository for retrieving additional Jira issue information.
+     */
+    private final JiraIssueRepository jiraIssueRepository;
+    /**
      * A builder for building {@link XrayTestEntity} instances out of scenarios with a single test run.
      */
     private final XrayTestEntityBuilder<TestScenarioLogCollection> singleIterationBuilder;
@@ -54,8 +58,17 @@ public class XrayJsonImportBuilder {
      */
     private final XrayTestEntityBuilder<List<TestScenarioLogCollection>> multipleIterationsBuilder;
 
-    public XrayJsonImportBuilder(TestSuiteLogCollection collection) throws URISyntaxException, MissingConfigurationValueException {
+    /**
+     * Create a new import builder for uploading the given test suite to Xray.
+     *
+     * @param collection          the test suite collection
+     * @param jiraIssueRepository a {@link JiraIssueRepository} for retrieving additional issue data
+     * @throws URISyntaxException                 if any network request's URL is invalid
+     * @throws MissingConfigurationValueException if the configuration is invalid
+     */
+    public XrayJsonImportBuilder(TestSuiteLogCollection collection, JiraIssueRepository jiraIssueRepository) throws URISyntaxException, MissingConfigurationValueException {
         this.collection = collection;
+        this.jiraIssueRepository = jiraIssueRepository;
         Map<String, String> issueSummaries = getIssueSummaries(collection);
         this.singleIterationBuilder = new SingleIterationXrayTestEntityBuilder(this.collection, issueSummaries);
         this.multipleIterationsBuilder = new MultipleIterationsXrayTestEntityBuilder(this.collection, issueSummaries);
@@ -65,8 +78,9 @@ public class XrayJsonImportBuilder {
      * Creates an execution import DTO based on the test suite logs.
      *
      * @return the execution import DTO
+     * @throws NoXrayTestException if no test annotated with {@link XrayTest} was executed
      */
-    public ImportExecutionResultsRequestDto buildRequest() throws NoXrayTestException {
+    public ImportExecutionResultsRequestDto build() {
         ImportExecutionResultsRequestDto xrayImportRequestDto = new ImportExecutionResultsRequestDto();
         xrayImportRequestDto.setInfo(buildTestExecutionInfoEntity());
         xrayImportRequestDto.setTests(buildTestEntities());
@@ -101,14 +115,6 @@ public class XrayJsonImportBuilder {
                 // Ignore tests that don't have an Xray annotation.
                 XrayTest xrayTest = getXrayAnnotation(scenarioLogs);
                 if (xrayTest == null) {
-                    if (scenarioLogs.isEmpty()) {
-                        QtafFactory.getLogger().warn(
-                                String.format(
-                                        "No scenario logs found for test %s",
-                                        entry.getKey()
-                                )
-                        );
-                    }
                     continue;
                 }
                 XrayTestEntity entity;
@@ -132,8 +138,9 @@ public class XrayJsonImportBuilder {
         if (!xrayTest.key().contains(projectKey)) {
             QtafFactory.getLogger().warn(
                     String.format(
-                            "Xray annotation of scenario '%s' contains a project key that was not configured in %s: '%s'." +
-                                    "This scenario's results will not be uploaded.",
+                            """
+                                    Xray annotation of scenario '%s' contains a project key that was not configured in %s: '%s'. \
+                                    This scenario's results will not be uploaded.""",
                             scenarioLogs.get(0).getScenarioName(),
                             QtafFactory.getConfiguration().getLocation(),
                             xrayTest.key()
@@ -143,12 +150,14 @@ public class XrayJsonImportBuilder {
         }
         String issuePattern = String.format("^%s-%s$", projectKey, "[1-9]\\d*");
         if (!xrayTest.key().matches(issuePattern)) {
-            QtafFactory.getLogger().error(
+            QtafFactory.getLogger().warn(
                     String.format(
-                            "Found project key '%s' in Xray annotation of scenario '%s', but failed to extract issue number. " +
-                                    "This scenario's results will not be uploaded.",
+                            """
+                                    Found project key '%s' in Xray annotation of scenario '%s', but failed to extract issue number: '%s'. \
+                                    This scenario's results will not be uploaded.""",
                             projectKey,
-                            scenarioLogs.get(0).getScenarioName()
+                            scenarioLogs.get(0).getScenarioName(),
+                            xrayTest.key()
                     )
             );
             return null;
@@ -156,7 +165,7 @@ public class XrayJsonImportBuilder {
         return xrayTest;
     }
 
-    private static Map<String, String> getIssueSummaries(TestSuiteLogCollection collection) throws URISyntaxException, MissingConfigurationValueException {
+    private Map<String, String> getIssueSummaries(TestSuiteLogCollection collection) throws URISyntaxException, MissingConfigurationValueException {
         // Jira issue summaries are only required when updating test issue steps.
         if (!XrayConfigHelper.shouldResultsUploadTestsInfoStepsUpdate()) {
             return Collections.emptyMap();
@@ -176,7 +185,7 @@ public class XrayJsonImportBuilder {
         return issueSummaries;
     }
 
-    private static Map<String, String> getIssueSummariesFromJira(TestSuiteLogCollection collection) throws URISyntaxException, MissingConfigurationValueException {
+    private Map<String, String> getIssueSummariesFromJira(TestSuiteLogCollection collection) throws URISyntaxException, MissingConfigurationValueException {
         Map<String, String> issueSummaries = new HashMap<>();
         Set<String> testKeys = collection.getTestFeatureLogCollections().stream()
                 .map(TestFeatureLogCollection::getScenarioLogCollection)
@@ -185,13 +194,13 @@ public class XrayJsonImportBuilder {
                 .filter(Objects::nonNull)
                 .map(XrayTest::key)
                 .collect(Collectors.toSet());
-        List<JiraIssueResponseDto> issues = JiraIssueRepository.getInstance().searchJiraIssues(testKeys, AdditionalField.SUMMARY);
+        List<JiraIssueResponseDto> issues = jiraIssueRepository.search(testKeys, AdditionalField.SUMMARY);
         for (JiraIssueResponseDto issue : issues) {
             issueSummaries.put(issue.getKey(), issue.getFields().get(AdditionalField.SUMMARY.text).getAsString());
             testKeys.remove(issue.getKey());
         }
         if (!testKeys.isEmpty()) {
-            String message = String.format("Failed to retrieve the following issue summaries from Jira: %s", testKeys);
+            String message = String.format("Failed to retrieve issue summaries of the following issues from Jira: %s", testKeys);
             QtafFactory.getLogger().error(message);
             ErrorLogCollection.getInstance().addErrorLog(new IllegalStateException(message));
         }

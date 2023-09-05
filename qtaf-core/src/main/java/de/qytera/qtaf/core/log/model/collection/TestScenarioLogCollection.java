@@ -487,9 +487,11 @@ public class TestScenarioLogCollection {
      * @return the annotation if it exists or null
      */
     public <T> T getAnnotation(Class<T> annotationClass) {
-        for (Annotation annotation : annotations) {
-            if (annotationClass.isInstance(annotation)) {
-                return annotationClass.cast(annotation);
+        if (annotations != null) {
+            for (Annotation annotation : annotations) {
+                if (annotationClass.isInstance(annotation)) {
+                    return annotationClass.cast(annotation);
+                }
             }
         }
         return null;

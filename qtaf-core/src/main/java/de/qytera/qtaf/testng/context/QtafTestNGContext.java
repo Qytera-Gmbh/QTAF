@@ -118,6 +118,7 @@ public abstract class QtafTestNGContext implements IQtafTestContext, AssertionCo
      *
      * @param context The current test context (pass 'this' for this argument)
      * @param c       The desired class you want to create an instance of
+     * @param <T>     The class that should be loaded
      * @return Instance of the desired class
      */
     protected static <T> T load(IQtafTestContext context, Class<T> c) {
@@ -132,7 +133,8 @@ public abstract class QtafTestNGContext implements IQtafTestContext, AssertionCo
     /**
      * Load class instance
      *
-     * @param c The desired class you want to create an instance of
+     * @param c   The desired class you want to create an instance of
+     * @param <T> The class that should be loaded
      * @return Instance of the desired class
      */
     protected <T> T load(Class<T> c) {
@@ -156,6 +158,7 @@ public abstract class QtafTestNGContext implements IQtafTestContext, AssertionCo
 
     /**
      * Execute JavaScript code
+     *
      * @param script JavaScript code
      */
     public void jsExec(String script) {
@@ -164,6 +167,7 @@ public abstract class QtafTestNGContext implements IQtafTestContext, AssertionCo
 
     /**
      * Execute JavaScript code
+     *
      * @param script JavaScript code
      * @param args   variables
      */

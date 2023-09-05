@@ -17,6 +17,7 @@ public class XrayConfigHelper {
     private static final ConfigMap CONFIG = QtafFactory.getConfiguration();
 
     // Keys
+    public static final String XRAY_ENABLED = "xray.enabled";
     public static final String XRAY_SERVICE_SELECTOR = "xray.service";
     public static final String URL_XRAY_SELECTOR = "xray.url.xray";
     public static final String URL_JIRA_SELECTOR = "xray.url.jira";
@@ -26,9 +27,12 @@ public class XrayConfigHelper {
     public static final String AUTHENTICATION_XRAY_BEARER_TOKEN = "xray.authentication.xray.bearerToken";
     public static final String AUTHENTICATION_JIRA_USERNAME = "xray.authentication.jira.username";
     public static final String AUTHENTICATION_JIRA_API_TOKEN = "xray.authentication.jira.apiToken";
+    public static final String RESULTS_UPLOAD_ASSIGNEE = "xray.resultsUpload.assignee";
     public static final String RESULTS_UPLOAD_TEST_PLAN_KEY = "xray.resultsUpload.testPlanKey";
     public static final String RESULTS_UPLOAD_SCENARIO_REPORT_EVIDENCE = "xray.resultsUpload.scenarioReportEvidence";
     public static final String RESULTS_UPLOAD_SCENARIO_IMAGE_EVIDENCE = "xray.resultsUpload.scenarioImageEvidence";
+    public static final String RESULTS_UPLOAD_CUSTOM_STATUS_TEST_EXECUTION_ISSUE_PASSED = "xray.resultsUpload.customStatus.testExecutionIssue.passed";
+    public static final String RESULTS_UPLOAD_CUSTOM_STATUS_TEST_EXECUTION_ISSUE_FAILED = "xray.resultsUpload.customStatus.testExecutionIssue.failed";
     public static final String RESULTS_UPLOAD_CUSTOM_STATUS_TEST_PASSED = "xray.resultsUpload.customStatus.test.passed";
     public static final String RESULTS_UPLOAD_CUSTOM_STATUS_TEST_FAILED = "xray.resultsUpload.customStatus.test.failed";
     public static final String RESULTS_UPLOAD_CUSTOM_STATUS_TEST_PENDING = "xray.resultsUpload.customStatus.test.pending";
@@ -45,8 +49,18 @@ public class XrayConfigHelper {
     public static final String RESULTS_UPLOAD_TESTS_ITERATIONS_PARAMETERS_MAX_LENGTH_VALUE = "xray.resultsUpload.tests.iterations.parameters.maxLength.value";
 
     // Values
-    private static final String XRAY_SERVICE_CLOUD = "cloud";
-    private static final String XRAY_SERVICE_SERVER = "server";
+    public static final String XRAY_SERVICE_CLOUD = "cloud";
+    public static final String XRAY_SERVICE_SERVER = "server";
+
+    /**
+     * Returns whether the Xray plugin is enabled. Defaults to false if
+     * the value has not been specified.
+     *
+     * @return whether the plugin is enabled or false by default
+     */
+    public static boolean isEnabled() {
+        return CONFIG.getBoolean(XRAY_ENABLED, false);
+    }
 
     /**
      * Returns the bearer token for authenticating against Xray server.
@@ -109,6 +123,24 @@ public class XrayConfigHelper {
      */
     public static String getJiraUrl() {
         return CONFIG.getString(URL_JIRA_SELECTOR);
+    }
+
+    /**
+     * Returns the Jira test execution issue status for successful test runs.
+     *
+     * @return the status if configured, otherwise null
+     */
+    public static String getResultsUploadCustomStatusTestExecutionIssuePassed() {
+        return CONFIG.getString(RESULTS_UPLOAD_CUSTOM_STATUS_TEST_EXECUTION_ISSUE_PASSED);
+    }
+
+    /**
+     * Returns the Jira test execution issue status for test runs containing failed tests.
+     *
+     * @return the status if configured, otherwise null
+     */
+    public static String getResultsUploadCustomStatusTestExecutionIssueFailed() {
+        return CONFIG.getString(RESULTS_UPLOAD_CUSTOM_STATUS_TEST_EXECUTION_ISSUE_FAILED);
     }
 
     /**
@@ -333,5 +365,14 @@ public class XrayConfigHelper {
      */
     public static String getResultsUploadTestPlanKey() {
         return CONFIG.getString(RESULTS_UPLOAD_TEST_PLAN_KEY);
+    }
+
+    /**
+     * Returns the user to assign the created test execution issue to.
+     *
+     * @return the configured user or null if no user has been configured
+     */
+    public static String getResultsUploadAssignee() {
+        return CONFIG.getString(RESULTS_UPLOAD_ASSIGNEE);
     }
 }

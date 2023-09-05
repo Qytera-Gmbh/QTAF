@@ -1,5 +1,6 @@
-package de.qytera.qtaf.xray.dto.response.issues;
+package de.qytera.qtaf.xray.dto.response.jira.issues;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,6 +12,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@EqualsAndHashCode
 public class JiraIssueSearchResponseDto {
     /**
      * Total number

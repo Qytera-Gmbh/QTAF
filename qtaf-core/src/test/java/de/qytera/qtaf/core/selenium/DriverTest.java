@@ -1,7 +1,6 @@
 package de.qytera.qtaf.core.selenium;
 
 import de.qytera.qtaf.core.config.ConfigurationFactory;
-import de.qytera.qtaf.core.selenium.DriverFactory;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
