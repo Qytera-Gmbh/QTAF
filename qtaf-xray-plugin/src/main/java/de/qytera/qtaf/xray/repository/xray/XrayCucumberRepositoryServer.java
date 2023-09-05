@@ -12,7 +12,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 /**
- * Export Tests from Xray Server as Cucumber Feature File
+ * Export Tests from Xray Server as Cucumber Feature File.
  */
 public class XrayCucumberRepositoryServer implements XrayCucumberRepository, XrayEndpoint {
 

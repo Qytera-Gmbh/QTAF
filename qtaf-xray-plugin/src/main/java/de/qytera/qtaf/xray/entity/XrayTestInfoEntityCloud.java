@@ -18,6 +18,13 @@ public class XrayTestInfoEntityCloud extends XrayTestInfoEntity {
      */
     private final String type;
 
+    /**
+     * Create a new {@link XrayTestInfoEntityCloud} with the given summary, project key and test type.
+     *
+     * @param summary    the summary
+     * @param projectKey the project key
+     * @param type       the test type
+     */
     public XrayTestInfoEntityCloud(String summary, String projectKey, String type) {
         super(summary, projectKey);
         this.type = type;

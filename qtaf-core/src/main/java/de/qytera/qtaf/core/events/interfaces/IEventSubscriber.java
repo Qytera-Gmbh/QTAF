@@ -1,7 +1,7 @@
 package de.qytera.qtaf.core.events.interfaces;
 
 /**
- * Interface that all event subscribers have to implement
+ * Interface that all event subscribers have to implement.
  */
 public interface IEventSubscriber {
     /**

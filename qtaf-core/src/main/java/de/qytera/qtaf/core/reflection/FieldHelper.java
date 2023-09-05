@@ -7,14 +7,14 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Class that provides helper methods for reflective field access and manipulation
+ * Class that provides helper methods for reflective field access and manipulation.
  */
 public class FieldHelper {
     private FieldHelper() {
     }
 
     /**
-     * Get declared fields of a class and its superclasses
+     * Get declared fields of a class and its superclasses.
      *
      * @param clazz class
      * @return fields
@@ -27,7 +27,7 @@ public class FieldHelper {
     }
 
     /**
-     * Get declared fields of a class and its superclasses
+     * Get declared fields of a class and its superclasses.
      *
      * @param fields fields
      * @param clazz  class
@@ -60,7 +60,7 @@ public class FieldHelper {
     }
 
     /**
-     * Get a field reflection object of a given object by a class object
+     * Get a field reflection object of a given object by a class object.
      *
      * @param name  field name
      * @param clazz Object class
@@ -73,7 +73,7 @@ public class FieldHelper {
     }
 
     /**
-     * Check if field can be accessed
+     * Check if field can be accessed.
      *
      * @param field  Field reflection object
      * @param object Object that has the field
@@ -85,7 +85,7 @@ public class FieldHelper {
     }
 
     /**
-     * Get value of an object field using the Reflection API
+     * Get value of an object field using the Reflection API.
      *
      * @param field  Field reflection object
      * @param object Object that has the field
@@ -108,7 +108,7 @@ public class FieldHelper {
     }
 
     /**
-     * Set value of an object field using the Reflection API
+     * Set value of an object field using the Reflection API.
      *
      * @param object Object that has the field
      * @param field  Field reflection object
@@ -132,7 +132,7 @@ public class FieldHelper {
     }
 
     /**
-     * Set value of an object field using the Reflection API
+     * Set value of an object field using the Reflection API.
      *
      * @param object    Object that has the field
      * @param fieldName Field's name

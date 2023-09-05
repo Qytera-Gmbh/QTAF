@@ -4,7 +4,7 @@ import de.qytera.qtaf.core.reflection.FieldHelper;
 import io.cucumber.core.gherkin.Feature;
 
 /**
- * Helper class for extracting information from Cucumber features
+ * Helper class for extracting information from Cucumber features.
  */
 public class CucumberFeatureHelper {
 
@@ -12,7 +12,7 @@ public class CucumberFeatureHelper {
     }
 
     /**
-     * Get feature file path relative to project's source directory
+     * Get feature file path relative to project's source directory.
      *
      * @param absolutePath The absolute path to the feature file
      * @return The relative path of the feature file
@@ -26,7 +26,7 @@ public class CucumberFeatureHelper {
     }
 
     /**
-     * Get Feature object from Feature object
+     * Get Feature object from Feature object.
      *
      * @param iFeature Feature interface object
      * @return Feature object

@@ -6,7 +6,7 @@ import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 /**
- * This class is responsible for managing the appium android driver
+ * This class is responsible for managing the appium android driver.
  */
 public class AndroidDriver extends AbstractAndroidDriver {
     @Override
@@ -20,7 +20,7 @@ public class AndroidDriver extends AbstractAndroidDriver {
     }
 
     /**
-     * Get capabilities
+     * Get capabilities.
      *
      * @return capabilities
      */

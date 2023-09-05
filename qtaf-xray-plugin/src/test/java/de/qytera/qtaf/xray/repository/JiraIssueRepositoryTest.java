@@ -62,7 +62,7 @@ public class JiraIssueRepositoryTest {
 
     @Test(description = "assign issue should return true on successful calls", dataProvider = "assignProvider")
     public void testAssign(UserDto<?, ?> user) {
-        CONFIG.setString(XrayConfigHelper.XRAY_SERVICE_SELECTOR, XrayConfigHelper.XRAY_SERVICE_CLOUD);
+        CONFIG.setString(XrayConfigHelper.XRAY_SERVICE, XrayConfigHelper.XRAY_SERVICE_CLOUD);
         Response response = Mocking.simulateInbound(
                 Response.status(Response.Status.NO_CONTENT).build()
         );
@@ -91,7 +91,7 @@ public class JiraIssueRepositoryTest {
 
     @Test(description = "issue search should construct correct requests")
     public void testSearchJQL() {
-        CONFIG.setString(XrayConfigHelper.XRAY_SERVICE_SELECTOR, XrayConfigHelper.XRAY_SERVICE_CLOUD);
+        CONFIG.setString(XrayConfigHelper.XRAY_SERVICE, XrayConfigHelper.XRAY_SERVICE_CLOUD);
 
         JiraIssueResponseDto[] issues = new JiraIssueResponseDto[]{new JiraIssueResponseDto()};
         issues[0].setKey("QTAF-123");
@@ -117,7 +117,7 @@ public class JiraIssueRepositoryTest {
 
     @Test(description = "issue search should paginate responses")
     public void testSearch() {
-        CONFIG.setString(XrayConfigHelper.XRAY_SERVICE_SELECTOR, XrayConfigHelper.XRAY_SERVICE_CLOUD);
+        CONFIG.setString(XrayConfigHelper.XRAY_SERVICE, XrayConfigHelper.XRAY_SERVICE_CLOUD);
 
         JiraIssueResponseDto issue1 = new JiraIssueResponseDto();
         issue1.setKey("QTAF-123");
@@ -167,7 +167,7 @@ public class JiraIssueRepositoryTest {
 
     @Test(description = "issue search should print errors for bad responses")
     public void testSearchBadResponse() {
-        CONFIG.setString(XrayConfigHelper.XRAY_SERVICE_SELECTOR, XrayConfigHelper.XRAY_SERVICE_CLOUD);
+        CONFIG.setString(XrayConfigHelper.XRAY_SERVICE, XrayConfigHelper.XRAY_SERVICE_CLOUD);
 
         JiraIssueResponseDto issue1 = new JiraIssueResponseDto();
         issue1.setKey("QTAF-123");

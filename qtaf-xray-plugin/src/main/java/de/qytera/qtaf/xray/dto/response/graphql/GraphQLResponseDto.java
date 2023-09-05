@@ -63,12 +63,12 @@ import java.util.stream.Collectors;
 public abstract class GraphQLResponseDto<T> {
 
     /**
-     * Response payload
+     * Response payload.
      */
     private T data;
 
     /**
-     * Error DTO
+     * Error DTO.
      */
     private GraphQLResponseErrorDto[] errors;
 

@@ -13,7 +13,7 @@ public class XrayTestEntityTest {
     @BeforeMethod
     public void clearConfigMap() {
         ConfigMap configMap = QtafFactory.getConfiguration();
-        configMap.remove(XrayConfigHelper.XRAY_SERVICE_SELECTOR);
+        configMap.remove(XrayConfigHelper.XRAY_SERVICE);
         configMap.remove(XrayConfigHelper.RESULTS_UPLOAD_CUSTOM_STATUS_TEST_PASSED);
         configMap.remove(XrayConfigHelper.RESULTS_UPLOAD_CUSTOM_STATUS_TEST_FAILED);
         configMap.remove(XrayConfigHelper.RESULTS_UPLOAD_CUSTOM_STATUS_TEST_PENDING);
@@ -23,7 +23,7 @@ public class XrayTestEntityTest {
     @Test
     public void testStatusServer() {
         ConfigMap configMap = QtafFactory.getConfiguration();
-        configMap.setString(XrayConfigHelper.XRAY_SERVICE_SELECTOR, "server");
+        configMap.setString(XrayConfigHelper.XRAY_SERVICE, "server");
         XrayTestEntity entity = new XrayTestEntity(TestScenarioLogCollection.Status.SUCCESS);
         Assert.assertEquals(entity.getStatus(), "PASS");
         entity = new XrayTestEntity(TestScenarioLogCollection.Status.FAILURE);
@@ -37,7 +37,7 @@ public class XrayTestEntityTest {
     @Test
     public void testStatusCloud() {
         ConfigMap configMap = QtafFactory.getConfiguration();
-        configMap.setString(XrayConfigHelper.XRAY_SERVICE_SELECTOR, "cloud");
+        configMap.setString(XrayConfigHelper.XRAY_SERVICE, "cloud");
         XrayTestEntity entity = new XrayTestEntity(TestScenarioLogCollection.Status.SUCCESS);
         Assert.assertEquals(entity.getStatus(), "PASSED");
         entity = new XrayTestEntity(TestScenarioLogCollection.Status.FAILURE);

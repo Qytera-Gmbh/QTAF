@@ -37,37 +37,37 @@ import java.util.List;
 @Guice(modules = {QtafModule.class})
 public class QtafTestNGCucumberContext extends AbstractTestNGCucumberTests implements IQtafTestContext {
     /**
-     * Logger
+     * Logger.
      */
     private static final Logger logger = QtafFactory.getLogger();
 
     /**
-     * Holds values from JSON configuration files
+     * Holds values from JSON configuration files.
      */
     public static ConfigMap config;
 
     /**
-     * Web driver instance (chrome, firefox, ...)
+     * Web driver instance (chrome, firefox, ...).
      */
     public static WebDriver driver = null;
 
     /**
-     * Page object annotation reference
+     * Page object annotation reference.
      */
     protected TestFeature testFeatureAnnotation;
 
     /**
-     * Global log collection that holds all log messages from the tests
+     * Global log collection that holds all log messages from the tests.
      */
     public static final TestSuiteLogCollection testSuiteLogCollection = QtafFactory.getTestSuiteLogCollection();
 
     /**
-     * Flag for controlling if test context has been initialized
+     * Flag for controlling if test context has been initialized.
      */
     private boolean isInitialized = false;
 
     /**
-     * Constructor with initialization
+     * Constructor with initialization.
      */
     public QtafTestNGCucumberContext() {
         super();
@@ -75,7 +75,7 @@ public class QtafTestNGCucumberContext extends AbstractTestNGCucumberTests imple
     }
 
     /**
-     * Constructor with optional initialization
+     * Constructor with optional initialization.
      *
      * @param shallInitialize Whether test context should be initialized or not
      */
@@ -87,17 +87,11 @@ public class QtafTestNGCucumberContext extends AbstractTestNGCucumberTests imple
         }
     }
 
-    /**
-     * Restart browser
-     */
     @Override
     public void restartDriver() {
         driver = DriverFactory.getDriver(true);
     }
 
-    /**
-     * Initialize test context
-     */
     @Override
     public final QtafTestNGCucumberContext initialize() {
         if (isInitialized) {
@@ -132,12 +126,12 @@ public class QtafTestNGCucumberContext extends AbstractTestNGCucumberTests imple
     }
 
     /**
-     * Log collection for the current method
+     * Log collection for the current method.
      */
     protected TestScenarioLogCollection logCollection;
 
     /**
-     * Log collection for all methods in this class
+     * Log collection for all methods in this class.
      */
     protected TestFeatureLogCollection testFeatureLogCollection = null;
 
@@ -168,7 +162,7 @@ public class QtafTestNGCucumberContext extends AbstractTestNGCucumberTests imple
     }
 
     /**
-     * Method that check if a scenario shall run or not
+     * Method that check if a scenario shall run or not.
      *
      * @param scenarioEntity Scenario entity object
      * @return true if scenario shall run, false otherwise
@@ -189,7 +183,7 @@ public class QtafTestNGCucumberContext extends AbstractTestNGCucumberTests imple
     }
 
     /**
-     * Method that loads and provides Cucumber Scenario entities
+     * Method that loads and provides Cucumber Scenario entities.
      *
      * @return Cucumber scenario entities
      */
@@ -221,7 +215,7 @@ public class QtafTestNGCucumberContext extends AbstractTestNGCucumberTests imple
     }
 
     /**
-     * TestNG test that executes all cucumber scenarios
+     * TestNG test that executes all cucumber scenarios.
      *
      * @param pickleWrapper  Cucumber scenario entity wrapper
      * @param featureWrapper Cucumber feature entity wrapper
@@ -246,7 +240,7 @@ public class QtafTestNGCucumberContext extends AbstractTestNGCucumberTests imple
     }
 
     /**
-     * Method that runs before each scenario
+     * Method that runs before each scenario.
      *
      * @param scenarioEntity Entity object that holds information about feature and scenario that gets executed
      */
@@ -283,7 +277,7 @@ public class QtafTestNGCucumberContext extends AbstractTestNGCucumberTests imple
 
     /**
      * After hooks run after the last step of each scenario,
-     * even when the step result is failed, undefined, pending, or skipped
+     * even when the step result is failed, undefined, pending, or skipped.
      *
      * @param scenario the scenario
      */

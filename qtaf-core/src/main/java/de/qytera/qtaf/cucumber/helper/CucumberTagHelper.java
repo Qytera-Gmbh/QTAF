@@ -10,7 +10,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Class that provides helper methods for extracting information from cucumber tags
+ * Class that provides helper methods for extracting information from cucumber tags.
  */
 public class CucumberTagHelper {
     private CucumberTagHelper() {
@@ -21,7 +21,7 @@ public class CucumberTagHelper {
     private static final String TEST_ID_REGEX = "^@TestName:(.*)$";
 
     /**
-     * Check if a given string is a key-value-pair (matches keyValueRegex)
+     * Check if a given string is a key-value-pair (matches keyValueRegex).
      *
      * @param s string
      * @return true if string is a key-value-pair, false otherwise
@@ -31,7 +31,7 @@ public class CucumberTagHelper {
     }
 
     /**
-     * Check if a given string is a tag
+     * Check if a given string is a tag.
      *
      * @param s string
      * @return true if string is a tag
@@ -41,7 +41,7 @@ public class CucumberTagHelper {
     }
 
     /**
-     * Extract hey and value from a string
+     * Extract hey and value from a string.
      *
      * @param s string
      * @return Matcher object
@@ -51,7 +51,7 @@ public class CucumberTagHelper {
     }
 
     /**
-     * Get a list of key-value pairs from a list of cucumber tag objects
+     * Get a list of key-value pairs from a list of cucumber tag objects.
      *
      * @param tags List of cucumber tag objects
      * @return Map of key-value-pairs
@@ -75,7 +75,7 @@ public class CucumberTagHelper {
     }
 
     /**
-     * Get a list of key-value pairs from a list of cucumber tag strings
+     * Get a list of key-value pairs from a list of cucumber tag strings.
      *
      * @param tags List of cucumber tag strings
      * @return Map of key-value-pairs
@@ -99,7 +99,7 @@ public class CucumberTagHelper {
     }
 
     /**
-     * Get a key-value-list pairs from a list of cucumber tag strings
+     * Get a key-value-list pairs from a list of cucumber tag strings.
      *
      * @param tags List of cucumber tag strings
      * @return Map of key-value-lists
@@ -122,7 +122,7 @@ public class CucumberTagHelper {
     }
 
     /**
-     * Find the tag that represents the test ID and extracts the test ID
+     * Find the tag that represents the test ID and extracts the test ID.
      *
      * @param tags List of cucumber tags
      * @return test ID

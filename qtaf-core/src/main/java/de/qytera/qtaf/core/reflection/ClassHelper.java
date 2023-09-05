@@ -13,11 +13,11 @@ import java.util.*;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ClassHelper {
     /**
-     * Return all superclasses of the given object until stopAt is reached
+     * Return all superclasses of the given object until stopAt is reached.
      *
      * @param object The object that should be inspected
      * @param stopAt The final superclass at which the algorithm should stop
-     * @return List of superclasses of the given object
+     * @return a set of superclasses of the given object
      */
     public static Set<Class<?>> getSuperclasses(Object object, Class<?> stopAt) {
         Set<Class<?>> set = new HashSet<>();
@@ -32,7 +32,7 @@ public class ClassHelper {
     }
 
     /**
-     * Return all superclasses of a given object
+     * Return all superclasses of a given object.
      *
      * @param object The object that should be inspected
      * @return All superclasses of the object
@@ -60,7 +60,7 @@ public class ClassHelper {
     }
 
     /**
-     * Get all superclasses and all interfaces that an object implements
+     * Get all superclasses and all interfaces that an object implements.
      *
      * @param object The inspected object
      * @return Set of all superclasses and implemented interfaces
@@ -74,7 +74,7 @@ public class ClassHelper {
     }
 
     /**
-     * Check if a provided list of parameters can be used for a given method
+     * Check if a provided list of parameters can be used for a given method.
      *
      * @param m      The method that should be inspected
      * @param params The parameters that should be inspected

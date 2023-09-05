@@ -17,20 +17,21 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
- * Configuration entity
+ * Configuration entity.
  */
 @RequiredArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class ConfigMap extends HashMap<String, Object> {
     /**
-     * Error log collection
+     * Error log collection.
      */
     private static final ErrorLogCollection ERROR_LOG_COLLECTION = ErrorLogCollection.getInstance();
 
     /**
-     * Json context
+     * Json context.
      * transient because hashMap need to be serializable
      */
     private final transient DocumentContext documentContext;
@@ -123,7 +124,7 @@ public class ConfigMap extends HashMap<String, Object> {
     }
 
     /**
-     * Get value from system properties
+     * Get value from system properties.
      *
      * @param key configuration key
      * @return configuration value
@@ -226,8 +227,26 @@ public class ConfigMap extends HashMap<String, Object> {
      */
     public Boolean getBoolean(String key) {
         try {
-            return this.getValue(key, Boolean.class);
-        } catch (PathNotFoundException exception) {
+            Object value = getValue(key);
+            if (value instanceof String s) {
+                if (Stream.of("1", "true", "y").anyMatch(v -> v.equalsIgnoreCase(s))) {
+                    return true;
+                } else if (Stream.of("0", "false", "n").anyMatch(v -> v.equalsIgnoreCase(s))) {
+                    return false;
+                }
+            }
+            if (value instanceof Integer n) {
+                if (n == 0) {
+                    return false;
+                }
+                if (n == 1) {
+                    return true;
+                }
+            }
+            if (value instanceof Boolean b) {
+                return b;
+            }
+        } catch (PathNotFoundException | NullPointerException exception) {
             logMissingKey(key);
         }
         return null;

@@ -47,7 +47,7 @@ public class JiraProjectRepositoryTest {
         expectedDto.setLead(new UserCloudDto());
         expectedDto.setIssueTypes(List.of(new IssueTypeCloudDto()));
         expectedDto.setVersions(List.of(new VersionCloudDto()));
-        CONFIG.setString(XrayConfigHelper.XRAY_SERVICE_SELECTOR, XrayConfigHelper.XRAY_SERVICE_CLOUD);
+        CONFIG.setString(XrayConfigHelper.XRAY_SERVICE, XrayConfigHelper.XRAY_SERVICE_CLOUD);
         Response response = Mocking.simulateInbound(
                 Response.status(Response.Status.OK).entity(GsonFactory.getInstance().toJson(expectedDto)).build()
         );
@@ -69,7 +69,7 @@ public class JiraProjectRepositoryTest {
         expectedDto.setLead(new UserServerDto());
         expectedDto.setIssueTypes(List.of(new IssueTypeServerDto()));
         expectedDto.setVersions(List.of(new VersionServerDto()));
-        CONFIG.setString(XrayConfigHelper.XRAY_SERVICE_SELECTOR, XrayConfigHelper.XRAY_SERVICE_SERVER);
+        CONFIG.setString(XrayConfigHelper.XRAY_SERVICE, XrayConfigHelper.XRAY_SERVICE_SERVER);
         Response response = Mocking.simulateInbound(
                 Response.status(Response.Status.OK).entity(GsonFactory.getInstance().toJson(expectedDto)).build()
         );

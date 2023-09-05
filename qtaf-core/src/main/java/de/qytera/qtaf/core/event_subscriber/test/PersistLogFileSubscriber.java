@@ -14,16 +14,16 @@ import de.qytera.qtaf.core.log.model.index.LogMessageIndex;
 import de.qytera.qtaf.core.log.service.LogFileWriter;
 
 /**
- * Event subscriber that subscribes to testing finished events and creates a log file when event is dispatched
+ * Event subscriber that subscribes to testing finished events and creates a log file when event is dispatched.
  */
 public class PersistLogFileSubscriber implements IEventSubscriber {
     /**
-     * This collection contains error logs that were created during the test process
+     * This collection contains error logs that were created during the test process.
      */
     private final ErrorLogCollection errorLogCollection = ErrorLogCollection.getInstance();
 
     /**
-     * Logger
+     * Logger.
      */
     private final Logger logger = QtafFactory.getLogger();
 
@@ -51,7 +51,7 @@ public class PersistLogFileSubscriber implements IEventSubscriber {
     }
 
     /**
-     * Handle the test finished event
+     * Handle the test finished event.
      *
      * @param iTestContext test context
      */
@@ -106,7 +106,7 @@ public class PersistLogFileSubscriber implements IEventSubscriber {
     }
 
     /**
-     * Handle errors that occurred during the framework initialization process
+     * Handle errors that occurred during the framework initialization process.
      *
      * @param e Error
      */
@@ -115,7 +115,7 @@ public class PersistLogFileSubscriber implements IEventSubscriber {
     }
 
     /**
-     * Handle exceptions that occurred during invocation of subscriber method
+     * Handle exceptions that occurred during invocation of subscriber method.
      *
      * @param e Exception object
      */
@@ -126,7 +126,7 @@ public class PersistLogFileSubscriber implements IEventSubscriber {
     }
 
     /**
-     * Handle errors that occurred during the driver initialization process
+     * Handle errors that occurred during the driver initialization process.
      *
      * @param e Error
      */

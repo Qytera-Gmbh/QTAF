@@ -10,14 +10,14 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Helper class for extracting information from Cucumber Scenario objects
+ * Helper class for extracting information from Cucumber Scenario objects.
  */
 public class CucumberTestCaseStateHelper {
     private CucumberTestCaseStateHelper() {
     }
 
     /**
-     * Get TestCase object from TestCaseState object
+     * Get TestCase object from TestCaseState object.
      *
      * @param testCaseState TestCaseState object
      * @return TestCase object
@@ -40,7 +40,7 @@ public class CucumberTestCaseStateHelper {
     }
 
     /**
-     * Get test result object list from a TestCaseState object
+     * Get test result object list from a TestCaseState object.
      *
      * @param testCaseState TestCaseState object
      * @return List of test case result objects

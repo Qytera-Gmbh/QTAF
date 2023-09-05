@@ -7,27 +7,27 @@ import de.qytera.qtaf.core.patterns.Command;
 import de.qytera.qtaf.xray.repository.xray.XrayTestRepository;
 
 /**
- * Command for Xray authentication
+ * Command for Xray authentication.
  */
 public class AuthenticationCommand implements Command {
 
     /**
-     * Configuration
+     * Configuration.
      */
     ConfigMap config;
 
     /**
-     * Logger
+     * Logger.
      */
     final Logger logger = QtafFactory.getLogger();
 
     /**
-     * JWT Token
+     * JWT Token.
      */
     String jwtToken = null;
 
     /**
-     * Constructor
+     * Constructor.
      */
     public AuthenticationCommand() {
         try {
@@ -49,7 +49,7 @@ public class AuthenticationCommand implements Command {
     }
 
     /**
-     * Get jwtToken
+     * Get jwtToken.
      *
      * @return jwtToken
      */
@@ -58,7 +58,7 @@ public class AuthenticationCommand implements Command {
     }
 
     /**
-     * Set jwtToken
+     * Set jwtToken.
      *
      * @param jwtToken JwtToken
      * @return this

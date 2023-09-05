@@ -1,11 +1,11 @@
 package de.qytera.qtaf.core.log.model.error;
 
 /**
- * Error class for driver initialization errors
+ * Error class for driver initialization errors.
  */
 public class DriverInitializationError extends ErrorLog {
     /**
-     * Constructor
+     * Constructor.
      *
      * @param e Error
      */

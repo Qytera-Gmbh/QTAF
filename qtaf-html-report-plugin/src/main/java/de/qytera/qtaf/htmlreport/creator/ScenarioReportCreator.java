@@ -8,21 +8,21 @@ import java.io.Writer;
 import java.util.Map;
 
 /**
- * HTML report creator for scenarios
+ * HTML report creator for scenarios.
  */
 public class ScenarioReportCreator extends ReportCreator {
     /**
-     * Root template
+     * Root template.
      */
     protected String rootTemplate = "de/qytera/qtaf/htmlreport/templates/scenario.html";
 
     /**
-     * Scenario Log Collection
+     * Scenario Log Collection.
      */
     protected TestScenarioLogCollection scenarioLogCollection;
 
     /**
-     * Create scenario report
+     * Create scenario report.
      *
      * @param logCollection         Log collection
      * @param scenarioLogCollection Scenario Log Collection

@@ -12,29 +12,29 @@ import org.openqa.selenium.remote.LocalFileDetector;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 /**
- * Abstract driver class that all driver classes inherit from
+ * Abstract driver class that all driver classes inherit from.
  */
 public abstract class AbstractDriver {
 
     /**
-     * Configuration
+     * Configuration.
      */
     protected static final ConfigMap CONFIG = QtafFactory.getConfiguration();
 
     /**
-     * Logger
+     * Logger.
      */
     protected static final Logger LOGGER = QtafFactory.getLogger();
 
     /**
-     * Get Driver name
+     * Get Driver name.
      *
      * @return driver name
      */
     public abstract String getName();
 
     /**
-     * Get Selenium WebDriver object
+     * Get Selenium WebDriver object.
      *
      * @return selenium web driver object
      */
@@ -55,7 +55,7 @@ public abstract class AbstractDriver {
     protected abstract WebDriver getDriver();
 
     /**
-     * Log an info message
+     * Log an info message.
      *
      * @param message Log message
      */
@@ -64,14 +64,14 @@ public abstract class AbstractDriver {
     }
 
     /**
-     * Get driver capabilities
+     * Get driver capabilities.
      *
      * @return driver capabilities
      */
     protected abstract Capabilities getCapabilities();
 
     /**
-     * Initialize web driver manager
+     * Initialize web driver manager.
      *
      * @param webDriverManager web driver manager
      */
@@ -81,7 +81,7 @@ public abstract class AbstractDriver {
     }
 
     /**
-     * Set web driver version
+     * Set web driver version.
      *
      * @param webDriverManager web driver object
      */
@@ -100,11 +100,11 @@ public abstract class AbstractDriver {
     protected abstract boolean isRemoteDriver();
 
     /**
-     * Check if driver should be started in headless mode
+     * Check if driver should be started in headless mode.
      *
      * @return true if headless, false otherwise
      */
     protected boolean headless() {
-        return ConfigurationFactory.getInstance().getBoolean("driver.headless");
+        return ConfigurationFactory.getInstance().getBoolean("driver.headless", false);
     }
 }

@@ -15,29 +15,29 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Generate GSON object with custom serializers
+ * Generate GSON object with custom serializers.
  */
 public class GsonFactory {
     /**
-     * Private Constructor
+     * Private Constructor.
      */
     private GsonFactory() {
     }
 
     /**
-     * GSON singleton instance
+     * GSON singleton instance.
      */
     private static Gson instance = null;
 
     private static Gson instanceWithoutCustomSerializers = null;
 
     /**
-     * JsonSerializer instances are saved in this map
+     * JsonSerializer instances are saved in this map.
      */
     private static final Map<String, IQtafJsonSerializer> serializers = new HashMap<>();
 
     /**
-     * ExclusionStrategy instances are saved in this map
+     * ExclusionStrategy instances are saved in this map.
      */
     private static final List<ExclusionStrategy> exclusionStrategies = new ArrayList<>();
 
@@ -61,7 +61,7 @@ public class GsonFactory {
     }
 
     /**
-     * Get singleton GSOn instance
+     * Get singleton GSOn instance.
      *
      * @return GSON singleton instance
      */
@@ -93,7 +93,7 @@ public class GsonFactory {
     }
 
     /**
-     * Initialize the serializers
+     * Initialize the serializers.
      */
     public static void loadSerializers() {
         // Get instances of all classes that implement the IQtafJsonSerializer interface
@@ -119,7 +119,7 @@ public class GsonFactory {
     }
 
     /**
-     * Initialize the exclusion strategies
+     * Initialize the exclusion strategies.
      */
     public static void loadExclusionStrategies() {
         // Get instances of all classes that implement the ExclusionStrategy interface

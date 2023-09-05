@@ -7,6 +7,9 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import rx.subjects.BehaviorSubject;
 
+/**
+ * All events the Xray plugin emits.
+ */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class XrayEvents {
     /**

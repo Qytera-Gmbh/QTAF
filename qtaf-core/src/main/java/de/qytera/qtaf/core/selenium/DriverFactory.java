@@ -17,27 +17,27 @@ import org.openqa.selenium.WebDriver;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Driver factory class
+ * Driver factory class.
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class DriverFactory {
     /**
-     * Selenium Web Driver object
+     * Selenium Web Driver object.
      */
     private static WebDriver driver;
 
     /**
-     * Error logs
+     * Error logs.
      */
     private static final ErrorLogCollection errorLogCollection = ErrorLogCollection.getInstance();
 
     /**
-     * Configuration dictionary
+     * Configuration dictionary.
      */
     private static final ConfigMap config = QtafFactory.getConfiguration();
 
     /**
-     * Logger
+     * Logger.
      */
     private static final Logger LOGGER = QtafFactory.getLogger();
 
@@ -56,7 +56,7 @@ public class DriverFactory {
     }
 
     /**
-     * Get web driver instance
+     * Get web driver instance.
      *
      * @param driverName Driver name
      * @return Selenium WebDriver instance
@@ -110,7 +110,7 @@ public class DriverFactory {
     }
 
     /**
-     * Restart web driver instance, use default driver name
+     * Restart web driver instance, use default driver name.
      *
      * @param restart true if new driver object should be created
      * @return Selenium WebDriver instance
@@ -127,7 +127,7 @@ public class DriverFactory {
     }
 
     /**
-     * Driver builder function, configures properties of driver object
+     * Driver builder function, configures properties of driver object.
      *
      * @param d Driver object
      * @return Driver object
@@ -146,7 +146,7 @@ public class DriverFactory {
 
 
     /**
-     * Restart web driver instance
+     * Restart web driver instance.
      *
      * @param driverName Driver name
      * @return Selenium WebDriver instance
@@ -163,14 +163,14 @@ public class DriverFactory {
     }
 
     /**
-     * Clear driver instance
+     * Clear driver instance.
      */
     public static void clearDriver() {
         driver = null;
     }
 
     /**
-     * Check if driver has quit
+     * Check if driver has quit.
      *
      * @return ture if driver has quit, false otherwise
      */
@@ -179,7 +179,7 @@ public class DriverFactory {
     }
 
     /**
-     * Log an info message
+     * Log an info message.
      *
      * @param message Log message
      */
@@ -188,7 +188,7 @@ public class DriverFactory {
     }
 
     /**
-     * Log an info message
+     * Log an info message.
      *
      * @param message Log message
      */

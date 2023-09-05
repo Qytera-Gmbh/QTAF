@@ -13,7 +13,7 @@ import de.qytera.qtaf.xray.events.XrayEvents;
 import java.io.IOException;
 
 /**
- * Persist the Import DTO to the disk
+ * Persist the Import DTO to the disk.
  */
 public class PersistImportRequestDtoSubscriber implements IEventSubscriber {
     @Override

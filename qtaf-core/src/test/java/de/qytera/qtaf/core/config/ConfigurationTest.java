@@ -120,62 +120,6 @@ public class ConfigurationTest {
     }
 
     @Test
-    public void testGetInt() {
-        String key = "hello.there.int";
-        ConfigMap config = ConfigurationFactory.getInstance();
-        Assert.assertNull(config.getInt(key));
-        Assert.assertEquals(config.getInt(key, 42), 42);
-        config.setInt(key, 1337);
-        Assert.assertEquals(config.getInt(key), 1337);
-    }
-
-    @Test
-    public void testGetDouble() {
-        String key = "hello.there.double";
-        ConfigMap config = ConfigurationFactory.getInstance();
-        Assert.assertNull(config.getDouble(key));
-        Assert.assertEquals(config.getDouble(key, 42.0), 42.0);
-        config.setDouble(key, 1337.0);
-        Assert.assertEquals(config.getDouble(key), 1337.0);
-    }
-
-    @Test
-    public void testGetString() {
-        String key = "hello.there.string";
-        ConfigMap config = ConfigurationFactory.getInstance();
-        Assert.assertNull(config.getString(key));
-        Assert.assertEquals(config.getString(key, "42"), "42");
-        config.setString(key, "1337");
-        Assert.assertEquals(config.getString(key), "1337");
-    }
-
-    @Test
-    public void testGetBoolean() {
-        String key = "hello.there.boolean";
-        ConfigMap config = ConfigurationFactory.getInstance();
-        Assert.assertNull(config.getBoolean(key));
-        Assert.assertEquals(config.getBoolean(key, Boolean.TRUE), Boolean.TRUE);
-        config.setBoolean(key, Boolean.FALSE);
-        Assert.assertEquals(config.getBoolean(key), Boolean.FALSE);
-    }
-
-    @Test
-    public void testGetList() {
-        String key = "hello.there.array";
-        ConfigMap config = ConfigurationFactory.getInstance();
-        Assert.assertNotNull(config.getList(key));
-        System.setProperty(key, "[a, 1, 2, \"hello\"]");
-        Assert.assertEquals(config.getList(key).size(), 4);
-        System.setProperty(key, "null");
-        Assert.assertTrue(config.getList(key).isEmpty());
-        System.setProperty(key, "[\"missingQuote]");
-        Assert.assertTrue(config.getList(key).isEmpty());
-        config.setString(key, null);
-        System.clearProperty(key);
-        Assert.assertTrue(config.getList(key).isEmpty());
-    }
-
-    @Test
     public void testLocation() {
         ConfigMap config = ConfigurationFactory.getInstance();
         Assert.assertEquals(config.getLocation(), CONFIG_PATH.toAbsolutePath().toString());

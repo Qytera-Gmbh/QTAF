@@ -17,10 +17,10 @@ public class XrayConfigHelperTest {
     public void testService() {
         ConfigMap configMap = QtafFactory.getConfiguration();
 
-        configMap.setString(XrayConfigHelper.XRAY_SERVICE_SELECTOR, "server");
+        configMap.setString(XrayConfigHelper.XRAY_SERVICE, "server");
         Assert.assertEquals(XrayConfigHelper.getXrayService(), "server");
 
-        configMap.setString(XrayConfigHelper.XRAY_SERVICE_SELECTOR, "cloud");
+        configMap.setString(XrayConfigHelper.XRAY_SERVICE, "cloud");
         Assert.assertEquals(XrayConfigHelper.getXrayService(), "cloud");
     }
 

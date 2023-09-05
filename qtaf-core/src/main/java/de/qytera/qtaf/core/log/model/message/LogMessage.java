@@ -3,36 +3,36 @@ package de.qytera.qtaf.core.log.model.message;
 import de.qytera.qtaf.core.log.model.LogLevel;
 
 /**
- * Log message class holds information about log messages
+ * Log message class holds information about log messages.
  */
 public class LogMessage {
     /**
-     * Log level
+     * Log level.
      */
     protected LogLevel level;
 
     /**
-     * Log message
+     * Log message.
      */
     protected String message = "";
 
     /**
-     * Feature ID
+     * Feature ID.
      */
     protected String featureId = "";
 
     /**
-     * Abstract Scenario ID
+     * Abstract Scenario ID.
      */
     protected String abstractScenarioId = "";
 
     /**
-     * Scenario ID
+     * Scenario ID.
      */
     protected String scenarioId = "";
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param level   log level
      * @param message log message
@@ -43,7 +43,7 @@ public class LogMessage {
     }
 
     /**
-     * Gte log level
+     * Gte log level.
      *
      * @return log level
      */
@@ -52,7 +52,7 @@ public class LogMessage {
     }
 
     /**
-     * Set log level
+     * Set log level.
      *
      * @param level log level
      * @return this
@@ -63,7 +63,7 @@ public class LogMessage {
     }
 
     /**
-     * Get log message
+     * Get log message.
      *
      * @return log message
      */
@@ -72,7 +72,7 @@ public class LogMessage {
     }
 
     /**
-     * Set log message
+     * Set log message.
      *
      * @param message log message
      * @return this
@@ -83,7 +83,7 @@ public class LogMessage {
     }
 
     /**
-     * Get featureId
+     * Get featureId.
      *
      * @return featureId
      */
@@ -92,7 +92,7 @@ public class LogMessage {
     }
 
     /**
-     * Set featureId
+     * Set featureId.
      *
      * @param featureId FeatureId
      * @return this
@@ -103,7 +103,7 @@ public class LogMessage {
     }
 
     /**
-     * Get abstractScenarioId
+     * Get abstractScenarioId.
      *
      * @return abstractScenarioId
      */
@@ -112,7 +112,7 @@ public class LogMessage {
     }
 
     /**
-     * Set abstractScenarioId
+     * Set abstractScenarioId.
      *
      * @param abstractScenarioId AbstractScenarioId
      * @return this
@@ -123,7 +123,7 @@ public class LogMessage {
     }
 
     /**
-     * Get scenarioId
+     * Get scenarioId.
      *
      * @return scenarioId
      */
@@ -132,7 +132,7 @@ public class LogMessage {
     }
 
     /**
-     * Set scenarioId
+     * Set scenarioId.
      *
      * @param scenarioId ScenarioId
      * @return this

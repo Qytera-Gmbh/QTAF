@@ -21,7 +21,7 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * Event subscriber that takes screenshots of tests
+ * Event subscriber that takes screenshots of tests.
  */
 public class ScreenshotSubscriber implements IEventSubscriber {
     @Override
@@ -46,7 +46,7 @@ public class ScreenshotSubscriber implements IEventSubscriber {
     }
 
     /**
-     * Take a screenshot of the currently displayed web page and save it
+     * Take a screenshot of the currently displayed web page and save it.
      *
      * @param payload event payload
      * @param status  test status
@@ -79,7 +79,7 @@ public class ScreenshotSubscriber implements IEventSubscriber {
     }
 
     /**
-     * Take a screenshot of the currently displayed web page and save it
+     * Take a screenshot of the currently displayed web page and save it.
      *
      * @param payload event payload
      */
@@ -88,7 +88,7 @@ public class ScreenshotSubscriber implements IEventSubscriber {
     }
 
     /**
-     * Take a screenshot of the currently displayed web page and save it
+     * Take a screenshot of the currently displayed web page and save it.
      *
      * @param payload event payload
      */
@@ -97,7 +97,7 @@ public class ScreenshotSubscriber implements IEventSubscriber {
     }
 
     /**
-     * Take screenshot
+     * Take screenshot.
      *
      * @param driver WebDriver object
      * @return Screenshot file object
@@ -108,10 +108,11 @@ public class ScreenshotSubscriber implements IEventSubscriber {
     }
 
     /**
-     * Get screenshot destination path
+     * Get screenshot destination path.
      *
      * @param scenarioId Scenario ID
      * @param logDir     Log directory
+     * @param status     the status
      * @return Path where screenshot should be saved
      */
     private String getScreenshotDestinationPath(String scenarioId, String logDir, String status) {
@@ -121,10 +122,11 @@ public class ScreenshotSubscriber implements IEventSubscriber {
     }
 
     /**
-     * Save screenshot file
+     * Save screenshot file.
      *
-     * @param srcFile Screenshot file object
-     * @param path    Destination path
+     * @param srcFile    Screenshot file object
+     * @param path       Destination path
+     * @param scenarioId the scenario ID
      */
     private void saveScreenshot(File srcFile, String path, String scenarioId) {
         File destFile = new File(
@@ -148,7 +150,7 @@ public class ScreenshotSubscriber implements IEventSubscriber {
     }
 
     /**
-     * Handle exceptions that occurred during invocation of subscriber method
+     * Handle exceptions that occurred during invocation of subscriber method.
      *
      * @param e Exception object
      */

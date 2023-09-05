@@ -16,6 +16,11 @@ public class XrayManualTestStepResultEntityCloud extends XrayManualTestStepResul
      */
     private final List<XrayEvidenceItemEntity> evidence = new ArrayList<>();
 
+    /**
+     * Create a new {@link XrayManualTestStepResultEntityCloud} with the given step status.
+     *
+     * @param status the status
+     */
     public XrayManualTestStepResultEntityCloud(StepInformationLogMessage.Status status) {
         super(status);
     }

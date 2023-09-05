@@ -1,16 +1,16 @@
 package de.qytera.qtaf.core.log.model.error;
 
 /**
- * This class is a wrapper class for java.lang.Throwable, because GSON is not able to serialize this class
+ * This class is a wrapper class for java.lang.Throwable, because GSON is not able to serialize this class.
  */
 public class ThrowableWrapper {
     /**
-     * Original object
+     * Original object.
      */
     private transient Throwable throwable;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param t Throwable instance
      */
@@ -19,7 +19,7 @@ public class ThrowableWrapper {
     }
 
     /**
-     * Get message of throwable
+     * Get message of throwable.
      *
      * @return message
      */
@@ -28,7 +28,7 @@ public class ThrowableWrapper {
     }
 
     /**
-     * Get classname of throwable
+     * Get classname of throwable.
      *
      * @return classname
      */
@@ -37,7 +37,7 @@ public class ThrowableWrapper {
     }
 
     /**
-     * Get stack trace
+     * Get stack trace.
      *
      * @return stack trace
      */

@@ -13,17 +13,17 @@ import lombok.Setter;
 @Setter
 public class GraphQLResponseErrorDto {
     /**
-     * message
+     * message.
      */
     private String message;
 
     /**
-     * locations
+     * locations.
      */
     private GraphQLResponseErrorLocationDto[] locations;
 
     /**
-     * paths
+     * paths.
      */
     private String[] path;
 

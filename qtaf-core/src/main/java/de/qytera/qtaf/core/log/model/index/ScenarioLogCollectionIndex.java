@@ -8,27 +8,27 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Index that holds all scenario log collections
+ * Index that holds all scenario log collections.
  */
 public class ScenarioLogCollectionIndex {
     /**
-     * Index that holds all TestScenarioLogCollection objects
+     * Index that holds all TestScenarioLogCollection objects.
      */
     private final Map<String, TestScenarioLogCollection> index = Collections.synchronizedMap(new HashMap<>());
 
     /**
-     * Singleton instance
+     * Singleton instance.
      */
     private static final ScenarioLogCollectionIndex instance = new ScenarioLogCollectionIndex();
 
     /**
-     * Private constructor
+     * Private constructor.
      */
     private ScenarioLogCollectionIndex() {
     }
 
     /**
-     * Factory method
+     * Factory method.
      *
      * @return singleton instance
      */
@@ -37,7 +37,7 @@ public class ScenarioLogCollectionIndex {
     }
 
     /**
-     * Get an object by its ID
+     * Get an object by its ID.
      *
      * @param id object ID
      * @return feature log collection
@@ -47,7 +47,7 @@ public class ScenarioLogCollectionIndex {
     }
 
     /**
-     * Add a new object to the index
+     * Add a new object to the index.
      *
      * @param id  object's ID
      * @param obj object itself
@@ -69,7 +69,7 @@ public class ScenarioLogCollectionIndex {
     }
 
     /**
-     * Get size of index (number of elements in the index)
+     * Get size of index (number of elements in the index).
      *
      * @return size of index
      */
@@ -78,7 +78,7 @@ public class ScenarioLogCollectionIndex {
     }
 
     /**
-     * Clear the index
+     * Clear the index.
      */
     public synchronized void clear() {
         index.clear();

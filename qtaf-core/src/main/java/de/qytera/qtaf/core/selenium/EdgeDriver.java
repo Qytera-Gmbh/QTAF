@@ -5,7 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 
 /**
- * This class is responsible for connecting to a local edge browser
+ * This class is responsible for connecting to a local edge browser.
  */
 public class EdgeDriver extends AbstractDriver {
 

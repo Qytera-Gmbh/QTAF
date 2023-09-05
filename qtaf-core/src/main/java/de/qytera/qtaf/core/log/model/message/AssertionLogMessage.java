@@ -4,48 +4,48 @@ import de.qytera.qtaf.core.log.model.LogLevel;
 import de.qytera.qtaf.core.log.model.error.ThrowableWrapper;
 
 /**
- * Entity class for assertion log messages
+ * Entity class for assertion log messages.
  */
 public class AssertionLogMessage extends LogMessage {
     /**
-     * Type of assertion
+     * Type of assertion.
      */
     protected AssertionLogMessageType type;
 
     /**
-     * Step of assertion
+     * Step of assertion.
      * This attribute needs to be transient so that it is ignored by JSON serializers.
      * Otherwise, this causes a stack overflow, because it is a circular reference.
      */
     protected transient StepInformationLogMessage step;
 
     /**
-     * Assertion status
+     * Assertion status.
      */
     protected Status status;
 
     /**
-     * Assertion condition
+     * Assertion condition.
      */
     protected boolean condition;
 
     /**
-     * Actual object
+     * Actual object.
      */
     protected Object actual;
 
     /**
-     * Expected object
+     * Expected object.
      */
     protected Object expected;
 
     /**
-     * Assertion Error
+     * Assertion Error.
      */
     protected ThrowableWrapper error;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param level   log level
      * @param message log message
@@ -54,19 +54,41 @@ public class AssertionLogMessage extends LogMessage {
         super(level, message);
     }
 
+    /**
+     * Returns the assertion's type.
+     *
+     * @return the type
+     */
     public AssertionLogMessageType type() {
         return type;
     }
 
+    /**
+     * Set the assertion's type.
+     *
+     * @param type the type
+     * @return the current assertion
+     */
     public AssertionLogMessage setType(AssertionLogMessageType type) {
         this.type = type;
         return this;
     }
 
+    /**
+     * Returns the assertion's step.
+     *
+     * @return the step
+     */
     public StepInformationLogMessage step() {
         return step;
     }
 
+    /**
+     * Set the assertion's step.
+     *
+     * @param step the step
+     * @return the current assertion
+     */
     public AssertionLogMessage setStep(StepInformationLogMessage step) {
         this.step = step;
         if (step != null) {
@@ -75,37 +97,81 @@ public class AssertionLogMessage extends LogMessage {
         return this;
     }
 
+    /**
+     * Returns the assertion's condition.
+     *
+     * @return the condition
+     */
     public boolean condition() {
         return condition;
     }
 
+    /**
+     * Set the assertion's condition.
+     *
+     * @param condition the condition
+     * @return the current assertion
+     */
     public AssertionLogMessage setCondition(boolean condition) {
         this.condition = condition;
         return this;
     }
 
+    /**
+     * Returns the assertion's actual object.
+     *
+     * @return the actual object
+     */
     public Object actual() {
         return actual;
     }
 
+    /**
+     * Set the actual object.
+     *
+     * @param actual the actual object
+     * @return the current assertion
+     */
     public AssertionLogMessage setActual(Object actual) {
         this.actual = actual;
         return this;
     }
 
+    /**
+     * Returns the assertion's expected object.
+     *
+     * @return the expected object
+     */
     public Object expected() {
         return expected;
     }
 
+    /**
+     * Set the expected object.
+     *
+     * @param expected the expected object
+     * @return the current assertion
+     */
     public AssertionLogMessage setExpected(Object expected) {
         this.expected = expected;
         return this;
     }
 
+    /**
+     * Returns the assertion's error.
+     *
+     * @return the error
+     */
     public ThrowableWrapper error() {
         return error;
     }
 
+    /**
+     * Set the assertion's error.
+     *
+     * @param error the error
+     * @return the current assertion
+     */
     public AssertionLogMessage setError(AssertionError error) {
         if (error != null) {
             this.error = new ThrowableWrapper(error);
@@ -115,23 +181,48 @@ public class AssertionLogMessage extends LogMessage {
         return this;
     }
 
+    /**
+     * Returns whether the assertion was actually executed.
+     *
+     * @return true if it was executed, false otherwise
+     */
     public boolean wasExecuted() {
         return status != null;
     }
 
+    /**
+     * Returns whether the assertion has passed.
+     *
+     * @return true if it passed, false otherwise
+     */
     public boolean hasPassed() {
         return status == Status.PASSED;
     }
 
+    /**
+     * Returns whether the assertion has failed.
+     *
+     * @return true if it failed, false otherwise
+     */
     public boolean hasFailed() {
         return status == Status.FAILED;
     }
 
+    /**
+     * Set the assertion status to passed.
+     *
+     * @return the current assertion
+     */
     public AssertionLogMessage setStatusToPassed() {
         this.status = Status.PASSED;
         return this;
     }
 
+    /**
+     * Set the assertion status to failed.
+     *
+     * @return the current assertion
+     */
     public AssertionLogMessage setStatusToFailed() {
         this.status = Status.FAILED;
         return this;
@@ -139,10 +230,16 @@ public class AssertionLogMessage extends LogMessage {
 
 
     /**
-     * Step status
+     * Step status.
      */
     private enum Status {
+        /**
+         * Status of passed assertions.
+         */
         PASSED,
+        /**
+         * Status of failed assertions.
+         */
         FAILED,
     }
 

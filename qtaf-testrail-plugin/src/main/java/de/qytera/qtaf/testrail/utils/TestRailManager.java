@@ -21,8 +21,21 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A manager class for keeping track of and uploading executed tests.
+ */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class TestRailManager {
+    /**
+     * Add the result of an executed test case.
+     *
+     * @param client  the TestRail API client
+     * @param caseId  the TestRail case ID
+     * @param runId   the TestRail run ID
+     * @param status  the test status
+     * @param comment any additional comment
+     * @throws APIException if something goes wrong during upload
+     */
     public static void addResultForTestCase(APIClient client, String caseId, String runId, int status, String comment) throws APIException {
         JsonObject body = new JsonObject();
         body.add("status_id", new JsonPrimitive(status));
@@ -37,6 +50,15 @@ public class TestRailManager {
         }
     }
 
+    /**
+     * Add an attachment to a test case.
+     *
+     * @param client     the TestRail API client
+     * @param testCaseId the test case ID
+     * @param path       the attachment file path
+     * @throws APIException if something goes wrong during upload
+     * @throws IOException  if the file cannot be accessed
+     */
     public static void addAttachmentForTestCase(APIClient client, String testCaseId, String path) throws APIException, IOException {
         File file = new File(path);
         List<EntityPart> parts = new ArrayList<>();
@@ -54,6 +76,13 @@ public class TestRailManager {
         }
     }
 
+    /**
+     * Delete an attachment.
+     *
+     * @param client       the TestRail API client
+     * @param attachmentId the attachment
+     * @throws APIException if something goes wrong during deletion
+     */
     public static void deleteAttachmentForTestCase(APIClient client, String attachmentId) throws APIException {
         RequestBuilder request = WebService.buildRequest(URI.create(client.getUrl() + "delete_attachment/" + attachmentId));
         request.getBuilder().header(HttpHeaders.AUTHORIZATION, client.getAuthorizationHeader());
@@ -65,6 +94,14 @@ public class TestRailManager {
         }
     }
 
+    /**
+     * Get all attachments for a test case.
+     *
+     * @param client     the TestRail API client.
+     * @param testCaseId the test case ID
+     * @return all attachments of the test case
+     * @throws APIException if something goes wrong during attachment retrieval
+     */
     public static Attachments getAttachmentsForTestCase(APIClient client, String testCaseId) throws APIException {
         RequestBuilder request = WebService.buildRequest(URI.create(client.getUrl() + "get_attachments_for_case/" + testCaseId));
         request.getBuilder().header(HttpHeaders.AUTHORIZATION, client.getAuthorizationHeader());

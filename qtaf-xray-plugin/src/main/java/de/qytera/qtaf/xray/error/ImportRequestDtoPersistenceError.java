@@ -8,12 +8,12 @@ import de.qytera.qtaf.xray.dto.request.xray.ImportExecutionResultsRequestDto;
  */
 public class ImportRequestDtoPersistenceError extends ErrorLog {
     /**
-     * Import DTO
+     * Import DTO.
      */
     ImportExecutionResultsRequestDto importExecutionResultsRequestDto;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param e Error
      */
@@ -22,7 +22,7 @@ public class ImportRequestDtoPersistenceError extends ErrorLog {
     }
 
     /**
-     * Get xrayImportRequestDto
+     * Get xrayImportRequestDto.
      *
      * @return xrayImportRequestDto
      */
@@ -31,7 +31,7 @@ public class ImportRequestDtoPersistenceError extends ErrorLog {
     }
 
     /**
-     * Set xrayImportRequestDto
+     * Set xrayImportRequestDto.
      *
      * @param importExecutionResultsRequestDto XrayImportRequestDto
      * @return this

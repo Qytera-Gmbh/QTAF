@@ -5,14 +5,14 @@ import io.cucumber.core.gherkin.Feature;
 import io.cucumber.testng.FeatureWrapper;
 
 /**
- * Helper class that provides methods to extract information from Cucumber feature wrapper objects
+ * Helper class that provides methods to extract information from Cucumber feature wrapper objects.
  */
 public class CucumberFeatureWrapperHelper {
     private CucumberFeatureWrapperHelper() {
     }
 
     /**
-     * Get Feature object from FeatureWrapper object
+     * Get Feature object from FeatureWrapper object.
      *
      * @param featureWrapper FeatureWrapper object
      * @return Feature object

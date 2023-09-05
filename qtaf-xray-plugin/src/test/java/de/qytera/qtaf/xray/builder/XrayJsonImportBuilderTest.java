@@ -201,7 +201,7 @@ public class XrayJsonImportBuilderTest {
         scenarioCollection.setStatus(TestScenarioLogCollection.Status.FAILURE);
 
         // Build import request.
-        ConfigurationFactory.getInstance().setString(XrayConfigHelper.XRAY_SERVICE_SELECTOR, "server");
+        ConfigurationFactory.getInstance().setString(XrayConfigHelper.XRAY_SERVICE, "server");
         ImportExecutionResultsRequestDto dto = new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance(), JiraIssueRepository.getInstance()).build();
         List<XrayIterationResultEntity> iterations = dto.getTests().get(0).getIterations();
         Assert.assertEquals(iterations.get(0).getStatus(), XrayStatusHelper.statusToText(TestScenarioLogCollection.Status.SUCCESS));
@@ -222,7 +222,7 @@ public class XrayJsonImportBuilderTest {
         );
         scenarioCollection.setStatus(TestScenarioLogCollection.Status.FAILURE);
         // Build import request.
-        ConfigurationFactory.getInstance().setString(XrayConfigHelper.XRAY_SERVICE_SELECTOR, "server");
+        ConfigurationFactory.getInstance().setString(XrayConfigHelper.XRAY_SERVICE, "server");
         ImportExecutionResultsRequestDto dto = new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance(), JiraIssueRepository.getInstance()).build();
         List<XrayManualTestStepResultEntity> steps = dto.getTests().get(0).getSteps();
         Assert.assertTrue(steps.get(0).getAllEvidence().isEmpty());
@@ -254,7 +254,7 @@ public class XrayJsonImportBuilderTest {
         );
         scenarioCollection.setStatus(TestScenarioLogCollection.Status.FAILURE);
         // Build import request.
-        ConfigurationFactory.getInstance().setString(XrayConfigHelper.XRAY_SERVICE_SELECTOR, "cloud");
+        ConfigurationFactory.getInstance().setString(XrayConfigHelper.XRAY_SERVICE, "cloud");
         ImportExecutionResultsRequestDto dto = new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance(), JiraIssueRepository.getInstance()).build();
         List<XrayIterationResultEntity> iterations = dto.getTests().get(0).getIterations();
         Assert.assertTrue(iterations.get(0).getSteps().get(0).getAllEvidence().isEmpty());

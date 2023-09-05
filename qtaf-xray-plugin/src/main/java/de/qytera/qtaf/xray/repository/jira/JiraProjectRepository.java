@@ -41,7 +41,10 @@ public class JiraProjectRepository implements JiraEndpoint {
      * Returns the project details for a project.
      *
      * @param projectIdOrKey the project ID or project key (case-sensitive)
+     * @param <P>            the project type
      * @return the project details
+     * @throws URISyntaxException                 if any URLs used project retrieval are invalid
+     * @throws MissingConfigurationValueException if the configuration is invalid
      */
     public <P extends ProjectDto<?, ?, ?>> P getProject(String projectIdOrKey) throws URISyntaxException, MissingConfigurationValueException {
         RequestBuilder request = WebService.buildRequest(getProjectPathURI(projectIdOrKey));

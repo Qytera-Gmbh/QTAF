@@ -9,14 +9,14 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Helper class for extracting information from Cucumber Scenario objects
+ * Helper class for extracting information from Cucumber Scenario objects.
  */
 public class CucumberScenarioHelper {
     private CucumberScenarioHelper() {
     }
 
     /**
-     * Get the test case state object from a scenario object
+     * Get the test case state object from a scenario object.
      *
      * @param scenario Cucumber scenario object
      * @return TestCaseState object
@@ -44,7 +44,7 @@ public class CucumberScenarioHelper {
 
     /**
      * Extract key value pairs from cucumber tags
-     * i.e. a tag @MyKey:MyValue will be added to the resulting kv-pairs as ["MyKey" => "MyValue"]
+     * i.e. a tag @MyKey:MyValue will be added to the resulting kv-pairs as ["MyKey" => "MyValue"].
      *
      * @param scenario Cucumber scenario object
      * @return cucumber tag metadata
@@ -56,7 +56,7 @@ public class CucumberScenarioHelper {
     }
 
     /**
-     * Find the tag that represents the test ID and extracts the test ID
+     * Find the tag that represents the test ID and extracts the test ID.
      *
      * @param scenario Cucumber scenario object
      * @return test ID

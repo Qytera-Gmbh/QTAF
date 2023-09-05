@@ -2,24 +2,27 @@ package de.qytera.qtaf.xray.log;
 
 import de.qytera.qtaf.core.log.model.error.ErrorLog;
 
+/**
+ * An error log entry representing Xray authentication errors.
+ */
 public class XrayAuthenticationErrorLog extends ErrorLog {
     /**
-     * HTTP Response status code
+     * HTTP Response status code.
      */
     protected int statusCode;
 
     /**
-     * HTTP error message
+     * HTTP error message.
      */
     protected String errorMessage = "";
 
     /**
-     * Error description
+     * Error description.
      */
     protected String description = "Xray API Authentication failed";
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param e Error
      */
@@ -29,7 +32,7 @@ public class XrayAuthenticationErrorLog extends ErrorLog {
     }
 
     /**
-     * Get statusCode
+     * Get statusCode.
      *
      * @return statusCode
      */
@@ -38,7 +41,7 @@ public class XrayAuthenticationErrorLog extends ErrorLog {
     }
 
     /**
-     * Set statusCode
+     * Set statusCode.
      *
      * @param statusCode StatusCode
      * @return this
@@ -49,7 +52,7 @@ public class XrayAuthenticationErrorLog extends ErrorLog {
     }
 
     /**
-     * Get errorMessage
+     * Get errorMessage.
      *
      * @return errorMessage
      */
@@ -59,7 +62,7 @@ public class XrayAuthenticationErrorLog extends ErrorLog {
     }
 
     /**
-     * Set errorMessage
+     * Set errorMessage.
      *
      * @param errorMessage ErrorMessage
      * @return this

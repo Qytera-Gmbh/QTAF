@@ -1,12 +1,12 @@
 package de.qytera.qtaf.core.log.model.error;
 
 /**
- * Log message for configuration errors
+ * Log message for configuration errors.
  */
 public class ConfigurationError extends ErrorLog {
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param e Error
      */

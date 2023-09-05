@@ -19,11 +19,11 @@ import de.qytera.qtaf.core.selenium.AbstractDriver;
 import java.util.Date;
 
 /**
- * This subscriber is responsible for adding log messages to the corresponding log collections
+ * This subscriber is responsible for adding log messages to the corresponding log collections.
  */
 public class QtafScenarioLoggingSubscriber implements IEventSubscriber {
     /**
-     * Reference to global log collection
+     * Reference to global log collection.
      */
     private static final TestSuiteLogCollection testSuiteLogCollection = QtafFactory.getTestSuiteLogCollection();
 
@@ -68,7 +68,7 @@ public class QtafScenarioLoggingSubscriber implements IEventSubscriber {
     }
 
     /**
-     * Handle step event
+     * Handle step event.
      *
      * @param iQtafTestStepEventPayload event payload
      */
@@ -84,7 +84,7 @@ public class QtafScenarioLoggingSubscriber implements IEventSubscriber {
     }
 
     /**
-     * React to driver initialization
+     * React to driver initialization.
      *
      * @param abstractDriver driver information
      */
@@ -114,7 +114,7 @@ public class QtafScenarioLoggingSubscriber implements IEventSubscriber {
     }
 
     /**
-     * This method is executed when a test was executed successfully
+     * This method is executed when a test was executed successfully.
      *
      * @param iQtafTestEventPayload event payload
      */
@@ -133,7 +133,7 @@ public class QtafScenarioLoggingSubscriber implements IEventSubscriber {
     }
 
     /**
-     * This method is executed when a test was executed successfully
+     * This method is executed when a test was executed successfully.
      *
      * @param iQtafTestEventPayload event payload
      */
@@ -152,7 +152,7 @@ public class QtafScenarioLoggingSubscriber implements IEventSubscriber {
     }
 
     /**
-     * This method is executed when a test failed
+     * This method is executed when a test failed.
      *
      * @param iQtafTestEventPayload event payload
      */
@@ -171,7 +171,7 @@ public class QtafScenarioLoggingSubscriber implements IEventSubscriber {
     }
 
     /**
-     * This method is executed when a test was skipped
+     * This method is executed when a test was skipped.
      *
      * @param iQtafTestEventPayload event payload
      */
@@ -191,6 +191,8 @@ public class QtafScenarioLoggingSubscriber implements IEventSubscriber {
 
     /**
      * This method is executed before the created log messages of QTAF are persisted.
+     *
+     * @param testingContext the testing context
      */
     private void onFinishTesting(IQtafTestingContext testingContext) {
         // Add test duration information
@@ -209,6 +211,8 @@ public class QtafScenarioLoggingSubscriber implements IEventSubscriber {
 
     /**
      * This method is executed before the created log messages of QTAF are persisted.
+     *
+     * @param c the test suite log collection
      */
     private void onBeforeLogsPersisted(TestSuiteLogCollection c) {
         QtafFactory.getLogger().debug(String.format("[%s] onBeforeLogsPersisted", this.getClass().getName()));
@@ -221,7 +225,7 @@ public class QtafScenarioLoggingSubscriber implements IEventSubscriber {
     }
 
     /**
-     * Handle exceptions that occurred during invocation of subscriber method
+     * Handle exceptions that occurred during invocation of subscriber method.
      *
      * @param e Exception object
      */
@@ -232,7 +236,7 @@ public class QtafScenarioLoggingSubscriber implements IEventSubscriber {
     }
 
     /**
-     * Handle exceptions that occurred during invocation of subscriber method
+     * Handle exceptions that occurred during invocation of subscriber method.
      *
      * @param e Exception object
      */

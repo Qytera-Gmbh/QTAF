@@ -2,28 +2,28 @@ package de.qytera.qtaf.http;
 
 
 /**
- * Class that is responsible for loading entities from an HTTP server that returns JSON Responses (i.e. a REST API)
+ * Class that is responsible for loading entities from an HTTP server that returns JSON Responses (i.e. a REST API).
  *
  * @param <T> Entity Type
  */
 public abstract class HTTPJsonEntityRepository<T> {
     /**
-     * HTTP JSON DAO Object
+     * HTTP JSON DAO Object.
      */
     protected HTTPJsonDao dao;
 
     /**
-     * URL Path
+     * URL Path.
      */
     protected String path;
 
     /**
-     * Entity class
+     * Entity class.
      */
     protected Class<T> entityClass;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param dao         DAO
      * @param path        the HTTP resource path
@@ -36,7 +36,7 @@ public abstract class HTTPJsonEntityRepository<T> {
     }
 
     /**
-     * Build path where to look for single entities
+     * Build path where to look for single entities.
      *
      * @param id Entity id
      * @return the path
@@ -46,7 +46,7 @@ public abstract class HTTPJsonEntityRepository<T> {
     }
 
     /**
-     * Build path where to look for single entities
+     * Build path where to look for single entities.
      *
      * @param id Entity id
      * @return the path
@@ -56,7 +56,7 @@ public abstract class HTTPJsonEntityRepository<T> {
     }
 
     /**
-     * Build path where to look for single entities
+     * Build path where to look for single entities.
      *
      * @param entity Entity object
      * @return the path
@@ -64,7 +64,7 @@ public abstract class HTTPJsonEntityRepository<T> {
     public abstract String buildItemPath(T entity);
 
     /**
-     * Find single entity by ID
+     * Find single entity by ID.
      *
      * @param id Entity ID
      * @return Entity object
@@ -74,7 +74,7 @@ public abstract class HTTPJsonEntityRepository<T> {
     }
 
     /**
-     * Create single entity
+     * Create single entity.
      *
      * @param entity Entity object
      * @return Entity object
@@ -84,7 +84,7 @@ public abstract class HTTPJsonEntityRepository<T> {
     }
 
     /**
-     * Update single entity
+     * Update single entity.
      *
      * @param entity Entity object
      * @return Entity object
@@ -94,7 +94,7 @@ public abstract class HTTPJsonEntityRepository<T> {
     }
 
     /**
-     * Find single entity by ID
+     * Find single entity by ID.
      *
      * @param entity Entity object
      * @return Entity object

@@ -17,6 +17,12 @@ public class XrayIterationResultEntityServer extends XrayIterationResultEntity {
      * Nonetheless, keeping the abstract super class feels like the right thing to do, as it keeps the cloud/server
      * naming scheme consistent.
      */
+
+    /**
+     * Create a new {@link XrayIterationResultEntityServer} with a given result status.
+     *
+     * @param status the status
+     */
     public XrayIterationResultEntityServer(TestScenarioLogCollection.Status status) {
         super(status);
     }

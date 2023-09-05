@@ -64,9 +64,21 @@ public class ProjectDetailsDto {
      */
     @RequiredArgsConstructor
     public enum ProjectType {
+        /**
+         * A software development project.
+         */
         SOFTWARE("software"),
+        /**
+         * A service management project.
+         */
         SERVICE_DESK("service_desk"),
+        /**
+         * A core project.
+         */
         BUSINESS("business");
+        /**
+         * The project type as used by Jira's APIs.
+         */
         public final String text;
     }
 

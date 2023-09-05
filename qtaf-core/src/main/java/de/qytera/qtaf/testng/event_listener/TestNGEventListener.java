@@ -21,21 +21,21 @@ import java.util.Map;
 public class TestNGEventListener implements ITestListener {
 
     /**
-     * Parameter that indicates if the test start event was already dispatched
+     * Parameter that indicates if the test start event was already dispatched.
      */
     private static boolean testsStartedEventDispatched = false;
 
     /**
-     * Parameter that indicates if the test finish event was already dispatched
+     * Parameter that indicates if the test finish event was already dispatched.
      */
     private static boolean testsFinishedEventDispatched = false;
 
     /**
-     * Map that contains test results
+     * Map that contains test results.
      */
     private static final Map<Integer, ITestResult> testResultIdMap = new HashMap<>();
     /**
-     * Logger
+     * Logger.
      */
     private static Logger logger = QtafFactory.getLogger();
 

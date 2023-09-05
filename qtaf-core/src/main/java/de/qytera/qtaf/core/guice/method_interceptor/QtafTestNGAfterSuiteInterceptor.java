@@ -9,10 +9,13 @@ import org.testng.annotations.AfterSuite;
 import java.lang.annotation.Annotation;
 
 /**
- * Method interceptor for methods that are annotated with the Step annotation
+ * Method interceptor for methods that are annotated with the Step annotation.
  */
 public class QtafTestNGAfterSuiteInterceptor extends QtafTestNGAnnotatedMethodInterceptor<AfterSuiteExecutionInfo> {
 
+    /**
+     * Creates a new {@link QtafTestNGAfterSuiteInterceptor}.
+     */
     public QtafTestNGAfterSuiteInterceptor() {
         super(QtafEvents.afterTestSuite, QtafEvents.afterTestSuiteSuccess, QtafEvents.afterTestSuiteFailure);
     }
