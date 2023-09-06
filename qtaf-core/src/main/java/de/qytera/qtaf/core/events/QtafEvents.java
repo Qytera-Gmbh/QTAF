@@ -38,12 +38,12 @@ public class QtafEvents {
     public static final BehaviorSubject<Void> frameworkInitialized = BehaviorSubject.create();
 
     /**
-     * This event is dispatched in the TestNG factory class when the test classes are loaded
+     * This event is dispatched in the TestNG factory class when the test classes are loaded.
      */
     public static final BehaviorSubject<Set<Class<?>>> testClassesLoaded = BehaviorSubject.create();
 
     /**
-     * This event is dispatched in the TestNG factory class when the test classes are instantiated
+     * This event is dispatched in the TestNG factory class when the test classes are instantiated.
      */
     public static final BehaviorSubject<List<Object>> testClassInstancesLoaded = BehaviorSubject.create();
 
