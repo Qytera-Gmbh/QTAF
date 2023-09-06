@@ -33,6 +33,9 @@ buildNumber.properties
 .idea/**/dictionaries
 .idea/**/shelf
 
+# Log files
+**/*.log
+
 # AWS User-specific
 .idea/**/aws.xml
 
