@@ -134,6 +134,7 @@ public class StepInformationLogMessage extends LogMessage {
      * @param <T>   the type of the value object
      * @param name  the name of the parameter
      * @param value the value of the parameter
+     * @param <T>   the parameter type
      */
     public <T> void addStepParameter(String name, T value) {
         String className = value == null ? NullType.class.getName() : value.getClass().getSimpleName();
