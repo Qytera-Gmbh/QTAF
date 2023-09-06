@@ -13,7 +13,6 @@ import java.util.Date;
 import java.util.List;
 
 public class StepInformationLogMessageTest {
-
     @Test
     public void testConstructor() throws NoSuchMethodException {
         DemoStepClass demoTest = new DemoStepClass();
