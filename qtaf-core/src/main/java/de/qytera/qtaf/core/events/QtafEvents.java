@@ -11,6 +11,8 @@ import rx.subjects.BehaviorSubject;
 import rx.subjects.PublishSubject;
 
 import java.io.File;
+import java.util.List;
+import java.util.Set;
 
 /**
  * This class manages events emitted by the Qtaf framework.
@@ -34,6 +36,16 @@ public class QtafEvents {
      * Subject that emits an event when the framework is initialized.
      */
     public static final BehaviorSubject<Void> frameworkInitialized = BehaviorSubject.create();
+
+    /**
+     * This event is dispatched in the TestNG factory class when the test classes are loaded.
+     */
+    public static final BehaviorSubject<Set<Class<?>>> testClassesLoaded = BehaviorSubject.create();
+
+    /**
+     * This event is dispatched in the TestNG factory class when the test classes are instantiated.
+     */
+    public static final BehaviorSubject<List<Object>> testClassInstancesLoaded = BehaviorSubject.create();
 
     /**
      * Subject that emits an event when the driver is initialized.
