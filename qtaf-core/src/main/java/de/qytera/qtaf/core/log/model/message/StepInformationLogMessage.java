@@ -131,9 +131,9 @@ public class StepInformationLogMessage extends LogMessage {
     /**
      * Add a generic step parameter.
      *
+     * @param <T>   the type of the value object
      * @param name  the name of the parameter
      * @param value the value of the parameter
-     * @param <T>   the parameter type
      */
     public <T> void addStepParameter(String name, T value) {
         String className = value == null ? NullType.class.getName() : value.getClass().getSimpleName();
@@ -147,6 +147,63 @@ public class StepInformationLogMessage extends LogMessage {
      */
     public Status getStatus() {
         return status;
+    }
+
+    /**
+     * Computes the status of the test step.
+     */
+    public void computeStatus() {
+        // Check if this step has an error object. If there is one the step has failed.
+        if (this.error != null) {
+            status = Status.ERROR;
+            return;
+        }
+
+        // Check if there are any failed assertions. If there are any the step has failed.
+        for (AssertionLogMessage assertion : assertions) {
+            if (assertion.hasFailed()) {
+                status = Status.ERROR;
+                return;
+            }
+        }
+
+        status = Status.PASS;
+    }
+
+    /**
+     * Checks if step has failed.
+     *
+     * @return true if step has failed, false otherwise
+     */
+    public boolean hasFailed() {
+        return status == Status.ERROR;
+    }
+
+    /**
+     * Checks if step has passed.
+     *
+     * @return true if step has passed, false otherwise
+     */
+    public boolean hasPassed() {
+        return status == Status.PASS;
+    }
+
+    /**
+     * Checks if step is pending.
+     *
+     * @return true if step is pending, false otherwise
+     */
+    public boolean isPending() {
+        return status == Status.PENDING;
+    }
+
+    /**
+     * Checks if step is skipped.
+     *
+     * @return true if step is skipped, false otherwise
+     */
+    public boolean isSkipped() {
+        return status == Status.SKIPPED;
     }
 
     /**
@@ -166,7 +223,6 @@ public class StepInformationLogMessage extends LogMessage {
      */
     public StepInformationLogMessage setResult(Object result) {
         this.result = result;
-        this.status = Status.PASS;
         return this;
     }
 
@@ -289,6 +345,7 @@ public class StepInformationLogMessage extends LogMessage {
      */
     public StepInformationLogMessage setEnd(Date end) {
         this.end = end;
+        computeStatus();
         return this;
     }
 
@@ -303,17 +360,6 @@ public class StepInformationLogMessage extends LogMessage {
         }
 
         return 0;
-    }
-
-    /**
-     * Set duration.
-     *
-     * @param duration Duration
-     * @return this
-     */
-    public StepInformationLogMessage setDuration(long duration) {
-        this.duration = duration;
-        return this;
     }
 
     /**
@@ -384,6 +430,11 @@ public class StepInformationLogMessage extends LogMessage {
      */
     public StepInformationLogMessage addAssertion(AssertionLogMessage assertion) {
         this.assertions.add(assertion);
+
+        if (assertion.hasFailed()) {
+            status = Status.ERROR;
+        }
+
         return this;
     }
 
