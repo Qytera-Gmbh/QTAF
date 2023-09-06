@@ -17,7 +17,7 @@ public class StepInformationLogMessageTest {
     @Test
     public void testConstructor() throws NoSuchMethodException {
         DemoStepClass demoTest = new DemoStepClass();
-        Step stepAnnotation = demoTest.getClass().getMethod("stepOne").getAnnotation(Step.class);
+        Step stepAnnotation = demoTest.getClass().getMethod("foo", String.class, int.class).getAnnotation(Step.class);
         StepInformationLogMessage stepInformationLogMessage = new StepInformationLogMessage("method1", "step one was executed");
         stepInformationLogMessage.setStep(stepAnnotation);
         Assert.assertEquals(stepInformationLogMessage.getStep().getName(), stepAnnotation.name());
