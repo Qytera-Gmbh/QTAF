@@ -1,5 +1,0 @@
-2023-08-30 15:31:39.375 [main] WARN  de.qytera.qtaf.core - The plugin was configured to merge test steps, but not to update test issue steps. This might lead to inconsistencies between the test steps of QTAF-42 and the steps of test iteration 1!
-2023-08-30 15:31:39.390 [main] WARN  de.qytera.qtaf.core - The plugin was configured to merge test steps, but not to update test issue steps. This might lead to inconsistencies between the test steps of QTAF-42 and the steps of test iteration 2!
-2023-08-30 15:31:40.062 [main] ERROR de.qytera.qtaf.core - Could not authenticate
-2023-08-30 15:31:40.063 [main] ERROR de.qytera.qtaf.core - failed to find non-null value in configuration C:\Users\ohoenig\IdeaProjects\QTAFProjects\QTAF\qtaf-xray-plugin\src\test\resources\qtaf.json for key: 'xray.authentication.xray.clientId'
-2023-08-30 15:31:40.171 [main] ERROR de.qytera.qtaf.core - failed to find non-null value in configuration C:\Users\ohoenig\IdeaProjects\QTAFProjects\QTAF\qtaf-xray-plugin\src\test\resources\qtaf.json for key: 'xray.authentication.xray.clientId'
