@@ -9,6 +9,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 public class StepInformationLogMessageTest {
 
@@ -95,6 +96,14 @@ public class StepInformationLogMessageTest {
     }
 
     @Test
+    public void testEndDate() throws ParseException {
+        StepInformationLogMessage stepInformationLogMessage = new StepInformationLogMessage("method1", "step one was executed");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        stepInformationLogMessage.setEnd(formatter.parse("2020-02-03"));
+        Assert.assertEquals(stepInformationLogMessage.getEnd().getTime(), formatter.parse("2020-02-03").getTime());
+    }
+
+    @Test
     public void testStatus() {
         StepInformationLogMessage stepInformationLogMessage = new StepInformationLogMessage("method1", "step one was executed");
         stepInformationLogMessage.setStatus(StepInformationLogMessage.Status.PASS);
@@ -107,6 +116,49 @@ public class StepInformationLogMessageTest {
         Assert.assertEquals(stepInformationLogMessage.getStatus(), StepInformationLogMessage.Status.SKIPPED);
         stepInformationLogMessage.setStatus(StepInformationLogMessage.Status.UNDEFINED);
         Assert.assertEquals(stepInformationLogMessage.getStatus(), StepInformationLogMessage.Status.UNDEFINED);
+    }
+
+    @Test
+    public void testStatusComputation() {
+        StepInformationLogMessage stepInformationLogMessage = new StepInformationLogMessage("method1", "step one was executed");
+        Assert.assertEquals(stepInformationLogMessage.getStatus(), StepInformationLogMessage.Status.PENDING);
+        stepInformationLogMessage.computeStatus();
+        Assert.assertEquals(stepInformationLogMessage.getStatus(), StepInformationLogMessage.Status.PASS);
+        Exception exception = new Exception("my error");
+        stepInformationLogMessage.setError(exception);
+        Assert.assertEquals(stepInformationLogMessage.getStatus(), StepInformationLogMessage.Status.ERROR);
+    }
+
+    @Test
+    public void testStatusComputationWithAssertions() {
+        StepInformationLogMessage stepInformationLogMessage = new StepInformationLogMessage("method1", "step one was executed");
+        Assert.assertEquals(stepInformationLogMessage.getStatus(), StepInformationLogMessage.Status.PENDING);
+        stepInformationLogMessage.computeStatus();
+        Assert.assertEquals(stepInformationLogMessage.getStatus(), StepInformationLogMessage.Status.PASS);
+        AssertionLogMessage assertion1 = new AssertionLogMessage(LogLevel.INFO, "a1").setStatusToPassed();
+        stepInformationLogMessage.addAssertion(assertion1);
+        Assert.assertEquals(stepInformationLogMessage.getStatus(), StepInformationLogMessage.Status.PASS);
+        AssertionLogMessage assertion2 = new AssertionLogMessage(LogLevel.INFO, "a1").setStatusToFailed();
+        stepInformationLogMessage.addAssertion(assertion2);
+        Assert.assertEquals(stepInformationLogMessage.getStatus(), StepInformationLogMessage.Status.ERROR);
+    }
+
+    @Test
+    public void testSetAssertions() {
+        StepInformationLogMessage stepInformationLogMessage = new StepInformationLogMessage("method1", "step one was executed");
+        AssertionLogMessage assertion1 = new AssertionLogMessage(LogLevel.INFO, "a1").setStatusToPassed();
+        AssertionLogMessage assertion2 = new AssertionLogMessage(LogLevel.INFO, "a1").setStatusToFailed();
+        Assert.assertEquals(stepInformationLogMessage.getAssertions().size(), 0);
+        stepInformationLogMessage.setAssertions(List.of(assertion1, assertion2));
+        Assert.assertEquals(stepInformationLogMessage.getAssertions().size(), 2);
+    }
+
+    @Test
+    public void testSetMethodName() {
+        StepInformationLogMessage stepInformationLogMessage = new StepInformationLogMessage("method1", "step one was executed");
+        Assert.assertEquals(stepInformationLogMessage.getMethodName(), "method1");
+        stepInformationLogMessage.setMethodName("new method name");
+        Assert.assertEquals(stepInformationLogMessage.getMethodName(), "new method name");
     }
 
     @Test
