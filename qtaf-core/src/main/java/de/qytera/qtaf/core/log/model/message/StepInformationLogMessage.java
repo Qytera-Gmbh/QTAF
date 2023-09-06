@@ -98,11 +98,6 @@ public class StepInformationLogMessage extends LogMessage {
         this.methodName = methodName;
     }
 
-    protected void finalize() throws Throwable {
-        QtafFactory.getLogger().warn("[StepLog] Destroying log message '" + getMessage() + "'");
-        super.finalize();
-    }
-
     /**
      * Get uuid.
      *
