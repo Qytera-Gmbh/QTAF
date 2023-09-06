@@ -1,12 +1,114 @@
 package de.qytera.qtaf.core.log.model.message;
 
+import de.qytera.qtaf.core.guice.annotations.Step;
 import de.qytera.qtaf.core.log.model.LogLevel;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class StepInformationLogMessageTest {
+
+    @Test
+    public void testConstructor() throws NoSuchMethodException {
+        DemoTest demoTest = new DemoTest();
+        Step stepAnnotation = demoTest.getClass().getMethod("stepOne").getAnnotation(Step.class);
+        StepInformationLogMessage stepInformationLogMessage = new StepInformationLogMessage("method1", "step one was executed");
+        stepInformationLogMessage.setStep(stepAnnotation);
+        Assert.assertEquals(stepInformationLogMessage.getStep().getName(), stepAnnotation.name());
+        Assert.assertEquals(stepInformationLogMessage.getStep().getDescription(), stepAnnotation.description());
+    }
+
+    @Test
+    public void testAddParameter() {
+        StepInformationLogMessage stepInformationLogMessage = new StepInformationLogMessage("method1", "step one was executed");
+        stepInformationLogMessage.addStepParameter("param1", "value1");
+        Assert.assertEquals(stepInformationLogMessage.getStepParameters().size(), 1);
+        Assert.assertEquals(stepInformationLogMessage.getStepParameters().get(0).getName(), "param1");
+        Assert.assertEquals(stepInformationLogMessage.getStepParameters().get(0).getValue(), "value1");
+        Assert.assertEquals(stepInformationLogMessage.getStepParameters().get(0).getType(), "String");
+    }
+
+    @Test
+    public void testType() {
+        StepInformationLogMessage stepInformationLogMessage = new StepInformationLogMessage("method1", "step one was executed");
+        Assert.assertEquals(stepInformationLogMessage.getTYPE(), "STEP_LOG");
+    }
+
+    @Test
+    public void testResults() {
+        StepInformationLogMessage stepInformationLogMessage = new StepInformationLogMessage("method1", "step one was executed");
+        String result = "result";
+        stepInformationLogMessage.setResult(result);
+        Assert.assertEquals(stepInformationLogMessage.getResult(), result);
+    }
+
+    @Test
+    public void testError() {
+        StepInformationLogMessage stepInformationLogMessage = new StepInformationLogMessage("method1", "step one was executed");
+        Exception exception = new Exception("my error");
+        Assert.assertFalse(stepInformationLogMessage.hasError());
+        stepInformationLogMessage.setError(exception);
+        Assert.assertTrue(stepInformationLogMessage.hasError());
+        Assert.assertEquals(stepInformationLogMessage.getError().getMessage(), "my error");
+
+    }
+
+    @Test
+    public void testGetMethodName() {
+        StepInformationLogMessage stepInformationLogMessage = new StepInformationLogMessage("method1", "step one was executed");
+        Assert.assertEquals(stepInformationLogMessage.getMethodName(), "method1");
+    }
+
+    @Test
+    public void testDuration() throws ParseException {
+        StepInformationLogMessage stepInformationLogMessage = new StepInformationLogMessage("method1", "step one was executed");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        stepInformationLogMessage.setStart(formatter.parse("2020-01-01 12:00:00"));
+        stepInformationLogMessage.setEnd(formatter.parse("2020-01-01 12:03:40"));
+        Assert.assertEquals(stepInformationLogMessage.getDuration(), 220000L);
+    }
+
+    @Test
+    public void testScreenshotBefore() {
+        StepInformationLogMessage stepInformationLogMessage = new StepInformationLogMessage("method1", "step one was executed");
+        stepInformationLogMessage.setScreenshotBefore("/my/file");
+        Assert.assertEquals(stepInformationLogMessage.getScreenshotBefore(), "/my/file");
+    }
+
+    @Test
+    public void testScreenshotAfter() {
+        StepInformationLogMessage stepInformationLogMessage = new StepInformationLogMessage("method1", "step one was executed");
+        stepInformationLogMessage.setScreenshotAfter("/my/file");
+        Assert.assertEquals(stepInformationLogMessage.getScreenshotAfter(), "/my/file");
+    }
+
+    @Test
+    public void testStartDate() throws ParseException {
+        StepInformationLogMessage stepInformationLogMessage = new StepInformationLogMessage("method1", "step one was executed");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        stepInformationLogMessage.setStart(formatter.parse("2020-01-01"));
+        Assert.assertEquals(stepInformationLogMessage.getStart().getTime(), formatter.parse("2020-01-01").getTime());
+    }
+
+    @Test
+    public void testStatus() {
+        StepInformationLogMessage stepInformationLogMessage = new StepInformationLogMessage("method1", "step one was executed");
+        stepInformationLogMessage.setStatus(StepInformationLogMessage.Status.PASS);
+        Assert.assertEquals(stepInformationLogMessage.getStatus(), StepInformationLogMessage.Status.PASS);
+        stepInformationLogMessage.setStatus(StepInformationLogMessage.Status.ERROR);
+        Assert.assertEquals(stepInformationLogMessage.getStatus(), StepInformationLogMessage.Status.ERROR);
+        stepInformationLogMessage.setStatus(StepInformationLogMessage.Status.PENDING);
+        Assert.assertEquals(stepInformationLogMessage.getStatus(), StepInformationLogMessage.Status.PENDING);
+        stepInformationLogMessage.setStatus(StepInformationLogMessage.Status.SKIPPED);
+        Assert.assertEquals(stepInformationLogMessage.getStatus(), StepInformationLogMessage.Status.SKIPPED);
+        stepInformationLogMessage.setStatus(StepInformationLogMessage.Status.UNDEFINED);
+        Assert.assertEquals(stepInformationLogMessage.getStatus(), StepInformationLogMessage.Status.UNDEFINED);
+    }
+
     @Test
     public void testAddingErrorsToStepsShouldMakeStepFail() {
         StepInformationLogMessage step = new StepInformationLogMessage("myMethod", "myMessage");
@@ -14,6 +116,7 @@ public class StepInformationLogMessageTest {
         Assert.assertTrue(step.isPending());
         Assert.assertFalse(step.hasPassed());
         Assert.assertFalse(step.hasFailed());
+        Assert.assertFalse(step.isSkipped());
         // Add an error object to the step
         Throwable error = new Throwable();
         step.setError(error);
@@ -21,6 +124,7 @@ public class StepInformationLogMessageTest {
         Assert.assertFalse(step.isPending());
         Assert.assertFalse(step.hasPassed());
         Assert.assertTrue(step.hasFailed());
+        Assert.assertFalse(step.isSkipped());
     }
     @Test
     public void testNoErrorsShouldLeadToPassedSteps() {
@@ -29,12 +133,14 @@ public class StepInformationLogMessageTest {
         Assert.assertTrue(step.isPending());
         Assert.assertFalse(step.hasPassed());
         Assert.assertFalse(step.hasFailed());
+        Assert.assertFalse(step.isSkipped());
         // If we set an end date the status gets computed. In this case the test step should have passed.
         step.setEnd(new Date());
         // Now the step should have passed
         Assert.assertFalse(step.isPending());
         Assert.assertTrue(step.hasPassed());
         Assert.assertFalse(step.hasFailed());
+        Assert.assertFalse(step.isSkipped());
     }
 
     @Test
@@ -43,6 +149,7 @@ public class StepInformationLogMessageTest {
         Assert.assertTrue(step.isPending());
         Assert.assertFalse(step.hasPassed());
         Assert.assertFalse(step.hasFailed());
+        Assert.assertFalse(step.isSkipped());
         // Add new failed assertion log message to step
         AssertionLogMessage assertion = new AssertionLogMessage(LogLevel.INFO, "myMessage").setStatusToFailed();
         step.addAssertion(assertion);
@@ -50,12 +157,14 @@ public class StepInformationLogMessageTest {
         Assert.assertFalse(step.isPending());
         Assert.assertFalse(step.hasPassed());
         Assert.assertTrue(step.hasFailed());
+        Assert.assertFalse(step.isSkipped());
         // Adding another successful assertion should not change the step status
         AssertionLogMessage assertion2 = new AssertionLogMessage(LogLevel.INFO, "myMessage").setStatusToPassed();
         step.addAssertion(assertion2);
         Assert.assertFalse(step.isPending());
         Assert.assertFalse(step.hasPassed());
         Assert.assertTrue(step.hasFailed());
+        Assert.assertFalse(step.isSkipped());
     }
 
     @Test
@@ -64,6 +173,7 @@ public class StepInformationLogMessageTest {
         Assert.assertTrue(step.isPending());
         Assert.assertFalse(step.hasPassed());
         Assert.assertFalse(step.hasFailed());
+        Assert.assertFalse(step.isSkipped());
         // Add new failed assertion log message to step
         AssertionLogMessage assertionPassed = new AssertionLogMessage(LogLevel.INFO, "myMessage").setStatusToPassed();
         step.addAssertion(assertionPassed);
@@ -71,10 +181,17 @@ public class StepInformationLogMessageTest {
         Assert.assertTrue(step.isPending());
         Assert.assertFalse(step.hasPassed());
         Assert.assertFalse(step.hasFailed());
+        Assert.assertFalse(step.isSkipped());
         // If we set an end date the status gets computed. In this case the test step should have passed.
         step.setEnd(new Date());
         Assert.assertFalse(step.isPending());
         Assert.assertTrue(step.hasPassed());
         Assert.assertFalse(step.hasFailed());
+        Assert.assertFalse(step.isSkipped());
     }
+}
+
+class DemoTest {
+    @Step(name = "step one", description = "this is step one")
+    public void stepOne() {}
 }

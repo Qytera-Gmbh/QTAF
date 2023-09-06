@@ -363,17 +363,6 @@ public class StepInformationLogMessage extends LogMessage {
     }
 
     /**
-     * Set duration.
-     *
-     * @param duration Duration
-     * @return this
-     */
-    public StepInformationLogMessage setDuration(long duration) {
-        this.duration = duration;
-        return this;
-    }
-
-    /**
      * Get screenshotBefore.
      *
      * @return screenshotBefore
