@@ -28,7 +28,8 @@ public abstract class QtafTestNGAnnotatedMethodInterceptor<T extends AbstractSte
     protected final PublishSubject<T> afterStepExecutionFailure;
 
     /**
-     * Constructor
+     * Return a QtafTestNGAnnotatedMethodInterceptor Object.
+     *
      * @param beforeStepExecution           Subject that emits events before a step is executed
      * @param afterStepExecutionSuccess     Subject that emits events after a step was executed successfully
      * @param afterStepExecutionFailure     Subject that emits events after a step failed

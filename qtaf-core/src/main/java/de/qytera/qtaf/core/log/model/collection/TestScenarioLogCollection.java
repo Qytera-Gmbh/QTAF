@@ -370,7 +370,7 @@ public class TestScenarioLogCollection {
     }
 
     /**
-     * Compute the status of the test scenario
+     * Method to compute the status of the test scenario.
      */
     public void computeStatus() {
         if (LogMessageIndex.getInstance().getByScenarioIdAndFailed(getScenarioId()).size() > 0) {
@@ -381,7 +381,7 @@ public class TestScenarioLogCollection {
     }
 
     /**
-     * Set test status
+     * Sets the test status.
      *
      * @param status test status
      * @return this

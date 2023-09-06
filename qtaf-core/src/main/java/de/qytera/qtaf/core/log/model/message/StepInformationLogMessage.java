@@ -150,7 +150,7 @@ public class StepInformationLogMessage extends LogMessage {
     }
 
     /**
-     * Compute the status of the test step
+     * Computes the status of the test step.
      */
     public void computeStatus() {
         // Check if this step has an error object. If there is one the step has failed.
@@ -171,7 +171,8 @@ public class StepInformationLogMessage extends LogMessage {
     }
 
     /**
-     * Check if step has failed
+     * Checks if step has failed.
+     *
      * @return true if step has failed, false otherwise
      */
     public boolean hasFailed() {
@@ -179,7 +180,8 @@ public class StepInformationLogMessage extends LogMessage {
     }
 
     /**
-     * Check if step has passed
+     * Checks if step has passed.
+     *
      * @return true if step has passed, false otherwise
      */
     public boolean hasPassed() {
@@ -187,7 +189,8 @@ public class StepInformationLogMessage extends LogMessage {
     }
 
     /**
-     * Check if step is pending
+     * Checks if step is pending.
+     *
      * @return true if step is pending, false otherwise
      */
     public boolean isPending() {
@@ -195,7 +198,8 @@ public class StepInformationLogMessage extends LogMessage {
     }
 
     /**
-     * Check if step is skipped
+     * Checks if step is skipped.
+     *
      * @return true if step is skipped, false otherwise
      */
     public boolean isSkipped() {
