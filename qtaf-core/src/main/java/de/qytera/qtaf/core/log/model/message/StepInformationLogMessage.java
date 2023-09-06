@@ -136,6 +136,7 @@ public class StepInformationLogMessage extends LogMessage {
     /**
      * Add a generic step parameter.
      *
+     * @param <T>   the type of the value object
      * @param name  the name of the parameter
      * @param value the value of the parameter
      */
@@ -155,7 +156,6 @@ public class StepInformationLogMessage extends LogMessage {
 
     /**
      * Compute the status of the test step
-     * @return status of the test step
      */
     public void computeStatus() {
         // Check if this step has an error object. If there is one the step has failed.
