@@ -12,7 +12,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
- * Helper class for extracting information from Cucumber TestStep objects
+ * Helper class for extracting information from Cucumber TestStep objects.
  */
 public class CucumberTestStepHelper {
     private CucumberTestStepHelper() {
@@ -20,7 +20,7 @@ public class CucumberTestStepHelper {
 
     /**
      * Get all test steps that are derived from the PickleStepTestStep class
-     * which represents Given / When / Then steps
+     * which represents Given / When / Then steps.
      *
      * @param testSteps List of TestStep objects
      * @return List of PickleStepTestStep objects
@@ -50,7 +50,7 @@ public class CucumberTestStepHelper {
     }
 
     /**
-     * Get the positions of the given test step in a list of test steps
+     * Get the positions of the given test step in a list of test steps.
      *
      * @param testSteps List of test steps
      * @param testStep  Single test steps
@@ -68,7 +68,7 @@ public class CucumberTestStepHelper {
     }
 
     /**
-     * Find the TestStep object that has another TestStep object with in a List stored in its 'attributeName' Attribute
+     * Find the TestStep object that has another TestStep object with in a List stored in its 'attributeName' Attribute.
      *
      * @param testSteps     List of TestStep objects
      * @param stepId        Look for this ID inside attributeName

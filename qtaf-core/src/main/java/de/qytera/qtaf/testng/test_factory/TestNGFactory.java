@@ -3,6 +3,7 @@ package de.qytera.qtaf.testng.test_factory;
 import com.google.inject.Injector;
 import de.qytera.qtaf.core.QtafFactory;
 import de.qytera.qtaf.core.context.IQtafTestContext;
+import de.qytera.qtaf.core.events.QtafEvents;
 import de.qytera.qtaf.core.guice.QtafInjector;
 import de.qytera.qtaf.core.reflection.ClassLoader;
 import de.qytera.qtaf.cucumber.context.QtafTestNGCucumberContext;
@@ -15,7 +16,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * This class is responsible for creating instances of all test classes
+ * This class is responsible for creating instances of all test classes.
  */
 public class TestNGFactory implements ITestObjectFactory {
 
@@ -46,15 +47,22 @@ public class TestNGFactory implements ITestObjectFactory {
         // Test class instances are stored in this list
         List<Object> instances = new ArrayList<>();
 
+        // Dispatch event, so that loaded classes can be accessed and manipulated
+        QtafEvents.testClassesLoaded.onNext(classes);
+
         // Get instances of all test classes and let Guice create the instances,
         // so that dependency injection and method invocation is working
         for (Class<?> clazz : classes) {
             try {
+                // Use the guice injector to get an instance of the test class
                 instances.add(injector.getInstance(clazz));
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
+
+        // Dispatch event, so that loaded class instances can be accessed and manipulated
+        QtafEvents.testClassInstancesLoaded.onNext(instances);
 
         return instances.toArray();
     }

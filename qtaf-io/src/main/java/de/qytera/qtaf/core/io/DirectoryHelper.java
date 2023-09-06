@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import java.io.File;
 
 /**
- * Class containing helper methods for interacting with the file system
+ * Class containing helper methods for interacting with the file system.
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class DirectoryHelper {
@@ -16,7 +16,7 @@ public class DirectoryHelper {
     public static final String SEP = System.getProperty("file.separator");
 
     /**
-     * Replace variables and insert default file separator
+     * Replace variables and insert default file separator.
      *
      * @param path Path
      * @return Prepared path
@@ -31,7 +31,7 @@ public class DirectoryHelper {
     }
 
     /**
-     * Create a directory
+     * Create a directory.
      *
      * @param dir File path relative to project's root directory
      * @return true on success, false otherwise
@@ -45,7 +45,7 @@ public class DirectoryHelper {
     }
 
     /**
-     * Delete a directory and all its subdirectories
+     * Delete a directory and all its subdirectories.
      *
      * @param dir directory
      * @return true on success, false otherwise
@@ -55,7 +55,7 @@ public class DirectoryHelper {
     }
 
     /**
-     * Delete a directory and all its subdirectories
+     * Delete a directory and all its subdirectories.
      *
      * @param dir directory
      * @return true on success, false otherwise

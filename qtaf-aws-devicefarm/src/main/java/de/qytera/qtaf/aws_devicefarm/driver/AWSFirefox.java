@@ -3,6 +3,9 @@ package de.qytera.qtaf.aws_devicefarm.driver;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.firefox.FirefoxOptions;
 
+/**
+ * An AWS Firefox driver.
+ */
 public class AWSFirefox extends AbstractAWSDeviceFarmDriver {
 
     @Override

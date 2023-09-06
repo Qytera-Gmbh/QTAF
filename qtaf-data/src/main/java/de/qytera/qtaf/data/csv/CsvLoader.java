@@ -4,30 +4,29 @@ import de.qytera.qtaf.core.io.DirectoryHelper;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
 import java.io.Reader;
 
 /**
- * CSV loader class
+ * CSV loader class.
  */
 public class CsvLoader {
     /**
-     * File path
+     * File path.
      */
     protected String filePath = "";
 
     /**
-     * Has headers flag
+     * Has headers flag.
      */
     protected boolean hasHeaders = true;
 
     /**
-     * Header names array
+     * Header names array.
      */
     protected String[] headers = {};
 
     /**
-     * Get CSV file path
+     * Get CSV file path.
      *
      * @return CSV file path
      */
@@ -36,7 +35,7 @@ public class CsvLoader {
     }
 
     /**
-     * Set filePath
+     * Set filePath.
      *
      * @param filePath FilePath
      */
@@ -45,7 +44,7 @@ public class CsvLoader {
     }
 
     /**
-     * Has headers flag
+     * Has headers flag.
      *
      * @return true if has headers, false otherwise
      */
@@ -54,7 +53,7 @@ public class CsvLoader {
     }
 
     /**
-     * Get CSV delimiter
+     * Get CSV delimiter.
      *
      * @return CSV delimiter
      */
@@ -63,7 +62,7 @@ public class CsvLoader {
     }
 
     /**
-     * Get CSV headers
+     * Get CSV headers.
      *
      * @return CSV headers
      */
@@ -72,7 +71,7 @@ public class CsvLoader {
     }
 
     /**
-     * Get reader that allows reading a local file
+     * Get reader that allows reading a local file.
      *
      * @return reader
      * @throws FileNotFoundException File reading error
@@ -81,10 +80,4 @@ public class CsvLoader {
         return new FileReader(getFilePath());
     }
 
-    /**
-     * Get CSV records from a CSV file
-     *
-     * @return List of CSV records
-     * @throws IOException Error reading file
-     */
 }

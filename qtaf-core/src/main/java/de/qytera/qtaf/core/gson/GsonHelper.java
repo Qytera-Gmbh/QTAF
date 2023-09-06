@@ -11,17 +11,17 @@ import lombok.NoArgsConstructor;
 import java.io.IOException;
 
 /**
- * Helper class for creating GSON objects
+ * Helper class for creating GSON objects.
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class GsonHelper {
     /**
-     * Gson object
+     * Gson object.
      */
     private static final Gson gson = GsonFactory.getInstance();
 
     /**
-     * From JSON to entity
+     * From JSON to entity.
      *
      * @param json   JSON string
      * @param tClass Entity class

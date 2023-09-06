@@ -28,6 +28,12 @@ import java.util.Map;
  */
 public interface XrayTestRepository extends XrayEndpoint {
 
+    /**
+     * Get an {@link XrayTestRepository} instance. The decision whether a cloud or server instance will be returned
+     * depends on the configured {@link XrayConfigHelper#XRAY_SERVICE} value.
+     *
+     * @return the instance
+     */
     static XrayTestRepository getInstance() {
         return XrayConfigHelper.isXrayCloudService() ? new XrayTestRepositoryCloud() : new XrayTestRepositoryServer();
     }
@@ -47,6 +53,8 @@ public interface XrayTestRepository extends XrayEndpoint {
      *
      * @param body the import execution results DTO
      * @return the import execution response DTO
+     * @throws URISyntaxException                 if any URLs used during import are invalid
+     * @throws MissingConfigurationValueException if the configuration is invalid
      * @see <a href="https://docs.getxray.app/display/XRAY/Import+Execution+Results">Import Execution Results (Xray Server)</a>
      * @see <a href="https://docs.getxray.app/display/XRAYCLOUD/Import+Execution+Results+-+REST">Import Execution Results (Xray Cloud)</a>
      */
@@ -86,6 +94,8 @@ public interface XrayTestRepository extends XrayEndpoint {
      *
      * @param testIssueKeys the test issues to retrieve the steps for
      * @return a mapping of test issue keys to their steps
+     * @throws URISyntaxException                 if any URLs used during step retrieval are invalid
+     * @throws MissingConfigurationValueException if the configuration is invalid
      */
     Map<String, XrayTestStepResponseDto[]> getTestSteps(Collection<String> testIssueKeys) throws URISyntaxException, MissingConfigurationValueException;
 

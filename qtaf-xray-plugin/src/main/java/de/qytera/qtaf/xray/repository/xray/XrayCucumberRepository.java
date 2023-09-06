@@ -9,10 +9,12 @@ import java.net.URISyntaxException;
  */
 public interface XrayCucumberRepository {
     /**
-     * Get Tests as Cucumber Feature File
+     * Get Tests as Cucumber Feature File.
      *
      * @param testIDs the test issue IDs whose feature files to retrieve
      * @return Contents of feature file
+     * @throws URISyntaxException                 if the download URLs are invalid
+     * @throws MissingConfigurationValueException if the configuration is invalid
      */
     String getFeatureFileDefinition(String[] testIDs) throws URISyntaxException, MissingConfigurationValueException;
 }

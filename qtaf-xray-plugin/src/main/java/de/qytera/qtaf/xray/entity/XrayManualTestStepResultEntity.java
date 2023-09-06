@@ -34,6 +34,11 @@ public abstract class XrayManualTestStepResultEntity {
      */
     private String actualResult;
 
+    /**
+     * Create a new {@link XrayManualTestStepResultEntity} with the given step status.
+     *
+     * @param status the status
+     */
     protected XrayManualTestStepResultEntity(StepInformationLogMessage.Status status) {
         this.status = XrayStatusHelper.statusToText(status);
     }

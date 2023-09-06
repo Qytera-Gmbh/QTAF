@@ -14,7 +14,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
- * Base class that all AWS DeviceFarm drivers should extend
+ * Base class that all AWS DeviceFarm drivers should extend.
  */
 public abstract class AbstractAWSDeviceFarmDriver extends AbstractDriver {
     @Override
@@ -38,6 +38,13 @@ public abstract class AbstractAWSDeviceFarmDriver extends AbstractDriver {
         return new RemoteWebDriver(testGridUrl, getCapabilities());
     }
 
+    /**
+     * Get the AWS device farm grid URL.
+     *
+     * @param client  the device farm client
+     * @param request the request to send
+     * @return the result
+     */
     public CreateTestGridUrlResult getTestGridUrl(AWSDeviceFarm client, CreateTestGridUrlRequest request) {
         return client.createTestGridUrl(request);
     }

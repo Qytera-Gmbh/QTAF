@@ -8,7 +8,7 @@ import com.google.gson.JsonSerializer;
 import java.lang.reflect.Type;
 
 /**
- * Converts StackTraceElement object to JSON
+ * Converts StackTraceElement object to JSON.
  */
 public class StackTraceElementSerializer implements IQtafJsonSerializer, JsonSerializer<StackTraceElement> {
     @Override

@@ -24,7 +24,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * Transforms log collection into Xray Execution Import DTO
+ * Transforms log collection into Xray Execution Import DTO.
  */
 @Singleton
 public class XrayJsonImportBuilder implements RequestBodyBuilder<ImportExecutionResultsRequestDto> {

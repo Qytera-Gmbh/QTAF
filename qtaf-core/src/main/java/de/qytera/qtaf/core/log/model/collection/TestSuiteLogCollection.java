@@ -8,82 +8,82 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Collection that holds all log messages from all test classes
+ * Collection that holds all log messages from all test classes.
  */
 public class TestSuiteLogCollection {
 
     /**
-     * Singleton instance
+     * Singleton instance.
      */
     private static TestSuiteLogCollection instance = new TestSuiteLogCollection();
 
     /**
-     * Random unique ID
+     * Random unique ID.
      */
     private final UUID uuid = UUID.randomUUID();
 
     /**
-     * Suite information
+     * Suite information.
      */
     private SuiteInfo suiteInfo = new SuiteInfo();
 
     /**
-     * System info
+     * System info.
      */
     private final SystemInfo systemInfo = new SystemInfo();
 
     /**
-     * Process Info
+     * Process Info.
      */
     private final ProcessInfo processInfo = new ProcessInfo();
 
     /**
-     * Thread Info
+     * Thread Info.
      */
     private final ThreadInfo threadInfo = new ThreadInfo();
 
     /**
-     * Operating system
+     * Operating system.
      */
     private String osName = System.getProperty("os.name");
 
     /**
-     * Driver name
+     * Driver name.
      */
     private String driverName = "";
 
     /**
-     * Test Suite tags
+     * Test Suite tags.
      */
     private final Map<String, String> tags = new ConcurrentHashMap<>();
 
     /**
-     * Time when testing started
+     * Time when testing started.
      */
     private Date start = new Date();
 
     /**
-     * Time when testing ended
+     * Time when testing ended.
      */
     private Date end = new Date();
 
     /**
-     * Duration of testing
+     * Duration of testing.
      */
     private long duration = 0L;
 
     /**
-     * Directory where logs are stored
+     * Directory where logs are stored.
      */
     private String logDirectory = null;
 
     /**
-     * Holds a collection of test feature log collections
+     * Holds a collection of test feature log collections.
      */
     private final List<TestFeatureLogCollection> testFeatureLogCollections = Collections.synchronizedList(new ArrayList<>());
 
     /**
-     * Constructor
+     * Constructor.
      */
     private TestSuiteLogCollection() {
         super();
@@ -91,7 +91,7 @@ public class TestSuiteLogCollection {
     }
 
     /**
-     * Get instance of class
+     * Get instance of class.
      *
      * @return instance of class
      */
@@ -100,7 +100,7 @@ public class TestSuiteLogCollection {
     }
 
     /**
-     * Get uuid
+     * Get uuid.
      *
      * @return uuid
      */
@@ -109,7 +109,7 @@ public class TestSuiteLogCollection {
     }
 
     /**
-     * Get logDirectory
+     * Get logDirectory.
      *
      * @return logDirectory
      */
@@ -118,14 +118,14 @@ public class TestSuiteLogCollection {
     }
 
     /**
-     * Reset the log directory
+     * Reset the log directory.
      */
     public void resetLogDirectory() {
         logDirectory = null;
     }
 
     /**
-     * Build the log directory path
+     * Build the log directory path.
      *
      * @return log directory path
      */
@@ -146,7 +146,7 @@ public class TestSuiteLogCollection {
     }
 
     /**
-     * Get test case log collections
+     * Get test case log collections.
      *
      * @return log collections
      */
@@ -155,7 +155,7 @@ public class TestSuiteLogCollection {
     }
 
     /**
-     * Clear test case log collections
+     * Clear test case log collections.
      */
     public synchronized void clearCollection() {
         testFeatureLogCollections.clear();
@@ -165,7 +165,7 @@ public class TestSuiteLogCollection {
     }
 
     /**
-     * Add new test case collection
+     * Add new test case collection.
      *
      * @param collection Collection
      * @return this
@@ -179,7 +179,7 @@ public class TestSuiteLogCollection {
     }
 
     /**
-     * Create a new log collection if it was not created before
+     * Create a new log collection if it was not created before.
      *
      * @param featureId   Hash code of the test scenario
      * @param featureName Scenario name / Class ID of the test
@@ -200,7 +200,7 @@ public class TestSuiteLogCollection {
     }
 
     /**
-     * Set instance
+     * Set instance.
      *
      * @param instance Instance
      */
@@ -209,7 +209,7 @@ public class TestSuiteLogCollection {
     }
 
     /**
-     * Get suiteInfo
+     * Get suiteInfo.
      *
      * @return suiteInfo
      */
@@ -218,7 +218,7 @@ public class TestSuiteLogCollection {
     }
 
     /**
-     * Set suiteInfo
+     * Set suiteInfo.
      *
      * @param suiteInfo SuiteInfo
      * @return this
@@ -229,7 +229,7 @@ public class TestSuiteLogCollection {
     }
 
     /**
-     * Get systemInfo
+     * Get systemInfo.
      *
      * @return systemInfo
      */
@@ -238,7 +238,7 @@ public class TestSuiteLogCollection {
     }
 
     /**
-     * Get processInfo
+     * Get processInfo.
      *
      * @return processInfo
      */
@@ -247,7 +247,7 @@ public class TestSuiteLogCollection {
     }
 
     /**
-     * Get threadInfo
+     * Get threadInfo.
      *
      * @return threadInfo
      */
@@ -256,7 +256,7 @@ public class TestSuiteLogCollection {
     }
 
     /**
-     * Get osName
+     * Get osName.
      *
      * @return osName
      */
@@ -265,7 +265,7 @@ public class TestSuiteLogCollection {
     }
 
     /**
-     * Set osName
+     * Set osName.
      *
      * @param osName OsName
      * @return this
@@ -276,7 +276,7 @@ public class TestSuiteLogCollection {
     }
 
     /**
-     * Get driverName
+     * Get driverName.
      *
      * @return driverName
      */
@@ -289,7 +289,7 @@ public class TestSuiteLogCollection {
     }
 
     /**
-     * Set driverName
+     * Set driverName.
      *
      * @param driverName DriverName
      * @return this
@@ -301,7 +301,7 @@ public class TestSuiteLogCollection {
     }
 
     /**
-     * Get start
+     * Get start.
      *
      * @return start
      */
@@ -310,7 +310,7 @@ public class TestSuiteLogCollection {
     }
 
     /**
-     * Set start
+     * Set start.
      *
      * @param start Start
      * @return this
@@ -321,7 +321,7 @@ public class TestSuiteLogCollection {
     }
 
     /**
-     * Get end
+     * Get end.
      *
      * @return end
      */
@@ -334,7 +334,7 @@ public class TestSuiteLogCollection {
     }
 
     /**
-     * Set end
+     * Set end.
      *
      * @param end End
      * @return this
@@ -345,7 +345,7 @@ public class TestSuiteLogCollection {
     }
 
     /**
-     * Get duration
+     * Get duration.
      *
      * @return duration
      */
@@ -354,7 +354,7 @@ public class TestSuiteLogCollection {
     }
 
     /**
-     * Set duration
+     * Set duration.
      *
      * @param duration Duration
      * @return this
@@ -365,7 +365,7 @@ public class TestSuiteLogCollection {
     }
 
     /**
-     * Count feature logs
+     * Count feature logs.
      *
      * @return number of feature logs
      */
@@ -374,7 +374,7 @@ public class TestSuiteLogCollection {
     }
 
     /**
-     * Get tags
+     * Get tags.
      *
      * @return tags
      */
@@ -383,7 +383,7 @@ public class TestSuiteLogCollection {
     }
 
     /**
-     * Get tag
+     * Get tag.
      *
      * @param key Tag key
      * @return Tag value
@@ -393,7 +393,7 @@ public class TestSuiteLogCollection {
     }
 
     /**
-     * Add tag
+     * Add tag.
      *
      * @param key   Tag key
      * @param value Tag value
@@ -403,7 +403,7 @@ public class TestSuiteLogCollection {
     }
 
     /**
-     * Remove tag
+     * Remove tag.
      *
      * @param key tag key
      */
@@ -412,7 +412,7 @@ public class TestSuiteLogCollection {
     }
 
     /**
-     * Clear data
+     * Clear data.
      */
     public void clear() {
         this.start = null;
@@ -426,21 +426,21 @@ public class TestSuiteLogCollection {
     }
 
     /**
-     * Suite information
+     * Suite information.
      */
     public class SuiteInfo {
         /**
-         * Suite name
+         * Suite name.
          */
         private String name = "";
 
         /**
-         * Reports output directory
+         * Reports output directory.
          */
         private String outputDir;
 
         /**
-         * Get name
+         * Get name.
          *
          * @return name
          */
@@ -449,7 +449,7 @@ public class TestSuiteLogCollection {
         }
 
         /**
-         * Set name
+         * Set name.
          *
          * @param name Name
          * @return this
@@ -460,7 +460,7 @@ public class TestSuiteLogCollection {
         }
 
         /**
-         * Get outputDir
+         * Get outputDir.
          *
          * @return outputDir
          */
@@ -469,7 +469,7 @@ public class TestSuiteLogCollection {
         }
 
         /**
-         * Set outputDir
+         * Set outputDir.
          *
          * @param outputDir OutputDir
          * @return this
@@ -481,26 +481,26 @@ public class TestSuiteLogCollection {
     }
 
     /**
-     * Information about the system the test suite was executed on
+     * Information about the system the test suite was executed on.
      */
     public class SystemInfo {
         /**
-         * Operating system name
+         * Operating system name.
          */
         private String osName = System.getProperty("os.name");
 
         /**
-         * Java version
+         * Java version.
          */
         private String javaVersion = System.getProperty("java.version");
 
         /**
-         * User directory
+         * User directory.
          */
         private String userDir = System.getProperty("user.dir");
 
         /**
-         * Get osName
+         * Get osName.
          *
          * @return osName
          */
@@ -509,7 +509,7 @@ public class TestSuiteLogCollection {
         }
 
         /**
-         * Get javaVersion
+         * Get javaVersion.
          *
          * @return javaVersion
          */
@@ -518,7 +518,7 @@ public class TestSuiteLogCollection {
         }
 
         /**
-         * Set javaVersion
+         * Set javaVersion.
          *
          * @param javaVersion JavaVersion
          * @return this
@@ -529,7 +529,7 @@ public class TestSuiteLogCollection {
         }
 
         /**
-         * Get userDir
+         * Get userDir.
          *
          * @return userDir
          */
@@ -538,7 +538,7 @@ public class TestSuiteLogCollection {
         }
 
         /**
-         * Set userDir
+         * Set userDir.
          *
          * @param userDir UserDir
          * @return this
@@ -554,19 +554,19 @@ public class TestSuiteLogCollection {
      */
     public static class ProcessInfo {
         /**
-         * Current processes PID
+         * Current processes PID.
          */
         private long pid;
 
         /**
-         * Constructor
+         * Constructor.
          */
         ProcessInfo() {
             pid = ProcessHandle.current().pid();
         }
 
         /**
-         * Get PID of current process
+         * Get PID of current process.
          *
          * @return PID of current process
          */
@@ -576,21 +576,21 @@ public class TestSuiteLogCollection {
     }
 
     /**
-     * Thread information
+     * Thread information.
      */
     public class ThreadInfo {
         /**
-         * Thread ID
+         * Thread ID.
          */
         private long threadId = Thread.currentThread().getId();
 
         /**
-         * Thread name
+         * Thread name.
          */
         private String threadName = Thread.currentThread().getName();
 
         /**
-         * Get threadId
+         * Get threadId.
          *
          * @return threadId
          */
@@ -599,7 +599,7 @@ public class TestSuiteLogCollection {
         }
 
         /**
-         * Set threadId
+         * Set threadId.
          *
          * @param threadId ThreadId
          * @return this
@@ -610,7 +610,7 @@ public class TestSuiteLogCollection {
         }
 
         /**
-         * Get threadName
+         * Get threadName.
          *
          * @return threadName
          */
@@ -619,7 +619,7 @@ public class TestSuiteLogCollection {
         }
 
         /**
-         * Set threadName
+         * Set threadName.
          *
          * @param threadName ThreadName
          * @return this

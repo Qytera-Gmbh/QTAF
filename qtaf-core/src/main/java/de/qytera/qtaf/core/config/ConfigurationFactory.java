@@ -22,42 +22,42 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * Factory class for generating a configuration object from a JSON configuration file
+ * Factory class for generating a configuration object from a JSON configuration file.
  */
 public class ConfigurationFactory {
     /**
-     * Default configuration path which is used if no custom path is provided
+     * Default configuration path which is used if no custom path is provided.
      */
     public static final String FILE_PATH = "qtaf.json";
 
     /**
-     * Default configuration resource location
+     * Default configuration resource location.
      */
     public static final String CONFIGURATION_RESOURCE_URL = "/" + FILE_PATH;
 
     /**
-     * Base resource directory
+     * Base resource directory.
      */
     public static final String QTAF_CONFIG_RESOURCES_BASE_DIR = "$USER_DIR/src/test/resources";
 
     /**
-     * Save config map
+     * Save config map.
      */
     private static final Map<String, ConfigMap> configMaps = new HashMap<>();
 
     /**
-     * Logger
+     * Logger.
      */
     private static final Logger logger = QtafFactory.getLogger();
 
     /**
-     * Private constructor
+     * Private constructor.
      */
     private ConfigurationFactory() {
     }
 
     /**
-     * Create default configuration object
+     * Create default configuration object.
      *
      * @return Configuration
      */
@@ -70,7 +70,7 @@ public class ConfigurationFactory {
     }
 
     /**
-     * Reads the default configuration file that is shipped with the QTAF JAR file
+     * Reads the default configuration file that is shipped with the QTAF JAR file.
      *
      * @return Configuration file JSON content
      * @throws IOException File not found
@@ -95,7 +95,7 @@ public class ConfigurationFactory {
     }
 
     /**
-     * Create configuration file if it does not exist
+     * Create configuration file if it does not exist.
      *
      * @return true on success, false otherwise
      * @throws IOException Error during file creation
@@ -108,7 +108,7 @@ public class ConfigurationFactory {
     }
 
     /**
-     * Create configuration file if it does not exist
+     * Create configuration file if it does not exist.
      *
      * @param qtafConfigResourcesBaseDir Directory where QTAF configuration files are stored
      * @param filePath                   relative path of the configuration file (relative to qtafConfigResourcesBaseDir)
@@ -126,7 +126,7 @@ public class ConfigurationFactory {
     }
 
     /**
-     * Create a new configuration object
+     * Create a new configuration object.
      *
      * @param fileName Name of the file
      * @return Configuration
@@ -178,7 +178,7 @@ public class ConfigurationFactory {
     }
 
     /**
-     * Log an info message
+     * Log an info message.
      *
      * @param message Log message
      */

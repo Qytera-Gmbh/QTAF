@@ -13,31 +13,31 @@ import java.lang.reflect.Type;
 import java.util.*;
 
 /**
- * This class is responsible for loading other classes and create instances from them
+ * This class is responsible for loading other classes and create instances from them.
  */
 public class ClassLoader {
     private ClassLoader() {
     }
 
     /**
-     * package names that are searched for classes
+     * package names that are searched for classes.
      */
     private static final List<String> packageNames = new ArrayList<>(
             Collections.singletonList("de.qytera.qtaf")
     );
 
     /**
-     * Class instances are saved in this map
+     * Class instances are saved in this map.
      */
     private static final Map<String, Object> instancesByClassName = new HashMap<>();
 
     /**
-     * Class type index
+     * Class type index.
      */
     private static final Map<Type, Object[]> instancesByType = new HashMap<>();
 
     /**
-     * Add a package that can be search for classes
+     * Add a package that can be search for classes.
      *
      * @param packageName Package name
      */
@@ -48,7 +48,7 @@ public class ClassLoader {
     }
 
     /**
-     * Check if list already contains package name
+     * Check if list already contains package name.
      *
      * @param packageName Package name
      * @return true if package name is already in the list, false otherwise
@@ -58,7 +58,7 @@ public class ClassLoader {
     }
 
     /**
-     * CRemove package name form the list
+     * CRemove package name form the list.
      *
      * @param packageName Package name
      * @return true if package name was in the list, false otherwise
@@ -72,7 +72,7 @@ public class ClassLoader {
     }
 
     /**
-     * Get a set of classes that are derived from the given class
+     * Get a set of classes that are derived from the given class.
      *
      * @param clazz        subtype
      * @param classes      set of classes where found classes are added to
@@ -105,7 +105,7 @@ public class ClassLoader {
     }
 
     /**
-     * Get a set of classes that are directly derived from the given class
+     * Get a set of classes that are directly derived from the given class.
      *
      * @param clazz        subtype
      * @param packageNames package names where to search for this class
@@ -137,7 +137,7 @@ public class ClassLoader {
     }
 
     /**
-     * Get a set of classes that are directly derived from the given class
+     * Get a set of classes that are directly derived from the given class.
      *
      * @param clazz subtype
      * @return set of classes
@@ -154,7 +154,7 @@ public class ClassLoader {
     }
 
     /**
-     * Get all subtypes of a given class
+     * Get all subtypes of a given class.
      *
      * @param clazz Instance class type
      * @return Instances
@@ -204,7 +204,7 @@ public class ClassLoader {
     }
 
     /**
-     * Get instance of class
+     * Get instance of class.
      *
      * @param c Class
      * @return instance

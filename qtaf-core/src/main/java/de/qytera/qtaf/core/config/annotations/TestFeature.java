@@ -5,19 +5,19 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 /**
- * Test case annotation should be used for all classes that contain tests
+ * Test case annotation should be used for all classes that contain tests.
  */
 @Retention(RetentionPolicy.RUNTIME)
 public @interface TestFeature {
     /**
-     * Feature name
+     * Feature name.
      *
      * @return name
      */
     String name();
 
     /**
-     * Feature description
+     * Feature description.
      *
      * @return description
      */

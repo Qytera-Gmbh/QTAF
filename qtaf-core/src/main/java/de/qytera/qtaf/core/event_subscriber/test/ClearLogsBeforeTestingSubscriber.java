@@ -10,7 +10,7 @@ import de.qytera.qtaf.core.log.model.error.ErrorLogCollection;
 import de.qytera.qtaf.core.log.model.error.FrameworkInitializationErrorLog;
 
 /**
- * Subscriber that clears all logs before testing is started
+ * Subscriber that clears all logs before testing is started.
  */
 public class ClearLogsBeforeTestingSubscriber implements IEventSubscriber {
 
@@ -23,7 +23,7 @@ public class ClearLogsBeforeTestingSubscriber implements IEventSubscriber {
     }
 
     /**
-     * Handle onFrameworkInitialized event
+     * Handle onFrameworkInitialized event.
      *
      * @param x event payload
      */
@@ -35,7 +35,7 @@ public class ClearLogsBeforeTestingSubscriber implements IEventSubscriber {
     }
 
     /**
-     * Handle exceptions that occurred during invocation of subscriber method
+     * Handle exceptions that occurred during invocation of subscriber method.
      *
      * @param e Exception object
      */

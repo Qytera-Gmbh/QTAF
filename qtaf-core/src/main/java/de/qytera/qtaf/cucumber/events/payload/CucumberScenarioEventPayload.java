@@ -18,11 +18,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Cucumber event payload information class
+ * Cucumber event payload information class.
  */
 public class CucumberScenarioEventPayload extends QtafTestEventPayload {
     /**
-     * Constructor
+     * Constructor.
      *
      * @param scenario Original scenario event payload
      */
@@ -56,7 +56,7 @@ public class CucumberScenarioEventPayload extends QtafTestEventPayload {
     }
 
     /**
-     * Get name of feature file from Scenario object
+     * Get name of feature file from Scenario object.
      *
      * @param scenario Scenario information object
      * @return Feature name

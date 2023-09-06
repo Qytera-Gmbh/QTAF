@@ -5,146 +5,146 @@ import java.lang.reflect.Parameter;
 import java.util.Date;
 
 /**
- * Entity class for test events
+ * Entity class for test events.
  */
 public class QtafTestEventPayload implements IQtafTestEventPayload {
     /**
-     * Original event fired by the test framework (TestNG, Cucumber, ...)
+     * Original event fired by the test framework (TestNG, Cucumber, ...).
      */
     protected Object originalEvent;
 
     /**
-     * Original test instance object
+     * Original test instance object.
      */
     protected Object originalTestInstance;
 
     /**
-     * Real class of the test class
+     * Real class of the test class.
      */
     protected Class<?> realClass;
 
     /**
-     * Annotations of the test class
+     * Annotations of the test class.
      */
     protected Annotation[] realClassAnnotations;
 
     /**
-     * Method info
+     * Method info.
      */
     protected MethodInfoEntity methodInfo;
 
     /**
-     * ID of the test feature
+     * ID of the test feature.
      */
     protected String featureId;
 
     /**
-     * Class name where the feature is implemented
+     * Class name where the feature is implemented.
      */
     protected String featureClassName;
 
     /**
-     * Name of the package where the feature is implemented
+     * Name of the package where the feature is implemented.
      */
     protected String featurePackageName;
 
     /**
-     * Name of the feature
+     * Name of the feature.
      */
     protected String featureName;
 
     /**
-     * Description of the feature
+     * Description of the feature.
      */
     protected String featureDescription;
 
     /**
-     * ID of the scenario
+     * ID of the scenario.
      */
     protected String scenarioId;
 
     /**
-     * ID of the scenario
+     * ID of the scenario.
      */
     protected String abstractScenarioId;
 
     /**
-     * If there are multiple instances of a scenario (when you use data providers) each scenario instance has its own instance id
+     * If there are multiple instances of a scenario (when you use data providers) each scenario instance has its own instance id.
      */
     protected String instanceId;
 
     /**
-     * Name of the scenario
+     * Name of the scenario.
      */
     protected String scenarioName;
 
     /**
-     * Description of the scenario
+     * Description of the scenario.
      */
     protected String scenarioDescription;
 
     /**
-     * Status of the scenario
+     * Status of the scenario.
      */
     protected ScenarioStatus scenarioStatus;
 
     /**
-     * Start date of the scenario
+     * Start date of the scenario.
      */
     protected Date scenarioStart;
 
     /**
-     * End date of the scenario
+     * End date of the scenario.
      */
     protected Date scenarioEnd;
 
     /**
-     * Thread the test was executed in
+     * Thread the test was executed in.
      */
     protected Thread thread;
 
     /**
-     * Thread ID of the scenario
+     * Thread ID of the scenario.
      */
     protected long threadId;
 
     /**
-     * Thread name of the scenario
+     * Thread name of the scenario.
      */
     protected String threadName;
 
     /**
-     * Parameters that were passed to the scenario
+     * Parameters that were passed to the scenario.
      */
     protected Parameter[] scenarioParameters;
 
     /**
-     * Values of the parameters that were passed to the scenario
+     * Values of the parameters that were passed to the scenario.
      */
     protected Object[] parameterValues;
 
     /**
-     * scenario groups
+     * scenario groups.
      */
     protected String[] groups = new String[]{};
 
     /**
-     * All groups that the scenario depends on (see TestNG group dependencies)
+     * All groups that the scenario depends on (see TestNG group dependencies).
      */
     protected String[] groupDependencies = new String[]{};
 
     /**
-     * All test methods the scenario depends on (see testNG method dependencies)
+     * All test methods the scenario depends on (see testNG method dependencies).
      */
     protected String[] methodDependencies = new String[]{};
 
     /**
-     * Scenario Method Name
+     * Scenario Method Name.
      */
     protected String scenarioMethodName;
 
     /**
-     * Get uniqueId
+     * Get uniqueId.
      *
      * @return uniqueId
      */
@@ -153,7 +153,7 @@ public class QtafTestEventPayload implements IQtafTestEventPayload {
     }
 
     /**
-     * Set uniqueId
+     * Set uniqueId.
      *
      * @param featureId UniqueId
      * @return this
@@ -164,7 +164,7 @@ public class QtafTestEventPayload implements IQtafTestEventPayload {
     }
 
     /**
-     * Get realClass
+     * Get realClass.
      *
      * @return realClass
      */
@@ -173,7 +173,7 @@ public class QtafTestEventPayload implements IQtafTestEventPayload {
     }
 
     /**
-     * Set realClass
+     * Set realClass.
      *
      * @param realClass RealClass
      * @return this
@@ -184,7 +184,7 @@ public class QtafTestEventPayload implements IQtafTestEventPayload {
     }
 
     /**
-     * Get realClassAnnotations
+     * Get realClassAnnotations.
      *
      * @return realClassAnnotations
      */
@@ -194,7 +194,7 @@ public class QtafTestEventPayload implements IQtafTestEventPayload {
     }
 
     /**
-     * Set realClassAnnotations
+     * Set realClassAnnotations.
      *
      * @param realClassAnnotations RealClassAnnotations
      * @return this
@@ -205,7 +205,7 @@ public class QtafTestEventPayload implements IQtafTestEventPayload {
     }
 
     /**
-     * Get methodInfo
+     * Get methodInfo.
      *
      * @return methodInfo
      */
@@ -214,7 +214,7 @@ public class QtafTestEventPayload implements IQtafTestEventPayload {
     }
 
     /**
-     * Set methodInfo
+     * Set methodInfo.
      *
      * @param methodInfo MethodInfo
      * @return this
@@ -225,7 +225,7 @@ public class QtafTestEventPayload implements IQtafTestEventPayload {
     }
 
     /**
-     * Get featureClassName
+     * Get featureClassName.
      *
      * @return featureClassName
      */
@@ -234,7 +234,7 @@ public class QtafTestEventPayload implements IQtafTestEventPayload {
     }
 
     /**
-     * Set featureClassName
+     * Set featureClassName.
      *
      * @param featureClassName FeatureClassName
      * @return this
@@ -245,7 +245,7 @@ public class QtafTestEventPayload implements IQtafTestEventPayload {
     }
 
     /**
-     * Get featureName
+     * Get featureName.
      *
      * @return featureName
      */
@@ -255,7 +255,7 @@ public class QtafTestEventPayload implements IQtafTestEventPayload {
     }
 
     /**
-     * Set featureName
+     * Set featureName.
      *
      * @param featureName FeatureName
      * @return this
@@ -266,7 +266,7 @@ public class QtafTestEventPayload implements IQtafTestEventPayload {
     }
 
     /**
-     * Get featureDescription
+     * Get featureDescription.
      *
      * @return featureDescription
      */
@@ -276,7 +276,7 @@ public class QtafTestEventPayload implements IQtafTestEventPayload {
     }
 
     /**
-     * Set featureDescription
+     * Set featureDescription.
      *
      * @param featureDescription FeatureDescription
      * @return this
@@ -287,7 +287,7 @@ public class QtafTestEventPayload implements IQtafTestEventPayload {
     }
 
     /**
-     * Get methodId
+     * Get methodId.
      *
      * @return methodId
      */
@@ -296,7 +296,7 @@ public class QtafTestEventPayload implements IQtafTestEventPayload {
     }
 
     /**
-     * Get instanceId
+     * Get instanceId.
      *
      * @return instanceId
      */
@@ -305,7 +305,7 @@ public class QtafTestEventPayload implements IQtafTestEventPayload {
     }
 
     /**
-     * Set instanceId
+     * Set instanceId.
      *
      * @param instanceId InstanceId
      * @return this
@@ -316,7 +316,7 @@ public class QtafTestEventPayload implements IQtafTestEventPayload {
     }
 
     /**
-     * Get featurePackageName
+     * Get featurePackageName.
      *
      * @return featurePackageName
      */
@@ -325,7 +325,7 @@ public class QtafTestEventPayload implements IQtafTestEventPayload {
     }
 
     /**
-     * Set featurePackageName
+     * Set featurePackageName.
      *
      * @param featurePackageName FeaturePackageName
      * @return this
@@ -336,7 +336,7 @@ public class QtafTestEventPayload implements IQtafTestEventPayload {
     }
 
     /**
-     * Get methodInfo
+     * Get methodInfo.
      *
      * @return methodInfo
      */
@@ -345,7 +345,7 @@ public class QtafTestEventPayload implements IQtafTestEventPayload {
     }
 
     /**
-     * Get scenarioId
+     * Get scenarioId.
      *
      * @return scenarioId
      */
@@ -355,7 +355,7 @@ public class QtafTestEventPayload implements IQtafTestEventPayload {
     }
 
     /**
-     * Set scenarioId
+     * Set scenarioId.
      *
      * @param scenarioId ScenarioId
      * @return this
@@ -366,7 +366,7 @@ public class QtafTestEventPayload implements IQtafTestEventPayload {
     }
 
     /**
-     * Get scenarioMethodName
+     * Get scenarioMethodName.
      *
      * @return scenarioMethodName
      */
@@ -376,7 +376,7 @@ public class QtafTestEventPayload implements IQtafTestEventPayload {
     }
 
     /**
-     * Set scenarioMethodName
+     * Set scenarioMethodName.
      *
      * @param scenarioMethodName ScenarioMethodName
      * @return this
@@ -387,7 +387,7 @@ public class QtafTestEventPayload implements IQtafTestEventPayload {
     }
 
     /**
-     * Set methodId
+     * Set methodId.
      *
      * @param abstractScenarioId MethodId
      * @return this
@@ -398,7 +398,7 @@ public class QtafTestEventPayload implements IQtafTestEventPayload {
     }
 
     /**
-     * Get testId
+     * Get testId.
      *
      * @return testId
      */
@@ -407,7 +407,7 @@ public class QtafTestEventPayload implements IQtafTestEventPayload {
     }
 
     /**
-     * Set testId
+     * Set testId.
      *
      * @param scenarioName TestId
      * @return this
@@ -418,7 +418,7 @@ public class QtafTestEventPayload implements IQtafTestEventPayload {
     }
 
     /**
-     * Get testDescription
+     * Get testDescription.
      *
      * @return testDescription
      */
@@ -428,7 +428,7 @@ public class QtafTestEventPayload implements IQtafTestEventPayload {
     }
 
     /**
-     * Get scenarioStatus
+     * Get scenarioStatus.
      *
      * @return scenarioStatus
      */
@@ -438,7 +438,7 @@ public class QtafTestEventPayload implements IQtafTestEventPayload {
     }
 
     /**
-     * Set scenarioStatus
+     * Set scenarioStatus.
      *
      * @param scenarioStatus ScenarioStatus
      * @return this
@@ -449,7 +449,7 @@ public class QtafTestEventPayload implements IQtafTestEventPayload {
     }
 
     /**
-     * Get testStart
+     * Get testStart.
      *
      * @return testStart
      */
@@ -459,7 +459,7 @@ public class QtafTestEventPayload implements IQtafTestEventPayload {
     }
 
     /**
-     * Set testStart
+     * Set testStart.
      *
      * @param scenarioStart TestStart
      * @return this
@@ -470,7 +470,7 @@ public class QtafTestEventPayload implements IQtafTestEventPayload {
     }
 
     /**
-     * Get testEnd
+     * Get testEnd.
      *
      * @return testEnd
      */
@@ -480,7 +480,7 @@ public class QtafTestEventPayload implements IQtafTestEventPayload {
     }
 
     /**
-     * Set testEnd
+     * Set testEnd.
      *
      * @param scenarioEnd TestEnd
      * @return this
@@ -491,7 +491,7 @@ public class QtafTestEventPayload implements IQtafTestEventPayload {
     }
 
     /**
-     * Get threadId
+     * Get threadId.
      *
      * @return threadId
      */
@@ -501,7 +501,7 @@ public class QtafTestEventPayload implements IQtafTestEventPayload {
     }
 
     /**
-     * Set threadId
+     * Set threadId.
      *
      * @param threadId ThreadId
      * @return this
@@ -512,7 +512,7 @@ public class QtafTestEventPayload implements IQtafTestEventPayload {
     }
 
     /**
-     * Get threadName
+     * Get threadName.
      *
      * @return threadName
      */
@@ -522,7 +522,7 @@ public class QtafTestEventPayload implements IQtafTestEventPayload {
     }
 
     /**
-     * Set threadName
+     * Set threadName.
      *
      * @param threadName ThreadName
      * @return this
@@ -533,7 +533,7 @@ public class QtafTestEventPayload implements IQtafTestEventPayload {
     }
 
     /**
-     * Get parameters
+     * Get parameters.
      *
      * @return parameters
      */
@@ -542,7 +542,7 @@ public class QtafTestEventPayload implements IQtafTestEventPayload {
     }
 
     /**
-     * Set parameters
+     * Set parameters.
      *
      * @param scenarioParameters Parameters
      * @return this
@@ -553,7 +553,7 @@ public class QtafTestEventPayload implements IQtafTestEventPayload {
     }
 
     /**
-     * Get parameterValues
+     * Get parameterValues.
      *
      * @return parameterValues
      */
@@ -562,7 +562,7 @@ public class QtafTestEventPayload implements IQtafTestEventPayload {
     }
 
     /**
-     * Set parameterValues
+     * Set parameterValues.
      *
      * @param parameterValues ParameterValues
      * @return this
@@ -573,7 +573,7 @@ public class QtafTestEventPayload implements IQtafTestEventPayload {
     }
 
     /**
-     * Set testDescription
+     * Set testDescription.
      *
      * @param scenarioDescription TestDescription
      * @return this
@@ -584,7 +584,7 @@ public class QtafTestEventPayload implements IQtafTestEventPayload {
     }
 
     /**
-     * Get groups
+     * Get groups.
      *
      * @return groups
      */
@@ -594,7 +594,7 @@ public class QtafTestEventPayload implements IQtafTestEventPayload {
     }
 
     /**
-     * Set groups
+     * Set groups.
      *
      * @param groups Groups
      * @return this
@@ -605,7 +605,7 @@ public class QtafTestEventPayload implements IQtafTestEventPayload {
     }
 
     /**
-     * Get groupDependencies
+     * Get groupDependencies.
      *
      * @return groupDependencies
      */
@@ -615,7 +615,7 @@ public class QtafTestEventPayload implements IQtafTestEventPayload {
     }
 
     /**
-     * Set groupDependencies
+     * Set groupDependencies.
      *
      * @param groupDependencies GroupDependencies
      * @return this
@@ -626,7 +626,7 @@ public class QtafTestEventPayload implements IQtafTestEventPayload {
     }
 
     /**
-     * Get methodDependencies
+     * Get methodDependencies.
      *
      * @return methodDependencies
      */
@@ -636,7 +636,7 @@ public class QtafTestEventPayload implements IQtafTestEventPayload {
     }
 
     /**
-     * Set methodDependencies
+     * Set methodDependencies.
      *
      * @param methodDependencies MethodDependencies
      * @return this
@@ -647,7 +647,7 @@ public class QtafTestEventPayload implements IQtafTestEventPayload {
     }
 
     /**
-     * Get originalEvent
+     * Get originalEvent.
      *
      * @return originalEvent
      */
@@ -657,7 +657,7 @@ public class QtafTestEventPayload implements IQtafTestEventPayload {
     }
 
     /**
-     * Set originalEvent
+     * Set originalEvent.
      *
      * @param originalEvent OriginalEvent
      * @return this
@@ -668,7 +668,7 @@ public class QtafTestEventPayload implements IQtafTestEventPayload {
     }
 
     /**
-     * Get originalTestInstance
+     * Get originalTestInstance.
      *
      * @return originalTestInstance
      */
@@ -677,7 +677,7 @@ public class QtafTestEventPayload implements IQtafTestEventPayload {
     }
 
     /**
-     * Set originalTestInstance
+     * Set originalTestInstance.
      *
      * @param originalTestInstance OriginalTestInstance
      * @return this
@@ -688,7 +688,7 @@ public class QtafTestEventPayload implements IQtafTestEventPayload {
     }
 
     /**
-     * Get thread
+     * Get thread.
      *
      * @return thread
      */
@@ -697,7 +697,7 @@ public class QtafTestEventPayload implements IQtafTestEventPayload {
     }
 
     /**
-     * Set thread
+     * Set thread.
      *
      * @param thread Thread
      * @return this

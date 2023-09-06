@@ -1,6 +1,5 @@
 package de.qytera.qtaf.xray.dto.jira;
 
-import com.google.gson.JsonObject;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -85,18 +84,5 @@ public abstract class VersionDto {
      */
     private List<SimpleLinkDto> operations = new ArrayList<>();
 
-    @Data
-    public static class SimpleLinkDto {
-
-        private String id;
-        private String styleClass;
-        private String iconClass;
-        private String label;
-        private String title;
-        private String href;
-        private Integer weight;
-        private JsonObject params;
-
-    }
 
 }

@@ -5,28 +5,26 @@ import de.qytera.qtaf.core.gson.GsonFactory;
 import de.qytera.qtaf.core.io.DirectoryHelper;
 import de.qytera.qtaf.core.log.model.collection.TestSuiteLogCollection;
 import de.qytera.qtaf.core.log.model.error.ErrorLogCollection;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
 /**
- * Class for writing log file
+ * Class for writing log file.
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class LogFileWriter {
-    private LogFileWriter() {
-    }
-    /**
-     * Log file date format
-     */
 
     /**
-     * TestSuiteLogCollection instance
+     * TestSuiteLogCollection instance.
      */
     private static final TestSuiteLogCollection logCollection = TestSuiteLogCollection.getInstance();
 
     /**
-     * Persist logs to local disk
+     * Persist logs to local disk.
      *
      * @param collection log collection
      * @return path to log file if it was created successfully
@@ -52,7 +50,7 @@ public class LogFileWriter {
     }
 
     /**
-     * Create a error log file
+     * Create a error log file.
      *
      * @param collection error logs
      */

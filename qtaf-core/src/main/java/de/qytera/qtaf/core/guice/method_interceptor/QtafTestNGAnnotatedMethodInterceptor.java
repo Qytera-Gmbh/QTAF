@@ -9,19 +9,21 @@ import org.aopalliance.intercept.MethodInvocation;
 import rx.subjects.PublishSubject;
 
 /**
- * Method interceptor for methods that are annotated with the Step annotation
+ * Method interceptor for methods that are annotated with the Step annotation.
+ *
+ * @param <T> the test execution info type
  */
 public abstract class QtafTestNGAnnotatedMethodInterceptor<T extends AbstractStepExecutionInfo> implements MethodInterceptor, AbstractTestNGAnnotatedMethodInterceptor<T> {
     /**
-     * Subject that emits events before a step is executed
+     * Publisher which notifies all subjects before step executions.
      */
     protected final PublishSubject<T> beforeStepExecution;
     /**
-     * Subject that emits events after a step was executed successfully
+     * Publisher which notifies all subjects after successful step executions.
      */
     protected final PublishSubject<T> afterStepExecutionSuccess;
     /**
-     * Subject that emits events after a step failed
+     * Publisher which notifies all subjects after failed step executions.
      */
     protected final PublishSubject<T> afterStepExecutionFailure;
 

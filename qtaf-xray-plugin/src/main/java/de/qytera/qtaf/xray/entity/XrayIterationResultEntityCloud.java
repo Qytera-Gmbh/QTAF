@@ -25,6 +25,11 @@ public class XrayIterationResultEntityCloud extends XrayIterationResultEntity {
      */
     private String duration;
 
+    /**
+     * Create a new {@link XrayIterationResultEntityCloud} with a given result status.
+     *
+     * @param status the status
+     */
     public XrayIterationResultEntityCloud(TestScenarioLogCollection.Status status) {
         super(status);
     }

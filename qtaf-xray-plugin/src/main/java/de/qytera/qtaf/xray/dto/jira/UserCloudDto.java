@@ -32,12 +32,30 @@ public class UserCloudDto extends UserDto<ApplicationRoleCloudDto, GroupCloudDto
      */
     private String accountType;
 
+    /**
+     * The user account type.
+     */
     @RequiredArgsConstructor
     public enum AccountType {
+        /**
+         * A regular Atlassian user account.
+         */
         ATLASSIAN("atlassian"),
+        /**
+         * A system account used for Connect applications and OAuth to represent external systems.
+         */
         APP("app"),
+        /**
+         * A Jira Service Desk account representing an external service desk.
+         */
         CUSTOMER("customer"),
+        /**
+         * An unknown account.
+         */
         UNKNOWN("unknown");
+        /**
+         * The account type.
+         */
         public final String text;
     }
 

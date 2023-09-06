@@ -17,37 +17,37 @@ import java.util.*;
  */
 public class TestScenarioLogCollection {
     /**
-     * Index for log collections
+     * Index for log collections.
      */
     private static final ScenarioLogCollectionIndex index = ScenarioLogCollectionIndex.getInstance();
 
     /**
-     * Index for log messages
+     * Index for log messages.
      */
     private static final LogMessageIndex logMessageIndex = LogMessageIndex.getInstance();
 
     /**
-     * Unique test feature ID
+     * Unique test feature ID.
      */
     private final String featureId;
 
     /**
-     * Test method ID
+     * Test method ID.
      */
     private final String scenarioId;
 
     /**
-     * Test ID
+     * Test ID.
      */
     private final String scenarioName;
 
     /**
-     * ID of the abstract scenario
+     * ID of the abstract scenario.
      */
     private String abstractScenarioId;
 
     /**
-     * ID of the concrete test scenario
+     * ID of the concrete test scenario.
      */
     private String instanceId;
 
@@ -57,27 +57,27 @@ public class TestScenarioLogCollection {
     private String description;
 
     /**
-     * Time when test started
+     * Time when test started.
      */
     private Date start = null;
 
     /**
-     * Time when test ended
+     * Time when test ended.
      */
     private Date end = null;
 
     /**
-     * Test duration
+     * Test duration.
      */
     private long duration = 0L;
 
     /**
-     * Thread ID
+     * Thread ID.
      */
     private long threadId = 0L;
 
     /**
-     * Thread name
+     * Thread name.
      */
     private String threadName = "";
 
@@ -97,17 +97,17 @@ public class TestScenarioLogCollection {
     private String[] methodDependencies = null;
 
     /**
-     * Test method parameters
+     * Test method parameters.
      */
     private final List<TestParameter> testParameters = Collections.synchronizedList(new ArrayList<>());
 
     /**
-     * Annotations of the corresponding test method
+     * Annotations of the corresponding test method.
      */
     private Annotation[] annotations;
 
     /**
-     * Test status
+     * Test status.
      */
     private Status status = Status.PENDING;
 
@@ -122,12 +122,12 @@ public class TestScenarioLogCollection {
     private final List<String> screenshotPaths = Collections.synchronizedList(new ArrayList<>());
 
     /**
-     * Path to screenshot file that was saved before execution of the step
+     * Path to screenshot file that was saved before execution of the step.
      */
     private String screenshotBefore = "";
 
     /**
-     * Path to screenshot file that was saved after execution of the step
+     * Path to screenshot file that was saved after execution of the step.
      */
     private String screenshotAfter = "";
 
@@ -137,9 +137,11 @@ public class TestScenarioLogCollection {
     private final Map<String, String> tags = Collections.synchronizedMap(new HashMap<>());
 
     /**
-     * Constructor
+     * Constructor.
      *
-     * @param scenarioId Test ID
+     * @param featureId    the feature ID
+     * @param scenarioId   Test ID
+     * @param scenarioName the scenario name
      */
     private TestScenarioLogCollection(String featureId, String scenarioId, String scenarioName) {
         this.featureId = featureId;
@@ -167,8 +169,8 @@ public class TestScenarioLogCollection {
 
     /**
      * Factory method.
-     * <p>
-     * Creates new test log collection.
+     *
+     * <p>Creates new test log collection.</p>
      * If a collection with the given ID exists then return the existing collection.
      * This method has to be synchronized so that it works correctly when using multiple threads.
      *
@@ -199,9 +201,9 @@ public class TestScenarioLogCollection {
     }
 
     /**
-     * Factory method
-     * <p>
-     * Factory method that creates new log collection from test event payload
+     * Factory method.
+     *
+     * <p>Factory method that creates new log collection from test event payload.</p>
      * This method has to be synchronized so that it works correctly when using multiple threads.
      *
      * @param iQtafTestEventPayload test event payload
@@ -246,7 +248,7 @@ public class TestScenarioLogCollection {
     }
 
     /**
-     * Override equals to compare two TestScenarioLogCollection objects
+     * Override equals to compare two TestScenarioLogCollection objects.
      *
      * @param o Object to compare with this instance
      * @return true if both are equal, false otherwise
@@ -281,7 +283,7 @@ public class TestScenarioLogCollection {
     }
 
     /**
-     * Get uniqueId
+     * Get uniqueId.
      *
      * @return uniqueId
      */
@@ -290,7 +292,7 @@ public class TestScenarioLogCollection {
     }
 
     /**
-     * Build ID
+     * Build ID.
      *
      * @param abstractScenarioId Method ID
      * @param instanceId         Test ID
@@ -301,7 +303,7 @@ public class TestScenarioLogCollection {
     }
 
     /**
-     * Get test ID
+     * Get test ID.
      *
      * @return test ID
      */
@@ -310,16 +312,16 @@ public class TestScenarioLogCollection {
     }
 
     /**
-     * Get testId
+     * Get testId.
      *
-     * @return testId TestId
+     * @return testId Test Id
      */
     public String getScenarioName() {
         return scenarioName;
     }
 
     /**
-     * Get abstractScenarioId
+     * Get abstractScenarioId.
      *
      * @return abstractScenarioId
      */
@@ -328,7 +330,7 @@ public class TestScenarioLogCollection {
     }
 
     /**
-     * Set abstractScenarioId
+     * Set abstractScenarioId.
      *
      * @param abstractScenarioId AbstractScenarioId
      * @return this
@@ -339,7 +341,7 @@ public class TestScenarioLogCollection {
     }
 
     /**
-     * Get instanceId
+     * Get instanceId.
      *
      * @return instanceId
      */
@@ -348,7 +350,7 @@ public class TestScenarioLogCollection {
     }
 
     /**
-     * Set instanceId
+     * Set instanceId.
      *
      * @param instanceId InstanceId
      * @return this
@@ -359,7 +361,7 @@ public class TestScenarioLogCollection {
     }
 
     /**
-     * Get status
+     * Get status.
      *
      * @return status Status
      */
@@ -390,7 +392,7 @@ public class TestScenarioLogCollection {
     }
 
     /**
-     * Set test description
+     * Set test description.
      *
      * @param description test description
      * @return this
@@ -401,7 +403,7 @@ public class TestScenarioLogCollection {
     }
 
     /**
-     * Set test group dependencies
+     * Set test group dependencies.
      *
      * @param groupDependencies test group dependencies
      * @return this
@@ -412,7 +414,7 @@ public class TestScenarioLogCollection {
     }
 
     /**
-     * Set test method dependencies
+     * Set test method dependencies.
      *
      * @param methodDependencies test method dependencies
      */
@@ -421,7 +423,7 @@ public class TestScenarioLogCollection {
     }
 
     /**
-     * Get testParameters
+     * Get testParameters.
      *
      * @return testParameters
      */
@@ -430,7 +432,7 @@ public class TestScenarioLogCollection {
     }
 
     /**
-     * Add test parameters to log
+     * Add test parameters to log.
      *
      * @param parameters method parameters
      * @param values     method values
@@ -451,7 +453,7 @@ public class TestScenarioLogCollection {
     }
 
     /**
-     * Add test parameters to log
+     * Add test parameters to log.
      *
      * @param parameterValues method values
      */
@@ -470,7 +472,7 @@ public class TestScenarioLogCollection {
 
 
     /**
-     * Get annotations
+     * Get annotations.
      *
      * @return annotations
      */
@@ -498,7 +500,7 @@ public class TestScenarioLogCollection {
     }
 
     /**
-     * Set annotations
+     * Set annotations.
      *
      * @param annotations Annotations
      * @return this
@@ -509,7 +511,7 @@ public class TestScenarioLogCollection {
     }
 
     /**
-     * Get logMessages
+     * Get logMessages.
      *
      * @return logMessages LogMessages
      */
@@ -536,7 +538,7 @@ public class TestScenarioLogCollection {
     }
 
     /**
-     * Get the log message object of the step that is currently pending
+     * Get the log message object of the step that is currently pending.
      *
      * @return Step log object of the currently pending step
      */
@@ -546,8 +548,8 @@ public class TestScenarioLogCollection {
     }
 
     /**
-     * Add log message object
-     * This methods needs to run synchronized because of the check for existence.
+     * Add log message object.
+     * This method needs to run synchronized because of the check for existence.
      *
      * @param logMessage log message object
      */
@@ -572,7 +574,7 @@ public class TestScenarioLogCollection {
     }
 
     /**
-     * Add log message
+     * Add log message.
      *
      * @param level   log level
      * @param message log message
@@ -583,7 +585,7 @@ public class TestScenarioLogCollection {
     }
 
     /**
-     * Get screenshotPaths
+     * Get screenshotPaths.
      *
      * @return screenshotPaths
      */
@@ -592,7 +594,7 @@ public class TestScenarioLogCollection {
     }
 
     /**
-     * Add screenshot path to test scenario log
+     * Add screenshot path to test scenario log.
      *
      * @param filepath Path to screenshot file
      */
@@ -601,7 +603,7 @@ public class TestScenarioLogCollection {
     }
 
     /**
-     * Get screenshotBefore
+     * Get screenshotBefore.
      *
      * @return screenshotBefore
      */
@@ -610,7 +612,7 @@ public class TestScenarioLogCollection {
     }
 
     /**
-     * Set screenshotBefore
+     * Set screenshotBefore.
      *
      * @param screenshotBefore ScreenshotBefore
      */
@@ -619,7 +621,7 @@ public class TestScenarioLogCollection {
     }
 
     /**
-     * Get screenshotAfter
+     * Get screenshotAfter.
      *
      * @return screenshotAfter
      */
@@ -628,7 +630,7 @@ public class TestScenarioLogCollection {
     }
 
     /**
-     * Set screenshotAfter
+     * Set screenshotAfter.
      *
      * @param screenshotAfter ScreenshotAfter
      */
@@ -637,7 +639,7 @@ public class TestScenarioLogCollection {
     }
 
     /**
-     * Get tags
+     * Get tags.
      *
      * @return tags
      */
@@ -646,7 +648,7 @@ public class TestScenarioLogCollection {
     }
 
     /**
-     * Add tag to test scenario log
+     * Add tag to test scenario log.
      *
      * @param key   Tag key
      * @param value Tag value
@@ -659,7 +661,7 @@ public class TestScenarioLogCollection {
 
 
     /**
-     * Add debug message
+     * Add debug message.
      *
      * @param message message
      * @return this
@@ -670,7 +672,7 @@ public class TestScenarioLogCollection {
     }
 
     /**
-     * Add info message
+     * Add info message.
      *
      * @param message message
      * @return this
@@ -681,7 +683,7 @@ public class TestScenarioLogCollection {
     }
 
     /**
-     * Add warn message
+     * Add warn message.
      *
      * @param message message
      * @return this
@@ -692,7 +694,7 @@ public class TestScenarioLogCollection {
     }
 
     /**
-     * Add error message
+     * Add error message.
      *
      * @param message message
      * @return this
@@ -703,7 +705,7 @@ public class TestScenarioLogCollection {
     }
 
     /**
-     * Get description
+     * Get description.
      *
      * @return description
      */
@@ -712,7 +714,7 @@ public class TestScenarioLogCollection {
     }
 
     /**
-     * Get groupDependencies
+     * Get groupDependencies.
      *
      * @return groupDependencies
      */
@@ -721,7 +723,7 @@ public class TestScenarioLogCollection {
     }
 
     /**
-     * Get methodDependencies
+     * Get methodDependencies.
      *
      * @return methodDependencies
      */
@@ -730,7 +732,7 @@ public class TestScenarioLogCollection {
     }
 
     /**
-     * Get start
+     * Get start.
      *
      * @return start
      */
@@ -739,7 +741,7 @@ public class TestScenarioLogCollection {
     }
 
     /**
-     * Set start
+     * Set start.
      *
      * @param start Start
      * @return this
@@ -750,7 +752,7 @@ public class TestScenarioLogCollection {
     }
 
     /**
-     * Get end
+     * Get end.
      *
      * @return end
      */
@@ -759,7 +761,7 @@ public class TestScenarioLogCollection {
     }
 
     /**
-     * Set end
+     * Set end.
      *
      * @param end End
      * @return this
@@ -771,7 +773,7 @@ public class TestScenarioLogCollection {
     }
 
     /**
-     * Get threadId
+     * Get threadId.
      *
      * @return threadId
      */
@@ -780,7 +782,7 @@ public class TestScenarioLogCollection {
     }
 
     /**
-     * Set threadId
+     * Set threadId.
      *
      * @param threadId ThreadId
      * @return this
@@ -791,7 +793,7 @@ public class TestScenarioLogCollection {
     }
 
     /**
-     * Get threadName
+     * Get threadName.
      *
      * @return threadName
      */
@@ -800,7 +802,7 @@ public class TestScenarioLogCollection {
     }
 
     /**
-     * Set threadName
+     * Set threadName.
      *
      * @param threadName ThreadName
      * @return this
@@ -811,7 +813,7 @@ public class TestScenarioLogCollection {
     }
 
     /**
-     * Get groups
+     * Get groups.
      *
      * @return groups
      */
@@ -820,7 +822,7 @@ public class TestScenarioLogCollection {
     }
 
     /**
-     * Set groups
+     * Set groups.
      *
      * @param groups Groups
      * @return this
@@ -831,7 +833,7 @@ public class TestScenarioLogCollection {
     }
 
     /**
-     * Get duration
+     * Get duration.
      *
      * @return duration
      */
@@ -844,7 +846,7 @@ public class TestScenarioLogCollection {
     }
 
     /**
-     * Set duration
+     * Set duration.
      *
      * @param duration Duration
      * @return this
@@ -855,7 +857,7 @@ public class TestScenarioLogCollection {
     }
 
     /**
-     * Test execution status
+     * Test execution status.
      */
     public enum Status {
         /**
@@ -877,26 +879,26 @@ public class TestScenarioLogCollection {
     }
 
     /**
-     * Data class for step parameter information
+     * Data class for step parameter information.
      */
     public static class TestParameter {
         /**
-         * Parameter name
+         * Parameter name.
          */
         private String name;
 
         /**
-         * Parameter type
+         * Parameter type.
          */
         private String type;
 
         /**
-         * Parameter value
+         * Parameter value.
          */
         private Object value;
 
         /**
-         * Constructor
+         * Constructor.
          *
          * @param name  parameter name
          * @param type  parameter type
@@ -909,7 +911,7 @@ public class TestScenarioLogCollection {
         }
 
         /**
-         * Get name
+         * Get name.
          *
          * @return name
          */
@@ -918,7 +920,7 @@ public class TestScenarioLogCollection {
         }
 
         /**
-         * Set name
+         * Set name.
          *
          * @param name Name
          * @return this
@@ -929,7 +931,7 @@ public class TestScenarioLogCollection {
         }
 
         /**
-         * Get type
+         * Get type.
          *
          * @return type
          */
@@ -938,7 +940,7 @@ public class TestScenarioLogCollection {
         }
 
         /**
-         * Set type
+         * Set type.
          *
          * @param type Type
          * @return this
@@ -949,7 +951,7 @@ public class TestScenarioLogCollection {
         }
 
         /**
-         * Get value
+         * Get value.
          *
          * @return value
          */
@@ -958,7 +960,7 @@ public class TestScenarioLogCollection {
         }
 
         /**
-         * Set value
+         * Set value.
          *
          * @param value Value
          * @return this
@@ -970,7 +972,7 @@ public class TestScenarioLogCollection {
     }
 
     /**
-     * Check if index already has this ScenarioLogCollection
+     * Check if index already has this ScenarioLogCollection.
      *
      * @param scenarioLogCollection Scenario log collection
      * @return true if exists, false otherwise
@@ -980,7 +982,7 @@ public class TestScenarioLogCollection {
     }
 
     /**
-     * Count the number of scenario log collections saved in the index
+     * Count the number of scenario log collections saved in the index.
      *
      * @return number of scenario log collections saved in the index
      */
@@ -989,7 +991,7 @@ public class TestScenarioLogCollection {
     }
 
     /**
-     * Remove all scenario log collections
+     * Remove all scenario log collections.
      */
     public static void clearIndex() {
         index.clear();

@@ -6,11 +6,11 @@ import java.io.IOException;
 import java.util.Base64;
 
 /**
- * Class that encodes and decodes base64 Strings
+ * Class that encodes and decodes base64 Strings.
  */
 public class Base64Helper {
     /**
-     * Base64 Encoder
+     * Base64 Encoder.
      */
 
     private Base64Helper() {
@@ -19,12 +19,12 @@ public class Base64Helper {
     private static final Base64.Encoder encoder = Base64.getEncoder();
 
     /**
-     * Base64 Decoder
+     * Base64 Decoder.
      */
     private static final Base64.Decoder decoder = Base64.getDecoder();
 
     /**
-     * Convert a string to its base64 representation
+     * Convert a string to its base64 representation.
      *
      * @param input String input
      * @return base64 string
@@ -34,7 +34,7 @@ public class Base64Helper {
     }
 
     /**
-     * Convert a file content to its base64 representation
+     * Convert a file content to its base64 representation.
      *
      * @param filepath Path to a file
      * @return base64 string
@@ -46,7 +46,7 @@ public class Base64Helper {
     }
 
     /**
-     * Convert a base64 to its original representation
+     * Convert a base64 to its original representation.
      *
      * @param input Base64 String input
      * @return original string
@@ -56,7 +56,7 @@ public class Base64Helper {
     }
 
     /**
-     * Convert a base64 file content to its original byte array representation
+     * Convert a base64 file content to its original byte array representation.
      *
      * @param filepath Path to a file
      * @return original string
@@ -68,7 +68,7 @@ public class Base64Helper {
     }
 
     /**
-     * Convert a base64 file content to its original string representation
+     * Convert a base64 file content to its original string representation.
      *
      * @param filepath Path to a file
      * @return original string

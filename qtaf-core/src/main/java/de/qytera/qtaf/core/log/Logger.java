@@ -7,26 +7,26 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * QTAF wrapper class for Log4J logger
+ * QTAF wrapper class for Log4J logger.
  */
 public class Logger {
     /**
-     * Log4J logger
+     * Log4J logger.
      */
     private final org.apache.logging.log4j.Logger logging;
 
     /**
-     * Error logs
+     * Error logs.
      */
     private static final ErrorLogCollection errorLogCollection = ErrorLogCollection.getInstance();
 
     /**
-     * Instances
+     * Instances.
      */
     private static final Map<String, Logger> instances = new HashMap<>();
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param name logger name
      */
@@ -35,7 +35,7 @@ public class Logger {
     }
 
     /**
-     * Get QtafLogger instance
+     * Get QtafLogger instance.
      *
      * @return ^logger instance
      */
@@ -44,7 +44,7 @@ public class Logger {
     }
 
     /**
-     * Get QtafLogger instance
+     * Get QtafLogger instance.
      *
      * @param name logger name
      * @return logger  instance
@@ -55,7 +55,7 @@ public class Logger {
     }
 
     /**
-     * Log at trace level
+     * Log at trace level.
      *
      * @param message Message
      * @param params  Message parameters
@@ -65,7 +65,7 @@ public class Logger {
     }
 
     /**
-     * Log at debug level
+     * Log at debug level.
      *
      * @param message Message
      * @param params  Message parameters
@@ -75,7 +75,7 @@ public class Logger {
     }
 
     /**
-     * Log at info level
+     * Log at info level.
      *
      * @param message Message
      * @param params  Message parameters
@@ -85,7 +85,7 @@ public class Logger {
     }
 
     /**
-     * Log at warn level
+     * Log at warn level.
      *
      * @param message Message
      * @param params  Message parameters
@@ -95,7 +95,7 @@ public class Logger {
     }
 
     /**
-     * Log at error level
+     * Log at error level.
      *
      * @param t      Throwable object
      * @param params Message parameters
@@ -106,7 +106,7 @@ public class Logger {
     }
 
     /**
-     * Log at error level
+     * Log at error level.
      *
      * @param message Message
      * @param params  Message parameters
@@ -117,7 +117,7 @@ public class Logger {
     }
 
     /**
-     * Log at fatal level
+     * Log at fatal level.
      *
      * @param t      Throwable object
      * @param params Message parameters
@@ -128,7 +128,7 @@ public class Logger {
     }
 
     /**
-     * Log at fatal level
+     * Log at fatal level.
      *
      * @param message Message
      * @param params  Message parameters

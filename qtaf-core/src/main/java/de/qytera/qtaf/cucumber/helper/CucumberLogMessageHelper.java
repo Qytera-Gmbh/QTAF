@@ -11,19 +11,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Helper class that creates log messages from test steps
+ * Helper class that creates log messages from test steps.
  */
 public class CucumberLogMessageHelper {
     private CucumberLogMessageHelper() {
     }
 
     /**
-     * Cucumber log index
+     * Cucumber log index.
      */
     static CucumberStepIndex index = CucumberStepIndex.getInstance();
 
     /**
-     * Extract log messages from a Cucumber scenario object
+     * Extract log messages from a Cucumber scenario object.
      *
      * @param scenario Scenario
      * @return A list if cucumber step log message objects
@@ -58,7 +58,7 @@ public class CucumberLogMessageHelper {
     }
 
     /**
-     * Create log message for cucumber step result
+     * Create log message for cucumber step result.
      *
      * @param testStep Test step object
      * @return Log message object
@@ -98,7 +98,7 @@ public class CucumberLogMessageHelper {
     }
 
     /**
-     * Add data of result to log message
+     * Add data of result to log message.
      *
      * @param message    log message object
      * @param testResult result object
@@ -116,7 +116,7 @@ public class CucumberLogMessageHelper {
     }
 
     /**
-     * Map the status of a cucumber step to a QTAF log message step
+     * Map the status of a cucumber step to a QTAF log message step.
      *
      * @param status Cucumber status
      * @return QTAF status

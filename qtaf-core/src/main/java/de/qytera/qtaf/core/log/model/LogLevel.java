@@ -1,26 +1,26 @@
 package de.qytera.qtaf.core.log.model;
 
 /**
- * Log levels
+ * Log levels.
  */
 public enum LogLevel {
     /**
-     * DEBUG level
+     * DEBUG level.
      */
     DEBUG,
 
     /**
-     * INFO level
+     * INFO level.
      */
     INFO,
 
     /**
-     * WARN level
+     * WARN level.
      */
     WARN,
 
     /**
-     * ERROR level
+     * ERROR level.
      */
     ERROR,
 }

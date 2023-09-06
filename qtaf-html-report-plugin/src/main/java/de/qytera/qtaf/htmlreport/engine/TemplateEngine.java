@@ -5,19 +5,19 @@ import io.pebbletemplates.pebble.PebbleEngine;
 import io.pebbletemplates.pebble.template.PebbleTemplate;
 
 /**
- * Template file rendering engine
+ * Template file rendering engine.
  */
 public class TemplateEngine {
     private TemplateEngine() {
     }
 
     /**
-     * Pebble template rendering engine
+     * Pebble template rendering engine.
      */
     private static PebbleEngine engine = new PebbleEngine.Builder().build();
 
     /**
-     * Load compiled template
+     * Load compiled template.
      *
      * @param name template name
      * @return compiled template

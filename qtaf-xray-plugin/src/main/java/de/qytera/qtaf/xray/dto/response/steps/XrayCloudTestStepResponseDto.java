@@ -13,12 +13,18 @@ import lombok.Setter;
 @Setter
 public class XrayCloudTestStepResponseDto extends GraphQLResponseDto<XrayCloudTestStepResponseDto.ResponseData> {
 
+    /**
+     * The step response data.
+     */
     @Getter
     @Setter
     public static class ResponseData {
 
         private TestsData getTests;
 
+        /**
+         * The test data.
+         */
         @Getter
         @Setter
         public static class TestsData {
@@ -27,6 +33,9 @@ public class XrayCloudTestStepResponseDto extends GraphQLResponseDto<XrayCloudTe
             private int limit;
             private Result[] results;
 
+            /**
+             * The result data.
+             */
             @Getter
             @Setter
             public static class Result {
@@ -34,6 +43,9 @@ public class XrayCloudTestStepResponseDto extends GraphQLResponseDto<XrayCloudTe
                 private TestType testType;
                 private Step[] steps;
 
+                /**
+                 * The test type.
+                 */
                 @Getter
                 @Setter
                 public static class TestType {
@@ -41,6 +53,9 @@ public class XrayCloudTestStepResponseDto extends GraphQLResponseDto<XrayCloudTe
                     private String kind;
                 }
 
+                /**
+                 * The step data.
+                 */
                 @Getter
                 @Setter
                 public static class Step implements XrayTestStepResponseDto {

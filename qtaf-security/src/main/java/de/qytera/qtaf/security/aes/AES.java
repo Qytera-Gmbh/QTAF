@@ -20,37 +20,37 @@ import java.util.Base64;
 import java.util.Objects;
 
 /**
- * Class that provides methods for encryption and decryption with the AES algorithm
+ * Class that provides methods for encryption and decryption with the AES algorithm.
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class AES {
 
     /**
-     * Base64 Encoder
+     * Base64 Encoder.
      */
     private static final Base64.Encoder base64Encoder = Base64.getEncoder();
 
     /**
-     * Base64 Decoder
+     * Base64 Decoder.
      */
     private static final Base64.Decoder base64Decoder = Base64.getDecoder();
 
     /**
-     * AES iteration count
+     * AES iteration count.
      */
     private static final int ITERATION_COUNT = 40000;
     /**
-     * AES default key length
+     * AES default key length.
      */
     private static final int KEY_LENGTH = 128;
 
     /**
-     * AES algorithm
+     * AES algorithm.
      */
     private static final String SECRET_KEY_ALGORITHM = "PBKDF2WithHmacSHA512";
 
     /**
-     * Cipher transformation algorithm
+     * Cipher transformation algorithm.
      */
     private static final String CIPHER_TRANSFORMATION = "AES/GCM/NoPadding";
 

@@ -5,6 +5,7 @@ import lombok.Data;
 /**
  * Details about a project component.
  *
+ * @param <U> the user type
  * @see <a href="https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-project-components/#api-rest-api-3-component-id-get">Get component (Jira Cloud)</a>
  * @see <a href="https://docs.atlassian.com/software/jira/docs/api/REST/9.8.0/#api/2/component-getComponent">Get component (Jira Server)</a>
  */
@@ -46,8 +47,8 @@ public class ComponentDto<U extends UserDto<?, ?>> {
      * The type of the assignee that is assigned to issues created with this component, when an assignee cannot be set
      * from the {@link ComponentDto#getAssigneeType()}. For example, {@link ComponentDto#getAssigneeType()} is set to
      * {@link AssigneeType#COMPONENT_LEAD} but no component lead is set.
-     * <p>
-     * This property is set to one of the following values:
+     *
+     * <p>This property is set to one of the following values:</p>
      * <dl>
      *     <dt>{@link AssigneeType#PROJECT_LEAD}</dt>
      *     <dd>
@@ -92,8 +93,8 @@ public class ComponentDto<U extends UserDto<?, ?>> {
 
     /**
      * The user type used to determine the assignee for issues created with a component.
-     * <p>
-     * Default value: {@link AssigneeType#PROJECT_DEFAULT}.
+     *
+     * <p>Default value: {@link AssigneeType#PROJECT_DEFAULT}.</p>
      */
     public enum AssigneeType {
         /**

@@ -7,28 +7,28 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Class that initializes the Qtaf event system
+ * Class that initializes the Qtaf event system.
  */
 public class EventListenerInitializer {
     /**
-     * Parameter that saves the initialization status
+     * Parameter that saves the initialization status.
      */
     private static boolean isInitialized = false;
 
     /**
-     * Event listener instances are saved in this map
+     * Event listener instances are saved in this map.
      */
     private static final Map<String, IEventSubscriber> instances = new HashMap<>();
 
     /**
-     * Private constructor, there should be no instances if this class at runtime
+     * Private constructor, there should be no instances if this class at runtime.
      */
     private EventListenerInitializer() {
         super();
     }
 
     /**
-     * Initialize the event system
+     * Initialize the event system.
      */
     public static void initialize() {
         // If already initialized there is nothing to od
