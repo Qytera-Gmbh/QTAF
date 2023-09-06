@@ -1,8 +1,9 @@
-package de.qytera.qtaf.core.log;
+package de.qytera.qtaf.core.log.model.collection;
 
 import de.qytera.qtaf.core.events.payload.MethodInfoEntity;
 import de.qytera.qtaf.core.events.payload.QtafTestEventPayload;
 import de.qytera.qtaf.core.guice.annotations.Step;
+import de.qytera.qtaf.core.log.DemoStepClass;
 import de.qytera.qtaf.core.log.model.collection.TestFeatureLogCollection;
 import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
 import de.qytera.qtaf.core.log.model.collection.TestSuiteLogCollection;
