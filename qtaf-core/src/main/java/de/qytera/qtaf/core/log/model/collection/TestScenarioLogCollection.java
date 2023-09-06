@@ -373,7 +373,7 @@ public class TestScenarioLogCollection {
      * Method to compute the status of the test scenario.
      */
     public void computeStatus() {
-        if (LogMessageIndex.getInstance().getByScenarioIdAndFailed(getScenarioId()).size() > 0) {
+        if (!LogMessageIndex.getInstance().getByScenarioIdAndFailed(getScenarioId()).isEmpty()) {
             status = Status.FAILURE;
         } else {
             status = Status.SUCCESS;

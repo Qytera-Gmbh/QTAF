@@ -1,6 +1,7 @@
 package de.qytera.qtaf.core.log.model.message;
 
 import de.qytera.qtaf.core.guice.annotations.Step;
+import de.qytera.qtaf.core.log.DemoStepClass;
 import de.qytera.qtaf.core.log.model.LogLevel;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -15,7 +16,7 @@ public class StepInformationLogMessageTest {
 
     @Test
     public void testConstructor() throws NoSuchMethodException {
-        DemoTest demoTest = new DemoTest();
+        DemoStepClass demoTest = new DemoStepClass();
         Step stepAnnotation = demoTest.getClass().getMethod("stepOne").getAnnotation(Step.class);
         StepInformationLogMessage stepInformationLogMessage = new StepInformationLogMessage("method1", "step one was executed");
         stepInformationLogMessage.setStep(stepAnnotation);
@@ -241,9 +242,4 @@ public class StepInformationLogMessageTest {
         Assert.assertFalse(step.hasFailed());
         Assert.assertFalse(step.isSkipped());
     }
-}
-
-class DemoTest {
-    @Step(name = "step one", description = "this is step one")
-    public void stepOne() {}
 }
