@@ -7,6 +7,7 @@ import de.qytera.qtaf.core.log.model.message.AssertionLogMessage;
 import de.qytera.qtaf.core.log.model.message.AssertionLogMessageType;
 import de.qytera.qtaf.core.log.model.message.StepInformationLogMessage;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import java.util.Map;
@@ -21,7 +22,7 @@ public interface AssertionContext {
      *
      * @return the scenario log collection
      */
-    @Test(enabled = false)
+    @Ignore
     TestScenarioLogCollection getLogCollection();
 
     /**
@@ -29,7 +30,7 @@ public interface AssertionContext {
      *
      * @return default log message
      */
-    @Test(enabled = false)
+    @Ignore
     default String getNoMessageString() {
         return "<no-message>";
     }
@@ -40,7 +41,7 @@ public interface AssertionContext {
      * @param condition The condition
      * @param message   The message that should be displayed if the assertion fails
      */
-    @Test(enabled = false)
+    @Ignore
     default void assertTrue(boolean condition, String message) {
         assertTrue(condition, message, QtafTestExecutionConfigHelper.continueOnAssertionFailure());
     }
@@ -52,7 +53,7 @@ public interface AssertionContext {
      * @param message           The message that should be displayed if the assertion fails
      * @param continueOnFailure Should the assertion stop the test case on failure?
      */
-    @Test(enabled = false)
+    @Ignore
     default void assertTrue(boolean condition, String message, boolean continueOnFailure) {
         try {
             Assert.assertTrue(condition, message);
@@ -74,7 +75,7 @@ public interface AssertionContext {
      * @param condition The condition
      * @param message   The message that should be displayed if the assertion fails
      */
-    @Test(enabled = false)
+    @Ignore
     default void assertFalse(boolean condition, String message) {
         assertFalse(condition, message, QtafTestExecutionConfigHelper.continueOnAssertionFailure());
     }
@@ -86,7 +87,7 @@ public interface AssertionContext {
      * @param message           The message that should be displayed if the assertion fails
      * @param continueOnFailure Should the assertion stop the test case on failure?
      */
-    @Test(enabled = false)
+    @Ignore
     default void assertFalse(boolean condition, String message, boolean continueOnFailure) {
         try {
             Assert.assertFalse(condition, message);
@@ -107,7 +108,7 @@ public interface AssertionContext {
      *
      * @param object The object
      */
-    @Test(enabled = false)
+    @Ignore
     default void assertNull(Object object) {
         assertNull(object, getNoMessageString());
     }
@@ -118,7 +119,7 @@ public interface AssertionContext {
      * @param object  The object
      * @param message The message that should be displayed if the assertion fails
      */
-    @Test(enabled = false)
+    @Ignore
     default void assertNull(Object object, String message) {
         assertNull(object, message, QtafTestExecutionConfigHelper.continueOnAssertionFailure());
     }
@@ -130,7 +131,7 @@ public interface AssertionContext {
      * @param message           The message that should be displayed if the assertion fails
      * @param continueOnFailure Should the assertion stop the test case on failure?
      */
-    @Test(enabled = false)
+    @Ignore
     default void assertNull(Object object, String message, boolean continueOnFailure) {
         try {
             Assert.assertNull(object, message);
@@ -151,7 +152,7 @@ public interface AssertionContext {
      *
      * @param object The object
      */
-    @Test(enabled = false)
+    @Ignore
     default void assertNotNull(Object object) {
         assertNotNull(object, getNoMessageString());
     }
@@ -162,7 +163,7 @@ public interface AssertionContext {
      * @param object  The object
      * @param message The message that should be displayed if the assertion fails
      */
-    @Test(enabled = false)
+    @Ignore
     default void assertNotNull(Object object, String message) {
         assertNotNull(object, message, QtafTestExecutionConfigHelper.continueOnAssertionFailure());
     }
@@ -174,7 +175,7 @@ public interface AssertionContext {
      * @param message           The message that should be displayed if the assertion fails
      * @param continueOnFailure Should the assertion stop the test case on failure?
      */
-    @Test(enabled = false)
+    @Ignore
     default void assertNotNull(Object object, String message, boolean continueOnFailure) {
         try {
             Assert.assertNotNull(object, message);
@@ -196,7 +197,7 @@ public interface AssertionContext {
      * @param actual   Actual object
      * @param expected Expected object
      */
-    @Test(enabled = false)
+    @Ignore
     default void assertSame(Object actual, Object expected) {
         assertSame(actual, expected, getNoMessageString());
     }
@@ -208,7 +209,7 @@ public interface AssertionContext {
      * @param expected Expected object
      * @param message  The message that should be displayed if the assertion fails
      */
-    @Test(enabled = false)
+    @Ignore
     default void assertSame(Object actual, Object expected, String message) {
         assertSame(actual, expected, message, QtafTestExecutionConfigHelper.continueOnAssertionFailure());
     }
@@ -221,7 +222,7 @@ public interface AssertionContext {
      * @param message           The message that should be displayed if the assertion fails
      * @param continueOnFailure Should the assertion stop the test case on failure?
      */
-    @Test(enabled = false)
+    @Ignore
     default void assertSame(Object object, Object expected, String message, boolean continueOnFailure) {
         try {
             Assert.assertSame(object, expected, message);
@@ -243,7 +244,7 @@ public interface AssertionContext {
      * @param actual   Actual object
      * @param expected Expected object
      */
-    @Test(enabled = false)
+    @Ignore
     default void assertNotSame(Object actual, Object expected) {
         assertNotSame(actual, expected, getNoMessageString());
     }
@@ -255,7 +256,7 @@ public interface AssertionContext {
      * @param expected Expected object
      * @param message  The message that should be displayed if the assertion fails
      */
-    @Test(enabled = false)
+    @Ignore
     default void assertNotSame(Object actual, Object expected, String message) {
         assertNotSame(actual, expected, message, QtafTestExecutionConfigHelper.continueOnAssertionFailure());
     }
@@ -268,7 +269,7 @@ public interface AssertionContext {
      * @param message           The message that should be displayed if the assertion fails
      * @param continueOnFailure Should the assertion stop the test case on failure?
      */
-    @Test(enabled = false)
+    @Ignore
     default void assertNotSame(Object object, Object expected, String message, boolean continueOnFailure) {
         try {
             Assert.assertNotSame(object, expected, message);
@@ -290,7 +291,7 @@ public interface AssertionContext {
      * @param object1 The first object
      * @param object2 The second object
      */
-    @Test(enabled = false)
+    @Ignore
     default void assertEquals(Object object1, Object object2) {
         assertEquals(object1, object2, getNoMessageString());
     }
@@ -302,7 +303,7 @@ public interface AssertionContext {
      * @param object2 The second object
      * @param message The message that should be displayed if the assertion fails
      */
-    @Test(enabled = false)
+    @Ignore
     default void assertEquals(Object object1, Object object2, String message) {
         assertEquals(object1, object2, message, QtafTestExecutionConfigHelper.continueOnAssertionFailure());
     }
@@ -315,7 +316,7 @@ public interface AssertionContext {
      * @param message           The message that should be displayed if the assertion fails
      * @param continueOnFailure Should the assertion stop the test case on failure?
      */
-    @Test(enabled = false)
+    @Ignore
     default void assertEquals(Object object1, Object object2, String message, boolean continueOnFailure) {
         try {
             Assert.assertEquals(object1, object2, message);
@@ -337,7 +338,7 @@ public interface AssertionContext {
      * @param actual   The first object
      * @param expected The second object
      */
-    @Test(enabled = false)
+    @Ignore
     default void assertEqualsDeep(Set<?> actual, Set<?> expected) {
         assertEqualsDeep(actual, expected, getNoMessageString());
     }
@@ -349,7 +350,7 @@ public interface AssertionContext {
      * @param expected The second object
      * @param message  The message that should be displayed if the assertion fails
      */
-    @Test(enabled = false)
+    @Ignore
     default void assertEqualsDeep(Set<?> actual, Set<?> expected, String message) {
         assertEqualsDeep(actual, expected, message, QtafTestExecutionConfigHelper.continueOnAssertionFailure());
     }
@@ -360,7 +361,7 @@ public interface AssertionContext {
      * @param actual   The first object
      * @param expected The second object
      */
-    @Test(enabled = false)
+    @Ignore
     default void assertEqualsDeep(Map<?, ?> actual, Map<?, ?> expected) {
         assertEqualsDeep(actual, expected, getNoMessageString());
     }
@@ -372,7 +373,7 @@ public interface AssertionContext {
      * @param expected The second object
      * @param message  The message that should be displayed if the assertion fails
      */
-    @Test(enabled = false)
+    @Ignore
     default void assertEqualsDeep(Map<?, ?> actual, Map<?, ?> expected, String message) {
         assertEqualsDeep(actual, expected, message, QtafTestExecutionConfigHelper.continueOnAssertionFailure());
     }
@@ -385,7 +386,7 @@ public interface AssertionContext {
      * @param message           The message that should be displayed if the assertion fails
      * @param continueOnFailure Should the assertion stop the test case on failure?
      */
-    @Test(enabled = false)
+    @Ignore
     default void assertEqualsDeep(Map<?, ?> object1, Map<?, ?> object2, String message, boolean continueOnFailure) {
         try {
             Assert.assertEqualsDeep(object1, object2, message);
@@ -409,7 +410,7 @@ public interface AssertionContext {
      * @param message           The message that should be displayed if the assertion fails
      * @param continueOnFailure Should the assertion stop the test case on failure?
      */
-    @Test(enabled = false)
+    @Ignore
     default void assertEqualsDeep(Set<?> object1, Set<?> object2, String message, boolean continueOnFailure) {
         try {
             Assert.assertEqualsDeep(object1, object2, message);
@@ -431,7 +432,7 @@ public interface AssertionContext {
      * @param actual   The first object
      * @param expected The second object
      */
-    @Test(enabled = false)
+    @Ignore
     default void assertNotEqualsDeep(Set<?> actual, Set<?> expected) {
         assertNotEqualsDeep(actual, expected, getNoMessageString());
     }
@@ -443,7 +444,7 @@ public interface AssertionContext {
      * @param expected The second object
      * @param message  The message that should be displayed if the assertion fails
      */
-    @Test(enabled = false)
+    @Ignore
     default void assertNotEqualsDeep(Set<?> actual, Set<?> expected, String message) {
         assertNotEqualsDeep(actual, expected, message, QtafTestExecutionConfigHelper.continueOnAssertionFailure());
     }
@@ -454,7 +455,7 @@ public interface AssertionContext {
      * @param actual   The first object
      * @param expected The second object
      */
-    @Test(enabled = false)
+    @Ignore
     default void assertNotEqualsDeep(Map<?, ?> actual, Map<?, ?> expected) {
         assertNotEqualsDeep(actual, expected, getNoMessageString());
     }
@@ -466,7 +467,7 @@ public interface AssertionContext {
      * @param expected The second object
      * @param message  The message that should be displayed if the assertion fails
      */
-    @Test(enabled = false)
+    @Ignore
     default void assertNotEqualsDeep(Map<?, ?> actual, Map<?, ?> expected, String message) {
         assertNotEqualsDeep(actual, expected, message, QtafTestExecutionConfigHelper.continueOnAssertionFailure());
     }
@@ -479,7 +480,7 @@ public interface AssertionContext {
      * @param message           The message that should be displayed if the assertion fails
      * @param continueOnFailure Should the assertion stop the test case on failure?
      */
-    @Test(enabled = false)
+    @Ignore
     default void assertNotEqualsDeep(Map<?, ?> object1, Map<?, ?> object2, String message, boolean continueOnFailure) {
         try {
             Assert.assertNotEqualsDeep(object1, object2, message);
@@ -503,7 +504,7 @@ public interface AssertionContext {
      * @param message           The message that should be displayed if the assertion fails
      * @param continueOnFailure Should the assertion stop the test case on failure?
      */
-    @Test(enabled = false)
+    @Ignore
     default void assertNotEqualsDeep(Set<?> object1, Set<?> object2, String message, boolean continueOnFailure) {
         try {
             Assert.assertNotEqualsDeep(object1, object2, message);
@@ -525,7 +526,7 @@ public interface AssertionContext {
      * @param object1 The first object
      * @param object2 The second object
      */
-    @Test(enabled = false)
+    @Ignore
     default void assertEqualsNoOrder(Object[] object1, Object[] object2) {
         assertEqualsNoOrder(object1, object2, getNoMessageString());
     }
@@ -537,7 +538,7 @@ public interface AssertionContext {
      * @param object2 The second object
      * @param message The message that should be displayed if the assertion fails
      */
-    @Test(enabled = false)
+    @Ignore
     default void assertEqualsNoOrder(Object[] object1, Object[] object2, String message) {
         assertEqualsNoOrder(object1, object2, message, QtafTestExecutionConfigHelper.continueOnAssertionFailure());
     }
@@ -550,7 +551,7 @@ public interface AssertionContext {
      * @param message           The message that should be displayed if the assertion fails
      * @param continueOnFailure Should the assertion stop the test case on failure?
      */
-    @Test(enabled = false)
+    @Ignore
     default void assertEqualsNoOrder(Object[] object1, Object[] object2, String message, boolean continueOnFailure) {
         try {
             Assert.assertEqualsNoOrder(object1, object2, message);
@@ -572,7 +573,7 @@ public interface AssertionContext {
      * @param object1 The first object
      * @param object2 The second object
      */
-    @Test(enabled = false)
+    @Ignore
     default void assertNotEquals(Object object1, Object object2) {
         assertNotEquals(object1, object2, getNoMessageString());
     }
@@ -584,7 +585,7 @@ public interface AssertionContext {
      * @param object2 The second object
      * @param message The message that should be displayed if the assertion fails
      */
-    @Test(enabled = false)
+    @Ignore
     default void assertNotEquals(Object object1, Object object2, String message) {
         assertNotEquals(object1, object2, message, QtafTestExecutionConfigHelper.continueOnAssertionFailure());
     }
@@ -597,7 +598,7 @@ public interface AssertionContext {
      * @param message           The message that should be displayed if the assertion fails
      * @param continueOnFailure Should the assertion stop the test case on failure?
      */
-    @Test(enabled = false)
+    @Ignore
     default void assertNotEquals(Object object1, Object object2, String message, boolean continueOnFailure) {
         try {
             Assert.assertNotEquals(object1, object2, message);
@@ -620,7 +621,7 @@ public interface AssertionContext {
      * @param message assertion message
      * @return assertion log object
      */
-    @Test(enabled = false)
+    @Ignore
     default AssertionLogMessage buildAssertionLogMessage(StepInformationLogMessage stepLog, String message) {
         AssertionLogMessage assertionLogMessage = new AssertionLogMessage(LogLevel.INFO, message);
         assertionLogMessage
@@ -639,7 +640,7 @@ public interface AssertionContext {
      * @param message   assertion message
      * @param error     assertion error
      */
-    @Test(enabled = false)
+    @Ignore
     default void handleAssertCondition(AssertionLogMessageType type, boolean condition, String message, AssertionError error) {
         StepInformationLogMessage stepLog = getLogCollection().getStepLogOfPendingStep();
         AssertionLogMessage assertionLogMessage = buildAssertionLogMessage(stepLog, message);
@@ -664,7 +665,7 @@ public interface AssertionContext {
      * @param message assertion message
      * @param error   assertion error
      */
-    @Test(enabled = false)
+    @Ignore
     default void handleAssertCondition(AssertionLogMessageType type, Object object, String message, AssertionError error) {
         handleAssertCondition(type, object, null, message, error);
     }
@@ -678,7 +679,7 @@ public interface AssertionContext {
      * @param message  assertion message
      * @param error    assertion error
      */
-    @Test(enabled = false)
+    @Ignore
     default void handleAssertCondition(AssertionLogMessageType type, Object object, Object expected, String message, AssertionError error) {
         StepInformationLogMessage stepLog = getLogCollection().getStepLogOfPendingStep();
         AssertionLogMessage assertionLogMessage = buildAssertionLogMessage(stepLog, message);
@@ -703,7 +704,7 @@ public interface AssertionContext {
      * @param message   assertion message
      * @param error     assertion error
      */
-    @Test(enabled = false)
+    @Ignore
     default void handleAssertTrue(boolean condition, String message, AssertionError error) {
         handleAssertCondition(AssertionLogMessageType.ASSERT_TRUE, condition, message, error);
     }
@@ -715,7 +716,7 @@ public interface AssertionContext {
      * @param message   assertion message
      * @param error     assertion error
      */
-    @Test(enabled = false)
+    @Ignore
     default void handleAssertFalse(boolean condition, String message, AssertionError error) {
         handleAssertCondition(AssertionLogMessageType.ASSERT_FALSE, condition, message, error);
     }
@@ -727,7 +728,7 @@ public interface AssertionContext {
      * @param message assertion message
      * @param error   assertion error
      */
-    @Test(enabled = false)
+    @Ignore
     default void handleAssertNull(Object object, String message, AssertionError error) {
         handleAssertCondition(AssertionLogMessageType.ASSERT_NULL, object, message, error);
     }
@@ -739,7 +740,7 @@ public interface AssertionContext {
      * @param message assertion message
      * @param error   assertion error
      */
-    @Test(enabled = false)
+ @Ignore
     default void handleAssertNotNull(Object object, String message, AssertionError error) {
         handleAssertCondition(AssertionLogMessageType.ASSERT_NOT_NULL, object, message, error);
     }
@@ -752,7 +753,7 @@ public interface AssertionContext {
      * @param message  assertion message
      * @param error    assertion error
      */
-    @Test(enabled = false)
+    @Ignore
     default void handleAssertSame(Object object, Object expected, String message, AssertionError error) {
         handleAssertCondition(AssertionLogMessageType.ASSERT_SAME, object, expected, message, error);
     }
@@ -765,7 +766,7 @@ public interface AssertionContext {
      * @param message  assertion message
      * @param error    assertion error
      */
-    @Test(enabled = false)
+    @Ignore
     default void handleAssertNotSame(Object object, Object expected, String message, AssertionError error) {
         handleAssertCondition(AssertionLogMessageType.ASSERT_NOT_SAME, object, expected, message, error);
     }
@@ -778,7 +779,7 @@ public interface AssertionContext {
      * @param message assertion message
      * @param error   assertion error
      */
-    @Test(enabled = false)
+    @Ignore
     default void handleAssertEquals(Object object1, Object object2, String message, AssertionError error) {
         handleAssertCondition(AssertionLogMessageType.ASSERT_EQUALS, object1, object2, message, error);
     }
@@ -791,7 +792,7 @@ public interface AssertionContext {
      * @param message assertion message
      * @param error   assertion error
      */
-    @Test(enabled = false)
+    @Ignore
     default void handleAssertNotEquals(Object object1, Object object2, String message, AssertionError error) {
         handleAssertCondition(AssertionLogMessageType.ASSERT_NOT_EQUALS, object1, object2, message, error);
     }
@@ -804,7 +805,7 @@ public interface AssertionContext {
      * @param message assertion message
      * @param error   assertion error
      */
-    @Test(enabled = false)
+    @Ignore
     default void handleAssertEqualsDeep(Object object1, Object object2, String message, AssertionError error) {
         handleAssertCondition(AssertionLogMessageType.ASSERT_EQUALS_DEEP, object1, object2, message, error);
     }
@@ -817,7 +818,7 @@ public interface AssertionContext {
      * @param message assertion message
      * @param error   assertion error
      */
-    @Test(enabled = false)
+    @Ignore
     default void handleAssertNotEqualsDeep(Object object1, Object object2, String message, AssertionError error) {
         handleAssertCondition(AssertionLogMessageType.ASSERT_NOT_EQUALS_DEEP, object1, object2, message, error);
     }
@@ -830,7 +831,7 @@ public interface AssertionContext {
      * @param message assertion message
      * @param error   assertion error
      */
-    @Test(enabled = false)
+    @Ignore
     default void handleAssertEqualsNoOrder(Object[] object1, Object[] object2, String message, AssertionError error) {
         handleAssertCondition(AssertionLogMessageType.ASSERT_EQUALS_NO_ORDER, object1, object2, message, error);
     }
