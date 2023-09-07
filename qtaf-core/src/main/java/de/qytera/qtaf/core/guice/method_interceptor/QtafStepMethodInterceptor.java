@@ -8,6 +8,8 @@ import de.qytera.qtaf.core.guice.invokation.StepExecutionInfo;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 
+import java.util.Date;
+
 /**
  * Method interceptor for methods that are annotated with the Step annotation.
  */
@@ -50,7 +52,15 @@ public class QtafStepMethodInterceptor implements MethodInterceptor {
 
                 // Dispatch event
                 stepExecutionInfo.setResult(result);
-                QtafEvents.stepExecutionSuccess.onNext(stepExecutionInfo);
+
+                // Sometimes assertions fail but don't throw an AssertionException.
+                // We have to check manually if all assertions passed.
+                stepExecutionInfo.getLogMessage().setEnd(new Date());
+                if (stepExecutionInfo.getLogMessage().hasPassed()) {
+                    QtafEvents.stepExecutionSuccess.onNext(stepExecutionInfo);
+                } else {
+                    QtafEvents.stepExecutionFailure.onNext(stepExecutionInfo);
+                }
             } catch (Throwable e) {
                 // Dispatch event
                 stepExecutionInfo.setError(e);

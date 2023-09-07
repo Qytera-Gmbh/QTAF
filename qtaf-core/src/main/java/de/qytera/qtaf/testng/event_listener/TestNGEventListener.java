@@ -6,8 +6,10 @@ import de.qytera.qtaf.core.QtafInitializer;
 import de.qytera.qtaf.core.events.QtafEvents;
 import de.qytera.qtaf.core.events.payload.QtafTestEventPayload;
 import de.qytera.qtaf.core.log.Logger;
+import de.qytera.qtaf.core.log.model.index.LogMessageIndex;
 import de.qytera.qtaf.testng.events.payload.TestNGTestContextPayload;
 import de.qytera.qtaf.testng.events.payload.TestNGTestEventPayload;
+import de.qytera.qtaf.testng.helper.TestResultHelper;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
@@ -83,9 +85,19 @@ public class TestNGEventListener implements ITestListener {
 
     @Override
     public void onTestSuccess(ITestResult iTestResult) {
+        // TestNG cannot cover QTAF's own assertion methods. So we have to check if there were any failed steps manually here.
+        String scenarioId = TestResultHelper.getScenarioId(iTestResult);
+        // If there are no failed steps the scenario has passed
+        boolean hasScenarioPassed = LogMessageIndex.getInstance().getByScenarioIdAndFailed(scenarioId).isEmpty();
+
         // Dispatch events
         try {
-            QtafEvents.testSuccess.onNext(new TestNGTestEventPayload(iTestResult));
+            if (hasScenarioPassed) {
+                QtafEvents.testSuccess.onNext(new TestNGTestEventPayload(iTestResult));
+            } else {
+                iTestResult.setStatus(ITestResult.FAILURE);
+                QtafEvents.testFailure.onNext(new TestNGTestEventPayload(iTestResult));
+            }
         } catch (NoSuchMethodException e) { // Can be caused by cucumber
             return;
         }

@@ -9,6 +9,7 @@ import de.qytera.qtaf.core.guice.invokation.StepExecutionInfo;
 import de.qytera.qtaf.core.io.DirectoryHelper;
 import de.qytera.qtaf.core.log.Logger;
 import de.qytera.qtaf.core.log.model.collection.TestSuiteLogCollection;
+import de.qytera.qtaf.core.log.model.message.AssertionLogMessage;
 import de.qytera.qtaf.core.log.model.message.StepInformationLogMessage;
 import de.qytera.qtaf.core.selenium.DriverFactory;
 import de.qytera.qtaf.core.selenium.helper.SeleniumDriverConfigHelper;
@@ -78,6 +79,9 @@ public class StepLoggerSubscriber implements IEventSubscriber {
                 .setStep(step)
                 .setStart(new Date());
 
+        // Add log message to step execution info
+        stepExecutionInfo.setLogMessage(logMessage);
+
         // Check if Selenium should take a screenshot
         if (SeleniumDriverConfigHelper.shouldTakeScreenshotsBeforeStep()) {
             // Take a screenshot
@@ -134,7 +138,6 @@ public class StepLoggerSubscriber implements IEventSubscriber {
 
         // Add information to log message
         logMessage
-                .setEnd(new Date())
                 .setResult(stepExecutionInfo.getResult());
 
         if (SeleniumDriverConfigHelper.shouldTakeScreenshotsAfterStep()) {
@@ -159,7 +162,6 @@ public class StepLoggerSubscriber implements IEventSubscriber {
 
         // Add information to log message
         logMessage
-                .setEnd(new Date())
                 .setError(stepExecutionInfo.getError());
 
         if (SeleniumDriverConfigHelper.shouldTakeScreenshotsAfterStep() ||
@@ -281,5 +283,17 @@ public class StepLoggerSubscriber implements IEventSubscriber {
                         "[" + stepExecutionInfo.getAnnotation().name() + "] " +
                         message
         );
+        if (stepExecutionInfo.getLogMessage() != null) {
+            for (AssertionLogMessage m : stepExecutionInfo.getLogMessage().getAssertions()) {
+                if (m.hasFailed()) {
+                    logger.info(
+                            "[Step] " +
+                                    "[" + stepExecutionInfo.getId() + "] " +
+                                    "[" + m.type() + "] failed: " +
+                                    m.getMessage()
+                    );
+                }
+            }
+        }
     }
 }
