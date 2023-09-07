@@ -22,7 +22,7 @@ public class TestNGHelperTest {
     public void testGetTestMethodId() {
         SampleTestResult testResult = new SampleTestResult();
         Assert.assertEquals(
-                TestResultHelper.getTestMethodId(testResult),
+                TestResultHelper.getAbstractScenarioId(testResult),
                 "de.qytera.qtaf.testng.SampleRealTestClass.sampleTestNGMethodName",
                 "Expect that the test method name gets extracted from ITestresult object correctly"
         );

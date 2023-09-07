@@ -33,16 +33,38 @@ public class TestResultHelper {
     }
 
     /**
-     * Build Test ID from test class and test method name.
+     * Get the abstract scenario ID from a TestNG test result.
+     * The abstract scenario ID is the name of the class where the test case was defined in plus the method name.
      *
      * @param iTestResult Test result context
-     * @return ID of the test
+     * @return abstract scenario ID
      */
-    public static String getTestMethodId(ITestResult iTestResult) {
+    public static String getAbstractScenarioId(ITestResult iTestResult) {
         // Get method name of the test case
         String className = getTestClassId(iTestResult);
         String testName = iTestResult.getMethod().getMethodName();
         return className + "." + testName;
     }
 
+    /**
+     * Get the scenario instance ID from a TestNG test result.
+     * The instance ID helps to distinguish multiple executions of the same scenario.
+     *
+     * @param iTestResult Test result context
+     * @return scenario instance ID
+     */
+    public static String getScenarioInstanceId(ITestResult iTestResult) {
+        return iTestResult.id();
+    }
+
+    /**
+     * Get the scenario ID that identifies the execution of an abstract scenario.
+     * The scenario ID is the abstract scenario ID plus the instance ID of a concrete execution.
+     *
+     * @param iTestResult Test result context
+     * @return scenario instance ID
+     */
+    public static String getScenarioId(ITestResult iTestResult) {
+        return getAbstractScenarioId(iTestResult) + "-" + getScenarioInstanceId(iTestResult);
+    }
 }
