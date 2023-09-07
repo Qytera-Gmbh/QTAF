@@ -88,7 +88,7 @@ public class TestNGEventListener implements ITestListener {
         // TestNG cannot cover QTAF's own assertion methods. So we have to check if there were any failed steps manually here.
         String scenarioId = TestResultHelper.getScenarioId(iTestResult);
         // If there are no failed steps the scenario has passed
-        boolean hasScenarioPassed = LogMessageIndex.getInstance().getByScenarioIdAndFailed(scenarioId).size() == 0;
+        boolean hasScenarioPassed = LogMessageIndex.getInstance().getByScenarioIdAndFailed(scenarioId).isEmpty();
 
         // Dispatch events
         try {

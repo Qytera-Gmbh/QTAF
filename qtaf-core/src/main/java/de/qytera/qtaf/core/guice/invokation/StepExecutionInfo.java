@@ -20,7 +20,7 @@ public class StepExecutionInfo extends AbstractStepExecutionInfo {
     private StackTraceElement[] stackTraceElements;
     @Getter
     @Setter
-    private transient StepInformationLogMessage logMessage;
+    private StepInformationLogMessage logMessage;
 
     /**
      * Get step.
