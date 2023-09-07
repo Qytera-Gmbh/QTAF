@@ -357,7 +357,6 @@ public interface AssertionContext {
 
     /**
      * Checks if two maps are deeply equal.
-     *
      * @param actual   The first object
      * @param expected The second object
      */
