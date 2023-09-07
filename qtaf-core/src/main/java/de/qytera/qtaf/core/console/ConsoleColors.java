@@ -5,258 +5,258 @@ import de.qytera.qtaf.core.QtafFactory;
 public class ConsoleColors {
 
     /**
-     * RESET
+     * RESET.
      */
     public static final String RESET = "\033[0m";
 
     
     /**
-     * BLACK
+     * BLACK.
      */
     public static final String BLACK = "\033[0;30m";
     /**
-     * RED
+     * RED.
      */
     public static final String RED = "\033[0;31m";
     /**
-     * GREEN
+     * GREEN.
      */
     public static final String GREEN = "\033[0;32m";
     /**
-     * YELLOW
+     * YELLOW.
      */
     public static final String YELLOW = "\033[0;33m";
     /**
-     * BLUE
+     * BLUE.
      */
     public static final String BLUE = "\033[0;34m";
     /**
-     * PURPLE
+     * PURPLE.
      */
     public static final String PURPLE = "\033[0;35m";
     /**
-     * CYAN
+     * CYAN.
      */
     public static final String CYAN = "\033[0;36m";
     /**
-     * WHITE
+     * WHITE.
      */
     public static final String WHITE = "\033[0;37m";
 
     
     /**
-     * BLACK_BOLD
+     * BLACK_BOLD.
      */
     public static final String BLACK_BOLD = "\033[1;30m";
     /**
-     * RED_BOLD
+     * RED_BOLD.
      */
     public static final String RED_BOLD = "\033[1;31m";
     /**
-     * GREEN_BOLD
+     * GREEN_BOLD.
      */
     public static final String GREEN_BOLD = "\033[1;32m";
     /**
-     * YELLOW_BOLD
+     * YELLOW_BOLD.
      */
     public static final String YELLOW_BOLD = "\033[1;33m";
     /**
-     * BLUE_BOLD
+     * BLUE_BOLD.
      */
     public static final String BLUE_BOLD = "\033[1;34m";
     /**
-     * PURPLE_BOLD
+     * PURPLE_BOLD.
      */
     public static final String PURPLE_BOLD = "\033[1;35m";
     /**
-     * CYAN_BOLD
+     * CYAN_BOLD.
      */
     public static final String CYAN_BOLD = "\033[1;36m";
     /**
-     * WHITE_BOLD
+     * WHITE_BOLD.
      */
     public static final String WHITE_BOLD = "\033[1;37m";
 
     
     /**
-     * BLACK_UNDERLINED
+     * BLACK_UNDERLINED.
      */
     public static final String BLACK_UNDERLINED = "\033[4;30m";
     /**
-     * RED_UNDERLINED
+     * RED_UNDERLINED.
      */
     public static final String RED_UNDERLINED = "\033[4;31m";
     /**
-     * GREEN_UNDERLINED
+     * GREEN_UNDERLINED.
      */
     public static final String GREEN_UNDERLINED = "\033[4;32m";
     /**
-     * YELLOW_UNDERLINED
+     * YELLOW_UNDERLINED.
      */
     public static final String YELLOW_UNDERLINED = "\033[4;33m";
     /**
-     * BLUE_UNDERLINED
+     * BLUE_UNDERLINED.
      */
     public static final String BLUE_UNDERLINED = "\033[4;34m";
     /**
-     * PURPLE_UNDERLINED
+     * PURPLE_UNDERLINED.
      */
     public static final String PURPLE_UNDERLINED = "\033[4;35m";
     /**
-     * CYAN_UNDERLINED
+     * CYAN_UNDERLINED.
      */
     public static final String CYAN_UNDERLINED = "\033[4;36m";
     /**
-     * WHITE_UNDERLINED
+     * WHITE_UNDERLINED.
      */
     public static final String WHITE_UNDERLINED = "\033[4;37m";
 
     
     /**
-     * BLACK_BACKGROUND
+     * BLACK_BACKGROUND.
      */
     public static final String BLACK_BACKGROUND = "\033[40m";
     /**
-     * RED_BACKGROUND
+     * RED_BACKGROUND.
      */
     public static final String RED_BACKGROUND = "\033[41m";
     /**
-     * GREEN_BACKGROUND
+     * GREEN_BACKGROUND.
      */
     public static final String GREEN_BACKGROUND = "\033[42m";
     /**
-     * YELLOW_BACKGROUND
+     * YELLOW_BACKGROUND.
      */
     public static final String YELLOW_BACKGROUND = "\033[43m";
     /**
-     * BLUE_BACKGROUND
+     * BLUE_BACKGROUND.
      */
     public static final String BLUE_BACKGROUND = "\033[44m";
     /**
-     * PURPLE_BACKGROUND
+     * PURPLE_BACKGROUND.
      */
     public static final String PURPLE_BACKGROUND = "\033[45m";
     /**
-     * CYAN_BACKGROUND
+     * CYAN_BACKGROUND.
      */
     public static final String CYAN_BACKGROUND = "\033[46m";
     /**
-     * WHITE_BACKGROUND
+     * WHITE_BACKGROUND.
      */
     public static final String WHITE_BACKGROUND = "\033[47m";
 
     
     /**
-     * BLACK_BRIGHT
+     * BLACK_BRIGHT.
      */
     public static final String BLACK_BRIGHT = "\033[0;90m";
     /**
-     * RED_BRIGHT
+     * RED_BRIGHT.
      */
     public static final String RED_BRIGHT = "\033[0;91m";
     /**
-     * GREEN_BRIGHT
+     * GREEN_BRIGHT.
      */
     public static final String GREEN_BRIGHT = "\033[0;92m";
     /**
-     * YELLOW_BRIGHT
+     * YELLOW_BRIGHT.
      */
     public static final String YELLOW_BRIGHT = "\033[0;93m";
     /**
-     * BLUE_BRIGHT
+     * BLUE_BRIGHT.
      */
     public static final String BLUE_BRIGHT = "\033[0;94m";
     /**
-     * PURPLE_BRIGHT
+     * PURPLE_BRIGHT.
      */
     public static final String PURPLE_BRIGHT = "\033[0;95m";
     /**
-     * CYAN_BRIGHT
+     * CYAN_BRIGHT.
      */
     public static final String CYAN_BRIGHT = "\033[0;96m";
     /**
-     * WHITE_BRIGHT
+     * WHITE_BRIGHT.
      */
     public static final String WHITE_BRIGHT = "\033[0;97m";
 
     
     /**
-     * BLACK_BOLD_BRIGHT
+     * BLACK_BOLD_BRIGHT.
      */
     public static final String BLACK_BOLD_BRIGHT = "\033[1;90m";
     /**
-     * RED_BOLD_BRIGHT
+     * RED_BOLD_BRIGHT.
      */
     public static final String RED_BOLD_BRIGHT = "\033[1;91m";
     /**
-     * GREEN_BOLD_BRIGHT
+     * GREEN_BOLD_BRIGHT.
      */
     public static final String GREEN_BOLD_BRIGHT = "\033[1;92m";
     /**
-     * YELLOW_BOLD_BRIGHT
+     * YELLOW_BOLD_BRIGHT.
      */
     public static final String YELLOW_BOLD_BRIGHT = "\033[1;93m";
     /**
-     * BLUE_BOLD_BRIGHT
+     * BLUE_BOLD_BRIGHT.
      */
     public static final String BLUE_BOLD_BRIGHT = "\033[1;94m";
     /**
-     * PURPLE_BOLD_BRIGHT
+     * PURPLE_BOLD_BRIGHT.
      */
     public static final String PURPLE_BOLD_BRIGHT = "\033[1;95m";
     /**
-     * CYAN_BOLD_BRIGHT
+     * CYAN_BOLD_BRIGHT.
      */
     public static final String CYAN_BOLD_BRIGHT = "\033[1;96m";
     /**
-     * WHITE_BOLD_BRIGHT
+     * WHITE_BOLD_BRIGHT.
      */
     public static final String WHITE_BOLD_BRIGHT = "\033[1;97m";
 
     
     /**
-     * BLACK_BACKGROUND_BRIGHT
+     * BLACK_BACKGROUND_BRIGHT.
      */
     public static final String BLACK_BACKGROUND_BRIGHT = "\033[0;100m";
     /**
-     * RED_BACKGROUND_BRIGHT
+     * RED_BACKGROUND_BRIGHT.
      */
     public static final String RED_BACKGROUND_BRIGHT = "\033[0;101m";
     /**
-     * GREEN_BACKGROUND_BRIGHT
+     * GREEN_BACKGROUND_BRIGHT.
      */
     public static final String GREEN_BACKGROUND_BRIGHT = "\033[0;102m";
     /**
-     * YELLOW_BACKGROUND_BRIGHT
+     * YELLOW_BACKGROUND_BRIGHT.
      */
     public static final String YELLOW_BACKGROUND_BRIGHT = "\033[0;103m";
     /**
-     * BLUE_BACKGROUND_BRIGHT
+     * BLUE_BACKGROUND_BRIGHT.
      */
     public static final String BLUE_BACKGROUND_BRIGHT = "\033[0;104m";
     /**
-     * PURPLE_BACKGROUND_BRIGHT
+     * PURPLE_BACKGROUND_BRIGHT.
      */
     public static final String PURPLE_BACKGROUND_BRIGHT = "\033[0;105m";
     /**
-     * CYAN_BACKGROUND_BRIGHT
+     * CYAN_BACKGROUND_BRIGHT.
      */
     public static final String CYAN_BACKGROUND_BRIGHT = "\033[0;106m";
     /**
-     * WHITE_BACKGROUND_BRIGHT
+     * WHITE_BACKGROUND_BRIGHT.
      */
     public static final String WHITE_BACKGROUND_BRIGHT = "\033[0;107m";
 
     /**
-     * Check whether colors are allowed to be used
-     * @return  true if colors in console output are allowed, false otherwise
+     * Check whether colors are allowed to be used.
+     * @return  true if colors in console output are allowed, false otherwise.
      */
     public static boolean enabled() {
         return QtafFactory.getConfiguration().getBoolean("console.colors", true);
     }
 
     /**
-     * Black text
+     * Black text.
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -265,7 +265,7 @@ public class ConsoleColors {
     }
 
     /**
-     * Red text
+     * Red text.
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -274,7 +274,7 @@ public class ConsoleColors {
     }
 
     /**
-     * Green text
+     * Green text.
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -283,7 +283,7 @@ public class ConsoleColors {
     }
 
     /**
-     * Yellow text
+     * Yellow text.
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -292,7 +292,7 @@ public class ConsoleColors {
     }
 
     /**
-     * Blue text
+     * Blue text.
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -301,7 +301,7 @@ public class ConsoleColors {
     }
 
     /**
-     * Purple text
+     * Purple text.
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -310,7 +310,7 @@ public class ConsoleColors {
     }
 
     /**
-     * Cyan text
+     * Cyan text.
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -319,7 +319,7 @@ public class ConsoleColors {
     }
 
     /**
-     * White text
+     * White text.
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -328,7 +328,7 @@ public class ConsoleColors {
     }
 
     /**
-     * Black bold text
+     * Black bold text.
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -337,7 +337,7 @@ public class ConsoleColors {
     }
 
     /**
-     * Red bold text
+     * Red bold text.
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -346,7 +346,7 @@ public class ConsoleColors {
     }
 
     /**
-     * Green bold text
+     * Green bold text.
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -355,7 +355,7 @@ public class ConsoleColors {
     }
 
     /**
-     * Yellow bold text
+     * Yellow bold text.
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -364,7 +364,7 @@ public class ConsoleColors {
     }
 
     /**
-     * Blue bold text
+     * Blue bold text.
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -373,7 +373,7 @@ public class ConsoleColors {
     }
 
     /**
-     * Purple bold text
+     * Purple bold text.
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -382,7 +382,7 @@ public class ConsoleColors {
     }
 
     /**
-     * Cyan bold text
+     * Cyan bold text.
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -391,7 +391,7 @@ public class ConsoleColors {
     }
 
     /**
-     * White bold text
+     * White bold text.
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -400,7 +400,7 @@ public class ConsoleColors {
     }
 
     /**
-     * Black underlined text
+     * Black underlined text.
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -409,7 +409,7 @@ public class ConsoleColors {
     }
 
     /**
-     * Red underlined text
+     * Red underlined text.
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -418,7 +418,7 @@ public class ConsoleColors {
     }
 
     /**
-     * Green underlined text
+     * Green underlined text.
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -427,7 +427,7 @@ public class ConsoleColors {
     }
 
     /**
-     * Yellow underlined text
+     * Yellow underlined text.
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -436,7 +436,7 @@ public class ConsoleColors {
     }
 
     /**
-     * Blue underlined text
+     * Blue underlined text.
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -445,7 +445,7 @@ public class ConsoleColors {
     }
 
     /**
-     * Purple underlined text
+     * Purple underlined text.
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -454,7 +454,7 @@ public class ConsoleColors {
     }
 
     /**
-     * Cyan underlined text
+     * Cyan underlined text.
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -463,7 +463,7 @@ public class ConsoleColors {
     }
 
     /**
-     * White underlined text
+     * White underlined text.
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -544,7 +544,7 @@ public class ConsoleColors {
     }
 
     /**
-     * Black bright text
+     * Black bright text.
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -553,7 +553,7 @@ public class ConsoleColors {
     }
 
     /**
-     * Red bright text
+     * Red bright text.
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -562,7 +562,7 @@ public class ConsoleColors {
     }
 
     /**
-     * Green bright text
+     * Green bright text.
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -571,7 +571,7 @@ public class ConsoleColors {
     }
 
     /**
-     * Yellow bright text
+     * Yellow bright text.
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -580,7 +580,7 @@ public class ConsoleColors {
     }
 
     /**
-     * Blue bright text
+     * Blue bright text.
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -589,7 +589,7 @@ public class ConsoleColors {
     }
 
     /**
-     * Purple bright text
+     * Purple bright text.
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -598,7 +598,7 @@ public class ConsoleColors {
     }
 
     /**
-     * Cyan bright text
+     * Cyan bright text.
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -607,7 +607,7 @@ public class ConsoleColors {
     }
 
     /**
-     * White bright text
+     * White bright text.
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -616,7 +616,7 @@ public class ConsoleColors {
     }
 
     /**
-     * Black bold bright text
+     * Black bold bright text.
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -625,7 +625,7 @@ public class ConsoleColors {
     }
 
     /**
-     * Red bold bright text
+     * Red bold bright text.
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -634,7 +634,7 @@ public class ConsoleColors {
     }
 
     /**
-     * Green bold bright text
+     * Green bold bright text.
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -643,7 +643,7 @@ public class ConsoleColors {
     }
 
     /**
-     * Yellow bold bright text
+     * Yellow bold bright text.
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -652,7 +652,7 @@ public class ConsoleColors {
     }
 
     /**
-     * Blue bold bright text
+     * Blue bold bright text.
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -661,7 +661,7 @@ public class ConsoleColors {
     }
 
     /**
-     * Purple bold bright text
+     * Purple bold bright text.
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -670,7 +670,7 @@ public class ConsoleColors {
     }
 
     /**
-     * Cyan bold bright text
+     * Cyan bold bright text.
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -679,7 +679,7 @@ public class ConsoleColors {
     }
 
     /**
-     * White bold bright text
+     * White bold bright text.
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -688,7 +688,7 @@ public class ConsoleColors {
     }
 
     /**
-     * Black bright background text
+     * Black bright background text.
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -697,7 +697,7 @@ public class ConsoleColors {
     }
 
     /**
-     * Red bright background text
+     * Red bright background text.
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -706,7 +706,7 @@ public class ConsoleColors {
     }
 
     /**
-     * Green bright background text
+     * Green bright background text.
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -715,7 +715,7 @@ public class ConsoleColors {
     }
 
     /**
-     * Yellow bright background text
+     * Yellow bright background text.
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -724,7 +724,7 @@ public class ConsoleColors {
     }
 
     /**
-     * Blue bright background text
+     * Blue bright background text.
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -733,7 +733,7 @@ public class ConsoleColors {
     }
 
     /**
-     * Purple bright background text
+     * Purple bright background text.
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -742,7 +742,7 @@ public class ConsoleColors {
     }
 
     /**
-     * Cyan bright background text
+     * Cyan bright background text.
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -751,7 +751,7 @@ public class ConsoleColors {
     }
 
     /**
-     * White bright background text
+     * White bright background text.
      * @param s text
      * @return  text wrapped in color tags
      */
