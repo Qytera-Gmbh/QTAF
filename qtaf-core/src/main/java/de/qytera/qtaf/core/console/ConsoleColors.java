@@ -6,6 +6,7 @@ public class ConsoleColors {
 
     /**
      * RESET.
+     *
      */
     public static final String RESET = "\033[0m";
 
@@ -249,6 +250,7 @@ public class ConsoleColors {
 
     /**
      * Check whether colors are allowed to be used.
+     *
      * @return  true if colors in console output are allowed, false otherwise.
      */
     public static boolean enabled() {
@@ -257,6 +259,7 @@ public class ConsoleColors {
 
     /**
      * Black text.
+     *
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -266,6 +269,7 @@ public class ConsoleColors {
 
     /**
      * Red text.
+     *
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -275,6 +279,7 @@ public class ConsoleColors {
 
     /**
      * Green text.
+     *
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -284,6 +289,7 @@ public class ConsoleColors {
 
     /**
      * Yellow text.
+     *
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -293,6 +299,7 @@ public class ConsoleColors {
 
     /**
      * Blue text.
+     *
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -302,6 +309,7 @@ public class ConsoleColors {
 
     /**
      * Purple text.
+     *
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -311,6 +319,7 @@ public class ConsoleColors {
 
     /**
      * Cyan text.
+     *
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -320,6 +329,7 @@ public class ConsoleColors {
 
     /**
      * White text.
+     *
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -329,6 +339,7 @@ public class ConsoleColors {
 
     /**
      * Black bold text.
+     *
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -338,6 +349,7 @@ public class ConsoleColors {
 
     /**
      * Red bold text.
+     *
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -347,6 +359,7 @@ public class ConsoleColors {
 
     /**
      * Green bold text.
+     *
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -356,6 +369,7 @@ public class ConsoleColors {
 
     /**
      * Yellow bold text.
+     *
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -365,6 +379,7 @@ public class ConsoleColors {
 
     /**
      * Blue bold text.
+     *
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -374,6 +389,7 @@ public class ConsoleColors {
 
     /**
      * Purple bold text.
+     *
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -383,6 +399,7 @@ public class ConsoleColors {
 
     /**
      * Cyan bold text.
+     *
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -392,6 +409,7 @@ public class ConsoleColors {
 
     /**
      * White bold text.
+     *
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -401,6 +419,7 @@ public class ConsoleColors {
 
     /**
      * Black underlined text.
+     *
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -410,6 +429,7 @@ public class ConsoleColors {
 
     /**
      * Red underlined text.
+     *
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -419,6 +439,7 @@ public class ConsoleColors {
 
     /**
      * Green underlined text.
+     *
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -428,6 +449,7 @@ public class ConsoleColors {
 
     /**
      * Yellow underlined text.
+     *
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -437,6 +459,7 @@ public class ConsoleColors {
 
     /**
      * Blue underlined text.
+     *
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -446,6 +469,7 @@ public class ConsoleColors {
 
     /**
      * Purple underlined text.
+     *
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -455,6 +479,7 @@ public class ConsoleColors {
 
     /**
      * Cyan underlined text.
+     *
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -464,6 +489,7 @@ public class ConsoleColors {
 
     /**
      * White underlined text.
+     *
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -545,6 +571,7 @@ public class ConsoleColors {
 
     /**
      * Black bright text.
+     *
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -554,6 +581,7 @@ public class ConsoleColors {
 
     /**
      * Red bright text.
+     *
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -563,6 +591,7 @@ public class ConsoleColors {
 
     /**
      * Green bright text.
+     *
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -572,6 +601,7 @@ public class ConsoleColors {
 
     /**
      * Yellow bright text.
+     *
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -581,6 +611,7 @@ public class ConsoleColors {
 
     /**
      * Blue bright text.
+     *
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -590,6 +621,7 @@ public class ConsoleColors {
 
     /**
      * Purple bright text.
+     *
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -599,6 +631,7 @@ public class ConsoleColors {
 
     /**
      * Cyan bright text.
+     *
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -608,6 +641,7 @@ public class ConsoleColors {
 
     /**
      * White bright text.
+     *
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -617,6 +651,7 @@ public class ConsoleColors {
 
     /**
      * Black bold bright text.
+     *
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -626,6 +661,7 @@ public class ConsoleColors {
 
     /**
      * Red bold bright text.
+     *
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -635,6 +671,7 @@ public class ConsoleColors {
 
     /**
      * Green bold bright text.
+     *
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -644,6 +681,7 @@ public class ConsoleColors {
 
     /**
      * Yellow bold bright text.
+     *
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -653,6 +691,7 @@ public class ConsoleColors {
 
     /**
      * Blue bold bright text.
+     *
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -662,6 +701,7 @@ public class ConsoleColors {
 
     /**
      * Purple bold bright text.
+     *
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -671,6 +711,7 @@ public class ConsoleColors {
 
     /**
      * Cyan bold bright text.
+     *
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -680,6 +721,7 @@ public class ConsoleColors {
 
     /**
      * White bold bright text.
+     *
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -689,6 +731,7 @@ public class ConsoleColors {
 
     /**
      * Black bright background text.
+     *
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -698,6 +741,7 @@ public class ConsoleColors {
 
     /**
      * Red bright background text.
+     *
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -707,6 +751,7 @@ public class ConsoleColors {
 
     /**
      * Green bright background text.
+     *
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -716,6 +761,7 @@ public class ConsoleColors {
 
     /**
      * Yellow bright background text.
+     *
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -725,6 +771,7 @@ public class ConsoleColors {
 
     /**
      * Blue bright background text.
+     *
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -734,6 +781,7 @@ public class ConsoleColors {
 
     /**
      * Purple bright background text.
+     *
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -743,6 +791,7 @@ public class ConsoleColors {
 
     /**
      * Cyan bright background text.
+     *
      * @param s text
      * @return  text wrapped in color tags
      */
@@ -752,6 +801,7 @@ public class ConsoleColors {
 
     /**
      * White bright background text.
+     *
      * @param s text
      * @return  text wrapped in color tags
      */
