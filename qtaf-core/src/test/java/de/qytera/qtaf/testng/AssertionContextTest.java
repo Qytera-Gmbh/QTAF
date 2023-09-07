@@ -148,11 +148,10 @@ public class AssertionContextTest {
         Assert.assertNotNull(assertion.error());
         Assert.assertFalse(assertion.hasPassed());
         Assert.assertTrue(assertion.hasFailed());
-
     }
 
-    @Test(description = "Test assertNull")
-    public void testAssertNull() {
+    @Test(description = "Test assertNull with message")
+    public void testAssertNullWithMessage() {
         TestContext context = new TestContext();
         StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
@@ -163,11 +162,30 @@ public class AssertionContextTest {
         Assert.assertEquals(logMessage.getAssertions().size(), 1);
         AssertionLogMessage assertion = logMessage.getAssertions().get(0);
         Assert.assertEquals(assertion.type(), AssertionLogMessageType.ASSERT_NULL);
+        Assert.assertEquals(assertion.getMessage(), "should be null");
         Assert.assertNull(assertion.actual());
         Assert.assertNull(assertion.error());
         Assert.assertTrue(assertion.hasPassed());
         Assert.assertFalse(assertion.hasFailed());
+    }
 
+    @Test(description = "Test assertNull without message")
+    public void testAssertNullWithoutMessage() {
+        TestContext context = new TestContext();
+        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        logMessage.getAssertions().clear();
+        Assert.assertEquals(logMessage.getAssertions().size(), 0);
+
+        context.assertNull(null);
+
+        Assert.assertEquals(logMessage.getAssertions().size(), 1);
+        AssertionLogMessage assertion = logMessage.getAssertions().get(0);
+        Assert.assertEquals(assertion.type(), AssertionLogMessageType.ASSERT_NULL);
+        Assert.assertEquals(assertion.getMessage(), "<no-message>");
+        Assert.assertNull(assertion.actual());
+        Assert.assertNull(assertion.error());
+        Assert.assertTrue(assertion.hasPassed());
+        Assert.assertFalse(assertion.hasFailed());
     }
 
     @Test(description = "Test assertNull failure", expectedExceptions = {AssertionError.class})
@@ -208,11 +226,10 @@ public class AssertionContextTest {
         Assert.assertNotNull(assertion.error());
         Assert.assertFalse(assertion.hasPassed());
         Assert.assertTrue(assertion.hasFailed());
-
     }
 
-    @Test(description = "Test assertNotNull")
-    public void testAssertNotNull() {
+    @Test(description = "Test assertNotNull with message")
+    public void testAssertNotNullWithMessage() {
         TestContext context = new TestContext();
         StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
@@ -223,11 +240,30 @@ public class AssertionContextTest {
         Assert.assertEquals(logMessage.getAssertions().size(), 1);
         AssertionLogMessage assertion = logMessage.getAssertions().get(0);
         Assert.assertEquals(assertion.type(), AssertionLogMessageType.ASSERT_NOT_NULL);
+        Assert.assertEquals(assertion.getMessage(), "should not be null");
         Assert.assertEquals(assertion.actual(), "abc");
         Assert.assertNull(assertion.error());
         Assert.assertTrue(assertion.hasPassed());
         Assert.assertFalse(assertion.hasFailed());
+    }
 
+    @Test(description = "Test assertNotNull without message")
+    public void testAssertNotNullWithoutMessage() {
+        TestContext context = new TestContext();
+        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        logMessage.getAssertions().clear();
+        Assert.assertEquals(logMessage.getAssertions().size(), 0);
+
+        context.assertNotNull("abc");
+
+        Assert.assertEquals(logMessage.getAssertions().size(), 1);
+        AssertionLogMessage assertion = logMessage.getAssertions().get(0);
+        Assert.assertEquals(assertion.type(), AssertionLogMessageType.ASSERT_NOT_NULL);
+        Assert.assertEquals(assertion.getMessage(), "<no-message>");
+        Assert.assertEquals(assertion.actual(), "abc");
+        Assert.assertNull(assertion.error());
+        Assert.assertTrue(assertion.hasPassed());
+        Assert.assertFalse(assertion.hasFailed());
     }
 
     @Test(description = "Test assertNotNull failure", expectedExceptions = {AssertionError.class})
@@ -268,11 +304,10 @@ public class AssertionContextTest {
         Assert.assertNotNull(assertion.error());
         Assert.assertFalse(assertion.hasPassed());
         Assert.assertTrue(assertion.hasFailed());
-
     }
 
-    @Test(description = "Test assertSame")
-    public void testAssertSame() {
+    @Test(description = "Test assertSame with message")
+    public void testAssertSameWithMessage() {
         TestContext context = new TestContext();
         StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
@@ -283,12 +318,32 @@ public class AssertionContextTest {
         Assert.assertEquals(logMessage.getAssertions().size(), 1);
         AssertionLogMessage assertion = logMessage.getAssertions().get(0);
         Assert.assertEquals(assertion.type(), AssertionLogMessageType.ASSERT_SAME);
+        Assert.assertEquals(assertion.getMessage(), "should be same");
         Assert.assertEquals(assertion.actual(), "abc");
         Assert.assertEquals(assertion.expected(), "abc");
         Assert.assertNull(assertion.error());
         Assert.assertTrue(assertion.hasPassed());
         Assert.assertFalse(assertion.hasFailed());
+    }
 
+    @Test(description = "Test assertSame without message")
+    public void testAssertSameWithoutMessage() {
+        TestContext context = new TestContext();
+        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        logMessage.getAssertions().clear();
+        Assert.assertEquals(logMessage.getAssertions().size(), 0);
+
+        context.assertSame("abc", "abc");
+
+        Assert.assertEquals(logMessage.getAssertions().size(), 1);
+        AssertionLogMessage assertion = logMessage.getAssertions().get(0);
+        Assert.assertEquals(assertion.type(), AssertionLogMessageType.ASSERT_SAME);
+        Assert.assertEquals(assertion.getMessage(), "<no-message>");
+        Assert.assertEquals(assertion.actual(), "abc");
+        Assert.assertEquals(assertion.expected(), "abc");
+        Assert.assertNull(assertion.error());
+        Assert.assertTrue(assertion.hasPassed());
+        Assert.assertFalse(assertion.hasFailed());
     }
 
     @Test(description = "Test assertSame failure", expectedExceptions = {AssertionError.class})
@@ -330,11 +385,10 @@ public class AssertionContextTest {
         Assert.assertNotNull(assertion.error());
         Assert.assertFalse(assertion.hasPassed());
         Assert.assertTrue(assertion.hasFailed());
-
     }
 
-    @Test(description = "Test assertNotSame")
-    public void testAssertNotSame() {
+    @Test(description = "Test assertNotSame with message")
+    public void testAssertNotSameWithMessage() {
         TestContext context = new TestContext();
         StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
@@ -345,12 +399,32 @@ public class AssertionContextTest {
         Assert.assertEquals(logMessage.getAssertions().size(), 1);
         AssertionLogMessage assertion = logMessage.getAssertions().get(0);
         Assert.assertEquals(assertion.type(), AssertionLogMessageType.ASSERT_NOT_SAME);
+        Assert.assertEquals(assertion.getMessage(), "should not be same");
         Assert.assertEquals(assertion.actual(), "abc");
         Assert.assertEquals(assertion.expected(), "def");
         Assert.assertNull(assertion.error());
         Assert.assertTrue(assertion.hasPassed());
         Assert.assertFalse(assertion.hasFailed());
+    }
 
+    @Test(description = "Test assertNotSame without message")
+    public void testAssertNotSameWithoutMessage() {
+        TestContext context = new TestContext();
+        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        logMessage.getAssertions().clear();
+        Assert.assertEquals(logMessage.getAssertions().size(), 0);
+
+        context.assertNotSame("abc", "def", "should not be same");
+
+        Assert.assertEquals(logMessage.getAssertions().size(), 1);
+        AssertionLogMessage assertion = logMessage.getAssertions().get(0);
+        Assert.assertEquals(assertion.type(), AssertionLogMessageType.ASSERT_NOT_SAME);
+        Assert.assertEquals(assertion.getMessage(), "<no-message>");
+        Assert.assertEquals(assertion.actual(), "abc");
+        Assert.assertEquals(assertion.expected(), "def");
+        Assert.assertNull(assertion.error());
+        Assert.assertTrue(assertion.hasPassed());
+        Assert.assertFalse(assertion.hasFailed());
     }
 
     @Test(description = "Test assertNotSame failure", expectedExceptions = {AssertionError.class})
@@ -392,11 +466,10 @@ public class AssertionContextTest {
         Assert.assertNotNull(assertion.error());
         Assert.assertFalse(assertion.hasPassed());
         Assert.assertTrue(assertion.hasFailed());
-
     }
 
-    @Test(description = "Test assertEquals")
-    public void testAssertEquals() {
+    @Test(description = "Test assertEquals with message")
+    public void testAssertEqualsWithMessage() {
         TestContext context = new TestContext();
         StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
@@ -407,12 +480,32 @@ public class AssertionContextTest {
         Assert.assertEquals(logMessage.getAssertions().size(), 1);
         AssertionLogMessage assertion = logMessage.getAssertions().get(0);
         Assert.assertEquals(assertion.type(), AssertionLogMessageType.ASSERT_EQUALS);
+        Assert.assertEquals(assertion.getMessage(), "should be equal");
         Assert.assertEquals(assertion.actual(), "abc");
         Assert.assertEquals(assertion.expected(), "abc");
         Assert.assertNull(assertion.error());
         Assert.assertTrue(assertion.hasPassed());
         Assert.assertFalse(assertion.hasFailed());
+    }
 
+    @Test(description = "Test assertEquals without message")
+    public void testAssertEqualsWithoutMessage() {
+        TestContext context = new TestContext();
+        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        logMessage.getAssertions().clear();
+        Assert.assertEquals(logMessage.getAssertions().size(), 0);
+
+        context.assertEquals("abc", "abc");
+
+        Assert.assertEquals(logMessage.getAssertions().size(), 1);
+        AssertionLogMessage assertion = logMessage.getAssertions().get(0);
+        Assert.assertEquals(assertion.type(), AssertionLogMessageType.ASSERT_EQUALS);
+        Assert.assertEquals(assertion.getMessage(), "<no-message>");
+        Assert.assertEquals(assertion.actual(), "abc");
+        Assert.assertEquals(assertion.expected(), "abc");
+        Assert.assertNull(assertion.error());
+        Assert.assertTrue(assertion.hasPassed());
+        Assert.assertFalse(assertion.hasFailed());
     }
 
     @Test(description = "Test assertEquals failure", expectedExceptions = {AssertionError.class})
@@ -454,11 +547,10 @@ public class AssertionContextTest {
         Assert.assertNotNull(assertion.error());
         Assert.assertFalse(assertion.hasPassed());
         Assert.assertTrue(assertion.hasFailed());
-
     }
 
-    @Test(description = "Test assertNotEquals")
-    public void testAssertNotEquals() {
+    @Test(description = "Test assertNotEquals with message")
+    public void testAssertNotEqualsWithMessage() {
         TestContext context = new TestContext();
         StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
@@ -469,12 +561,32 @@ public class AssertionContextTest {
         Assert.assertEquals(logMessage.getAssertions().size(), 1);
         AssertionLogMessage assertion = logMessage.getAssertions().get(0);
         Assert.assertEquals(assertion.type(), AssertionLogMessageType.ASSERT_NOT_EQUALS);
+        Assert.assertEquals(assertion.getMessage(), "should not be equal");
         Assert.assertEquals(assertion.actual(), "abc");
         Assert.assertEquals(assertion.expected(), "def");
         Assert.assertNull(assertion.error());
         Assert.assertTrue(assertion.hasPassed());
         Assert.assertFalse(assertion.hasFailed());
+    }
 
+    @Test(description = "Test assertNotEquals without message")
+    public void testAssertNotEqualsWithoutMessage() {
+        TestContext context = new TestContext();
+        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        logMessage.getAssertions().clear();
+        Assert.assertEquals(logMessage.getAssertions().size(), 0);
+
+        context.assertNotEquals("abc", "def");
+
+        Assert.assertEquals(logMessage.getAssertions().size(), 1);
+        AssertionLogMessage assertion = logMessage.getAssertions().get(0);
+        Assert.assertEquals(assertion.type(), AssertionLogMessageType.ASSERT_NOT_EQUALS);
+        Assert.assertEquals(assertion.getMessage(), "<no-message>>");
+        Assert.assertEquals(assertion.actual(), "abc");
+        Assert.assertEquals(assertion.expected(), "def");
+        Assert.assertNull(assertion.error());
+        Assert.assertTrue(assertion.hasPassed());
+        Assert.assertFalse(assertion.hasFailed());
     }
 
     @Test(description = "Test assertNotEquals failure", expectedExceptions = {AssertionError.class})
@@ -586,11 +698,10 @@ public class AssertionContextTest {
         Assert.assertNotNull(assertion.error());
         Assert.assertFalse(assertion.hasPassed());
         Assert.assertTrue(assertion.hasFailed());
-
     }
 
-    @Test(description = "Test assertEqualsDeep")
-    public void testAssertDeepEqualsWithMap() {
+    @Test(description = "Test assertEqualsDeep with message")
+    public void testAssertDeepEqualsWithMapWithMessage() {
         TestContext context = new TestContext();
         StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
@@ -603,12 +714,34 @@ public class AssertionContextTest {
         Assert.assertEquals(logMessage.getAssertions().size(), 1);
         AssertionLogMessage assertion = logMessage.getAssertions().get(0);
         Assert.assertEquals(assertion.type(), AssertionLogMessageType.ASSERT_EQUALS_DEEP);
+        Assert.assertEquals(assertion.getMessage(), "should be equal");
         Assert.assertEquals(assertion.actual(), obj1);
         Assert.assertEquals(assertion.expected(), obj2);
         Assert.assertNull(assertion.error());
         Assert.assertTrue(assertion.hasPassed());
         Assert.assertFalse(assertion.hasFailed());
+    }
 
+    @Test(description = "Test assertEqualsDeep without message")
+    public void testAssertDeepEqualsWithMapWithoutMessage() {
+        TestContext context = new TestContext();
+        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        logMessage.getAssertions().clear();
+        Assert.assertEquals(logMessage.getAssertions().size(), 0);
+
+        Map<String, String> obj1 = Map.of("k1", "v1", "k2", "v2", "k3", "v3");
+        Map<String, String> obj2 = Map.of("k1", "v1", "k2", "v2", "k3", "v3");
+        context.assertEqualsDeep(obj1, obj2);
+
+        Assert.assertEquals(logMessage.getAssertions().size(), 1);
+        AssertionLogMessage assertion = logMessage.getAssertions().get(0);
+        Assert.assertEquals(assertion.type(), AssertionLogMessageType.ASSERT_EQUALS_DEEP);
+        Assert.assertEquals(assertion.getMessage(), "<no-message>");
+        Assert.assertEquals(assertion.actual(), obj1);
+        Assert.assertEquals(assertion.expected(), obj2);
+        Assert.assertNull(assertion.error());
+        Assert.assertTrue(assertion.hasPassed());
+        Assert.assertFalse(assertion.hasFailed());
     }
 
     @Test(description = "Test assertEqualsDeep failure", expectedExceptions = {AssertionError.class})
@@ -656,11 +789,10 @@ public class AssertionContextTest {
         Assert.assertNotNull(assertion.error());
         Assert.assertFalse(assertion.hasPassed());
         Assert.assertTrue(assertion.hasFailed());
-
     }
 
-    @Test(description = "Test assertEqualsDeep with set")
-    public void testAssertDeepEqualsWithSet() {
+    @Test(description = "Test assertEqualsDeep with set with message")
+    public void testAssertDeepEqualsWithSetWithMessage() {
         TestContext context = new TestContext();
         StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
@@ -673,12 +805,34 @@ public class AssertionContextTest {
         Assert.assertEquals(logMessage.getAssertions().size(), 1);
         AssertionLogMessage assertion = logMessage.getAssertions().get(0);
         Assert.assertEquals(assertion.type(), AssertionLogMessageType.ASSERT_EQUALS_DEEP);
+        Assert.assertEquals(assertion.getMessage(), "should be equal");
         Assert.assertEquals(assertion.actual(), obj1);
         Assert.assertEquals(assertion.expected(), obj2);
         Assert.assertNull(assertion.error());
         Assert.assertTrue(assertion.hasPassed());
         Assert.assertFalse(assertion.hasFailed());
+    }
 
+    @Test(description = "Test assertEqualsDeep with set without message")
+    public void testAssertDeepEqualsWithSetWithoutMessage() {
+        TestContext context = new TestContext();
+        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        logMessage.getAssertions().clear();
+        Assert.assertEquals(logMessage.getAssertions().size(), 0);
+
+        Set<String> obj1 = Set.of("v1", "v2", "v3");
+        Set<String> obj2 = Set.of("v1", "v2", "v3");
+        context.assertEqualsDeep(obj1, obj2);
+
+        Assert.assertEquals(logMessage.getAssertions().size(), 1);
+        AssertionLogMessage assertion = logMessage.getAssertions().get(0);
+        Assert.assertEquals(assertion.type(), AssertionLogMessageType.ASSERT_EQUALS_DEEP);
+        Assert.assertEquals(assertion.getMessage(), "<no-message>");
+        Assert.assertEquals(assertion.actual(), obj1);
+        Assert.assertEquals(assertion.expected(), obj2);
+        Assert.assertNull(assertion.error());
+        Assert.assertTrue(assertion.hasPassed());
+        Assert.assertFalse(assertion.hasFailed());
     }
 
     @Test(description = "Test assertEqualsDeep with set failure", expectedExceptions = {AssertionError.class})
@@ -726,11 +880,10 @@ public class AssertionContextTest {
         Assert.assertNotNull(assertion.error());
         Assert.assertFalse(assertion.hasPassed());
         Assert.assertTrue(assertion.hasFailed());
-
     }
 
-    @Test(description = "Test assertNotEqualsDeep")
-    public void testAsserNotDeepEqualsWithMap() {
+    @Test(description = "Test assertNotEqualsDeep with message")
+    public void testAsserNotDeepEqualsWithMapWithMessage() {
         TestContext context = new TestContext();
         StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
@@ -743,12 +896,34 @@ public class AssertionContextTest {
         Assert.assertEquals(logMessage.getAssertions().size(), 1);
         AssertionLogMessage assertion = logMessage.getAssertions().get(0);
         Assert.assertEquals(assertion.type(), AssertionLogMessageType.ASSERT_NOT_EQUALS_DEEP);
+        Assert.assertEquals(assertion.getMessage(), "should not be equal");
         Assert.assertEquals(assertion.actual(), obj1);
         Assert.assertEquals(assertion.expected(), obj2);
         Assert.assertNull(assertion.error());
         Assert.assertTrue(assertion.hasPassed());
         Assert.assertFalse(assertion.hasFailed());
+    }
 
+    @Test(description = "Test assertNotEqualsDeep without message")
+    public void testAsserNotDeepEqualsWithMapWithoutMessage() {
+        TestContext context = new TestContext();
+        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        logMessage.getAssertions().clear();
+        Assert.assertEquals(logMessage.getAssertions().size(), 0);
+
+        Map<String, String> obj1 = Map.of("k1", "v1", "k2", "v2", "k3", "v3");
+        Map<String, String> obj2 = Map.of("k4", "v4");
+        context.assertNotEqualsDeep(obj1, obj2);
+
+        Assert.assertEquals(logMessage.getAssertions().size(), 1);
+        AssertionLogMessage assertion = logMessage.getAssertions().get(0);
+        Assert.assertEquals(assertion.type(), AssertionLogMessageType.ASSERT_NOT_EQUALS_DEEP);
+        Assert.assertEquals(assertion.getMessage(), "<no-message>");
+        Assert.assertEquals(assertion.actual(), obj1);
+        Assert.assertEquals(assertion.expected(), obj2);
+        Assert.assertNull(assertion.error());
+        Assert.assertTrue(assertion.hasPassed());
+        Assert.assertFalse(assertion.hasFailed());
     }
 
     @Test(description = "Test assertNotEqualsDeep failure", expectedExceptions = {AssertionError.class})
@@ -796,11 +971,10 @@ public class AssertionContextTest {
         Assert.assertNotNull(assertion.error());
         Assert.assertFalse(assertion.hasPassed());
         Assert.assertTrue(assertion.hasFailed());
-
     }
 
-    @Test(description = "Test assertNotEqualsDeep")
-    public void testAsserNotDeepEqualsWithSet() {
+    @Test(description = "Test assertNotEqualsDeep with message")
+    public void testAsserNotDeepEqualsWithSetWithMessage() {
         TestContext context = new TestContext();
         StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
@@ -813,12 +987,34 @@ public class AssertionContextTest {
         Assert.assertEquals(logMessage.getAssertions().size(), 1);
         AssertionLogMessage assertion = logMessage.getAssertions().get(0);
         Assert.assertEquals(assertion.type(), AssertionLogMessageType.ASSERT_NOT_EQUALS_DEEP);
+        Assert.assertEquals(assertion.getMessage(), "should not be equal");
         Assert.assertEquals(assertion.actual(), obj1);
         Assert.assertEquals(assertion.expected(), obj2);
         Assert.assertNull(assertion.error());
         Assert.assertTrue(assertion.hasPassed());
         Assert.assertFalse(assertion.hasFailed());
+    }
 
+    @Test(description = "Test assertNotEqualsDeep without message")
+    public void testAsserNotDeepEqualsWithSetWithoutMessage() {
+        TestContext context = new TestContext();
+        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        logMessage.getAssertions().clear();
+        Assert.assertEquals(logMessage.getAssertions().size(), 0);
+
+        Set<String> obj1 = Set.of("v1", "v2", "v3");
+        Set<String> obj2 = Set.of("v4");
+        context.assertNotEqualsDeep(obj1, obj2);
+
+        Assert.assertEquals(logMessage.getAssertions().size(), 1);
+        AssertionLogMessage assertion = logMessage.getAssertions().get(0);
+        Assert.assertEquals(assertion.type(), AssertionLogMessageType.ASSERT_NOT_EQUALS_DEEP);
+        Assert.assertEquals(assertion.getMessage(), "<no-message>");
+        Assert.assertEquals(assertion.actual(), obj1);
+        Assert.assertEquals(assertion.expected(), obj2);
+        Assert.assertNull(assertion.error());
+        Assert.assertTrue(assertion.hasPassed());
+        Assert.assertFalse(assertion.hasFailed());
     }
 
     @Test(description = "Test assertNotEqualsDeep failure", expectedExceptions = {AssertionError.class})
