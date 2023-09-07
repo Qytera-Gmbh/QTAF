@@ -3,7 +3,7 @@ package de.qytera.qtaf.core.console;
 import de.qytera.qtaf.core.QtafFactory;
 
 /**
- * Class that generates colored console outputs
+ * Class that generates colored console outputs.
  */
 public class ConsoleColors {
 
@@ -501,7 +501,7 @@ public class ConsoleColors {
     }
 
     /**
-     * Black background
+     * Black background.
      *
      * @param s text
      * @return  text wrapped in color tags
@@ -511,7 +511,7 @@ public class ConsoleColors {
     }
 
     /**
-     * Red background
+     * Red background.
      *
      * @param s text
      * @return  text wrapped in color tags
@@ -521,7 +521,7 @@ public class ConsoleColors {
     }
 
     /**
-     * Green background
+     * Green background.
      *
      * @param s text
      * @return  text wrapped in color tags
@@ -531,7 +531,7 @@ public class ConsoleColors {
     }
 
     /**
-     * Yellow background
+     * Yellow background.
      *
      * @param s text
      * @return  text wrapped in color tags
@@ -541,7 +541,7 @@ public class ConsoleColors {
     }
 
     /**
-     * Blue background
+     * Blue background.
      *
      * @param s text
      * @return  text wrapped in color tags
@@ -551,7 +551,7 @@ public class ConsoleColors {
     }
 
     /**
-     * Purple background
+     * Purple background.
      *
      * @param s text
      * @return  text wrapped in color tags
@@ -561,7 +561,7 @@ public class ConsoleColors {
     }
 
     /**
-     * Cyan background
+     * Cyan background.
      *
      * @param s text
      * @return  text wrapped in color tags
@@ -571,7 +571,7 @@ public class ConsoleColors {
     }
 
     /**
-     * White background
+     * White background.
      *
      * @param s text
      * @return  text wrapped in color tags
