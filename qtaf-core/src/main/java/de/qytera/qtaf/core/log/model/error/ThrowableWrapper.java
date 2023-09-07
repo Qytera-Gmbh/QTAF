@@ -24,7 +24,7 @@ public class ThrowableWrapper {
      * @return message
      */
     public String getMessage() {
-        return throwable.getMessage();
+        return throwable != null ? throwable.getMessage() : "";
     }
 
     /**
@@ -33,7 +33,7 @@ public class ThrowableWrapper {
      * @return classname
      */
     public String getClassName() {
-        return throwable.getClass().getName();
+        return throwable != null ? throwable.getClass().getName() : "";
     }
 
     /**
@@ -42,6 +42,6 @@ public class ThrowableWrapper {
      * @return stack trace
      */
     public StackTraceElement[] getStackTrace() {
-        return throwable.getStackTrace();
+        return throwable != null ? throwable.getStackTrace() : new StackTraceElement[]{};
     }
 }
