@@ -419,7 +419,7 @@ public class AssertionContextTest {
         Assert.assertEquals(logMessage.getAssertions().size(), 1);
         AssertionLogMessage assertion = logMessage.getAssertions().get(0);
         Assert.assertEquals(assertion.type(), AssertionLogMessageType.ASSERT_NOT_SAME);
-        Assert.assertEquals(assertion.getMessage(), "<no-message>");
+        Assert.assertEquals(assertion.getMessage(), "should not be same");
         Assert.assertEquals(assertion.actual(), "abc");
         Assert.assertEquals(assertion.expected(), "def");
         Assert.assertNull(assertion.error());
@@ -581,7 +581,7 @@ public class AssertionContextTest {
         Assert.assertEquals(logMessage.getAssertions().size(), 1);
         AssertionLogMessage assertion = logMessage.getAssertions().get(0);
         Assert.assertEquals(assertion.type(), AssertionLogMessageType.ASSERT_NOT_EQUALS);
-        Assert.assertEquals(assertion.getMessage(), "<no-message>>");
+        Assert.assertEquals(assertion.getMessage(), "<no-message>");
         Assert.assertEquals(assertion.actual(), "abc");
         Assert.assertEquals(assertion.expected(), "def");
         Assert.assertNull(assertion.error());
