@@ -1,6 +1,9 @@
 package de.qytera.qtaf.core.guice.invokation;
 
 import de.qytera.qtaf.core.guice.annotations.Step;
+import de.qytera.qtaf.core.log.model.message.StepInformationLogMessage;
+import lombok.Getter;
+import lombok.Setter;
 import org.aopalliance.intercept.MethodInvocation;
 
 import java.util.Arrays;
@@ -15,6 +18,9 @@ public class StepExecutionInfo extends AbstractStepExecutionInfo {
     private Throwable error = null;
     private Thread thread;
     private StackTraceElement[] stackTraceElements;
+    @Getter
+    @Setter
+    private transient StepInformationLogMessage logMessage;
 
     /**
      * Get step.

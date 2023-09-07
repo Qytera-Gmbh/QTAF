@@ -39,7 +39,7 @@ public class TestNGTestEventPayload extends QtafTestEventPayload {
         this.realClassAnnotations = realClass.getAnnotations();
 
         this.handleTestNGTestResultObject(iTestResult);
-        this.abstractScenarioId = TestResultHelper.getTestMethodId(iTestResult);
+        this.abstractScenarioId = TestResultHelper.getAbstractScenarioId(iTestResult);
         this.instanceId = iTestResult.id();
         this.scenarioId = abstractScenarioId + "-" + instanceId;
         this.threadId = Thread.currentThread().getId();
