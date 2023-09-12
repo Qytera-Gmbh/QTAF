@@ -180,7 +180,7 @@ public class UploadTestsSubscriber implements IEventSubscriber {
     public String getRunId(TestRail testRailIdAnnotation) {
 
         ConfigMap config = ConfigurationFactory.getInstance();
-        String runId = "no runID";
+        String runId;
 
         if (null != config.getString("testrail.runId")){
             runId = config.getString("testrail.runId");
