@@ -56,12 +56,13 @@ public class UploadTestsSubscriberTest {
         UploadTestsSubscriber subscriber = new UploadTestsSubscriber();
         Class<?> dummyClass = Class.forName("de.qytera.testrail.event_subscriber.UploadTestsSubscriberTest");
 
-        TestRail runIdAnnotatedAnnotation = dummyClass.getMethod("testDummyRunIdAnnotated").getAnnotation(TestRail.class);
-        Assert.assertEquals(subscriber.getRunId(runIdAnnotatedAnnotation), "01");
+        Assert.assertThrows(NullPointerException.class, ()->subscriber.getRunId(null));
 
         TestRail runIdEmptyAnnotation = dummyClass.getMethod("testDummyRunIdEmptyAnnotation").getAnnotation(TestRail.class);
         Assert.assertThrows(IllegalArgumentException.class, () -> subscriber.getRunId(runIdEmptyAnnotation));
 
+        TestRail runIdAnnotatedAnnotation = dummyClass.getMethod("testDummyRunIdAnnotated").getAnnotation(TestRail.class);
+        Assert.assertEquals(subscriber.getRunId(runIdAnnotatedAnnotation), "01");
     }
 
     @Test(description = "Test the setup function")
