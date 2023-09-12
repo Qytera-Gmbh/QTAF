@@ -30,6 +30,8 @@ import java.lang.reflect.Method;
 import java.security.GeneralSecurityException;
 import java.util.List;
 
+import java.lang.reflect.*;
+
 /**
  * Testrail upload subscriber tests
  */
@@ -41,6 +43,25 @@ public class UploadTestsSubscriberTest {
         Assert.assertFalse(QtafEvents.logsPersisted.hasObservers());
         subscriber.initialize();
         Assert.assertTrue(QtafEvents.logsPersisted.hasObservers());
+
+    }
+
+
+    @TestRail(caseId = "01", runId = "01")
+    public void testDummyRunIdAnnotated(){}
+
+    @TestRail(caseId = "01", runId = "")
+    public void testDummyRunIdEmptyAnnotation(){}
+    @Test(description = "Test getRunId")
+    public void testGetRunId() throws ClassNotFoundException, NoSuchMethodException {
+        UploadTestsSubscriber subscriber = new UploadTestsSubscriber();
+        Class<?> dummyClass = Class.forName("de.qytera.testrail.event_subscriber.UploadTestsSubscriberTest");
+
+        TestRail runIdAnnotatedAnnotation = dummyClass.getMethod("testDummyRunIdAnnotated").getAnnotation(TestRail.class);
+        Assert.assertEquals(subscriber.getRunId(runIdAnnotatedAnnotation), "01");
+
+        TestRail runIdEmptyAnnotation = dummyClass.getMethod("testDummyRunIdEmptyAnnotation").getAnnotation(TestRail.class);
+        Assert.assertThrows(IllegalArgumentException.class, () -> subscriber.getRunId(runIdEmptyAnnotation));
 
     }
 
