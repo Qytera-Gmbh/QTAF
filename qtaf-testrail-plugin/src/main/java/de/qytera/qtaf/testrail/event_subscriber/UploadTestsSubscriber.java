@@ -132,7 +132,7 @@ public class UploadTestsSubscriber implements IEventSubscriber {
     public void handleScenarioSuccess(TestRail testRailIdAnnotation) {
         Arrays.stream(testRailIdAnnotation.caseId()).forEach(caseId -> {
             try {
-                TestRailManager.addResultForTestCase(client, caseId, testRailIdAnnotation.runId(), 1, "");
+                TestRailManager.addResultForTestCase(client, caseId, getRunId(testRailIdAnnotation), 1, "");
                 QtafFactory.getLogger().info("Results are uploaded to testRail");
                 Attachments attachments = TestRailManager.getAttachmentsForTestCase(client, caseId);
                 if (attachments != null) {
@@ -160,7 +160,7 @@ public class UploadTestsSubscriber implements IEventSubscriber {
                 .orElseThrow(() -> new IllegalStateException("expected at least one failed step"));
         for (String caseId : testRailIdAnnotation.caseId()) {
             try {
-                TestRailManager.addResultForTestCase(client, caseId, testRailIdAnnotation.runId(), 5, "Failure found in: " + errorMessage);
+                TestRailManager.addResultForTestCase(client, caseId, getRunId(testRailIdAnnotation), 5, "Failure found in: " + errorMessage);
                 TestRailManager.addAttachmentForTestCase(client, caseId, QtafFactory.getTestSuiteLogCollection().getLogDirectory() + "/Report.html");
                 TestRailManager.addAttachmentForTestCase(client, caseId, scenarioLog.getScreenshotAfter());
                 QtafFactory.getLogger().info("Results are uploaded to testRail");
@@ -171,7 +171,7 @@ public class UploadTestsSubscriber implements IEventSubscriber {
     }
 
     /**
-     * Rreturns the runId. The runId set in the configuration file is preferred to the runId set in the annotation.
+     * Returns the runId. The runId set in the configuration file is preferred to the runId set in the annotation.
      *
      * @param testRailIdAnnotation the annotation Object
      *
@@ -188,7 +188,7 @@ public class UploadTestsSubscriber implements IEventSubscriber {
         }
 
         if (null == testRailIdAnnotation){
-            throw new IllegalArgumentException("the testRailId annotation is null");
+            throw new NullPointerException("The passed testRailId annotation is null");
         }
 
         if (testRailIdAnnotation.runId().isEmpty()){
