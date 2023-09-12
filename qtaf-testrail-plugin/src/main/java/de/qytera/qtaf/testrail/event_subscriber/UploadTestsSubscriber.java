@@ -1,6 +1,7 @@
 package de.qytera.qtaf.testrail.event_subscriber;
 
 import de.qytera.qtaf.core.QtafFactory;
+import de.qytera.qtaf.core.config.ConfigurationFactory;
 import de.qytera.qtaf.core.config.entity.ConfigMap;
 import de.qytera.qtaf.core.config.exception.MissingConfigurationValueException;
 import de.qytera.qtaf.core.events.QtafEvents;
@@ -167,6 +168,21 @@ public class UploadTestsSubscriber implements IEventSubscriber {
                 QtafFactory.getLogger().error(e);
             }
         }
+    }
+
+    public int getRunid(TestRail testRailAnnotation) {
+        ConfigMap config = ConfigurationFactory.getInstance();
+        int runId = -1;
+        if (null != config.getInt("testrail.runId")){
+            runId = config.getInt("testrail.runId");
+            return runId;
+        }
+
+        // annotierte runId zurückgeben
+
+        throw new IllegalArgumentException( "No runId could be assigned to the test case. " +
+                                            "The runId must be set either via the configuration file (testrail.runId) " +
+                                            "or via the corresponding annotation.()");
     }
 }
 
