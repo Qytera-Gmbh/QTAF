@@ -1,5 +1,7 @@
 package de.qytera.qtaf.htmlreport.event_subscriber;
 
+import de.qytera.qtaf.core.config.ConfigurationFactory;
+import de.qytera.qtaf.core.config.entity.ConfigMap;
 import de.qytera.qtaf.core.events.QtafEvents;
 import de.qytera.qtaf.core.events.interfaces.IEventSubscriber;
 import de.qytera.qtaf.core.log.model.collection.TestFeatureLogCollection;
@@ -22,6 +24,13 @@ public class CreateReportSubscriber implements IEventSubscriber {
 
     @Override
     public void initialize() {
+        ConfigMap config = ConfigurationFactory.getInstance();
+        boolean htmlReportIsEnabled = config.getBoolean("htmlReport.enabled", false);
+
+        if (!htmlReportIsEnabled){
+            return;
+        }
+
         this.onBeforeLogsPersistedSub = QtafEvents.beforeLogsPersisted.subscribe(
                 this::onBeforeLogsPersisted
         );
