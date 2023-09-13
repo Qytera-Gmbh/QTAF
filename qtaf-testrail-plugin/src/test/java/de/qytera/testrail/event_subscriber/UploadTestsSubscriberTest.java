@@ -1,6 +1,7 @@
 package de.qytera.testrail.event_subscriber;
 
 import de.qytera.qtaf.core.QtafFactory;
+import de.qytera.qtaf.core.config.ConfigurationFactory;
 import de.qytera.qtaf.core.config.entity.ConfigMap;
 import de.qytera.qtaf.core.config.exception.MissingConfigurationValueException;
 import de.qytera.qtaf.core.events.QtafEvents;
@@ -72,6 +73,22 @@ public class UploadTestsSubscriberTest {
 
         TestRail runIdAnnotatedAnnotation = dummyClass.getMethod("testDummyRunIdAnnotated").getAnnotation(TestRail.class);
         Assert.assertEquals(subscriber.getRunId(runIdAnnotatedAnnotation), "01");
+    }
+
+    @Test(description = "Test getRunId(): correct runId given but overwritten by config")
+    public void testGetRunIdCorrectRunIdGivenButOverwritenByConfig() throws ClassNotFoundException, NoSuchMethodException {
+        UploadTestsSubscriber subscriber = new UploadTestsSubscriber();
+        Class<?> dummyClass = Class.forName("de.qytera.testrail.event_subscriber.UploadTestsSubscriberTest");
+
+        ConfigMap config = ConfigurationFactory.getInstance();
+        String predefinedRunId = config.getString("testrail.runId");
+        config.setString("testrail.runId", "212");
+
+        TestRail runIdAnnotatedAnnotation = dummyClass.getMethod("testDummyRunIdAnnotated").getAnnotation(TestRail.class);
+        Assert.assertEquals(subscriber.getRunId(runIdAnnotatedAnnotation), "212");
+
+        // Reset runId
+        config.setString("testrail.runId", predefinedRunId);
     }
 
     @Test(description = "Test the setup function")
