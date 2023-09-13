@@ -45,21 +45,30 @@ public class UploadTestsSubscriberTest {
 
     }
 
-
     @TestRail(caseId = "01", runId = "01")
     public void testDummyRunIdAnnotated(){}
 
     @TestRail(caseId = "01", runId = "")
     public void testDummyRunIdEmptyAnnotation(){}
-    @Test(description = "Test getRunId")
-    public void testGetRunId() throws ClassNotFoundException, NoSuchMethodException {
+
+    @Test(description = "Test getRunId(): no runId given")
+    public void testGetRunIdNoRunIdGiven(){
+        UploadTestsSubscriber subscriber = new UploadTestsSubscriber();
+        Assert.assertThrows(NullPointerException.class, ()->subscriber.getRunId(null));
+    }
+    @Test(description = "Test getRunId(): empty runId given")
+    public void testGetRunIdEmptyRunIdGiven() throws ClassNotFoundException, NoSuchMethodException {
         UploadTestsSubscriber subscriber = new UploadTestsSubscriber();
         Class<?> dummyClass = Class.forName("de.qytera.testrail.event_subscriber.UploadTestsSubscriberTest");
 
-        Assert.assertThrows(NullPointerException.class, ()->subscriber.getRunId(null));
-
         TestRail runIdEmptyAnnotation = dummyClass.getMethod("testDummyRunIdEmptyAnnotation").getAnnotation(TestRail.class);
         Assert.assertThrows(IllegalArgumentException.class, () -> subscriber.getRunId(runIdEmptyAnnotation));
+    }
+
+    @Test(description = "Test getRunId(): correct runId given")
+    public void testGetRunIdCorrectRunIdGiven() throws ClassNotFoundException, NoSuchMethodException {
+        UploadTestsSubscriber subscriber = new UploadTestsSubscriber();
+        Class<?> dummyClass = Class.forName("de.qytera.testrail.event_subscriber.UploadTestsSubscriberTest");
 
         TestRail runIdAnnotatedAnnotation = dummyClass.getMethod("testDummyRunIdAnnotated").getAnnotation(TestRail.class);
         Assert.assertEquals(subscriber.getRunId(runIdAnnotatedAnnotation), "01");
