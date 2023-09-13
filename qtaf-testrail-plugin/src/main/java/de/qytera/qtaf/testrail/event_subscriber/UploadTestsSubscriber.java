@@ -1,6 +1,7 @@
 package de.qytera.qtaf.testrail.event_subscriber;
 
 import de.qytera.qtaf.core.QtafFactory;
+import de.qytera.qtaf.core.config.ConfigurationFactory;
 import de.qytera.qtaf.core.config.entity.ConfigMap;
 import de.qytera.qtaf.core.config.exception.MissingConfigurationValueException;
 import de.qytera.qtaf.core.events.QtafEvents;
@@ -131,7 +132,7 @@ public class UploadTestsSubscriber implements IEventSubscriber {
     public void handleScenarioSuccess(TestRail testRailIdAnnotation) {
         Arrays.stream(testRailIdAnnotation.caseId()).forEach(caseId -> {
             try {
-                TestRailManager.addResultForTestCase(client, caseId, testRailIdAnnotation.runId(), 1, "");
+                TestRailManager.addResultForTestCase(client, caseId, getRunId(testRailIdAnnotation), 1, "");
                 QtafFactory.getLogger().info("Results are uploaded to testRail");
                 Attachments attachments = TestRailManager.getAttachmentsForTestCase(client, caseId);
                 if (attachments != null) {
@@ -159,7 +160,7 @@ public class UploadTestsSubscriber implements IEventSubscriber {
                 .orElseThrow(() -> new IllegalStateException("expected at least one failed step"));
         for (String caseId : testRailIdAnnotation.caseId()) {
             try {
-                TestRailManager.addResultForTestCase(client, caseId, testRailIdAnnotation.runId(), 5, "Failure found in: " + errorMessage);
+                TestRailManager.addResultForTestCase(client, caseId, getRunId(testRailIdAnnotation), 5, "Failure found in: " + errorMessage);
                 TestRailManager.addAttachmentForTestCase(client, caseId, QtafFactory.getTestSuiteLogCollection().getLogDirectory() + "/Report.html");
                 TestRailManager.addAttachmentForTestCase(client, caseId, scenarioLog.getScreenshotAfter());
                 QtafFactory.getLogger().info("Results are uploaded to testRail");
@@ -167,6 +168,36 @@ public class UploadTestsSubscriber implements IEventSubscriber {
                 QtafFactory.getLogger().error(e);
             }
         }
+    }
+
+    /**
+     * Returns the runId. The runId set in the configuration file is preferred to the runId set in the annotation.
+     *
+     * @param testRailIdAnnotation the annotation Object
+     *
+     * @return the runId
+     */
+    public String getRunId(TestRail testRailIdAnnotation) {
+
+        ConfigMap config = ConfigurationFactory.getInstance();
+        String runId;
+
+        if (null != config.getString("testrail.runId")){
+            runId = config.getString("testrail.runId");
+            return runId;
+        }
+
+        if (null == testRailIdAnnotation){
+            throw new NullPointerException("The passed testRailId annotation is null");
+        }
+
+        if (testRailIdAnnotation.runId().isEmpty()){
+            throw new IllegalArgumentException( "No runId could be assigned to the test case. " +
+                    "The runId must be set either via the configuration file (testrail.runId) " +
+                    "or via the corresponding annotation.(@TestRail)");
+        }
+        runId = testRailIdAnnotation.runId();
+        return runId;
     }
 }
 
