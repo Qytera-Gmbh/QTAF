@@ -239,7 +239,7 @@ public class XrayConfigHelper {
      * @return true if environments should be added, false otherwise
      */
     public static boolean shouldAddEnvironmentsToUpload() {
-        return CONFIG.getBoolean(RESULTS_UPLOAD_ENVIRONMENTS_ENABLED);
+        return CONFIG.getBoolean(RESULTS_UPLOAD_ENVIRONMENTS_ENABLED, true);
     }
 
     /**
@@ -248,7 +248,7 @@ public class XrayConfigHelper {
      * @return true if os should be added, false otherwise
      */
     public static boolean shouldAddOsEnvironment() {
-        return CONFIG.getBoolean(RESULTS_UPLOAD_ENVIRONMENTS_OS);
+        return CONFIG.getBoolean(RESULTS_UPLOAD_ENVIRONMENTS_OS, true);
     }
 
     /**
@@ -257,7 +257,7 @@ public class XrayConfigHelper {
      * @return true if driver should be added, false otherwise
      */
     public static boolean shouldAddDriverEnvironment() {
-        return CONFIG.getBoolean(RESULTS_UPLOAD_ENVIRONMENTS_DRIVER);
+        return CONFIG.getBoolean(RESULTS_UPLOAD_ENVIRONMENTS_DRIVER, true);
     }
 
     /**
