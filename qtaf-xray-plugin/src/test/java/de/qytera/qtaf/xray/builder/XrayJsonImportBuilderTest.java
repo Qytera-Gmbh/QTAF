@@ -523,7 +523,12 @@ public class XrayJsonImportBuilderTest {
         Assert.assertEquals(request.getTests().size(), 1);
         Assert.assertEquals(
                 request.getTests().get(0).getTestInfo(),
-                new XrayTestInfoEntityCloud("Hello 123", "QTAF", "Manual")
+                XrayTestInfoEntityCloud
+                        .builder()
+                        .projectKey("Hello 123")
+                        .type("Manual")
+                        .summary("QTAF")
+                        .build()
         );
     }
 
