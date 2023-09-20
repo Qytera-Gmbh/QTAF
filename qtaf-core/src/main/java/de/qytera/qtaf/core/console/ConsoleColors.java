@@ -252,6 +252,12 @@ public class ConsoleColors {
     public static final String WHITE_BACKGROUND_BRIGHT = "\033[0;107m";
 
     /**
+     * Private constructor that hides the public one.
+     */
+    private ConsoleColors() {
+    }
+
+    /**
      * Check whether colors are allowed to be used.
      *
      * @return  true if colors in console output are allowed, false otherwise.
