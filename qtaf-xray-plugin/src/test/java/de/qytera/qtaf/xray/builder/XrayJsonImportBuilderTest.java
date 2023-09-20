@@ -521,9 +521,19 @@ public class XrayJsonImportBuilderTest {
                 jiraIssueRepository
         ).build();
         Assert.assertEquals(request.getTests().size(), 1);
+        XrayTestInfoEntity actualXrayTestInfoEntity = request.getTests().get(0).getTestInfo();
+        XrayTestInfoEntity expectedXrayTestInfoEntity =
+                XrayTestInfoEntityCloud
+                        .builder()
+                        .projectKey("QTAF")
+                        .type("Manual")
+                        .summary("Hello 123")
+                        .steps(new ArrayList<>())
+                        .build();
         Assert.assertEquals(
-                request.getTests().get(0).getTestInfo(),
-                new XrayTestInfoEntityCloud("Hello 123", "QTAF", "Manual")
+                actualXrayTestInfoEntity,
+                expectedXrayTestInfoEntity,
+                String.format("Expected entity '%s', but found entity '%s'", expectedXrayTestInfoEntity, actualXrayTestInfoEntity)
         );
     }
 
