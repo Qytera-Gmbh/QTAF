@@ -92,17 +92,29 @@ public class XrayJsonImportBuilder implements RequestBodyBuilder<ImportExecution
 
     private XrayTestExecutionInfoEntity buildTestExecutionInfoEntity() {
         XrayTestExecutionInfoEntity entity = new XrayTestExecutionInfoEntity();
+
         if (collection.getStart() != null) {
             String startDate = XrayJsonHelper.isoDateString(collection.getStart());
             entity.setStartDate(startDate);
         }
+
         if (collection.getEnd() != null) {
             String finishDate = XrayJsonHelper.isoDateString(collection.getEnd());
             entity.setFinishDate(finishDate);
         }
         entity.setTestPlanKey(XrayConfigHelper.getResultsUploadTestPlanKey());
-        entity.addTestEnvironment(collection.getOsName());
-        entity.addTestEnvironment(collection.getDriverName());
+
+        if (XrayConfigHelper.shouldAddEnvironmentsToUpload()) {
+            if (XrayConfigHelper.shouldAddOsEnvironment())
+                entity.addTestEnvironment(collection.getOsName());
+            if (XrayConfigHelper.shouldAddDriverEnvironment())
+                entity.addTestEnvironment(collection.getDriverName());
+        } else {
+            entity.setTestEnvironments(null);
+        }
+
+        entity.setSummary("QTAF Test Execution");
+
         return entity;
     }
 
@@ -112,7 +124,7 @@ public class XrayJsonImportBuilder implements RequestBodyBuilder<ImportExecution
             Map<String, List<TestScenarioLogCollection>> groupedScenarioLogs = testFeatureLogCollection.getScenariosGroupedByAbstractScenarioId();
             for (Map.Entry<String, List<TestScenarioLogCollection>> entry : groupedScenarioLogs.entrySet()) {
                 List<TestScenarioLogCollection> scenarioLogs = entry.getValue();
-                // Ignore tests that don't have an Xray annotation.
+                // Ignore tests that don't have a Xray annotation.
                 XrayTest xrayTest = getXrayAnnotation(scenarioLogs);
                 if (xrayTest == null) {
                     continue;

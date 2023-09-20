@@ -46,6 +46,11 @@
     "resultsUpload": {
       "assignee": null,
       "testPlanKey": null,
+      "environments": {
+        "enabled": true,
+        "os": true,
+        "driver": true
+      },
       "scenarioReportEvidence": true,
       "scenarioImageEvidence": true,
       "customStatus": {

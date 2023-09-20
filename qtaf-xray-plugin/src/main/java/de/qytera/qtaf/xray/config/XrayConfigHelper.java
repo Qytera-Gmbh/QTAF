@@ -64,6 +64,18 @@ public class XrayConfigHelper {
      */
     public static final String RESULTS_UPLOAD_ASSIGNEE = "xray.resultsUpload.assignee";
     /**
+     * The selector for accessing the configured assignee to assign text execution issues to.
+     */
+    public static final String RESULTS_UPLOAD_ENVIRONMENTS_ENABLED = "xray.resultsUpload.environments.enabled";
+    /**
+     * The selector for accessing the configured assignee to assign text execution issues to.
+     */
+    public static final String RESULTS_UPLOAD_ENVIRONMENTS_OS = "xray.resultsUpload.environments.os";
+    /**
+     * The selector for accessing the configured assignee to assign text execution issues to.
+     */
+    public static final String RESULTS_UPLOAD_ENVIRONMENTS_DRIVER = "xray.resultsUpload.environments.driver";
+    /**
      * The selector for accessing the configured test plan key to assign text execution issues to.
      */
     public static final String RESULTS_UPLOAD_TEST_PLAN_KEY = "xray.resultsUpload.testPlanKey";
@@ -219,6 +231,33 @@ public class XrayConfigHelper {
      */
     public static String getJiraUrl() {
         return CONFIG.getString(URL_JIRA_SELECTOR);
+    }
+
+    /**
+     * Configuration value for enabling adding environments to the xray upload.
+     *
+     * @return true if environments should be added, false otherwise
+     */
+    public static boolean shouldAddEnvironmentsToUpload() {
+        return CONFIG.getBoolean(RESULTS_UPLOAD_ENVIRONMENTS_ENABLED, true);
+    }
+
+    /**
+     * Configuration value for enabling adding os environment to the xray upload.
+     *
+     * @return true if os should be added, false otherwise
+     */
+    public static boolean shouldAddOsEnvironment() {
+        return CONFIG.getBoolean(RESULTS_UPLOAD_ENVIRONMENTS_OS, true);
+    }
+
+    /**
+     * Configuration value for enabling adding driver environment to the xray upload.
+     *
+     * @return true if driver should be added, false otherwise
+     */
+    public static boolean shouldAddDriverEnvironment() {
+        return CONFIG.getBoolean(RESULTS_UPLOAD_ENVIRONMENTS_DRIVER, true);
     }
 
     /**
