@@ -46,6 +46,11 @@
     "resultsUpload": {
       "assignee": null,
       "testPlanKey": null,
+      "environments": {
+        "enabled": true,
+        "os": true,
+        "driver": true
+      },
       "scenarioReportEvidence": true,
       "scenarioImageEvidence": true,
       "customStatus": {
@@ -92,7 +97,8 @@
     "authentication": {
       "clientId": null,
       "clientSecret": null
-    }
+    },
+    "runId": null
   },
   "security": {
     "key": null

@@ -1,8 +1,6 @@
 package de.qytera.qtaf.xray.entity;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,8 +11,10 @@ import java.util.List;
  * @see <a href="https://docs.getxray.app/display/XRAY/Import+Execution+Results#ImportExecutionResults-XrayJSONSchema">Xray Server JSON format</a>
  * @see <a href="https://docs.getxray.app/display/XRAYCLOUD/Using+Xray+JSON+format+to+import+execution+results">Xray Cloud JSON format</a>
  */
-@Getter
-@Setter
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class XrayTestExecutionInfoEntity {
     /**
      * The project key where the test execution will be created.
@@ -55,7 +55,6 @@ public class XrayTestExecutionInfoEntity {
     /**
      * The test environments for the test execution issue.
      */
-    @Getter(AccessLevel.NONE)
     private List<String> testEnvironments = new ArrayList<>();
 
     /**
