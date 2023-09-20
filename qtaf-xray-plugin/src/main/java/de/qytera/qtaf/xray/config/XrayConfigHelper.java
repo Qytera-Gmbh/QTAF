@@ -64,15 +64,15 @@ public class XrayConfigHelper {
      */
     public static final String RESULTS_UPLOAD_ASSIGNEE = "xray.resultsUpload.assignee";
     /**
-     * The selector for accessing the configured assignee to assign text execution issues to.
+     * The selector for checking if environment information should be added to the Xray upload JSON document.
      */
     public static final String RESULTS_UPLOAD_ENVIRONMENTS_ENABLED = "xray.resultsUpload.environments.enabled";
     /**
-     * The selector for accessing the configured assignee to assign text execution issues to.
+     * The selector for checking if the OS the tests were executed on should be added to the environments in the Xray upload JSON document.
      */
     public static final String RESULTS_UPLOAD_ENVIRONMENTS_OS = "xray.resultsUpload.environments.os";
     /**
-     * The selector for accessing the configured assignee to assign text execution issues to.
+     * The selector for checking if the driver the tests were executed on should be added to the environments in the Xray upload JSON document.
      */
     public static final String RESULTS_UPLOAD_ENVIRONMENTS_DRIVER = "xray.resultsUpload.environments.driver";
     /**
