@@ -73,8 +73,8 @@ public abstract class XrayTestEntityBuilder<T> {
 
         // Empty arrays for examples are not accepted by the Xray API
         List<String> examples = getExamples(xrayTest, scenarioData);
-        if (examples != null && examples.size() > 0) {
-            entity.setExamples(getExamples(xrayTest, scenarioData));
+        if (!examples.isEmpty()) {
+            entity.setExamples(examples);
         } else {
             entity.setExamples(null);
         }
