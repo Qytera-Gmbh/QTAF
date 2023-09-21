@@ -63,9 +63,29 @@ public abstract class XrayTestEntityBuilder<T> {
         entity.setComment(getComment(xrayTest, scenarioData));
         entity.setExecutedBy(getExecutedBy(xrayTest, scenarioData));
         entity.setAssignee(getAssignee(xrayTest, scenarioData));
-        entity.setSteps(getSteps(xrayTest, scenarioData));
-        entity.setExamples(getExamples(xrayTest, scenarioData));
-        entity.setIterations(getIterations(xrayTest, scenarioData));
+
+        // Only when there is one execution we can add steps directly to the test entity
+        if (scenarioData instanceof TestScenarioLogCollection) {
+            entity.setSteps(getSteps(xrayTest, scenarioData));
+        } else {
+            entity.setSteps(null);
+        }
+
+        // Empty arrays for examples are not accepted by the Xray API
+        List<String> examples = getExamples(xrayTest, scenarioData);
+        if (!examples.isEmpty()) {
+            entity.setExamples(examples);
+        } else {
+            entity.setExamples(null);
+        }
+
+        // Only if there are multiple iterations a "iterations" key can be added to a test entity
+        if (scenarioData instanceof List<?>) {
+            entity.setIterations(getIterations(xrayTest, scenarioData));
+        } else {
+            entity.setIterations(null);
+        }
+
         entity.setDefects(getDefects(xrayTest, scenarioData));
         entity.setEvidence(getEvidence(xrayTest, scenarioData));
         entity.setCustomFields(getCustomFields(xrayTest, scenarioData));

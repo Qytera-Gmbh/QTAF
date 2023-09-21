@@ -40,12 +40,28 @@ public class MultipleIterationsXrayTestEntityBuilder extends XrayTestEntityBuild
     @Override
     protected XrayTestInfoEntity getTestInfo(XrayTest xrayTest, List<TestScenarioLogCollection> scenarioLogs) {
         XrayTestInfoEntity entity = null;
+
         if (XrayConfigHelper.shouldResultsUploadTestsInfoStepsUpdate()) {
             String projectKey = XrayConfigHelper.getProjectKey();
+            String summary = issueSummaries.get(xrayTest.key()) != null && !issueSummaries.get(xrayTest.key()).isBlank()
+                    ? issueSummaries.get(xrayTest.key())
+                    : "no summary";
             if (XrayConfigHelper.isXrayCloudService()) {
-                entity = new XrayTestInfoEntityCloud(issueSummaries.get(xrayTest.key()), projectKey, "Manual");
+                entity = XrayTestInfoEntityCloud
+                        .builder()
+                        .projectKey(projectKey)
+                        .summary(summary)
+                        .type("Manual")
+                        .steps(new ArrayList<>())
+                        .build();
             } else {
-                entity = new XrayTestInfoEntityServer(issueSummaries.get(xrayTest.key()), projectKey, "Manual");
+                entity = XrayTestInfoEntityServer
+                        .builder()
+                        .summary(summary)
+                        .projectKey(projectKey)
+                        .testType("Manual")
+                        .steps(new ArrayList<>())
+                        .build();
             }
             if (XrayConfigHelper.shouldResultsUploadTestsInfoStepsMerge()) {
                 entity.getSteps().add(buildMergedTestInfoStepEntity(scenarioLogs));

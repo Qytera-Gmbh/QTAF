@@ -1,6 +1,7 @@
 package de.qytera.qtaf.xray.entity;
 
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,35 +14,35 @@ import java.util.List;
  */
 @Getter
 @Setter
-@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
+@SuperBuilder
 @EqualsAndHashCode
 public abstract class XrayTestInfoEntity {
     /**
      * The summary for the test issue.
      */
-    private final String summary;
+    protected String summary;
     /**
      * The project key where the test issue will be created.
      */
-    private final String projectKey;
+    protected String projectKey;
     /**
      * An array of requirement issue keys to associate with the test.
      */
-    private List<String> requirementKeys = new ArrayList<>();
+    protected List<String> requirementKeys = new ArrayList<>();
     /**
      * The test issue labels.
      */
-    private List<String> labels = new ArrayList<>();
+    protected List<String> labels = new ArrayList<>();
     /**
      * An array of test steps (for Manual tests).
      */
-    private List<XrayTestStepEntity> steps = new ArrayList<>();
+    protected List<XrayTestStepEntity> steps = new ArrayList<>();
     /**
      * The BDD scenario.
      */
-    private String scenario;
+    protected String scenario;
     /**
      * The generic test definition.
      */
-    private String definition;
+    protected String definition;
 }
