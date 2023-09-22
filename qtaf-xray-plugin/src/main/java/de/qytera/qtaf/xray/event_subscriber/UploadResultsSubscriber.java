@@ -2,6 +2,7 @@ package de.qytera.qtaf.xray.event_subscriber;
 
 import de.qytera.qtaf.core.QtafFactory;
 import de.qytera.qtaf.core.config.exception.MissingConfigurationValueException;
+import de.qytera.qtaf.core.console.ConsoleColors;
 import de.qytera.qtaf.core.events.QtafEvents;
 import de.qytera.qtaf.core.events.interfaces.IEventSubscriber;
 import de.qytera.qtaf.core.events.payload.IQtafTestingContext;
@@ -83,7 +84,7 @@ public class UploadResultsSubscriber implements IEventSubscriber {
 
             // Log test execution key to console
             String key = responseDto.getKey();
-            logger.info(String.format("[QTAF Xray Plugin] Uploaded test execution. Key is %s", key));
+            logger.info(String.format("[QTAF Xray Plugin] Uploaded test execution. Key is %s", ConsoleColors.cyan(key)));
 
             // Dispatch events
             XrayEvents.responseDtoAvailable.onNext(responseDto);

@@ -1,6 +1,7 @@
 package de.qytera.qtaf.testng.event_subscriber;
 
 import de.qytera.qtaf.core.QtafFactory;
+import de.qytera.qtaf.core.console.ConsoleColors;
 import de.qytera.qtaf.core.context.IQtafTestContext;
 import de.qytera.qtaf.core.events.QtafEvents;
 import de.qytera.qtaf.core.events.interfaces.IEventSubscriber;
@@ -118,7 +119,7 @@ public class TestNGLoggingSubscriber implements IEventSubscriber {
         }
 
         ITestResult iTestResult = (ITestResult) iQtafTestEventPayload.getOriginalEvent();
-        this.log(iTestResult, "success");
+        this.log(iTestResult, ConsoleColors.greenBright("success"));
 
         // Get instance of Test class
         IQtafTestContext testInstance = (IQtafTestContext) iTestResult.getInstance();
@@ -151,7 +152,7 @@ public class TestNGLoggingSubscriber implements IEventSubscriber {
 
         ITestResult iTestResult = (ITestResult) iQtafTestEventPayload.getOriginalEvent();
 
-        this.log(iTestResult, "failure");
+        this.log(iTestResult, ConsoleColors.redBright("failure"));
 
         // Get instance of Test class
         IQtafTestContext testInstance = (IQtafTestContext) iTestResult.getInstance();
@@ -180,7 +181,7 @@ public class TestNGLoggingSubscriber implements IEventSubscriber {
 
         ITestResult iTestResult = (ITestResult) iQtafTestEventPayload.getOriginalEvent();
 
-        this.log(iTestResult, "failure but within success percentage");
+        this.log(iTestResult, ConsoleColors.redBright("failure but within success percentage"));
 
         // Update end date
         testSuiteLogCollection.setEnd(new Date());
@@ -199,7 +200,7 @@ public class TestNGLoggingSubscriber implements IEventSubscriber {
 
         ITestResult iTestResult = (ITestResult) iQtafTestEventPayload.getOriginalEvent();
 
-        this.log(iTestResult, "failure");
+        this.log(iTestResult, ConsoleColors.yellowBright("skipped"));
 
         // Get instance of Test class
         IQtafTestContext testInstance = (IQtafTestContext) iTestResult.getInstance();
@@ -222,11 +223,12 @@ public class TestNGLoggingSubscriber implements IEventSubscriber {
      * @param message     Log message
      */
     private void log(ITestResult iTestResult, String message) {
-        logger.info(
-                "[Test] " +
-                        "[" + iTestResult.hashCode() + "] " +
-                        "[" + TestResultHelper.getTestContextInstance(iTestResult).getClass().getName() + "] " +
+        logger.info("[Test] [%s] [%s] %s"
+                .formatted(
+                        iTestResult.hashCode(),
+                        TestResultHelper.getTestContextInstance(iTestResult).getClass().getName(),
                         message
+                )
         );
     }
 
