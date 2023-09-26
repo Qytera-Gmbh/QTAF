@@ -1,6 +1,7 @@
 package de.qytera.qtaf.core.event_subscriber.step;
 
 import de.qytera.qtaf.core.QtafFactory;
+import de.qytera.qtaf.core.console.ConsoleColors;
 import de.qytera.qtaf.core.context.IQtafTestContext;
 import de.qytera.qtaf.core.events.QtafEvents;
 import de.qytera.qtaf.core.events.interfaces.IEventSubscriber;
@@ -131,7 +132,7 @@ public class StepLoggerSubscriber implements IEventSubscriber {
      * @param stepExecutionInfo step execution info object
      */
     private void onStepExecutionSuccess(StepExecutionInfo stepExecutionInfo) {
-        this.log(stepExecutionInfo, "success");
+        this.log(stepExecutionInfo, ConsoleColors.green("success"));
 
         // Add information to log message
         StepInformationLogMessage logMessage = stepIdLogMap.get(stepExecutionInfo.getId());
@@ -155,7 +156,7 @@ public class StepLoggerSubscriber implements IEventSubscriber {
      * @param stepExecutionInfo step execution info object
      */
     private void onStepExecutionFailure(StepExecutionInfo stepExecutionInfo) {
-        this.log(stepExecutionInfo, "failure");
+        this.log(stepExecutionInfo, ConsoleColors.red("failure"));
 
         // Add information to log message
         StepInformationLogMessage logMessage = stepIdLogMap.get(stepExecutionInfo.getId());
@@ -277,20 +278,36 @@ public class StepLoggerSubscriber implements IEventSubscriber {
      * @param message           log message
      */
     private void log(StepExecutionInfo stepExecutionInfo, String message) {
+        String assertionMessage = "[Step] [%s] [%s] %s: %s";
+        String stepMessage = "[Step] [%s] [%s] %s";
+
         logger.info(
-                "[Step] " +
-                        "[" + stepExecutionInfo.getId() + "] " +
-                        "[" + stepExecutionInfo.getAnnotation().name() + "] " +
+                stepMessage.formatted(
+                        stepExecutionInfo.getId(),
+                        stepExecutionInfo.getAnnotation().name(),
                         message
+                )
         );
+
         if (stepExecutionInfo.getLogMessage() != null) {
             for (AssertionLogMessage m : stepExecutionInfo.getLogMessage().getAssertions()) {
                 if (m.hasFailed()) {
                     logger.info(
-                            "[Step] " +
-                                    "[" + stepExecutionInfo.getId() + "] " +
-                                    "[" + m.type() + "] failed: " +
-                                    m.getMessage()
+                            assertionMessage.formatted(
+                                stepExecutionInfo.getId(),
+                                m.type(),
+                                ConsoleColors.red("failed"),
+                                m.getMessage()
+                            )
+                    );
+                } else {
+                    logger.info(
+                            assertionMessage.formatted(
+                                stepExecutionInfo.getId(),
+                                m.type(),
+                                ConsoleColors.green("passed"),
+                                m.getMessage()
+                            )
                     );
                 }
             }
