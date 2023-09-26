@@ -3,6 +3,7 @@ package de.qytera.qtaf.xray.builder.test;
 import de.qytera.qtaf.core.QtafFactory;
 import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
 import de.qytera.qtaf.core.log.model.collection.TestSuiteLogCollection;
+import de.qytera.qtaf.core.log.model.message.AssertionLogMessage;
 import de.qytera.qtaf.core.log.model.message.StepInformationLogMessage;
 import de.qytera.qtaf.htmlreport.creator.ScenarioReportCreator;
 import de.qytera.qtaf.xray.annotation.XrayTest;
@@ -302,9 +303,7 @@ public abstract class XrayTestEntityBuilder<T> {
         if (step.getStep() != null) {
             entity.setComment(step.getStep().getName());
         }
-        if (step.getResult() != null) {
-            entity.setActualResult(step.getResult().toString());
-        }
+        entity.setActualResult(buildActualResult(step));
         if (step.getScreenshotBefore() != null && !step.getScreenshotBefore().isBlank()) {
             entity.addEvidenceIfPresent(XrayEvidenceItemEntity.fromFile(step.getScreenshotBefore()));
         }
@@ -312,6 +311,57 @@ public abstract class XrayTestEntityBuilder<T> {
             entity.addEvidenceIfPresent(XrayEvidenceItemEntity.fromFile(step.getScreenshotAfter()));
         }
         return entity;
+    }
+
+    /**
+     * Generate the value of the "actualResult" attribute of a test step execution
+     * @param step  Step log message object
+     * @return  actualResult value
+     */
+    protected static String buildActualResult(StepInformationLogMessage step) {
+        StringBuilder actualResult = new StringBuilder();
+        List<AssertionLogMessage> passedAssertions = step.getAssertions().stream().filter(AssertionLogMessage::hasPassed).toList();
+        List<AssertionLogMessage> failedAssertions = step.getAssertions().stream().filter(AssertionLogMessage::hasFailed).toList();
+
+        // Generate text for passed assertions
+        if (!passedAssertions.isEmpty()) {
+            actualResult.append("PASSED ASSERTIONS:\n\n");
+
+            for (AssertionLogMessage assertionLogMessage : passedAssertions) {
+                actualResult.append("  - %s".formatted(assertionLogMessage.getMessage()));
+            }
+        }
+
+        // Generate text for failed assertions
+        if (!failedAssertions.isEmpty()) {
+            if (!actualResult.isEmpty())
+                actualResult.append("\n\n");
+
+            actualResult.append("FAILED ASSERTIONS:\n\n");
+
+            for (AssertionLogMessage assertionLogMessage : failedAssertions) {
+                actualResult.append("  - %s".formatted(assertionLogMessage.getMessage()));
+            }
+        }
+
+        // Generate text for the error
+        if (step.getError() != null) {
+            if (!actualResult.isEmpty())
+                actualResult.append("\n\n");
+
+            actualResult.append("ERRORS:\n\n");
+            actualResult.append(step.getError().getMessage());
+        }
+
+        // Generate text for step result
+        if (step.getResult() != null) {
+            if (!actualResult.isEmpty())
+                actualResult.append("\n\n");
+
+            actualResult.append("RESULT:\n\n");
+            actualResult.append(step.getResult());        }
+
+        return actualResult.toString();
     }
 
     /**
