@@ -6,7 +6,7 @@
     <parent>
         <groupId>de.qytera</groupId>
         <artifactId>qtaf</artifactId>
-        <version>LOCAL-2023_09_28_008</version>
+        <version>0.2.7</version>
     </parent>
 
     <artifactId>qtaf-security</artifactId>
