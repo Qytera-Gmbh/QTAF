@@ -69,8 +69,12 @@
     <div class="col-sm-12">
         <h3>Features</h3>
         {% for featureLog in testFeatureLogCollections %}
-        {% include 'de/qytera/qtaf/htmlreport/templates/feature.html' %}
+        {% include 'de/qytera/qtaf/htmlreport/templates/feature.inc.html' %}
         {% endfor %}
     </div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+{% include 'de/qytera/qtaf/htmlreport/templates/scripts.js' %}
 {% endblock %}
