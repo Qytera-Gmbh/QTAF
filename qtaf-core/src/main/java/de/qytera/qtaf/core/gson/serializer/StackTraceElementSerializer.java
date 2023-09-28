@@ -17,6 +17,16 @@ public class StackTraceElementSerializer implements IQtafJsonSerializer, JsonSer
             Type type,
             JsonSerializationContext jsonSerializationContext
     ) {
+        return toJson(stackTraceElement);
+    }
+
+    /**
+     * This method converts a StackTraceElement into a JSON object.
+     *
+     * @param stackTraceElement stack trace element
+     * @return  json object
+     */
+    public JsonObject toJson(StackTraceElement stackTraceElement) {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("moduleName", stackTraceElement.getModuleName());
         jsonObject.addProperty("moduleVersion", stackTraceElement.getModuleVersion());
@@ -25,6 +35,7 @@ public class StackTraceElementSerializer implements IQtafJsonSerializer, JsonSer
         jsonObject.addProperty("methodName", stackTraceElement.getMethodName());
         jsonObject.addProperty("fileName", stackTraceElement.getFileName());
         jsonObject.addProperty("lineNumber", stackTraceElement.getLineNumber());
+        jsonObject.addProperty("isNativeMethod", stackTraceElement.isNativeMethod());
 
         return jsonObject;
     }
