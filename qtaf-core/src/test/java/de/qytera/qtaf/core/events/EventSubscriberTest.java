@@ -1,42 +1,40 @@
 package de.qytera.qtaf.core.events;
 
 import de.qytera.qtaf.core.events.payload.QtafTestEventPayload;
-import de.qytera.qtaf.testng.context.QtafTestNGContext;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import rx.Subscription;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class EventSubscriberTest {
-    static int count = 0;
-
     /**
      * Test one subscriber
      */
     @Test
     public void testOneSubscriber() {
-        count = 0;
+        AtomicInteger countOne = new AtomicInteger();
 
         Subscription sub = QtafEvents.testStarted.subscribe(iTestResult -> {
-            count += 1;
+            countOne.addAndGet(1);
         });
 
         // Event has not been dispatched, so counter should be still zero
-        Assert.assertEquals(count, 0);
+        Assert.assertEquals(countOne.get(), 0);
 
         // Fire event
         QtafEvents.testStarted.onNext(new QtafTestEventPayload());
 
         // Now counter should be increased
-        Assert.assertEquals(count, 1);
+        Assert.assertEquals(countOne.get(), 1);
 
         // Fire event
         QtafEvents.testStarted.onNext(new QtafTestEventPayload());
 
         // Now counter should be increased
-        Assert.assertEquals(count, 2);
+        Assert.assertEquals(countOne.get(), 2);
 
         sub.unsubscribe();
 
@@ -44,7 +42,7 @@ public class EventSubscriberTest {
         QtafEvents.testStarted.onNext(new QtafTestEventPayload());
 
         // Now counter should not be increased
-        Assert.assertEquals(count, 2);
+        Assert.assertEquals(countOne.get(), 2);
 
     }
 
@@ -53,32 +51,32 @@ public class EventSubscriberTest {
      */
     @Test
     public void testTwoSubscribers() {
-        count = 0;
+        AtomicInteger countTwo = new AtomicInteger();
 
         // First subscriber
         Subscription sub1 = QtafEvents.testStarted.subscribe(iTestResult -> {
-            count += 1;
+            countTwo.addAndGet(1);
         });
 
         // Second subscriber
         Subscription sub2 = QtafEvents.testStarted.subscribe(iTestResult -> {
-            count += 2;
+            countTwo.addAndGet(2);
         });
 
         // Event has not been dispatched, so counter should be still zero
-        Assert.assertEquals(count, 0);
+        Assert.assertEquals(countTwo.get(), 0);
 
         // Fire event
         QtafEvents.testStarted.onNext(new QtafTestEventPayload());
 
         // Now counter should be increased
-        Assert.assertEquals(count, 3);
+        Assert.assertEquals(countTwo.get(), 3);
 
         // Fire event
         QtafEvents.testStarted.onNext(new QtafTestEventPayload());
 
         // Now counter should be increased
-        Assert.assertEquals(count, 6);
+        Assert.assertEquals(countTwo.get(), 6);
 
         sub1.unsubscribe();
 
@@ -86,7 +84,7 @@ public class EventSubscriberTest {
         QtafEvents.testStarted.onNext(new QtafTestEventPayload());
 
         // Now counter should be increased only by two
-        Assert.assertEquals(count, 8);
+        Assert.assertEquals(countTwo.get(), 8);
 
         sub2.unsubscribe();
 
@@ -94,7 +92,7 @@ public class EventSubscriberTest {
         QtafEvents.testStarted.onNext(new QtafTestEventPayload());
 
         // Now counter should not be increased, because there are no subscriptions anymore
-        Assert.assertEquals(count, 8);
+        Assert.assertEquals(countTwo.get(), 8);
     }
 
     /**
@@ -102,26 +100,26 @@ public class EventSubscriberTest {
      */
     @Test
     public void testClassesLoadedEvent() {
-        count = 0;
+        AtomicInteger countEvents = new AtomicInteger();
 
         Subscription sub = QtafEvents.testClassesLoaded.subscribe(classes -> {
-            count += 1;
+            countEvents.addAndGet(1);
         });
 
         // Event has not been dispatched, so counter should be still zero
-        Assert.assertEquals(count, 0);
+        Assert.assertEquals(countEvents.get(), 0);
 
         // Fire event
         QtafEvents.testClassesLoaded.onNext(new HashSet<>());
 
         // Now counter should be increased
-        Assert.assertEquals(count, 1);
+        Assert.assertEquals(countEvents.get(), 1);
 
         // Fire event
         QtafEvents.testClassesLoaded.onNext(new HashSet<>());
 
         // Now counter should be increased
-        Assert.assertEquals(count, 2);
+        Assert.assertEquals(countEvents.get(), 2);
 
         sub.unsubscribe();
 
@@ -129,7 +127,7 @@ public class EventSubscriberTest {
         QtafEvents.testClassesLoaded.onNext(new HashSet<>());
 
         // Now counter should not be increased
-        Assert.assertEquals(count, 2);
+        Assert.assertEquals(countEvents.get(), 2);
     }
 
     /**
@@ -137,26 +135,26 @@ public class EventSubscriberTest {
      */
     @Test
     public void testClassInstancesLoadedEvent() {
-        count = 0;
+        AtomicInteger countEvents = new AtomicInteger();
 
         Subscription sub = QtafEvents.testClassInstancesLoaded.subscribe(instances -> {
-            count += 1;
+            countEvents.addAndGet(1);
         });
 
         // Event has not been dispatched, so counter should be still zero
-        Assert.assertEquals(count, 0);
+        Assert.assertEquals(countEvents.get(), 0);
 
         // Fire event
         QtafEvents.testClassInstancesLoaded.onNext(new ArrayList<>());
 
         // Now counter should be increased
-        Assert.assertEquals(count, 1);
+        Assert.assertEquals(countEvents.get(), 1);
 
         // Fire event
         QtafEvents.testClassInstancesLoaded.onNext(new ArrayList<>());
 
         // Now counter should be increased
-        Assert.assertEquals(count, 2);
+        Assert.assertEquals(countEvents.get(), 2);
 
         sub.unsubscribe();
 
@@ -164,6 +162,6 @@ public class EventSubscriberTest {
         QtafEvents.testClassInstancesLoaded.onNext(new ArrayList<>());
 
         // Now counter should not be increased
-        Assert.assertEquals(count, 2);
+        Assert.assertEquals(countEvents.get(), 2);
     }
 }
