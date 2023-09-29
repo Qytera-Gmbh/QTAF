@@ -39,10 +39,29 @@ public class SingleIterationXrayTestEntityBuilder extends XrayTestEntityBuilder<
         XrayTestInfoEntity entity = null;
         if (XrayConfigHelper.shouldResultsUploadTestsInfoStepsUpdate()) {
             String projectKey = XrayConfigHelper.getProjectKey();
+
+            // Build summary
+            String summary = issueSummaries.get(xrayTest.key());
+            if (summary == null || summary.isBlank()) {
+                summary = "no summary";
+            }
+
             if (XrayConfigHelper.isXrayCloudService()) {
-                entity = new XrayTestInfoEntityCloud(issueSummaries.get(xrayTest.key()), projectKey, "Manual");
+                entity = XrayTestInfoEntityCloud
+                        .builder()
+                        .projectKey(projectKey)
+                        .summary(summary)
+                        .type("Manual")
+                        .steps(new ArrayList<>())
+                        .build();
             } else {
-                entity = new XrayTestInfoEntityServer(issueSummaries.get(xrayTest.key()), projectKey, "Manual");
+                entity = XrayTestInfoEntityServer
+                        .builder()
+                        .projectKey(projectKey)
+                        .summary(summary)
+                        .testType("Manual")
+                        .steps(new ArrayList<>())
+                        .build();
             }
             for (StepInformationLogMessage step : scenario.getLogMessages(StepInformationLogMessage.class)) {
                 entity.getSteps().add(buildTestStepEntity(step));
