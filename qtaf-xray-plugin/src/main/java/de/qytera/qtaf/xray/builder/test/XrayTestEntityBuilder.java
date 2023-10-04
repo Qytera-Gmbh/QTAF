@@ -314,7 +314,8 @@ public abstract class XrayTestEntityBuilder<T> {
     }
 
     /**
-     * Generate the value of the "actualResult" attribute of a test step execution
+     * Generate the value of the "actualResult" attribute of a test step execution.
+     *
      * @param step  Step log message object
      * @return  actualResult value
      */
