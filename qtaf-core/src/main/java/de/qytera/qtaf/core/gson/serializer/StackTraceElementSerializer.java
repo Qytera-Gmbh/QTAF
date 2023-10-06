@@ -24,7 +24,7 @@ public class StackTraceElementSerializer implements IQtafJsonSerializer, JsonSer
      * This method converts a StackTraceElement into a JSON object.
      *
      * @param stackTraceElement stack trace element
-     * @return  json object
+     * @return json object
      */
     public JsonObject toJson(StackTraceElement stackTraceElement) {
         JsonObject jsonObject = new JsonObject();
