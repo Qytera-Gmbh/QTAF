@@ -20,7 +20,7 @@ public class TemplateRendererTest {
                 "de/qytera/qtaf/htmlreport/templates/home.html",
                 "de/qytera/qtaf/htmlreport/templates/feature.html",
                 "de/qytera/qtaf/htmlreport/templates/scenario.html",
-                "de/qytera/qtaf/htmlreport/templates/step.html",
+                "de/qytera/qtaf/htmlreport/templates/step.inc.html",
         };
 
         PebbleEngine engine = new PebbleEngine.Builder().build();
