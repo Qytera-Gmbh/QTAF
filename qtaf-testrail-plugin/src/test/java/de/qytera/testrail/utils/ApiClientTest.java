@@ -26,8 +26,6 @@ public class ApiClientTest {
     @Test(description = "Test get authorization")
     public void testGetAuthorization() {
         APIClient apiClient = new APIClient("https://inet.com");
-        apiClient.setUser("John");
-        apiClient.setPassword("Doe");
-        Assert.assertEquals(apiClient.getAuthorizationHeader(), "Basic Sm9objpEb2U=");
+        Assert.assertEquals(apiClient.getAuthorizationHeader("John", "Doe"), "Sm9objpEb2U=");
     }
 }

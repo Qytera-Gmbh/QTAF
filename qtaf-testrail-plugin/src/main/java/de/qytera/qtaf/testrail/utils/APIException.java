@@ -13,4 +13,13 @@ public class APIException extends Exception {
     public APIException(int status, String message) {
         super("TestRail API returned HTTP %d (%s)".formatted(status, message));
     }
+
+    /**
+     * Create a new {@link APIException} with the given status and message.
+     *
+     * @param message the message
+     */
+    public APIException(String message) {
+        super(message);
+    }
 }

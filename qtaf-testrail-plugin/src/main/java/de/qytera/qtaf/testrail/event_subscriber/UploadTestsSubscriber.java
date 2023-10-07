@@ -14,15 +14,18 @@ import de.qytera.qtaf.core.log.model.message.StepInformationLogMessage;
 import de.qytera.qtaf.security.aes.AES;
 import de.qytera.qtaf.testrail.annotations.TestRail;
 import de.qytera.qtaf.testrail.config.TestRailConfigHelper;
-import de.qytera.qtaf.testrail.entity.Attachment;
-import de.qytera.qtaf.testrail.entity.Attachments;
 import de.qytera.qtaf.testrail.utils.APIClient;
+import de.qytera.qtaf.testrail.utils.APIException;
 import de.qytera.qtaf.testrail.utils.TestRailManager;
 import lombok.Data;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import rx.Subscription;
 
+import java.io.IOException;
 import java.security.GeneralSecurityException;
-import java.util.Arrays;
+import java.util.List;
+import java.util.stream.IntStream;
 
 /**
  * This subscriber binds to the test finished event and uploads the tests to the TestRail API.
@@ -130,20 +133,28 @@ public class UploadTestsSubscriber implements IEventSubscriber {
      * @param testRailIdAnnotation testrail annotation of scenario
      */
     public void handleScenarioSuccess(TestRail testRailIdAnnotation) {
-        Arrays.stream(testRailIdAnnotation.caseId()).forEach(caseId -> {
+        for (String caseId : testRailIdAnnotation.caseId()) {
             try {
                 TestRailManager.addResultForTestCase(client, caseId, getRunId(testRailIdAnnotation), 1, "");
                 QtafFactory.getLogger().info("Results are uploaded to testRail");
-                Attachments attachments = TestRailManager.getAttachmentsForTestCase(client, caseId);
-                if (attachments != null) {
-                    for (Attachment attachment : attachments.getAttachments()) {
-                        TestRailManager.deleteAttachmentForTestCase(client, attachment.getId());
-                    }
+                JSONObject theAttachments = TestRailManager.getAttachmentsForTestCase(client, caseId);
+
+                if (theAttachments != null) {
+                    JSONArray attachments = (JSONArray) theAttachments.get("attachments");
+                    List<JSONObject> attachmentItems = IntStream.range(0, attachments.size())
+                            .mapToObj(index -> (JSONObject) attachments.get(index))
+                            .toList();
+                    for (JSONObject x : attachmentItems)
+                        try {
+                            TestRailManager.deleteAttachmentForTestCase(client, x.get("id").toString());
+                        } catch (APIException | IOException e) {
+                            throw new APIException(e.getMessage());
+                        }
                 }
             } catch (Exception e) {
                 QtafFactory.getLogger().error(e);
             }
-        });
+        }
     }
 
     /**
@@ -174,7 +185,6 @@ public class UploadTestsSubscriber implements IEventSubscriber {
      * Returns the runId. The runId set in the configuration file is preferred to the runId set in the annotation.
      *
      * @param testRailIdAnnotation the annotation Object
-     *
      * @return the runId
      */
     public String getRunId(TestRail testRailIdAnnotation) {
@@ -182,17 +192,17 @@ public class UploadTestsSubscriber implements IEventSubscriber {
         ConfigMap config = ConfigurationFactory.getInstance();
         String runId;
 
-        if (null != config.getString("testrail.runId")){
+        if (null != config.getString("testrail.runId")) {
             runId = config.getString("testrail.runId");
             return runId;
         }
 
-        if (null == testRailIdAnnotation){
+        if (null == testRailIdAnnotation) {
             throw new NullPointerException("The passed testRailId annotation is null");
         }
 
-        if (testRailIdAnnotation.runId().isEmpty()){
-            throw new IllegalArgumentException( "No runId could be assigned to the test case. " +
+        if (testRailIdAnnotation.runId().isEmpty()) {
+            throw new IllegalArgumentException("No runId could be assigned to the test case. " +
                     "The runId must be set either via the configuration file (testrail.runId) " +
                     "or via the corresponding annotation.(@TestRail)");
         }

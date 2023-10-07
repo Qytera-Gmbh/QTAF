@@ -20,7 +20,7 @@ import java.util.List;
 
 public class TestRailManagerTest {
     @Test(description = "Test add result for test case")
-    public void testAddResultForTestCase() throws APIException {
+    public void testAddResultForTestCase() throws APIException, IOException {
         APIClient client = new APIClient("https://example.org");
         try (MockedStatic<WebService> webService = Mockito.mockStatic(WebService.class)) {
             webService.when(() -> WebService.buildRequest(Mockito.any())).thenCallRealMethod();
@@ -40,7 +40,7 @@ public class TestRailManagerTest {
             webService.when(() -> WebService.buildRequest(Mockito.any())).thenCallRealMethod();
             webService.when(() -> WebService.post(Mockito.any(), Mockito.any()).close()).thenReturn(response);
             TestRailManager.addResultForTestCase(client, "c1", "", 200, "");
-        } catch (APIException e) {
+        } catch (APIException | IOException e) {
             Assert.assertEquals(e.getMessage(), "TestRail API returned HTTP 500 (\"very bad\")");
         }
     }
@@ -72,7 +72,7 @@ public class TestRailManagerTest {
     }
 
     @Test(description = "Test delete attachment for test case")
-    public void testDeleteAttachmentForTestCase() throws APIException {
+    public void testDeleteAttachmentForTestCase() throws APIException, IOException {
         APIClient client = new APIClient("https://example.org");
         try (MockedStatic<WebService> webService = Mockito.mockStatic(WebService.class)) {
             webService.when(() -> WebService.buildRequest(Mockito.any())).thenCallRealMethod();
@@ -83,7 +83,7 @@ public class TestRailManagerTest {
     }
 
     @Test(description = "Test delete attachment for test case with bad response")
-    public void testDeleteAttachmentForTestCaseBadResponse() {
+    public void testDeleteAttachmentForTestCaseBadResponse() throws APIException, IOException {
         APIClient client = new APIClient("https://example.org");
         Response response = Mocking.simulateInbound(
                 Response.serverError().entity(GsonFactory.getInstance().toJson("oh no")).build()
@@ -98,7 +98,7 @@ public class TestRailManagerTest {
     }
 
     @Test(description = "Test get attachments for test case")
-    public void testGetAttachmentForTestCase() throws APIException {
+    public void testGetAttachmentForTestCase() throws APIException, IOException {
         APIClient client = new APIClient("https://example.org");
         // See https://support.testrail.com/hc/en-us/articles/7077196481428-Attachments#getattachmentsforcase
         Attachments attachments = new Attachments();
@@ -136,7 +136,7 @@ public class TestRailManagerTest {
     }
 
     @Test(description = "Test get attachments for test case with bad response")
-    public void testGetAttachmentForTestCaseBadResponse() {
+    public void testGetAttachmentForTestCaseBadResponse() throws IOException {
         APIClient client = new APIClient("https://example.org");
         Response response = Mocking.simulateInbound(
                 Response.serverError().entity(GsonFactory.getInstance().toJson("houston we have a problem")).build()
