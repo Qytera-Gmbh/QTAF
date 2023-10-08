@@ -1,5 +1,6 @@
 package de.qytera.qtaf.testrail.utils;
 
+import de.qytera.qtaf.core.QtafFactory;
 import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.MediaType;
 import lombok.AccessLevel;
@@ -12,6 +13,7 @@ import org.glassfish.jersey.media.multipart.file.FileDataBodyPart;
 import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.function.Consumer;
 
 /**
  * Utility class for handling TestRail multipart attachments.
@@ -20,15 +22,14 @@ import java.text.ParseException;
 public class APIUtil {
 
     /**
-     * Converts a file into a multipart attachment entity, ready to be sent to TestRail's API.
+     * Converts a file into a multipart attachment entity and passes the entity to the provided consumer.
      *
-     * @param filePath the file to attach
-     * @return the request entity
+     * @param filePath           the file to attach
+     * @param attachmentConsumer the consumer using the attachment entity
      * @throws ParseException if the file cannot be processed
-     * @throws IOException    if the multipart entity cannot be constructed
      * @see <a href="https://support.testrail.com/hc/en-us/articles/7077039051284#example-attachment-upload-0-3">TestRail documentation</a>
      */
-    public static Entity<MultiPart> toMultipartAttachment(String filePath) throws ParseException, IOException {
+    public static void consumeAttachment(String filePath, Consumer<Entity<MultiPart>> attachmentConsumer) throws ParseException {
         try (MultiPart multiPartEntity = new FormDataMultiPart()) {
             FileDataBodyPart filePart = new FileDataBodyPart("attachment", new File(filePath));
             // Testrail only accepts content-dispositions of the following form:
@@ -38,7 +39,10 @@ public class APIUtil {
                     "form-data; name=\"attachment\"; filename=\"%s\"".formatted(filePart.getFileEntity().getName()))
             );
             multiPartEntity.bodyPart(filePart);
-            return Entity.entity(multiPartEntity, MediaType.MULTIPART_FORM_DATA);
+            Entity<MultiPart> entity = Entity.entity(multiPartEntity, MediaType.MULTIPART_FORM_DATA);
+            attachmentConsumer.accept(entity);
+        } catch (IOException e) {
+            QtafFactory.getLogger().error(e);
         }
     }
 

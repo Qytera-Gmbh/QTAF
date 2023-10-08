@@ -9,13 +9,10 @@ import de.qytera.qtaf.http.RequestBuilder;
 import de.qytera.qtaf.http.WebService;
 import de.qytera.qtaf.testrail.entity.Attachments;
 import jakarta.ws.rs.client.Entity;
-import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import org.glassfish.jersey.media.multipart.MultiPart;
 
-import java.io.IOException;
 import java.net.URI;
 import java.text.ParseException;
 
@@ -54,22 +51,29 @@ public class TestRailManager {
      * @param client     the TestRail API client
      * @param testCaseId the test case ID
      * @param path       the attachment file path
-     * @throws APIException if something goes wrong during upload
-     * @throws IOException  if the file cannot be accessed
      */
-    public static void addAttachmentForTestCase(APIClient client, String testCaseId, String path) throws APIException, IOException {
+    public static void addAttachmentForTestCase(APIClient client, String testCaseId, String path) {
         try {
-            Entity<MultiPart> multiPartEntity = APIUtil.toMultipartAttachment(path);
-            RequestBuilder request = WebService.buildRequest(
-                    URI.create("%s/add_attachment_to_case/%s".formatted(client.getUrl(), testCaseId))
-            );
-            request.getBuilder().header(HttpHeaders.AUTHORIZATION, client.getAuthorizationHeader());
-            try (Response response = WebService.post(request, Entity.entity(multiPartEntity, MediaType.MULTIPART_FORM_DATA))) {
-                if (response.getStatus() != Response.Status.OK.getStatusCode()) {
-                    String content = response.readEntity(String.class);
-                    throw new APIException(response.getStatus(), content);
+            APIUtil.consumeAttachment(path, entity -> {
+                RequestBuilder request = WebService.buildRequest(
+                        URI.create("%s/add_attachment_to_case/%s".formatted(client.getUrl(), testCaseId))
+                );
+                request.getBuilder().header(HttpHeaders.AUTHORIZATION, client.getAuthorizationHeader());
+                try (Response response = WebService.post(request, entity)) {
+                    String responseData = response.readEntity(String.class);
+                    if (response.getStatus() != Response.Status.OK.getStatusCode()) {
+                        String reason = String.format(
+                                "%d %s: %s",
+                                response.getStatus(),
+                                response.getStatusInfo().getReasonPhrase(),
+                                responseData
+                        );
+                        QtafFactory.getLogger().error(
+                                String.format("[QTAF TestRail Plugin] Failed to add attachment: %s", reason)
+                        );
+                    }
                 }
-            }
+            });
         } catch (ParseException e) {
             QtafFactory.getLogger().error("[QTAF TestRail Plugin] Failed to read attachment: %s", path);
             QtafFactory.getLogger().error(e);
