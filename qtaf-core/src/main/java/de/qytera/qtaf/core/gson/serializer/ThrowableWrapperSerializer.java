@@ -15,19 +15,25 @@ public class ThrowableWrapperSerializer implements IQtafJsonSerializer, JsonSeri
             Type type,
             JsonSerializationContext jsonSerializationContext
     ) {
+        return toJson(error);
+    }
+
+    /**
+     * Converts a {@link ThrowableWrapper} into a JSON object.
+     *
+     * @param wrapper the wrapper
+     * @return JSON object
+     */
+    public JsonObject toJson(ThrowableWrapper wrapper) {
         StackTraceElementSerializer stackTraceElementSerializer = new StackTraceElementSerializer();
         JsonObject jsonObject = new JsonObject();
-
-        jsonObject.addProperty("type", error.getClassName());
-        jsonObject.addProperty("message", error.getMessage());
+        jsonObject.addProperty("type", wrapper.getClassName());
+        jsonObject.addProperty("message", wrapper.getMessage());
         JsonArray stackTraceElements = new JsonArray();
-
-        for (StackTraceElement el : error.getStackTrace()) {
+        for (StackTraceElement el : wrapper.getStackTrace()) {
             stackTraceElements.add(stackTraceElementSerializer.toJson(el));
         }
-
         jsonObject.add("stackTrace", stackTraceElements);
-
         return jsonObject;
     }
 
