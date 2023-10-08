@@ -2,10 +2,6 @@ package de.qytera.qtaf.core.selenium;
 
 import de.qytera.qtaf.core.config.ConfigurationFactory;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.edge.EdgeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -36,7 +32,7 @@ public class DriverTest {
         DriverFactory.clearDriver();
         WebDriver webDriver = DriverFactory.getDriver("chrome");
         webDriver.quit();
-        Assert.assertEquals(webDriver.getClass().getName(), ChromeDriver.class.getName());
+        Assert.assertEquals(webDriver.getClass().getName(), org.openqa.selenium.chrome.ChromeDriver.class.getName());
         DriverFactory.clearDriver();
     }
 
@@ -46,7 +42,7 @@ public class DriverTest {
         DriverFactory.clearDriver();
         WebDriver webDriver = DriverFactory.getDriver("chrome");
         webDriver.quit();
-        Assert.assertEquals(webDriver.getClass().getName(), ChromeDriver.class.getName());
+        Assert.assertEquals(webDriver.getClass().getName(), org.openqa.selenium.chrome.ChromeDriver.class.getName());
         DriverFactory.clearDriver();
     }
 
@@ -56,7 +52,7 @@ public class DriverTest {
         DriverFactory.clearDriver();
         WebDriver webDriver = DriverFactory.getDriver("firefox");
         webDriver.quit();
-        Assert.assertEquals(webDriver.getClass().getName(), FirefoxDriver.class.getName());
+        Assert.assertEquals(webDriver.getClass().getName(), org.openqa.selenium.firefox.FirefoxDriver.class.getName());
         DriverFactory.clearDriver();
     }
 
@@ -66,7 +62,7 @@ public class DriverTest {
         DriverFactory.clearDriver();
         WebDriver webDriver = DriverFactory.getDriver("firefox");
         webDriver.quit();
-        Assert.assertEquals(webDriver.getClass().getName(), FirefoxDriver.class.getName());
+        Assert.assertEquals(webDriver.getClass().getName(), org.openqa.selenium.firefox.FirefoxDriver.class.getName());
         DriverFactory.clearDriver();
     }
 
@@ -76,7 +72,7 @@ public class DriverTest {
         DriverFactory.clearDriver();
         WebDriver webDriver = DriverFactory.getDriver("edge");
         webDriver.quit();
-        Assert.assertEquals(webDriver.getClass().getName(), EdgeDriver.class.getName());
+        Assert.assertEquals(webDriver.getClass().getName(), org.openqa.selenium.edge.EdgeDriver.class.getName());
         DriverFactory.clearDriver();
     }
 
@@ -86,7 +82,7 @@ public class DriverTest {
         DriverFactory.clearDriver();
         WebDriver webDriver = DriverFactory.getDriver("edge");
         webDriver.quit();
-        Assert.assertEquals(webDriver.getClass().getName(), EdgeDriver.class.getName());
+        Assert.assertEquals(webDriver.getClass().getName(), org.openqa.selenium.edge.EdgeDriver.class.getName());
         DriverFactory.clearDriver();
     }
 
@@ -96,7 +92,7 @@ public class DriverTest {
         WebDriver webDriver = DriverFactory.getDriver("ie");
         webDriver.close();
         webDriver.quit();
-        Assert.assertEquals(webDriver.getClass().getName(), InternetExplorerDriver.class.getName());
+        Assert.assertEquals(webDriver.getClass().getName(), org.openqa.selenium.ie.InternetExplorerDriver.class.getName());
         DriverFactory.clearDriver();
     }
 }
