@@ -1,6 +1,7 @@
 package de.qytera.qtaf.xray.entity;
 
-import lombok.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.experimental.SuperBuilder;
 
 /**

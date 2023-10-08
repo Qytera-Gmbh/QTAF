@@ -7,9 +7,12 @@ import de.qytera.qtaf.core.config.ConfigurationFactory;
 import de.qytera.qtaf.core.config.entity.ConfigMap;
 import de.qytera.qtaf.core.config.exception.MissingConfigurationValueException;
 import de.qytera.qtaf.core.log.Logger;
+import de.qytera.qtaf.core.log.model.LogLevel;
 import de.qytera.qtaf.core.log.model.collection.TestFeatureLogCollection;
 import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
 import de.qytera.qtaf.core.log.model.collection.TestSuiteLogCollection;
+import de.qytera.qtaf.core.log.model.index.LogMessageIndex;
+import de.qytera.qtaf.core.log.model.message.AssertionLogMessage;
 import de.qytera.qtaf.core.log.model.message.StepInformationLogMessage;
 import de.qytera.qtaf.xray.annotation.XrayTest;
 import de.qytera.qtaf.xray.config.XrayConfigHelper;
@@ -39,6 +42,7 @@ public class XrayJsonImportBuilderTest {
         TestSuiteLogCollection.getInstance().clear();
         TestFeatureLogCollection.clearIndex();
         TestScenarioLogCollection.clearIndex();
+        LogMessageIndex.getInstance().clear();
         QtafFactory.getConfiguration().clear();
         QtafFactory.getConfiguration().setString(XrayConfigHelper.PROJECT_KEY, "QTAF");
         // We're not actually uploading anything, no need to query Jira for actual issue summaries during testing.
@@ -417,7 +421,7 @@ public class XrayJsonImportBuilderTest {
     }
 
     @Test(description = "empty step logs should not result in errors for multiple iterations")
-    public void testTestEmptyStepLogsMultipleIterations() throws XrayJsonImportBuilder.NoXrayTestException, URISyntaxException, MissingConfigurationValueException {
+    public void testEmptyStepLogsMultipleIterations() throws XrayJsonImportBuilder.NoXrayTestException, URISyntaxException, MissingConfigurationValueException {
         TestScenarioLogCollection scenarioCollection = scenario(1, "feature-test-plan-key");
         scenarioCollection.setStatus(TestScenarioLogCollection.Status.FAILURE);
         scenarioCollection = scenario(2, "feature-test-plan-key");
@@ -425,6 +429,75 @@ public class XrayJsonImportBuilderTest {
         // Build import request.
         ConfigurationFactory.getInstance().setBoolean(XrayConfigHelper.RESULTS_UPLOAD_TESTS_INFO_STEPS_MERGE, true);
         Assert.assertNotNull(new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance(), JiraIssueRepository.getInstance()).build());
+    }
+
+    @Test(description = "assertions should be included in actual results")
+    public void testActualResultsAssertions() throws XrayJsonImportBuilder.NoXrayTestException, URISyntaxException, MissingConfigurationValueException {
+        TestScenarioLogCollection scenarioCollection = scenario(1, "feature-actual-result");
+        StepInformationLogMessage step = new StepInformationLogMessage("typeUsername", "username entered");
+        step.addAssertion(new AssertionLogMessage(LogLevel.INFO, "username input enabled").setStatusToPassed());
+        scenarioCollection.addLogMessage(step);
+        step = new StepInformationLogMessage("typePassword", "password entered");
+        scenarioCollection.addLogMessage(step);
+        step = new StepInformationLogMessage("clickLogin", "tried to click login");
+        step.addAssertion(new AssertionLogMessage(LogLevel.INFO, "button is visible").setStatusToPassed());
+        step.addAssertion(new AssertionLogMessage(LogLevel.INFO, "button can be clicked").setStatusToFailed());
+        scenarioCollection.addLogMessage(step);
+        // Build import request.
+        ImportExecutionResultsRequestDto dto = new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance(), JiraIssueRepository.getInstance()).build();
+        Assert.assertEquals(
+                dto.getTests().get(0).getSteps().get(0).getActualResult(),
+                """
+                        PASSED ASSERTIONS:
+                                                
+                          - username input enabled"""
+        );
+        Assert.assertEquals(dto.getTests().get(0).getSteps().get(1).getActualResult(), "");
+        Assert.assertEquals(
+                dto.getTests().get(0).getSteps().get(2).getActualResult(),
+                """
+                        PASSED ASSERTIONS:
+                                                
+                          - button is visible
+                          
+                        FAILED ASSERTIONS:
+                                                
+                          - button can be clicked"""
+        );
+    }
+
+    @Test(description = "errors should be included in actual results")
+    public void testActualResultsErrors() throws XrayJsonImportBuilder.NoXrayTestException, URISyntaxException, MissingConfigurationValueException {
+        TestScenarioLogCollection scenarioCollection = scenario(1, "feature-actual-result");
+        StepInformationLogMessage step = new StepInformationLogMessage("clickLogout", "logout button clicked");
+        step.setError(new IllegalStateException("Logout button was not clickable"));
+        scenarioCollection.addLogMessage(step);
+        // Build import request.
+        ImportExecutionResultsRequestDto dto = new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance(), JiraIssueRepository.getInstance()).build();
+        Assert.assertEquals(
+                dto.getTests().get(0).getSteps().get(0).getActualResult(),
+                """
+                        ERROR:
+                                                
+                        Logout button was not clickable"""
+        );
+    }
+
+    @Test(description = "results should be included in actual results")
+    public void testActualResultsResult() throws XrayJsonImportBuilder.NoXrayTestException, URISyntaxException, MissingConfigurationValueException {
+        TestScenarioLogCollection scenarioCollection = scenario(1, "feature-actual-result");
+        StepInformationLogMessage step = new StepInformationLogMessage("getUsername", "get displayed username");
+        step.setResult("Harry Potter");
+        scenarioCollection.addLogMessage(step);
+        // Build import request.
+        ImportExecutionResultsRequestDto dto = new XrayJsonImportBuilder(TestSuiteLogCollection.getInstance(), JiraIssueRepository.getInstance()).build();
+        Assert.assertEquals(
+                dto.getTests().get(0).getSteps().get(0).getActualResult(),
+                """
+                        RESULT:
+                                                
+                        Harry Potter"""
+        );
     }
 
     @Test
@@ -506,7 +579,7 @@ public class XrayJsonImportBuilderTest {
     public void testIssueSummaryRetrieval() throws XrayJsonImportBuilder.NoXrayTestException, URISyntaxException, MissingConfigurationValueException {
         ConfigurationFactory.getInstance().setBoolean(XrayConfigHelper.RESULTS_UPLOAD_TESTS_INFO_KEEP_JIRA_SUMMARY, true);
         ConfigurationFactory.getInstance().setBoolean(XrayConfigHelper.RESULTS_UPLOAD_TESTS_INFO_STEPS_UPDATE, true);
-        scenario(1, "feature-step-merge");
+        scenario(1, "feature-summary-retrieval");
         JiraIssueRepository jiraIssueRepository = Mockito.mock(JiraIssueRepository.class);
         JiraIssueResponseDto dto = new JiraIssueResponseDto();
         dto.setKey("QTAF-42");
