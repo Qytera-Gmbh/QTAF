@@ -6,7 +6,6 @@ import de.qytera.qtaf.core.log.model.LogLevel;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -178,6 +177,7 @@ public class StepInformationLogMessageTest {
         Assert.assertTrue(step.hasFailed());
         Assert.assertFalse(step.isSkipped());
     }
+
     @Test
     public void testNoErrorsShouldLeadToPassedSteps() {
         StepInformationLogMessage step = new StepInformationLogMessage("myMethod", "myMessage");
