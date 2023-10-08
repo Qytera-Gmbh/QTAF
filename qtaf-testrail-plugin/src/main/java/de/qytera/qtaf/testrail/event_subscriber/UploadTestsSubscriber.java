@@ -23,6 +23,8 @@ import rx.Subscription;
 
 import java.security.GeneralSecurityException;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * This subscriber binds to the test finished event and uploads the tests to the TestRail API.
@@ -162,16 +164,18 @@ public class UploadTestsSubscriber implements IEventSubscriber {
             try {
                 TestRailManager.addResultForTestCase(client, caseId, getRunId(testRailIdAnnotation), 5, "Failure found in: " + errorMessage);
                 TestRailManager.addAttachmentForTestCase(client, caseId, QtafFactory.getTestSuiteLogCollection().getLogDirectory() + "/Report.html");
+                Set<String> screenshots = new HashSet<>();
+                screenshots.add(scenarioLog.getScreenshotBefore());
                 for (StepInformationLogMessage step : scenarioLog.getLogMessages(StepInformationLogMessage.class)) {
-                    if (!step.getScreenshotBefore().isBlank()) {
-                        TestRailManager.addAttachmentForTestCase(client, caseId, step.getScreenshotBefore());
-                    }
-                    if (!step.getScreenshotAfter().isBlank()) {
-                        TestRailManager.addAttachmentForTestCase(client, caseId, step.getScreenshotAfter());
-                    }
+                    screenshots.add(step.getScreenshotBefore());
+                    screenshots.add(step.getScreenshotAfter());
                 }
-                for (String filepath : scenarioLog.getScreenshotPaths()) {
-                    TestRailManager.addAttachmentForTestCase(client, caseId, filepath);
+                screenshots.add(scenarioLog.getScreenshotAfter());
+                screenshots.addAll(scenarioLog.getScreenshotPaths());
+                for (String screenshot : screenshots) {
+                    if (!screenshot.isBlank()) {
+                        TestRailManager.addAttachmentForTestCase(client, caseId, screenshot);
+                    }
                 }
                 QtafFactory.getLogger().info("Results are uploaded to testRail");
             } catch (Exception e) {

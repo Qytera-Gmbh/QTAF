@@ -511,16 +511,24 @@ public class UploadTestsSubscriberTest {
             );
             StepInformationLogMessage step = new StepInformationLogMessage("foo.bar", "message");
             step.setStatus(StepInformationLogMessage.Status.ERROR);
+            step.setScreenshotBefore("before.png");
             step.setScreenshotAfter("after.png");
             scenario1.addLogMessage(step);
+            scenario1.setScreenshotBefore("beforeScenario.png");
+            scenario1.setScreenshotAfter("afterScenario.png");
 
             // Call subscriber method
             subscriber.handleScenarioFailure(scenario1, testRailAnnotation);
 
-            // Check how many times manager methods were called
+            // Check how many times manager methods were called:
+            // - once for the HTML report
+            // - once the screenshot before the scenario
+            // - once the screenshot after the scenario
+            // - once the screenshot before the step
+            // - once the screenshot after the step
             manager.verify(
                     () -> TestRailManager.addAttachmentForTestCase(Mockito.any(APIClient.class), Mockito.anyString(), Mockito.anyString()),
-                    Mockito.times(2)
+                    Mockito.times(5)
             );
 
             manager.verify(
