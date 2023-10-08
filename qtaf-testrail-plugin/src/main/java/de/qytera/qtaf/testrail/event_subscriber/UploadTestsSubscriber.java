@@ -162,7 +162,17 @@ public class UploadTestsSubscriber implements IEventSubscriber {
             try {
                 TestRailManager.addResultForTestCase(client, caseId, getRunId(testRailIdAnnotation), 5, "Failure found in: " + errorMessage);
                 TestRailManager.addAttachmentForTestCase(client, caseId, QtafFactory.getTestSuiteLogCollection().getLogDirectory() + "/Report.html");
-                TestRailManager.addAttachmentForTestCase(client, caseId, scenarioLog.getScreenshotAfter());
+                for (StepInformationLogMessage step : scenarioLog.getLogMessages(StepInformationLogMessage.class)) {
+                    if (!step.getScreenshotBefore().isBlank()) {
+                        TestRailManager.addAttachmentForTestCase(client, caseId, step.getScreenshotBefore());
+                    }
+                    if (!step.getScreenshotAfter().isBlank()) {
+                        TestRailManager.addAttachmentForTestCase(client, caseId, step.getScreenshotAfter());
+                    }
+                }
+                for (String filepath : scenarioLog.getScreenshotPaths()) {
+                    TestRailManager.addAttachmentForTestCase(client, caseId, filepath);
+                }
                 QtafFactory.getLogger().info("Results are uploaded to testRail");
             } catch (Exception e) {
                 QtafFactory.getLogger().error(e);
