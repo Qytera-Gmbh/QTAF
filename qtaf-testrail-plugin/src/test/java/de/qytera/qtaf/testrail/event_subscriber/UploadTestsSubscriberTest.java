@@ -1,4 +1,4 @@
-package de.qytera.testrail.event_subscriber;
+package de.qytera.qtaf.testrail.event_subscriber;
 
 import de.qytera.qtaf.core.QtafFactory;
 import de.qytera.qtaf.core.config.ConfigurationFactory;
@@ -16,9 +16,9 @@ import de.qytera.qtaf.testrail.config.TestRailConfigHelper;
 import de.qytera.qtaf.testrail.entity.Attachment;
 import de.qytera.qtaf.testrail.entity.Attachments;
 import de.qytera.qtaf.testrail.entity.Link;
-import de.qytera.qtaf.testrail.event_subscriber.UploadTestsSubscriber;
 import de.qytera.qtaf.testrail.utils.APIClient;
 import de.qytera.qtaf.testrail.utils.TestRailManager;
+import org.mockito.ArgumentMatchers;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.testng.Assert;
@@ -63,7 +63,7 @@ public class UploadTestsSubscriberTest {
     @Test(description = "Test getRunId(): empty runId given")
     public void testGetRunIdEmptyRunIdGiven() throws ClassNotFoundException, NoSuchMethodException {
         UploadTestsSubscriber subscriber = new UploadTestsSubscriber();
-        Class<?> dummyClass = Class.forName("de.qytera.testrail.event_subscriber.UploadTestsSubscriberTest");
+        Class<?> dummyClass = Class.forName("de.qytera.qtaf.testrail.event_subscriber.UploadTestsSubscriberTest");
 
         TestRail runIdEmptyAnnotation = dummyClass.getMethod("testDummyRunIdEmptyAnnotation").getAnnotation(TestRail.class);
         Assert.assertThrows(IllegalArgumentException.class, () -> subscriber.getRunId(runIdEmptyAnnotation));
@@ -72,7 +72,7 @@ public class UploadTestsSubscriberTest {
     @Test(description = "Test getRunId(): correct runId given")
     public void testGetRunIdCorrectRunIdGiven() throws ClassNotFoundException, NoSuchMethodException {
         UploadTestsSubscriber subscriber = new UploadTestsSubscriber();
-        Class<?> dummyClass = Class.forName("de.qytera.testrail.event_subscriber.UploadTestsSubscriberTest");
+        Class<?> dummyClass = Class.forName("de.qytera.qtaf.testrail.event_subscriber.UploadTestsSubscriberTest");
 
         TestRail runIdAnnotatedAnnotation = dummyClass.getMethod("testDummyRunIdAnnotated").getAnnotation(TestRail.class);
         Assert.assertEquals(subscriber.getRunId(runIdAnnotatedAnnotation), "01");
@@ -81,7 +81,7 @@ public class UploadTestsSubscriberTest {
     @Test(description = "Test getRunId(): correct runId given but overwritten by config")
     public void testGetRunIdCorrectRunIdGivenButOverwritenByConfig() throws ClassNotFoundException, NoSuchMethodException {
         UploadTestsSubscriber subscriber = new UploadTestsSubscriber();
-        Class<?> dummyClass = Class.forName("de.qytera.testrail.event_subscriber.UploadTestsSubscriberTest");
+        Class<?> dummyClass = Class.forName("de.qytera.qtaf.testrail.event_subscriber.UploadTestsSubscriberTest");
 
         ConfigMap config = ConfigurationFactory.getInstance();
         String predefinedRunId = config.getString("testrail.runId");
@@ -341,6 +341,72 @@ public class UploadTestsSubscriberTest {
         suite.clearCollection();
     }
 
+    @Test
+    public void testOnFinishedTestingDeleteAttachments() throws NoSuchMethodException, GeneralSecurityException, MissingConfigurationValueException {
+        ConfigMap config = QtafFactory.getConfiguration();
+        config.setString(TestRailConfigHelper.TESTRAIL_URL, "http://www.inet.com");
+        config.setString(TestRailConfigHelper.TESTRAIL_AUTHENTICATION_CLIENT_ID, AES.encrypt("Jane", "my-key"));
+        config.setString(TestRailConfigHelper.TESTRAIL_AUTHENTICATION_CLIENT_SECRET, AES.encrypt("mypass", "my-key"));
+        config.setString(TestRailConfigHelper.SECURITY_KEY, "my-key");
+        config.setBoolean(TestRailConfigHelper.TESTRAIL_ENABLED, true);
+
+        DemoScenario demoScenario = new DemoScenario();
+        Method method = demoScenario.getClass().getMethod("demoTestMethod");
+        TestRail testRailAnnotation = method.getAnnotation(TestRail.class);
+
+        // Clear all indices
+        IndexHelper.clearAllIndices();
+
+        // Build log collection
+        TestFeatureLogCollection feature1 = TestFeatureLogCollection.createFeatureLogCollectionIfNotExists("f1", "feature1");
+        TestScenarioLogCollection scenario1 = TestScenarioLogCollection.createTestScenarioLogCollection("f1", "s1", "i1", "scenario1");
+        scenario1.setAnnotations(new Annotation[]{testRailAnnotation});
+        scenario1.setStatus(TestScenarioLogCollection.Status.FAILURE);
+        feature1.addScenarioLogCollection(scenario1);
+        TestSuiteLogCollection suite = TestSuiteLogCollection.getInstance();
+        suite.clearCollection();
+        suite.addTestClassLogCollection(feature1);
+
+        UploadTestsSubscriber subscriber = Mockito.mock(UploadTestsSubscriber.class);
+        Mockito.doCallRealMethod().when(subscriber).onFinishedTesting(Mockito.any());
+        APIClient client = subscriber.setUpClient();
+
+        try (MockedStatic<TestRailManager> manager = Mockito.mockStatic(TestRailManager.class)) {
+            // Mock TestRailManager methods
+            manager
+                    .when(() -> TestRailManager.getAttachmentsForTestCase(ArgumentMatchers.eq(client), ArgumentMatchers.eq("c1")))
+                    .thenAnswer(invocation -> {
+                        Attachments attachmentsResponse = new Attachments();
+                        Attachment attachment1 = new Attachment();
+                        attachment1.setId("attachment1");
+                        Attachment attachment2 = new Attachment();
+                        attachment2.setId("attachment2");
+                        attachmentsResponse.setAttachments(List.of(attachment1, attachment2));
+                        return attachmentsResponse;
+                    });
+            manager
+                    .when(() -> TestRailManager.deleteAttachmentForTestCase(Mockito.any(APIClient.class), Mockito.anyString()))
+                    .thenAnswer(invocation -> null);
+            subscriber.onFinishedTesting("");
+            manager.verify(
+                    () -> TestRailManager.getAttachmentsForTestCase(ArgumentMatchers.eq(client), ArgumentMatchers.eq("c1")),
+                    Mockito.times(1)
+            );
+            manager.verify(
+                    () -> TestRailManager.deleteAttachmentForTestCase(ArgumentMatchers.eq(client), ArgumentMatchers.eq("attachment1")),
+                    Mockito.times(1)
+            );
+            manager.verify(
+                    () -> TestRailManager.deleteAttachmentForTestCase(ArgumentMatchers.eq(client), ArgumentMatchers.eq("attachment2")),
+                    Mockito.times(1)
+            );
+        }
+
+        // We set no status for the scenario log, so both handlers shouldn't be called
+        Mockito.verify(subscriber, Mockito.times(0)).handleScenarioSuccess(Mockito.any());
+        Mockito.verify(subscriber, Mockito.times(1)).handleScenarioFailure(Mockito.any(), Mockito.any());
+    }
+
     @Test(description = "Test the onFinishedTesting event handler")
     public void testOnFinishedTestingDeactivated() throws GeneralSecurityException, MissingConfigurationValueException {
         ConfigMap config = QtafFactory.getConfiguration();
@@ -432,16 +498,6 @@ public class UploadTestsSubscriberTest {
                     () -> TestRailManager.addResultForTestCase(Mockito.any(APIClient.class), Mockito.anyString(), Mockito.anyString(), Mockito.anyInt(), Mockito.anyString()),
                     Mockito.times(1)
             );
-
-            manager.verify(
-                    () -> TestRailManager.deleteAttachmentForTestCase(Mockito.any(APIClient.class), Mockito.anyString()),
-                    Mockito.times(1)
-            );
-
-            manager.verify(
-                    () -> TestRailManager.getAttachmentsForTestCase(Mockito.any(APIClient.class), Mockito.anyString()),
-                    Mockito.times(1)
-            );
         }
     }
 
@@ -511,15 +567,23 @@ public class UploadTestsSubscriberTest {
             );
             StepInformationLogMessage step = new StepInformationLogMessage("foo.bar", "message");
             step.setStatus(StepInformationLogMessage.Status.ERROR);
+            step.setScreenshotBefore("nonexistent.png");
+            step.setScreenshotAfter(".gitignore");
             scenario1.addLogMessage(step);
+            scenario1.setScreenshotBefore(".\\pom.xml");
+            scenario1.setScreenshotAfter(".gitignore");
+            scenario1.addScreenshotPath("./pom.xml");
 
             // Call subscriber method
             subscriber.handleScenarioFailure(scenario1, testRailAnnotation);
 
-            // Check how many times manager methods were called
+            // Check how many times manager methods were called:
+            // - once for the HTML report
+            // - once for .gitignore
+            // - once the pom.xml
             manager.verify(
                     () -> TestRailManager.addAttachmentForTestCase(Mockito.any(APIClient.class), Mockito.anyString(), Mockito.anyString()),
-                    Mockito.times(2)
+                    Mockito.times(3)
             );
 
             manager.verify(

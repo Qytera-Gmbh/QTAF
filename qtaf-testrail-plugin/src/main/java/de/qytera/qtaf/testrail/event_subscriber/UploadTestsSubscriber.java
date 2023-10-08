@@ -21,8 +21,11 @@ import de.qytera.qtaf.testrail.utils.TestRailManager;
 import lombok.Data;
 import rx.Subscription;
 
+import java.nio.file.Path;
 import java.security.GeneralSecurityException;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * This subscriber binds to the test finished event and uploads the tests to the TestRail API.
@@ -116,6 +119,21 @@ public class UploadTestsSubscriber implements IEventSubscriber {
         }
         TestRail testRailIdAnnotation = scenarioLog.getAnnotation(TestRail.class);
         if (testRailIdAnnotation != null) {
+            Arrays.stream(testRailIdAnnotation.caseId()).forEach(caseId -> {
+                try {
+                    Attachments attachments = TestRailManager.getAttachmentsForTestCase(client, caseId);
+                    if (attachments != null) {
+                        for (Attachment attachment : attachments.getAttachments()) {
+                            TestRailManager.deleteAttachmentForTestCase(client, attachment.getId());
+                        }
+                    }
+                } catch (Exception e) {
+                    QtafFactory.getLogger().error(
+                            "[QTAF TestRail Plugin] Failed to delete attachments of case %s".formatted(caseId)
+                    );
+                    QtafFactory.getLogger().error(e);
+                }
+            });
             if (scenarioLog.getStatus().equals(TestScenarioLogCollection.Status.FAILURE)) {
                 handleScenarioFailure(scenarioLog, testRailIdAnnotation);
             } else if (scenarioLog.getStatus().equals(TestScenarioLogCollection.Status.SUCCESS)) {
@@ -134,12 +152,6 @@ public class UploadTestsSubscriber implements IEventSubscriber {
             try {
                 TestRailManager.addResultForTestCase(client, caseId, getRunId(testRailIdAnnotation), 1, "");
                 QtafFactory.getLogger().info("Results are uploaded to testRail");
-                Attachments attachments = TestRailManager.getAttachmentsForTestCase(client, caseId);
-                if (attachments != null) {
-                    for (Attachment attachment : attachments.getAttachments()) {
-                        TestRailManager.deleteAttachmentForTestCase(client, attachment.getId());
-                    }
-                }
             } catch (Exception e) {
                 QtafFactory.getLogger().error(e);
             }
@@ -162,7 +174,19 @@ public class UploadTestsSubscriber implements IEventSubscriber {
             try {
                 TestRailManager.addResultForTestCase(client, caseId, getRunId(testRailIdAnnotation), 5, "Failure found in: " + errorMessage);
                 TestRailManager.addAttachmentForTestCase(client, caseId, QtafFactory.getTestSuiteLogCollection().getLogDirectory() + "/Report.html");
-                TestRailManager.addAttachmentForTestCase(client, caseId, scenarioLog.getScreenshotAfter());
+                Set<Path> attachmentPaths = new HashSet<>();
+                for (String screenshotPath : scenarioLog.getScreenshotPaths()) {
+                    attachmentPaths.add(Path.of(screenshotPath).toAbsolutePath());
+                }
+                for (StepInformationLogMessage step : scenarioLog.getLogMessages(StepInformationLogMessage.class)) {
+                    attachmentPaths.add(Path.of(step.getScreenshotBefore()).toAbsolutePath());
+                    attachmentPaths.add(Path.of(step.getScreenshotAfter()).toAbsolutePath());
+                }
+                for (Path path : attachmentPaths) {
+                    if (path.toFile().isFile()) {
+                        TestRailManager.addAttachmentForTestCase(client, caseId, path.toString());
+                    }
+                }
                 QtafFactory.getLogger().info("Results are uploaded to testRail");
             } catch (Exception e) {
                 QtafFactory.getLogger().error(e);
