@@ -294,19 +294,19 @@ public class StepLoggerSubscriber implements IEventSubscriber {
                 if (m.hasFailed()) {
                     logger.info(
                             assertionMessage.formatted(
-                                stepExecutionInfo.getId(),
-                                m.type(),
-                                ConsoleColors.red("failed"),
-                                m.getMessage()
+                                    stepExecutionInfo.getId(),
+                                    m.type(),
+                                    ConsoleColors.red("failed"),
+                                    m.getMessage()
                             )
                     );
                 } else {
                     logger.info(
                             assertionMessage.formatted(
-                                stepExecutionInfo.getId(),
-                                m.type(),
-                                ConsoleColors.green("passed"),
-                                m.getMessage()
+                                    stepExecutionInfo.getId(),
+                                    m.type(),
+                                    ConsoleColors.green("passed"),
+                                    m.getMessage()
                             )
                     );
                 }

@@ -9,11 +9,10 @@ public class ConsoleColors {
 
     /**
      * RESET.
-     *
      */
     public static final String RESET = "\033[0m";
 
-    
+
     /**
      * BLACK.
      */
@@ -47,7 +46,7 @@ public class ConsoleColors {
      */
     public static final String WHITE = "\033[0;37m";
 
-    
+
     /**
      * BLACK_BOLD.
      */
@@ -81,7 +80,7 @@ public class ConsoleColors {
      */
     public static final String WHITE_BOLD = "\033[1;37m";
 
-    
+
     /**
      * BLACK_UNDERLINED.
      */
@@ -115,7 +114,7 @@ public class ConsoleColors {
      */
     public static final String WHITE_UNDERLINED = "\033[4;37m";
 
-    
+
     /**
      * BLACK_BACKGROUND.
      */
@@ -149,7 +148,7 @@ public class ConsoleColors {
      */
     public static final String WHITE_BACKGROUND = "\033[47m";
 
-    
+
     /**
      * BLACK_BRIGHT.
      */
@@ -183,7 +182,7 @@ public class ConsoleColors {
      */
     public static final String WHITE_BRIGHT = "\033[0;97m";
 
-    
+
     /**
      * BLACK_BOLD_BRIGHT.
      */
@@ -217,7 +216,7 @@ public class ConsoleColors {
      */
     public static final String WHITE_BOLD_BRIGHT = "\033[1;97m";
 
-    
+
     /**
      * BLACK_BACKGROUND_BRIGHT.
      */
@@ -260,7 +259,7 @@ public class ConsoleColors {
     /**
      * Check whether colors are allowed to be used.
      *
-     * @return  true if colors in console output are allowed, false otherwise.
+     * @return true if colors in console output are allowed, false otherwise.
      */
     public static boolean enabled() {
         return QtafFactory.getConfiguration().getBoolean("console.colors", true);
@@ -270,7 +269,7 @@ public class ConsoleColors {
      * Black text.
      *
      * @param s text
-     * @return  text wrapped in color tags
+     * @return text wrapped in color tags
      */
     public static String black(String s) {
         return enabled() ? BLACK + s + RESET : s;
@@ -280,7 +279,7 @@ public class ConsoleColors {
      * Red text.
      *
      * @param s text
-     * @return  text wrapped in color tags
+     * @return text wrapped in color tags
      */
     public static String red(String s) {
         return enabled() ? RED + s + RESET : s;
@@ -290,7 +289,7 @@ public class ConsoleColors {
      * Green text.
      *
      * @param s text
-     * @return  text wrapped in color tags
+     * @return text wrapped in color tags
      */
     public static String green(String s) {
         return enabled() ? GREEN + s + RESET : s;
@@ -300,7 +299,7 @@ public class ConsoleColors {
      * Yellow text.
      *
      * @param s text
-     * @return  text wrapped in color tags
+     * @return text wrapped in color tags
      */
     public static String yellow(String s) {
         return enabled() ? YELLOW + s + RESET : s;
@@ -310,7 +309,7 @@ public class ConsoleColors {
      * Blue text.
      *
      * @param s text
-     * @return  text wrapped in color tags
+     * @return text wrapped in color tags
      */
     public static String blue(String s) {
         return enabled() ? BLUE + s + RESET : s;
@@ -320,7 +319,7 @@ public class ConsoleColors {
      * Purple text.
      *
      * @param s text
-     * @return  text wrapped in color tags
+     * @return text wrapped in color tags
      */
     public static String purple(String s) {
         return enabled() ? PURPLE + s + RESET : s;
@@ -330,7 +329,7 @@ public class ConsoleColors {
      * Cyan text.
      *
      * @param s text
-     * @return  text wrapped in color tags
+     * @return text wrapped in color tags
      */
     public static String cyan(String s) {
         return enabled() ? CYAN + s + RESET : s;
@@ -340,7 +339,7 @@ public class ConsoleColors {
      * White text.
      *
      * @param s text
-     * @return  text wrapped in color tags
+     * @return text wrapped in color tags
      */
     public static String white(String s) {
         return enabled() ? WHITE + s + RESET : s;
@@ -350,7 +349,7 @@ public class ConsoleColors {
      * Black bold text.
      *
      * @param s text
-     * @return  text wrapped in color tags
+     * @return text wrapped in color tags
      */
     public static String blackBold(String s) {
         return enabled() ? BLACK_BOLD + s + RESET : s;
@@ -360,7 +359,7 @@ public class ConsoleColors {
      * Red bold text.
      *
      * @param s text
-     * @return  text wrapped in color tags
+     * @return text wrapped in color tags
      */
     public static String redBold(String s) {
         return enabled() ? RED_BOLD + s + RESET : s;
@@ -370,7 +369,7 @@ public class ConsoleColors {
      * Green bold text.
      *
      * @param s text
-     * @return  text wrapped in color tags
+     * @return text wrapped in color tags
      */
     public static String greenBold(String s) {
         return enabled() ? GREEN_BOLD + s + RESET : s;
@@ -380,7 +379,7 @@ public class ConsoleColors {
      * Yellow bold text.
      *
      * @param s text
-     * @return  text wrapped in color tags
+     * @return text wrapped in color tags
      */
     public static String yellowBold(String s) {
         return enabled() ? YELLOW_BOLD + s + RESET : s;
@@ -390,7 +389,7 @@ public class ConsoleColors {
      * Blue bold text.
      *
      * @param s text
-     * @return  text wrapped in color tags
+     * @return text wrapped in color tags
      */
     public static String blueBold(String s) {
         return enabled() ? BLUE_BOLD + s + RESET : s;
@@ -400,7 +399,7 @@ public class ConsoleColors {
      * Purple bold text.
      *
      * @param s text
-     * @return  text wrapped in color tags
+     * @return text wrapped in color tags
      */
     public static String purpleBold(String s) {
         return enabled() ? PURPLE_BOLD + s + RESET : s;
@@ -410,7 +409,7 @@ public class ConsoleColors {
      * Cyan bold text.
      *
      * @param s text
-     * @return  text wrapped in color tags
+     * @return text wrapped in color tags
      */
     public static String cyanBold(String s) {
         return enabled() ? CYAN_BOLD + s + RESET : s;
@@ -420,7 +419,7 @@ public class ConsoleColors {
      * White bold text.
      *
      * @param s text
-     * @return  text wrapped in color tags
+     * @return text wrapped in color tags
      */
     public static String whiteBold(String s) {
         return enabled() ? WHITE_BOLD + s + RESET : s;
@@ -430,7 +429,7 @@ public class ConsoleColors {
      * Black underlined text.
      *
      * @param s text
-     * @return  text wrapped in color tags
+     * @return text wrapped in color tags
      */
     public static String blackUnderlined(String s) {
         return enabled() ? BLACK_UNDERLINED + s + RESET : s;
@@ -440,7 +439,7 @@ public class ConsoleColors {
      * Red underlined text.
      *
      * @param s text
-     * @return  text wrapped in color tags
+     * @return text wrapped in color tags
      */
     public static String redUnderlined(String s) {
         return enabled() ? RED_UNDERLINED + s + RESET : s;
@@ -450,7 +449,7 @@ public class ConsoleColors {
      * Green underlined text.
      *
      * @param s text
-     * @return  text wrapped in color tags
+     * @return text wrapped in color tags
      */
     public static String greenUnderlined(String s) {
         return enabled() ? GREEN_UNDERLINED + s + RESET : s;
@@ -460,7 +459,7 @@ public class ConsoleColors {
      * Yellow underlined text.
      *
      * @param s text
-     * @return  text wrapped in color tags
+     * @return text wrapped in color tags
      */
     public static String yellowUnderlined(String s) {
         return enabled() ? YELLOW_UNDERLINED + s + RESET : s;
@@ -470,7 +469,7 @@ public class ConsoleColors {
      * Blue underlined text.
      *
      * @param s text
-     * @return  text wrapped in color tags
+     * @return text wrapped in color tags
      */
     public static String blueUnderlined(String s) {
         return enabled() ? BLUE_UNDERLINED + s + RESET : s;
@@ -480,7 +479,7 @@ public class ConsoleColors {
      * Purple underlined text.
      *
      * @param s text
-     * @return  text wrapped in color tags
+     * @return text wrapped in color tags
      */
     public static String purpleUnderlined(String s) {
         return enabled() ? PURPLE_UNDERLINED + s + RESET : s;
@@ -490,7 +489,7 @@ public class ConsoleColors {
      * Cyan underlined text.
      *
      * @param s text
-     * @return  text wrapped in color tags
+     * @return text wrapped in color tags
      */
     public static String cyanUnderlined(String s) {
         return enabled() ? CYAN_UNDERLINED + s + RESET : s;
@@ -500,7 +499,7 @@ public class ConsoleColors {
      * White underlined text.
      *
      * @param s text
-     * @return  text wrapped in color tags
+     * @return text wrapped in color tags
      */
     public static String whiteUnderlined(String s) {
         return enabled() ? WHITE_UNDERLINED + s + RESET : s;
@@ -510,7 +509,7 @@ public class ConsoleColors {
      * Black background.
      *
      * @param s text
-     * @return  text wrapped in color tags
+     * @return text wrapped in color tags
      */
     public static String blackBg(String s) {
         return enabled() ? BLACK_BACKGROUND + s + RESET : s;
@@ -520,7 +519,7 @@ public class ConsoleColors {
      * Red background.
      *
      * @param s text
-     * @return  text wrapped in color tags
+     * @return text wrapped in color tags
      */
     public static String redBg(String s) {
         return enabled() ? RED_BACKGROUND + s + RESET : s;
@@ -530,7 +529,7 @@ public class ConsoleColors {
      * Green background.
      *
      * @param s text
-     * @return  text wrapped in color tags
+     * @return text wrapped in color tags
      */
     public static String greenBg(String s) {
         return enabled() ? GREEN_BACKGROUND + s + RESET : s;
@@ -540,7 +539,7 @@ public class ConsoleColors {
      * Yellow background.
      *
      * @param s text
-     * @return  text wrapped in color tags
+     * @return text wrapped in color tags
      */
     public static String yellowBg(String s) {
         return enabled() ? YELLOW_BACKGROUND + s + RESET : s;
@@ -550,7 +549,7 @@ public class ConsoleColors {
      * Blue background.
      *
      * @param s text
-     * @return  text wrapped in color tags
+     * @return text wrapped in color tags
      */
     public static String blueBg(String s) {
         return enabled() ? BLUE_BACKGROUND + s + RESET : s;
@@ -560,7 +559,7 @@ public class ConsoleColors {
      * Purple background.
      *
      * @param s text
-     * @return  text wrapped in color tags
+     * @return text wrapped in color tags
      */
     public static String purpleBg(String s) {
         return enabled() ? PURPLE_BACKGROUND + s + RESET : s;
@@ -570,7 +569,7 @@ public class ConsoleColors {
      * Cyan background.
      *
      * @param s text
-     * @return  text wrapped in color tags
+     * @return text wrapped in color tags
      */
     public static String cyanBg(String s) {
         return enabled() ? CYAN_BACKGROUND + s + RESET : s;
@@ -580,7 +579,7 @@ public class ConsoleColors {
      * White background.
      *
      * @param s text
-     * @return  text wrapped in color tags
+     * @return text wrapped in color tags
      */
     public static String whiteBg(String s) {
         return enabled() ? WHITE_BACKGROUND + s + RESET : s;
@@ -590,7 +589,7 @@ public class ConsoleColors {
      * Black bright text.
      *
      * @param s text
-     * @return  text wrapped in color tags
+     * @return text wrapped in color tags
      */
     public static String blackBright(String s) {
         return enabled() ? BLACK_BRIGHT + s + RESET : s;
@@ -600,7 +599,7 @@ public class ConsoleColors {
      * Red bright text.
      *
      * @param s text
-     * @return  text wrapped in color tags
+     * @return text wrapped in color tags
      */
     public static String redBright(String s) {
         return enabled() ? RED_BRIGHT + s + RESET : s;
@@ -610,7 +609,7 @@ public class ConsoleColors {
      * Green bright text.
      *
      * @param s text
-     * @return  text wrapped in color tags
+     * @return text wrapped in color tags
      */
     public static String greenBright(String s) {
         return enabled() ? GREEN_BRIGHT + s + RESET : s;
@@ -620,7 +619,7 @@ public class ConsoleColors {
      * Yellow bright text.
      *
      * @param s text
-     * @return  text wrapped in color tags
+     * @return text wrapped in color tags
      */
     public static String yellowBright(String s) {
         return enabled() ? YELLOW_BRIGHT + s + RESET : s;
@@ -630,7 +629,7 @@ public class ConsoleColors {
      * Blue bright text.
      *
      * @param s text
-     * @return  text wrapped in color tags
+     * @return text wrapped in color tags
      */
     public static String blueBright(String s) {
         return enabled() ? BLUE_BRIGHT + s + RESET : s;
@@ -640,7 +639,7 @@ public class ConsoleColors {
      * Purple bright text.
      *
      * @param s text
-     * @return  text wrapped in color tags
+     * @return text wrapped in color tags
      */
     public static String purpleBright(String s) {
         return enabled() ? PURPLE_BRIGHT + s + RESET : s;
@@ -650,7 +649,7 @@ public class ConsoleColors {
      * Cyan bright text.
      *
      * @param s text
-     * @return  text wrapped in color tags
+     * @return text wrapped in color tags
      */
     public static String cyanBright(String s) {
         return enabled() ? CYAN_BRIGHT + s + RESET : s;
@@ -660,7 +659,7 @@ public class ConsoleColors {
      * White bright text.
      *
      * @param s text
-     * @return  text wrapped in color tags
+     * @return text wrapped in color tags
      */
     public static String whiteBright(String s) {
         return enabled() ? WHITE_BRIGHT + s + RESET : s;
@@ -670,7 +669,7 @@ public class ConsoleColors {
      * Black bold bright text.
      *
      * @param s text
-     * @return  text wrapped in color tags
+     * @return text wrapped in color tags
      */
     public static String blackBoldBright(String s) {
         return enabled() ? BLACK_BOLD_BRIGHT + s + RESET : s;
@@ -680,7 +679,7 @@ public class ConsoleColors {
      * Red bold bright text.
      *
      * @param s text
-     * @return  text wrapped in color tags
+     * @return text wrapped in color tags
      */
     public static String redBoldBright(String s) {
         return enabled() ? RED_BOLD_BRIGHT + s + RESET : s;
@@ -690,7 +689,7 @@ public class ConsoleColors {
      * Green bold bright text.
      *
      * @param s text
-     * @return  text wrapped in color tags
+     * @return text wrapped in color tags
      */
     public static String greenBoldBright(String s) {
         return enabled() ? GREEN_BOLD_BRIGHT + s + RESET : s;
@@ -700,7 +699,7 @@ public class ConsoleColors {
      * Yellow bold bright text.
      *
      * @param s text
-     * @return  text wrapped in color tags
+     * @return text wrapped in color tags
      */
     public static String yellowBoldBright(String s) {
         return enabled() ? YELLOW_BOLD_BRIGHT + s + RESET : s;
@@ -710,7 +709,7 @@ public class ConsoleColors {
      * Blue bold bright text.
      *
      * @param s text
-     * @return  text wrapped in color tags
+     * @return text wrapped in color tags
      */
     public static String blueBoldBright(String s) {
         return enabled() ? BLUE_BOLD_BRIGHT + s + RESET : s;
@@ -720,7 +719,7 @@ public class ConsoleColors {
      * Purple bold bright text.
      *
      * @param s text
-     * @return  text wrapped in color tags
+     * @return text wrapped in color tags
      */
     public static String purpleBoldBright(String s) {
         return enabled() ? PURPLE_BOLD_BRIGHT + s + RESET : s;
@@ -730,7 +729,7 @@ public class ConsoleColors {
      * Cyan bold bright text.
      *
      * @param s text
-     * @return  text wrapped in color tags
+     * @return text wrapped in color tags
      */
     public static String cyanBoldBright(String s) {
         return enabled() ? CYAN_BOLD_BRIGHT + s + RESET : s;
@@ -740,7 +739,7 @@ public class ConsoleColors {
      * White bold bright text.
      *
      * @param s text
-     * @return  text wrapped in color tags
+     * @return text wrapped in color tags
      */
     public static String whiteBoldBright(String s) {
         return enabled() ? WHITE_BOLD_BRIGHT + s + RESET : s;
@@ -750,7 +749,7 @@ public class ConsoleColors {
      * Black bright background text.
      *
      * @param s text
-     * @return  text wrapped in color tags
+     * @return text wrapped in color tags
      */
     public static String blackBackgroundBright(String s) {
         return enabled() ? BLACK_BACKGROUND_BRIGHT + s + RESET : s;
@@ -760,7 +759,7 @@ public class ConsoleColors {
      * Red bright background text.
      *
      * @param s text
-     * @return  text wrapped in color tags
+     * @return text wrapped in color tags
      */
     public static String redBackgroundBright(String s) {
         return enabled() ? RED_BACKGROUND_BRIGHT + s + RESET : s;
@@ -770,7 +769,7 @@ public class ConsoleColors {
      * Green bright background text.
      *
      * @param s text
-     * @return  text wrapped in color tags
+     * @return text wrapped in color tags
      */
     public static String greenBackgroundBright(String s) {
         return enabled() ? GREEN_BACKGROUND_BRIGHT + s + RESET : s;
@@ -780,7 +779,7 @@ public class ConsoleColors {
      * Yellow bright background text.
      *
      * @param s text
-     * @return  text wrapped in color tags
+     * @return text wrapped in color tags
      */
     public static String yellowBackgroundBright(String s) {
         return enabled() ? YELLOW_BACKGROUND_BRIGHT + s + RESET : s;
@@ -790,7 +789,7 @@ public class ConsoleColors {
      * Blue bright background text.
      *
      * @param s text
-     * @return  text wrapped in color tags
+     * @return text wrapped in color tags
      */
     public static String blueBackgroundBright(String s) {
         return enabled() ? BLUE_BACKGROUND_BRIGHT + s + RESET : s;
@@ -800,7 +799,7 @@ public class ConsoleColors {
      * Purple bright background text.
      *
      * @param s text
-     * @return  text wrapped in color tags
+     * @return text wrapped in color tags
      */
     public static String purpleBackgroundBright(String s) {
         return enabled() ? PURPLE_BACKGROUND_BRIGHT + s + RESET : s;
@@ -810,7 +809,7 @@ public class ConsoleColors {
      * Cyan bright background text.
      *
      * @param s text
-     * @return  text wrapped in color tags
+     * @return text wrapped in color tags
      */
     public static String cyanBackgroundBright(String s) {
         return enabled() ? CYAN_BACKGROUND_BRIGHT + s + RESET : s;
@@ -820,7 +819,7 @@ public class ConsoleColors {
      * White bright background text.
      *
      * @param s text
-     * @return  text wrapped in color tags
+     * @return text wrapped in color tags
      */
     public static String whiteBackgroundBright(String s) {
         return enabled() ? WHITE_BACKGROUND_BRIGHT + s + RESET : s;

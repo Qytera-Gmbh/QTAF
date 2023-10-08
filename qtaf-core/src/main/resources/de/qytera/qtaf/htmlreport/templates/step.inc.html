@@ -1,7 +1,8 @@
-<ul><li class="list-group-item">
-    <h5>
-        {% if stepLog.status == "PASS" %}
-        <span class="text-success">
+<ul>
+    <li class="list-group-item">
+        <h5>
+            {% if stepLog.status == "PASS" %}
+            <span class="text-success">
                                             <svg width="1em" height="1em" viewBox="0 0 16 16"
                                                  class="bi bi-check-circle-fill" fill="currentColor"
                                                  xmlns="http://www.w3.org/2000/svg">
@@ -9,15 +10,15 @@
                                                       d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
                                             </svg>
                                         </span>
-        {% elseif stepLog.status == "SKIPPED" or stepLog.status == "SKIPPED" %}
-        <span class="text-secondary">
+            {% elseif stepLog.status == "SKIPPED" or stepLog.status == "SKIPPED" %}
+            <span class="text-secondary">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
                                                  fill="currentColor" class="bi bi-dash-circle-fill" viewBox="0 0 16 16">
                                               <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1h-7z"/>
                                             </svg>
                                         </span>
-        {% else %}
-        <span class="text-danger">
+            {% else %}
+            <span class="text-danger">
                                             <svg width="1em" height="1em" viewBox="0 0 16 16"
                                                  class="bi bi-x-circle-fill" fill="currentColor"
                                                  xmlns="http://www.w3.org/2000/svg">
@@ -25,96 +26,96 @@
                                                       d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"/>
                                             </svg>
                                         </span>
+            {% endif %}
+
+            {% if stepLog is defined and stepLog.step is defined %}
+            {{ stepLog.step.name }}
+            {% else %}
+            {{ stepLog.methodName }}
+            {% endif %}
+        </h5>
+        <br>
+        <h5>Information</h5>
+        <br>
+        <table class="table table-striped table-bordered">
+            <tbody>
+            <tr>
+                <th>Method Name</th>
+                <td>{{ stepLog.methodName }}</td>
+            </tr>
+            {% if stepLog is defined and stepLog.step is defined %}
+            <tr>
+                <th>Description</th>
+                <td>{{ stepLog.step.description }}</td>
+            </tr>
+            {% endif %}
+            <tr>
+                <th>Start</th>
+                <td>{{ stepLog.start }}</td>
+            </tr>
+            <tr>
+                <th>End</th>
+                <td>{{ stepLog.end }}</td>
+            </tr>
+            <tr>
+                <th>Duration</th>
+                <td>
+                    {% if stepLog.duration is defined and stepLog.duration is not null and stepLog.duration > 0.0 %}
+                    {{ stepLog.duration / 1000.0 }} s
+                    {% else %}
+                    0 s
+                    {% endif %}
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <br>
+
+        {% if stepLog.stepParameters | length > 0 %}
+        <h5>Parameters</h5>
+        <br>
+        <table class="table table-striped table-bordered">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Value</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for param in stepLog.stepParameters %}
+            <tr>
+                <td>{{ param.name }}</td>
+                <td>{{ param.type }}</td>
+                <td>{{ param.value }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
         {% endif %}
 
-        {% if stepLog is defined and stepLog.step is defined %}
-        {{ stepLog.step.name }}
-        {% else %}
-        {{ stepLog.methodName }}
-        {% endif %}
-    </h5>
-    <br>
-    <h5>Information</h5>
-    <br>
-    <table class="table table-striped table-bordered">
-        <tbody>
-        <tr>
-            <th>Method Name</th>
-            <td>{{ stepLog.methodName }}</td>
-        </tr>
-        {% if stepLog is defined and stepLog.step is defined %}
-        <tr>
-            <th>Description</th>
-            <td>{{ stepLog.step.description }}</td>
-        </tr>
-        {% endif %}
-        <tr>
-            <th>Start</th>
-            <td>{{ stepLog.start }}</td>
-        </tr>
-        <tr>
-            <th>End</th>
-            <td>{{ stepLog.end }}</td>
-        </tr>
-        <tr>
-            <th>Duration</th>
-            <td>
-                {% if stepLog.duration is defined and stepLog.duration is not null and stepLog.duration > 0.0 %}
-                {{ stepLog.duration / 1000.0 }} s
-                {% else %}
-                0 s
-                {% endif %}
-            </td>
-        </tr>
-        </tbody>
-    </table>
-    <br>
+        {% if stepLog.assertions | length > 0 %}
+        <h5>Assertions</h5>
+        <br>
 
-    {% if stepLog.stepParameters | length > 0 %}
-    <h5>Parameters</h5>
-    <br>
-    <table class="table table-striped table-bordered">
-        <thead>
-        <tr>
-            <th>Name</th>
-            <th>Type</th>
-            <th>Value</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for param in stepLog.stepParameters %}
-        <tr>
-            <td>{{ param.name }}</td>
-            <td>{{ param.type }}</td>
-            <td>{{ param.value }}</td>
-        </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    {% endif %}
-
-    {% if stepLog.assertions | length > 0 %}
-    <h5>Assertions</h5>
-    <br>
-
-    <table class="table table-striped table-bordered">
-        <thead>
-        <tr>
-            <th>Type</th>
-            <th>Status</th>
-            <th>Message</th>
-            <th>Actual</th>
-            <th>Expected</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for assertion in stepLog.assertions %}
-        {% set textColor = assertion.hasPassed() ? 'text-success' : 'text-danger' %}
-        <tr>
-            <td>{{ assertion.type }}</td>
-            <td class="{{ textColor }} text-center">
-                {% if assertion.hasPassed() %}
-                <span class="text-success">
+        <table class="table table-striped table-bordered">
+            <thead>
+            <tr>
+                <th>Type</th>
+                <th>Status</th>
+                <th>Message</th>
+                <th>Actual</th>
+                <th>Expected</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for assertion in stepLog.assertions %}
+            {% set textColor = assertion.hasPassed() ? 'text-success' : 'text-danger' %}
+            <tr>
+                <td>{{ assertion.type }}</td>
+                <td class="{{ textColor }} text-center">
+                    {% if assertion.hasPassed() %}
+                    <span class="text-success">
                                             <svg width="1em" height="1em" viewBox="0 0 16 16"
                                                  class="bi bi-check-circle-fill" fill="currentColor"
                                                  xmlns="http://www.w3.org/2000/svg">
@@ -122,8 +123,8 @@
                                                       d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
                                             </svg>
                                         </span>
-                {% else %}
-                <span class="text-danger">
+                    {% else %}
+                    <span class="text-danger">
                                             <svg width="1em" height="1em" viewBox="0 0 16 16"
                                                  class="bi bi-x-circle-fill" fill="currentColor"
                                                  xmlns="http://www.w3.org/2000/svg">
@@ -131,34 +132,35 @@
                                                       d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"/>
                                             </svg>
                                         </span>
-                {% endif %}
-            </td>
-            <td class="{{ textColor }}">
-                {{ assertion.message }}
-            </td>
-            <td class="{{ textColor }}">{{ assertion.actual }}</td>
-            <td class="{{ textColor }}">{{ assertion.expected }}</td>
-        </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    {% endif %}
+                    {% endif %}
+                </td>
+                <td class="{{ textColor }}">
+                    {{ assertion.message }}
+                </td>
+                <td class="{{ textColor }}">{{ assertion.actual }}</td>
+                <td class="{{ textColor }}">{{ assertion.expected }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
 
-    {% if stepLog.error is defined and stepLog.error.message %}
-    <h5>Error</h5>
-    <br>
-    <table class="table table-striped table-bordered">
-        <tbody>
-        <tr>
-            <td>Type</td>
-            <td>{{ stepLog.error }}</td>
-        </tr>
-        <tr>
-            <td>Message</td>
-            <td>{{ stepLog.error.message }}</td>
-        </tr>
-        </tbody>
-    </table>
-    {% endif %}
+        {% if stepLog.error is defined and stepLog.error.message %}
+        <h5>Error</h5>
+        <br>
+        <table class="table table-striped table-bordered">
+            <tbody>
+            <tr>
+                <td>Type</td>
+                <td>{{ stepLog.error }}</td>
+            </tr>
+            <tr>
+                <td>Message</td>
+                <td>{{ stepLog.error.message }}</td>
+            </tr>
+            </tbody>
+        </table>
+        {% endif %}
 
-</li></ul>
+    </li>
+</ul>

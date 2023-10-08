@@ -316,8 +316,8 @@ public abstract class XrayTestEntityBuilder<T> {
     /**
      * Generate the value of the "actualResult" attribute of a test step execution.
      *
-     * @param step  Step log message object
-     * @return  actualResult value
+     * @param step Step log message object
+     * @return actualResult value
      */
     protected static String buildActualResult(StepInformationLogMessage step) {
         StringBuilder actualResult = new StringBuilder();
@@ -335,8 +335,9 @@ public abstract class XrayTestEntityBuilder<T> {
 
         // Generate text for failed assertions
         if (!failedAssertions.isEmpty()) {
-            if (!actualResult.isEmpty())
+            if (!actualResult.isEmpty()) {
                 actualResult.append("\n\n");
+            }
 
             actualResult.append("FAILED ASSERTIONS:\n\n");
 
@@ -347,8 +348,9 @@ public abstract class XrayTestEntityBuilder<T> {
 
         // Generate text for the error
         if (step.getError() != null) {
-            if (!actualResult.isEmpty())
+            if (!actualResult.isEmpty()) {
                 actualResult.append("\n\n");
+            }
 
             actualResult.append("ERRORS:\n\n");
             actualResult.append(step.getError().getMessage());
@@ -356,11 +358,13 @@ public abstract class XrayTestEntityBuilder<T> {
 
         // Generate text for step result
         if (step.getResult() != null) {
-            if (!actualResult.isEmpty())
+            if (!actualResult.isEmpty()) {
                 actualResult.append("\n\n");
+            }
 
             actualResult.append("RESULT:\n\n");
-            actualResult.append(step.getResult());        }
+            actualResult.append(step.getResult());
+        }
 
         return actualResult.toString();
     }

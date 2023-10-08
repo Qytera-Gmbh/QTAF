@@ -1,12 +1,12 @@
 package de.qytera.qtaf.core.console;
 
 import de.qytera.qtaf.core.QtafFactory;
-import de.qytera.qtaf.core.console.ConsoleColors;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class TestConsoleColors {
     private static String COLOR_CONFIG_KEY = "console.colors";
+
     @Test(testName = "black with enabled")
     public void testBlackWithEnabled() {
         QtafFactory.getConfiguration().setBoolean(COLOR_CONFIG_KEY, true);
