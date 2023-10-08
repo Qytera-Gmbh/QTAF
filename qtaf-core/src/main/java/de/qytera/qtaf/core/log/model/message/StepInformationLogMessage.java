@@ -1,6 +1,5 @@
 package de.qytera.qtaf.core.log.model.message;
 
-import de.qytera.qtaf.core.QtafFactory;
 import de.qytera.qtaf.core.log.model.LogLevel;
 import de.qytera.qtaf.core.log.model.error.ThrowableWrapper;
 import lombok.Getter;
