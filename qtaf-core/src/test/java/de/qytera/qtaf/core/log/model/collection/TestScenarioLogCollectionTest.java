@@ -4,9 +4,6 @@ import de.qytera.qtaf.core.events.payload.MethodInfoEntity;
 import de.qytera.qtaf.core.events.payload.QtafTestEventPayload;
 import de.qytera.qtaf.core.guice.annotations.Step;
 import de.qytera.qtaf.core.log.DemoStepClass;
-import de.qytera.qtaf.core.log.model.collection.TestFeatureLogCollection;
-import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
-import de.qytera.qtaf.core.log.model.collection.TestSuiteLogCollection;
 import de.qytera.qtaf.core.log.model.index.IndexHelper;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -77,7 +74,7 @@ public class TestScenarioLogCollectionTest {
         MethodInfoEntity methodInfoEntity = new MethodInfoEntity(
                 DemoStepClass.class.getDeclaredMethod("foo", String.class, int.class),
                 DemoStepClass.class.getDeclaredMethod("foo", String.class, int.class).getParameterTypes(),
-                new Object[] {"BAR", 10},
+                new Object[]{"BAR", 10},
                 DemoStepClass.class.getDeclaredMethod("foo", String.class, int.class).getAnnotations()
         );
 

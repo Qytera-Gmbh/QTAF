@@ -2,7 +2,6 @@ package de.qytera.qtaf.testng.sample_test_classes;
 
 import de.qytera.qtaf.core.context.IQtafTestContext;
 import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
-import de.qytera.qtaf.testng.context.QtafTestNGContext;
 
 public class TestClass2 implements IQtafTestContext {
     @Override
