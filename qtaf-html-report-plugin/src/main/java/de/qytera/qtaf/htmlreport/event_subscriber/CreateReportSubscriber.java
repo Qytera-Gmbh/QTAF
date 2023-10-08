@@ -27,7 +27,7 @@ public class CreateReportSubscriber implements IEventSubscriber {
         ConfigMap config = ConfigurationFactory.getInstance();
         boolean htmlReportIsEnabled = config.getBoolean("htmlReport.enabled", false);
 
-        if (!htmlReportIsEnabled){
+        if (!htmlReportIsEnabled) {
             return;
         }
 

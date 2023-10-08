@@ -87,7 +87,7 @@ public class AssertionLogMessage extends LogMessage {
      * Set the step where the assertion was executed.
      *
      * @param step step log message
-     * @return  this
+     * @return this
      */
     public AssertionLogMessage setStep(StepInformationLogMessage step) {
         this.step = step;

@@ -47,16 +47,19 @@ public class UploadTestsSubscriberTest {
     }
 
     @TestRail(caseId = "01", runId = "01")
-    public void testDummyRunIdAnnotated(){}
+    public void testDummyRunIdAnnotated() {
+    }
 
     @TestRail(caseId = "01", runId = "")
-    public void testDummyRunIdEmptyAnnotation(){}
+    public void testDummyRunIdEmptyAnnotation() {
+    }
 
     @Test(description = "Test getRunId(): no runId given")
-    public void testGetRunIdNoRunIdGiven(){
+    public void testGetRunIdNoRunIdGiven() {
         UploadTestsSubscriber subscriber = new UploadTestsSubscriber();
-        Assert.assertThrows(NullPointerException.class, ()->subscriber.getRunId(null));
+        Assert.assertThrows(NullPointerException.class, () -> subscriber.getRunId(null));
     }
+
     @Test(description = "Test getRunId(): empty runId given")
     public void testGetRunIdEmptyRunIdGiven() throws ClassNotFoundException, NoSuchMethodException {
         UploadTestsSubscriber subscriber = new UploadTestsSubscriber();

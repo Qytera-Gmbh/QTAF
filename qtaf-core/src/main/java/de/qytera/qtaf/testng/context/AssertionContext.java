@@ -8,7 +8,6 @@ import de.qytera.qtaf.core.log.model.message.AssertionLogMessageType;
 import de.qytera.qtaf.core.log.model.message.StepInformationLogMessage;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
-import org.testng.annotations.Test;
 
 import java.util.Map;
 import java.util.Set;
@@ -740,7 +739,7 @@ public interface AssertionContext {
      * @param message assertion message
      * @param error   assertion error
      */
- @Ignore
+    @Ignore
     default void handleAssertNotNull(Object object, String message, AssertionError error) {
         handleAssertCondition(AssertionLogMessageType.ASSERT_NOT_NULL, object, message, error);
     }

@@ -174,7 +174,6 @@ public class UploadTestsSubscriber implements IEventSubscriber {
      * Returns the runId. The runId set in the configuration file is preferred to the runId set in the annotation.
      *
      * @param testRailIdAnnotation the annotation Object
-     *
      * @return the runId
      */
     public String getRunId(TestRail testRailIdAnnotation) {
@@ -182,17 +181,17 @@ public class UploadTestsSubscriber implements IEventSubscriber {
         ConfigMap config = ConfigurationFactory.getInstance();
         String runId;
 
-        if (null != config.getString("testrail.runId")){
+        if (null != config.getString("testrail.runId")) {
             runId = config.getString("testrail.runId");
             return runId;
         }
 
-        if (null == testRailIdAnnotation){
+        if (null == testRailIdAnnotation) {
             throw new NullPointerException("The passed testRailId annotation is null");
         }
 
-        if (testRailIdAnnotation.runId().isEmpty()){
-            throw new IllegalArgumentException( "No runId could be assigned to the test case. " +
+        if (testRailIdAnnotation.runId().isEmpty()) {
+            throw new IllegalArgumentException("No runId could be assigned to the test case. " +
                     "The runId must be set either via the configuration file (testrail.runId) " +
                     "or via the corresponding annotation.(@TestRail)");
         }
