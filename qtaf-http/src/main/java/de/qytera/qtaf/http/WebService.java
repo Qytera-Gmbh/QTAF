@@ -9,6 +9,7 @@ import jakarta.ws.rs.core.Response;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.glassfish.jersey.gson.internal.JsonGsonProvider;
+import org.glassfish.jersey.media.multipart.MultiPartFeature;
 
 import java.net.URI;
 
@@ -31,7 +32,9 @@ public final class WebService {
     /**
      * Jersey HTTP Client.
      */
-    private static final Client CLIENT = ClientBuilder.newClient().register(JsonGsonProvider.class);
+    private static final Client CLIENT = ClientBuilder.newClient()
+            .register(JsonGsonProvider.class)
+            .register(MultiPartFeature.class);
 
     /**
      * Maximum number of retries in case an HTTP request fails because of networking issues.

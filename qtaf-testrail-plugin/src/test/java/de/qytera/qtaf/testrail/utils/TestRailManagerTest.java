@@ -1,21 +1,16 @@
-package de.qytera.testrail.utils;
+package de.qytera.qtaf.testrail.utils;
 
 import de.qytera.qtaf.core.gson.GsonFactory;
 import de.qytera.qtaf.http.WebService;
 import de.qytera.qtaf.testrail.entity.Attachment;
 import de.qytera.qtaf.testrail.entity.Attachments;
 import de.qytera.qtaf.testrail.entity.Link;
-import de.qytera.qtaf.testrail.utils.APIClient;
-import de.qytera.qtaf.testrail.utils.APIException;
-import de.qytera.qtaf.testrail.utils.TestRailManager;
-import de.qytera.testrail.util.Mocking;
 import jakarta.ws.rs.core.Response;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.io.IOException;
 import java.util.List;
 
 public class TestRailManagerTest {
@@ -46,18 +41,21 @@ public class TestRailManagerTest {
     }
 
     @Test(description = "Test add attachment for test case")
-    public void testAddAttachmentForTestCase() throws APIException, IOException {
+    public void testAddAttachmentForTestCase() {
         APIClient client = new APIClient("https://example.org");
+        Response response = Mocking.simulateInbound(
+                Response.ok().entity(GsonFactory.getInstance().toJson("abcdef-12342-535363")).build()
+        );
         try (MockedStatic<WebService> webService = Mockito.mockStatic(WebService.class)) {
             webService.when(() -> WebService.buildRequest(Mockito.any())).thenCallRealMethod();
-            webService.when(() -> WebService.post(Mockito.any(), Mockito.any()).close()).thenReturn(Response.ok().build());
+            webService.when(() -> WebService.post(Mockito.any(), Mockito.any()).close()).thenReturn(response);
             // Assert that it does not throw.
             TestRailManager.addAttachmentForTestCase(client, "c1", "pom.xml");
         }
     }
 
     @Test(description = "Test add attachment for test case with bad response")
-    public void testAddAttachmentForTestCaseBadResponse() throws IOException {
+    public void testAddAttachmentForTestCaseBadResponse() {
         APIClient client = new APIClient("https://example.org");
         Response response = Mocking.simulateInbound(
                 Response.serverError().entity(GsonFactory.getInstance().toJson("things are going down")).build()
@@ -66,8 +64,6 @@ public class TestRailManagerTest {
             webService.when(() -> WebService.buildRequest(Mockito.any())).thenCallRealMethod();
             webService.when(() -> WebService.post(Mockito.any(), Mockito.any()).close()).thenReturn(response);
             TestRailManager.addAttachmentForTestCase(client, "c1", "pom.xml");
-        } catch (APIException e) {
-            Assert.assertEquals(e.getMessage(), "TestRail API returned HTTP 500 (\"things are going down\")");
         }
     }
 

@@ -1,4 +1,4 @@
-package de.qytera.testrail.util;
+package de.qytera.qtaf.testrail.utils;
 
 import jakarta.ws.rs.core.Response;
 import org.mockito.AdditionalAnswers;
