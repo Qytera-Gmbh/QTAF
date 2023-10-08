@@ -352,7 +352,7 @@ public abstract class XrayTestEntityBuilder<T> {
                 actualResult.append("\n\n");
             }
 
-            actualResult.append("ERRORS:\n\n");
+            actualResult.append("ERROR:\n\n");
             actualResult.append(step.getError().getMessage());
         }
 

@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,15 +29,15 @@ public abstract class XrayTestInfoEntity {
     /**
      * An array of requirement issue keys to associate with the test.
      */
-    protected List<String> requirementKeys = new ArrayList<>();
+    protected List<String> requirementKeys;
     /**
      * The test issue labels.
      */
-    protected List<String> labels = new ArrayList<>();
+    protected List<String> labels;
     /**
      * An array of test steps (for Manual tests).
      */
-    protected List<XrayTestStepEntity> steps = new ArrayList<>();
+    protected List<XrayTestStepEntity> steps;
     /**
      * The BDD scenario.
      */
