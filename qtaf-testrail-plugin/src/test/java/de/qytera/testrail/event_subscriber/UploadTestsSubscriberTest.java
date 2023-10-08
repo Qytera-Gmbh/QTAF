@@ -511,6 +511,7 @@ public class UploadTestsSubscriberTest {
             );
             StepInformationLogMessage step = new StepInformationLogMessage("foo.bar", "message");
             step.setStatus(StepInformationLogMessage.Status.ERROR);
+            step.setScreenshotAfter("after.png");
             scenario1.addLogMessage(step);
 
             // Call subscriber method
