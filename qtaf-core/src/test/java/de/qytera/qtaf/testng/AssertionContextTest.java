@@ -1065,6 +1065,35 @@ public class AssertionContextTest {
 
     }
 
+    @Test(description = "Test creation of new step log message")
+    public void testCreationOfNewStepLogMessage() {
+        TestContext context = new TestContext();
+        TestScenarioLogCollection scenarioLogCollection = context.getLogCollection();
+        Assert.assertEquals(scenarioLogCollection.getLogMessages().size(), 1, "First there should be only the 'foo' log message");
+        ((StepInformationLogMessage) scenarioLogCollection.getLogMessages().get(0)).setStatus(StepInformationLogMessage.Status.PASS);
+
+        StepInformationLogMessage logMessage = new StepInformationLogMessage("m1", "my-message");
+        logMessage.setStatus(StepInformationLogMessage.Status.PENDING);
+        scenarioLogCollection.addLogMessage(logMessage);
+        Assert.assertEquals(scenarioLogCollection.getLogMessages().size(), 2, "There should be two step log messages before the first assertion");
+        Assert.assertEquals(logMessage.getAssertions().size(), 0, "Expected log message to have no assertions yet");
+
+        context.assertEquals(2, 2, "Expected both integers to be identical");
+        Assert.assertEquals(scenarioLogCollection.getLogMessages().size(), 2, "There should be two step log messages after the first assertion");
+        Assert.assertEquals(logMessage.getAssertions().size(), 1, "Expected assertion log to be added to the pending step");
+        Assert.assertEquals(logMessage.getAssertions().get(0).getMessage(), "Expected both integers to be identical");
+        Assert.assertEquals(logMessage.getAssertions().get(0).actual(), 2);
+        Assert.assertEquals(logMessage.getAssertions().get(0).expected(), 2);
+
+        logMessage.setStatus(StepInformationLogMessage.Status.PASS);
+        context.assertEquals(3, 3, "Expected both integers to be identical");
+        Assert.assertEquals(scenarioLogCollection.getLogMessages().size(), 3, "There should be three step log messages after the second assertion");
+        AssertionLogMessage assertionLogMessage = ((StepInformationLogMessage) scenarioLogCollection.getLogMessages().get(2)).getAssertions().get(0);
+        Assert.assertEquals(assertionLogMessage.expected(), 3);
+        Assert.assertEquals(assertionLogMessage.actual(), 3);
+        Assert.assertEquals(assertionLogMessage.getMessage(), "Expected both integers to be identical");
+    }
+
     static class TestContext implements AssertionContext {
         @Override
         public TestScenarioLogCollection getLogCollection() {

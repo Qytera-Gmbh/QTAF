@@ -642,6 +642,12 @@ public interface AssertionContext {
     @Ignore
     default void handleAssertCondition(AssertionLogMessageType type, boolean condition, String message, AssertionError error) {
         StepInformationLogMessage stepLog = getLogCollection().getStepLogOfPendingStep();
+
+        // If there is no pending step log message create a new one
+        if (stepLog == null) {
+            stepLog = createNewStepLogMessage(message, error);
+        }
+
         AssertionLogMessage assertionLogMessage = buildAssertionLogMessage(stepLog, message);
         assertionLogMessage
                 .setType(type)
@@ -681,6 +687,12 @@ public interface AssertionContext {
     @Ignore
     default void handleAssertCondition(AssertionLogMessageType type, Object object, Object expected, String message, AssertionError error) {
         StepInformationLogMessage stepLog = getLogCollection().getStepLogOfPendingStep();
+
+        // If there is no pending step log message create a new one
+        if (stepLog == null) {
+            stepLog = createNewStepLogMessage(message, error);
+        }
+
         AssertionLogMessage assertionLogMessage = buildAssertionLogMessage(stepLog, message);
         assertionLogMessage
                 .setType(type)
@@ -694,6 +706,26 @@ public interface AssertionContext {
         } else {
             assertionLogMessage.setStatusToPassed();
         }
+    }
+
+    /**
+     * Create a new step log message.
+     *
+     * @param message   step message
+     * @param error     step error
+     * @return  new step log message
+     */
+    private StepInformationLogMessage createNewStepLogMessage(String message, AssertionError error) {
+        // Get log collection of current scenario
+        TestScenarioLogCollection scenarioLogCollection = getLogCollection();
+
+        // Create new step log message
+        StepInformationLogMessage stepLog = new StepInformationLogMessage(scenarioLogCollection.getAbstractScenarioId(), message);
+        stepLog.setStatus(error != null ? StepInformationLogMessage.Status.ERROR : StepInformationLogMessage.Status.PASS);
+
+        // Add log message to scenario logs
+        scenarioLogCollection.addLogMessage(stepLog);
+        return stepLog;
     }
 
     /**
