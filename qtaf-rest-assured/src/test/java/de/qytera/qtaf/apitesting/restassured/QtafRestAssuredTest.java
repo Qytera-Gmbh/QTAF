@@ -1,46 +1,51 @@
 package de.qytera.qtaf.apitesting.restassured;
 
-import static de.qytera.qtaf.apitesting.restassured.QtafRestAssured.*;
 
-import org.testng.Assert;
+import de.qytera.qtaf.apitesting.Api;
+import de.qytera.qtaf.apitesting.action.ApiActions;
+import de.qytera.qtaf.apitesting.request.RequestSpecifications;
+import de.qytera.qtaf.apitesting.response.ResponseAssertions;
+
 import org.testng.annotations.Test;
 
+import java.util.List;
 
-public class QtafRestAssuredTest {
+
+
+public class QtafRestAssuredTest implements RequestSpecifications, ApiActions, ResponseAssertions {
     String url = "https://jsonplaceholder.typicode.com";
+
+
     @Test
-    public void qtafRestAsseuredGetTest() {
-        String requestUrl = "/users/1";
-        System.out.println(get(url + requestUrl).body().asString());
-        get(url + requestUrl);
+    public void QtafApiTestStatusCodeIs() {
+        Api.test(
+                List.of(baseUri(url)),
+                getRequest("/user/1"),
+                List.of(statusCodeIs(404))
+        );
     }
+
     @Test
-    public void basicQtafRestAssuredTest() {
+    public void QtafApiTestStatusCodeAndResponseTime() {
+        Api.test(
+                List.of(baseUri(url)),
+                getRequest("/user/1"),
+                List.of(
+                        statusCodeIs(404),
+                        responseTimeShouldBeLessThanXMilliseconds(2000)
+                )
+        );
+    }
 
-        /*
-        String requestUrl = "/users/1";
-        System.out.println(get(url + requestUrl).body().asString());
-        get(url + requestUrl);
-
-        int statusCode = get(url + requestUrl).statusCode();
-         */
-
-        when().
-                get(url + "/user/1").
-        then().
-                statusCode(404);
-
-        /*
-        Response response = get(url + requestUrl);
-
-        int statusCode = response.statusCode();
-
-        System.out.println(statusCode);
-        when().
-                get(url + "/user/1").
-                then().
-                statusCode(404);
-
-         */
+    @Test
+    public void QtafApiTestStatusCodeXx() {
+        Api.test(
+                List.of(baseUri(url)),
+                getRequest("/user/1"),
+                List.of(
+                        statusCodeShouldIs4xx(),
+                        statusCodeShouldIsNot2xx()
+                )
+        );
     }
 }

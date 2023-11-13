@@ -11,17 +11,11 @@ public class RestAssuredTest {
     @Test
     public void basicRestAssuredTest() {
 
-        String requestUrl = "/user/1";
-        System.out.println(get(url + requestUrl).body().asString());
-
-        Response response = get(url + requestUrl);
-
-        int statusCode = response.statusCode();
-
-        System.out.println(statusCode);
-        when().
-                get(url + "/user/1").
-        then().
-                statusCode(404);
+        given()
+                .baseUri("https://jsonplaceholder.typicode.com")
+        .when()
+                .get(url + "/user/1")
+        .then()
+                .statusCode(404);
     }
 }
