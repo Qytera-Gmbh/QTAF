@@ -4,6 +4,7 @@ import de.qytera.qtaf.core.log.model.LogLevel;
 import de.qytera.qtaf.core.log.model.message.LogMessage;
 import io.restassured.http.*;
 import lombok.Getter;
+import lombok.Setter;
 import org.json.simple.JSONObject;
 
 import java.io.File;
@@ -19,233 +20,73 @@ public class ApiLogMessage extends LogMessage {
     public ApiLogMessage(LogLevel level, String message) {
         super(level, message);
     }
+    @Getter @Setter
     private String baseUri;
 
+    @Getter @Setter
     private String basePath;
 
+    @Getter @Setter
     private Map<String, ?> pathParams;
 
+    @Getter @Setter
     private Map<String, ?> queryParams;
 
+    @Getter @Setter
     private Map<String, ?>  formParams;
 
+    @Getter @Setter
     private String bodyString;
 
+    @Getter @Setter
     private Object bodyObject;
 
+    @Getter @Setter
     private File bodyFile;
 
+    @Getter @Setter
     private String contentTypeString;
 
+    @Getter @Setter
     private ContentType contentType;
 
+    @Getter @Setter
     private File file;
 
+    @Getter @Setter
     private String fileString;
 
+    @Getter @Setter
     private Header header;
 
+    @Getter @Setter
     private Headers headers;
 
+    @Getter @Setter
     private String beareToken;
 
+    @Getter @Setter
     private String cookieKey;
 
+    @Getter @Setter
     private String cookieValue;
 
+    @Getter @Setter
     private Cookie cookie;
 
+    @Getter @Setter
     private Cookies cookies;
 
+    @Getter @Setter
     private Map<String, ?> cookiesMap;
 
+    @Getter @Setter
     private JSONObject jsonObject;
 
+    @Getter @Setter
     private String multipartString;
 
+    @Getter @Setter
     private Object multipartObject;
 
-    public String getBaseUri() {
-        return baseUri;
-    }
-
-    public void setBaseUri(String baseUri) {
-        this.baseUri = baseUri;
-    }
-
-    public String getBasePath() {
-        return basePath;
-    }
-
-    public void setBasePath(String basePath) {
-        this.basePath = basePath;
-    }
-
-    public Map<String, ?> getPathParams() {
-        return pathParams;
-    }
-
-    public void setPathParams(Map<String, ?> pathParams) {
-        this.pathParams = pathParams;
-    }
-
-    public Map<String, ?> getQueryParams() {
-        return queryParams;
-    }
-
-    public void setQueryParams(Map<String, ?> queryParams) {
-        this.queryParams = queryParams;
-    }
-
-    public Map<String, ?> getFormParams() {
-        return formParams;
-    }
-
-    public void setFormParams(Map<String, ?> formParams) {
-        this.formParams = formParams;
-    }
-
-    public String getBodyString() {
-        return bodyString;
-    }
-
-    public void setBodyString(String bodyString) {
-        this.bodyString = bodyString;
-    }
-
-    public Object getBodyObject() {
-        return bodyObject;
-    }
-
-    public void setBodyObject(Object bodyObject) {
-        this.bodyObject = bodyObject;
-    }
-
-    public File getBodyFile() {
-        return bodyFile;
-    }
-
-    public void setBodyFile(File bodyFile) {
-        this.bodyFile = bodyFile;
-    }
-
-    public String getContentTypeString() {
-        return contentTypeString;
-    }
-
-    public void setContentTypeString(String contentTypeString) {
-        this.contentTypeString = contentTypeString;
-    }
-
-    public ContentType getContentType() {
-        return contentType;
-    }
-
-    public void setContentType(ContentType contentType) {
-        this.contentType = contentType;
-    }
-
-    public File getFile() {
-        return file;
-    }
-
-    public void setFile(File file) {
-        this.file = file;
-    }
-
-    public String getFileString() {
-        return fileString;
-    }
-
-    public void setFileString(String fileString) {
-        this.fileString = fileString;
-    }
-
-    public Header getHeader() {
-        return header;
-    }
-
-    public void setHeader(Header header) {
-        this.header = header;
-    }
-
-    public Headers getHeaders() {
-        return headers;
-    }
-
-    public void setHeaders(Headers headers) {
-        this.headers = headers;
-    }
-
-    public String getBeareToken() {
-        return beareToken;
-    }
-
-    public void setBeareToken(String beareToken) {
-        this.beareToken = beareToken;
-    }
-
-    public String getCookieKey() {
-        return cookieKey;
-    }
-
-    public void setCookieKey(String cookieKey) {
-        this.cookieKey = cookieKey;
-    }
-
-    public String getCookieValue() {
-        return cookieValue;
-    }
-
-    public void setCookieValue(String cookieValue) {
-        this.cookieValue = cookieValue;
-    }
-
-    public Cookie getCookie() {
-        return cookie;
-    }
-
-    public void setCookie(Cookie cookie) {
-        this.cookie = cookie;
-    }
-
-    public Cookies getCookies() {
-        return cookies;
-    }
-
-    public void setCookies(Cookies cookies) {
-        this.cookies = cookies;
-    }
-
-    public Map<String, ?> getCookiesMap() {
-        return cookiesMap;
-    }
-
-    public void setCookiesMap(Map<String, ?> cookiesMap) {
-        this.cookiesMap = cookiesMap;
-    }
-
-    public JSONObject getJsonObject() {
-        return jsonObject;
-    }
-
-    public void setJsonObject(JSONObject jsonObject) {
-        this.jsonObject = jsonObject;
-    }
-
-    public String getMultipartString() {
-        return multipartString;
-    }
-
-    public void setMultipartString(String multipartString) {
-        this.multipartString = multipartString;
-    }
-
-    public Object getMultipartObject() {
-        return multipartObject;
-    }
-
-    public void setMultipartObject(Object multipartObject) {
-        this.multipartObject = multipartObject;
-    }
 }
