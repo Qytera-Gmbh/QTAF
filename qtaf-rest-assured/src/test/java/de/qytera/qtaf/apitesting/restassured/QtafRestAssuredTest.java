@@ -6,19 +6,21 @@ import de.qytera.qtaf.apitesting.action.ApiActions;
 import de.qytera.qtaf.apitesting.request.RequestSpecifications;
 import de.qytera.qtaf.apitesting.response.ResponseAssertions;
 
+import de.qytera.qtaf.testng.context.QtafTestNGContext;
 import org.testng.annotations.Test;
 
 import java.util.List;
 
 
 
-public class QtafRestAssuredTest implements RequestSpecifications, ApiActions, ResponseAssertions {
-    String url = "https://jsonplaceholder.typicode.com";
+public class QtafRestAssuredTest extends QtafTestNGContext implements RequestSpecifications, ApiActions, ResponseAssertions {
 
+    String url = "https://jsonplaceholder.typicode.com";
 
     @Test
     public void QtafApiTestStatusCodeIs() {
         Api.test(
+                this,
                 List.of(baseUri(url)),
                 getRequest("/user/1"),
                 List.of(statusCodeIs(404))
@@ -28,6 +30,7 @@ public class QtafRestAssuredTest implements RequestSpecifications, ApiActions, R
     @Test
     public void QtafApiTestStatusCodeAndResponseTime() {
         Api.test(
+                this,
                 List.of(baseUri(url)),
                 getRequest("/user/1"),
                 List.of(
@@ -40,6 +43,7 @@ public class QtafRestAssuredTest implements RequestSpecifications, ApiActions, R
     @Test
     public void QtafApiTestStatusCodeXx() {
         Api.test(
+                this,
                 List.of(baseUri(url)),
                 getRequest("/user/1"),
                 List.of(

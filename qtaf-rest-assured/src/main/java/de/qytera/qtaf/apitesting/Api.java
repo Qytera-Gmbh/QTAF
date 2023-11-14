@@ -1,8 +1,12 @@
 package de.qytera.qtaf.apitesting;
 
 import de.qytera.qtaf.apitesting.action.ApiAction;
+import de.qytera.qtaf.apitesting.log.model.message.ApiLogMessage;
 import de.qytera.qtaf.apitesting.request.ApiTestRequestSpecification;
 import de.qytera.qtaf.apitesting.response.ApiTestAssertion;
+import de.qytera.qtaf.core.context.IQtafTestContext;
+import de.qytera.qtaf.core.log.model.LogLevel;
+import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
@@ -27,15 +31,22 @@ public class Api {
      * @return  Test execution result
      */
     public static ApiTestExecution test(
+            IQtafTestContext context,
             List<ApiTestRequestSpecification> preconditions,
             ApiAction action,
             List<ApiTestAssertion> assertions
     ) {
+        TestScenarioLogCollection logCollect = context.getLogCollection();
+
+        ApiLogMessage logMessage = new ApiLogMessage(LogLevel.INFO, "Api Call");
+        logCollect.addLogMessage(logMessage);
+
         RequestSpecification req = RestAssured.given();
         QueryableRequestSpecification q = SpecificationQuerier.query(req);
 
         for (ApiTestRequestSpecification cond : preconditions) {
-            cond.apply(req);
+            cond.apply(req, logMessage);
+            System.out.println(logMessage.getMessage());
         }
 
         req = req.when();
@@ -47,6 +58,8 @@ public class Api {
         for (ApiTestAssertion a: assertions) {
             a.apply(then);
         }
+
+
 
         return new ApiTestExecution(q, then.extract());
     }
