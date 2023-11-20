@@ -3,14 +3,102 @@ package de.qytera.qtaf.apitesting.log.model.message;
 import de.qytera.qtaf.core.log.model.LogLevel;
 import de.qytera.qtaf.core.log.model.message.LogMessage;
 import io.restassured.http.*;
+import io.restassured.response.Response;
 import lombok.Getter;
 import lombok.Setter;
 import org.json.simple.JSONObject;
 
 import java.io.File;
+import java.net.URI;
+import java.net.URL;
+import java.util.List;
 import java.util.Map;
 
 public class ApiLogMessage extends LogMessage {
+
+    @Getter @Setter
+    Request request = new Request();
+
+    public class Request {
+
+        @Getter @Setter
+        private String baseUri;
+
+        @Getter @Setter
+        private String basePath;
+
+        @Getter @Setter
+        private Map<String, ?> pathParams;
+
+        @Getter @Setter
+        private Map<String, ?> queryParams;
+
+        @Getter @Setter
+        private Map<String, ?>  formParams;
+
+        @Getter @Setter
+        private String bodyString;
+
+        @Getter @Setter
+        private Object bodyObject;
+
+    /* TODO
+    @Getter @Setter
+    private File bodyFile;
+    */
+
+        @Getter @Setter
+        private String contentTypeString;
+
+        @Getter @Setter
+        private ContentType contentType;
+    /* TODO
+    @Getter @Setter
+    private File file;
+     */
+
+        @Getter @Setter
+        private String fileString;
+
+        @Getter @Setter
+        private Header header;
+
+    /* TODO
+    @Getter @Setter
+    private Headers headers;
+     */
+
+        @Getter @Setter
+        private Map<String, ?> headers;
+
+        @Getter @Setter
+        private String beareToken;
+
+        @Getter @Setter
+        private String cookieKey;
+
+        @Getter @Setter
+        private String cookieValue;
+
+        @Getter @Setter
+        private Cookie cookie;
+
+        @Getter @Setter
+        private Cookies cookies;
+
+        @Getter @Setter
+        private Map<String, ?> cookiesMap;
+
+        @Getter @Setter
+        private JSONObject jsonObject;
+
+        @Getter @Setter
+        private String multipartString;
+
+        @Getter @Setter
+        private Object multipartObject;
+
+    }
     /**
      * Constructor.
      *
@@ -20,73 +108,82 @@ public class ApiLogMessage extends LogMessage {
     public ApiLogMessage(LogLevel level, String message) {
         super(level, message);
     }
+
+    // Preconditions
+
+
+
+    // Actions
     @Getter @Setter
-    private String baseUri;
+    private String headRequestPath;
 
     @Getter @Setter
-    private String basePath;
+    private List<Object> headRequestPathParams;
 
     @Getter @Setter
-    private Map<String, ?> pathParams;
+    private URI headRequestUri;
 
     @Getter @Setter
-    private Map<String, ?> queryParams;
+    private URL headRequestUrl;
 
     @Getter @Setter
-    private Map<String, ?>  formParams;
+    private String optionsRequestPath;
 
     @Getter @Setter
-    private String bodyString;
+    private List<Object> optionsRequestPathParams;
 
     @Getter @Setter
-    private Object bodyObject;
+    private URI optionRequestUri;
 
     @Getter @Setter
-    private File bodyFile;
+    private URL optionRequestUrl;
 
     @Getter @Setter
-    private String contentTypeString;
+    private String getRequestPath;
 
     @Getter @Setter
-    private ContentType contentType;
+    private List<Object> getRequestPathParams;
 
     @Getter @Setter
-    private File file;
+    private URI getRequestUri;
 
     @Getter @Setter
-    private String fileString;
+    private URL getRequestUrl;
 
     @Getter @Setter
-    private Header header;
+    private String postRequestPath;
 
     @Getter @Setter
-    private Headers headers;
+    private List<Object> postRequestPathParams;
 
     @Getter @Setter
-    private String beareToken;
+    private URI postRequestUri;
 
     @Getter @Setter
-    private String cookieKey;
+    private URL postRequestUrl;
 
     @Getter @Setter
-    private String cookieValue;
+    private String putRequestPath;
 
     @Getter @Setter
-    private Cookie cookie;
+    private List<Object> putRequestPathParams;
 
     @Getter @Setter
-    private Cookies cookies;
+    private URI putRequestUri;
 
     @Getter @Setter
-    private Map<String, ?> cookiesMap;
+    private URL putRequestUrl;
 
     @Getter @Setter
-    private JSONObject jsonObject;
+    private String deleteRequestPath;
 
     @Getter @Setter
-    private String multipartString;
+    private List<Object> deleteRequestPathParams;
 
     @Getter @Setter
-    private Object multipartObject;
+    private URI deleteRequestUri;
+
+    @Getter @Setter
+    private URL deleteRequestUrl;
 
 }

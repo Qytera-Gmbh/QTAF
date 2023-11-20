@@ -10,6 +10,7 @@ import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
+import io.restassured.specification.FilterableRequestSpecification;
 import io.restassured.specification.QueryableRequestSpecification;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.SpecificationQuerier;
@@ -44,23 +45,25 @@ public class Api {
         RequestSpecification req = RestAssured.given();
         QueryableRequestSpecification q = SpecificationQuerier.query(req);
 
-        for (ApiTestRequestSpecification cond : preconditions) {
-            cond.apply(req, logMessage);
+        for (ApiTestRequestSpecification precondition : preconditions) {
+            precondition.apply(req, logMessage);
             System.out.println(logMessage.getMessage());
         }
 
-        req = req.when();
+        req = req.when(); // Warum ist dieser Aufruf notwendig?
 
-        Response res = action.perform(req);
+        Response res = action.perform(req, logMessage);
+        // Response res = action.perform(req);
+        // logMessage.setResponse(res);
 
         ValidatableResponse then = res.then();
 
-        for (ApiTestAssertion a: assertions) {
-            a.apply(then);
+        for (ApiTestAssertion assertion: assertions) {
+            assertion.apply(then);
         }
+        FilterableRequestSpecification filter = (FilterableRequestSpecification) req;
 
 
-
-        return new ApiTestExecution(q, then.extract());
+        return new ApiTestExecution(q, then.extract()); // was macht dieser Rückgabetyp ?
     }
 }

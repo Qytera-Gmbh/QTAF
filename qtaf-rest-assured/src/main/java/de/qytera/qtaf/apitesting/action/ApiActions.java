@@ -1,5 +1,6 @@
 package de.qytera.qtaf.apitesting.action;
 
+import de.qytera.qtaf.apitesting.log.model.message.ApiLogMessage;
 import io.restassured.specification.RequestSenderOptions;
 import io.restassured.specification.RequestSpecification;
 import org.jetbrains.annotations.Contract;
@@ -7,17 +8,20 @@ import org.jetbrains.annotations.NotNull;
 
 import java.net.URI;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public interface ApiActions {
     /**
      * Send a HEAD request
      * @return Response object
      */
-    @NotNull
+    /* @NotNull
     @Contract(pure = true)
     default ApiAction headRequest() {
         return RequestSenderOptions::head;
     }
+     */
 
     /**
      * Send a HEAD request
@@ -28,7 +32,13 @@ public interface ApiActions {
     @NotNull
     @Contract(pure = true)
     default ApiAction headRequest(String path, Object... pathParams) {
-        return (RequestSpecification req) -> req.head(path, pathParams);
+        return (RequestSpecification req, ApiLogMessage logMessage) -> {
+
+            ArrayList<Object> pathParamsList = new ArrayList<>(Arrays.asList(pathParams));
+            logMessage.setHeadRequestPathParams(pathParamsList);
+
+            return req.head(path, pathParams);
+        };
     }
 
     /**
@@ -39,7 +49,12 @@ public interface ApiActions {
     @NotNull
     @Contract(pure = true)
     default ApiAction headRequest(URI uri) {
-        return (RequestSpecification req) -> req.head(uri);
+        return (RequestSpecification req, ApiLogMessage logMessage) -> {
+
+            logMessage.setHeadRequestUri(uri);
+
+            return req.head(uri);
+        };
     }
 
     /**
@@ -50,18 +65,25 @@ public interface ApiActions {
     @NotNull
     @Contract(pure = true)
     default ApiAction headRequest(URL url) {
-        return (RequestSpecification req) -> req.head(url);
+        return (RequestSpecification req, ApiLogMessage logMessage) -> {
+
+            logMessage.setHeadRequestUrl(url);
+
+            return req.head(url);
+        };
     }
 
     /**
      * Send an OPTIONS request
      * @return Response object
      */
+    /* TODO
     @NotNull
     @Contract(pure = true)
     default ApiAction optionsRequest() {
         return RequestSenderOptions::options;
     }
+     */
 
     /**
      * Send an OPTIONS request
@@ -72,7 +94,13 @@ public interface ApiActions {
     @NotNull
     @Contract(pure = true)
     default ApiAction optionsRequest(String path, Object... pathParams) {
-        return (RequestSpecification req) -> req.options(path, pathParams);
+        return (RequestSpecification req, ApiLogMessage logMessage) -> {
+
+            ArrayList<Object> pathParamsList = new ArrayList<>(Arrays.asList(pathParams));
+            logMessage.setOptionsRequestPathParams(pathParamsList);
+
+            return req.options(path, pathParams);
+        };
     }
 
     /**
@@ -83,7 +111,11 @@ public interface ApiActions {
     @NotNull
     @Contract(pure = true)
     default ApiAction optionsRequest(URI uri) {
-        return (RequestSpecification req) -> req.options(uri);
+        return (RequestSpecification req, ApiLogMessage logMessage) -> {
+
+            logMessage.setOptionRequestUri(uri);
+            return req.options(uri);
+        };
     }
 
     /**
@@ -94,18 +126,24 @@ public interface ApiActions {
     @NotNull
     @Contract(pure = true)
     default ApiAction optionsRequest(URL url) {
-        return (RequestSpecification req) -> req.options(url);
+        return (RequestSpecification req, ApiLogMessage logMessage) -> {
+
+            logMessage.setOptionRequestUrl(url);
+            return req.options(url);
+        };
     }
 
     /**
      * Send a GET request
      * @return Response object
      */
+    /* TODO
     @NotNull
     @Contract(pure = true)
     default ApiAction getRequest() {
         return RequestSenderOptions::get;
     }
+     */
 
     /**
      * Send a GET request
@@ -116,7 +154,14 @@ public interface ApiActions {
     @NotNull
     @Contract(pure = true)
     default ApiAction getRequest(String path, Object... pathParams) {
-        return (RequestSpecification req) -> req.get(path, pathParams);
+        return (RequestSpecification req, ApiLogMessage logMessage) -> {
+
+            logMessage.setGetRequestPath(path);
+            ArrayList<Object> pathParamsList = new ArrayList<>(Arrays.asList(pathParams));
+            logMessage.setGetRequestPathParams(pathParamsList);
+
+            return req.get(path, pathParams);
+        };
     }
 
     /**
@@ -127,7 +172,10 @@ public interface ApiActions {
     @NotNull
     @Contract(pure = true)
     default ApiAction getRequest(URI uri) {
-        return (RequestSpecification req) -> req.get(uri);
+        return (RequestSpecification req, ApiLogMessage logMessage) -> {
+            logMessage.setGetRequestUri(uri);
+            return req.get(uri);
+        };
     }
 
     /**
@@ -138,18 +186,25 @@ public interface ApiActions {
     @NotNull
     @Contract(pure = true)
     default ApiAction getRequest(URL url) {
-        return (RequestSpecification req) -> req.get(url);
+        return (RequestSpecification req, ApiLogMessage logMessage) -> {
+            logMessage.setGetRequestUrl(url);
+            return req.get(url);
+        };
     }
 
     /**
      * Send a POST request
      * @return Response object
      */
+
+    /* TODO
     @NotNull
     @Contract(pure = true)
     default ApiAction postRequest() {
         return RequestSenderOptions::post;
     }
+
+     */
 
     /**
      * Send a POST request
@@ -160,7 +215,14 @@ public interface ApiActions {
     @NotNull
     @Contract(pure = true)
     default ApiAction postRequest(String path, Object... pathParams) {
-        return (RequestSpecification req) -> req.post(path, pathParams);
+        return (RequestSpecification req, ApiLogMessage logMessage) -> {
+
+            logMessage.setPostRequestPath(path);
+            ArrayList<Object> pathParamsList = new ArrayList<>(Arrays.asList(pathParams));
+            logMessage.setPostRequestPathParams(pathParamsList);
+
+            return req.post(path, pathParams);
+        };
     }
 
     /**
@@ -171,7 +233,10 @@ public interface ApiActions {
     @NotNull
     @Contract(pure = true)
     default ApiAction postRequest(URI uri) {
-        return (RequestSpecification req) -> req.post(uri);
+        return (RequestSpecification req, ApiLogMessage logMessage) -> {
+            logMessage.setPostRequestUri(uri);
+            return req.post(uri);
+        };
     }
 
     /**
@@ -182,18 +247,33 @@ public interface ApiActions {
     @NotNull
     @Contract(pure = true)
     default ApiAction postRequest(URL url) {
-        return (RequestSpecification req) -> req.post(url);
+        return (RequestSpecification req, ApiLogMessage logMessage) -> {
+            logMessage.setPostRequestUrl(url);
+            return req.post(url);
+        };
     }
 
     /**
      * Send a PUT request
      * @return Response object
      */
+    /* TODO
     @NotNull
     @Contract(pure = true)
     default ApiAction putRequest() {
         return RequestSenderOptions::put;
     }
+    */
+
+    @NotNull
+    @Contract(pure = true)
+    default ApiAction putRequest() {
+        return (RequestSpecification req, ApiLogMessage logMessage) -> {
+            return req.put();
+            // RequestSenderOptions::put;
+        };
+    }
+
 
     /**
      * Send a PUT request
@@ -204,7 +284,13 @@ public interface ApiActions {
     @NotNull
     @Contract(pure = true)
     default ApiAction putRequest(String path, Object... pathParams) {
-        return (RequestSpecification req) -> req.put(path, pathParams);
+        return (RequestSpecification req, ApiLogMessage logMessage) -> {
+            logMessage.setPutRequestPath(path);
+            ArrayList<Object> pathParamsList = new ArrayList<>(Arrays.asList(pathParams));
+            logMessage.setPutRequestPathParams(pathParamsList);
+
+            return req.put(path, pathParams);
+        };
     }
 
     /**
@@ -215,7 +301,10 @@ public interface ApiActions {
     @NotNull
     @Contract(pure = true)
     default ApiAction putRequest(URI uri) {
-        return (RequestSpecification req) -> req.put(uri);
+        return (RequestSpecification req, ApiLogMessage logMessage) -> {
+            logMessage.setPutRequestUri(uri);
+            return req.put(uri);
+        };
     }
 
     /**
@@ -226,18 +315,25 @@ public interface ApiActions {
     @NotNull
     @Contract(pure = true)
     default ApiAction putRequest(URL url) {
-        return (RequestSpecification req) -> req.put(url);
+        return (RequestSpecification req, ApiLogMessage logMessage) -> {
+
+            logMessage.setPutRequestUrl(url);
+            return req.put(url);
+        };
     }
 
     /**
      * Send a DELETE request
      * @return Response object
      */
+
+    /* TODO
     @NotNull
     @Contract(pure = true)
     default ApiAction deleteRequest() {
         return RequestSenderOptions::delete;
     }
+    */
 
     /**
      * Send a DELETE request
@@ -248,7 +344,13 @@ public interface ApiActions {
     @NotNull
     @Contract(pure = true)
     default ApiAction deleteRequest(String path, Object... pathParams) {
-        return (RequestSpecification req) -> req.delete(path, pathParams);
+        return (RequestSpecification req, ApiLogMessage logMessage) -> {
+            logMessage.setDeleteRequestPath(path);
+            ArrayList<Object> pathParamsList = new ArrayList<>(Arrays.asList(pathParams));
+            logMessage.setDeleteRequestPathParams(pathParamsList);
+
+            return req.delete(path, pathParams);
+        };
     }
 
     /**
@@ -259,7 +361,10 @@ public interface ApiActions {
     @NotNull
     @Contract(pure = true)
     default ApiAction deleteRequest(URI uri) {
-        return (RequestSpecification req) -> req.delete(uri);
+        return (RequestSpecification req, ApiLogMessage logMessage) -> {
+            logMessage.setDeleteRequestUri(uri);
+            return req.delete(uri);
+        };
     }
 
     /**
@@ -270,6 +375,9 @@ public interface ApiActions {
     @NotNull
     @Contract(pure = true)
     default ApiAction deleteRequest(URL url) {
-        return (RequestSpecification req) -> req.delete(url);
+        return (RequestSpecification req, ApiLogMessage logMessage) -> {
+            logMessage.setDeleteRequestUrl(url);
+            return req.delete(url);
+        };
     }
 }

@@ -16,7 +16,7 @@ public interface RequestSpecifications {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.baseUri(baseUri);
 
-            logMessage.setBaseUri(baseUri);
+            logMessage.getRequest().setBaseUri(baseUri);
         };
     }
 
@@ -25,7 +25,7 @@ public interface RequestSpecifications {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.basePath(basePath);
 
-            logMessage.setBasePath(basePath);
+            logMessage.getRequest().setBasePath(basePath);
         };
     }
 
@@ -36,7 +36,7 @@ public interface RequestSpecifications {
 
             HashMap<String, String> map = new HashMap<>();
             map.put(key, value);
-            logMessage.setPathParams(map);
+            logMessage.getRequest().setPathParams(map);
         };
     }
 
@@ -45,7 +45,7 @@ public interface RequestSpecifications {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.pathParams(params);
 
-            logMessage.setPathParams(params);
+            logMessage.getRequest().setPathParams(params);
         };
     }
 
@@ -56,7 +56,7 @@ public interface RequestSpecifications {
 
             HashMap<String, String> map = new HashMap<>();
             map.put(key, value);
-            logMessage.setPathParams(map);
+            logMessage.getRequest().setPathParams(map);
         };
     }
 
@@ -65,7 +65,7 @@ public interface RequestSpecifications {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.queryParams(params);
 
-            logMessage.setQueryParams(params);
+            logMessage.getRequest().setQueryParams(params);
         };
     }
 
@@ -76,7 +76,7 @@ public interface RequestSpecifications {
 
             HashMap<String, String> map = new HashMap<>();
             map.put(key, value);
-            logMessage.setFormParams(map);
+            logMessage.getRequest().setFormParams(map);
         };
     }
 
@@ -85,7 +85,7 @@ public interface RequestSpecifications {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.formParams(params);
 
-            logMessage.setFormParams(params);
+            logMessage.getRequest().setFormParams(params);
         };
     }
 
@@ -94,7 +94,7 @@ public interface RequestSpecifications {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.body(body);
 
-            logMessage.setBodyString(body);
+            logMessage.getRequest().setBodyString(body);
         };
     }
 
@@ -103,7 +103,7 @@ public interface RequestSpecifications {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.body(object);
 
-            logMessage.setBodyObject(object);
+            logMessage.getRequest().setBodyObject(object);
         };
     }
 
@@ -112,7 +112,7 @@ public interface RequestSpecifications {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.body(file);
 
-            logMessage.setBodyFile(file);
+            // TODO logMessage.getRequest().setBodyFile(file);
         };
     }
 
@@ -121,7 +121,7 @@ public interface RequestSpecifications {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.contentType(contentType);
 
-            logMessage.setContentTypeString(contentType);
+            logMessage.getRequest().setContentTypeString(contentType);
         };
     }
 
@@ -131,7 +131,7 @@ public interface RequestSpecifications {
             req.contentType(ContentType.MULTIPART);
             req.multiPart(file);
 
-            logMessage.setFile(file);
+            // TODO logMessage.getRequest().setFile(file);
         };
     }
 
@@ -141,8 +141,8 @@ public interface RequestSpecifications {
             req.contentType(ContentType.MULTIPART);
             req.multiPart(s, file);
 
-            logMessage.setFileString(s);
-            logMessage.setFile(file);
+            logMessage.getRequest().setFileString(s);
+            // TODO logMessage.getRequest().setFile(file);
         };
     }
 
@@ -152,7 +152,7 @@ public interface RequestSpecifications {
             req.header(key, value);
 
             Header h = new Header(key, value);
-            logMessage.setHeader(h);
+            logMessage.getRequest().setHeader(h);
         };
     }
 
@@ -161,25 +161,39 @@ public interface RequestSpecifications {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.header(header);
 
-            logMessage.setHeader(header);
+            logMessage.getRequest().setHeader(header);
         };
     }
-
+    /* TODO
     @Step(name = "add headers", description = "add headers")
     default ApiTestRequestSpecification header(Headers headers) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.headers(headers);
 
-            logMessage.setHeaders(headers);
+            logMessage.getRequest().setHeaders(headers);
         };
     }
+
+     */
+
+    // RequestSpecification headers(Map<String, ?> var1);
+
+    @Step(name = "add headers", description = "add headers")
+    default ApiTestRequestSpecification headers(Map<String, ?> headers) {
+        return (RequestSpecification req, ApiLogMessage logMessage) -> {
+            req.headers(headers);
+
+            logMessage.getRequest().setHeaders(headers);
+        };
+    }
+
 
     @Step(name = "add bearer token", description = "add an authorization header with a bearer token")
     default ApiTestRequestSpecification bearer(String bearerToken) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.header("Authorization", "Bearer " + bearerToken);
 
-            logMessage.setBeareToken(bearerToken);
+            logMessage.getRequest().setBeareToken(bearerToken);
         };
     }
 
@@ -188,8 +202,8 @@ public interface RequestSpecifications {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.cookie(key, value);
 
-            logMessage.setCookieKey(key);
-            logMessage.setCookieValue(value);
+            logMessage.getRequest().setCookieKey(key);
+            logMessage.getRequest().setCookieValue(value);
 
         };
     }
@@ -199,7 +213,7 @@ public interface RequestSpecifications {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.cookie(cookie);
 
-            logMessage.setCookie(cookie);
+            logMessage.getRequest().setCookie(cookie);
         };
     }
 
@@ -208,7 +222,7 @@ public interface RequestSpecifications {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.cookies(cookies);
 
-            logMessage.setCookies(cookies);
+            logMessage.getRequest().setCookies(cookies);
         };
     }
 
@@ -217,7 +231,7 @@ public interface RequestSpecifications {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.cookies(cookies);
 
-            logMessage.setCookiesMap(cookies);
+            logMessage.getRequest().setCookiesMap(cookies);
         };
     }
 
@@ -226,7 +240,7 @@ public interface RequestSpecifications {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.contentType(ContentType.JSON);
 
-            logMessage.setContentType(ContentType.JSON);
+            logMessage.getRequest().setContentType(ContentType.JSON);
         };
     }
 
@@ -236,8 +250,8 @@ public interface RequestSpecifications {
             req.contentType(ContentType.JSON);
             req.body(jsonObject.toString());
 
-            logMessage.setContentType(ContentType.JSON);
-            logMessage.setBodyString(jsonObject.toString());
+            logMessage.getRequest().setContentType(ContentType.JSON);
+            logMessage.getRequest().setBodyString(jsonObject.toString());
         };
     }
 
@@ -246,7 +260,7 @@ public interface RequestSpecifications {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.contentType(ContentType.MULTIPART);
 
-            logMessage.setContentType(ContentType.MULTIPART);
+            logMessage.getRequest().setContentType(ContentType.MULTIPART);
         };
     }
 
@@ -256,9 +270,9 @@ public interface RequestSpecifications {
             req.contentType(ContentType.MULTIPART);
             req.multiPart(s, o);
 
-            logMessage.setContentType(ContentType.MULTIPART);
-            logMessage.setMultipartString(s);
-            logMessage.setMultipartObject(o);
+            logMessage.getRequest().setContentType(ContentType.MULTIPART);
+            logMessage.getRequest().setMultipartString(s);
+            logMessage.getRequest().setMultipartObject(o);
         };
     }
 
@@ -275,7 +289,7 @@ public interface RequestSpecifications {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.contentType(ContentType.TEXT);
 
-            logMessage.setContentType(ContentType.TEXT);
+            logMessage.getRequest().setContentType(ContentType.TEXT);
         };
     }
 
@@ -284,7 +298,7 @@ public interface RequestSpecifications {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.contentType(ContentType.XML);
 
-            logMessage.setContentType(ContentType.XML);
+            logMessage.getRequest().setContentType(ContentType.XML);
         };
     }
 
