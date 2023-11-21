@@ -19,6 +19,22 @@ public class ApiLogMessage extends LogMessage {
     @Getter @Setter
     Request request = new Request();
 
+    @Getter @Setter
+    Action action = new Action();
+
+    @Getter @Setter
+    private Status status = Status.PENDING;
+
+    /**
+     * Constructor.
+     *
+     * @param level   log level
+     * @param message log message
+     */
+    public ApiLogMessage(LogLevel level, String message) {
+        super(level, message);
+    }
+
     public class Request {
 
         @Getter @Setter
@@ -42,20 +58,21 @@ public class ApiLogMessage extends LogMessage {
         @Getter @Setter
         private Object bodyObject;
 
-    /* TODO
-    @Getter @Setter
-    private File bodyFile;
-    */
+        /* TODO
+        @Getter @Setter
+        private File bodyFile;
+        */
 
         @Getter @Setter
         private String contentTypeString;
 
         @Getter @Setter
         private ContentType contentType;
-    /* TODO
-    @Getter @Setter
-    private File file;
-     */
+
+        /* TODO
+        @Getter @Setter
+        private File file;
+         */
 
         @Getter @Setter
         private String fileString;
@@ -63,10 +80,10 @@ public class ApiLogMessage extends LogMessage {
         @Getter @Setter
         private Header header;
 
-    /* TODO
-    @Getter @Setter
-    private Headers headers;
-     */
+        /* TODO
+        @Getter @Setter
+        private Headers headers;
+         */
 
         @Getter @Setter
         private Map<String, ?> headers;
@@ -99,91 +116,104 @@ public class ApiLogMessage extends LogMessage {
         private Object multipartObject;
 
     }
-    /**
-     * Constructor.
-     *
-     * @param level   log level
-     * @param message log message
-     */
-    public ApiLogMessage(LogLevel level, String message) {
-        super(level, message);
+
+    public class Action {
+        @Getter @Setter
+        private String headRequestPath;
+
+        @Getter @Setter
+        private List<Object> headRequestPathParams;
+
+        @Getter @Setter
+        private URI headRequestUri;
+
+        @Getter @Setter
+        private URL headRequestUrl;
+
+        @Getter @Setter
+        private String optionsRequestPath;
+
+        @Getter @Setter
+        private List<Object> optionsRequestPathParams;
+
+        @Getter @Setter
+        private URI optionRequestUri;
+
+        @Getter @Setter
+        private URL optionRequestUrl;
+
+        @Getter @Setter
+        private String getRequestPath;
+
+        @Getter @Setter
+        private List<Object> getRequestPathParams;
+
+        @Getter @Setter
+        private URI getRequestUri;
+
+        @Getter @Setter
+        private URL getRequestUrl;
+
+        @Getter @Setter
+        private String postRequestPath;
+
+        @Getter @Setter
+        private List<Object> postRequestPathParams;
+
+        @Getter @Setter
+        private URI postRequestUri;
+
+        @Getter @Setter
+        private URL postRequestUrl;
+
+        @Getter @Setter
+        private String putRequestPath;
+
+        @Getter @Setter
+        private List<Object> putRequestPathParams;
+
+        @Getter @Setter
+        private URI putRequestUri;
+
+        @Getter @Setter
+        private URL putRequestUrl;
+
+        @Getter @Setter
+        private String deleteRequestPath;
+
+        @Getter @Setter
+        private List<Object> deleteRequestPathParams;
+
+        @Getter @Setter
+        private URI deleteRequestUri;
+
+        @Getter @Setter
+        private URL deleteRequestUrl;
     }
 
-    // Preconditions
-
-
-
-    // Actions
-    @Getter @Setter
-    private String headRequestPath;
-
-    @Getter @Setter
-    private List<Object> headRequestPathParams;
-
-    @Getter @Setter
-    private URI headRequestUri;
-
-    @Getter @Setter
-    private URL headRequestUrl;
-
-    @Getter @Setter
-    private String optionsRequestPath;
-
-    @Getter @Setter
-    private List<Object> optionsRequestPathParams;
-
-    @Getter @Setter
-    private URI optionRequestUri;
-
-    @Getter @Setter
-    private URL optionRequestUrl;
-
-    @Getter @Setter
-    private String getRequestPath;
-
-    @Getter @Setter
-    private List<Object> getRequestPathParams;
-
-    @Getter @Setter
-    private URI getRequestUri;
-
-    @Getter @Setter
-    private URL getRequestUrl;
-
-    @Getter @Setter
-    private String postRequestPath;
-
-    @Getter @Setter
-    private List<Object> postRequestPathParams;
-
-    @Getter @Setter
-    private URI postRequestUri;
-
-    @Getter @Setter
-    private URL postRequestUrl;
-
-    @Getter @Setter
-    private String putRequestPath;
-
-    @Getter @Setter
-    private List<Object> putRequestPathParams;
-
-    @Getter @Setter
-    private URI putRequestUri;
-
-    @Getter @Setter
-    private URL putRequestUrl;
-
-    @Getter @Setter
-    private String deleteRequestPath;
-
-    @Getter @Setter
-    private List<Object> deleteRequestPathParams;
-
-    @Getter @Setter
-    private URI deleteRequestUri;
-
-    @Getter @Setter
-    private URL deleteRequestUrl;
-
+    /**
+     * Step status.
+     */
+    public enum Status {
+        /**
+         * The step is still pending execution.
+         */
+        PENDING,
+        /**
+         * The step was executed successfully.
+         */
+        PASS,
+        /**
+         * There were errors during step execution.
+         */
+        ERROR,
+        /**
+         * The step's execution was skipped.
+         */
+        SKIPPED,
+        /**
+         * The step status could not be determined.
+         */
+        UNDEFINED,
+    }
 }

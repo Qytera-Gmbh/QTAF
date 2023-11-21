@@ -155,4 +155,16 @@ public class QtafRestAssuredTest extends QtafTestNGContext implements RequestSpe
 
         System.out.println(response.asString());
     }
+
+    @Test
+    public void QtafApiTeststatusCode() {
+        Api.test(
+                this,
+                List.of(baseUri(url)),
+                getRequest("/user/1"),
+                List.of(
+                        statusCodeIs(0)
+                )
+        );
+    }
 }

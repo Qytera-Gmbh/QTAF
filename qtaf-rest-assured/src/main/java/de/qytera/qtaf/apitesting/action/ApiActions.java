@@ -35,7 +35,7 @@ public interface ApiActions {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
 
             ArrayList<Object> pathParamsList = new ArrayList<>(Arrays.asList(pathParams));
-            logMessage.setHeadRequestPathParams(pathParamsList);
+            logMessage.getAction().setHeadRequestPathParams(pathParamsList);
 
             return req.head(path, pathParams);
         };
@@ -51,7 +51,7 @@ public interface ApiActions {
     default ApiAction headRequest(URI uri) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
 
-            logMessage.setHeadRequestUri(uri);
+            logMessage.getAction().setHeadRequestUri(uri);
 
             return req.head(uri);
         };
@@ -67,7 +67,7 @@ public interface ApiActions {
     default ApiAction headRequest(URL url) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
 
-            logMessage.setHeadRequestUrl(url);
+            logMessage.getAction().setHeadRequestUrl(url);
 
             return req.head(url);
         };
@@ -97,7 +97,7 @@ public interface ApiActions {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
 
             ArrayList<Object> pathParamsList = new ArrayList<>(Arrays.asList(pathParams));
-            logMessage.setOptionsRequestPathParams(pathParamsList);
+            logMessage.getAction().setOptionsRequestPathParams(pathParamsList);
 
             return req.options(path, pathParams);
         };
@@ -113,7 +113,7 @@ public interface ApiActions {
     default ApiAction optionsRequest(URI uri) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
 
-            logMessage.setOptionRequestUri(uri);
+            logMessage.getAction().setOptionRequestUri(uri);
             return req.options(uri);
         };
     }
@@ -128,7 +128,7 @@ public interface ApiActions {
     default ApiAction optionsRequest(URL url) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
 
-            logMessage.setOptionRequestUrl(url);
+            logMessage.getAction().setOptionRequestUrl(url);
             return req.options(url);
         };
     }
@@ -156,9 +156,9 @@ public interface ApiActions {
     default ApiAction getRequest(String path, Object... pathParams) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
 
-            logMessage.setGetRequestPath(path);
+            logMessage.getAction().setGetRequestPath(path);
             ArrayList<Object> pathParamsList = new ArrayList<>(Arrays.asList(pathParams));
-            logMessage.setGetRequestPathParams(pathParamsList);
+            logMessage.getAction().setGetRequestPathParams(pathParamsList);
 
             return req.get(path, pathParams);
         };
@@ -173,7 +173,7 @@ public interface ApiActions {
     @Contract(pure = true)
     default ApiAction getRequest(URI uri) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
-            logMessage.setGetRequestUri(uri);
+            logMessage.getAction().setGetRequestUri(uri);
             return req.get(uri);
         };
     }
@@ -187,7 +187,7 @@ public interface ApiActions {
     @Contract(pure = true)
     default ApiAction getRequest(URL url) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
-            logMessage.setGetRequestUrl(url);
+            logMessage.getAction().setGetRequestUrl(url);
             return req.get(url);
         };
     }
@@ -217,9 +217,9 @@ public interface ApiActions {
     default ApiAction postRequest(String path, Object... pathParams) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
 
-            logMessage.setPostRequestPath(path);
+            logMessage.getAction().setPostRequestPath(path);
             ArrayList<Object> pathParamsList = new ArrayList<>(Arrays.asList(pathParams));
-            logMessage.setPostRequestPathParams(pathParamsList);
+            logMessage.getAction().setPostRequestPathParams(pathParamsList);
 
             return req.post(path, pathParams);
         };
@@ -234,7 +234,7 @@ public interface ApiActions {
     @Contract(pure = true)
     default ApiAction postRequest(URI uri) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
-            logMessage.setPostRequestUri(uri);
+            logMessage.getAction().setPostRequestUri(uri);
             return req.post(uri);
         };
     }
@@ -248,7 +248,7 @@ public interface ApiActions {
     @Contract(pure = true)
     default ApiAction postRequest(URL url) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
-            logMessage.setPostRequestUrl(url);
+            logMessage.getAction().setPostRequestUrl(url);
             return req.post(url);
         };
     }
@@ -285,9 +285,9 @@ public interface ApiActions {
     @Contract(pure = true)
     default ApiAction putRequest(String path, Object... pathParams) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
-            logMessage.setPutRequestPath(path);
+            logMessage.getAction().setPutRequestPath(path);
             ArrayList<Object> pathParamsList = new ArrayList<>(Arrays.asList(pathParams));
-            logMessage.setPutRequestPathParams(pathParamsList);
+            logMessage.getAction().setPutRequestPathParams(pathParamsList);
 
             return req.put(path, pathParams);
         };
@@ -302,7 +302,7 @@ public interface ApiActions {
     @Contract(pure = true)
     default ApiAction putRequest(URI uri) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
-            logMessage.setPutRequestUri(uri);
+            logMessage.getAction().setPutRequestUri(uri);
             return req.put(uri);
         };
     }
@@ -317,7 +317,7 @@ public interface ApiActions {
     default ApiAction putRequest(URL url) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
 
-            logMessage.setPutRequestUrl(url);
+            logMessage.getAction().setPutRequestUrl(url);
             return req.put(url);
         };
     }
@@ -345,9 +345,9 @@ public interface ApiActions {
     @Contract(pure = true)
     default ApiAction deleteRequest(String path, Object... pathParams) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
-            logMessage.setDeleteRequestPath(path);
+            logMessage.getAction().setDeleteRequestPath(path);
             ArrayList<Object> pathParamsList = new ArrayList<>(Arrays.asList(pathParams));
-            logMessage.setDeleteRequestPathParams(pathParamsList);
+            logMessage.getAction().setDeleteRequestPathParams(pathParamsList);
 
             return req.delete(path, pathParams);
         };
@@ -362,7 +362,7 @@ public interface ApiActions {
     @Contract(pure = true)
     default ApiAction deleteRequest(URI uri) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
-            logMessage.setDeleteRequestUri(uri);
+            logMessage.getAction().setDeleteRequestUri(uri);
             return req.delete(uri);
         };
     }
@@ -376,7 +376,7 @@ public interface ApiActions {
     @Contract(pure = true)
     default ApiAction deleteRequest(URL url) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
-            logMessage.setDeleteRequestUrl(url);
+            logMessage.getAction().setDeleteRequestUrl(url);
             return req.delete(url);
         };
     }

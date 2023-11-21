@@ -38,12 +38,13 @@ public class Api {
             List<ApiTestAssertion> assertions
     ) {
         TestScenarioLogCollection logCollect = context.getLogCollection();
-
         ApiLogMessage logMessage = new ApiLogMessage(LogLevel.INFO, "Api Call");
         logCollect.addLogMessage(logMessage);
 
         RequestSpecification req = RestAssured.given();
         QueryableRequestSpecification q = SpecificationQuerier.query(req);
+
+        // Set Preconditions
 
         for (ApiTestRequestSpecification precondition : preconditions) {
             precondition.apply(req, logMessage);
@@ -52,18 +53,24 @@ public class Api {
 
         req = req.when(); // Warum ist dieser Aufruf notwendig?
 
-        Response res = action.perform(req, logMessage);
-        // Response res = action.perform(req);
-        // logMessage.setResponse(res);
+        // Perform Action
 
+        Response res = action.perform(req, logMessage);
+        // logMessage.setResponse(res);
         ValidatableResponse then = res.then();
 
+        // Check Assertions
+
         for (ApiTestAssertion assertion: assertions) {
-            assertion.apply(then);
+            try {
+                assertion.apply(then);
+            }catch (AssertionError error){
+                logCollect.setStatus(TestScenarioLogCollection.Status.FAILURE);
+                logMessage.setStatus(ApiLogMessage.Status.ERROR);
+            }
         }
+
         FilterableRequestSpecification filter = (FilterableRequestSpecification) req;
-
-
         return new ApiTestExecution(q, then.extract()); // was macht dieser Rückgabetyp ?
     }
 }

@@ -7,7 +7,11 @@ import org.hamcrest.Matchers;
 public interface StatusCodeAssertions {
     @Step(name="statusCodeIs", description = "Check that status code matches a given status code")
     default ApiTestAssertion statusCodeIs(int code) {
-        return (ValidatableResponse res) -> res.statusCode(code);
+
+        return (ValidatableResponse res) -> {
+            res.statusCode(code);
+        };
+
     }
 
     @Step(name="statusCodeIsNot", description = "Check that status code does not match a given status code")
