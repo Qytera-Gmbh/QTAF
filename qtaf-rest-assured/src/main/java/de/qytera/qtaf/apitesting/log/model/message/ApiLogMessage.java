@@ -3,12 +3,9 @@ package de.qytera.qtaf.apitesting.log.model.message;
 import de.qytera.qtaf.core.log.model.LogLevel;
 import de.qytera.qtaf.core.log.model.message.LogMessage;
 import io.restassured.http.*;
-import io.restassured.response.Response;
 import lombok.Getter;
 import lombok.Setter;
 import org.json.simple.JSONObject;
-
-import java.io.File;
 import java.net.URI;
 import java.net.URL;
 import java.util.List;
@@ -21,10 +18,10 @@ public class ApiLogMessage extends LogMessage {
 
     @Getter @Setter
     Action action = new Action();
-
+/*
     @Getter @Setter
     private Status status = Status.PENDING;
-
+*/
     /**
      * Constructor.
      *
@@ -191,29 +188,19 @@ public class ApiLogMessage extends LogMessage {
         private URL deleteRequestUrl;
     }
 
-    /**
-     * Step status.
-     */
+  /*
     public enum Status {
-        /**
-         * The step is still pending execution.
-         */
+
         PENDING,
-        /**
-         * The step was executed successfully.
-         */
+
         PASS,
-        /**
-         * There were errors during step execution.
-         */
+
         ERROR,
-        /**
-         * The step's execution was skipped.
-         */
+
         SKIPPED,
-        /**
-         * The step status could not be determined.
-         */
+
         UNDEFINED,
     }
+
+   */
 }

@@ -1,6 +1,7 @@
 package de.qytera.qtaf.core.guice.invokation;
 
 import de.qytera.qtaf.core.guice.annotations.Step;
+import de.qytera.qtaf.core.log.model.message.LogMessage;
 import de.qytera.qtaf.core.log.model.message.StepInformationLogMessage;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,7 +21,7 @@ public class StepExecutionInfo extends AbstractStepExecutionInfo {
     private StackTraceElement[] stackTraceElements;
     @Getter
     @Setter
-    private StepInformationLogMessage logMessage;
+    private LogMessage logMessage;
 
     /**
      * Get step.
