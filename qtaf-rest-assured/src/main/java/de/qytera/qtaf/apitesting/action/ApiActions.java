@@ -139,23 +139,7 @@ public interface ApiActions {
     }
      */
 
-    /**
-     * Send a GET request
-     * @param path       API path
-     * @param pathParams path parameters
-     * @return Response object
-     */
-    @NotNull
-    default ApiAction getRequest(String path, Object... pathParams) {
-        return (RequestSpecification req, ApiLogMessage logMessage) -> {
 
-            logMessage.getAction().setGetRequestPath(path);
-            ArrayList<Object> pathParamsList = new ArrayList<>(Arrays.asList(pathParams));
-            logMessage.getAction().setGetRequestPathParams(pathParamsList);
-
-            return req.get(path, pathParams);
-        };
-    }
 
     /**
      * Send a GET request
@@ -180,6 +164,24 @@ public interface ApiActions {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             logMessage.getAction().setGetRequestUrl(url);
             return req.get(url);
+        };
+    }
+
+    /**
+     * Send a GET request
+     * @param path       API path
+     * @param pathParams path parameters
+     * @return Response object
+     */
+    @NotNull
+    default ApiAction getRequest(String path, Object... pathParams) {
+        return (RequestSpecification req, ApiLogMessage logMessage) -> {
+
+            logMessage.getAction().setGetRequestPath(path);
+            ArrayList<Object> pathParamsList = new ArrayList<>(Arrays.asList(pathParams));
+            logMessage.getAction().setGetRequestPathParams(pathParamsList);
+
+            return req.get(path, pathParams);
         };
     }
 

@@ -7,8 +7,10 @@ import de.qytera.qtaf.apitesting.response.ApiTestAssertion;
 import de.qytera.qtaf.core.context.IQtafTestContext;
 import de.qytera.qtaf.core.log.model.LogLevel;
 import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
+import de.qytera.qtaf.core.log.model.message.AssertionLogMessage;
 import de.qytera.qtaf.core.log.model.message.LogMessage;
 import io.restassured.RestAssured;
+import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.FilterableRequestSpecification;
@@ -67,11 +69,20 @@ public class Api {
                 assertion.apply(then);
             }catch (AssertionError error){
                 logMessage.setStatus(LogMessage.Status.FAILURE); // TODO: Changed FAILED to FAILURE for testing
+                AssertionLogMessage assertionLogMessage = new AssertionLogMessage(LogLevel.INFO, error.getMessage());
+                assertionLogMessage.setStatus(LogMessage.Status.FAILURE);
+                // TODO: assertionLogMessage.setFeatureId()
+                // TODO: assertionLogMessage.setAbstractScenarioId()
+                // TODO: assertionLogMessage.setScenarioId()
+                logMessage.addAssertion(assertionLogMessage);
                 logCollect.setStatus(TestScenarioLogCollection.Status.FAILURE);
             }
         }
 
         FilterableRequestSpecification filter = (FilterableRequestSpecification) req;
+        ExtractableResponse<Response> response = then.extract();
+        logMessage.getResponse().setResponseAndAttributes(response);
+        response.body();
         return new ApiTestExecution(q, then.extract()); // was macht dieser Rückgabetyp ?
     }
 }

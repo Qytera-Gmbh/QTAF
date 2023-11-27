@@ -3,7 +3,9 @@ package de.qytera.qtaf.apitesting.log.model.message;
 import de.qytera.qtaf.core.log.model.LogLevel;
 import de.qytera.qtaf.core.log.model.message.LogMessage;
 import io.restassured.http.*;
+import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
+import io.restassured.response.ResponseBodyExtractionOptions;
 import lombok.Getter;
 import lombok.Setter;
 import org.json.simple.JSONObject;
@@ -21,6 +23,9 @@ public class ApiLogMessage extends LogMessage {
 
     @Getter @Setter
     Action action = new Action();
+
+    @Getter @Setter
+    Response response = new Response();
 
     /*
     @Getter @Setter
@@ -191,6 +196,30 @@ public class ApiLogMessage extends LogMessage {
 
         @Getter @Setter
         private URL deleteRequestUrl;
+    }
+
+
+    public class Response {
+
+        private ExtractableResponse<io.restassured.response.Response> response;
+        private int statusCode;
+        private Headers headers;
+        private Map<String, String> cookies;
+        private String bodyAsString;
+
+        // private ResponseBodyExtractionOptions body; TODO
+        private long time;
+
+
+        public void setResponseAndAttributes(ExtractableResponse<io.restassured.response.Response> response){
+            this.response = response;
+            statusCode = response.statusCode();
+            headers = response.headers();
+            cookies = response.cookies();
+            bodyAsString = response.body().asString();
+            // body = response.body();
+            time = response.time();
+        }
     }
 
     /**
