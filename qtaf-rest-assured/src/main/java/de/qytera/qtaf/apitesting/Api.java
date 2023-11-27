@@ -7,6 +7,7 @@ import de.qytera.qtaf.apitesting.response.ApiTestAssertion;
 import de.qytera.qtaf.core.context.IQtafTestContext;
 import de.qytera.qtaf.core.log.model.LogLevel;
 import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
+import de.qytera.qtaf.core.log.model.message.LogMessage;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
@@ -65,8 +66,8 @@ public class Api {
             try {
                 assertion.apply(then);
             }catch (AssertionError error){
+                logMessage.setStatus(LogMessage.Status.FAILURE); // TODO: Changed FAILED to FAILURE for testing
                 logCollect.setStatus(TestScenarioLogCollection.Status.FAILURE);
-                logMessage.setStatus(ApiLogMessage.Status.ERROR);
             }
         }
 

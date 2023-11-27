@@ -30,7 +30,6 @@ public interface ApiActions {
      * @return Response object
      */
     @NotNull
-    @Contract(pure = true)
     default ApiAction headRequest(String path, Object... pathParams) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
 
@@ -47,7 +46,6 @@ public interface ApiActions {
      * @return Response object
      */
     @NotNull
-    @Contract(pure = true)
     default ApiAction headRequest(URI uri) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
 
@@ -63,7 +61,6 @@ public interface ApiActions {
      * @return Response object
      */
     @NotNull
-    @Contract(pure = true)
     default ApiAction headRequest(URL url) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
 
@@ -92,7 +89,6 @@ public interface ApiActions {
      * @return Response object
      */
     @NotNull
-    @Contract(pure = true)
     default ApiAction optionsRequest(String path, Object... pathParams) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
 
@@ -109,7 +105,6 @@ public interface ApiActions {
      * @return Response object
      */
     @NotNull
-    @Contract(pure = true)
     default ApiAction optionsRequest(URI uri) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
 
@@ -124,7 +119,6 @@ public interface ApiActions {
      * @return Response object
      */
     @NotNull
-    @Contract(pure = true)
     default ApiAction optionsRequest(URL url) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
 
@@ -152,7 +146,6 @@ public interface ApiActions {
      * @return Response object
      */
     @NotNull
-    @Contract(pure = true)
     default ApiAction getRequest(String path, Object... pathParams) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
 
@@ -170,7 +163,6 @@ public interface ApiActions {
      * @return Response object
      */
     @NotNull
-    @Contract(pure = true)
     default ApiAction getRequest(URI uri) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             logMessage.getAction().setGetRequestUri(uri);
@@ -184,7 +176,6 @@ public interface ApiActions {
      * @return Response object
      */
     @NotNull
-    @Contract(pure = true)
     default ApiAction getRequest(URL url) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             logMessage.getAction().setGetRequestUrl(url);
@@ -213,7 +204,6 @@ public interface ApiActions {
      * @return Response object
      */
     @NotNull
-    @Contract(pure = true)
     default ApiAction postRequest(String path, Object... pathParams) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
 
@@ -231,7 +221,6 @@ public interface ApiActions {
      * @return Response object
      */
     @NotNull
-    @Contract(pure = true)
     default ApiAction postRequest(URI uri) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             logMessage.getAction().setPostRequestUri(uri);
@@ -245,7 +234,6 @@ public interface ApiActions {
      * @return Response object
      */
     @NotNull
-    @Contract(pure = true)
     default ApiAction postRequest(URL url) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             logMessage.getAction().setPostRequestUrl(url);
@@ -266,7 +254,6 @@ public interface ApiActions {
     */
 
     @NotNull
-    @Contract(pure = true)
     default ApiAction putRequest() {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             return req.put();
@@ -282,7 +269,6 @@ public interface ApiActions {
      * @return Response object
      */
     @NotNull
-    @Contract(pure = true)
     default ApiAction putRequest(String path, Object... pathParams) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             logMessage.getAction().setPutRequestPath(path);
@@ -299,7 +285,6 @@ public interface ApiActions {
      * @return Response object
      */
     @NotNull
-    @Contract(pure = true)
     default ApiAction putRequest(URI uri) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             logMessage.getAction().setPutRequestUri(uri);
@@ -313,7 +298,6 @@ public interface ApiActions {
      * @return Response object
      */
     @NotNull
-    @Contract(pure = true)
     default ApiAction putRequest(URL url) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
 
@@ -342,7 +326,6 @@ public interface ApiActions {
      * @return Response object
      */
     @NotNull
-    @Contract(pure = true)
     default ApiAction deleteRequest(String path, Object... pathParams) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             logMessage.getAction().setDeleteRequestPath(path);
@@ -359,7 +342,6 @@ public interface ApiActions {
      * @return Response object
      */
     @NotNull
-    @Contract(pure = true)
     default ApiAction deleteRequest(URI uri) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             logMessage.getAction().setDeleteRequestUri(uri);
@@ -373,7 +355,6 @@ public interface ApiActions {
      * @return Response object
      */
     @NotNull
-    @Contract(pure = true)
     default ApiAction deleteRequest(URL url) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             logMessage.getAction().setDeleteRequestUrl(url);

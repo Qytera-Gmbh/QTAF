@@ -22,7 +22,7 @@ public class AssertionLogMessage extends LogMessage {
     /**
      * Assertion status.
      */
-    protected Status status;
+    // protected Status status;
 
     /**
      * Assertion condition.
@@ -42,8 +42,9 @@ public class AssertionLogMessage extends LogMessage {
     /**
      * Assertion Error.
      */
-    protected ThrowableWrapper error;
-
+    /*
+    protected ThrowableWrapper error; TODO
+    */
     /**
      * Constructor.
      *
@@ -172,6 +173,7 @@ public class AssertionLogMessage extends LogMessage {
      * @param error the error
      * @return the current assertion
      */
+    // TODO: soll es diese zwei unterschieldichen setter für Error geben (vgl. LogMessage)?
     public AssertionLogMessage setError(AssertionError error) {
         if (error != null) {
             this.error = new ThrowableWrapper(error);
@@ -187,7 +189,8 @@ public class AssertionLogMessage extends LogMessage {
      * @return true if it was executed, false otherwise
      */
     public boolean wasExecuted() {
-        return status != null;
+        // return status != null;
+        return getStatus() != null;
     }
 
     /**
@@ -196,7 +199,8 @@ public class AssertionLogMessage extends LogMessage {
      * @return true if it passed, false otherwise
      */
     public boolean hasPassed() {
-        return status == Status.PASSED;
+        // return status == Status.PASSED;
+        return getStatus() == Status.PASSED;
     }
 
     /**
@@ -205,7 +209,8 @@ public class AssertionLogMessage extends LogMessage {
      * @return true if it failed, false otherwise
      */
     public boolean hasFailed() {
-        return status == Status.FAILED;
+        // return status == Status.FAILED;
+        return getStatus() == Status.FAILED;
     }
 
     /**
@@ -214,7 +219,8 @@ public class AssertionLogMessage extends LogMessage {
      * @return the current assertion
      */
     public AssertionLogMessage setStatusToPassed() {
-        this.status = Status.PASSED;
+        // this.status = Status.PASSED;
+        setStatus(Status.PASSED);
         return this;
     }
 
@@ -224,7 +230,8 @@ public class AssertionLogMessage extends LogMessage {
      * @return the current assertion
      */
     public AssertionLogMessage setStatusToFailed() {
-        this.status = Status.FAILED;
+        // this.status = Status.FAILED;
+        setStatus(Status.FAILED);
         return this;
     }
 
@@ -232,15 +239,13 @@ public class AssertionLogMessage extends LogMessage {
     /**
      * Step status.
      */
-    private enum Status {
-        /**
-         * Status of passed assertions.
-         */
+    /*
+    private enum Status { TODO
+
         PASSED,
-        /**
-         * Status of failed assertions.
-         */
+
         FAILED,
     }
+    */
 
 }

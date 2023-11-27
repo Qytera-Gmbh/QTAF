@@ -22,8 +22,10 @@ public class ApiLogMessage extends LogMessage {
     @Getter @Setter
     Action action = new Action();
 
+    /*
     @Getter @Setter
     private Status status = Status.PENDING;
+     */
 
     /**
      * Constructor.

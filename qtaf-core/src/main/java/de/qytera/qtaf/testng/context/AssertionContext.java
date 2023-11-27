@@ -5,6 +5,7 @@ import de.qytera.qtaf.core.log.model.LogLevel;
 import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
 import de.qytera.qtaf.core.log.model.message.AssertionLogMessage;
 import de.qytera.qtaf.core.log.model.message.AssertionLogMessageType;
+import de.qytera.qtaf.core.log.model.message.LogMessage;
 import de.qytera.qtaf.core.log.model.message.StepInformationLogMessage;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
@@ -641,7 +642,7 @@ public interface AssertionContext {
      */
     @Ignore
     default void handleAssertCondition(AssertionLogMessageType type, boolean condition, String message, AssertionError error) {
-        StepInformationLogMessage stepLog = getLogCollection().getStepLogOfPendingStep();
+        StepInformationLogMessage stepLog = (StepInformationLogMessage) getLogCollection().getStepLogOfPendingStep();
 
         // If there is no pending step log message create a new one
         if (stepLog == null) {
@@ -686,7 +687,7 @@ public interface AssertionContext {
      */
     @Ignore
     default void handleAssertCondition(AssertionLogMessageType type, Object object, Object expected, String message, AssertionError error) {
-        StepInformationLogMessage stepLog = getLogCollection().getStepLogOfPendingStep();
+        StepInformationLogMessage stepLog = (StepInformationLogMessage) getLogCollection().getStepLogOfPendingStep();
 
         // If there is no pending step log message create a new one
         if (stepLog == null) {

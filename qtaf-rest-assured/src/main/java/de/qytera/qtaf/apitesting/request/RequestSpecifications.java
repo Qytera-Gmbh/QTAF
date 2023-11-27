@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public interface RequestSpecifications {
-    @Step(name = "baseUri", description = "the base URI of the API")
     default ApiTestRequestSpecification baseUri(String baseUri) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.baseUri(baseUri);
@@ -20,7 +19,6 @@ public interface RequestSpecifications {
         };
     }
 
-    @Step(name = "basePath", description = "the path of an endpoint")
     default ApiTestRequestSpecification basePath(String basePath) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.basePath(basePath);
@@ -29,7 +27,7 @@ public interface RequestSpecifications {
         };
     }
 
-    @Step(name = "pathParam", description = "Set a path parameter")
+
     default ApiTestRequestSpecification pathParam(String key, String value) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.pathParam(key, value);
@@ -40,7 +38,7 @@ public interface RequestSpecifications {
         };
     }
 
-    @Step(name = "pathParams", description = "Set path parameters")
+
     default ApiTestRequestSpecification pathParam(Map<String, ?> params) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.pathParams(params);
@@ -49,7 +47,7 @@ public interface RequestSpecifications {
         };
     }
 
-    @Step(name = "queryParam", description = "Set a query parameter")
+
     default ApiTestRequestSpecification queryParam(String key, String value) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.queryParam(key, value);
@@ -60,7 +58,7 @@ public interface RequestSpecifications {
         };
     }
 
-    @Step(name = "queryParams", description = "Set query parameters")
+
     default ApiTestRequestSpecification queryParams(Map<String, ?> params) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.queryParams(params);
@@ -69,7 +67,7 @@ public interface RequestSpecifications {
         };
     }
 
-    @Step(name = "formParam", description = "Set a form parameter")
+
     default ApiTestRequestSpecification formParam(String key, String value) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.formParam(key, value);
@@ -80,7 +78,7 @@ public interface RequestSpecifications {
         };
     }
 
-    @Step(name = "formParams", description = "Set form parameters")
+
     default ApiTestRequestSpecification formParams(Map<String, ?> params) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.formParams(params);
@@ -89,7 +87,7 @@ public interface RequestSpecifications {
         };
     }
 
-    @Step(name = "body", description = "set the body of the request")
+
     default ApiTestRequestSpecification body(String body) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.body(body);
@@ -98,7 +96,7 @@ public interface RequestSpecifications {
         };
     }
 
-    @Step(name = "body", description = "set the body of the request")
+
     default ApiTestRequestSpecification body(Object object) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.body(object);
@@ -107,7 +105,7 @@ public interface RequestSpecifications {
         };
     }
 
-    @Step(name = "body", description = "set the body of the request")
+
     default ApiTestRequestSpecification body(File file) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.body(file);
@@ -116,7 +114,7 @@ public interface RequestSpecifications {
         };
     }
 
-    @Step(name = "contentType", description = "content type")
+
     default ApiTestRequestSpecification contentType(String contentType) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.contentType(contentType);
@@ -125,7 +123,7 @@ public interface RequestSpecifications {
         };
     }
 
-    @Step(name = "set file", description = "set the content type to MULTIPART and add a file")
+
     default ApiTestRequestSpecification file(File file) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.contentType(ContentType.MULTIPART);
@@ -135,7 +133,7 @@ public interface RequestSpecifications {
         };
     }
 
-    @Step(name = "add file", description = "set the content type to MULTIPART and add a file")
+
     default ApiTestRequestSpecification file(String s, File file) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.contentType(ContentType.MULTIPART);
@@ -146,7 +144,7 @@ public interface RequestSpecifications {
         };
     }
 
-    @Step(name = "add header", description = "add a header")
+
     default ApiTestRequestSpecification header(String key, String value) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.header(key, value);
@@ -156,7 +154,7 @@ public interface RequestSpecifications {
         };
     }
 
-    @Step(name = "add header", description = "add a header")
+
     default ApiTestRequestSpecification header(Header header) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.header(header);
@@ -178,7 +176,7 @@ public interface RequestSpecifications {
 
     // RequestSpecification headers(Map<String, ?> var1);
 
-    @Step(name = "add headers", description = "add headers")
+
     default ApiTestRequestSpecification headers(Map<String, ?> headers) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.headers(headers);
@@ -188,7 +186,7 @@ public interface RequestSpecifications {
     }
 
 
-    @Step(name = "add bearer token", description = "add an authorization header with a bearer token")
+
     default ApiTestRequestSpecification bearer(String bearerToken) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.header("Authorization", "Bearer " + bearerToken);
@@ -197,7 +195,7 @@ public interface RequestSpecifications {
         };
     }
 
-    @Step(name = "add cookie", description = "add a cookie to the request")
+
     default ApiTestRequestSpecification cookie(String key, String value) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.cookie(key, value);
@@ -208,7 +206,6 @@ public interface RequestSpecifications {
         };
     }
 
-    @Step(name = "add cookie", description = "add a cookie to the request")
     default ApiTestRequestSpecification cookie(Cookie cookie) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.cookie(cookie);
@@ -217,7 +214,6 @@ public interface RequestSpecifications {
         };
     }
 
-    @Step(name = "add cookies", description = "add cookies to the request")
     default ApiTestRequestSpecification cookie(Cookies cookies) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.cookies(cookies);
@@ -226,7 +222,6 @@ public interface RequestSpecifications {
         };
     }
 
-    @Step(name = "add cookies", description = "add cookies to the request")
     default ApiTestRequestSpecification cookie(Map<String, ?> cookies) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.cookies(cookies);
@@ -235,7 +230,6 @@ public interface RequestSpecifications {
         };
     }
 
-    @Step(name = "content type JSON", description = "set the content type to JSON")
     default ApiTestRequestSpecification json() {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.contentType(ContentType.JSON);
@@ -244,7 +238,6 @@ public interface RequestSpecifications {
         };
     }
 
-    @Step(name = "content type JSON", description = "set the content type to JSON")
     default ApiTestRequestSpecification json(JSONObject jsonObject) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.contentType(ContentType.JSON);
@@ -255,7 +248,6 @@ public interface RequestSpecifications {
         };
     }
 
-    @Step(name = "content type MULTIPART", description = "set the content type to MULTIPART")
     default ApiTestRequestSpecification multipart() {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.contentType(ContentType.MULTIPART);
@@ -264,7 +256,6 @@ public interface RequestSpecifications {
         };
     }
 
-    @Step(name = "content type MULTIPART", description = "set the content type to MULTIPART and add an object")
     default ApiTestRequestSpecification multipart(String s, Object o) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.contentType(ContentType.MULTIPART);
@@ -276,7 +267,6 @@ public interface RequestSpecifications {
         };
     }
 
-    @Step(name = "content type MULTIPART", description = "set the content type to MULTIPART and add a string")
     default ApiTestRequestSpecification multipart(String s1, String s2) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.contentType(ContentType.MULTIPART);
@@ -284,7 +274,6 @@ public interface RequestSpecifications {
         };
     }
 
-    @Step(name = "content type TEXT", description = "set the content type to TEXT")
     default ApiTestRequestSpecification text() {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.contentType(ContentType.TEXT);
@@ -293,7 +282,6 @@ public interface RequestSpecifications {
         };
     }
 
-    @Step(name = "content type XML", description = "set the content type to XML")
     default ApiTestRequestSpecification xml() {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.contentType(ContentType.XML);

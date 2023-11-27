@@ -73,7 +73,7 @@ public class StepLoggerSubscriber implements IEventSubscriber {
         Step step = methodInvocation.getMethod().getAnnotation(Step.class);
 
         // Create log message object
-        StepInformationLogMessage logMessage = new StepInformationLogMessage(
+        StepInformationLogMessage logMessage = (StepInformationLogMessage) new StepInformationLogMessage(
                 className + "." + methodInvocation.getMethod().getName(),
                 "Step " + step.name() + " executed"
         )
