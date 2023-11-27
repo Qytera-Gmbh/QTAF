@@ -7,7 +7,6 @@ import de.qytera.qtaf.apitesting.response.ApiTestAssertion;
 import de.qytera.qtaf.core.context.IQtafTestContext;
 import de.qytera.qtaf.core.log.model.LogLevel;
 import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
-import de.qytera.qtaf.core.log.model.index.LogMessageIndex;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
@@ -40,8 +39,6 @@ public class Api {
     ) {
         TestScenarioLogCollection logCollect = context.getLogCollection();
         ApiLogMessage logMessage = new ApiLogMessage(LogLevel.INFO, "Api Call");
-        LogMessageIndex.getInstance().put(logMessage.hashCode(), logMessage);
-
         logCollect.addLogMessage(logMessage);
 
         RequestSpecification req = RestAssured.given();

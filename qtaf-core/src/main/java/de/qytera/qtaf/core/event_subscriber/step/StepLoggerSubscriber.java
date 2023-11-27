@@ -11,7 +11,6 @@ import de.qytera.qtaf.core.io.DirectoryHelper;
 import de.qytera.qtaf.core.log.Logger;
 import de.qytera.qtaf.core.log.model.collection.TestSuiteLogCollection;
 import de.qytera.qtaf.core.log.model.message.AssertionLogMessage;
-import de.qytera.qtaf.core.log.model.message.LogMessage;
 import de.qytera.qtaf.core.log.model.message.StepInformationLogMessage;
 import de.qytera.qtaf.core.selenium.DriverFactory;
 import de.qytera.qtaf.core.selenium.helper.SeleniumDriverConfigHelper;
@@ -36,7 +35,7 @@ public class StepLoggerSubscriber implements IEventSubscriber {
     /**
      * Search index for step log objects.
      */
-    private final Map<Integer, LogMessage> stepIdLogMap = new HashMap<>();
+    private final Map<Integer, StepInformationLogMessage> stepIdLogMap = new HashMap<>();
 
     /**
      * Logger.
@@ -74,7 +73,7 @@ public class StepLoggerSubscriber implements IEventSubscriber {
         Step step = methodInvocation.getMethod().getAnnotation(Step.class);
 
         // Create log message object
-        LogMessage logMessage = new StepInformationLogMessage(
+        StepInformationLogMessage logMessage = new StepInformationLogMessage(
                 className + "." + methodInvocation.getMethod().getName(),
                 "Step " + step.name() + " executed"
         )
@@ -136,7 +135,7 @@ public class StepLoggerSubscriber implements IEventSubscriber {
         this.log(stepExecutionInfo, ConsoleColors.green("success"));
 
         // Add information to log message
-        LogMessage logMessage = stepIdLogMap.get(stepExecutionInfo.getId());
+        StepInformationLogMessage logMessage = stepIdLogMap.get(stepExecutionInfo.getId());
 
         // Add information to log message
         logMessage
@@ -160,7 +159,7 @@ public class StepLoggerSubscriber implements IEventSubscriber {
         this.log(stepExecutionInfo, ConsoleColors.red("failure"));
 
         // Add information to log message
-        LogMessage logMessage = stepIdLogMap.get(stepExecutionInfo.getId());
+        StepInformationLogMessage logMessage = stepIdLogMap.get(stepExecutionInfo.getId());
 
         // Add information to log message
         logMessage

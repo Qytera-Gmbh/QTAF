@@ -1,6 +1,7 @@
 package de.qytera.qtaf.apitesting.action;
 
 import de.qytera.qtaf.apitesting.log.model.message.ApiLogMessage;
+import io.restassured.specification.RequestSenderOptions;
 import io.restassured.specification.RequestSpecification;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;

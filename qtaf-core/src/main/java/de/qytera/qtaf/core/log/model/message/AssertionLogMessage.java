@@ -17,12 +17,12 @@ public class AssertionLogMessage extends LogMessage {
      * This attribute needs to be transient so that it is ignored by JSON serializers.
      * Otherwise, this causes a stack overflow, because it is a circular reference.
      */
-    protected transient LogMessage step;
+    protected transient StepInformationLogMessage step;
 
     /**
      * Assertion status.
      */
-    // protected Status status;
+    protected Status status;
 
     /**
      * Assertion condition.
@@ -42,9 +42,7 @@ public class AssertionLogMessage extends LogMessage {
     /**
      * Assertion Error.
      */
-    /*
     protected ThrowableWrapper error;
-     */
 
     /**
      * Constructor.
@@ -81,7 +79,7 @@ public class AssertionLogMessage extends LogMessage {
      *
      * @return the step
      */
-    public LogMessage step() {
+    public StepInformationLogMessage step() {
         return step;
     }
 
@@ -91,7 +89,7 @@ public class AssertionLogMessage extends LogMessage {
      * @param step step log message
      * @return this
      */
-    public AssertionLogMessage setStep(LogMessage step) {
+    public AssertionLogMessage setStep(StepInformationLogMessage step) {
         this.step = step;
         if (step != null) {
             step.addAssertion(this);
@@ -164,12 +162,9 @@ public class AssertionLogMessage extends LogMessage {
      *
      * @return the error
      */
-
     public ThrowableWrapper error() {
-        // return error; TODO
-        return this.getError();
+        return error;
     }
-
 
     /**
      * Set the assertion's error.
@@ -177,7 +172,6 @@ public class AssertionLogMessage extends LogMessage {
      * @param error the error
      * @return the current assertion
      */
-    /*
     public AssertionLogMessage setError(AssertionError error) {
         if (error != null) {
             this.error = new ThrowableWrapper(error);
@@ -186,8 +180,6 @@ public class AssertionLogMessage extends LogMessage {
         }
         return this;
     }
-     */
-
 
     /**
      * Returns whether the assertion was actually executed.
@@ -195,8 +187,7 @@ public class AssertionLogMessage extends LogMessage {
      * @return true if it was executed, false otherwise
      */
     public boolean wasExecuted() {
-        // return status != null;
-        return getStatus() != null;
+        return status != null;
     }
 
     /**
@@ -205,8 +196,7 @@ public class AssertionLogMessage extends LogMessage {
      * @return true if it passed, false otherwise
      */
     public boolean hasPassed() {
-        // return status == Status.PASSED;
-        return getStatus() == Status.PASSED;
+        return status == Status.PASSED;
     }
 
     /**
@@ -215,8 +205,7 @@ public class AssertionLogMessage extends LogMessage {
      * @return true if it failed, false otherwise
      */
     public boolean hasFailed() {
-        // return status == Status.FAILED;
-        return getStatus() == Status.FAILED;
+        return status == Status.FAILED;
     }
 
     /**
@@ -225,11 +214,7 @@ public class AssertionLogMessage extends LogMessage {
      * @return the current assertion
      */
     public AssertionLogMessage setStatusToPassed() {
-        /*
         this.status = Status.PASSED;
-        return this;
-         */
-        setStatus(Status.PASSED);
         return this;
     }
 
@@ -239,11 +224,7 @@ public class AssertionLogMessage extends LogMessage {
      * @return the current assertion
      */
     public AssertionLogMessage setStatusToFailed() {
-        /*
         this.status = Status.FAILED;
-        return this;
-         */
-        setStatus(Status.FAILED);
         return this;
     }
 
@@ -251,18 +232,15 @@ public class AssertionLogMessage extends LogMessage {
     /**
      * Step status.
      */
-    /*
     private enum Status {
-
-         // Status of passed assertions.
-
+        /**
+         * Status of passed assertions.
+         */
         PASSED,
-
-         // Status of failed assertions.
-
+        /**
+         * Status of failed assertions.
+         */
         FAILED,
     }
-
-     */
 
 }
