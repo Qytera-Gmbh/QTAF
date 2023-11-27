@@ -116,10 +116,20 @@ public interface RequestSpecifications {
 
 
     default ApiTestRequestSpecification contentType(String contentType) {
+        // TODO String as a parameter doesn't seem right
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.contentType(contentType);
 
             logMessage.getRequest().setContentTypeString(contentType);
+        };
+    }
+
+    default ApiTestRequestSpecification contentType(ContentType contentType) {
+        // TODO String as a parameter doesn't seem right
+        return (RequestSpecification req, ApiLogMessage logMessage) -> {
+            req.contentType(contentType);
+
+            logMessage.getRequest().setContentType(contentType);
         };
     }
 

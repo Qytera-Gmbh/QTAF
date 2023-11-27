@@ -1,5 +1,6 @@
 package de.qytera.qtaf.apitesting.log.model.message;
 
+import com.google.gson.Gson;
 import de.qytera.qtaf.core.log.model.LogLevel;
 import de.qytera.qtaf.core.log.model.message.LogMessage;
 import io.restassured.http.*;
@@ -322,23 +323,21 @@ public class ApiLogMessage extends LogMessage {
 
     public class Response {
 
-        private ExtractableResponse<io.restassured.response.Response> response;
         private int statusCode;
         private Headers headers;
         private Map<String, String> cookies;
         private String bodyAsString;
 
-        // private ResponseBodyExtractionOptions body; TODO
+        private String body;
         private long time;
 
 
-        public void setResponseAndAttributes(ExtractableResponse<io.restassured.response.Response> response){
-            this.response = response;
+        public void setResponseAttributes(ExtractableResponse<io.restassured.response.Response> response){
+            // body = response.body(); TODO
             statusCode = response.statusCode();
             headers = response.headers();
             cookies = response.cookies();
             bodyAsString = response.body().asString();
-            // body = response.body();
             time = response.time();
         }
     }

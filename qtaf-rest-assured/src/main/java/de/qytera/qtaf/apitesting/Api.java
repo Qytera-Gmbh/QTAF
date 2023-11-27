@@ -81,7 +81,7 @@ public class Api {
 
         FilterableRequestSpecification filter = (FilterableRequestSpecification) req;
         ExtractableResponse<Response> response = then.extract();
-        logMessage.getResponse().setResponseAndAttributes(response);
+        logMessage.getResponse().setResponseAttributes(response);
         response.body();
         return new ApiTestExecution(q, then.extract()); // was macht dieser Rückgabetyp ?
     }

@@ -13,6 +13,7 @@ import java.util.Arrays;
 
 public interface ApiActions {
     /**
+     * TODO: Fix Docu
      * Send a HEAD request
      * @return Response object
      */
@@ -24,6 +25,7 @@ public interface ApiActions {
      */
 
     /**
+     * TODO: Fix Docu
      * Send a HEAD request
      * @param path       API path
      * @param pathParams path parameters
@@ -42,6 +44,7 @@ public interface ApiActions {
     }
 
     /**
+     * TODO: Fix Docu
      * Send a HEAD request
      * @param uri URI object
      * @return Response object
@@ -58,6 +61,7 @@ public interface ApiActions {
     }
 
     /**
+     * TODO: Fix Docu
      * Send a HEAD request
      * @param url URL object
      * @return Response object
@@ -74,6 +78,7 @@ public interface ApiActions {
     }
 
     /**
+     * TODO: Fix Docu
      * Send an OPTIONS request
      * @return Response object
      */
@@ -86,6 +91,7 @@ public interface ApiActions {
      */
 
     /**
+     * TODO: Fix Docu
      * Send an OPTIONS request
      * @param path       API path
      * @param pathParams path parameters
@@ -104,6 +110,7 @@ public interface ApiActions {
     }
 
     /**
+     * TODO: Fix Docu
      * Send an OPTIONS request
      * @param uri URI object
      * @return Response object
@@ -119,6 +126,7 @@ public interface ApiActions {
     }
 
     /**
+     * TODO: Fix Docu
      * Send an OPTIONS request
      * @param url URL object
      * @return Response object
@@ -134,6 +142,7 @@ public interface ApiActions {
     }
 
     /**
+     * TODO: Fix Docu
      * Send a GET request
      * @return Response object
      */
@@ -148,9 +157,11 @@ public interface ApiActions {
 
 
     /**
-     * Send a GET request
-     * @param uri URI object
-     * @return Response object
+     * Returns a methode which is intended for API testing.
+     * The execution of the returned method leads to a get request.
+     *
+     * @param uri URI Object
+     * @return Lambda function that can be used for API Testing
      */
     @NotNull
     default ApiAction getRequest(URI uri) {
@@ -164,9 +175,11 @@ public interface ApiActions {
     }
 
     /**
-     * Send a GET request
+     * Returns a methode which is intended for API testing.
+     * The execution of the returned method leads to a get request.
+     *
      * @param url URL object
-     * @return Response object
+     * @return ApiAction Lambda function that can be used for API Testing
      */
     @NotNull
     default ApiAction getRequest(URL url) {
@@ -180,7 +193,13 @@ public interface ApiActions {
     }
 
     /**
-     * Send a GET request
+     * Returns a methode which is intended for API testing.
+     * The execution of the returned method leads to a get request.
+     *
+     * With the following syntax path variables can be passed to the given path.
+     * getRequest("https://jsonplaceholder.typicode.com/{type}/{id}", "users", "1"),
+     *
+     *
      * @param path       API path
      * @param pathParams path parameters
      * @return Response object
@@ -189,12 +208,32 @@ public interface ApiActions {
     default ApiAction getRequest(String path, Object... pathParams) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
 
+            // TODO: Specify desired behaviour and adapt implementation
+            // Option 1: the path passed must be complete. this can be confusing if you have already set the basePath or baseUri beforehand.
+            // Option 2: an incomplete path is attempted to be calculated from the already set baseUri and basePath
+            // Option 3: an exception is thrown if baseUir or basePath have already been set
+
+            // TODO: potential Bug-> Methode doesn't seem to work when basePath or baseUri got set
+
             logMessage.getAction().setRequestType(ApiLogMessage.Action.RequestType.GET);
             logMessage.getAction().setRequestPath(path);
             ArrayList<Object> pathParamsList = new ArrayList<>(Arrays.asList(pathParams));
             logMessage.getAction().setRequestPathParams(pathParamsList);
 
-            return req.get(path, pathParams);
+            // TODO: potential Fix:
+
+            String newPath = path;
+            /*
+            if (logMessage.getRequest().getBasePath() != null){
+                newPath = logMessage.getRequest().getBasePath() + path;
+            }
+            if (logMessage.getRequest().getBaseUri() != null){
+                newPath = "";
+                newPath = logMessage.getRequest().getBaseUri() + path;
+            }
+            */
+
+            return req.get(newPath, pathParams);
         };
     }
 
@@ -211,25 +250,6 @@ public interface ApiActions {
     }
 
      */
-
-    /**
-     * Send a POST request
-     * @param path       API path
-     * @param pathParams path parameters
-     * @return Response object
-     */
-    @NotNull
-    default ApiAction postRequest(String path, Object... pathParams) {
-        return (RequestSpecification req, ApiLogMessage logMessage) -> {
-
-            logMessage.getAction().setRequestType(ApiLogMessage.Action.RequestType.POST);
-            logMessage.getAction().setRequestPath(path);
-            ArrayList<Object> pathParamsList = new ArrayList<>(Arrays.asList(pathParams));
-            logMessage.getAction().setRequestPathParams(pathParamsList);
-
-            return req.post(path, pathParams);
-        };
-    }
 
     /**
      * Send a POST request
@@ -262,6 +282,30 @@ public interface ApiActions {
             return req.post(url);
         };
     }
+
+    /**
+     * TODO: Fix Docu
+     * Send a POST request
+     * @param path       API path
+     * @param pathParams path parameters
+     * @return Response object
+     */
+    @NotNull
+    default ApiAction postRequest(String path, Object... pathParams) {
+        return (RequestSpecification req, ApiLogMessage logMessage) -> {
+
+            logMessage.getAction().setRequestType(ApiLogMessage.Action.RequestType.POST);
+            logMessage.getAction().setRequestPath(path);
+            ArrayList<Object> pathParamsList = new ArrayList<>(Arrays.asList(pathParams));
+            logMessage.getAction().setRequestPathParams(pathParamsList);
+
+            return req.post(path, pathParams);
+        };
+    }
+
+
+
+
 
     /**
      * Send a PUT request
