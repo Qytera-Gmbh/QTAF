@@ -125,6 +125,125 @@ public class ApiLogMessage extends LogMessage {
     }
 
     public class Action {
+
+        @Getter @Setter
+        private RequestType requestType;
+
+        @Getter @Setter
+        private String requestPath;
+
+        @Getter @Setter
+        private List<Object> requestPathParams;
+
+        @Getter @Setter
+        private URI requestUri;
+
+        @Getter @Setter
+        private URL requestUrl;
+
+
+        /*
+        @Getter @Setter
+        private String headRequestPath;
+
+        @Getter @Setter
+        private List<Object> headRequestPathParams;
+
+         */
+        /*
+        @Getter @Setter
+        private URI headRequestUri;
+
+        @Getter @Setter
+        private URL headRequestUrl;
+
+         */
+        /*
+        @Getter @Setter
+        private String optionsRequestPath;
+
+        @Getter @Setter
+        private List<Object> optionsRequestPathParams;
+
+        @Getter @Setter
+        private URI optionRequestUri;
+
+        @Getter @Setter
+        private URL optionRequestUrl;
+
+        @Getter @Setter
+        private String getRequestPath;
+
+        @Getter @Setter
+        private List<Object> getRequestPathParams;
+
+        @Getter @Setter
+        private URI getRequestUri;
+
+        @Getter @Setter
+        private URL getRequestUrl;
+
+        @Getter @Setter
+        private String postRequestPath;
+
+        @Getter @Setter
+        private List<Object> postRequestPathParams;
+
+        @Getter @Setter
+        private URI postRequestUri;
+
+        @Getter @Setter
+        private URL postRequestUrl;
+
+        @Getter @Setter
+        private String putRequestPath;
+
+        @Getter @Setter
+        private List<Object> putRequestPathParams;
+
+        @Getter @Setter
+        private URI putRequestUri;
+
+        @Getter @Setter
+        private URL putRequestUrl;
+
+        @Getter @Setter
+        private String deleteRequestPath;
+
+        @Getter @Setter
+        private List<Object> deleteRequestPathParams;
+
+        @Getter @Setter
+        private URI deleteRequestUri;
+
+        @Getter @Setter
+        private URL deleteRequestUrl;
+
+         */
+
+        public enum RequestType {
+            /**
+             * This request type is used to request a resource from the server by specifying a URI.
+             * Content can also be transferred to the server as arguments in the URI,
+             * but according to the standard, a GET request should only retrieve data and have no other effects
+             */
+            GET,
+
+            /**
+             * sends data (e.g. the content of a file) to the server for further processing
+             */
+            POST,
+            HEAD,
+            PUT,
+            PATCH,
+            DELETE,
+            TRACE,
+            OPTIONS,
+            CONNECT,
+
+
+        }
+        /*
         @Getter @Setter
         private String headRequestPath;
 
@@ -196,6 +315,8 @@ public class ApiLogMessage extends LogMessage {
 
         @Getter @Setter
         private URL deleteRequestUrl;
+
+         */
     }
 
 
