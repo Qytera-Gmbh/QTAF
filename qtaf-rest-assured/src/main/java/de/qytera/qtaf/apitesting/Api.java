@@ -3,6 +3,7 @@ package de.qytera.qtaf.apitesting;
 import de.qytera.qtaf.apitesting.action.ApiAction;
 import de.qytera.qtaf.apitesting.log.model.message.ApiLogMessage;
 import de.qytera.qtaf.apitesting.request.ApiTestRequestSpecification;
+import de.qytera.qtaf.apitesting.response.ApiAssertionLogMessageHelper;
 import de.qytera.qtaf.apitesting.response.ApiTestAssertion;
 import de.qytera.qtaf.core.context.IQtafTestContext;
 import de.qytera.qtaf.core.log.model.LogLevel;
@@ -60,21 +61,20 @@ public class Api {
 
         Response res = action.perform(req, logMessage);
         // logMessage.setResponse(res);
-        ValidatableResponse then = res.then();
+        ValidatableResponse then = res.then(); //TODO: rename variable then
 
         // Check Assertions
 
         for (ApiTestAssertion assertion: assertions) {
             try {
-                assertion.apply(then);
+                assertion.apply(then, logMessage);
             }catch (AssertionError error){
                 logMessage.setStatus(LogMessage.Status.FAILURE); // TODO: Changed FAILED to FAILURE for testing
-                AssertionLogMessage assertionLogMessage = new AssertionLogMessage(LogLevel.INFO, error.getMessage());
-                assertionLogMessage.setStatus(LogMessage.Status.FAILURE);
-                // TODO: assertionLogMessage.setFeatureId()
-                // TODO: assertionLogMessage.setAbstractScenarioId()
-                // TODO: assertionLogMessage.setScenarioId()
-                logMessage.addAssertion(assertionLogMessage);
+
+                // Assertion
+                ApiAssertionLogMessageHelper.createAndAppendAssertionLogMessage(logMessage,error.getMessage(), LogMessage.Status.FAILED );
+
+
                 logCollect.setStatus(TestScenarioLogCollection.Status.FAILURE);
             }
         }

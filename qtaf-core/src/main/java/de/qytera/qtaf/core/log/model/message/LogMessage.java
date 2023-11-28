@@ -285,9 +285,7 @@ public class LogMessage {
      * Computes the status of the test step.
      */
     public void computeStatus() {
-        // Check if this step has an error object. If there is one the step has failed.
         if (this.error != null) {
-            // status = Status.ERROR;
             setStatus(Status.ERROR);
             return;
         }
@@ -421,6 +419,8 @@ public class LogMessage {
      * Step status.
      */
     public enum Status {
+
+        //TODO: Clean up status: (Failed vs. Failure vs. Error, Passed vs. Pass ...)
         /**
          * The step is still pending execution.
          */
@@ -452,7 +452,7 @@ public class LogMessage {
          */
         FAILED,
 
-        FAILURE //TODO: Failed vs. Failure
+        FAILURE
 
     }
 }

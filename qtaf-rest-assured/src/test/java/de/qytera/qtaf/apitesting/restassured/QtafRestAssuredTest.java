@@ -157,13 +157,25 @@ public class QtafRestAssuredTest extends QtafTestNGContext implements RequestSpe
     }
 
     @Test
-    public void QtafApiTeststatusCode() {
+    public void QtafApiTeststatusCodeFailed() {
         Api.test(
                 this,
                 List.of(baseUri(url)),
                 getRequest("/user/1"),
                 List.of(
                         statusCodeIs(0)
+                )
+        );
+    }
+
+    @Test
+    public void QtafApiTeststatusCodePassed() {
+        Api.test(
+                this,
+                List.of(baseUri(url)),
+                getRequest("/user/1"),
+                List.of(
+                        statusCodeIs(404)
                 )
         );
     }

@@ -7,6 +7,8 @@ import de.qytera.qtaf.core.log.model.error.ThrowableWrapper;
  * Entity class for assertion log messages.
  */
 public class AssertionLogMessage extends LogMessage {
+
+    // TODO: Refacor Class with lombok
     /**
      * Type of assertion.
      */
