@@ -12,6 +12,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public interface ApiActions {
+
+    // TODO: Missing methods for: PATCH, TRACE, CONNECT Calls
+
+    // ========== HEAD ==========
+
     /**
      * TODO: Fix Docu
      * Send a HEAD request
@@ -22,26 +27,19 @@ public interface ApiActions {
     default ApiAction headRequest() {
         return RequestSenderOptions::head;
     }
-     */
+    */
 
-    /**
-     * TODO: Fix Docu
-     * Send a HEAD request
-     * @param path       API path
-     * @param pathParams path parameters
-     * @return Response object
-     */
     @NotNull
-    default ApiAction headRequest(String path, Object... pathParams) {
+    default ApiAction headRequest() {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
 
-            ArrayList<Object> pathParamsList = new ArrayList<>(Arrays.asList(pathParams));
             logMessage.getAction().setRequestType(ApiLogMessage.Action.RequestType.HEAD);
-            logMessage.getAction().setRequestPathParams(pathParamsList);
 
-            return req.head(path, pathParams);
+            return req.head();
         };
     }
+
+
 
     /**
      * TODO: Fix Docu
@@ -77,6 +75,20 @@ public interface ApiActions {
         };
     }
 
+    @NotNull
+    default ApiAction headRequest(String path, Object... pathParams) {
+        return (RequestSpecification req, ApiLogMessage logMessage) -> {
+
+            ArrayList<Object> pathParamsList = new ArrayList<>(Arrays.asList(pathParams));
+            logMessage.getAction().setRequestType(ApiLogMessage.Action.RequestType.HEAD);
+            logMessage.getAction().setRequestPathParams(pathParamsList);
+
+            return req.head(path, pathParams);
+        };
+    }
+
+    // ========== OPTION ==========
+
     /**
      * TODO: Fix Docu
      * Send an OPTIONS request
@@ -90,24 +102,6 @@ public interface ApiActions {
     }
      */
 
-    /**
-     * TODO: Fix Docu
-     * Send an OPTIONS request
-     * @param path       API path
-     * @param pathParams path parameters
-     * @return Response object
-     */
-    @NotNull
-    default ApiAction optionsRequest(String path, Object... pathParams) {
-        return (RequestSpecification req, ApiLogMessage logMessage) -> {
-
-            ArrayList<Object> pathParamsList = new ArrayList<>(Arrays.asList(pathParams));
-            logMessage.getAction().setRequestType(ApiLogMessage.Action.RequestType.OPTIONS);
-            logMessage.getAction().setRequestPathParams(pathParamsList);
-
-            return req.options(path, pathParams);
-        };
-    }
 
     /**
      * TODO: Fix Docu
@@ -141,11 +135,26 @@ public interface ApiActions {
         };
     }
 
+    @NotNull
+    default ApiAction optionsRequest(String path, Object... pathParams) {
+        return (RequestSpecification req, ApiLogMessage logMessage) -> {
+
+            ArrayList<Object> pathParamsList = new ArrayList<>(Arrays.asList(pathParams));
+            logMessage.getAction().setRequestType(ApiLogMessage.Action.RequestType.OPTIONS);
+            logMessage.getAction().setRequestPathParams(pathParamsList);
+
+            return req.options(path, pathParams);
+        };
+    }
+
+    // ========== GET ==========
+
     /**
      * TODO: Fix Docu
      * Send a GET request
      * @return Response object
      */
+
     /* TODO
     @NotNull
     @Contract(pure = true)
@@ -153,7 +162,6 @@ public interface ApiActions {
         return RequestSenderOptions::get;
     }
      */
-
 
 
     /**
@@ -237,6 +245,9 @@ public interface ApiActions {
         };
     }
 
+
+    // ========== POST ==========
+
     /**
      * Send a POST request
      * @return Response object
@@ -304,7 +315,7 @@ public interface ApiActions {
     }
 
 
-
+    // ========== PUT ==========
 
 
     /**
@@ -326,26 +337,6 @@ public interface ApiActions {
             logMessage.getAction().setRequestType(ApiLogMessage.Action.RequestType.PUT);
 
             return req.put();
-        };
-    }
-
-
-    /**
-     * Send a PUT request
-     * @param path       API path
-     * @param pathParams path parameters
-     * @return Response object
-     */
-    @NotNull
-    default ApiAction putRequest(String path, Object... pathParams) {
-        return (RequestSpecification req, ApiLogMessage logMessage) -> {
-
-            logMessage.getAction().setRequestType(ApiLogMessage.Action.RequestType.PUT);
-            logMessage.getAction().setRequestPath(path);
-            ArrayList<Object> pathParamsList = new ArrayList<>(Arrays.asList(pathParams));
-            logMessage.getAction().setRequestPathParams(pathParamsList);
-
-            return req.put(path, pathParams);
         };
     }
 
@@ -381,6 +372,30 @@ public interface ApiActions {
         };
     }
 
+
+    /**
+     * Send a PUT request
+     * @param path       API path
+     * @param pathParams path parameters
+     * @return Response object
+     */
+    @NotNull
+    default ApiAction putRequest(String path, Object... pathParams) {
+        return (RequestSpecification req, ApiLogMessage logMessage) -> {
+
+            logMessage.getAction().setRequestType(ApiLogMessage.Action.RequestType.PUT);
+            logMessage.getAction().setRequestPath(path);
+            ArrayList<Object> pathParamsList = new ArrayList<>(Arrays.asList(pathParams));
+            logMessage.getAction().setRequestPathParams(pathParamsList);
+
+            return req.put(path, pathParams);
+        };
+    }
+
+
+    // ========== DELETE ==========
+
+
     /**
      * Send a DELETE request
      * @return Response object
@@ -394,24 +409,6 @@ public interface ApiActions {
     }
     */
 
-    /**
-     * Send a DELETE request
-     * @param path       API path
-     * @param pathParams path parameters
-     * @return Response object
-     */
-    @NotNull
-    default ApiAction deleteRequest(String path, Object... pathParams) {
-        return (RequestSpecification req, ApiLogMessage logMessage) -> {
-
-            logMessage.getAction().setRequestType(ApiLogMessage.Action.RequestType.DELETE);
-            logMessage.getAction().setRequestPath(path);
-            ArrayList<Object> pathParamsList = new ArrayList<>(Arrays.asList(pathParams));
-            logMessage.getAction().setRequestPathParams(pathParamsList);
-
-            return req.delete(path, pathParams);
-        };
-    }
 
     /**
      * Send a DELETE request
@@ -442,6 +439,19 @@ public interface ApiActions {
             logMessage.getAction().setRequestUrl(url);
 
             return req.delete(url);
+        };
+    }
+
+    @NotNull
+    default ApiAction deleteRequest(String path, Object... pathParams) {
+        return (RequestSpecification req, ApiLogMessage logMessage) -> {
+
+            logMessage.getAction().setRequestType(ApiLogMessage.Action.RequestType.DELETE);
+            logMessage.getAction().setRequestPath(path);
+            ArrayList<Object> pathParamsList = new ArrayList<>(Arrays.asList(pathParams));
+            logMessage.getAction().setRequestPathParams(pathParamsList);
+
+            return req.delete(path, pathParams);
         };
     }
 }

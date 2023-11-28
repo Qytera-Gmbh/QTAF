@@ -61,28 +61,29 @@ public class Api {
 
         Response res = action.perform(req, logMessage);
         // logMessage.setResponse(res);
-        ValidatableResponse then = res.then(); //TODO: rename variable then
+        ValidatableResponse validatableResponse = res.then();
 
         // Check Assertions
-
+        boolean hasPassed = true;
         for (ApiTestAssertion assertion: assertions) {
             try {
-                assertion.apply(then, logMessage);
+                assertion.apply(validatableResponse, logMessage);
             }catch (AssertionError error){
-                logMessage.setStatus(LogMessage.Status.FAILURE); // TODO: Changed FAILED to FAILURE for testing
-
-                // Assertion
-                ApiAssertionLogMessageHelper.createAndAppendAssertionLogMessage(logMessage,error.getMessage(), LogMessage.Status.FAILED );
-
-
-                logCollect.setStatus(TestScenarioLogCollection.Status.FAILURE);
+                hasPassed = false;
+                ApiAssertionLogMessageHelper.createAndAppendAssertionLogMessage(logMessage,error.getMessage(), LogMessage.Status.FAILED);
             }
         }
 
+        if (hasPassed){
+            logMessage.setStatus(LogMessage.Status.PASSED);
+        } else {
+            logMessage.setStatus(LogMessage.Status.FAILURE);
+        }
+
         FilterableRequestSpecification filter = (FilterableRequestSpecification) req;
-        ExtractableResponse<Response> response = then.extract();
+        ExtractableResponse<Response> response = validatableResponse.extract();
         logMessage.getResponse().setResponseAttributes(response);
         response.body();
-        return new ApiTestExecution(q, then.extract()); // was macht dieser Rückgabetyp ?
+        return new ApiTestExecution(q, validatableResponse.extract()); // was macht dieser Rückgabetyp ?
     }
 }

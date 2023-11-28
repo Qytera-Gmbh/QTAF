@@ -28,9 +28,78 @@ import java.util.Map;
 public class QtafRestAssuredActionTests  extends QtafTestNGContext implements RequestSpecifications, ApiActions, ResponseAssertions {
 
     String urlString = "https://jsonplaceholder.typicode.com";
+
+
+    // ========== HEAD ==========
+    String uriStringHead = "/users/1";
+    @Test
+    public void headRequestTest() {
+
+        Api.test(
+                this,
+                List.of(
+                        baseUri(urlString + uriStringHead)
+
+                ),
+                headRequest(),
+                List.of(
+                        statusCodeIs(200)
+                )
+        );
+    }
+
+    @Test
+    public void headRequestUriTest() {
+        Header header = new Header("Content-type", "application/json; charset=UTF-8");
+
+        Api.test(
+                this,
+                List.of(
+                        baseUri(urlString)
+
+                ),
+                headRequest(uriStringHead),
+                List.of(
+                        statusCodeIs(200)
+                        )
+        );
+
+    }
+
+    @Test
+    public void headRequestUrlTest() {
+
+    }
+
+    @Test
+    public void headRequestPathParamsTest() {
+
+    }
+
+    // ========== OPTION ==========
+    @Test
+    public void optionRequestsTest() {
+
+    }
+
+    @Test
+    public void optionRequestsUriTest() {
+
+    }
+    @Test
+    public void optionRequestsUrlTest() {
+
+    }
+
+    // ========== GET ==========
+
     String uriStringGetEndpoint = "/users/1";
-    String uriStringPostEndpoint = "/posts";
     String expectedResponseBodyGet = "{\n  \"id\": 1,\n  \"name\": \"Leanne Graham\",\n  \"username\": \"Bret\",\n  \"email\": \"Sincere@april.biz\",\n  \"address\": {\n    \"street\": \"Kulas Light\",\n    \"suite\": \"Apt. 556\",\n    \"city\": \"Gwenborough\",\n    \"zipcode\": \"92998-3874\",\n    \"geo\": {\n      \"lat\": \"-37.3159\",\n      \"lng\": \"81.1496\"\n    }\n  },\n  \"phone\": \"1-770-736-8031 x56442\",\n  \"website\": \"hildegard.org\",\n  \"company\": {\n    \"name\": \"Romaguera-Crona\",\n    \"catchPhrase\": \"Multi-layered client-server neural-net\",\n    \"bs\": \"harness real-time e-markets\"\n  }\n}";
+
+    @Test
+    public void getRequestsTest() {
+        // TODO
+    }
 
     @Test
     public void getReqeustsUriTest() throws URISyntaxException {
@@ -97,6 +166,10 @@ public class QtafRestAssuredActionTests  extends QtafTestNGContext implements Re
         );
     }
 
+    // ========== POST ==========
+
+    String uriStringPostEndpoint = "/posts";
+
     @Test
     public void postRequestUriTest() throws URISyntaxException {
 
@@ -136,6 +209,7 @@ public class QtafRestAssuredActionTests  extends QtafTestNGContext implements Re
 
     @Test
     public void postRequestUrlTest() throws MalformedURLException {
+        // TODO
         URL url = new URL(urlString+uriStringPostEndpoint);
         Header header = new Header("Content-type", "application/json; charset=UTF-8");
         Api.test(
@@ -146,5 +220,64 @@ public class QtafRestAssuredActionTests  extends QtafTestNGContext implements Re
                         // body(Matchers.hasToString(expectedResponseBodyGet))
                         )
         );
+    }
+
+    @Test
+    public void postRequestPathParamsTest() throws MalformedURLException {
+        // TODO
+        URL url = new URL(urlString+uriStringPostEndpoint);
+        Header header = new Header("Content-type", "application/json; charset=UTF-8");
+        Api.test(
+                this,
+                List.of(header(header)),
+                postRequest(url),
+                List.of(
+                        // body(Matchers.hasToString(expectedResponseBodyGet))
+                )
+        );
+    }
+
+    // ========== PUT ==========
+
+    @Test
+    public void putRequestTest() {
+        // TODO
+    }
+
+    @Test
+    public void putRequestUriTest() {
+        // TODO
+    }
+
+    @Test
+    public void putRequestUrlTest() {
+        // TODO
+    }
+
+    @Test
+    public void putRequestPathParamsTest() {
+        // TODO
+    }
+
+    // ========== DELETE ==========
+
+    @Test
+    public void deleteRequestTest() {
+        // TODO
+    }
+
+    @Test
+    public void deleteRequestUriTest() {
+        // TODO
+    }
+
+    @Test
+    public void deleteRequestUrlTest() {
+        // TODO
+    }
+
+    @Test
+    public void deleteRequestPathParamsTest() {
+        // TODO
     }
 }
