@@ -22,19 +22,13 @@ public interface ApiActions {
      * Send a HEAD request
      * @return Response object
      */
-    /* @NotNull
-    @Contract(pure = true)
-    default ApiAction headRequest() {
-        return RequestSenderOptions::head;
-    }
-    */
-
     @NotNull
     default ApiAction headRequest() {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
 
             logMessage.getAction().setRequestType(ApiLogMessage.Action.RequestType.HEAD);
 
+            // return RequestSenderOptions::head;
             return req.head();
         };
     }
@@ -94,13 +88,17 @@ public interface ApiActions {
      * Send an OPTIONS request
      * @return Response object
      */
-    /* TODO
+
     @NotNull
-    @Contract(pure = true)
     default ApiAction optionsRequest() {
-        return RequestSenderOptions::options;
+        return (RequestSpecification req, ApiLogMessage logMessage) -> {
+
+            logMessage.getAction().setRequestType(ApiLogMessage.Action.RequestType.OPTIONS);
+
+            // return RequestSenderOptions::options;
+            return req.options();
+        };
     }
-     */
 
 
     /**
@@ -155,13 +153,16 @@ public interface ApiActions {
      * @return Response object
      */
 
-    /* TODO
     @NotNull
-    @Contract(pure = true)
     default ApiAction getRequest() {
-        return RequestSenderOptions::get;
+        return (RequestSpecification req, ApiLogMessage logMessage) -> {
+
+            logMessage.getAction().setRequestType(ApiLogMessage.Action.RequestType.OPTIONS);
+
+            // return RequestSenderOptions::get;
+            return req.get();
+        };
     }
-     */
 
 
     /**

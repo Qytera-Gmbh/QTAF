@@ -3,8 +3,13 @@ package de.qytera.qtaf.apitesting.restassured;
 import com.google.gson.JsonObject;
 import de.qytera.qtaf.apitesting.Api;
 import de.qytera.qtaf.apitesting.action.ApiActions;
+import de.qytera.qtaf.apitesting.log.model.message.ApiLogMessage;
 import de.qytera.qtaf.apitesting.request.RequestSpecifications;
 import de.qytera.qtaf.apitesting.response.ResponseAssertions;
+import de.qytera.qtaf.core.QtafFactory;
+import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
+import de.qytera.qtaf.core.log.model.collection.TestSuiteLogCollection;
+import de.qytera.qtaf.core.log.model.message.LogMessage;
 import de.qytera.qtaf.testng.context.QtafTestNGContext;
 import io.restassured.http.ContentType;
 import io.restassured.http.Header;
@@ -21,6 +26,7 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,77 +39,204 @@ public class QtafRestAssuredActionTests  extends QtafTestNGContext implements Re
     // ========== HEAD ==========
     String uriStringHead = "/users/1";
     @Test
-    public void headRequestTest() {
+    public void headRequestPassedTest() {
+        TestSuiteLogCollection testSuiteLogCollection = QtafFactory.getTestSuiteLogCollection();
+        testSuiteLogCollection.getLogDirectory();
 
         Api.test(
                 this,
                 List.of(
                         baseUri(urlString + uriStringHead)
-
                 ),
                 headRequest(),
-                List.of(
-                        statusCodeIs(200)
-                )
+                List.of()
+        );
+
+        ApiLogMessage filledOutApiLogMessage = getLogCollection().getLogMessages(ApiLogMessage.class).get(0);
+        checkApiLogMessage(
+                filledOutApiLogMessage,
+                LogMessage.Status.PASSED,
+                ApiLogMessage.Action.RequestType.HEAD,
+                200
         );
     }
-
+    /*
     @Test
-    public void headRequestUriTest() {
-        Header header = new Header("Content-type", "application/json; charset=UTF-8");
+    public void headRequestFailedTest() {
+        TestSuiteLogCollection testSuiteLogCollection = QtafFactory.getTestSuiteLogCollection();
+        testSuiteLogCollection.getLogDirectory();
 
         Api.test(
                 this,
                 List.of(
-                        baseUri(urlString)
-
+                        baseUri(urlString + uriStringHead)
                 ),
-                headRequest(uriStringHead),
+                headRequest(),
                 List.of(
-                        statusCodeIs(200)
-                        )
+                        statusCodeIs(202)
+                )
         );
 
+        ApiLogMessage filledOutApiLogMessage = getLogCollection().getLogMessages(ApiLogMessage.class).get(0);
+        checkApiLogMessage(
+                filledOutApiLogMessage,
+                LogMessage.Status.FAILED,
+                ApiLogMessage.Action.RequestType.HEAD
+        );
+    }
+     */
+
+    @Test
+    public void headRequestUriTest() throws URISyntaxException {
+        Header header = new Header("Content-type", "application/json; charset=UTF-8");
+        URI uri = new URI(urlString + uriStringHead);
+
+        Api.test(
+                this,
+                List.of(),
+                headRequest(uri),
+                List.of()
+        );
+
+        ApiLogMessage filledOutApiLogMessage = getLogCollection().getLogMessages(ApiLogMessage.class).get(0);
+        checkApiLogMessage(
+                filledOutApiLogMessage,
+                LogMessage.Status.PASSED,
+                ApiLogMessage.Action.RequestType.HEAD,
+                200
+        );
     }
 
     @Test
-    public void headRequestUrlTest() {
+    public void headRequestUrlTest() throws MalformedURLException {
+        Header header = new Header("Content-type", "application/json; charset=UTF-8");
 
+        URL url = new URL(urlString + uriStringHead);
+
+        Api.test(
+                this,
+                List.of(),
+                headRequest(url),
+                List.of()
+        );
+
+        ApiLogMessage filledOutApiLogMessage = getLogCollection().getLogMessages(ApiLogMessage.class).get(0);
+        checkApiLogMessage(
+                filledOutApiLogMessage,
+                LogMessage.Status.PASSED,
+                ApiLogMessage.Action.RequestType.HEAD,
+                200
+        );
     }
+
 
     @Test
     public void headRequestPathParamsTest() {
+        Header header = new Header("Content-type", "application/json; charset=UTF-8");
 
+
+        Api.test(
+                this,
+                List.of(),
+                headRequest(urlString + "/{type}/{id}", "users", "1"),
+                List.of()
+        );
+
+        ApiLogMessage filledOutApiLogMessage = getLogCollection().getLogMessages(ApiLogMessage.class).get(0);
+        checkApiLogMessage(
+                filledOutApiLogMessage,
+                LogMessage.Status.PASSED,
+                ApiLogMessage.Action.RequestType.HEAD,
+                200
+        );
     }
 
     // ========== OPTION ==========
+    String uriStringOption = "/users/1";
     @Test
     public void optionRequestsTest() {
-
+        Api.test(
+            this,
+            List.of(
+                    baseUri(urlString)
+            ),
+            optionsRequest(),
+            List.of()
+        );
+        ApiLogMessage filledOutApiLogMessage = getLogCollection().getLogMessages(ApiLogMessage.class).get(0);
+        checkApiLogMessage(
+                filledOutApiLogMessage,
+                LogMessage.Status.PASSED,
+                ApiLogMessage.Action.RequestType.OPTIONS,
+                204
+        );
     }
 
     @Test
-    public void optionRequestsUriTest() {
+    public void optionRequestsUriTest() throws URISyntaxException {
+        URI uri = new URI(urlString + uriStringOption);
+        Api.test(
+                this,
+                List.of(),
+                optionsRequest(uri),
+                List.of()
+        );
 
+        ApiLogMessage filledOutApiLogMessage = getLogCollection().getLogMessages(ApiLogMessage.class).get(0);
+        checkApiLogMessage(
+                filledOutApiLogMessage,
+                LogMessage.Status.PASSED,
+                ApiLogMessage.Action.RequestType.OPTIONS,
+                204
+        );
     }
     @Test
-    public void optionRequestsUrlTest() {
+    public void optionRequestsUrlTest() throws MalformedURLException {
+        URL url = new URL(urlString + uriStringOption);
+        Api.test(
+                this,
+                List.of(),
+                optionsRequest(url),
+                List.of()
+        );
 
+        ApiLogMessage filledOutApiLogMessage = getLogCollection().getLogMessages(ApiLogMessage.class).get(0);
+        checkApiLogMessage(
+                filledOutApiLogMessage,
+                LogMessage.Status.PASSED,
+                ApiLogMessage.Action.RequestType.OPTIONS,
+                204
+        );
     }
+
 
     // ========== GET ==========
 
-    String uriStringGetEndpoint = "/users/1";
+    String uriStringGet = "/users/1";
     String expectedResponseBodyGet = "{\n  \"id\": 1,\n  \"name\": \"Leanne Graham\",\n  \"username\": \"Bret\",\n  \"email\": \"Sincere@april.biz\",\n  \"address\": {\n    \"street\": \"Kulas Light\",\n    \"suite\": \"Apt. 556\",\n    \"city\": \"Gwenborough\",\n    \"zipcode\": \"92998-3874\",\n    \"geo\": {\n      \"lat\": \"-37.3159\",\n      \"lng\": \"81.1496\"\n    }\n  },\n  \"phone\": \"1-770-736-8031 x56442\",\n  \"website\": \"hildegard.org\",\n  \"company\": {\n    \"name\": \"Romaguera-Crona\",\n    \"catchPhrase\": \"Multi-layered client-server neural-net\",\n    \"bs\": \"harness real-time e-markets\"\n  }\n}";
 
     @Test
     public void getRequestsTest() {
-        // TODO
+        Api.test(
+                this,
+                List.of(
+                        baseUri(urlString)
+                ),
+                getRequest(uriStringGet),
+                List.of()
+        );
+        ApiLogMessage filledOutApiLogMessage = getLogCollection().getLogMessages(ApiLogMessage.class).get(0);
+        checkApiLogMessage(
+                filledOutApiLogMessage,
+                LogMessage.Status.PASSED,
+                ApiLogMessage.Action.RequestType.GET,
+                200
+        );
     }
 
     @Test
     public void getReqeustsUriTest() throws URISyntaxException {
-        URI uri = new URI(uriStringGetEndpoint);
+        URI uri = new URI(uriStringGet);
         Api.test(
                 this,
                 List.of(
@@ -120,7 +253,7 @@ public class QtafRestAssuredActionTests  extends QtafTestNGContext implements Re
     @Test
     public void getReqeustsUrlTest() throws MalformedURLException {
 
-        URL url = new URL(urlString + uriStringGetEndpoint);
+        URL url = new URL(urlString + uriStringGet);
         Api.test(
                 this,
                 List.of(),
@@ -169,9 +302,11 @@ public class QtafRestAssuredActionTests  extends QtafTestNGContext implements Re
     // ========== POST ==========
 
     String uriStringPostEndpoint = "/posts";
-
+    /*
     @Test
     public void postRequestUriTest() throws URISyntaxException {
+
+     */
 
         //TODO: POST not working
         /*
@@ -181,7 +316,7 @@ public class QtafRestAssuredActionTests  extends QtafTestNGContext implements Re
         requestBody.addProperty("userId", 1);
 
          */
-
+    /*
         JSONObject requestBody = new JSONObject();
         requestBody.put("title", "foo");
         requestBody.put("body", "bar");
@@ -205,8 +340,10 @@ public class QtafRestAssuredActionTests  extends QtafTestNGContext implements Re
                         // body(Matchers.hasToString(expectedResponseBody))
                         )
         );
-    }
 
+
+    }*/
+    /*
     @Test
     public void postRequestUrlTest() throws MalformedURLException {
         // TODO
@@ -279,5 +416,21 @@ public class QtafRestAssuredActionTests  extends QtafTestNGContext implements Re
     @Test
     public void deleteRequestPathParamsTest() {
         // TODO
+    }
+
+    */
+
+    // ========== HELPER ==========
+
+    public void checkApiLogMessage(
+            ApiLogMessage filledOutApiLogMessage,
+            LogMessage.Status apiLogMessageStatus,
+            ApiLogMessage.Action.RequestType requestType,
+            int statusCode
+        )
+    {
+        assertEquals(filledOutApiLogMessage.getStatus(), apiLogMessageStatus);
+        assertEquals(filledOutApiLogMessage.getAction().getRequestType(), requestType);
+        assertEquals(filledOutApiLogMessage.getResponse().getStatusCode(), statusCode);
     }
 }

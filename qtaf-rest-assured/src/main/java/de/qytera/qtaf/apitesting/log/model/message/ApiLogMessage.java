@@ -323,12 +323,21 @@ public class ApiLogMessage extends LogMessage {
 
     public class Response {
 
+        @Getter
         private int statusCode;
+        @Getter
         private Headers headers;
+
+        @Getter
         private Map<String, String> cookies;
+
+        @Getter
         private String bodyAsString;
 
+        @Getter
         private String body;
+
+        @Getter
         private long time;
 
 
