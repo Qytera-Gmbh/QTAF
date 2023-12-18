@@ -7,29 +7,34 @@ import io.restassured.response.ValidatableResponse;
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 
+
 public interface TimeAssertions {
     default ApiTestAssertion responseTimeShouldBeLessThanXMilliseconds(Matcher<Long> matcher) {
         return (ValidatableResponse res, ApiLogMessage logMessage) -> {
 
-            res.time(matcher);
-
             ApiAssertionLogMessageHelper.createAndAppendAssertionLogMessage(
                     logMessage,
-                    "statusCodeShouldIs5xx assertion",
-                    LogMessage.Status.PASSED
+                    "responseTimeShouldBeLessThanXMilliseconds",
+                    LogMessage.Status.PASSED,
+                    matcher,
+                    AssertionTypes.Type.TIME
             );
+
+            res.time(matcher);
         };
     }
     default ApiTestAssertion responseTimeShouldBeLessThanXMilliseconds(long duration) {
         return (ValidatableResponse res, ApiLogMessage logMessage) -> {
 
-            res.time(Matchers.lessThan(duration));
-
             ApiAssertionLogMessageHelper.createAndAppendAssertionLogMessage(
                     logMessage,
-                    "statusCodeShouldIs5xx assertion",
-                    LogMessage.Status.PASSED
+                    "responseTimeShouldBeLessThanXMilliseconds",
+                    LogMessage.Status.PASSED,
+                    duration,
+                    AssertionTypes.Type.TIME
             );
+
+            res.time(Matchers.lessThan(duration));
         };
     }
 }

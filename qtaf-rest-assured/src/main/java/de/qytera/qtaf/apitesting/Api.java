@@ -10,6 +10,7 @@ import de.qytera.qtaf.core.log.model.LogLevel;
 import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
 import de.qytera.qtaf.core.log.model.message.AssertionLogMessage;
 import de.qytera.qtaf.core.log.model.message.LogMessage;
+import de.qytera.qtaf.testng.context.QtafTestNGContext;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
@@ -21,6 +22,9 @@ import io.restassured.specification.SpecificationQuerier;
 
 
 import java.util.List;
+
+import static de.qytera.qtaf.apitesting.response.ApiAssertionLogMessageHelper.computeAcualValue;
+import static de.qytera.qtaf.apitesting.response.AssertionTypes.Type.*;
 
 /**
  * This class contains a method for executing API tests.
@@ -35,15 +39,17 @@ public class Api {
      * @param assertions    List of assertions
      * @return  Test execution result
      */
+
+
     public static ApiTestExecution test(
             IQtafTestContext context,
             List<ApiTestRequestSpecification> preconditions,
             ApiAction action,
             List<ApiTestAssertion> assertions
     ) {
-        TestScenarioLogCollection logCollect = context.getLogCollection();
+        TestScenarioLogCollection logCollection = context.getLogCollection();
         ApiLogMessage logMessage = new ApiLogMessage(LogLevel.INFO, "Api Call");
-        logCollect.addLogMessage(logMessage);
+        logCollection.addLogMessage(logMessage);
 
         RequestSpecification req = RestAssured.given();
         QueryableRequestSpecification q = SpecificationQuerier.query(req);
@@ -62,16 +68,40 @@ public class Api {
         Response res = action.perform(req, logMessage);
         // logMessage.setResponse(res);
         ValidatableResponse validatableResponse = res.then();
+        FilterableRequestSpecification filter = (FilterableRequestSpecification) req;
+        ExtractableResponse<Response> response = validatableResponse.extract();
+        logMessage.getResponse().setResponseAttributes(response);
+        response.body();
 
         // Check Assertions
         boolean hasPassed = true;
+        int i = 0;
         for (ApiTestAssertion assertion: assertions) {
             try {
                 assertion.apply(validatableResponse, logMessage);
-            }catch (AssertionError error){
+                // this code won't get executet if apply() causes an exception
+
+                List<LogMessage> logMessages = logCollection.getLogMessages();
+                LogMessage latestLogMessage = logMessages.get(0);
+                List<AssertionLogMessage> assertionLogMessages = latestLogMessage.getAssertions();
+                AssertionLogMessage currentAssertionLogMessage = assertionLogMessages.get(i);
+                computeAcualValue(currentAssertionLogMessage, LogMessage.Status.PASSED, response, null);
+
+            } catch (AssertionError error){
+                System.out.println(error);
+                System.out.println("==============");
                 hasPassed = false;
-                ApiAssertionLogMessageHelper.createAndAppendAssertionLogMessage(logMessage,error.getMessage(), LogMessage.Status.FAILED);
+
+                List<LogMessage> logMessages = logCollection.getLogMessages();
+                LogMessage latestLogMessage = logMessages.get(0);
+                List<AssertionLogMessage> assertionLogMessages = latestLogMessage.getAssertions();
+                AssertionLogMessage currentAssertionLogMessage = assertionLogMessages.get(i);
+
+                computeAcualValue(currentAssertionLogMessage, LogMessage.Status.FAILURE, response, error.getMessage());
+
+
             }
+            i++;
         }
 
         if (hasPassed){
@@ -80,10 +110,7 @@ public class Api {
             logMessage.setStatus(LogMessage.Status.FAILURE);
         }
 
-        FilterableRequestSpecification filter = (FilterableRequestSpecification) req;
-        ExtractableResponse<Response> response = validatableResponse.extract();
-        logMessage.getResponse().setResponseAttributes(response);
-        response.body();
+
         return new ApiTestExecution(q, validatableResponse.extract()); // was macht dieser Rückgabetyp ?
     }
 }

@@ -15,7 +15,12 @@ public interface BodyAssertions {
 
             res.body(matcher);
 
-            ApiAssertionLogMessageHelper.createAndAppendAssertionLogMessage(logMessage,"body Assertion", LogMessage.Status.PASSED);
+            ApiAssertionLogMessageHelper.createAndAppendAssertionLogMessage(
+                    logMessage,
+                    "body Assertion",
+                    LogMessage.Status.PASSED,
+                    matcher,
+                    AssertionTypes.Type.BODY);
         };
     }
 
@@ -25,7 +30,12 @@ public interface BodyAssertions {
 
             res.body(s, matcher);
 
-            ApiAssertionLogMessageHelper.createAndAppendAssertionLogMessage(logMessage,"body Assertion", LogMessage.Status.PASSED );
+            ApiAssertionLogMessageHelper.createAndAppendAssertionLogMessage(
+                    logMessage,
+                    "body Assertion",
+                    LogMessage.Status.PASSED,
+                    matcher,
+                    AssertionTypes.Type.BODY );
         };
     }
 

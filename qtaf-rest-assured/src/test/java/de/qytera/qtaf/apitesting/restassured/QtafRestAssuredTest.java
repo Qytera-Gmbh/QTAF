@@ -119,8 +119,8 @@ public class QtafRestAssuredTest extends QtafTestNGContext implements RequestSpe
                 List.of(baseUri(url)),
                 getRequest("/user/1"),
                 List.of(
-                        statusCodeShouldIs4xx(),
-                        statusCodeShouldIsNot2xx()
+                        statusCodeIs4xx(),
+                        statusCodeIsNot2xx()
                 )
         );
     }
@@ -132,7 +132,7 @@ public class QtafRestAssuredTest extends QtafTestNGContext implements RequestSpe
                 List.of(baseUri(url)),
                 getRequest("/users/1"),
                 List.of(
-                        statusCodeShouldIsNot4xx()
+                        statusCodeIsNot4xx()
                 )
         ).getRes();
 
@@ -147,8 +147,8 @@ public class QtafRestAssuredTest extends QtafTestNGContext implements RequestSpe
                 List.of(baseUri(url)),
                 getRequest("/user/1"),
                 List.of(
-                        statusCodeShouldIs4xx(),
-                        statusCodeShouldIsNot2xx()
+                        statusCodeIs4xx(),
+                        statusCodeIsNot2xx()
                 )
         ).getRes();
         response.body();
