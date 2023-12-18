@@ -1,16 +1,13 @@
-package de.qytera.qtaf.apitesting.response;
+package de.qytera.qtaf.apitesting.assertions;
 
 import de.qytera.qtaf.apitesting.log.model.message.ApiLogMessage;
-import de.qytera.qtaf.core.guice.annotations.Step;
-import de.qytera.qtaf.core.log.model.LogLevel;
-import de.qytera.qtaf.core.log.model.message.AssertionLogMessage;
 import de.qytera.qtaf.core.log.model.message.LogMessage;
 import io.restassured.response.ValidatableResponse;
 import org.hamcrest.Matcher;
 
 public interface BodyAssertions {
 
-    default ApiTestAssertion body(Matcher<?> matcher) {
+    default ApiAssertion body(Matcher<?> matcher) {
         return (ValidatableResponse res, ApiLogMessage logMessage) -> {
 
             res.body(matcher);
@@ -25,7 +22,7 @@ public interface BodyAssertions {
     }
 
 
-    default ApiTestAssertion body(String s, Matcher<?> matcher) {
+    default ApiAssertion body(String s, Matcher<?> matcher) {
         return (ValidatableResponse res, ApiLogMessage logMessage) -> {
 
             res.body(s, matcher);

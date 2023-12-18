@@ -1,16 +1,14 @@
 package de.qytera.qtaf.apitesting;
 
-import de.qytera.qtaf.apitesting.action.ApiAction;
+import de.qytera.qtaf.apitesting.requesttypes.ApiRequestType;
 import de.qytera.qtaf.apitesting.log.model.message.ApiLogMessage;
-import de.qytera.qtaf.apitesting.request.ApiTestRequestSpecification;
-import de.qytera.qtaf.apitesting.response.ApiAssertionLogMessageHelper;
-import de.qytera.qtaf.apitesting.response.ApiTestAssertion;
+import de.qytera.qtaf.apitesting.preconditions.ApiPrecondition;
+import de.qytera.qtaf.apitesting.assertions.ApiAssertion;
 import de.qytera.qtaf.core.context.IQtafTestContext;
 import de.qytera.qtaf.core.log.model.LogLevel;
 import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
 import de.qytera.qtaf.core.log.model.message.AssertionLogMessage;
 import de.qytera.qtaf.core.log.model.message.LogMessage;
-import de.qytera.qtaf.testng.context.QtafTestNGContext;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
@@ -23,29 +21,34 @@ import io.restassured.specification.SpecificationQuerier;
 
 import java.util.List;
 
-import static de.qytera.qtaf.apitesting.response.ApiAssertionLogMessageHelper.computeAcualValue;
-import static de.qytera.qtaf.apitesting.response.AssertionTypes.Type.*;
+import static de.qytera.qtaf.apitesting.assertions.ApiAssertionLogMessageHelper.computeAcualValue;
 
 /**
- * This class contains a method for executing API tests.
- * The function takes a list of preconditions and assertions, which are functions and an action
- * that should be performed on the API
+ * The class is responsible for executing the API tests
+ * and thus represents the application interface to the QTAF API Testing feature.
+ * It is recommended to statically import the apiTest() method
+ * contained in this class into the test class in order to perform API tests
  */
-public class Api {
+public class ApiTestExecutor {
     /**
-     * Execute API Test
-     * @param preconditions List of request specifications
-     * @param action        Action that should be performed
+     * This function is intended to be called by a user of QTAF when he wants to perform an API test.
+     * The function takes a list of preconditions, the request type and a list of assertions
+     * that should be performed during the API Test.
+     * The preconditions and assertions passed are themselves methods of functional interfaces
+     * that are evaluated when apiText is executed.
+     * This allows QTAF to hook into the existing RestAssured library
+     * and generate corresponding LogMessages.
+     *
+     * @param preconditions List of api preconditions
+     * @param requestType   Api request type that should be performed
      * @param assertions    List of assertions
-     * @return  Test execution result
+     * @return  ExecutedApiTest result
      */
-
-
-    public static ApiTestExecution test(
+    public static ExecutedApiTest apiTest(
             IQtafTestContext context,
-            List<ApiTestRequestSpecification> preconditions,
-            ApiAction action,
-            List<ApiTestAssertion> assertions
+            List<ApiPrecondition> preconditions,
+            ApiRequestType requestType,
+            List<ApiAssertion> assertions
     ) {
         TestScenarioLogCollection logCollection = context.getLogCollection();
         ApiLogMessage logMessage = new ApiLogMessage(LogLevel.INFO, "Api Call");
@@ -56,7 +59,7 @@ public class Api {
 
         // Set Preconditions
 
-        for (ApiTestRequestSpecification precondition : preconditions) {
+        for (ApiPrecondition precondition : preconditions) {
             precondition.apply(req, logMessage);
             System.out.println(logMessage.getMessage());
         }
@@ -65,7 +68,7 @@ public class Api {
 
         // Perform Action
 
-        Response res = action.perform(req, logMessage);
+        Response res = requestType.perform(req, logMessage);
         // logMessage.setResponse(res);
         ValidatableResponse validatableResponse = res.then();
         FilterableRequestSpecification filter = (FilterableRequestSpecification) req;
@@ -76,7 +79,7 @@ public class Api {
         // Check Assertions
         boolean hasPassed = true;
         int i = 0;
-        for (ApiTestAssertion assertion: assertions) {
+        for (ApiAssertion assertion: assertions) {
             try {
                 assertion.apply(validatableResponse, logMessage);
                 // this code won't get executet if apply() causes an exception
@@ -98,8 +101,6 @@ public class Api {
                 AssertionLogMessage currentAssertionLogMessage = assertionLogMessages.get(i);
 
                 computeAcualValue(currentAssertionLogMessage, LogMessage.Status.FAILURE, response, error.getMessage());
-
-
             }
             i++;
         }
@@ -111,6 +112,6 @@ public class Api {
         }
 
 
-        return new ApiTestExecution(q, validatableResponse.extract()); // was macht dieser Rückgabetyp ?
+        return new ExecutedApiTest(q, validatableResponse.extract()); // was macht dieser Rückgabetyp ?
     }
 }

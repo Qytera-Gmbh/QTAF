@@ -1,9 +1,7 @@
-package de.qytera.qtaf.apitesting.action;
+package de.qytera.qtaf.apitesting.requesttypes;
 
 import de.qytera.qtaf.apitesting.log.model.message.ApiLogMessage;
-import io.restassured.specification.RequestSenderOptions;
 import io.restassured.specification.RequestSpecification;
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.net.URI;
@@ -11,7 +9,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public interface ApiActions {
+public interface ApiRequestTypes {
 
     // TODO: Missing methods for: PATCH, TRACE, CONNECT Calls
 
@@ -23,7 +21,7 @@ public interface ApiActions {
      * @return Response object
      */
     @NotNull
-    default ApiAction headRequest() {
+    default ApiRequestType headRequest() {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
 
             logMessage.getAction().setRequestType(ApiLogMessage.Action.RequestType.HEAD);
@@ -42,7 +40,7 @@ public interface ApiActions {
      * @return Response object
      */
     @NotNull
-    default ApiAction headRequest(URI uri) {
+    default ApiRequestType headRequest(URI uri) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
 
             logMessage.getAction().setRequestType(ApiLogMessage.Action.RequestType.HEAD);
@@ -59,7 +57,7 @@ public interface ApiActions {
      * @return Response object
      */
     @NotNull
-    default ApiAction headRequest(URL url) {
+    default ApiRequestType headRequest(URL url) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
 
             logMessage.getAction().setRequestType(ApiLogMessage.Action.RequestType.HEAD);
@@ -70,7 +68,7 @@ public interface ApiActions {
     }
 
     @NotNull
-    default ApiAction headRequest(String path, Object... pathParams) {
+    default ApiRequestType headRequest(String path, Object... pathParams) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
 
             ArrayList<Object> pathParamsList = new ArrayList<>(Arrays.asList(pathParams));
@@ -90,7 +88,7 @@ public interface ApiActions {
      */
 
     @NotNull
-    default ApiAction optionsRequest() {
+    default ApiRequestType optionsRequest() {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
 
             logMessage.getAction().setRequestType(ApiLogMessage.Action.RequestType.OPTIONS);
@@ -108,7 +106,7 @@ public interface ApiActions {
      * @return Response object
      */
     @NotNull
-    default ApiAction optionsRequest(URI uri) {
+    default ApiRequestType optionsRequest(URI uri) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
 
             logMessage.getAction().setRequestType(ApiLogMessage.Action.RequestType.OPTIONS);
@@ -124,7 +122,7 @@ public interface ApiActions {
      * @return Response object
      */
     @NotNull
-    default ApiAction optionsRequest(URL url) {
+    default ApiRequestType optionsRequest(URL url) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
 
             logMessage.getAction().setRequestType(ApiLogMessage.Action.RequestType.OPTIONS);
@@ -134,7 +132,7 @@ public interface ApiActions {
     }
 
     @NotNull
-    default ApiAction optionsRequest(String path, Object... pathParams) {
+    default ApiRequestType optionsRequest(String path, Object... pathParams) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
 
             ArrayList<Object> pathParamsList = new ArrayList<>(Arrays.asList(pathParams));
@@ -154,7 +152,7 @@ public interface ApiActions {
      */
 
     @NotNull
-    default ApiAction getRequest() {
+    default ApiRequestType getRequest() {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
 
             logMessage.getAction().setRequestType(ApiLogMessage.Action.RequestType.OPTIONS);
@@ -173,7 +171,7 @@ public interface ApiActions {
      * @return Lambda function that can be used for API Testing
      */
     @NotNull
-    default ApiAction getRequest(URI uri) {
+    default ApiRequestType getRequest(URI uri) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
 
             logMessage.getAction().setRequestType(ApiLogMessage.Action.RequestType.GET);
@@ -191,7 +189,7 @@ public interface ApiActions {
      * @return ApiAction Lambda function that can be used for API Testing
      */
     @NotNull
-    default ApiAction getRequest(URL url) {
+    default ApiRequestType getRequest(URL url) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
 
             logMessage.getAction().setRequestType(ApiLogMessage.Action.RequestType.GET);
@@ -214,7 +212,7 @@ public interface ApiActions {
      * @return Response object
      */
     @NotNull
-    default ApiAction getRequest(String path, Object... pathParams) {
+    default ApiRequestType getRequest(String path, Object... pathParams) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
 
             // TODO: Specify desired behaviour and adapt implementation
@@ -269,7 +267,7 @@ public interface ApiActions {
      * @return Response object
      */
     @NotNull
-    default ApiAction postRequest(URI uri) {
+    default ApiRequestType postRequest(URI uri) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
 
             logMessage.getAction().setRequestType(ApiLogMessage.Action.RequestType.POST);
@@ -285,7 +283,7 @@ public interface ApiActions {
      * @return Response object
      */
     @NotNull
-    default ApiAction postRequest(URL url) {
+    default ApiRequestType postRequest(URL url) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
 
             logMessage.getAction().setRequestType(ApiLogMessage.Action.RequestType.POST);
@@ -303,7 +301,7 @@ public interface ApiActions {
      * @return Response object
      */
     @NotNull
-    default ApiAction postRequest(String path, Object... pathParams) {
+    default ApiRequestType postRequest(String path, Object... pathParams) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
 
             logMessage.getAction().setRequestType(ApiLogMessage.Action.RequestType.POST);
@@ -332,7 +330,7 @@ public interface ApiActions {
     */
 
     @NotNull
-    default ApiAction putRequest() {
+    default ApiRequestType putRequest() {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
 
             logMessage.getAction().setRequestType(ApiLogMessage.Action.RequestType.PUT);
@@ -347,7 +345,7 @@ public interface ApiActions {
      * @return Response object
      */
     @NotNull
-    default ApiAction putRequest(URI uri) {
+    default ApiRequestType putRequest(URI uri) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
 
             logMessage.getAction().setRequestType(ApiLogMessage.Action.RequestType.PUT);
@@ -363,7 +361,7 @@ public interface ApiActions {
      * @return Response object
      */
     @NotNull
-    default ApiAction putRequest(URL url) {
+    default ApiRequestType putRequest(URL url) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
 
             logMessage.getAction().setRequestType(ApiLogMessage.Action.RequestType.PUT);
@@ -381,7 +379,7 @@ public interface ApiActions {
      * @return Response object
      */
     @NotNull
-    default ApiAction putRequest(String path, Object... pathParams) {
+    default ApiRequestType putRequest(String path, Object... pathParams) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
 
             logMessage.getAction().setRequestType(ApiLogMessage.Action.RequestType.PUT);
@@ -417,7 +415,7 @@ public interface ApiActions {
      * @return Response object
      */
     @NotNull
-    default ApiAction deleteRequest(URI uri) {
+    default ApiRequestType deleteRequest(URI uri) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
 
             logMessage.getAction().setRequestType(ApiLogMessage.Action.RequestType.DELETE);
@@ -433,7 +431,7 @@ public interface ApiActions {
      * @return Response object
      */
     @NotNull
-    default ApiAction deleteRequest(URL url) {
+    default ApiRequestType deleteRequest(URL url) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
 
             logMessage.getAction().setRequestType(ApiLogMessage.Action.RequestType.DELETE);
@@ -444,7 +442,7 @@ public interface ApiActions {
     }
 
     @NotNull
-    default ApiAction deleteRequest(String path, Object... pathParams) {
+    default ApiRequestType deleteRequest(String path, Object... pathParams) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
 
             logMessage.getAction().setRequestType(ApiLogMessage.Action.RequestType.DELETE);

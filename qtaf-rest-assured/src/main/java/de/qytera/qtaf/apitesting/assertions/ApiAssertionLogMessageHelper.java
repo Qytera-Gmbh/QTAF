@@ -1,4 +1,4 @@
-package de.qytera.qtaf.apitesting.response;
+package de.qytera.qtaf.apitesting.assertions;
 
 import de.qytera.qtaf.apitesting.log.model.message.ApiLogMessage;
 import de.qytera.qtaf.core.log.model.LogLevel;
@@ -7,9 +7,7 @@ import de.qytera.qtaf.core.log.model.message.LogMessage;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 
-import java.util.List;
-
-import static de.qytera.qtaf.apitesting.response.AssertionTypes.Type.*;
+import static de.qytera.qtaf.apitesting.assertions.AssertionTypes.Type.*;
 
 public class ApiAssertionLogMessageHelper {
     public static void createAndAppendAssertionLogMessage(ApiLogMessage apiLogMessage, String message, LogMessage.Status status, Object expectedValue, Object actualValue ){

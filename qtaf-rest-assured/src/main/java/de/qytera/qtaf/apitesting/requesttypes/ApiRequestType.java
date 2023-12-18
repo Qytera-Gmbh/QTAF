@@ -1,11 +1,11 @@
-package de.qytera.qtaf.apitesting.action;
+package de.qytera.qtaf.apitesting.requesttypes;
 
 import de.qytera.qtaf.apitesting.log.model.message.ApiLogMessage;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 
 @FunctionalInterface
-public interface ApiAction {
+public interface ApiRequestType {
     // Response perform(RequestSpecification req, ApiLogMessage logMessage);
     Response perform(RequestSpecification req, ApiLogMessage logMessage);
 }

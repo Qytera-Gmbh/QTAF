@@ -1,17 +1,14 @@
-package de.qytera.qtaf.apitesting.response;
+package de.qytera.qtaf.apitesting.assertions;
 
 import de.qytera.qtaf.apitesting.log.model.message.ApiLogMessage;
-import de.qytera.qtaf.core.guice.annotations.Step;
-import de.qytera.qtaf.core.log.model.LogLevel;
-import de.qytera.qtaf.core.log.model.message.AssertionLogMessage;
 import de.qytera.qtaf.core.log.model.message.LogMessage;
 import io.restassured.response.ValidatableResponse;
 import org.hamcrest.Matchers;
 
-import static de.qytera.qtaf.apitesting.response.AssertionTypes.Type.STATUSCODE;
+import static de.qytera.qtaf.apitesting.assertions.AssertionTypes.Type.STATUSCODE;
 
 public interface StatusCodeAssertions {
-    default ApiTestAssertion statusCodeIs(int code) {
+    default ApiAssertion statusCodeIs(int code) {
 
         return (ValidatableResponse res, ApiLogMessage logMessage) -> {
             ApiAssertionLogMessageHelper.createAndAppendAssertionLogMessage(
@@ -26,7 +23,7 @@ public interface StatusCodeAssertions {
 
     }
 
-    default ApiTestAssertion statusCodeIsNot(int code) {
+    default ApiAssertion statusCodeIsNot(int code) {
         return (ValidatableResponse res, ApiLogMessage logMessage) -> {
             ApiAssertionLogMessageHelper.createAndAppendAssertionLogMessage(
                     logMessage,
@@ -39,7 +36,7 @@ public interface StatusCodeAssertions {
         };
     }
 
-    default ApiTestAssertion statusCodeIs1xx() {
+    default ApiAssertion statusCodeIs1xx() {
         return (ValidatableResponse res, ApiLogMessage logMessage) -> {
 
             ApiAssertionLogMessageHelper.createAndAppendAssertionLogMessage(
@@ -59,7 +56,7 @@ public interface StatusCodeAssertions {
         };
     }
 
-    default ApiTestAssertion statusCodeIsNot1xx() {
+    default ApiAssertion statusCodeIsNot1xx() {
         return (ValidatableResponse res, ApiLogMessage logMessage) -> {
 
             ApiAssertionLogMessageHelper.createAndAppendAssertionLogMessage(
@@ -78,7 +75,7 @@ public interface StatusCodeAssertions {
         };
     }
 
-    default ApiTestAssertion statusCodeIs2xx() {
+    default ApiAssertion statusCodeIs2xx() {
         return (ValidatableResponse res, ApiLogMessage logMessage) -> {
 
             ApiAssertionLogMessageHelper.createAndAppendAssertionLogMessage(
@@ -97,7 +94,7 @@ public interface StatusCodeAssertions {
         };
     }
 
-    default ApiTestAssertion statusCodeIsNot2xx() {
+    default ApiAssertion statusCodeIsNot2xx() {
         return (ValidatableResponse res, ApiLogMessage logMessage) -> {
 
             ApiAssertionLogMessageHelper.createAndAppendAssertionLogMessage(
@@ -115,7 +112,7 @@ public interface StatusCodeAssertions {
         };
     }
 
-    default ApiTestAssertion statusCodeIs3xx() {
+    default ApiAssertion statusCodeIs3xx() {
         return (ValidatableResponse res, ApiLogMessage logMessage) -> {
 
             ApiAssertionLogMessageHelper.createAndAppendAssertionLogMessage(
@@ -133,7 +130,7 @@ public interface StatusCodeAssertions {
         };
     }
 
-    default ApiTestAssertion statusCodeIsNot3xx() {
+    default ApiAssertion statusCodeIsNot3xx() {
         return (ValidatableResponse res, ApiLogMessage logMessage) -> {
 
             ApiAssertionLogMessageHelper.createAndAppendAssertionLogMessage(
@@ -152,7 +149,7 @@ public interface StatusCodeAssertions {
         };
     }
 
-    default ApiTestAssertion statusCodeIs4xx() {
+    default ApiAssertion statusCodeIs4xx() {
         return (ValidatableResponse res, ApiLogMessage logMessage) -> {
 
             ApiAssertionLogMessageHelper.createAndAppendAssertionLogMessage(
@@ -171,7 +168,7 @@ public interface StatusCodeAssertions {
         };
     }
 
-    default ApiTestAssertion statusCodeIsNot4xx() {
+    default ApiAssertion statusCodeIsNot4xx() {
         return (ValidatableResponse res, ApiLogMessage logMessage) -> {
 
             ApiAssertionLogMessageHelper.createAndAppendAssertionLogMessage(
@@ -190,7 +187,7 @@ public interface StatusCodeAssertions {
         };
     }
 
-    default ApiTestAssertion statusCodeIs5xx() {
+    default ApiAssertion statusCodeIs5xx() {
         return (ValidatableResponse res, ApiLogMessage logMessage) -> {
 
             ApiAssertionLogMessageHelper.createAndAppendAssertionLogMessage(
@@ -209,7 +206,7 @@ public interface StatusCodeAssertions {
         };
     }
 
-    default ApiTestAssertion statusCodeIsNot5xx() {
+    default ApiAssertion statusCodeIsNot5xx() {
         return (ValidatableResponse res, ApiLogMessage logMessage) -> {
 
             ApiAssertionLogMessageHelper.createAndAppendAssertionLogMessage(

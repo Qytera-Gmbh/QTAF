@@ -2,14 +2,13 @@ package de.qytera.qtaf.apitesting;
 
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
-import io.restassured.response.ValidatableResponse;
 import io.restassured.specification.QueryableRequestSpecification;
 
 /**
  * This class models the results of an API test.
  * It contains the request specification and the response information.
  */
-public class ApiTestExecution {
+public class ExecutedApiTest {
     /**
      * Request specification information
      */
@@ -25,7 +24,7 @@ public class ApiTestExecution {
      * @param req   Request specification information
      * @param res   Response information
      */
-    public ApiTestExecution(QueryableRequestSpecification req, ExtractableResponse<Response> res) {
+    public ExecutedApiTest(QueryableRequestSpecification req, ExtractableResponse<Response> res) {
         this.req = req;
         this.res = res;
     }

@@ -1,19 +1,18 @@
 package de.qytera.qtaf.apitesting.restassured;
 
+import static de.qytera.qtaf.apitesting.ApiTestExecutor.apiTest;
+
+import de.qytera.qtaf.apitesting.preconditions.ApiPreconditions;
+import de.qytera.qtaf.apitesting.requesttypes.ApiRequestTypes;
+import de.qytera.qtaf.apitesting.assertions.ApiAssertions;
 
 import com.google.gson.JsonObject;
-import de.qytera.qtaf.apitesting.Api;
-import de.qytera.qtaf.apitesting.action.ApiActions;
-import de.qytera.qtaf.apitesting.request.RequestSpecifications;
-import de.qytera.qtaf.apitesting.response.ResponseAssertions;
+import de.qytera.qtaf.apitesting.ApiTestExecutor;
 
 import de.qytera.qtaf.testng.context.QtafTestNGContext;
-import io.restassured.http.Header;
-import io.restassured.http.Headers;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import io.restassured.specification.QueryableRequestSpecification;
-import io.restassured.specification.RequestSpecification;
 import org.json.simple.JSONObject;
 import org.testng.annotations.Test;
 
@@ -22,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class QtafRestAssuredTest extends QtafTestNGContext implements RequestSpecifications, ApiActions, ResponseAssertions {
+public class ApiTestMixedTests extends QtafTestNGContext implements ApiPreconditions, ApiRequestTypes, ApiAssertions {
 
     String url = "https://jsonplaceholder.typicode.com";
 
@@ -46,7 +45,7 @@ public class QtafRestAssuredTest extends QtafTestNGContext implements RequestSpe
         body.put("userId", 0);
 
 
-        ExtractableResponse<Response> response = Api.test(
+        ExtractableResponse<Response> response = apiTest(
                 this,
                 List.of(headers(headers),
                         baseUri(url),
@@ -83,7 +82,7 @@ public class QtafRestAssuredTest extends QtafTestNGContext implements RequestSpe
         body.put("userId", 0);
 
 
-        QueryableRequestSpecification req = Api.test(
+        QueryableRequestSpecification req = apiTest(
                 this,
                 List.of(headers(headers),
                         baseUri(url),
@@ -101,7 +100,7 @@ public class QtafRestAssuredTest extends QtafTestNGContext implements RequestSpe
 
     @Test
     public void QtafApiTestStatusCodeAndResponseTime() {
-        Api.test(
+        apiTest(
                 this,
                 List.of(baseUri(url)),
                 getRequest("/user/1"),
@@ -114,7 +113,7 @@ public class QtafRestAssuredTest extends QtafTestNGContext implements RequestSpe
 
     @Test
     public void QtafApiTestStatusCodeXx() {
-        Api.test(
+        apiTest(
                 this,
                 List.of(baseUri(url)),
                 getRequest("/user/1"),
@@ -127,7 +126,7 @@ public class QtafRestAssuredTest extends QtafTestNGContext implements RequestSpe
 
     @Test
     public void QtafApiTestgetUserOne() {
-        ExtractableResponse<Response> response = Api.test(
+        ExtractableResponse<Response> response = apiTest(
                 this,
                 List.of(baseUri(url)),
                 getRequest("/users/1"),
@@ -142,7 +141,7 @@ public class QtafRestAssuredTest extends QtafTestNGContext implements RequestSpe
 
     @Test
     public void QtafApiTestResponse() {
-        ExtractableResponse<Response> response = Api.test(
+        ExtractableResponse<Response> response = apiTest(
                 this,
                 List.of(baseUri(url)),
                 getRequest("/user/1"),
@@ -158,7 +157,7 @@ public class QtafRestAssuredTest extends QtafTestNGContext implements RequestSpe
 
     @Test
     public void QtafApiTeststatusCodeFailed() {
-        Api.test(
+        apiTest(
                 this,
                 List.of(baseUri(url)),
                 getRequest("/user/1"),
@@ -170,7 +169,7 @@ public class QtafRestAssuredTest extends QtafTestNGContext implements RequestSpe
 
     @Test
     public void QtafApiTeststatusCodePassed() {
-        Api.test(
+        apiTest(
                 this,
                 List.of(baseUri(url)),
                 getRequest("/user/1"),

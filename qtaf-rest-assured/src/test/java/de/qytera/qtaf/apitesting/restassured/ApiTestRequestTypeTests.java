@@ -1,39 +1,47 @@
 package de.qytera.qtaf.apitesting.restassured;
 
-import com.google.gson.JsonObject;
-import de.qytera.qtaf.apitesting.Api;
-import de.qytera.qtaf.apitesting.action.ApiActions;
+import static de.qytera.qtaf.apitesting.ApiTestExecutor.apiTest;
+
+import de.qytera.qtaf.apitesting.preconditions.ApiPreconditions;
+import de.qytera.qtaf.apitesting.requesttypes.ApiRequestTypes;
+import de.qytera.qtaf.apitesting.assertions.ApiAssertions;
+
 import de.qytera.qtaf.apitesting.log.model.message.ApiLogMessage;
-import de.qytera.qtaf.apitesting.request.RequestSpecifications;
-import de.qytera.qtaf.apitesting.response.ResponseAssertions;
+
 import de.qytera.qtaf.core.QtafFactory;
-import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
 import de.qytera.qtaf.core.log.model.collection.TestSuiteLogCollection;
 import de.qytera.qtaf.core.log.model.message.LogMessage;
 import de.qytera.qtaf.testng.context.QtafTestNGContext;
-import io.restassured.http.ContentType;
 import io.restassured.http.Header;
-import io.restassured.response.ExtractableResponse;
-import io.restassured.response.Response;
-import io.restassured.specification.QueryableRequestSpecification;
-import org.asynchttpclient.uri.Uri;
 import org.hamcrest.Matchers;
-import org.hamcrest.Matchers.*;
-import org.json.simple.JSONObject;
 import org.testng.annotations.Test;
+
 
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-public class QtafRestAssuredActionTests  extends QtafTestNGContext implements RequestSpecifications, ApiActions, ResponseAssertions {
+public class ApiTestRequestTypeTests extends QtafTestNGContext implements ApiPreconditions, ApiRequestTypes, ApiAssertions {
 
     String urlString = "https://jsonplaceholder.typicode.com";
+
+    @Test
+    public void quickTest() {
+
+
+        apiTest(
+                this,
+                List.of(
+                        baseUri(urlString + uriStringHead)
+                ),
+                headRequest(),
+                List.of()
+        );
+    }
+
+
 
 
     // ========== HEAD ==========
@@ -43,7 +51,7 @@ public class QtafRestAssuredActionTests  extends QtafTestNGContext implements Re
         TestSuiteLogCollection testSuiteLogCollection = QtafFactory.getTestSuiteLogCollection();
         testSuiteLogCollection.getLogDirectory();
 
-        Api.test(
+        apiTest(
                 this,
                 List.of(
                         baseUri(urlString + uriStringHead)
@@ -91,7 +99,7 @@ public class QtafRestAssuredActionTests  extends QtafTestNGContext implements Re
         Header header = new Header("Content-type", "application/json; charset=UTF-8");
         URI uri = new URI(urlString + uriStringHead);
 
-        Api.test(
+        apiTest(
                 this,
                 List.of(),
                 headRequest(uri),
@@ -113,7 +121,7 @@ public class QtafRestAssuredActionTests  extends QtafTestNGContext implements Re
 
         URL url = new URL(urlString + uriStringHead);
 
-        Api.test(
+        apiTest(
                 this,
                 List.of(),
                 headRequest(url),
@@ -135,7 +143,7 @@ public class QtafRestAssuredActionTests  extends QtafTestNGContext implements Re
         Header header = new Header("Content-type", "application/json; charset=UTF-8");
 
 
-        Api.test(
+        apiTest(
                 this,
                 List.of(),
                 headRequest(urlString + "/{type}/{id}", "users", "1"),
@@ -155,7 +163,7 @@ public class QtafRestAssuredActionTests  extends QtafTestNGContext implements Re
     String uriStringOption = "/users/1";
     @Test
     public void optionRequestsTest() {
-        Api.test(
+        apiTest(
             this,
             List.of(
                     baseUri(urlString)
@@ -175,7 +183,7 @@ public class QtafRestAssuredActionTests  extends QtafTestNGContext implements Re
     @Test
     public void optionRequestsUriTest() throws URISyntaxException {
         URI uri = new URI(urlString + uriStringOption);
-        Api.test(
+        apiTest(
                 this,
                 List.of(),
                 optionsRequest(uri),
@@ -193,7 +201,7 @@ public class QtafRestAssuredActionTests  extends QtafTestNGContext implements Re
     @Test
     public void optionRequestsUrlTest() throws MalformedURLException {
         URL url = new URL(urlString + uriStringOption);
-        Api.test(
+        apiTest(
                 this,
                 List.of(),
                 optionsRequest(url),
@@ -217,7 +225,7 @@ public class QtafRestAssuredActionTests  extends QtafTestNGContext implements Re
 
     @Test
     public void getRequestsTest() {
-        Api.test(
+        apiTest(
                 this,
                 List.of(
                         baseUri(urlString)
@@ -237,7 +245,7 @@ public class QtafRestAssuredActionTests  extends QtafTestNGContext implements Re
     @Test
     public void getReqeustsUriTest() throws URISyntaxException {
         URI uri = new URI(uriStringGet);
-        Api.test(
+        apiTest(
                 this,
                 List.of(
                         baseUri(urlString)
@@ -254,7 +262,7 @@ public class QtafRestAssuredActionTests  extends QtafTestNGContext implements Re
     public void getReqeustsUrlTest() throws MalformedURLException {
 
         URL url = new URL(urlString + uriStringGet);
-        Api.test(
+        apiTest(
                 this,
                 List.of(),
                 getRequest(url),
@@ -265,7 +273,7 @@ public class QtafRestAssuredActionTests  extends QtafTestNGContext implements Re
     }
     @Test
     public void getRequestPathParamsWithoutBasePathTest() {
-        Api.test(
+        apiTest(
                 this,
                 List.of(),
                 getRequest(urlString + "/{type}/{id}", "users", "1"),
@@ -277,7 +285,7 @@ public class QtafRestAssuredActionTests  extends QtafTestNGContext implements Re
 
     @Test
     public void getRequestPathParamsWithtBasePathTest() {
-        Api.test(
+        apiTest(
                 this,
                 List.of(basePath(urlString)),
                 getRequest("/{type}/{id}", "users", "1"),
@@ -289,7 +297,7 @@ public class QtafRestAssuredActionTests  extends QtafTestNGContext implements Re
 
     @Test
     public void getRequestPathParamsWithtBasePathAndFullPathTest() {
-        Api.test(
+        apiTest(
                 this,
                 List.of(basePath(urlString)),
                 getRequest(urlString + "/{type}/{id}", "users", "1"),

@@ -1,7 +1,6 @@
-package de.qytera.qtaf.apitesting.request;
+package de.qytera.qtaf.apitesting.preconditions;
 
 import de.qytera.qtaf.apitesting.log.model.message.ApiLogMessage;
-import de.qytera.qtaf.core.guice.annotations.Step;
 import io.restassured.http.*;
 import io.restassured.specification.RequestSpecification;
 import org.json.simple.JSONObject;
@@ -10,8 +9,8 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-public interface RequestSpecifications {
-    default ApiTestRequestSpecification baseUri(String baseUri) {
+public interface ApiPreconditions {
+    default ApiPrecondition baseUri(String baseUri) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.baseUri(baseUri);
 
@@ -19,7 +18,7 @@ public interface RequestSpecifications {
         };
     }
 
-    default ApiTestRequestSpecification basePath(String basePath) {
+    default ApiPrecondition basePath(String basePath) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.basePath(basePath);
 
@@ -28,7 +27,7 @@ public interface RequestSpecifications {
     }
 
 
-    default ApiTestRequestSpecification pathParam(String key, String value) {
+    default ApiPrecondition pathParam(String key, String value) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.pathParam(key, value);
 
@@ -39,7 +38,7 @@ public interface RequestSpecifications {
     }
 
 
-    default ApiTestRequestSpecification pathParam(Map<String, ?> params) {
+    default ApiPrecondition pathParam(Map<String, ?> params) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.pathParams(params);
 
@@ -48,7 +47,7 @@ public interface RequestSpecifications {
     }
 
 
-    default ApiTestRequestSpecification queryParam(String key, String value) {
+    default ApiPrecondition queryParam(String key, String value) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.queryParam(key, value);
 
@@ -59,7 +58,7 @@ public interface RequestSpecifications {
     }
 
 
-    default ApiTestRequestSpecification queryParams(Map<String, ?> params) {
+    default ApiPrecondition queryParams(Map<String, ?> params) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.queryParams(params);
 
@@ -68,7 +67,7 @@ public interface RequestSpecifications {
     }
 
 
-    default ApiTestRequestSpecification formParam(String key, String value) {
+    default ApiPrecondition formParam(String key, String value) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.formParam(key, value);
 
@@ -79,7 +78,7 @@ public interface RequestSpecifications {
     }
 
 
-    default ApiTestRequestSpecification formParams(Map<String, ?> params) {
+    default ApiPrecondition formParams(Map<String, ?> params) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.formParams(params);
 
@@ -88,7 +87,7 @@ public interface RequestSpecifications {
     }
 
 
-    default ApiTestRequestSpecification body(String body) {
+    default ApiPrecondition body(String body) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.body(body);
 
@@ -97,7 +96,7 @@ public interface RequestSpecifications {
     }
 
 
-    default ApiTestRequestSpecification body(Object object) {
+    default ApiPrecondition body(Object object) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.body(object);
 
@@ -106,7 +105,7 @@ public interface RequestSpecifications {
     }
 
 
-    default ApiTestRequestSpecification body(File file) {
+    default ApiPrecondition body(File file) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.body(file);
 
@@ -115,7 +114,7 @@ public interface RequestSpecifications {
     }
 
 
-    default ApiTestRequestSpecification contentType(String contentType) {
+    default ApiPrecondition contentType(String contentType) {
         // TODO String as a parameter doesn't seem right
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.contentType(contentType);
@@ -124,7 +123,7 @@ public interface RequestSpecifications {
         };
     }
 
-    default ApiTestRequestSpecification contentType(ContentType contentType) {
+    default ApiPrecondition contentType(ContentType contentType) {
         // TODO String as a parameter doesn't seem right
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.contentType(contentType);
@@ -134,7 +133,7 @@ public interface RequestSpecifications {
     }
 
 
-    default ApiTestRequestSpecification file(File file) {
+    default ApiPrecondition file(File file) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.contentType(ContentType.MULTIPART);
             req.multiPart(file);
@@ -144,7 +143,7 @@ public interface RequestSpecifications {
     }
 
 
-    default ApiTestRequestSpecification file(String s, File file) {
+    default ApiPrecondition file(String s, File file) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.contentType(ContentType.MULTIPART);
             req.multiPart(s, file);
@@ -155,7 +154,7 @@ public interface RequestSpecifications {
     }
 
 
-    default ApiTestRequestSpecification header(String key, String value) {
+    default ApiPrecondition header(String key, String value) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.header(key, value);
 
@@ -165,7 +164,7 @@ public interface RequestSpecifications {
     }
 
 
-    default ApiTestRequestSpecification header(Header header) {
+    default ApiPrecondition header(Header header) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.header(header);
 
@@ -187,7 +186,7 @@ public interface RequestSpecifications {
     // RequestSpecification headers(Map<String, ?> var1);
 
 
-    default ApiTestRequestSpecification headers(Map<String, ?> headers) {
+    default ApiPrecondition headers(Map<String, ?> headers) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.headers(headers);
 
@@ -197,7 +196,7 @@ public interface RequestSpecifications {
 
 
 
-    default ApiTestRequestSpecification bearer(String bearerToken) {
+    default ApiPrecondition bearer(String bearerToken) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.header("Authorization", "Bearer " + bearerToken);
 
@@ -206,7 +205,7 @@ public interface RequestSpecifications {
     }
 
 
-    default ApiTestRequestSpecification cookie(String key, String value) {
+    default ApiPrecondition cookie(String key, String value) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.cookie(key, value);
 
@@ -216,7 +215,7 @@ public interface RequestSpecifications {
         };
     }
 
-    default ApiTestRequestSpecification cookie(Cookie cookie) {
+    default ApiPrecondition cookie(Cookie cookie) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.cookie(cookie);
 
@@ -224,7 +223,7 @@ public interface RequestSpecifications {
         };
     }
 
-    default ApiTestRequestSpecification cookie(Cookies cookies) {
+    default ApiPrecondition cookie(Cookies cookies) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.cookies(cookies);
 
@@ -232,7 +231,7 @@ public interface RequestSpecifications {
         };
     }
 
-    default ApiTestRequestSpecification cookie(Map<String, ?> cookies) {
+    default ApiPrecondition cookie(Map<String, ?> cookies) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.cookies(cookies);
 
@@ -240,7 +239,7 @@ public interface RequestSpecifications {
         };
     }
 
-    default ApiTestRequestSpecification json() {
+    default ApiPrecondition json() {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.contentType(ContentType.JSON);
 
@@ -248,7 +247,7 @@ public interface RequestSpecifications {
         };
     }
 
-    default ApiTestRequestSpecification json(JSONObject jsonObject) {
+    default ApiPrecondition json(JSONObject jsonObject) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.contentType(ContentType.JSON);
             req.body(jsonObject.toString());
@@ -258,7 +257,7 @@ public interface RequestSpecifications {
         };
     }
 
-    default ApiTestRequestSpecification multipart() {
+    default ApiPrecondition multipart() {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.contentType(ContentType.MULTIPART);
 
@@ -266,7 +265,7 @@ public interface RequestSpecifications {
         };
     }
 
-    default ApiTestRequestSpecification multipart(String s, Object o) {
+    default ApiPrecondition multipart(String s, Object o) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.contentType(ContentType.MULTIPART);
             req.multiPart(s, o);
@@ -277,14 +276,14 @@ public interface RequestSpecifications {
         };
     }
 
-    default ApiTestRequestSpecification multipart(String s1, String s2) {
+    default ApiPrecondition multipart(String s1, String s2) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.contentType(ContentType.MULTIPART);
             req.multiPart(s1, s2);
         };
     }
 
-    default ApiTestRequestSpecification text() {
+    default ApiPrecondition text() {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.contentType(ContentType.TEXT);
 
@@ -292,7 +291,7 @@ public interface RequestSpecifications {
         };
     }
 
-    default ApiTestRequestSpecification xml() {
+    default ApiPrecondition xml() {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.contentType(ContentType.XML);
 

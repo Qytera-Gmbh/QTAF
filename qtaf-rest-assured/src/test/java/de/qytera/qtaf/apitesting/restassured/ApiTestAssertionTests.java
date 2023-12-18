@@ -1,18 +1,22 @@
 package de.qytera.qtaf.apitesting.restassured;
 
-import de.qytera.qtaf.apitesting.Api;
-import de.qytera.qtaf.apitesting.ApiTestExecution;
-import de.qytera.qtaf.apitesting.action.ApiActions;
+
+import static de.qytera.qtaf.apitesting.ApiTestExecutor.apiTest;
+
+import de.qytera.qtaf.apitesting.preconditions.ApiPreconditions;
+import de.qytera.qtaf.apitesting.requesttypes.ApiRequestTypes;
+import de.qytera.qtaf.apitesting.assertions.ApiAssertions;
+
+import de.qytera.qtaf.apitesting.ApiTestExecutor;
+import de.qytera.qtaf.apitesting.ExecutedApiTest;
 import de.qytera.qtaf.apitesting.log.model.message.ApiLogMessage;
-import de.qytera.qtaf.apitesting.request.RequestSpecifications;
-import de.qytera.qtaf.apitesting.response.ResponseAssertions;
 import de.qytera.qtaf.core.log.model.message.LogMessage;
 import de.qytera.qtaf.testng.context.QtafTestNGContext;
 import org.testng.annotations.Test;
 
 import java.util.List;
 
-public class QtafRestAssuredAssertionTests  extends QtafTestNGContext implements RequestSpecifications, ApiActions, ResponseAssertions {
+public class ApiTestAssertionTests extends QtafTestNGContext implements ApiPreconditions, ApiRequestTypes, ApiAssertions {
 
     String url = "https://jsonplaceholder.typicode.com";
 
@@ -24,7 +28,7 @@ public class QtafRestAssuredAssertionTests  extends QtafTestNGContext implements
 
     @Test
     public void statusCodeIsAssertionTestFail() {
-        ApiTestExecution apiTestExecution = Api.test(
+        ExecutedApiTest executedApiTest = apiTest(
                 this,
                 List.of(baseUri(url)),
                 getRequest("/user/1"),
@@ -42,12 +46,12 @@ public class QtafRestAssuredAssertionTests  extends QtafTestNGContext implements
         assertEquals(currentLogMessage.getResponse().getStatusCode(), 404);
 
 
-        System.out.println(apiTestExecution.getRes().statusCode());
+        System.out.println(executedApiTest.getRes().statusCode());
     }
 
     @Test
     public void statusCodeIsAssertionTestPass() {
-        ApiTestExecution apiTestExecution = Api.test(
+        ExecutedApiTest executedApiTest = apiTest(
                 this,
                 List.of(baseUri(url)),
                 getRequest("/user/1"),
@@ -84,7 +88,7 @@ public class QtafRestAssuredAssertionTests  extends QtafTestNGContext implements
 
     @Test
     public void QtafApiTeststatusCodeFailed() {
-        Api.test(
+        apiTest(
                 this,
                 List.of(baseUri(url)),
                 getRequest("/user/1"),
