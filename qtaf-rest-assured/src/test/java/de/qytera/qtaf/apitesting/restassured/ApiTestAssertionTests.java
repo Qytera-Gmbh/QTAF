@@ -2,13 +2,9 @@ package de.qytera.qtaf.apitesting.restassured;
 
 
 import static de.qytera.qtaf.apitesting.ApiTestExecutor.apiTest;
-
-import de.qytera.qtaf.apitesting.preconditions.ApiPreconditions;
-import de.qytera.qtaf.apitesting.requesttypes.ApiRequestTypes;
-import de.qytera.qtaf.apitesting.assertions.ApiAssertions;
-
-import de.qytera.qtaf.apitesting.ApiTestExecutor;
+import de.qytera.qtaf.apitesting.ApiTest;
 import de.qytera.qtaf.apitesting.ExecutedApiTest;
+
 import de.qytera.qtaf.apitesting.log.model.message.ApiLogMessage;
 import de.qytera.qtaf.core.log.model.message.LogMessage;
 import de.qytera.qtaf.testng.context.QtafTestNGContext;
@@ -16,12 +12,26 @@ import org.testng.annotations.Test;
 
 import java.util.List;
 
-public class ApiTestAssertionTests extends QtafTestNGContext implements ApiPreconditions, ApiRequestTypes, ApiAssertions {
+public class ApiTestAssertionTests extends QtafTestNGContext implements ApiTest {
 
     String url = "https://jsonplaceholder.typicode.com";
 
 
     // ========== BODY ==========
+
+    @Test
+    public void bodyIsAssertionTestPass() {
+
+        ExecutedApiTest executedApiTest = apiTest(
+                this,
+                List.of(baseUri(url)),
+                getRequest("/users/1"),
+                List.of(
+                        statusCodeIsNot(404)
+                )
+        );
+        System.out.println(executedApiTest.getRes().body().asString());
+    }
 
 
     // ========== STATUS CODE ==========

@@ -10,14 +10,13 @@ public interface BodyAssertions {
     default ApiAssertion body(Matcher<?> matcher) {
         return (ValidatableResponse res, ApiLogMessage logMessage) -> {
 
-            res.body(matcher);
-
-            ApiAssertionLogMessageHelper.createAndAppendAssertionLogMessage(
+            ApiAssertionLogMessageHelper.createAndAppendBodyAssertionLogMessage(
                     logMessage,
                     "body Assertion",
-                    LogMessage.Status.PASSED,
-                    matcher,
-                    AssertionTypes.Type.BODY);
+                    matcher
+            );
+
+            res.body(matcher);
         };
     }
 
@@ -25,14 +24,13 @@ public interface BodyAssertions {
     default ApiAssertion body(String s, Matcher<?> matcher) {
         return (ValidatableResponse res, ApiLogMessage logMessage) -> {
 
-            res.body(s, matcher);
-
-            ApiAssertionLogMessageHelper.createAndAppendAssertionLogMessage(
+            ApiAssertionLogMessageHelper.createAndAppendBodyAssertionLogMessage(
                     logMessage,
                     "body Assertion",
-                    LogMessage.Status.PASSED,
-                    matcher,
-                    AssertionTypes.Type.BODY );
+                    matcher
+            );
+
+            res.body(s, matcher);
         };
     }
 

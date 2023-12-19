@@ -191,12 +191,12 @@ public class ApiLogMessage extends LogMessage {
 
 
         public void setResponseAttributes(ExtractableResponse<io.restassured.response.Response> response){
-            // body = response.body(); TODO
             statusCode = response.statusCode();
             headers = response.headers();
             cookies = response.cookies();
-            bodyAsString = response.body().asString();
             time = response.time();
+            // body = response.body(); TODO
+            bodyAsString = response.body().asString();
         }
     }
 

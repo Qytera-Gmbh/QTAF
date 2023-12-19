@@ -5,18 +5,14 @@ import de.qytera.qtaf.core.log.model.message.LogMessage;
 import io.restassured.response.ValidatableResponse;
 import org.hamcrest.Matchers;
 
-import static de.qytera.qtaf.apitesting.assertions.AssertionTypes.Type.STATUSCODE;
-
 public interface StatusCodeAssertions {
     default ApiAssertion statusCodeIs(int code) {
 
         return (ValidatableResponse res, ApiLogMessage logMessage) -> {
-            ApiAssertionLogMessageHelper.createAndAppendAssertionLogMessage(
+            ApiAssertionLogMessageHelper.createAndAppendStatusCodeAssertionLogMessage(
                     logMessage,
                     "statusCodeIs assertion",
-                    LogMessage.Status.PASSED,
-                    code,
-                    STATUSCODE
+                    code
             );
             res.statusCode(code);
         };
@@ -25,12 +21,10 @@ public interface StatusCodeAssertions {
 
     default ApiAssertion statusCodeIsNot(int code) {
         return (ValidatableResponse res, ApiLogMessage logMessage) -> {
-            ApiAssertionLogMessageHelper.createAndAppendAssertionLogMessage(
+            ApiAssertionLogMessageHelper.createAndAppendStatusCodeAssertionLogMessage(
                     logMessage,
                     "statusCodeIsNot assertion",
-                    LogMessage.Status.PASSED,
-                    "not" + code,
-                    STATUSCODE
+                    "not " + code
             );
             res.statusCode(Matchers.not(code));
         };
@@ -39,12 +33,10 @@ public interface StatusCodeAssertions {
     default ApiAssertion statusCodeIs1xx() {
         return (ValidatableResponse res, ApiLogMessage logMessage) -> {
 
-            ApiAssertionLogMessageHelper.createAndAppendAssertionLogMessage(
+            ApiAssertionLogMessageHelper.createAndAppendStatusCodeAssertionLogMessage(
                     logMessage,
                     "statusCodeIs1xx assertion",
-                    LogMessage.Status.PASSED,
-                    "1xx",
-                    STATUSCODE
+                    "1xx"
             );
 
             res.statusCode(Matchers.allOf(
@@ -59,12 +51,10 @@ public interface StatusCodeAssertions {
     default ApiAssertion statusCodeIsNot1xx() {
         return (ValidatableResponse res, ApiLogMessage logMessage) -> {
 
-            ApiAssertionLogMessageHelper.createAndAppendAssertionLogMessage(
+            ApiAssertionLogMessageHelper.createAndAppendStatusCodeAssertionLogMessage(
                     logMessage,
                     "statusCodeIsNot1xx assertion",
-                    LogMessage.Status.PASSED,
-                    "not 1xx",
-                    STATUSCODE
+                    "not 1xx"
             );
 
 
@@ -78,12 +68,10 @@ public interface StatusCodeAssertions {
     default ApiAssertion statusCodeIs2xx() {
         return (ValidatableResponse res, ApiLogMessage logMessage) -> {
 
-            ApiAssertionLogMessageHelper.createAndAppendAssertionLogMessage(
+            ApiAssertionLogMessageHelper.createAndAppendStatusCodeAssertionLogMessage(
                     logMessage,
                     "statusCodeIs2xx assertion",
-                    LogMessage.Status.PASSED,
-                    "2xx",
-                    STATUSCODE
+                    "2xx"
             );
 
 
@@ -97,12 +85,10 @@ public interface StatusCodeAssertions {
     default ApiAssertion statusCodeIsNot2xx() {
         return (ValidatableResponse res, ApiLogMessage logMessage) -> {
 
-            ApiAssertionLogMessageHelper.createAndAppendAssertionLogMessage(
+            ApiAssertionLogMessageHelper.createAndAppendStatusCodeAssertionLogMessage(
                     logMessage,
                     "statusCodeIsNot2xx assertion",
-                    LogMessage.Status.PASSED,
-                    "not 2xx",
-                    STATUSCODE
+                    "not 2xx"
             );
 
             res.statusCode(Matchers.anyOf(
@@ -115,12 +101,10 @@ public interface StatusCodeAssertions {
     default ApiAssertion statusCodeIs3xx() {
         return (ValidatableResponse res, ApiLogMessage logMessage) -> {
 
-            ApiAssertionLogMessageHelper.createAndAppendAssertionLogMessage(
+            ApiAssertionLogMessageHelper.createAndAppendStatusCodeAssertionLogMessage(
                     logMessage,
                     "statusCodeIs3xx assertion",
-                    LogMessage.Status.PASSED,
-                    "3xx",
-                    STATUSCODE
+                    "3xx"
             );
 
             res.statusCode(Matchers.allOf(
@@ -133,12 +117,10 @@ public interface StatusCodeAssertions {
     default ApiAssertion statusCodeIsNot3xx() {
         return (ValidatableResponse res, ApiLogMessage logMessage) -> {
 
-            ApiAssertionLogMessageHelper.createAndAppendAssertionLogMessage(
+            ApiAssertionLogMessageHelper.createAndAppendStatusCodeAssertionLogMessage(
                     logMessage,
                     "statusCodeIsNot3xx assertion",
-                    LogMessage.Status.PASSED,
-                    "not 3xx",
-                    STATUSCODE
+                    "not 3xx"
             );
 
 
@@ -152,12 +134,10 @@ public interface StatusCodeAssertions {
     default ApiAssertion statusCodeIs4xx() {
         return (ValidatableResponse res, ApiLogMessage logMessage) -> {
 
-            ApiAssertionLogMessageHelper.createAndAppendAssertionLogMessage(
+            ApiAssertionLogMessageHelper.createAndAppendStatusCodeAssertionLogMessage(
                     logMessage,
                     "statusCodeIs4xx assertion",
-                    LogMessage.Status.PASSED,
-                    "4xx",
-                    STATUSCODE
+                    "4xx"
             );
 
 
@@ -171,12 +151,10 @@ public interface StatusCodeAssertions {
     default ApiAssertion statusCodeIsNot4xx() {
         return (ValidatableResponse res, ApiLogMessage logMessage) -> {
 
-            ApiAssertionLogMessageHelper.createAndAppendAssertionLogMessage(
+            ApiAssertionLogMessageHelper.createAndAppendStatusCodeAssertionLogMessage(
                     logMessage,
                     "statusCodeIsNot4xx assertion",
-                    LogMessage.Status.PASSED,
-                    "not 4xx",
-                    STATUSCODE
+                    "not 4xx"
             );
 
 
@@ -190,12 +168,10 @@ public interface StatusCodeAssertions {
     default ApiAssertion statusCodeIs5xx() {
         return (ValidatableResponse res, ApiLogMessage logMessage) -> {
 
-            ApiAssertionLogMessageHelper.createAndAppendAssertionLogMessage(
+            ApiAssertionLogMessageHelper.createAndAppendStatusCodeAssertionLogMessage(
                     logMessage,
                     "statusCodeIs5xx assertion",
-                    LogMessage.Status.PASSED,
-                    "5xx",
-                    STATUSCODE
+                    "5xx"
             );
 
 
@@ -209,12 +185,10 @@ public interface StatusCodeAssertions {
     default ApiAssertion statusCodeIsNot5xx() {
         return (ValidatableResponse res, ApiLogMessage logMessage) -> {
 
-            ApiAssertionLogMessageHelper.createAndAppendAssertionLogMessage(
+            ApiAssertionLogMessageHelper.createAndAppendStatusCodeAssertionLogMessage(
                     logMessage,
                     "statusCodeIsNot5xx assertion",
-                    LogMessage.Status.PASSED,
-                    "not 5xx",
-                    STATUSCODE
+                    "not 5xx"
             );
 
             res.statusCode(Matchers.anyOf(

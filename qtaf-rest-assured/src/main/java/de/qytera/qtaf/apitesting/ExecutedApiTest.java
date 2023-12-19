@@ -12,21 +12,21 @@ public class ExecutedApiTest {
     /**
      * Request specification information
      */
-    protected QueryableRequestSpecification req;
+    protected QueryableRequestSpecification request;
 
     /**
      * API Response information
      */
-    protected ExtractableResponse<Response> res;
+    protected ExtractableResponse<Response> response;
 
     /**
      * Constructor
-     * @param req   Request specification information
-     * @param res   Response information
+     * @param request   Request specification information
+     * @param response   Response information
      */
-    public ExecutedApiTest(QueryableRequestSpecification req, ExtractableResponse<Response> res) {
-        this.req = req;
-        this.res = res;
+    public ExecutedApiTest(QueryableRequestSpecification request, ExtractableResponse<Response> response) {
+        this.request = request;
+        this.response = response;
     }
 
     /**
@@ -34,7 +34,7 @@ public class ExecutedApiTest {
      * @return  request specification
      */
     public QueryableRequestSpecification getReq() {
-        return req;
+        return request;
     }
 
     /**
@@ -43,7 +43,7 @@ public class ExecutedApiTest {
      * @return request specification
      */
     public QueryableRequestSpecification component1() {
-        return req;
+        return request;
     }
 
     /**
@@ -51,7 +51,7 @@ public class ExecutedApiTest {
      * @return  response
      */
     public ExtractableResponse<Response> getRes() {
-        return res;
+        return response;
     }
 
     /**
@@ -60,6 +60,6 @@ public class ExecutedApiTest {
      * @return response
      */
     public ExtractableResponse<Response> component2() {
-        return res;
+        return response;
     }
 }

@@ -1,5 +1,6 @@
 package de.qytera.qtaf.apitesting;
 
+import de.qytera.qtaf.apitesting.preconditions.ApiPreconditions;
 import de.qytera.qtaf.apitesting.requesttypes.ApiRequestType;
 import de.qytera.qtaf.apitesting.log.model.message.ApiLogMessage;
 import de.qytera.qtaf.apitesting.preconditions.ApiPrecondition;
@@ -17,11 +18,12 @@ import io.restassured.specification.FilterableRequestSpecification;
 import io.restassured.specification.QueryableRequestSpecification;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.SpecificationQuerier;
+import org.jetbrains.annotations.NotNull;
 
 
 import java.util.List;
 
-import static de.qytera.qtaf.apitesting.assertions.ApiAssertionLogMessageHelper.computeAcualValue;
+import static de.qytera.qtaf.apitesting.assertions.ApiAssertionLogMessageHelper.*;
 
 /**
  * The class is responsible for executing the API tests
@@ -50,68 +52,72 @@ public class ApiTestExecutor {
             ApiRequestType requestType,
             List<ApiAssertion> assertions
     ) {
+        // Instance of ApiTestExecutor to perform class methods inside this static apiTest() method
+        ApiTestExecutor apiTestExecutor = new ApiTestExecutor();
+
+        // Setup for Log Messages
         TestScenarioLogCollection logCollection = context.getLogCollection();
-        ApiLogMessage logMessage = new ApiLogMessage(LogLevel.INFO, "Api Call");
+        ApiLogMessage logMessage = new ApiLogMessage(LogLevel.INFO, "Api Test");
         logCollection.addLogMessage(logMessage);
 
+        // Setup Request
         RequestSpecification req = RestAssured.given();
         QueryableRequestSpecification q = SpecificationQuerier.query(req);
 
-        // Set Preconditions
+        // Preconditions
+        apiTestExecutor.applyPreconditions(req, preconditions, logMessage);
 
-        for (ApiPrecondition precondition : preconditions) {
-            precondition.apply(req, logMessage);
-            System.out.println(logMessage.getMessage());
-        }
-
-        req = req.when(); // Warum ist dieser Aufruf notwendig?
-
-        // Perform Action
-
+        // Api request based on type
         Response res = requestType.perform(req, logMessage);
-        // logMessage.setResponse(res);
+
+        // Handel Response
         ValidatableResponse validatableResponse = res.then();
-        FilterableRequestSpecification filter = (FilterableRequestSpecification) req;
         ExtractableResponse<Response> response = validatableResponse.extract();
         logMessage.getResponse().setResponseAttributes(response);
-        response.body();
 
         // Check Assertions
         boolean hasPassed = true;
         int i = 0;
         for (ApiAssertion assertion: assertions) {
             try {
+                /* The implementations of apply() ensure
+                 * that an AssertionLogMessage is created
+                 * and appended to the LogMessage
+                 * before an exception is thrown.
+                 */
                 assertion.apply(validatableResponse, logMessage);
-                // this code won't get executet if apply() causes an exception
 
-                List<LogMessage> logMessages = logCollection.getLogMessages();
-                LogMessage latestLogMessage = logMessages.get(0);
-                List<AssertionLogMessage> assertionLogMessages = latestLogMessage.getAssertions();
-                AssertionLogMessage currentAssertionLogMessage = assertionLogMessages.get(i);
-                computeAcualValue(currentAssertionLogMessage, LogMessage.Status.PASSED, response, null);
+                // The following code is not executed if the above call of apply() throws an exception
+                AssertionLogMessage currentAssertionLogMessage = apiTestExecutor.getCurrentAssertionLogMessage(logCollection, i);
+                changeMessageAccordingToAssertionPassed(currentAssertionLogMessage, response);
 
             } catch (AssertionError error){
-                System.out.println(error);
-                System.out.println("==============");
                 hasPassed = false;
 
-                List<LogMessage> logMessages = logCollection.getLogMessages();
-                LogMessage latestLogMessage = logMessages.get(0);
-                List<AssertionLogMessage> assertionLogMessages = latestLogMessage.getAssertions();
-                AssertionLogMessage currentAssertionLogMessage = assertionLogMessages.get(i);
-
-                computeAcualValue(currentAssertionLogMessage, LogMessage.Status.FAILURE, response, error.getMessage());
+                AssertionLogMessage currentAssertionLogMessage = apiTestExecutor.getCurrentAssertionLogMessage(logCollection, i);
+                changeMessageAccordingToAssertionFailure(currentAssertionLogMessage, response, error);
             }
             i++;
         }
-
         if (hasPassed){
             logMessage.setStatus(LogMessage.Status.PASSED);
         } else {
             logMessage.setStatus(LogMessage.Status.FAILURE);
         }
+        return new ExecutedApiTest(q, validatableResponse.extract());
+    }
 
+    private void applyPreconditions(RequestSpecification request, @NotNull List<ApiPrecondition> preconditions, ApiLogMessage logMessage){
+        for (ApiPrecondition precondition : preconditions) {
+            precondition.apply(request, logMessage);
+        }
+    }
+    private AssertionLogMessage getCurrentAssertionLogMessage(TestScenarioLogCollection logCollection, int index){
 
-        return new ExecutedApiTest(q, validatableResponse.extract()); // was macht dieser Rückgabetyp ?
+        List<LogMessage> logMessages = logCollection.getLogMessages();
+        LogMessage latestLogMessage = logMessages.get(0);
+        List<AssertionLogMessage> assertionLogMessages = latestLogMessage.getAssertions();
+
+        return assertionLogMessages.get(index);
     }
 }

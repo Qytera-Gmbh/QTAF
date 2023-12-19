@@ -11,12 +11,10 @@ public interface TimeAssertions {
     default ApiAssertion responseTimeShouldBeLessThanXMilliseconds(Matcher<Long> matcher) {
         return (ValidatableResponse res, ApiLogMessage logMessage) -> {
 
-            ApiAssertionLogMessageHelper.createAndAppendAssertionLogMessage(
+            ApiAssertionLogMessageHelper.createAndAppendTimeAssertionLogMessage(
                     logMessage,
                     "responseTimeShouldBeLessThanXMilliseconds",
-                    LogMessage.Status.PASSED,
-                    matcher,
-                    AssertionTypes.Type.TIME
+                    matcher
             );
 
             res.time(matcher);
@@ -25,12 +23,10 @@ public interface TimeAssertions {
     default ApiAssertion responseTimeShouldBeLessThanXMilliseconds(long duration) {
         return (ValidatableResponse res, ApiLogMessage logMessage) -> {
 
-            ApiAssertionLogMessageHelper.createAndAppendAssertionLogMessage(
+            ApiAssertionLogMessageHelper.createAndAppendTimeAssertionLogMessage(
                     logMessage,
                     "responseTimeShouldBeLessThanXMilliseconds",
-                    LogMessage.Status.PASSED,
-                    duration,
-                    AssertionTypes.Type.TIME
+                    duration
             );
 
             res.time(Matchers.lessThan(duration));

@@ -1,10 +1,8 @@
 package de.qytera.qtaf.apitesting.restassured;
 
 import static de.qytera.qtaf.apitesting.ApiTestExecutor.apiTest;
+import de.qytera.qtaf.apitesting.ApiTest;
 
-import de.qytera.qtaf.apitesting.preconditions.ApiPreconditions;
-import de.qytera.qtaf.apitesting.requesttypes.ApiRequestTypes;
-import de.qytera.qtaf.apitesting.assertions.ApiAssertions;
 
 import com.google.gson.JsonObject;
 import de.qytera.qtaf.apitesting.ApiTestExecutor;
@@ -21,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class ApiTestMixedTests extends QtafTestNGContext implements ApiPreconditions, ApiRequestTypes, ApiAssertions {
+public class ApiTestMixedTests extends QtafTestNGContext implements ApiTest {
 
     String url = "https://jsonplaceholder.typicode.com";
 

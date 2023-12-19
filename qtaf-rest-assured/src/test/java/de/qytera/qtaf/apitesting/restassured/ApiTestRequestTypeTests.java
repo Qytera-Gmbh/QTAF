@@ -2,9 +2,7 @@ package de.qytera.qtaf.apitesting.restassured;
 
 import static de.qytera.qtaf.apitesting.ApiTestExecutor.apiTest;
 
-import de.qytera.qtaf.apitesting.preconditions.ApiPreconditions;
-import de.qytera.qtaf.apitesting.requesttypes.ApiRequestTypes;
-import de.qytera.qtaf.apitesting.assertions.ApiAssertions;
+import de.qytera.qtaf.apitesting.ApiTest;
 
 import de.qytera.qtaf.apitesting.log.model.message.ApiLogMessage;
 
@@ -23,13 +21,12 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.List;
 
-public class ApiTestRequestTypeTests extends QtafTestNGContext implements ApiPreconditions, ApiRequestTypes, ApiAssertions {
+public class ApiTestRequestTypeTests extends QtafTestNGContext implements ApiTest {
 
     String urlString = "https://jsonplaceholder.typicode.com";
 
     @Test
     public void quickTest() {
-
 
         apiTest(
                 this,
