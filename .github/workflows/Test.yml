@@ -37,7 +37,7 @@ jobs:
               "-Dsonar.host.url=https://sonarcloud.io" `
               "-Dsonar.organization=qytera-gmbh" `
               "-Dsonar.projectKey=Qytera-Gmbh_QTAF" `
-              "-Dsonar.token=$Env:SONAR_TOKEN" `
+              "-Dsonar.login=$Env:SONAR_TOKEN" `
               "-Dsonar.pullrequest.key=${{github.event.pull_request.number}}" `
               "-Dsonar.pullrequest.branch=${{github.head_ref}}" `
               "-Dsonar.pullrequest.base=${{github.base_ref}}" `
@@ -53,7 +53,7 @@ jobs:
               -Dsonar.host.url=https://sonarcloud.io \
               -Dsonar.organization=qytera-gmbh \
               -Dsonar.projectKey=Qytera-Gmbh_QTAF \
-              -Dsonar.token=$SONAR_TOKEN \
+              -Dsonar.login=$SONAR_TOKEN \
               -Dsonar.pullrequest.key=${{github.event.pull_request.number}} \
               -Dsonar.pullrequest.branch=${{github.head_ref}} \
               -Dsonar.pullrequest.base=${{github.base_ref}} \
