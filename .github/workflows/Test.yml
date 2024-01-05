@@ -37,7 +37,10 @@ jobs:
               "-Dsonar.host.url=https://sonarcloud.io" `
               "-Dsonar.organization=qytera-gmbh" `
               "-Dsonar.projectKey=Qytera-Gmbh_QTAF" `
-              "-Dsonar.login=$Env:SONAR_TOKEN" `
+              "-Dsonar.token=$Env:SONAR_TOKEN" `
+              "-Dsonar.pullrequest.key=${{github.event.pull_request.number}}" `
+              "-Dsonar.pullrequest.branch=${{github.head_ref}}" `
+              "-Dsonar.pullrequest.base=${{github.base_ref}}" `
               "-Dxray.authentication.xray.clientId=$Env:XRAY_CLIENT_ID" `
               "-Dxray.authentication.xray.clientSecret=$Env:XRAY_CLIENT_SECRET"
           - os: "ubuntu-latest"
@@ -50,7 +53,10 @@ jobs:
               -Dsonar.host.url=https://sonarcloud.io \
               -Dsonar.organization=qytera-gmbh \
               -Dsonar.projectKey=Qytera-Gmbh_QTAF \
-              -Dsonar.login=$SONAR_TOKEN \
+              -Dsonar.token=$SONAR_TOKEN \
+              -Dsonar.pullrequest.key=${{github.event.pull_request.number}} \
+              -Dsonar.pullrequest.branch=${{github.head_ref}} \
+              -Dsonar.pullrequest.base=${{github.base_ref}} \
               -Dxray.authentication.xray.clientId=$XRAY_CLIENT_ID \
               -Dxray.authentication.xray.clientSecret=$XRAY_CLIENT_SECRET \
               -DexcludedGroups=ie,edge
