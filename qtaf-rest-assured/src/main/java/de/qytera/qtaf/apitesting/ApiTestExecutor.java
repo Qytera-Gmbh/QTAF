@@ -1,6 +1,5 @@
 package de.qytera.qtaf.apitesting;
 
-import de.qytera.qtaf.apitesting.preconditions.ApiPreconditions;
 import de.qytera.qtaf.apitesting.requesttypes.ApiRequestType;
 import de.qytera.qtaf.apitesting.log.model.message.ApiLogMessage;
 import de.qytera.qtaf.apitesting.preconditions.ApiPrecondition;
@@ -14,7 +13,6 @@ import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
-import io.restassured.specification.FilterableRequestSpecification;
 import io.restassured.specification.QueryableRequestSpecification;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.SpecificationQuerier;

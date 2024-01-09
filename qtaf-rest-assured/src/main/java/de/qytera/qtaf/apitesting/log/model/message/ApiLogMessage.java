@@ -145,16 +145,7 @@ public class ApiLogMessage extends LogMessage {
 
 
         public enum RequestType {
-            /**
-             * This request type is used to request a resource from the server by specifying a URI.
-             * Content can also be transferred to the server as arguments in the URI,
-             * but according to the standard, a GET request should only retrieve data and have no other effects
-             */
             GET,
-
-            /**
-             * sends data (e.g. the content of a file) to the server for further processing
-             */
             POST,
             HEAD,
             PUT,
