@@ -223,7 +223,7 @@ public interface ApiPreconditions {
         };
     }
 
-    default ApiPrecondition cookie(Cookies cookies) {
+    default ApiPrecondition cookies(Cookies cookies) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.cookies(cookies);
 
