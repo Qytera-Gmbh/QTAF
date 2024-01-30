@@ -14,6 +14,19 @@ import java.util.List;
 
 public class ApiTestAssertionTests extends QtafTestNGContext implements ApiTest {
 
+    @Test
+    public void test() {
+        apiTest(
+                this,
+                List.of(baseUri(url)),
+                getRequest("/users/1"),
+                List.of(
+                        statusCodeIsNot(404)
+                )
+        );
+    }
+
+
     String url = "https://jsonplaceholder.typicode.com";
 
 
