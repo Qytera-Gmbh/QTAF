@@ -68,7 +68,7 @@ public class Demo extends QtafTestNGContext implements ApiTest {
         );
     }
 
-    @Test(testName = "simple is not status code test")
+    @Test(testName = "status code test with path params")
     public void statusCodeTestWithPathParams() {
         String[] idParams = {"1","2","3"};
         for (String idParam : idParams){
@@ -86,7 +86,7 @@ public class Demo extends QtafTestNGContext implements ApiTest {
         }
     }
 
-    @Test(testName = "Test Response Body")
+    @Test(testName = "combined api and ui test")
     public void combinedApiAndUITest() throws ParseException {
         String url = "https://jsonplaceholder.typicode.com/";
         driver.get(url);
@@ -173,7 +173,7 @@ public class Demo extends QtafTestNGContext implements ApiTest {
 
     @Test(testName = "Test Response Body")
     public void combinedApiAndUITestBugasdf() {
-        Assert.assertEquals(0,1); // TODO: potential Bug -> assertion is not displayed in log-message
+        assertTrue(0==1,"test", true); // TODO: potential Bug -> assertion is not displayed in log-message
     }
 
     @Test(testName = "Test Response Body")
