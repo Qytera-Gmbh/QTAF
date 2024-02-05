@@ -192,7 +192,7 @@ public class AssertionLogMessage extends LogMessage {
      */
     public boolean wasExecuted() {
         // return status != null;
-        return getStatus() != null;
+        return getStatus() != Status.PENDING;
     }
 
     /**
