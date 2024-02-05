@@ -100,7 +100,7 @@ public class ApiTestExecutor {
         if (hasPassed){
             logMessage.setStatus(LogMessage.Status.PASSED);
         } else {
-            logMessage.setStatus(LogMessage.Status.FAILURE);
+            logMessage.setStatus(LogMessage.Status.FAILED);
         }
         return new ExecutedApiTest(q, validatableResponse.extract());
     }

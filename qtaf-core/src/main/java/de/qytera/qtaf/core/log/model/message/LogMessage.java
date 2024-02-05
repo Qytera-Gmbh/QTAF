@@ -104,7 +104,7 @@ public class LogMessage {
      */
     public boolean hasFailed() {
         // return status == Status.ERROR;
-        return getStatus() == Status.ERROR;
+        return getStatus() == Status.FAILED;
     }
 
     /**
@@ -114,7 +114,7 @@ public class LogMessage {
      */
     public boolean hasPassed() {
         // return status == Status.PASS;
-        return getStatus() == Status.PASS;
+        return getStatus() == Status.PASSED;
     }
 
     /**
@@ -165,7 +165,7 @@ public class LogMessage {
      */
     public LogMessage setError(Throwable error) {
         this.error = new ThrowableWrapper(error);
-        this.status = Status.ERROR;
+        this.status = Status.FAILED;
         // setStatus(Status.ERROR); TODO
         return this;
     }
@@ -179,7 +179,7 @@ public class LogMessage {
     public LogMessage setError(ThrowableWrapper error) {
         this.error = error;
         // this.status = Status.ERROR;
-        setStatus(Status.ERROR);
+        setStatus(Status.FAILED);
         return this;
     }
 
@@ -268,7 +268,7 @@ public class LogMessage {
 
         if (assertion.hasFailed()) {
             // status = Status.ERROR;
-            setStatus(Status.ERROR);
+            setStatus(Status.FAILED);
         }
 
         return this;
@@ -286,7 +286,7 @@ public class LogMessage {
      */
     public void computeStatus() {
         if (this.error != null) {
-            setStatus(Status.ERROR);
+            setStatus(Status.FAILED);
             return;
         }
 
@@ -294,13 +294,13 @@ public class LogMessage {
         for (AssertionLogMessage assertion : assertions) {
             if (assertion.hasFailed()) {
                 // status = Status.ERROR;
-                setStatus(Status.ERROR);
+                setStatus(Status.FAILED);
                 return;
             }
         }
 
         // status = Status.PASS;
-        setStatus(Status.PASS);
+        setStatus(Status.PASSED);
     }
 
     /**
@@ -422,37 +422,44 @@ public class LogMessage {
 
         //TODO: Clean up status: (Failed vs. Failure vs. Error, Passed vs. Pass ...)
         /**
-         * The step is still pending execution.
+         * Status is currently not know
          */
         PENDING,
-        /**
-         * The step was executed successfully.
-         */
-        PASS,
-        /**
-         * There were errors during step execution.
-         */
-        ERROR,
+
         /**
          * The step's execution was skipped.
          */
         SKIPPED,
-        /**
-         * The step status could not be determined.
-         */
-        UNDEFINED,
 
         // From Assertion LogMessage
         /**
          * Status of passed assertions.
          */
         PASSED,
+
         /**
          * Status of failed assertions.
          */
         FAILED,
 
-        FAILURE
+        /**
+         * There were errors during step execution.
+         */
+        // ERROR,
+
+        //FAILURE
+
+        //==== OLD ====
+        /**
+         * The step status could not be determined.
+         */
+        // UNDEFINED,
+
+
+        /**
+         * The step was executed successfully.
+         */
+        // PASS,
 
     }
 }

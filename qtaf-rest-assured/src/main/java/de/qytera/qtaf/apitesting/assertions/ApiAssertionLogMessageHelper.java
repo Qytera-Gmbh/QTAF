@@ -34,7 +34,7 @@ public class ApiAssertionLogMessageHelper {
      */
     private void createAndAppendAssertionLogMessage(@NotNull ApiLogMessage apiLogMessage, String message, Object expectedValue, AssertionPlaceholdersForActualValue.Type actualValuePlaceholder ){
         AssertionLogMessage assertionLogMessage = new AssertionLogMessage(LogLevel.INFO, message);
-        assertionLogMessage.setStatus(LogMessage.Status.UNDEFINED);
+        assertionLogMessage.setStatus(LogMessage.Status.PENDING);
         assertionLogMessage.setExpected(expectedValue);
         assertionLogMessage.setActual(actualValuePlaceholder); // The actual value is unknown before the API call is executed.
         // However, the information which value is to be compared is required later.
@@ -142,7 +142,7 @@ public class ApiAssertionLogMessageHelper {
      */
     public static void changeMessageAccordingToAssertionFailure(AssertionLogMessage currentAssertionLogMessage, ExtractableResponse<Response> response, AssertionError error){
         ApiAssertionLogMessageHelper apiAssertionLogMessageHelper = new ApiAssertionLogMessageHelper();
-        apiAssertionLogMessageHelper.changeMessage(currentAssertionLogMessage, LogMessage.Status.FAILURE, false, response, error);
+        apiAssertionLogMessageHelper.changeMessage(currentAssertionLogMessage, LogMessage.Status.FAILED, false, response, error);
     }
 
     /**
