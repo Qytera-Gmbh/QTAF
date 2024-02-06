@@ -3,6 +3,7 @@ package de.qytera.qtaf.apitesting.restassured;
 import de.qytera.qtaf.apitesting.ApiTest;
 import de.qytera.qtaf.apitesting.ExecutedApiTest;
 import de.qytera.qtaf.testng.context.QtafTestNGContext;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import java.net.URI;
@@ -16,7 +17,7 @@ import static de.qytera.qtaf.apitesting.ApiTestExecutor.apiTest;
 public class StatusCodeAssertionsTests extends QtafTestNGContext implements ApiTest {
     private static String url = "https://jsonplaceholder.typicode.com";
 
-    @Test(testName = "Test GET 200 Route")
+    @Test(testName = "Test GET 200 Route") @Ignore
     public void testStatusCodeIs200() {
         apiTest(
                 this,
@@ -34,7 +35,7 @@ public class StatusCodeAssertionsTests extends QtafTestNGContext implements ApiT
         );
     }
 
-    @Test(testName = "Test GET 404 Route")
+    @Test(testName = "Test GET 404 Route") @Ignore
     public void testStatusCodeIs404() {
         apiTest(
                 this,
@@ -51,5 +52,4 @@ public class StatusCodeAssertionsTests extends QtafTestNGContext implements ApiT
                 )
         );
     }
-
 }
