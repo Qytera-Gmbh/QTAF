@@ -1069,7 +1069,7 @@ public class AssertionContextTest {
         TestContext context = new TestContext();
         TestScenarioLogCollection scenarioLogCollection = context.getLogCollection();
         Assert.assertEquals(scenarioLogCollection.getLogMessages().size(), 1, "First there should be only the 'foo' log message");
-        ((LogMessage) scenarioLogCollection.getLogMessages().get(0)).setStatus(LogMessage.Status.PASS);
+        ((LogMessage) scenarioLogCollection.getLogMessages().get(0)).setStatus(LogMessage.Status.PASSED);
 
         StepInformationLogMessage logMessage = new StepInformationLogMessage("m1", "my-message");
         logMessage.setStatus(LogMessage.Status.PENDING);
@@ -1084,7 +1084,7 @@ public class AssertionContextTest {
         Assert.assertEquals(logMessage.getAssertions().get(0).actual(), 2);
         Assert.assertEquals(logMessage.getAssertions().get(0).expected(), 2);
 
-        logMessage.setStatus(LogMessage.Status.PASS);
+        logMessage.setStatus(LogMessage.Status.PASSED);
         context.assertEquals(3, 3, "Expected both integers to be identical");
         Assert.assertEquals(scenarioLogCollection.getLogMessages().size(), 3, "There should be three step log messages after the second assertion");
         AssertionLogMessage assertionLogMessage = ((LogMessage) scenarioLogCollection.getLogMessages().get(2)).getAssertions().get(0);
