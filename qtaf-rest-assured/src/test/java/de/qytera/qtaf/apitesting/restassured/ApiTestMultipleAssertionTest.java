@@ -3,12 +3,17 @@ package de.qytera.qtaf.apitesting.restassured;
 import de.qytera.qtaf.apitesting.ApiTest;
 import de.qytera.qtaf.apitesting.ExecutedApiTest;
 
+import de.qytera.qtaf.apitesting.log.model.message.ApiLogMessage;
+import de.qytera.qtaf.core.log.model.message.AssertionLogMessage;
+import de.qytera.qtaf.core.log.model.message.AssertionLogMessageType;
+import de.qytera.qtaf.core.log.model.message.LogMessage;
 import de.qytera.qtaf.testng.context.QtafTestNGContext;
 import org.testng.annotations.Test;
 
 import java.util.List;
 
 import static de.qytera.qtaf.apitesting.ApiTestExecutor.apiTest;
+import static de.qytera.qtaf.apitesting.restassured.TestHelper.*;
 
 public class ApiTestMultipleAssertionTest extends QtafTestNGContext implements ApiTest {
 
@@ -50,5 +55,22 @@ public class ApiTestMultipleAssertionTest extends QtafTestNGContext implements A
                         statusCodeIs(404)
                 )
         );
+        ApiLogMessage latestApiLogMessage = getLatestApiLogMessageFrom(getCurrentLogCollectionFrom(this));
+        List<AssertionLogMessage> assertionLogMessages = getAssertionMessagesFormApiLogMessage(latestApiLogMessage);
+        assertEquals(assertionLogMessages.size(), 2);
+        apiAssertionMessageFitsTo(assertionLogMessages.get(0),
+                AssertionLogMessageType.ASSERT_EQUALS,
+                false,
+                404,
+                0,
+                LogMessage.Status.FAILED);
+        apiAssertionMessageFitsTo(assertionLogMessages.get(1),
+                AssertionLogMessageType.ASSERT_EQUALS,
+                true,
+                404,
+                404,
+                LogMessage.Status.PASSED);
+        changeApiLogMessageStatusFromFailedToPassed(latestApiLogMessage);
+
     }
 }
