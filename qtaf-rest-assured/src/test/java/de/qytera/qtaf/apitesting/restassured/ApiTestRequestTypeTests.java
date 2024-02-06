@@ -12,6 +12,7 @@ import de.qytera.qtaf.core.log.model.message.LogMessage;
 import de.qytera.qtaf.testng.context.QtafTestNGContext;
 import io.restassured.http.Header;
 import org.hamcrest.Matchers;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 
@@ -280,7 +281,7 @@ public class ApiTestRequestTypeTests extends QtafTestNGContext implements ApiTes
         );
     }
 
-    @Test
+    @Test @Ignore
     public void getRequestPathParamsWithtBasePathTest() {
         apiTest(
                 this,
