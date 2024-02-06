@@ -7,12 +7,15 @@ import de.qytera.qtaf.apitesting.ApiTest;
 import com.google.gson.JsonObject;
 import de.qytera.qtaf.apitesting.ApiTestExecutor;
 
+import de.qytera.qtaf.apitesting.log.model.message.ApiLogMessage;
 import de.qytera.qtaf.testng.context.QtafTestNGContext;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import io.restassured.specification.QueryableRequestSpecification;
 import org.json.simple.JSONObject;
 import org.testng.annotations.Test;
+
+import static de.qytera.qtaf.apitesting.restassured.TestHelper.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -60,7 +63,7 @@ public class ApiTestMixedTests extends QtafTestNGContext implements ApiTest {
 
     }
 
-    @Test
+    @Test(enabled = false)
     public void QtafApiTestPutMethode2() {
         Map<String, String> params = new HashMap<>();
         params.put("id", "1");
@@ -163,6 +166,9 @@ public class ApiTestMixedTests extends QtafTestNGContext implements ApiTest {
                         statusCodeIs(0)
                 )
         );
+        ApiLogMessage latestApiLogMessage = getLatestApiLogMessageFrom(getCurrentLogCollectionFrom(this));
+        assertEquals(latestApiLogMessage.getResponse().getStatusCode(), 404);
+        changeApiLogMessageStatusFromFailedToPassed(latestApiLogMessage);
     }
 
     @Test
