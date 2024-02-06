@@ -105,16 +105,18 @@ public class StepInformationLogMessageTest {
     @Test
     public void testStatus() {
         StepInformationLogMessage stepInformationLogMessage = new StepInformationLogMessage("method1", "step one was executed");
-        stepInformationLogMessage.setStatus(StepInformationLogMessage.Status.PASS);
-        Assert.assertEquals(stepInformationLogMessage.getStatus(), StepInformationLogMessage.Status.PASS);
-        stepInformationLogMessage.setStatus(StepInformationLogMessage.Status.ERROR);
-        Assert.assertEquals(stepInformationLogMessage.getStatus(), StepInformationLogMessage.Status.ERROR);
+        stepInformationLogMessage.setStatus(StepInformationLogMessage.Status.PASSED);
+        Assert.assertEquals(stepInformationLogMessage.getStatus(), StepInformationLogMessage.Status.PASSED);
+        stepInformationLogMessage.setStatus(StepInformationLogMessage.Status.FAILED);
+        Assert.assertEquals(stepInformationLogMessage.getStatus(), StepInformationLogMessage.Status.FAILED);
         stepInformationLogMessage.setStatus(StepInformationLogMessage.Status.PENDING);
         Assert.assertEquals(stepInformationLogMessage.getStatus(), StepInformationLogMessage.Status.PENDING);
         stepInformationLogMessage.setStatus(StepInformationLogMessage.Status.SKIPPED);
         Assert.assertEquals(stepInformationLogMessage.getStatus(), StepInformationLogMessage.Status.SKIPPED);
+        /*
         stepInformationLogMessage.setStatus(StepInformationLogMessage.Status.UNDEFINED);
         Assert.assertEquals(stepInformationLogMessage.getStatus(), StepInformationLogMessage.Status.UNDEFINED);
+         */
     }
 
     @Test
@@ -122,10 +124,10 @@ public class StepInformationLogMessageTest {
         StepInformationLogMessage stepInformationLogMessage = new StepInformationLogMessage("method1", "step one was executed");
         Assert.assertEquals(stepInformationLogMessage.getStatus(), StepInformationLogMessage.Status.PENDING);
         stepInformationLogMessage.computeStatus();
-        Assert.assertEquals(stepInformationLogMessage.getStatus(), StepInformationLogMessage.Status.PASS);
+        Assert.assertEquals(stepInformationLogMessage.getStatus(), StepInformationLogMessage.Status.PASSED);
         Exception exception = new Exception("my error");
         stepInformationLogMessage.setError(exception);
-        Assert.assertEquals(stepInformationLogMessage.getStatus(), StepInformationLogMessage.Status.ERROR);
+        Assert.assertEquals(stepInformationLogMessage.getStatus(), StepInformationLogMessage.Status.FAILED);
     }
 
     @Test
@@ -133,13 +135,13 @@ public class StepInformationLogMessageTest {
         StepInformationLogMessage stepInformationLogMessage = new StepInformationLogMessage("method1", "step one was executed");
         Assert.assertEquals(stepInformationLogMessage.getStatus(), StepInformationLogMessage.Status.PENDING);
         stepInformationLogMessage.computeStatus();
-        Assert.assertEquals(stepInformationLogMessage.getStatus(), StepInformationLogMessage.Status.PASS);
+        Assert.assertEquals(stepInformationLogMessage.getStatus(), StepInformationLogMessage.Status.PASSED);
         AssertionLogMessage assertion1 = new AssertionLogMessage(LogLevel.INFO, "a1").setStatusToPassed();
         stepInformationLogMessage.addAssertion(assertion1);
-        Assert.assertEquals(stepInformationLogMessage.getStatus(), StepInformationLogMessage.Status.PASS);
+        Assert.assertEquals(stepInformationLogMessage.getStatus(), StepInformationLogMessage.Status.PASSED);
         AssertionLogMessage assertion2 = new AssertionLogMessage(LogLevel.INFO, "a1").setStatusToFailed();
         stepInformationLogMessage.addAssertion(assertion2);
-        Assert.assertEquals(stepInformationLogMessage.getStatus(), StepInformationLogMessage.Status.ERROR);
+        Assert.assertEquals(stepInformationLogMessage.getStatus(), StepInformationLogMessage.Status.FAILED);
     }
 
     @Test
