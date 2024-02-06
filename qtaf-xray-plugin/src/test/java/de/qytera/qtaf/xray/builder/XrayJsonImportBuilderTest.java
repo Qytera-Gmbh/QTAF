@@ -13,6 +13,7 @@ import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
 import de.qytera.qtaf.core.log.model.collection.TestSuiteLogCollection;
 import de.qytera.qtaf.core.log.model.index.LogMessageIndex;
 import de.qytera.qtaf.core.log.model.message.AssertionLogMessage;
+import de.qytera.qtaf.core.log.model.message.LogMessage;
 import de.qytera.qtaf.core.log.model.message.StepInformationLogMessage;
 import de.qytera.qtaf.xray.annotation.XrayTest;
 import de.qytera.qtaf.xray.config.XrayConfigHelper;
@@ -116,13 +117,13 @@ public class XrayJsonImportBuilderTest {
 
     private static StepInformationLogMessage successfulStep(String methodName) {
         StepInformationLogMessage message = new StepInformationLogMessage(methodName, "?");
-        message.setStatus(StepInformationLogMessage.Status.PASS);
+        message.setStatus(StepInformationLogMessage.Status.PASSED);
         return message;
     }
 
     private static StepInformationLogMessage failingStep(String methodName) {
         StepInformationLogMessage message = new StepInformationLogMessage(methodName, "?");
-        message.setStatus(StepInformationLogMessage.Status.ERROR);
+        message.setStatus(StepInformationLogMessage.Status.FAILED);
         return message;
     }
 
@@ -131,7 +132,7 @@ public class XrayJsonImportBuilderTest {
             String screenshotPathBefore
     ) {
         StepInformationLogMessage message = new StepInformationLogMessage(methodName, "?");
-        message.setStatus(StepInformationLogMessage.Status.ERROR);
+        message.setStatus(StepInformationLogMessage.Status.FAILED);
         message.setScreenshotBefore(screenshotPathBefore);
         return message;
     }
@@ -142,7 +143,7 @@ public class XrayJsonImportBuilderTest {
             String screenshotPathAfter
     ) {
         StepInformationLogMessage message = new StepInformationLogMessage(methodName, "?");
-        message.setStatus(StepInformationLogMessage.Status.ERROR);
+        message.setStatus(StepInformationLogMessage.Status.FAILED);
         message.setScreenshotBefore(screenshotPathBefore);
         message.setScreenshotAfter(screenshotPathAfter);
         return message;
