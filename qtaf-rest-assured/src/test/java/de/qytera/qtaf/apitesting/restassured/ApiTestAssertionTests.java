@@ -10,6 +10,7 @@ import de.qytera.qtaf.core.log.model.message.LogMessage;
 import de.qytera.qtaf.testng.context.QtafTestNGContext;
 import org.testng.annotations.Test;
 
+import static de.qytera.qtaf.apitesting.restassured.TestHelper.*;
 import java.util.List;
 
 public class ApiTestAssertionTests extends QtafTestNGContext implements ApiTest {
@@ -25,7 +26,6 @@ public class ApiTestAssertionTests extends QtafTestNGContext implements ApiTest 
                 )
         );
     }
-
 
     String url = "https://jsonplaceholder.typicode.com";
 
@@ -59,17 +59,9 @@ public class ApiTestAssertionTests extends QtafTestNGContext implements ApiTest 
                         statusCodeIs(0)
                 )
         );
-
-        List<LogMessage> logMessages = this.getLogCollection().getLogMessages();
-        LogMessage latestLogMessage = logMessages.get(0);
-        ApiLogMessage currentLogMessage = (latestLogMessage instanceof ApiLogMessage ? (ApiLogMessage)latestLogMessage : null);
-        if (latestLogMessage == null){
-            throw new RuntimeException("currentLogMessage was unexpacted not an ApiLogMessage");
-        }
-        assertEquals(currentLogMessage.getResponse().getStatusCode(), 404);
-
-
-        System.out.println(executedApiTest.getRes().statusCode());
+        ApiLogMessage currentApiLogMessage = getLatestApiLogMessageFrom(getCurrentLogCollectionFrom(this));
+        assertEquals(currentApiLogMessage.getResponse().getStatusCode(), 404);
+        changeApiLogMessageStatusFromFailedToPassed(currentApiLogMessage);
     }
 
     @Test
@@ -109,19 +101,6 @@ public class ApiTestAssertionTests extends QtafTestNGContext implements ApiTest 
         // TODO
     }
 
-    @Test
-    public void QtafApiTeststatusCodeFailed() {
-        apiTest(
-                this,
-                List.of(baseUri(url)),
-                getRequest("/user/1"),
-                List.of(
-                        statusCodeIs(0),
-                        responseTimeShouldBeLessThanXMilliseconds(5000)
-                        // statusCodeIs(0)
-                )
-        );
-    }
 
     // ========== TIME ==========
 }
