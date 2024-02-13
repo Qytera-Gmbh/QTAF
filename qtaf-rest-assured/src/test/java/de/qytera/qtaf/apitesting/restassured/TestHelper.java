@@ -1,5 +1,6 @@
 package de.qytera.qtaf.apitesting.restassured;
 
+import com.google.common.collect.Lists;
 import de.qytera.qtaf.apitesting.log.model.message.ApiLogMessage;
 import de.qytera.qtaf.core.context.IQtafTestContext;
 import de.qytera.qtaf.core.log.model.message.AssertionLogMessage;
@@ -16,7 +17,8 @@ public class TestHelper {
     }
 
     public static ApiLogMessage getLatestApiLogMessageFrom(List<LogMessage> logMessages){
-        for (LogMessage logMessage : logMessages) {
+        List<LogMessage> reversedLogMessages = Lists.reverse(logMessages);
+        for (LogMessage logMessage : reversedLogMessages) {
             ApiLogMessage convertedApiLogmessage = (logMessage instanceof ApiLogMessage ? (ApiLogMessage) logMessage : null);
             if (convertedApiLogmessage != null) {
                 return convertedApiLogmessage;
@@ -35,18 +37,18 @@ public class TestHelper {
         return apiLogMessage.getAssertions();
     }
 
-    public static void apiAssertionMessageFitsTo(AssertionLogMessage assertionLogMessage,
+    public static void apiAssertionMessageFitsTo(String message, AssertionLogMessage assertionLogMessage,
                                                  AssertionLogMessageType type,
                                                  boolean condition,
                                                  Object actual,
                                                  Object expected,
                                                  LogMessage.Status status) {
-        Assert.assertEquals(assertionLogMessage.type(), type);
-        Assert.assertEquals(assertionLogMessage.condition(), condition);
-        Assert.assertEquals(assertionLogMessage.actual(), actual);
-        Assert.assertEquals(assertionLogMessage.expected(), expected);
-        Assert.assertEquals(assertionLogMessage.getStatus(), status);
-        Assert.assertTrue(assertionLogMessage.getAssertions().isEmpty());
+        Assert.assertEquals(assertionLogMessage.type(), type, message);
+        Assert.assertEquals(assertionLogMessage.condition(), condition, message);
+        Assert.assertEquals(assertionLogMessage.actual(), actual, message);
+        Assert.assertEquals(assertionLogMessage.expected(), expected, message);
+        Assert.assertEquals(assertionLogMessage.getStatus(), status, message);
+        Assert.assertTrue(assertionLogMessage.getAssertions().isEmpty(), message);
 
     }
 }
