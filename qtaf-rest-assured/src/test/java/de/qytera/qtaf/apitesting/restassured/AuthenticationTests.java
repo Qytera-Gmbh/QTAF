@@ -53,10 +53,17 @@ public class AuthenticationTests extends QtafTestNGContext implements ApiTest {
     @Test(testName = "Authentification test using User Object", dataProvider = USER_PROVIDER)
     public void iterationCheckUserName(User user) {
         var token = getToken(user);
-        ApiLogMessage latestApiLogMessage = getLatestApiLogMessageFrom(getCurrentLogCollectionFrom(this));
+        ApiLogMessage latestApiLogMessage = getLatestApiLogMessageFromLogMessages(getCurrentLogCollectionFrom(this));
+
         List<AssertionLogMessage> assertionLogMessages = getAssertionMessagesFormApiLogMessage(latestApiLogMessage);
         if (iterationCheckUserName == 0){
-            assertEquals(assertionLogMessages.size(), 1);
+            apiLogMessageFitsTo("iterationCheckUserName 0",
+                    latestApiLogMessage,
+                    LogMessage.Status.PASSED,
+                    1,
+                    ApiLogMessage.Action.RequestType.POST,
+                    200
+            );
             apiAssertionMessageFitsTo(
                     "",
                     assertionLogMessages.get(0),
@@ -69,7 +76,13 @@ public class AuthenticationTests extends QtafTestNGContext implements ApiTest {
             assertEquals(token.getString("username"), user.getUsername(), "Something went wrong during the login process. Please check your credentials.", false);
         }
         if (iterationCheckUserName == 1){
-            assertEquals(assertionLogMessages.size(), 1);
+            apiLogMessageFitsTo("iterationCheckUserName 1",
+                    latestApiLogMessage,
+                    LogMessage.Status.FAILED,
+                    1,
+                    ApiLogMessage.Action.RequestType.POST,
+                    400
+            );
             apiAssertionMessageFitsTo(
                     "",
                     assertionLogMessages.get(0),
@@ -91,7 +104,7 @@ public class AuthenticationTests extends QtafTestNGContext implements ApiTest {
         String loginUrl = "https://dummyjson.com/auth";
         var token = getToken(user);
 
-        ApiLogMessage latestApiLogMessage = getLatestApiLogMessageFrom(getCurrentLogCollectionFrom(this));
+        ApiLogMessage latestApiLogMessage = getLatestApiLogMessageFromLogMessages(getCurrentLogCollectionFrom(this));
         List<AssertionLogMessage> assertionLogMessages = getAssertionMessagesFormApiLogMessage(latestApiLogMessage);
 
         // check getToken Api Call
@@ -129,7 +142,7 @@ public class AuthenticationTests extends QtafTestNGContext implements ApiTest {
                 getRequest("/me"),
                 List.of(statusCodeIs(200))
         );
-        latestApiLogMessage = getLatestApiLogMessageFrom(getCurrentLogCollectionFrom(this));
+        latestApiLogMessage = getLatestApiLogMessageFromLogMessages(getCurrentLogCollectionFrom(this));
         assertionLogMessages = getAssertionMessagesFormApiLogMessage(latestApiLogMessage);
 
         // check getRequest API calls
@@ -160,6 +173,7 @@ public class AuthenticationTests extends QtafTestNGContext implements ApiTest {
         }
         iterationGetTokenAndLogin++;
     }
+
 
     public JsonPath getToken(User user) {
         String url = "https://dummyjson.com/auth";
