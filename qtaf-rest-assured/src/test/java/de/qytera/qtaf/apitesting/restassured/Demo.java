@@ -2,7 +2,11 @@ package de.qytera.qtaf.apitesting.restassured;
 
 import de.qytera.qtaf.apitesting.ApiTest;
 import de.qytera.qtaf.apitesting.ExecutedApiTest;
+import de.qytera.qtaf.apitesting.log.model.message.ApiLogMessage;
 import de.qytera.qtaf.core.config.annotations.TestFeature;
+import de.qytera.qtaf.core.log.model.message.AssertionLogMessage;
+import de.qytera.qtaf.core.log.model.message.AssertionLogMessageType;
+import de.qytera.qtaf.core.log.model.message.LogMessage;
 import de.qytera.qtaf.testng.context.QtafTestNGContext;
 import org.hamcrest.Matcher;
 import org.json.simple.JSONObject;
@@ -19,6 +23,8 @@ import java.util.List;
 import static org.hamcrest.Matchers.*;
 
 import static de.qytera.qtaf.apitesting.ApiTestExecutor.apiTest;
+
+import static de.qytera.qtaf.apitesting.restassured.TestHelper.*;
 
 @TestFeature(
         name = "Api Feature Demo",
@@ -169,6 +175,36 @@ public class Demo extends QtafTestNGContext implements ApiTest {
                         // The assertion type was set to assert equals -> it should be less than a value not equals
                 )
         );
+        ApiLogMessage latestApiLogMessage = getLatestApiLogMessageFromContext(this);
+        apiLogMessageFitsTo(
+                "",
+                latestApiLogMessage,
+                LogMessage.Status.FAILED,
+                2,
+                ApiLogMessage.Action.RequestType.GET,
+                200
+        );
+        List<AssertionLogMessage> assertionLogMessages  = getAssertionMessagesFormApiLogMessage(latestApiLogMessage);
+
+        apiAssertionMessageFitsTo(
+                "assertion 0",
+                assertionLogMessages.get(0),
+                AssertionLogMessageType.ASSERT_EQUALS,
+                true,
+                200,
+                "2xx",
+                LogMessage.Status.PASSED
+        );
+        apiAssertionMessageFitsTo(
+                "assertion 1",
+                assertionLogMessages.get(1),
+                AssertionLogMessageType.ASSERT_EQUALS,
+                false,
+                latestApiLogMessage.getResponse().getTime(),
+                100L,
+                LogMessage.Status.FAILED
+        );
+        changeApiLogMessageStatusFromFailedToPassed(latestApiLogMessage);
     }
 
     @Test(testName = "Test Response Body")

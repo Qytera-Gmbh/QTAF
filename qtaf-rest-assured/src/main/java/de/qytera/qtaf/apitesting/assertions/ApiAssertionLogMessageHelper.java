@@ -108,7 +108,7 @@ public class ApiAssertionLogMessageHelper {
             return response.statusCode();
         }
         if (assertionLogMessage.actual() == UNKNOWN_ACTUAL_VALUE_forTimeAssertion) {
-            return response.statusCode();
+            return response.time();
         }
         return "Error: The actual value of the assertion message of the API test could not be calculated due to an unknown error.";
     }
