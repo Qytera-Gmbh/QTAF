@@ -1,4 +1,4 @@
-package de.qytera.qtaf.apitesting.restassured;
+package de.qytera.qtaf.apitesting.restassured.assertions;
 
 
 import static de.qytera.qtaf.apitesting.ApiTestExecutor.apiTest;
@@ -9,7 +9,7 @@ import de.qytera.qtaf.apitesting.log.model.message.ApiLogMessage;
 import de.qytera.qtaf.testng.context.QtafTestNGContext;
 import org.testng.annotations.Test;
 
-import static de.qytera.qtaf.apitesting.restassured.TestHelper.*;
+import static de.qytera.qtaf.apitesting.restassured.util.TestHelper.*;
 import java.util.List;
 
 public class ApiTestAssertionTests extends QtafTestNGContext implements ApiTest {

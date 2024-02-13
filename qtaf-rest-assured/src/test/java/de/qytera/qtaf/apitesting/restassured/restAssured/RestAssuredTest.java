@@ -1,4 +1,4 @@
-package de.qytera.qtaf.apitesting.restassured;
+package de.qytera.qtaf.apitesting.restassured.restAssured;
 
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.equalTo;

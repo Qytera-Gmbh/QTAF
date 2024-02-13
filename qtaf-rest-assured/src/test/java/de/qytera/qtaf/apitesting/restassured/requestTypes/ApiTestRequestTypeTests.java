@@ -1,4 +1,4 @@
-package de.qytera.qtaf.apitesting.restassured;
+package de.qytera.qtaf.apitesting.restassured.requestTypes;
 
 import static de.qytera.qtaf.apitesting.ApiTestExecutor.apiTest;
 

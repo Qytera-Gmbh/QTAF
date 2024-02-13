@@ -1,4 +1,4 @@
-package de.qytera.qtaf.apitesting.restassured;
+package de.qytera.qtaf.apitesting.restassured.assertions;
 
 import de.qytera.qtaf.apitesting.ApiTest;
 
@@ -12,7 +12,7 @@ import org.testng.annotations.Test;
 import java.util.List;
 
 import static de.qytera.qtaf.apitesting.ApiTestExecutor.apiTest;
-import static de.qytera.qtaf.apitesting.restassured.TestHelper.*;
+import static de.qytera.qtaf.apitesting.restassured.util.TestHelper.*;
 
 public class ApiTestMultipleAssertionTest extends QtafTestNGContext implements ApiTest {
 

@@ -1,4 +1,4 @@
-package de.qytera.qtaf.apitesting.restassured;
+package de.qytera.qtaf.apitesting.restassured.util;
 
 import com.google.common.collect.Lists;
 import de.qytera.qtaf.apitesting.log.model.message.ApiLogMessage;

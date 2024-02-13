@@ -1,4 +1,4 @@
-package de.qytera.qtaf.apitesting.restassured;
+package de.qytera.qtaf.apitesting.restassured.mixed;
 
 import com.codeborne.selenide.Condition;
 import de.qytera.qtaf.apitesting.ApiTest;

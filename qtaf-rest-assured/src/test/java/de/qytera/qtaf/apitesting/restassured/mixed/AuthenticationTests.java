@@ -1,8 +1,8 @@
-package de.qytera.qtaf.apitesting.restassured;
+package de.qytera.qtaf.apitesting.restassured.mixed;
 
 import de.qytera.qtaf.apitesting.ApiTest;
 import de.qytera.qtaf.apitesting.log.model.message.ApiLogMessage;
-import de.qytera.qtaf.apitesting.restassured.Entities.User;
+import de.qytera.qtaf.apitesting.restassured.mixed.Entities.User;
 import de.qytera.qtaf.core.config.annotations.TestFeature;
 import de.qytera.qtaf.core.log.model.message.AssertionLogMessage;
 import de.qytera.qtaf.core.log.model.message.AssertionLogMessageType;
@@ -15,7 +15,7 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import static de.qytera.qtaf.apitesting.restassured.TestHelper.*;
+import static de.qytera.qtaf.apitesting.restassured.util.TestHelper.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;

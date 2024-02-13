@@ -1,4 +1,4 @@
-package de.qytera.qtaf.apitesting.restassured.Entities;
+package de.qytera.qtaf.apitesting.restassured.mixed.Entities;
 
 import lombok.Builder;
 import lombok.Data;

@@ -8,7 +8,6 @@ import de.qytera.qtaf.core.log.model.message.AssertionLogMessage;
 import de.qytera.qtaf.core.log.model.message.AssertionLogMessageType;
 import de.qytera.qtaf.core.log.model.message.LogMessage;
 import de.qytera.qtaf.testng.context.QtafTestNGContext;
-import org.hamcrest.Matcher;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -16,7 +15,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import org.w3c.dom.html.HTMLElement;
 
 import java.time.Duration;
 import java.util.List;
@@ -24,7 +22,7 @@ import static org.hamcrest.Matchers.*;
 
 import static de.qytera.qtaf.apitesting.ApiTestExecutor.apiTest;
 
-import static de.qytera.qtaf.apitesting.restassured.TestHelper.*;
+import static de.qytera.qtaf.apitesting.restassured.util.TestHelper.*;
 
 @TestFeature(
         name = "Api Feature Demo",

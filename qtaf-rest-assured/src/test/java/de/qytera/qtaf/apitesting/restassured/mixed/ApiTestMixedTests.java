@@ -1,4 +1,4 @@
-package de.qytera.qtaf.apitesting.restassured;
+package de.qytera.qtaf.apitesting.restassured.mixed;
 
 import static de.qytera.qtaf.apitesting.ApiTestExecutor.apiTest;
 import de.qytera.qtaf.apitesting.ApiTest;
@@ -14,7 +14,7 @@ import io.restassured.specification.QueryableRequestSpecification;
 import org.json.simple.JSONObject;
 import org.testng.annotations.Test;
 
-import static de.qytera.qtaf.apitesting.restassured.TestHelper.*;
+import static de.qytera.qtaf.apitesting.restassured.util.TestHelper.*;
 
 import java.util.HashMap;
 import java.util.List;
