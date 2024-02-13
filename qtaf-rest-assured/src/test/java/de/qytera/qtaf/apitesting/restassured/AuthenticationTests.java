@@ -1,14 +1,21 @@
 package de.qytera.qtaf.apitesting.restassured;
 
 import de.qytera.qtaf.apitesting.ApiTest;
+import de.qytera.qtaf.apitesting.log.model.message.ApiLogMessage;
 import de.qytera.qtaf.apitesting.restassured.Entities.User;
 import de.qytera.qtaf.core.config.annotations.TestFeature;
+import de.qytera.qtaf.core.log.model.message.AssertionLogMessage;
+import de.qytera.qtaf.core.log.model.message.AssertionLogMessageType;
+import de.qytera.qtaf.core.log.model.message.LogMessage;
 import de.qytera.qtaf.testng.context.QtafTestNGContext;
 import io.restassured.path.json.JsonPath;
 import org.json.simple.JSONObject;
+import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+
+import static de.qytera.qtaf.apitesting.restassured.TestHelper.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,17 +49,79 @@ public class AuthenticationTests extends QtafTestNGContext implements ApiTest {
         }
         return data.toArray(Object[][]::new);
     }
-
+    private int iterationCheckUserName = 0;
     @Test(testName = "Authentification test using User Object", dataProvider = USER_PROVIDER)
-    public void checkUserName(User user) {
+    public void iterationCheckUserName(User user) {
         var token = getToken(user);
-        assertEquals(user.getUsername(), token.getString("username"), "Something went wrong during the login process. Please check your credentials.", false);
+        ApiLogMessage latestApiLogMessage = getLatestApiLogMessageFrom(getCurrentLogCollectionFrom(this));
+        List<AssertionLogMessage> assertionLogMessages = getAssertionMessagesFormApiLogMessage(latestApiLogMessage);
+        if (iterationCheckUserName == 0){
+            assertEquals(assertionLogMessages.size(), 1);
+            apiAssertionMessageFitsTo(
+                    "",
+                    assertionLogMessages.get(0),
+                    AssertionLogMessageType.ASSERT_EQUALS,
+                    true,
+                    200,
+                    200,
+                    LogMessage.Status.PASSED
+                    );
+            assertEquals(token.getString("username"), user.getUsername(), "Something went wrong during the login process. Please check your credentials.", false);
+        }
+        if (iterationCheckUserName == 1){
+            assertEquals(assertionLogMessages.size(), 1);
+            apiAssertionMessageFitsTo(
+                    "",
+                    assertionLogMessages.get(0),
+                    AssertionLogMessageType.ASSERT_EQUALS,
+                    false,
+                    400,
+                    200,
+                    LogMessage.Status.FAILED
+            );
+            changeApiLogMessageStatusFromFailedToPassed(latestApiLogMessage);
+            assertEquals(token.getString("username"), null, "Something went wrong during the login process. Please check your credentials.", false);
+        }
+        iterationCheckUserName++;
     }
 
+    int iterationGetTokenAndLogin = 0;
     @Test(testName = "Login test using username and password", dataProvider = USER_PROVIDER)
     public void getTokenAndLoginUsingUsernameAndPassword(User user) {
         String loginUrl = "https://dummyjson.com/auth";
         var token = getToken(user);
+
+        ApiLogMessage latestApiLogMessage = getLatestApiLogMessageFrom(getCurrentLogCollectionFrom(this));
+        List<AssertionLogMessage> assertionLogMessages = getAssertionMessagesFormApiLogMessage(latestApiLogMessage);
+
+        // check getToken Api Call
+        if (iterationGetTokenAndLogin == 0){
+            Assert.assertEquals(assertionLogMessages.size(), 1);
+            apiAssertionMessageFitsTo(
+                    "get Token 0",
+                    assertionLogMessages.get(0),
+                    AssertionLogMessageType.ASSERT_EQUALS,
+                    true,
+                    200,
+                    200,
+                    LogMessage.Status.PASSED
+            );
+            Assert.assertEquals(token.getString("username"), user.getUsername(), "Something went wrong during the login process. Please check your credentials.");
+        }
+        if (iterationGetTokenAndLogin == 1){
+            Assert.assertEquals(assertionLogMessages.size(), 1);
+            apiAssertionMessageFitsTo(
+                    "get Token 1",
+                    assertionLogMessages.get(0),
+                    AssertionLogMessageType.ASSERT_EQUALS,
+                    false,
+                    400,
+                    200,
+                    LogMessage.Status.FAILED
+            );
+            changeApiLogMessageStatusFromFailedToPassed(latestApiLogMessage);
+            Assert.assertNull(token.getString("username"), "Something went wrong during the login process. Please check your credentials.");
+        }
 
         var response = apiTest(
                 this,
@@ -60,7 +129,36 @@ public class AuthenticationTests extends QtafTestNGContext implements ApiTest {
                 getRequest("/me"),
                 List.of(statusCodeIs(200))
         );
-        System.out.println(response.getRes().body().jsonPath().getString("firstName"));
+        latestApiLogMessage = getLatestApiLogMessageFrom(getCurrentLogCollectionFrom(this));
+        assertionLogMessages = getAssertionMessagesFormApiLogMessage(latestApiLogMessage);
+
+        // check getRequest API calls
+        if (iterationGetTokenAndLogin == 0){
+            Assert.assertEquals(assertionLogMessages.size(), 1);
+            apiAssertionMessageFitsTo(
+                    "getRequest 0",
+                    assertionLogMessages.get(0),
+                    AssertionLogMessageType.ASSERT_EQUALS,
+                    true,
+                    200,
+                    200,
+                    LogMessage.Status.PASSED
+            );
+        }
+        if (iterationGetTokenAndLogin == 1){
+            Assert.assertEquals(assertionLogMessages.size(), 1);
+            apiAssertionMessageFitsTo(
+                    "getRequest 1",
+                    assertionLogMessages.get(0),
+                    AssertionLogMessageType.ASSERT_EQUALS,
+                    false,
+                    401,
+                    200,
+                    LogMessage.Status.FAILED
+            );
+            changeApiLogMessageStatusFromFailedToPassed(latestApiLogMessage);
+        }
+        iterationGetTokenAndLogin++;
     }
 
     public JsonPath getToken(User user) {
