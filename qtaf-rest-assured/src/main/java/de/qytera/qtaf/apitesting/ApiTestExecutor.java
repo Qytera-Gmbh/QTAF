@@ -86,13 +86,15 @@ public class ApiTestExecutor {
                 assertion.apply(validatableResponse, logMessage);
 
                 // The following code is not executed if the above call of apply() throws an exception
-                AssertionLogMessage currentAssertionLogMessage = apiTestExecutor.getCurrentAssertionLogMessage(logCollection, i);
+                // AssertionLogMessage currentAssertionLogMessage = apiTestExecutor.getCurrentAssertionLogMessage(logCollection, i);
+                AssertionLogMessage currentAssertionLogMessage = logMessage.getAssertions().get(i);
                 changeMessageAccordingToAssertionPassed(currentAssertionLogMessage, response);
 
             } catch (AssertionError error){
                 hasPassed = false;
 
-                AssertionLogMessage currentAssertionLogMessage = apiTestExecutor.getCurrentAssertionLogMessage(logCollection, i);
+                // AssertionLogMessage currentAssertionLogMessage = apiTestExecutor.getCurrentAssertionLogMessage(logCollection, i);
+                AssertionLogMessage currentAssertionLogMessage = logMessage.getAssertions().get(i);
                 changeMessageAccordingToAssertionFailure(currentAssertionLogMessage, response, error);
             }
             i++;
