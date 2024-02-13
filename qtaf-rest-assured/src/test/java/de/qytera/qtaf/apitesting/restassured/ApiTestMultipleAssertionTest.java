@@ -1,7 +1,6 @@
 package de.qytera.qtaf.apitesting.restassured;
 
 import de.qytera.qtaf.apitesting.ApiTest;
-import de.qytera.qtaf.apitesting.ExecutedApiTest;
 
 import de.qytera.qtaf.apitesting.log.model.message.ApiLogMessage;
 import de.qytera.qtaf.core.log.model.message.AssertionLogMessage;
@@ -55,7 +54,7 @@ public class ApiTestMultipleAssertionTest extends QtafTestNGContext implements A
                         statusCodeIs(404)
                 )
         );
-        ApiLogMessage latestApiLogMessage = getLatestApiLogMessageFrom(getCurrentLogCollectionFrom(this));
+        ApiLogMessage latestApiLogMessage = getLatestApiLogMessageFromLogMessages(getCurrentLogCollectionFrom(this));
         List<AssertionLogMessage> assertionLogMessages = getAssertionMessagesFormApiLogMessage(latestApiLogMessage);
         assertEquals(assertionLogMessages.size(), 2);
         apiAssertionMessageFitsTo(

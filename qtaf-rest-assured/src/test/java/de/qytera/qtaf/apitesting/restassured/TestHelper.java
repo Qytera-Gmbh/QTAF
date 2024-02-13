@@ -16,7 +16,7 @@ public class TestHelper {
         return logMessages;
     }
 
-    public static ApiLogMessage getLatestApiLogMessageFrom(List<LogMessage> logMessages){
+    public static ApiLogMessage getLatestApiLogMessageFromLogMessages(List<LogMessage> logMessages){
         List<LogMessage> reversedLogMessages = Lists.reverse(logMessages);
         for (LogMessage logMessage : reversedLogMessages) {
             ApiLogMessage convertedApiLogmessage = (logMessage instanceof ApiLogMessage ? (ApiLogMessage) logMessage : null);
@@ -26,6 +26,11 @@ public class TestHelper {
         }
         throw new IllegalArgumentException("The list of LogMessages provided does not include a ApiLogMessage");
     }
+
+    public static ApiLogMessage getLatestApiLogMessageFromContext(IQtafTestContext testContext){
+        return getLatestApiLogMessageFromLogMessages(getCurrentLogCollectionFrom(testContext));
+    }
+
     public static void changeApiLogMessageStatusFromFailedToPassed(ApiLogMessage apiLogMessage){
         if (apiLogMessage.getStatus() != LogMessage.Status.FAILED) {
             throw new IllegalArgumentException("It was expected that a apiLogMessage with a failed status is provided. Please double check if you are sure you want to change the status of this logMessage from: \"" + apiLogMessage.getStatus() + "\" to: \"" + LogMessage.Status.PASSED + "\"");
@@ -50,5 +55,17 @@ public class TestHelper {
         Assert.assertEquals(assertionLogMessage.getStatus(), status, message);
         Assert.assertTrue(assertionLogMessage.getAssertions().isEmpty(), message);
 
+    }
+
+    public static void apiLogMessageFitsTo(String message,
+                                           ApiLogMessage apiLogMessage,
+                                           LogMessage.Status apiLogMessageStatus,
+                                           int numberOfAssertions,
+                                           ApiLogMessage.Action.RequestType requestType,
+                                           int statusCode){
+        Assert.assertEquals(apiLogMessage.getStatus(), apiLogMessageStatus, message);
+        Assert.assertEquals(apiLogMessage.getAssertions().size(), numberOfAssertions, message);
+        Assert.assertEquals(apiLogMessage.getAction().getRequestType(), requestType, message);
+        Assert.assertEquals(apiLogMessage.getResponse().getStatusCode(), statusCode, message);
     }
 }

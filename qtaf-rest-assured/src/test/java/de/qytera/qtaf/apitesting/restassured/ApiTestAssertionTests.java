@@ -6,7 +6,6 @@ import de.qytera.qtaf.apitesting.ApiTest;
 import de.qytera.qtaf.apitesting.ExecutedApiTest;
 
 import de.qytera.qtaf.apitesting.log.model.message.ApiLogMessage;
-import de.qytera.qtaf.core.log.model.message.LogMessage;
 import de.qytera.qtaf.testng.context.QtafTestNGContext;
 import org.testng.annotations.Test;
 
@@ -59,7 +58,7 @@ public class ApiTestAssertionTests extends QtafTestNGContext implements ApiTest 
                         statusCodeIs(0)
                 )
         );
-        ApiLogMessage currentApiLogMessage = getLatestApiLogMessageFrom(getCurrentLogCollectionFrom(this));
+        ApiLogMessage currentApiLogMessage = getLatestApiLogMessageFromLogMessages(getCurrentLogCollectionFrom(this));
         assertEquals(currentApiLogMessage.getResponse().getStatusCode(), 404);
         changeApiLogMessageStatusFromFailedToPassed(currentApiLogMessage);
     }

@@ -5,7 +5,6 @@ import de.qytera.qtaf.apitesting.ApiTest;
 
 
 import com.google.gson.JsonObject;
-import de.qytera.qtaf.apitesting.ApiTestExecutor;
 
 import de.qytera.qtaf.apitesting.log.model.message.ApiLogMessage;
 import de.qytera.qtaf.testng.context.QtafTestNGContext;
@@ -166,7 +165,7 @@ public class ApiTestMixedTests extends QtafTestNGContext implements ApiTest {
                         statusCodeIs(0)
                 )
         );
-        ApiLogMessage latestApiLogMessage = getLatestApiLogMessageFrom(getCurrentLogCollectionFrom(this));
+        ApiLogMessage latestApiLogMessage = getLatestApiLogMessageFromLogMessages(getCurrentLogCollectionFrom(this));
         assertEquals(latestApiLogMessage.getResponse().getStatusCode(), 404);
         changeApiLogMessageStatusFromFailedToPassed(latestApiLogMessage);
     }
