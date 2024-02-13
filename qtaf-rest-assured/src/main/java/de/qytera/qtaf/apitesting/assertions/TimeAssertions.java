@@ -1,6 +1,7 @@
 package de.qytera.qtaf.apitesting.assertions;
 
 import de.qytera.qtaf.apitesting.log.model.message.ApiLogMessage;
+import de.qytera.qtaf.core.log.model.message.AssertionLogMessageType;
 import de.qytera.qtaf.core.log.model.message.LogMessage;
 import io.restassured.response.ValidatableResponse;
 import org.hamcrest.Matcher;
@@ -14,7 +15,8 @@ public interface TimeAssertions {
             ApiAssertionLogMessageHelper.createAndAppendTimeAssertionLogMessage(
                     logMessage,
                     "responseTimeShouldBeLessThanXMilliseconds",
-                    matcher
+                    matcher,
+                    AssertionLogMessageType.ASSERT_EQUALS
             );
 
             res.time(matcher);
@@ -26,7 +28,8 @@ public interface TimeAssertions {
             ApiAssertionLogMessageHelper.createAndAppendTimeAssertionLogMessage(
                     logMessage,
                     "responseTimeShouldBeLessThanXMilliseconds",
-                    duration
+                    duration,
+                    AssertionLogMessageType.ASSERT_EQUALS
             );
 
             res.time(Matchers.lessThan(duration));

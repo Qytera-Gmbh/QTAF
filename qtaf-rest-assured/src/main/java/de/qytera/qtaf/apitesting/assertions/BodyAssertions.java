@@ -1,6 +1,7 @@
 package de.qytera.qtaf.apitesting.assertions;
 
 import de.qytera.qtaf.apitesting.log.model.message.ApiLogMessage;
+import de.qytera.qtaf.core.log.model.message.AssertionLogMessageType;
 import de.qytera.qtaf.core.log.model.message.LogMessage;
 import io.restassured.response.ValidatableResponse;
 import org.hamcrest.Matcher;
@@ -13,7 +14,8 @@ public interface BodyAssertions {
             ApiAssertionLogMessageHelper.createAndAppendBodyAssertionLogMessage(
                     logMessage,
                     "body Assertion",
-                    matcher
+                    matcher,
+                    AssertionLogMessageType.ASSERT_EQUALS
             );
 
             res.body(matcher);
@@ -27,7 +29,8 @@ public interface BodyAssertions {
             ApiAssertionLogMessageHelper.createAndAppendBodyAssertionLogMessage(
                     logMessage,
                     "body Assertion",
-                    matcher
+                    matcher,
+                    AssertionLogMessageType.ASSERT_EQUALS
             );
 
             res.body(s, matcher);

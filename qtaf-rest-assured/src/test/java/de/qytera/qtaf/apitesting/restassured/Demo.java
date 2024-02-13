@@ -188,7 +188,6 @@ public class Demo extends QtafTestNGContext implements ApiTest {
                 "assertion 0",
                 assertionLogMessages.get(0),
                 AssertionLogMessageType.ASSERT_EQUALS,
-                true,
                 200,
                 "2xx",
                 LogMessage.Status.PASSED
@@ -197,7 +196,6 @@ public class Demo extends QtafTestNGContext implements ApiTest {
                 "assertion 1",
                 assertionLogMessages.get(1),
                 AssertionLogMessageType.ASSERT_EQUALS,
-                false,
                 latestApiLogMessage.getResponse().getTime(),
                 100L,
                 LogMessage.Status.FAILED

@@ -1,6 +1,7 @@
 package de.qytera.qtaf.apitesting.assertions;
 
 import de.qytera.qtaf.apitesting.log.model.message.ApiLogMessage;
+import de.qytera.qtaf.core.log.model.message.AssertionLogMessageType;
 import de.qytera.qtaf.core.log.model.message.LogMessage;
 import io.restassured.response.ValidatableResponse;
 import org.hamcrest.Matchers;
@@ -12,7 +13,8 @@ public interface StatusCodeAssertions {
             ApiAssertionLogMessageHelper.createAndAppendStatusCodeAssertionLogMessage(
                     logMessage,
                     "statusCodeIs assertion",
-                    code
+                    code,
+                    AssertionLogMessageType.ASSERT_EQUALS
             );
             res.statusCode(code);
         };
@@ -24,7 +26,8 @@ public interface StatusCodeAssertions {
             ApiAssertionLogMessageHelper.createAndAppendStatusCodeAssertionLogMessage(
                     logMessage,
                     "statusCodeIsNot assertion",
-                    "not " + code
+                    code,
+                    AssertionLogMessageType.ASSERT_NOT_EQUALS
             );
             res.statusCode(Matchers.not(code));
         };
@@ -36,7 +39,8 @@ public interface StatusCodeAssertions {
             ApiAssertionLogMessageHelper.createAndAppendStatusCodeAssertionLogMessage(
                     logMessage,
                     "statusCodeIs1xx assertion",
-                    "1xx"
+                    "1xx",
+                    AssertionLogMessageType.ASSERT_EQUALS
             );
 
             res.statusCode(Matchers.allOf(
@@ -54,7 +58,8 @@ public interface StatusCodeAssertions {
             ApiAssertionLogMessageHelper.createAndAppendStatusCodeAssertionLogMessage(
                     logMessage,
                     "statusCodeIsNot1xx assertion",
-                    "not 1xx"
+                    "1xx",
+                    AssertionLogMessageType.ASSERT_NOT_EQUALS
             );
 
 
@@ -71,7 +76,8 @@ public interface StatusCodeAssertions {
             ApiAssertionLogMessageHelper.createAndAppendStatusCodeAssertionLogMessage(
                     logMessage,
                     "statusCodeIs2xx assertion",
-                    "2xx"
+                    "2xx",
+                    AssertionLogMessageType.ASSERT_EQUALS
             );
 
 
@@ -88,7 +94,8 @@ public interface StatusCodeAssertions {
             ApiAssertionLogMessageHelper.createAndAppendStatusCodeAssertionLogMessage(
                     logMessage,
                     "statusCodeIsNot2xx assertion",
-                    "not 2xx"
+                    "2xx",
+                    AssertionLogMessageType.ASSERT_NOT_EQUALS
             );
 
             res.statusCode(Matchers.anyOf(
@@ -104,7 +111,8 @@ public interface StatusCodeAssertions {
             ApiAssertionLogMessageHelper.createAndAppendStatusCodeAssertionLogMessage(
                     logMessage,
                     "statusCodeIs3xx assertion",
-                    "3xx"
+                    "3xx",
+                    AssertionLogMessageType.ASSERT_EQUALS
             );
 
             res.statusCode(Matchers.allOf(
@@ -120,7 +128,8 @@ public interface StatusCodeAssertions {
             ApiAssertionLogMessageHelper.createAndAppendStatusCodeAssertionLogMessage(
                     logMessage,
                     "statusCodeIsNot3xx assertion",
-                    "not 3xx"
+                    "3xx",
+                    AssertionLogMessageType.ASSERT_NOT_EQUALS
             );
 
 
@@ -137,7 +146,8 @@ public interface StatusCodeAssertions {
             ApiAssertionLogMessageHelper.createAndAppendStatusCodeAssertionLogMessage(
                     logMessage,
                     "statusCodeIs4xx assertion",
-                    "4xx"
+                    "4xx",
+                    AssertionLogMessageType.ASSERT_EQUALS
             );
 
 
@@ -154,7 +164,8 @@ public interface StatusCodeAssertions {
             ApiAssertionLogMessageHelper.createAndAppendStatusCodeAssertionLogMessage(
                     logMessage,
                     "statusCodeIsNot4xx assertion",
-                    "not 4xx"
+                    "4xx",
+                    AssertionLogMessageType.ASSERT_NOT_EQUALS
             );
 
 
@@ -171,7 +182,8 @@ public interface StatusCodeAssertions {
             ApiAssertionLogMessageHelper.createAndAppendStatusCodeAssertionLogMessage(
                     logMessage,
                     "statusCodeIs5xx assertion",
-                    "5xx"
+                    "5xx",
+                    AssertionLogMessageType.ASSERT_EQUALS
             );
 
 
@@ -188,7 +200,8 @@ public interface StatusCodeAssertions {
             ApiAssertionLogMessageHelper.createAndAppendStatusCodeAssertionLogMessage(
                     logMessage,
                     "statusCodeIsNot5xx assertion",
-                    "not 5xx"
+                    "5xx",
+                    AssertionLogMessageType.ASSERT_NOT_EQUALS
             );
 
             res.statusCode(Matchers.anyOf(

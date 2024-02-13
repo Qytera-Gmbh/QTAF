@@ -32,14 +32,14 @@ public class ApiAssertionLogMessageHelper {
      *                                Therefore, this placeholder is set so that the actual value can be computed
      *                                based on the response of the API call.
      */
-    private void createAndAppendAssertionLogMessage(@NotNull ApiLogMessage apiLogMessage, String message, Object expectedValue, AssertionPlaceholdersForActualValue.Type actualValuePlaceholder ){
+    private void createAndAppendAssertionLogMessage(@NotNull ApiLogMessage apiLogMessage, String message, Object expectedValue, AssertionLogMessageType assertionLogMessageType, AssertionPlaceholdersForActualValue.Type actualValuePlaceholder ){
         AssertionLogMessage assertionLogMessage = new AssertionLogMessage(LogLevel.INFO, message);
         assertionLogMessage.setStatus(LogMessage.Status.PENDING);
         assertionLogMessage.setExpected(expectedValue);
         assertionLogMessage.setActual(actualValuePlaceholder); // The actual value is unknown before the API call is executed.
         // However, the information which value is to be compared is required later.
         // Therefore, this placeholder is set so that the actual value can be computed based on the response of the API call.
-        assertionLogMessage.setType(AssertionLogMessageType.ASSERT_EQUALS);
+        assertionLogMessage.setType(assertionLogMessageType);
         apiLogMessage.addAssertion(assertionLogMessage);
         // TODO: assertionLogMessage.setFeatureId()
         // TODO: assertionLogMessage.setAbstractScenarioId()
@@ -57,9 +57,9 @@ public class ApiAssertionLogMessageHelper {
      * @param  message the message of the AssertionLogMessage
      * @param  expectedValue the expectedValue of the assertion
      */
-    public static void createAndAppendBodyAssertionLogMessage(ApiLogMessage apiLogMessage, String message, Object expectedValue){
+    public static void createAndAppendBodyAssertionLogMessage(ApiLogMessage apiLogMessage, String message, Object expectedValue, AssertionLogMessageType assertionLogMessageType){
         ApiAssertionLogMessageHelper apiAssertionLogMessageHelper = new ApiAssertionLogMessageHelper();
-        apiAssertionLogMessageHelper.createAndAppendAssertionLogMessage(apiLogMessage, message, expectedValue, UNKNOWN_ACTUAL_VALUE_forBodyAssertion);
+        apiAssertionLogMessageHelper.createAndAppendAssertionLogMessage(apiLogMessage, message, expectedValue, assertionLogMessageType, UNKNOWN_ACTUAL_VALUE_forBodyAssertion);
     };
 
     /**
@@ -72,9 +72,9 @@ public class ApiAssertionLogMessageHelper {
      * @param  message the message of the AssertionLogMessage
      * @param  expectedValue the expectedValue of the assertion
      */
-    public static void createAndAppendStatusCodeAssertionLogMessage(ApiLogMessage apiLogMessage, String message, Object expectedValue){
+    public static void createAndAppendStatusCodeAssertionLogMessage(ApiLogMessage apiLogMessage, String message, Object expectedValue, AssertionLogMessageType assertionLogMessageType){
         ApiAssertionLogMessageHelper apiAssertionLogMessageHelper = new ApiAssertionLogMessageHelper();
-        apiAssertionLogMessageHelper.createAndAppendAssertionLogMessage(apiLogMessage, message, expectedValue, UNKNOWN_ACTUAL_VALUE_forStatusCodeAssertion);
+        apiAssertionLogMessageHelper.createAndAppendAssertionLogMessage(apiLogMessage, message, expectedValue, assertionLogMessageType, UNKNOWN_ACTUAL_VALUE_forStatusCodeAssertion);
     };
 
     /**
@@ -87,9 +87,9 @@ public class ApiAssertionLogMessageHelper {
      * @param  message the message of the AssertionLogMessage
      * @param  expectedValue the expectedValue of the assertion
      */
-    public static void createAndAppendTimeAssertionLogMessage(ApiLogMessage apiLogMessage, String message, Object expectedValue){
+    public static void createAndAppendTimeAssertionLogMessage(ApiLogMessage apiLogMessage, String message, Object expectedValue, AssertionLogMessageType assertionLogMessageType){
         ApiAssertionLogMessageHelper apiAssertionLogMessageHelper = new ApiAssertionLogMessageHelper();
-        apiAssertionLogMessageHelper.createAndAppendAssertionLogMessage(apiLogMessage, message, expectedValue, UNKNOWN_ACTUAL_VALUE_forTimeAssertion);
+        apiAssertionLogMessageHelper.createAndAppendAssertionLogMessage(apiLogMessage, message, expectedValue, assertionLogMessageType, UNKNOWN_ACTUAL_VALUE_forTimeAssertion);
     };
 
 
@@ -124,10 +124,9 @@ public class ApiAssertionLogMessageHelper {
      * @param response                   The ExtractableResponse containing the response data.
      * @param error                      The AssertionError object representing an error (optional, can be null).
      */
-    private void changeMessage(AssertionLogMessage currentAssertionLogMessage, LogMessage.Status status, boolean condition, ExtractableResponse<Response> response, AssertionError error){
+    private void changeMessage(AssertionLogMessage currentAssertionLogMessage, LogMessage.Status status, ExtractableResponse<Response> response, AssertionError error){
         currentAssertionLogMessage.setActual(computeActualValue(currentAssertionLogMessage, response));
         currentAssertionLogMessage.setStatus(status);
-        currentAssertionLogMessage.setCondition(condition);
         if (error != null){
             currentAssertionLogMessage.setMessage(error.getMessage());
         }
@@ -142,7 +141,7 @@ public class ApiAssertionLogMessageHelper {
      */
     public static void changeMessageAccordingToAssertionFailure(AssertionLogMessage currentAssertionLogMessage, ExtractableResponse<Response> response, AssertionError error){
         ApiAssertionLogMessageHelper apiAssertionLogMessageHelper = new ApiAssertionLogMessageHelper();
-        apiAssertionLogMessageHelper.changeMessage(currentAssertionLogMessage, LogMessage.Status.FAILED, false, response, error);
+        apiAssertionLogMessageHelper.changeMessage(currentAssertionLogMessage, LogMessage.Status.FAILED, response, error);
     }
 
     /**
@@ -153,6 +152,6 @@ public class ApiAssertionLogMessageHelper {
      */
     public static void changeMessageAccordingToAssertionPassed(AssertionLogMessage currentAssertionLogMessage, ExtractableResponse<Response> response){
         ApiAssertionLogMessageHelper apiAssertionLogMessageHelper = new ApiAssertionLogMessageHelper();
-        apiAssertionLogMessageHelper.changeMessage(currentAssertionLogMessage, LogMessage.Status.PASSED, true, response, null);
+        apiAssertionLogMessageHelper.changeMessage(currentAssertionLogMessage, LogMessage.Status.PASSED, response, null);
     }
 }

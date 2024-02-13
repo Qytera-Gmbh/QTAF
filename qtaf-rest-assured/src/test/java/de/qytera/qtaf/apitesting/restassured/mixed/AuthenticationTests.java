@@ -68,7 +68,6 @@ public class AuthenticationTests extends QtafTestNGContext implements ApiTest {
                     "",
                     assertionLogMessages.get(0),
                     AssertionLogMessageType.ASSERT_EQUALS,
-                    true,
                     200,
                     200,
                     LogMessage.Status.PASSED
@@ -87,7 +86,6 @@ public class AuthenticationTests extends QtafTestNGContext implements ApiTest {
                     "",
                     assertionLogMessages.get(0),
                     AssertionLogMessageType.ASSERT_EQUALS,
-                    false,
                     400,
                     200,
                     LogMessage.Status.FAILED
@@ -114,7 +112,6 @@ public class AuthenticationTests extends QtafTestNGContext implements ApiTest {
                     "get Token 0",
                     assertionLogMessages.get(0),
                     AssertionLogMessageType.ASSERT_EQUALS,
-                    true,
                     200,
                     200,
                     LogMessage.Status.PASSED
@@ -127,7 +124,6 @@ public class AuthenticationTests extends QtafTestNGContext implements ApiTest {
                     "get Token 1",
                     assertionLogMessages.get(0),
                     AssertionLogMessageType.ASSERT_EQUALS,
-                    false,
                     400,
                     200,
                     LogMessage.Status.FAILED
@@ -152,7 +148,6 @@ public class AuthenticationTests extends QtafTestNGContext implements ApiTest {
                     "getRequest 0",
                     assertionLogMessages.get(0),
                     AssertionLogMessageType.ASSERT_EQUALS,
-                    true,
                     200,
                     200,
                     LogMessage.Status.PASSED
@@ -164,7 +159,6 @@ public class AuthenticationTests extends QtafTestNGContext implements ApiTest {
                     "getRequest 1",
                     assertionLogMessages.get(0),
                     AssertionLogMessageType.ASSERT_EQUALS,
-                    false,
                     401,
                     200,
                     LogMessage.Status.FAILED

@@ -44,12 +44,10 @@ public class TestHelper {
 
     public static void apiAssertionMessageFitsTo(String message, AssertionLogMessage assertionLogMessage,
                                                  AssertionLogMessageType type,
-                                                 boolean condition,
                                                  Object actual,
                                                  Object expected,
                                                  LogMessage.Status status) {
         Assert.assertEquals(assertionLogMessage.type(), type, message + " <- from type");
-        Assert.assertEquals(assertionLogMessage.condition(), condition, message + " <- from condition");
         Assert.assertEquals(assertionLogMessage.actual(), actual, message + " <- from actual");
         Assert.assertEquals(assertionLogMessage.expected(), expected, message + " <- from expected");
         Assert.assertEquals(assertionLogMessage.getStatus(), status, message + " <- from status");
