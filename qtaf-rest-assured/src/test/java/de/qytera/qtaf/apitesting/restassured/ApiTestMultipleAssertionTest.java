@@ -58,13 +58,17 @@ public class ApiTestMultipleAssertionTest extends QtafTestNGContext implements A
         ApiLogMessage latestApiLogMessage = getLatestApiLogMessageFrom(getCurrentLogCollectionFrom(this));
         List<AssertionLogMessage> assertionLogMessages = getAssertionMessagesFormApiLogMessage(latestApiLogMessage);
         assertEquals(assertionLogMessages.size(), 2);
-        apiAssertionMessageFitsTo(assertionLogMessages.get(0),
+        apiAssertionMessageFitsTo(
+                "",
+                assertionLogMessages.get(0),
                 AssertionLogMessageType.ASSERT_EQUALS,
                 false,
                 404,
                 0,
                 LogMessage.Status.FAILED);
-        apiAssertionMessageFitsTo(assertionLogMessages.get(1),
+        apiAssertionMessageFitsTo(
+                "",
+                assertionLogMessages.get(1),
                 AssertionLogMessageType.ASSERT_EQUALS,
                 true,
                 404,
