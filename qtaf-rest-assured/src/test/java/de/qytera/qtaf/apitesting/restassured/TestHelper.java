@@ -48,12 +48,12 @@ public class TestHelper {
                                                  Object actual,
                                                  Object expected,
                                                  LogMessage.Status status) {
-        Assert.assertEquals(assertionLogMessage.type(), type, message);
-        Assert.assertEquals(assertionLogMessage.condition(), condition, message);
-        Assert.assertEquals(assertionLogMessage.actual(), actual, message);
-        Assert.assertEquals(assertionLogMessage.expected(), expected, message);
-        Assert.assertEquals(assertionLogMessage.getStatus(), status, message);
-        Assert.assertTrue(assertionLogMessage.getAssertions().isEmpty(), message);
+        Assert.assertEquals(assertionLogMessage.type(), type, message + " <- from type");
+        Assert.assertEquals(assertionLogMessage.condition(), condition, message + " <- from condition");
+        Assert.assertEquals(assertionLogMessage.actual(), actual, message + " <- from actual");
+        Assert.assertEquals(assertionLogMessage.expected(), expected, message + " <- from expected");
+        Assert.assertEquals(assertionLogMessage.getStatus(), status, message + " <- from status");
+        Assert.assertTrue(assertionLogMessage.getAssertions().isEmpty(), message + " <- from isEmpty");
 
     }
 
