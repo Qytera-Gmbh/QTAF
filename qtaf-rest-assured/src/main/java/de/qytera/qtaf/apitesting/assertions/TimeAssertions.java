@@ -9,6 +9,7 @@ import org.hamcrest.Matchers;
 
 
 public interface TimeAssertions {
+    /*
     default ApiAssertion responseTimeShouldBeLessThanXMilliseconds(Matcher<Long> matcher) {
         return (ValidatableResponse res, ApiLogMessage logMessage) -> {
 
@@ -22,6 +23,7 @@ public interface TimeAssertions {
             res.time(matcher);
         };
     }
+     */
     default ApiAssertion responseTimeShouldBeLessThanXMilliseconds(long duration) {
         return (ValidatableResponse res, ApiLogMessage logMessage) -> {
 
