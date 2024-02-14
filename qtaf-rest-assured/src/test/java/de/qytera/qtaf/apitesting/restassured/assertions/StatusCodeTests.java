@@ -6,8 +6,6 @@ import de.qytera.qtaf.core.config.annotations.TestFeature;
 import de.qytera.qtaf.core.log.model.message.AssertionLogMessageType;
 import de.qytera.qtaf.core.log.model.message.LogMessage;
 import de.qytera.qtaf.testng.context.QtafTestNGContext;
-import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import java.util.List;
@@ -20,7 +18,7 @@ import static de.qytera.qtaf.apitesting.restassured.util.TestHelper.*;
  * This class contains tests for the status code assertions of QTAF API Tests
  */
 @TestFeature(name = "Status Code Assertion Tests", description = "Check the status code assertion methods")
-public class StatusCode extends QtafTestNGContext implements ApiTest {
+public class StatusCodeTests extends QtafTestNGContext implements ApiTest {
 
     private static final String url = "https://jsonplaceholder.typicode.com";
 
