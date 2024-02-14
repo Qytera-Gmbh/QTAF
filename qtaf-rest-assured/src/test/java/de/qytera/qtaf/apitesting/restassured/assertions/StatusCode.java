@@ -736,4 +736,36 @@ public class StatusCode extends QtafTestNGContext implements ApiTest {
         );
         changeApiLogMessageStatusFromFailedToPassed(latestApiLogMessage);
     }
+    @Test(testName = "Tests multiple status code methods (GET 404) -> expects a logMessage that indicates FAILED")
+    public void testStatusCodeIsNot3xx() {
+        String body = "{\"name\": \"morpheus\",\"job\": \"leader\"}";
+        apiTest(
+                this,
+                List.of(
+                        baseUri("https://reqres.in"),
+                        body(body)
+                ),
+                postRequest("/api/users"),
+                List.of(
+                        statusCodeIsNot3xx()
+                )
+        );
+        ApiLogMessage latestApiLogMessage = getLatestApiLogMessageFromContext(this);
+        apiLogMessageFitsTo(
+                "",
+                latestApiLogMessage,
+                LogMessage.Status.PASSED,
+                1,
+                ApiLogMessage.Action.RequestType.POST,
+                201
+        );
+        apiAssertionMessageFitsTo(
+                "",
+                getAssertionMessagesFormApiLogMessage(latestApiLogMessage).get(0),
+                AssertionLogMessageType.ASSERT_NOT_EQUALS,
+                201,
+                "3xx",
+                LogMessage.Status.PASSED
+        );
+    }
 }
