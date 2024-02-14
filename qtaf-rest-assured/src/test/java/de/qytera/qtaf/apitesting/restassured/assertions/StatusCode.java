@@ -22,7 +22,7 @@ import static de.qytera.qtaf.apitesting.restassured.util.TestHelper.*;
 @TestFeature(name = "Status Code Assertion Tests", description = "Check the status code assertion methods")
 public class StatusCode extends QtafTestNGContext implements ApiTest {
 
-    private static String url = "https://jsonplaceholder.typicode.com";
+    private static final String url = "https://jsonplaceholder.typicode.com";
 
 
     @Test(testName = "Test statusCodeIs(200) -> expect a logMessage that indicates PASSED")
@@ -83,11 +83,6 @@ public class StatusCode extends QtafTestNGContext implements ApiTest {
         );
         changeApiLogMessageStatusFromFailedToPassed(latestApiLogMessage);
     }
-    @Test(testName = "Test statusCodeIsNot(201) -> expect a logMessage that indicates PASSED")
-    public void testNG() {
-        Assert.assertNotEquals(200,200);
-    }
-
     @Test(testName = "Test statusCodeIsNot(201) -> expect a logMessage that indicates PASSED")
     public void testStatusCodeIsNotPASSED() {
         apiTest(
@@ -239,7 +234,7 @@ public class StatusCode extends QtafTestNGContext implements ApiTest {
         );
     }
 
-    @Test(testName = "Test statusCodeIs2xx() -> expect a logMessage that indicates PASSED")
+    @Test(testName = "Test statusCodeIs2xx() -> expect a logMessage that indicates FAILED")
     public void testStatusCodeIs2xxFAILED() {
         apiTest(
                 this,
@@ -328,23 +323,253 @@ public class StatusCode extends QtafTestNGContext implements ApiTest {
         changeApiLogMessageStatusFromFailedToPassed(latestApiLogMessage);
     }
 
+    // testStatusCodeIs3xxPASSED <- missing because the api does not return a 300 code
+
+    @Test(testName = "Test statusCodeIs3xx() -> expect a logMessage that indicates FAILED")
+    public void testStatusCodeIs3xxFAILED() {
+        apiTest(
+                this,
+                List.of(baseUri(url)),
+                getRequest("/users/1"),
+                List.of(
+                        statusCodeIs3xx()
+                )
+        );
+        ApiLogMessage latestApiLogMessage = getLatestApiLogMessageFromContext(this);
+        apiLogMessageFitsTo(
+                "",
+                latestApiLogMessage,
+                LogMessage.Status.FAILED,
+                1,
+                ApiLogMessage.Action.RequestType.GET,
+                200
+        );
+        apiAssertionMessageFitsTo(
+                "",
+                getAssertionMessagesFormApiLogMessage(latestApiLogMessage).get(0),
+                AssertionLogMessageType.ASSERT_EQUALS,
+                200,
+                "3xx",
+                LogMessage.Status.FAILED
+        );
+        changeApiLogMessageStatusFromFailedToPassed(latestApiLogMessage);
+    }
+
+    @Test(testName = "Test statusCodeIsNot3xx() -> expect a logMessage that indicates PASSED")
+    public void testStatusCodeIsNot3xxPASSED() {
+        apiTest(
+                this,
+                List.of(baseUri(url)),
+                getRequest("/users/1"),
+                List.of(
+                        statusCodeIsNot3xx()
+                )
+        );
+        ApiLogMessage latestApiLogMessage = getLatestApiLogMessageFromContext(this);
+        apiLogMessageFitsTo(
+                "",
+                latestApiLogMessage,
+                LogMessage.Status.PASSED,
+                1,
+                ApiLogMessage.Action.RequestType.GET,
+                200
+        );
+        apiAssertionMessageFitsTo(
+                "",
+                getAssertionMessagesFormApiLogMessage(latestApiLogMessage).get(0),
+                AssertionLogMessageType.ASSERT_NOT_EQUALS,
+                200,
+                "3xx",
+                LogMessage.Status.PASSED
+        );
+    }
 
 
+    // testStatusCodeIsNot3xxFAILED <- missing because the api does not return a 300 code
 
+    @Test(testName = "Test statusCodeIs4xx() -> expect a logMessage that indicates PASSED")
+    public void testStatusCodeIs4xxPASSED() {
+        apiTest(
+                this,
+                List.of(baseUri(url)),
+                getRequest("/user/1"),
+                List.of(
+                        statusCodeIs4xx()
+                )
+        );
+        ApiLogMessage latestApiLogMessage = getLatestApiLogMessageFromContext(this);
+        apiLogMessageFitsTo(
+                "",
+                latestApiLogMessage,
+                LogMessage.Status.PASSED,
+                1,
+                ApiLogMessage.Action.RequestType.GET,
+                404
+        );
+        apiAssertionMessageFitsTo(
+                "",
+                getAssertionMessagesFormApiLogMessage(latestApiLogMessage).get(0),
+                AssertionLogMessageType.ASSERT_EQUALS,
+                404,
+                "4xx",
+                LogMessage.Status.PASSED
+        );
+    }
 
+    @Test(testName = "Test statusCodeIs4xx() -> expect a logMessage that indicates FAILED")
+    public void testStatusCodeIs4xxFAILED() {
+        apiTest(
+                this,
+                List.of(baseUri(url)),
+                getRequest("/users/1"),
+                List.of(
+                        statusCodeIs4xx()
+                )
+        );
+        ApiLogMessage latestApiLogMessage = getLatestApiLogMessageFromContext(this);
+        apiLogMessageFitsTo(
+                "",
+                latestApiLogMessage,
+                LogMessage.Status.FAILED,
+                1,
+                ApiLogMessage.Action.RequestType.GET,
+                200
+        );
+        apiAssertionMessageFitsTo(
+                "",
+                getAssertionMessagesFormApiLogMessage(latestApiLogMessage).get(0),
+                AssertionLogMessageType.ASSERT_EQUALS,
+                200,
+                "4xx",
+                LogMessage.Status.FAILED
+        );
+        changeApiLogMessageStatusFromFailedToPassed(latestApiLogMessage);
+    }
 
+    @Test(testName = "Test statusCodeIsNot4xx() -> expect a logMessage that indicates PASSED")
+    public void testStatusCodeIsNot4xxPASSED() {
+        apiTest(
+                this,
+                List.of(baseUri(url)),
+                getRequest("/users/1"),
+                List.of(
+                        statusCodeIsNot4xx()
+                )
+        );
+        ApiLogMessage latestApiLogMessage = getLatestApiLogMessageFromContext(this);
+        apiLogMessageFitsTo(
+                "",
+                latestApiLogMessage,
+                LogMessage.Status.PASSED,
+                1,
+                ApiLogMessage.Action.RequestType.GET,
+                200
+        );
+        apiAssertionMessageFitsTo(
+                "",
+                getAssertionMessagesFormApiLogMessage(latestApiLogMessage).get(0),
+                AssertionLogMessageType.ASSERT_NOT_EQUALS,
+                200,
+                "4xx",
+                LogMessage.Status.PASSED
+        );
+    }
 
+    @Test(testName = "Test statusCodeIsNot4xx() -> expect a logMessage that indicates FAILED")
+    public void testStatusCodeIsNot4xxFAILED() {
+        apiTest(
+                this,
+                List.of(baseUri(url)),
+                getRequest("/user/1"),
+                List.of(
+                        statusCodeIsNot4xx()
+                )
+        );
+        ApiLogMessage latestApiLogMessage = getLatestApiLogMessageFromContext(this);
+        apiLogMessageFitsTo(
+                "",
+                latestApiLogMessage,
+                LogMessage.Status.FAILED,
+                1,
+                ApiLogMessage.Action.RequestType.GET,
+                404
+        );
+        apiAssertionMessageFitsTo(
+                "",
+                getAssertionMessagesFormApiLogMessage(latestApiLogMessage).get(0),
+                AssertionLogMessageType.ASSERT_NOT_EQUALS,
+                404,
+                "4xx",
+                LogMessage.Status.FAILED
+        );
+        changeApiLogMessageStatusFromFailedToPassed(latestApiLogMessage);
+    }
 
+    // testStatusCodeIs5xxPASSED <- missing because the api does not return a 500 code
 
+    @Test(testName = "Test statusCodeIs5xx() -> expect a logMessage that indicates FAILED")
+    public void testStatusCodeIs5xxFAILED() {
+        apiTest(
+                this,
+                List.of(baseUri(url)),
+                getRequest("/user/1"),
+                List.of(
+                        statusCodeIs5xx()
+                )
+        );
+        ApiLogMessage latestApiLogMessage = getLatestApiLogMessageFromContext(this);
+        apiLogMessageFitsTo(
+                "",
+                latestApiLogMessage,
+                LogMessage.Status.FAILED,
+                1,
+                ApiLogMessage.Action.RequestType.GET,
+                404
+        );
+        apiAssertionMessageFitsTo(
+                "",
+                getAssertionMessagesFormApiLogMessage(latestApiLogMessage).get(0),
+                AssertionLogMessageType.ASSERT_EQUALS,
+                404,
+                "5xx",
+                LogMessage.Status.FAILED
+        );
+        changeApiLogMessageStatusFromFailedToPassed(latestApiLogMessage);
+    }
 
+    @Test(testName = "Test statusCodeIsNot5xx() -> expect a logMessage that indicates PASSED")
+    public void testStatusCodeIsNot5xxPASSED() {
+        apiTest(
+                this,
+                List.of(baseUri(url)),
+                getRequest("/user/1"),
+                List.of(
+                        statusCodeIsNot5xx()
+                )
+        );
+        ApiLogMessage latestApiLogMessage = getLatestApiLogMessageFromContext(this);
+        apiLogMessageFitsTo(
+                "",
+                latestApiLogMessage,
+                LogMessage.Status.PASSED,
+                1,
+                ApiLogMessage.Action.RequestType.GET,
+                404
+        );
+        apiAssertionMessageFitsTo(
+                "",
+                getAssertionMessagesFormApiLogMessage(latestApiLogMessage).get(0),
+                AssertionLogMessageType.ASSERT_NOT_EQUALS,
+                404,
+                "5xx",
+                LogMessage.Status.PASSED
+        );
+    }
 
+    // testStatusCodeIs5xxPASSED <- missing because the api does not return a 300 code
 
-
-
-
-
-    @Test(testName = "Test GET 200 Route")
-    public void testStatusCodeIs200() {
+    @Test(testName = "Tests multiple status code methods (GET 200) -> expects a logMessage that indicates PASSED")
+    public void testStatusCodeIs200CombinedPASSED() {
         apiTest(
                 this,
                 List.of(baseUri(url)),
@@ -359,14 +584,80 @@ public class StatusCode extends QtafTestNGContext implements ApiTest {
                         statusCodeIsNot5xx()
                 )
         );
+        ApiLogMessage latestApiLogMessage = getLatestApiLogMessageFromContext(this);
+        apiLogMessageFitsTo(
+                "",
+                latestApiLogMessage,
+                LogMessage.Status.PASSED,
+                7,
+                ApiLogMessage.Action.RequestType.GET,
+                200
+        );
+
+        apiAssertionMessageFitsTo(
+                "",
+                getAssertionMessagesFormApiLogMessage(latestApiLogMessage).get(0),
+                AssertionLogMessageType.ASSERT_NOT_EQUALS,
+                200,
+                "1xx",
+                LogMessage.Status.PASSED
+        );
+        apiAssertionMessageFitsTo(
+                "",
+                getAssertionMessagesFormApiLogMessage(latestApiLogMessage).get(1),
+                AssertionLogMessageType.ASSERT_EQUALS,
+                200,
+                "2xx",
+                LogMessage.Status.PASSED
+        );
+        apiAssertionMessageFitsTo(
+                "",
+                getAssertionMessagesFormApiLogMessage(latestApiLogMessage).get(2),
+                AssertionLogMessageType.ASSERT_EQUALS,
+                200,
+                200,
+                LogMessage.Status.PASSED
+        );
+        apiAssertionMessageFitsTo(
+                "",
+                getAssertionMessagesFormApiLogMessage(latestApiLogMessage).get(3),
+                AssertionLogMessageType.ASSERT_NOT_EQUALS,
+                200,
+                201,
+                LogMessage.Status.PASSED
+        );
+        apiAssertionMessageFitsTo(
+                "",
+                getAssertionMessagesFormApiLogMessage(latestApiLogMessage).get(4),
+                AssertionLogMessageType.ASSERT_NOT_EQUALS,
+                200,
+                "3xx",
+                LogMessage.Status.PASSED
+        );
+        apiAssertionMessageFitsTo(
+                "",
+                getAssertionMessagesFormApiLogMessage(latestApiLogMessage).get(5),
+                AssertionLogMessageType.ASSERT_NOT_EQUALS,
+                200,
+                "4xx",
+                LogMessage.Status.PASSED
+        );
+        apiAssertionMessageFitsTo(
+                "",
+                getAssertionMessagesFormApiLogMessage(latestApiLogMessage).get(6),
+                AssertionLogMessageType.ASSERT_NOT_EQUALS,
+                200,
+                "5xx",
+                LogMessage.Status.PASSED
+        );
     }
 
-    @Test(testName = "Test GET 404 Route") @Ignore
+    @Test(testName = "Tests multiple status code methods (GET 404) -> expects a logMessage that indicates FAILED")
     public void testStatusCodeIs404() {
         apiTest(
                 this,
                 List.of(baseUri(url)),
-                getRequest("/xxx"),
+                getRequest("/users/1"),
                 List.of(
                         statusCodeIsNot1xx(),
                         statusCodeIsNot2xx(),
@@ -377,7 +668,72 @@ public class StatusCode extends QtafTestNGContext implements ApiTest {
                         statusCodeIsNot5xx()
                 )
         );
+        ApiLogMessage latestApiLogMessage = getLatestApiLogMessageFromContext(this);
+        apiLogMessageFitsTo(
+                "",
+                latestApiLogMessage,
+                LogMessage.Status.FAILED,
+                7,
+                ApiLogMessage.Action.RequestType.GET,
+                200
+        );
+
+        apiAssertionMessageFitsTo(
+                "",
+                getAssertionMessagesFormApiLogMessage(latestApiLogMessage).get(0),
+                AssertionLogMessageType.ASSERT_NOT_EQUALS,
+                200,
+                "1xx",
+                LogMessage.Status.PASSED
+        );
+        apiAssertionMessageFitsTo(
+                "",
+                getAssertionMessagesFormApiLogMessage(latestApiLogMessage).get(1),
+                AssertionLogMessageType.ASSERT_NOT_EQUALS,
+                200,
+                "2xx",
+                LogMessage.Status.FAILED
+        );
+        apiAssertionMessageFitsTo(
+                "",
+                getAssertionMessagesFormApiLogMessage(latestApiLogMessage).get(2),
+                AssertionLogMessageType.ASSERT_NOT_EQUALS,
+                200,
+                "3xx",
+                LogMessage.Status.PASSED
+        );
+        apiAssertionMessageFitsTo(
+                "",
+                getAssertionMessagesFormApiLogMessage(latestApiLogMessage).get(3),
+                AssertionLogMessageType.ASSERT_EQUALS,
+                200,
+                "4xx",
+                LogMessage.Status.FAILED
+        );
+        apiAssertionMessageFitsTo(
+                "",
+                getAssertionMessagesFormApiLogMessage(latestApiLogMessage).get(4),
+                AssertionLogMessageType.ASSERT_NOT_EQUALS,
+                200,
+                401,
+                LogMessage.Status.PASSED
+        );
+        apiAssertionMessageFitsTo(
+                "",
+                getAssertionMessagesFormApiLogMessage(latestApiLogMessage).get(5),
+                AssertionLogMessageType.ASSERT_EQUALS,
+                200,
+                404,
+                LogMessage.Status.FAILED
+        );
+        apiAssertionMessageFitsTo(
+                "",
+                getAssertionMessagesFormApiLogMessage(latestApiLogMessage).get(6),
+                AssertionLogMessageType.ASSERT_NOT_EQUALS,
+                200,
+                "5xx",
+                LogMessage.Status.PASSED
+        );
+        changeApiLogMessageStatusFromFailedToPassed(latestApiLogMessage);
     }
-
-
 }
