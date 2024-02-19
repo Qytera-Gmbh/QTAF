@@ -319,7 +319,7 @@ public interface ApiRequestTypes {
     default ApiRequestType deleteRequest() {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
 
-            logMessage.getAction().setRequestType(ApiLogMessage.Action.RequestType.PUT);
+            logMessage.getAction().setRequestType(ApiLogMessage.Action.RequestType.DELETE);
 
             return req.delete();
         };
