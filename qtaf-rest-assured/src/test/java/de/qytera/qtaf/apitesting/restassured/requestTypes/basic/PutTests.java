@@ -1,11 +1,17 @@
 package de.qytera.qtaf.apitesting.restassured.requestTypes.basic;
 
+import com.google.gson.JsonObject;
 import de.qytera.qtaf.apitesting.ApiTest;
+import de.qytera.qtaf.apitesting.log.model.message.ApiLogMessage;
 import de.qytera.qtaf.core.config.annotations.TestFeature;
+import de.qytera.qtaf.core.log.model.message.LogMessage;
 import de.qytera.qtaf.testng.context.QtafTestNGContext;
+import org.json.simple.JSONObject;
 import org.testng.annotations.Test;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static de.qytera.qtaf.apitesting.ApiTestExecutor.apiTest;
 
@@ -13,16 +19,71 @@ import static de.qytera.qtaf.apitesting.restassured.util.TestHelper.*;
 
 @TestFeature(name = "Body Assertion Tests", description = "Check the body assertion methods")
 public class PutTests extends QtafTestNGContext implements ApiTest {
-    @Test(testName = "test")
-    public void test() {
-        String url = "https://jsonplaceholder.typicode.com";
+    String url = "https://jsonplaceholder.typicode.com";
+    @Test(testName = "test putsRequest() -> PASSED")
+    public void testPutRequest200PASSED() {
         apiTest(
                 this,
-                List.of(baseUri(url), basePath("/users/1")),
-                getRequest(),
                 List.of(
-                        statusCodeIsNot(404)
-                )
+                        baseUri(url),
+                        basePath("/users/1")),
+                putRequest(),
+                List.of()
+        );
+        ApiLogMessage latestApiLogMessage = getLatestApiLogMessageFromContext(this);
+        apiLogMessageFitsTo(
+                "",
+                latestApiLogMessage,
+                LogMessage.Status.PASSED,
+                0,
+                ApiLogMessage.Action.RequestType.PUT,
+                200
+        );
+    }
+    @Test(testName = "test putsRequest() with json -> PASSED")
+    public void testPutRequestJsonPASSED() {
+        Map<String, String> jsonMap = new HashMap<>();
+        jsonMap.put("name", "morpheus");
+        jsonMap.put("job", "zion resident");
+        JSONObject jsonObject = new JSONObject(jsonMap);
+        apiTest(
+                this,
+                List.of(
+                        baseUri("https://reqres.in/"),
+                        basePath("/api/users/2"),
+                        json(jsonObject)),
+                putRequest(),
+                List.of()
+        );
+        ApiLogMessage latestApiLogMessage = getLatestApiLogMessageFromContext(this);
+        apiLogMessageFitsTo(
+                "",
+                latestApiLogMessage,
+                LogMessage.Status.PASSED,
+                0,
+                ApiLogMessage.Action.RequestType.PUT,
+                200
+        );
+    }
+
+    @Test(testName = "test putRequest() with wrong path but no assertion -> PASSED")
+    public void testPutRequestPASSEDWrongPathNoAssertions404PASSED() {
+        apiTest(
+                this,
+                List.of(
+                        baseUri(url),
+                        basePath("/user/1")),
+                putRequest(),
+                List.of()
+        );
+        ApiLogMessage latestApiLogMessage = getLatestApiLogMessageFromContext(this);
+        apiLogMessageFitsTo(
+                "",
+                latestApiLogMessage,
+                LogMessage.Status.PASSED,
+                0,
+                ApiLogMessage.Action.RequestType.PUT,
+                404
         );
     }
 }
