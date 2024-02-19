@@ -17,8 +17,8 @@ public class ResponseBodyTests extends QtafTestNGContext implements ApiTest {
     public void testResponseBody() {
         ExecutedApiTest result = apiTest(
                 this,
-                List.of(baseUri(url)),
-                getRequest("/posts/1"),
+                List.of(baseUri(url), basePath("/posts/1")),
+                getRequest(),
                 List.of(
                         statusCodeIs(200)
                 )

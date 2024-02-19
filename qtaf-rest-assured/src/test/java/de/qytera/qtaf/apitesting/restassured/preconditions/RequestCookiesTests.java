@@ -22,10 +22,11 @@ public class RequestCookiesTests extends QtafTestNGContext implements ApiTest {
                 this,
                 List.of(
                         baseUri(url),
+                        basePath("/albums/1"),
                         cookie("bar-foo", "foo_bar"),
                         cookie("foo-bar", "bar_foo")
                 ),
-                getRequest("/albums/1"),
+                getRequest(),
                 List.of(
                         statusCodeIs(200)
                 )
@@ -45,9 +46,10 @@ public class RequestCookiesTests extends QtafTestNGContext implements ApiTest {
                 this,
                 List.of(
                         baseUri(url),
+                        basePath("/albums/1"),
                         cookie(Map.of("bar-foo", "foo_bar", "foo-bar", "bar_foo"))
                 ),
-                getRequest("/albums/1"),
+                getRequest(),
                 List.of(
                         statusCodeIs(200)
                 )
@@ -70,10 +72,11 @@ public class RequestCookiesTests extends QtafTestNGContext implements ApiTest {
                 this,
                 List.of(
                         baseUri(url),
+                        basePath("/albums/1"),
                         cookie(cookie1),
                         cookie(cookie2)
                 ),
-                getRequest("/albums/1"),
+                getRequest(),
                 List.of(
                         statusCodeIs(200)
                 )
@@ -97,9 +100,10 @@ public class RequestCookiesTests extends QtafTestNGContext implements ApiTest {
                 this,
                 List.of(
                         baseUri(url),
+                        basePath("/albums/1"),
                         cookies(cookies)
                 ),
-                getRequest("/albums/1"),
+                getRequest(),
                 List.of(
                         statusCodeIs(200)
                 )

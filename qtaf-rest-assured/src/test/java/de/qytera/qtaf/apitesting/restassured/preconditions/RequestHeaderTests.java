@@ -25,10 +25,11 @@ public class RequestHeaderTests extends QtafTestNGContext implements ApiTest {
                 this,
                 List.of(
                         baseUri(url),
+                        basePath("/albums/1"),
                         header("foo-bar", "bar_foo"),
                         header("bar-foo", "foo_bar")
                 ),
-                getRequest("/albums/1"),
+                getRequest(),
                 List.of(
                         statusCodeIsNot1xx(),
                         statusCodeIs2xx(),
@@ -54,9 +55,10 @@ public class RequestHeaderTests extends QtafTestNGContext implements ApiTest {
                 this,
                 List.of(
                         baseUri(url),
+                        basePath("/albums/1"),
                         headers(Map.of("foo-bar", "bar_foo", "bar-foo", "foo_bar"))
                 ),
-                getRequest("/albums/1"),
+                getRequest(),
                 List.of(
                         statusCodeIsNot1xx(),
                         statusCodeIs2xx(),
@@ -85,10 +87,11 @@ public class RequestHeaderTests extends QtafTestNGContext implements ApiTest {
                 this,
                 List.of(
                         baseUri(url),
+                        basePath("/albums/1"),
                         header(header1),
                         header(header2)
                 ),
-                getRequest("/albums/1"),
+                getRequest(),
                 List.of(
                         statusCodeIsNot1xx(),
                         statusCodeIs2xx(),
@@ -114,9 +117,10 @@ public class RequestHeaderTests extends QtafTestNGContext implements ApiTest {
                 this,
                 List.of(
                         baseUri(url),
+                        basePath("/albums/1"),
                         bearer("abc123")
                 ),
-                getRequest("/albums/1"),
+                getRequest(),
                 List.of(
                         statusCodeIs(200)
                 )
@@ -132,9 +136,10 @@ public class RequestHeaderTests extends QtafTestNGContext implements ApiTest {
                 this,
                 List.of(
                         baseUri(url),
+                        basePath("/albums/1"),
                         json()
                 ),
-                getRequest("/albums/1"),
+                getRequest(),
                 List.of(
                         statusCodeIs(200)
                 )
@@ -150,9 +155,10 @@ public class RequestHeaderTests extends QtafTestNGContext implements ApiTest {
                 this,
                 List.of(
                         baseUri(url),
+                        basePath("/albums/1"),
                         multipart()
                 ),
-                getRequest("/albums/1"),
+                getRequest(),
                 List.of(
                         statusCodeIs(200)
                 )
@@ -168,10 +174,11 @@ public class RequestHeaderTests extends QtafTestNGContext implements ApiTest {
                 this,
                 List.of(
                         baseUri(url),
+                        basePath("/albums/1"),
                         multipart("foo-bar", "bar_foo"),
                         multipart("bar-foo", "foo_bar")
                 ),
-                getRequest("/albums/1"),
+                getRequest(),
                 List.of(
                         statusCodeIs(200)
                 )
@@ -193,10 +200,11 @@ public class RequestHeaderTests extends QtafTestNGContext implements ApiTest {
                 this,
                 List.of(
                         baseUri(url),
+                        basePath("/albums/1"),
                         multipart("foo-bar", 1),
                         multipart("bar-foo", true)
                 ),
-                getRequest("/albums/1"),
+                getRequest(),
                 List.of(
                         statusCodeIs(200)
                 )
@@ -221,10 +229,11 @@ public class RequestHeaderTests extends QtafTestNGContext implements ApiTest {
                 this,
                 List.of(
                         baseUri(url),
+                        basePath("/albums/1"),
                         file(file1),
                         file(file2)
                 ),
-                getRequest("/albums/1"),
+                getRequest(),
                 List.of(
                         statusCodeIs(200)
                 )
@@ -253,10 +262,11 @@ public class RequestHeaderTests extends QtafTestNGContext implements ApiTest {
                 this,
                 List.of(
                         baseUri(url),
+                        basePath("/albums/1"),
                         file("file1", file1),
                         file("file2", file2)
                 ),
-                getRequest("/albums/1"),
+                getRequest(),
                 List.of(
                         statusCodeIs(200)
                 )
@@ -282,9 +292,10 @@ public class RequestHeaderTests extends QtafTestNGContext implements ApiTest {
                 this,
                 List.of(
                         baseUri(url),
+                        basePath("/albums/1"),
                         text()
                 ),
-                getRequest("/albums/1"),
+                getRequest(),
                 List.of(
                         statusCodeIs(200)
                 )
@@ -300,9 +311,10 @@ public class RequestHeaderTests extends QtafTestNGContext implements ApiTest {
                 this,
                 List.of(
                         baseUri(url),
+                        basePath("/albums/1"),
                         xml()
                 ),
-                getRequest("/albums/1"),
+                getRequest(),
                 List.of(
                         statusCodeIs(200)
                 )
