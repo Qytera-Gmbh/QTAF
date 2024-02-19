@@ -1,7 +1,10 @@
 package de.qytera.qtaf.apitesting.restassured.requestTypes.basic;
 
 import de.qytera.qtaf.apitesting.ApiTest;
+import de.qytera.qtaf.apitesting.log.model.message.ApiLogMessage;
 import de.qytera.qtaf.core.config.annotations.TestFeature;
+import de.qytera.qtaf.core.log.model.message.AssertionLogMessageType;
+import de.qytera.qtaf.core.log.model.message.LogMessage;
 import de.qytera.qtaf.testng.context.QtafTestNGContext;
 import org.testng.annotations.Test;
 
@@ -14,18 +17,74 @@ import java.util.List;
 import static de.qytera.qtaf.apitesting.ApiTestExecutor.apiTest;
 import static de.qytera.qtaf.apitesting.restassured.util.TestHelper.*;
 
-@TestFeature(name = "Body Assertion Tests", description = "Check the body assertion methods")
+@TestFeature(name = "DELETE Request Tests", description = "Check the delete request methods")
 public class DeleteTests extends QtafTestNGContext implements ApiTest {
-    @Test(testName = "test")
-    public void test() {
-        String url = "https://jsonplaceholder.typicode.com";
+
+    String url = "https://jsonplaceholder.typicode.com";
+    @Test(testName = "test deleteRequest() -> PASSED")
+    public void testDeleteRequestPASSED() {
+
         apiTest(
                 this,
-                List.of(baseUri(url), basePath("/users/1")),
-                getRequest(),
                 List.of(
-                        statusCodeIsNot(404)
-                )
+                        baseUri(url),
+                        basePath("/users/1")),
+                deleteRequest(),
+                List.of()
+        );
+        ApiLogMessage latestApiLogMessage = getLatestApiLogMessageFromContext(this);
+        apiLogMessageFitsTo(
+                "",
+                latestApiLogMessage,
+                LogMessage.Status.PASSED,
+                0,
+                ApiLogMessage.Action.RequestType.DELETE,
+                200
+        );
+    }
+
+    @Test(testName = "test deleteRequest() with wrong path but no assertion -> PASSED")
+    public void testDeleteRequestWrongPathNoAssertionsPASSED() {
+
+        apiTest(
+                this,
+                List.of(
+                        baseUri(url),
+                        basePath("/user/1")),
+                deleteRequest(),
+                List.of()
+        );
+        ApiLogMessage latestApiLogMessage = getLatestApiLogMessageFromContext(this);
+        apiLogMessageFitsTo(
+                "",
+                latestApiLogMessage,
+                LogMessage.Status.PASSED,
+                0,
+                ApiLogMessage.Action.RequestType.DELETE,
+                404
+        );
+    }
+
+    @Test(testName = "test deleteRequest() 204 -> PASSED")
+    public void testDeleteRequest204PASSED() {
+
+        apiTest(
+                this,
+                List.of(
+                        baseUri("https://reqres.in/"),
+                        basePath("/api/users/2")
+                ),
+                deleteRequest(),
+                List.of()
+        );
+        ApiLogMessage latestApiLogMessage = getLatestApiLogMessageFromContext(this);
+        apiLogMessageFitsTo(
+                "",
+                latestApiLogMessage,
+                LogMessage.Status.PASSED,
+                0,
+                ApiLogMessage.Action.RequestType.DELETE,
+                204
         );
     }
 }
