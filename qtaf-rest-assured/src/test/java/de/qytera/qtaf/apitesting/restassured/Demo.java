@@ -71,7 +71,7 @@ public class Demo extends QtafTestNGContext implements ApiTest {
             )
         );
     }
-    /*
+
     @Test(testName = "status code test with path params")
     public void statusCodeTestWithPathParams() {
         String[] idParams = {"1","2","3"};
@@ -80,16 +80,17 @@ public class Demo extends QtafTestNGContext implements ApiTest {
                     this,
                     List.of(
                             baseUri(url),
-                            pathParam("id", idParam)
+                            pathParam("id", idParam),
+                            basePath("/posts/{id}")
+
                     ),
-                    getRequest("/posts/{id}"),
+                    getRequest(),
                     List.of(
                             statusCodeIs2xx()
                     )
             );
         }
     }
-     */
     /*
     @Test(testName = "combined api and ui test")
     public void combinedApiAndUITest() throws ParseException {
