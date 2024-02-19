@@ -171,10 +171,13 @@ public class ApiTestMixedTests extends QtafTestNGContext implements ApiTest {
     public void QtafApiTeststatusCodePassed() {
         apiTest(
                 this,
-                List.of(baseUri(url), basePath("/users/1")),
+                List.of(
+                        baseUri(url),
+                        basePath("/users/1")
+                ),
                 getRequest(),
                 List.of(
-                        statusCodeIs(404)
+                        statusCodeIs(200)
                 )
         );
     }
