@@ -487,7 +487,7 @@ public class StatusCodeTests extends QtafTestNGContext implements ApiTest {
     public void testStatusCodeIsNot4xxFAILED() {
         apiTest(
                 this,
-                List.of(baseUri(url), basePath("/users/1")),
+                List.of(baseUri(url), basePath("/user/1")),
                 getRequest(),
                 List.of(
                         statusCodeIsNot4xx()
