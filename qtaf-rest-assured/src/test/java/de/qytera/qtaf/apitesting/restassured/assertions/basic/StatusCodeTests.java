@@ -1,4 +1,4 @@
-package de.qytera.qtaf.apitesting.restassured.assertions;
+package de.qytera.qtaf.apitesting.restassured.assertions.basic;
 
 import de.qytera.qtaf.apitesting.ApiTest;
 import de.qytera.qtaf.apitesting.log.model.message.ApiLogMessage;
@@ -27,8 +27,11 @@ public class StatusCodeTests extends QtafTestNGContext implements ApiTest {
     public void testStatusCodeIsPASSED() {
         apiTest(
                 this,
-                List.of(baseUri(url)),
-                getRequest("/users/1"),
+                List.of(
+                        baseUri(url),
+                        basePath("/users/1")
+                ),
+                getRequest(),
                 List.of(
                         statusCodeIs(200)
                 )
@@ -56,8 +59,11 @@ public class StatusCodeTests extends QtafTestNGContext implements ApiTest {
     public void testStatusCodeIsFAILED() {
         apiTest(
                 this,
-                List.of(baseUri(url)),
-                getRequest("/users/1"),
+                List.of(
+                        baseUri(url),
+                        basePath("/users/1")
+                ),
+                getRequest(),
                 List.of(
                         statusCodeIs(201)
                 )
@@ -85,8 +91,10 @@ public class StatusCodeTests extends QtafTestNGContext implements ApiTest {
     public void testStatusCodeIsNotPASSED() {
         apiTest(
                 this,
-                List.of(baseUri(url)),
-                getRequest("/users/1"),
+                List.of(baseUri(url),
+                        basePath("/users/1")
+                ),
+                getRequest(),
                 List.of(
                         statusCodeIsNot(201)
                 )
@@ -114,8 +122,10 @@ public class StatusCodeTests extends QtafTestNGContext implements ApiTest {
     public void testStatusCodeIsNotFAILED() {
         apiTest(
                 this,
-                List.of(baseUri(url)),
-                getRequest("/users/1"),
+                List.of(baseUri(url),
+                        basePath("/users/1")
+                ),
+                getRequest(),
                 List.of(
                         statusCodeIsNot(200)
                 )
@@ -146,8 +156,8 @@ public class StatusCodeTests extends QtafTestNGContext implements ApiTest {
     public void testStatusCodeIs1xxFAIL() {
         apiTest(
                 this,
-                List.of(baseUri(url)),
-                getRequest("/users/1"),
+                List.of(baseUri(url), basePath("/users/1")),
+                getRequest(),
                 List.of(
                         statusCodeIs1xx()
                 )
@@ -176,8 +186,8 @@ public class StatusCodeTests extends QtafTestNGContext implements ApiTest {
     public void testStatusCodeIsNot1xxPASSED() {
         apiTest(
                 this,
-                List.of(baseUri(url)),
-                getRequest("/users/1"),
+                List.of(baseUri(url), basePath("/users/1")),
+                getRequest(),
                 List.of(
                         statusCodeIsNot1xx()
                 )
@@ -207,8 +217,8 @@ public class StatusCodeTests extends QtafTestNGContext implements ApiTest {
     public void testStatusCodeIs2xxPASSED() {
         apiTest(
                 this,
-                List.of(baseUri(url)),
-                getRequest("/users/1"),
+                List.of(baseUri(url), basePath("/users/1")),
+                getRequest(),
                 List.of(
                         statusCodeIs2xx()
                 )
@@ -236,8 +246,8 @@ public class StatusCodeTests extends QtafTestNGContext implements ApiTest {
     public void testStatusCodeIs2xxFAILED() {
         apiTest(
                 this,
-                List.of(baseUri(url)),
-                getRequest("/user/1"),
+                List.of(baseUri(url), basePath("/user/1")),
+                getRequest(),
                 List.of(
                         statusCodeIs2xx()
                 )
@@ -266,8 +276,8 @@ public class StatusCodeTests extends QtafTestNGContext implements ApiTest {
     public void testStatusCodeIsNot2xxPASSED() {
         apiTest(
                 this,
-                List.of(baseUri(url)),
-                getRequest("/user/1"),
+                List.of(baseUri(url), basePath("/user/1")),
+                getRequest(),
                 List.of(
                         statusCodeIsNot2xx()
                 )
@@ -295,8 +305,8 @@ public class StatusCodeTests extends QtafTestNGContext implements ApiTest {
     public void testStatusCodeIsNot2xxFAILED() {
         apiTest(
                 this,
-                List.of(baseUri(url)),
-                getRequest("/users/1"),
+                List.of(baseUri(url), basePath("/users/1")),
+                getRequest(),
                 List.of(
                         statusCodeIsNot2xx()
                 )
@@ -327,8 +337,8 @@ public class StatusCodeTests extends QtafTestNGContext implements ApiTest {
     public void testStatusCodeIs3xxFAILED() {
         apiTest(
                 this,
-                List.of(baseUri(url)),
-                getRequest("/users/1"),
+                List.of(baseUri(url), basePath("/users/1")),
+                getRequest(),
                 List.of(
                         statusCodeIs3xx()
                 )
@@ -357,8 +367,8 @@ public class StatusCodeTests extends QtafTestNGContext implements ApiTest {
     public void testStatusCodeIsNot3xxPASSED() {
         apiTest(
                 this,
-                List.of(baseUri(url)),
-                getRequest("/users/1"),
+                List.of(baseUri(url), basePath("/users/1")),
+                getRequest(),
                 List.of(
                         statusCodeIsNot3xx()
                 )
@@ -389,8 +399,8 @@ public class StatusCodeTests extends QtafTestNGContext implements ApiTest {
     public void testStatusCodeIs4xxPASSED() {
         apiTest(
                 this,
-                List.of(baseUri(url)),
-                getRequest("/user/1"),
+                List.of(baseUri(url), basePath("/user/1")),
+                getRequest(),
                 List.of(
                         statusCodeIs4xx()
                 )
@@ -418,8 +428,8 @@ public class StatusCodeTests extends QtafTestNGContext implements ApiTest {
     public void testStatusCodeIs4xxFAILED() {
         apiTest(
                 this,
-                List.of(baseUri(url)),
-                getRequest("/users/1"),
+                List.of(baseUri(url), basePath("/users/1")),
+                getRequest(),
                 List.of(
                         statusCodeIs4xx()
                 )
@@ -448,8 +458,8 @@ public class StatusCodeTests extends QtafTestNGContext implements ApiTest {
     public void testStatusCodeIsNot4xxPASSED() {
         apiTest(
                 this,
-                List.of(baseUri(url)),
-                getRequest("/users/1"),
+                List.of(baseUri(url), basePath("/users/1")),
+                getRequest(),
                 List.of(
                         statusCodeIsNot4xx()
                 )
@@ -477,8 +487,8 @@ public class StatusCodeTests extends QtafTestNGContext implements ApiTest {
     public void testStatusCodeIsNot4xxFAILED() {
         apiTest(
                 this,
-                List.of(baseUri(url)),
-                getRequest("/user/1"),
+                List.of(baseUri(url), basePath("/user/1")),
+                getRequest(),
                 List.of(
                         statusCodeIsNot4xx()
                 )
@@ -509,8 +519,8 @@ public class StatusCodeTests extends QtafTestNGContext implements ApiTest {
     public void testStatusCodeIs5xxFAILED() {
         apiTest(
                 this,
-                List.of(baseUri(url)),
-                getRequest("/user/1"),
+                List.of(baseUri(url), basePath("/user/1")),
+                getRequest(),
                 List.of(
                         statusCodeIs5xx()
                 )
@@ -539,8 +549,8 @@ public class StatusCodeTests extends QtafTestNGContext implements ApiTest {
     public void testStatusCodeIsNot5xxPASSED() {
         apiTest(
                 this,
-                List.of(baseUri(url)),
-                getRequest("/user/1"),
+                List.of(baseUri(url), basePath("/user/1")),
+                getRequest(),
                 List.of(
                         statusCodeIsNot5xx()
                 )
@@ -570,8 +580,8 @@ public class StatusCodeTests extends QtafTestNGContext implements ApiTest {
     public void testStatusCodeIs200CombinedPASSED() {
         apiTest(
                 this,
-                List.of(baseUri(url)),
-                getRequest("/users/1"),
+                List.of(baseUri(url), basePath("/users/1")),
+                getRequest(),
                 List.of(
                         statusCodeIsNot1xx(),
                         statusCodeIs2xx(),
@@ -654,8 +664,8 @@ public class StatusCodeTests extends QtafTestNGContext implements ApiTest {
     public void testStatusCodeIs404() {
         apiTest(
                 this,
-                List.of(baseUri(url)),
-                getRequest("/users/1"),
+                List.of(baseUri(url), basePath("/users/1")),
+                getRequest(),
                 List.of(
                         statusCodeIsNot1xx(),
                         statusCodeIsNot2xx(),
@@ -741,9 +751,10 @@ public class StatusCodeTests extends QtafTestNGContext implements ApiTest {
                 this,
                 List.of(
                         baseUri("https://reqres.in"),
+                        basePath("/api/users"),
                         body(body)
                 ),
-                postRequest("/api/users"),
+                postRequest(),
                 List.of(
                         statusCodeIsNot3xx()
                 )
@@ -765,5 +776,44 @@ public class StatusCodeTests extends QtafTestNGContext implements ApiTest {
                 "3xx",
                 LogMessage.Status.PASSED
         );
+    }
+
+    @Test(testName = "Test statusCodeIs() exploration test -> expect a logMessage that indicates FAILED")
+    public void testStatusCodeIsExploration1FAILED() {
+        apiTest(
+                this,
+                List.of(baseUri(url), basePath("/users/1")),
+                getRequest(),
+                List.of(
+                        statusCodeIs(2001),
+                        statusCodeIs(200)
+                )
+        );
+        ApiLogMessage latestApiLogMessage = getLatestApiLogMessageFromContext(this);
+        apiLogMessageFitsTo(
+                "",
+                latestApiLogMessage,
+                LogMessage.Status.FAILED,
+                2,
+                ApiLogMessage.Action.RequestType.GET,
+                200
+        );
+        apiAssertionMessageFitsTo(
+                "",
+                getAssertionMessagesFormApiLogMessage(latestApiLogMessage).get(0),
+                AssertionLogMessageType.ASSERT_EQUALS,
+                200,
+                2001,
+                LogMessage.Status.FAILED
+        );
+        apiAssertionMessageFitsTo(
+                "",
+                getAssertionMessagesFormApiLogMessage(latestApiLogMessage).get(1),
+                AssertionLogMessageType.ASSERT_EQUALS,
+                200,
+                200,
+                LogMessage.Status.PASSED
+        );
+        changeApiLogMessageStatusFromFailedToPassed(latestApiLogMessage);
     }
 }

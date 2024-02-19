@@ -99,8 +99,8 @@ public class ApiTestRequestTypeTests extends QtafTestNGContext implements ApiTes
 
         apiTest(
                 this,
-                List.of(),
-                headRequest(uri),
+                List.of(baseUri(urlString + uriStringHead)),
+                headRequest(),
                 List.of()
         );
 
@@ -121,8 +121,8 @@ public class ApiTestRequestTypeTests extends QtafTestNGContext implements ApiTes
 
         apiTest(
                 this,
-                List.of(),
-                headRequest(url),
+                List.of(baseUri(urlString + uriStringHead)),
+                headRequest(),
                 List.of()
         );
 
@@ -143,8 +143,9 @@ public class ApiTestRequestTypeTests extends QtafTestNGContext implements ApiTes
 
         apiTest(
                 this,
-                List.of(),
-                headRequest(urlString + "/{type}/{id}", "users", "1"),
+                List.of(baseUri(urlString), basePath("/users/1")),
+                //headRequest(urlString + "/{type}/{id}", "users", "1"),
+                headRequest(),
                 List.of()
         );
 
@@ -183,8 +184,8 @@ public class ApiTestRequestTypeTests extends QtafTestNGContext implements ApiTes
         URI uri = new URI(urlString + uriStringOption);
         apiTest(
                 this,
-                List.of(),
-                optionsRequest(uri),
+                List.of(baseUri(urlString + uriStringOption)),
+                optionsRequest(),
                 List.of()
         );
 
@@ -201,8 +202,8 @@ public class ApiTestRequestTypeTests extends QtafTestNGContext implements ApiTes
         URL url = new URL(urlString + uriStringOption);
         apiTest(
                 this,
-                List.of(),
-                optionsRequest(url),
+                List.of(baseUri(urlString + uriStringOption)),
+                optionsRequest(),
                 List.of()
         );
 
@@ -226,9 +227,10 @@ public class ApiTestRequestTypeTests extends QtafTestNGContext implements ApiTes
         apiTest(
                 this,
                 List.of(
-                        baseUri(urlString)
+                        baseUri(urlString),
+                        basePath(uriStringGet)
                 ),
-                getRequest(uriStringGet),
+                getRequest(),
                 List.of()
         );
         ApiLogMessage filledOutApiLogMessage = getLogCollection().getLogMessages(ApiLogMessage.class).get(0);
@@ -246,16 +248,17 @@ public class ApiTestRequestTypeTests extends QtafTestNGContext implements ApiTes
         apiTest(
                 this,
                 List.of(
-                        baseUri(urlString)
+                        baseUri(urlString),
+                        basePath("correct")
 
                 ),
-                getRequest(uri),
+                getRequest(),
                 List.of(
                         body(Matchers.hasToString(expectedResponseBodyGet)
                 ))
         );
     }
-
+    /*
     @Test
     public void getReqeustsUrlTest() throws MalformedURLException {
 
@@ -304,6 +307,8 @@ public class ApiTestRequestTypeTests extends QtafTestNGContext implements ApiTes
                         ))
         );
     }
+
+     */
 
     // ========== POST ==========
 

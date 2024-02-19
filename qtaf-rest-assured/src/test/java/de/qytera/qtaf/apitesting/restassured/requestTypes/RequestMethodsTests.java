@@ -17,8 +17,8 @@ public class RequestMethodsTests extends QtafTestNGContext implements ApiTest {
     public void testGetRequest() {
         apiTest(
                 this,
-                List.of(baseUri(url)),
-                getRequest("/albums/1"),
+                List.of(baseUri(url), basePath("/albums/1")),
+                getRequest(),
                 List.of(
                         statusCodeIsNot1xx(),
                         statusCodeIs2xx(),
@@ -37,11 +37,12 @@ public class RequestMethodsTests extends QtafTestNGContext implements ApiTest {
                 this,
                 List.of(
                         baseUri(url),
+                        basePath("/albums"),
                         body("""
                               {"userId": "1", "title": "Lorem Ipsum"}
                                 """)
                 ),
-                postRequest("/albums"),
+                postRequest(),
                 List.of(
                         statusCodeIsNot1xx(),
                         statusCodeIs2xx(),
@@ -60,12 +61,13 @@ public class RequestMethodsTests extends QtafTestNGContext implements ApiTest {
                 this,
                 List.of(
                         baseUri(url),
+                        basePath("/albums"),
                         header("content-type", "application/json"),
                         body("""
                               {"userId": , "title": "Lorem Ipsum"}
                                 """)
                 ),
-                postRequest("/albums"),
+                postRequest(),
                 List.of(
                         statusCodeIsNot1xx(),
                         statusCodeIsNot2xx(),
@@ -84,11 +86,12 @@ public class RequestMethodsTests extends QtafTestNGContext implements ApiTest {
                 this,
                 List.of(
                         baseUri(url),
+                        basePath("/albums/1"),
                         body("""
                               {"userId": "1", "title": "Lorem Ipsum"}
                                 """)
                 ),
-                putRequest("/albums/1"),
+                putRequest(),
                 List.of(
                         statusCodeIsNot1xx(),
                         statusCodeIs2xx(),
@@ -106,9 +109,10 @@ public class RequestMethodsTests extends QtafTestNGContext implements ApiTest {
         ExecutedApiTest result = apiTest(
                 this,
                 List.of(
-                        baseUri(url)
+                        baseUri(url),
+                        basePath("/albums/1")
                 ),
-                deleteRequest("/albums/1"),
+                deleteRequest(),
                 List.of(
                         statusCodeIsNot1xx(),
                         statusCodeIs2xx(),

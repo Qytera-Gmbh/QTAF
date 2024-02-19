@@ -49,12 +49,10 @@ public class ApiTestMixedTests extends QtafTestNGContext implements ApiTest {
                 this,
                 List.of(headers(headers),
                         baseUri(url),
-                        // basePath("/posts/{id}"),
-                        // pathParam(params),
+                        basePath("/posts/1"),
                         json(body)
                         ),
-                putRequest("/posts/1"),
-                // putRequest(),
+                putRequest(),
                 List.of(statusCodeIs(200))
         ).getRes();
 
@@ -86,12 +84,11 @@ public class ApiTestMixedTests extends QtafTestNGContext implements ApiTest {
                 this,
                 List.of(headers(headers),
                         baseUri(url),
-                        basePath("/posts/{id}"),
+                        basePath("/posts/1"),
                         pathParam(params),
                         json(body)
                 ),
-                // putRequest(),
-                putRequest("/posts/1"),
+                putRequest(),
                 List.of(statusCodeIs(200))
         ).getReq();
 
@@ -102,8 +99,8 @@ public class ApiTestMixedTests extends QtafTestNGContext implements ApiTest {
     public void QtafApiTestStatusCodeAndResponseTime() {
         apiTest(
                 this,
-                List.of(baseUri(url)),
-                getRequest("/user/1"),
+                List.of(baseUri(url), basePath("/user/1")),
+                getRequest(),
                 List.of(
                         statusCodeIs(404),
                         responseTimeShouldBeLessThanXMilliseconds(2000)
@@ -115,8 +112,8 @@ public class ApiTestMixedTests extends QtafTestNGContext implements ApiTest {
     public void QtafApiTestStatusCodeXx() {
         apiTest(
                 this,
-                List.of(baseUri(url)),
-                getRequest("/user/1"),
+                List.of(baseUri(url), basePath("/user/1")),
+                getRequest(),
                 List.of(
                         statusCodeIs4xx(),
                         statusCodeIsNot2xx()
@@ -128,8 +125,8 @@ public class ApiTestMixedTests extends QtafTestNGContext implements ApiTest {
     public void QtafApiTestgetUserOne() {
         ExtractableResponse<Response> response = apiTest(
                 this,
-                List.of(baseUri(url)),
-                getRequest("/users/1"),
+                List.of(baseUri(url), basePath("/users/1")),
+                getRequest(),
                 List.of(
                         statusCodeIsNot4xx()
                 )
@@ -143,8 +140,8 @@ public class ApiTestMixedTests extends QtafTestNGContext implements ApiTest {
     public void QtafApiTestResponse() {
         ExtractableResponse<Response> response = apiTest(
                 this,
-                List.of(baseUri(url)),
-                getRequest("/user/1"),
+                List.of(baseUri(url), basePath("/user/1")),
+                getRequest(),
                 List.of(
                         statusCodeIs4xx(),
                         statusCodeIsNot2xx()
@@ -159,8 +156,8 @@ public class ApiTestMixedTests extends QtafTestNGContext implements ApiTest {
     public void QtafApiTeststatusCodeFailed() {
         apiTest(
                 this,
-                List.of(baseUri(url)),
-                getRequest("/user/1"),
+                List.of(baseUri(url), basePath("/user/1")),
+                getRequest(),
                 List.of(
                         statusCodeIs(0)
                 )
@@ -174,8 +171,8 @@ public class ApiTestMixedTests extends QtafTestNGContext implements ApiTest {
     public void QtafApiTeststatusCodePassed() {
         apiTest(
                 this,
-                List.of(baseUri(url)),
-                getRequest("/user/1"),
+                List.of(baseUri(url), basePath("/users/1")),
+                getRequest(),
                 List.of(
                         statusCodeIs(404)
                 )

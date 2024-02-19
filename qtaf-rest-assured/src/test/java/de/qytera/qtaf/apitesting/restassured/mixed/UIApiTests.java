@@ -19,8 +19,8 @@ public class UIApiTests extends QtafTestNGContext implements ApiTest {
     public void getTheFirstPhone() {
         apiTest(
                 this,
-                List.of(baseUri(url)),
-                getRequest("/products/1"),
+                List.of(baseUri(url), basePath("/products/1")),
+                getRequest(),
                 List.of(statusCodeIs(200), body("id", equalTo(1)))
         );
     }

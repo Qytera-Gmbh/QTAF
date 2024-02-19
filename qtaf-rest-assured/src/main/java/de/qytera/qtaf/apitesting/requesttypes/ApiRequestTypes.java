@@ -31,14 +31,7 @@ public interface ApiRequestTypes {
         };
     }
 
-
-
-    /**
-     * TODO: Fix Docu
-     * Send a HEAD request
-     * @param uri URI object
-     * @return Response object
-     */
+    /*
     @NotNull
     default ApiRequestType headRequest(URI uri) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
@@ -50,12 +43,6 @@ public interface ApiRequestTypes {
         };
     }
 
-    /**
-     * TODO: Fix Docu
-     * Send a HEAD request
-     * @param url URL object
-     * @return Response object
-     */
     @NotNull
     default ApiRequestType headRequest(URL url) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
@@ -78,6 +65,7 @@ public interface ApiRequestTypes {
             return req.head(path, pathParams);
         };
     }
+     */
 
     // ========== OPTION ==========
 
@@ -98,13 +86,7 @@ public interface ApiRequestTypes {
         };
     }
 
-
-    /**
-     * TODO: Fix Docu
-     * Send an OPTIONS request
-     * @param uri URI object
-     * @return Response object
-     */
+    /*
     @NotNull
     default ApiRequestType optionsRequest(URI uri) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
@@ -115,12 +97,6 @@ public interface ApiRequestTypes {
         };
     }
 
-    /**
-     * TODO: Fix Docu
-     * Send an OPTIONS request
-     * @param url URL object
-     * @return Response object
-     */
     @NotNull
     default ApiRequestType optionsRequest(URL url) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
@@ -143,6 +119,8 @@ public interface ApiRequestTypes {
         };
     }
 
+     */
+
     // ========== GET ==========
 
     /**
@@ -151,11 +129,11 @@ public interface ApiRequestTypes {
      * @return Response object
      */
 
-    @NotNull
+    // @NotNull
     default ApiRequestType getRequest() {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
 
-            logMessage.getAction().setRequestType(ApiLogMessage.Action.RequestType.OPTIONS);
+            logMessage.getAction().setRequestType(ApiLogMessage.Action.RequestType.GET);
 
             // return RequestSenderOptions::get;
             return req.get();
@@ -163,13 +141,7 @@ public interface ApiRequestTypes {
     }
 
 
-    /**
-     * Returns a methode which is intended for API testing.
-     * The execution of the returned method leads to a get request.
-     *
-     * @param uri URI Object
-     * @return Lambda function that can be used for API Testing
-     */
+    /*
     @NotNull
     default ApiRequestType getRequest(URI uri) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
@@ -181,13 +153,6 @@ public interface ApiRequestTypes {
         };
     }
 
-    /**
-     * Returns a methode which is intended for API testing.
-     * The execution of the returned method leads to a get request.
-     *
-     * @param url URL object
-     * @return ApiAction Lambda function that can be used for API Testing
-     */
     @NotNull
     default ApiRequestType getRequest(URL url) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
@@ -199,18 +164,6 @@ public interface ApiRequestTypes {
         };
     }
 
-    /**
-     * Returns a methode which is intended for API testing.
-     * The execution of the returned method leads to a get request.
-     *
-     * With the following syntax path variables can be passed to the given path.
-     * getRequest("https://jsonplaceholder.typicode.com/{type}/{id}", "users", "1"),
-     *
-     *
-     * @param path       API path
-     * @param pathParams path parameters
-     * @return Response object
-     */
     @NotNull
     default ApiRequestType getRequest(String path, Object... pathParams) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
@@ -230,7 +183,7 @@ public interface ApiRequestTypes {
             // TODO: potential Fix:
 
             String newPath = path;
-            /*
+
             if (logMessage.getRequest().getBasePath() != null){
                 newPath = logMessage.getRequest().getBasePath() + path;
             }
@@ -238,11 +191,11 @@ public interface ApiRequestTypes {
                 newPath = "";
                 newPath = logMessage.getRequest().getBaseUri() + path;
             }
-            */
 
-            return req.get(newPath, pathParams);
+            //return req.get(newPath, pathParams);
         };
     }
+    */
 
 
     // ========== POST ==========
@@ -251,21 +204,18 @@ public interface ApiRequestTypes {
      * Send a POST request
      * @return Response object
      */
-
-    /* TODO
     @NotNull
-    @Contract(pure = true)
-    default ApiAction postRequest() {
-        return RequestSenderOptions::post;
+    default ApiRequestType postRequest() {
+        return (RequestSpecification req, ApiLogMessage logMessage) -> {
+
+            logMessage.getAction().setRequestType(ApiLogMessage.Action.RequestType.POST);
+
+            // return RequestSenderOptions::get;
+            return req.post();
+        };
     }
 
-     */
-
-    /**
-     * Send a POST request
-     * @param uri URI object
-     * @return Response object
-     */
+    /*
     @NotNull
     default ApiRequestType postRequest(URI uri) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
@@ -277,11 +227,7 @@ public interface ApiRequestTypes {
         };
     }
 
-    /**
-     * Send a POST request
-     * @param url URL object
-     * @return Response object
-     */
+
     @NotNull
     default ApiRequestType postRequest(URL url) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
@@ -293,13 +239,6 @@ public interface ApiRequestTypes {
         };
     }
 
-    /**
-     * TODO: Fix Docu
-     * Send a POST request
-     * @param path       API path
-     * @param pathParams path parameters
-     * @return Response object
-     */
     @NotNull
     default ApiRequestType postRequest(String path, Object... pathParams) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
@@ -312,6 +251,7 @@ public interface ApiRequestTypes {
             return req.post(path, pathParams);
         };
     }
+     */
 
 
     // ========== PUT ==========
@@ -321,13 +261,6 @@ public interface ApiRequestTypes {
      * Send a PUT request
      * @return Response object
      */
-    /* TODO
-    @NotNull
-    @Contract(pure = true)
-    default ApiAction putRequest() {
-        return RequestSenderOptions::put;
-    }
-    */
 
     @NotNull
     default ApiRequestType putRequest() {
@@ -338,12 +271,7 @@ public interface ApiRequestTypes {
             return req.put();
         };
     }
-
-    /**
-     * Send a PUT request
-     * @param uri URI object
-     * @return Response object
-     */
+    /*
     @NotNull
     default ApiRequestType putRequest(URI uri) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
@@ -355,11 +283,6 @@ public interface ApiRequestTypes {
         };
     }
 
-    /**
-     * Send a PUT request
-     * @param url URL object
-     * @return Response object
-     */
     @NotNull
     default ApiRequestType putRequest(URL url) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
@@ -371,13 +294,6 @@ public interface ApiRequestTypes {
         };
     }
 
-
-    /**
-     * Send a PUT request
-     * @param path       API path
-     * @param pathParams path parameters
-     * @return Response object
-     */
     @NotNull
     default ApiRequestType putRequest(String path, Object... pathParams) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
@@ -390,7 +306,7 @@ public interface ApiRequestTypes {
             return req.put(path, pathParams);
         };
     }
-
+     */
 
     // ========== DELETE ==========
 
@@ -399,21 +315,23 @@ public interface ApiRequestTypes {
      * Send a DELETE request
      * @return Response object
      */
+    @NotNull
+    default ApiRequestType deleteRequest() {
+        return (RequestSpecification req, ApiLogMessage logMessage) -> {
 
-    /* TODO
+            logMessage.getAction().setRequestType(ApiLogMessage.Action.RequestType.PUT);
+
+            return req.delete();
+        };
+    }
+
+    /*
     @NotNull
     @Contract(pure = true)
     default ApiAction deleteRequest() {
         return RequestSenderOptions::delete;
     }
-    */
 
-
-    /**
-     * Send a DELETE request
-     * @param uri URI object
-     * @return Response object
-     */
     @NotNull
     default ApiRequestType deleteRequest(URI uri) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
@@ -425,11 +343,6 @@ public interface ApiRequestTypes {
         };
     }
 
-    /**
-     * Send a DELETE request
-     * @param url URL object
-     * @return Response object
-     */
     @NotNull
     default ApiRequestType deleteRequest(URL url) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
@@ -453,4 +366,5 @@ public interface ApiRequestTypes {
             return req.delete(path, pathParams);
         };
     }
+     */
 }

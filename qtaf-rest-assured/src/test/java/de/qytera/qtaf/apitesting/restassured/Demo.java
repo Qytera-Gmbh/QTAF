@@ -37,8 +37,8 @@ public class Demo extends QtafTestNGContext implements ApiTest {
     public void simpleStatusCodeTest() {
         apiTest(
             this,
-            List.of(baseUri(url)),
-            getRequest("/posts/1"),
+            List.of(baseUri(url), basePath("/posts/1")),
+            getRequest(),
             List.of(
                     statusCodeIs(200)
             )
@@ -49,8 +49,8 @@ public class Demo extends QtafTestNGContext implements ApiTest {
     public void simpleIsNotStatusCodeTest() {
         apiTest(
             this,
-            List.of(baseUri(url)),
-            getRequest("/posts/1"),
+            List.of(baseUri(url), basePath("/posts/1")),
+            getRequest(),
             List.of(
                     statusCodeIsNot3xx(),
                     statusCodeIsNot4xx(),
@@ -63,15 +63,15 @@ public class Demo extends QtafTestNGContext implements ApiTest {
     public void statusCodeAndTimeTest() {
         apiTest(
             this,
-            List.of(baseUri(url)),
-            getRequest("/posts/1"),
+            List.of(baseUri(url), basePath("/posts/1")),
+            getRequest(),
             List.of(
                     statusCodeIs2xx(),
                     responseTimeShouldBeLessThanXMilliseconds(1200)
             )
         );
     }
-
+    /*
     @Test(testName = "status code test with path params")
     public void statusCodeTestWithPathParams() {
         String[] idParams = {"1","2","3"};
@@ -89,7 +89,8 @@ public class Demo extends QtafTestNGContext implements ApiTest {
             );
         }
     }
-
+     */
+    /*
     @Test(testName = "combined api and ui test")
     public void combinedApiAndUITest() throws ParseException {
         String url = "https://jsonplaceholder.typicode.com/";
@@ -120,6 +121,8 @@ public class Demo extends QtafTestNGContext implements ApiTest {
         // System.out.println(apiUserId);
         // System.out.println(result.getRes().body().asString());
     }
+
+     */
 
 
 
@@ -162,8 +165,8 @@ public class Demo extends QtafTestNGContext implements ApiTest {
     public void statusCodeAndTimeTestBug() {
         ExecutedApiTest result = apiTest(
                 this,
-                List.of(baseUri(url)),
-                getRequest("/posts/1"),
+                List.of(baseUri(url), basePath("/posts/1")),
+                getRequest(),
                 List.of(
                         statusCodeIs2xx(),
                         responseTimeShouldBeLessThanXMilliseconds(100)
@@ -244,8 +247,8 @@ public class Demo extends QtafTestNGContext implements ApiTest {
 
         ExecutedApiTest result = apiTest(
                 this,
-                List.of(baseUri(url)),
-                getRequest("/posts/1"),
+                List.of(baseUri(url), basePath("/posts/1")),
+                getRequest(),
                 List.of(
                         statusCodeIs(200),
                         body("userId", equalTo(1)) // TODO: potential bug -> Behavior: no report gets created, the test is successful

@@ -134,8 +134,12 @@ public class AuthenticationTests extends QtafTestNGContext implements ApiTest {
 
         var response = apiTest(
                 this,
-                List.of(bearer(token.getString("token")), baseUri(loginUrl)),
-                getRequest("/me"),
+                List.of(
+                        bearer(token.getString("token")),
+                        baseUri(loginUrl),
+                        basePath("/me")
+                ),
+                getRequest(),
                 List.of(statusCodeIs(200))
         );
         latestApiLogMessage = getLatestApiLogMessageFromLogMessages(getCurrentLogCollectionFrom(this));
@@ -181,8 +185,12 @@ public class AuthenticationTests extends QtafTestNGContext implements ApiTest {
 
         var response = apiTest(
                 this,
-                List.of(headers(headers), baseUri(url), json(body)),
-                postRequest("/login"),
+                List.of(
+                        headers(headers),
+                        baseUri(url),
+                        basePath("/login"),
+                        json(body)),
+                postRequest(),
                 List.of(statusCodeIs(200))
         );
         return response.getRes().body().jsonPath();
