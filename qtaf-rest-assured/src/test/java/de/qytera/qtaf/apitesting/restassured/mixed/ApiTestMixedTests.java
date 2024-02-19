@@ -85,7 +85,7 @@ public class ApiTestMixedTests extends QtafTestNGContext implements ApiTest {
                 List.of(headers(headers),
                         baseUri(url),
                         basePath("/posts/1"),
-                        pathParam(params),
+                        pathParams(params),
                         json(body)
                 ),
                 putRequest(),

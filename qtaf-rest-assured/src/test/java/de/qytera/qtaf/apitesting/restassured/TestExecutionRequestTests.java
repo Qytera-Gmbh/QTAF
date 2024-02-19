@@ -22,7 +22,7 @@ public class TestExecutionRequestTests extends QtafTestNGContext implements ApiT
                 List.of(
                         baseUri(url),
                         basePath("/posts/{postId}"),
-                        pathParam(Map.of("postId", 1))
+                        pathParams(Map.of("postId", 1))
                 ),
                 getRequest(),
                 List.of(

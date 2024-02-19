@@ -38,7 +38,7 @@ public interface ApiPreconditions {
     }
 
 
-    default ApiPrecondition pathParam(Map<String, ?> params) {
+    default ApiPrecondition pathParams(Map<String, ?> params) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.pathParams(params);
 
