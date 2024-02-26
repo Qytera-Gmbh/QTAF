@@ -10,6 +10,7 @@ import io.restassured.response.ResponseBodyExtractionOptions;
 import lombok.Getter;
 import lombok.Setter;
 import org.json.simple.JSONObject;
+import org.testng.Assert;
 
 import java.io.File;
 import java.net.URI;
@@ -52,7 +53,7 @@ public class ApiLogMessage extends LogMessage {
         private String basePath;
 
         @Getter @Setter
-        private Map<String, ?> pathParams;
+        private Map<String, Object> pathParams;
 
         @Getter @Setter
         private Map<String, ?> queryParams;

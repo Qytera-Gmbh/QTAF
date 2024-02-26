@@ -27,18 +27,21 @@ public interface ApiPreconditions {
     }
 
 
-    default ApiPrecondition pathParam(String key, String value) {
+    default ApiPrecondition pathParam(String key, Object value) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.pathParam(key, value);
-
-            HashMap<String, String> map = new HashMap<>();
-            map.put(key, value);
-            logMessage.getRequest().setPathParams(map);
+            if (logMessage.getRequest().getPathParams() != null){
+                logMessage.getRequest().getPathParams().put(key, value);
+            } else {
+                HashMap<String, Object> map = new HashMap<>();
+                map.put(key, value);
+                logMessage.getRequest().setPathParams(map);
+            }
         };
     }
 
 
-    default ApiPrecondition pathParams(Map<String, ?> params) {
+    default ApiPrecondition pathParams(Map<String, Object> params) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.pathParams(params);
 
@@ -53,7 +56,7 @@ public interface ApiPreconditions {
 
             HashMap<String, String> map = new HashMap<>();
             map.put(key, value);
-            logMessage.getRequest().setPathParams(map);
+            logMessage.getRequest().setQueryParams(map);
         };
     }
 

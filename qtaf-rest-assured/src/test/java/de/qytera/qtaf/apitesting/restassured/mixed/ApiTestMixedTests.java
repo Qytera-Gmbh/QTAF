@@ -62,10 +62,10 @@ public class ApiTestMixedTests extends QtafTestNGContext implements ApiTest {
 
     @Test(enabled = false)
     public void QtafApiTestPutMethode2() {
-        Map<String, String> params = new HashMap<>();
+        Map<String, Object> params = new HashMap<>();
         params.put("id", "1");
 
-        Map<String, String> headers = new HashMap<>();
+        Map<String, Object> headers = new HashMap<>();
         headers.put("content-type", "application/json; charset=utf-8");
         headers.put("Testheader", "Headertest");
 
