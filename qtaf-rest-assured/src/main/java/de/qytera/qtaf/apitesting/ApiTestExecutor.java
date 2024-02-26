@@ -83,7 +83,9 @@ public class ApiTestExecutor {
                  * and appended to the LogMessage
                  * before an exception is thrown.
                  */
-                assertion.apply(validatableResponse, logMessage);
+                //assertion.apply(validatableResponse, logMessage);
+                assertion.apply(res.then(), logMessage);
+
 
                 // The following code is not executed if the above call of apply() throws an exception
                 // AssertionLogMessage currentAssertionLogMessage = apiTestExecutor.getCurrentAssertionLogMessage(logCollection, i);
