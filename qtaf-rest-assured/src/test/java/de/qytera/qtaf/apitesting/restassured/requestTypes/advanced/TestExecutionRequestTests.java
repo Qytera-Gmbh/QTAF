@@ -1,4 +1,4 @@
-package de.qytera.qtaf.apitesting.restassured;
+package de.qytera.qtaf.apitesting.restassured.requestTypes.advanced;
 
 import de.qytera.qtaf.apitesting.ApiTest;
 import de.qytera.qtaf.apitesting.ExecutedApiTest;
@@ -15,7 +15,7 @@ import static de.qytera.qtaf.apitesting.ApiTestExecutor.apiTest;
 public class TestExecutionRequestTests extends QtafTestNGContext implements ApiTest {
     private static String url = "https://jsonplaceholder.typicode.com";
 
-    @Test(testName = "Test Request Getters") @Ignore
+    @Test(testName = "Test Request Getters")
     public void testRequestGetters() {
         ExecutedApiTest result = apiTest(
                 this,

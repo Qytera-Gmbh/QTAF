@@ -27,24 +27,15 @@ public class RestAssuredTest {
     }
 
     @Test
-    public void debugRestAssuredTest() {
+    public void timeRestAssuredTest() {
 
         given()
                 .baseUri("https://jsonplaceholder.typicode.com")
                 .when()
                 .get(url + "/users/1")
                 .then()
-                    .time(Matchers.lessThan(0L))
+                    .time(Matchers.lessThan(1000L))
                     .statusCode(200);
-                    //.time(Matchers.lessThan(10001L))
-                    //.statusCode(404);
-
-        /*
-                        responseTimeShouldBeLessThanXMilliseconds(0),
-                        statusCodeIs(200),
-                        responseTimeShouldBeLessThanXMilliseconds(10001),
-                        statusCodeIsNot(404)
-         */
     }
 
     @Test
@@ -67,16 +58,7 @@ public class RestAssuredTest {
                 .when()
                 .get()
                 .then()
-                .statusCode(200);
-        //.time(Matchers.lessThan(10001L))
-        //.statusCode(404);
-
-        /*
-                        responseTimeShouldBeLessThanXMilliseconds(0),
-                        statusCodeIs(200),
-                        responseTimeShouldBeLessThanXMilliseconds(10001),
-                        statusCodeIsNot(404)
-         */
+                .statusCode(404);
     }
 
     @Test

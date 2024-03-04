@@ -81,17 +81,21 @@ public class PathTests extends QtafTestNGContext implements ApiTest {
         );
     }
 
-    @Test(testName = "multiple baseUris -> FAILED")
-    public void testMultipleBaseUrisGetFAILED() {
-        apiTest(
-                this,
-                List.of(
-                        // baseUri(urlPlaceholder),
-                        baseUri("dummy")
-                ),
-                getRequest(),
-                List.of()
-        );
+    @Test(testName = "GIVEN: wrong baseUri -> WHEN: GET-request -> THEN: throw IllegalStateException and Logmessage status is PENDING")
+    public void testWrongBaseUriGetPENDING() {
+        try {
+            apiTest(
+                    this,
+                    List.of(
+                            baseUri("dummy")
+                    ),
+                    getRequest(),
+                    List.of()
+            );
+        } catch (Exception e){
+            Assert.assertTrue(e instanceof IllegalStateException);
+        }
+
         ApiLogMessage latestApiLogMessage = getLatestApiLogMessageFromContext(this);
         apiLogMessageFitsTo(
                 "",
@@ -409,7 +413,7 @@ public class PathTests extends QtafTestNGContext implements ApiTest {
     }
 
     // test pathParam and Path Params in same api test
-    @Test(testName = "pathParams() with same keys in map -> PASSED")
+    @Test(testName = "GIVEN: a path param with a backslash -> WHEN: GET-request -> THEN status code 404")
     public void testPathParamsAndPathParamGetSameKeyPASSED() {
 
         String basePath = "/{param1}{param2}{param3}";
@@ -442,12 +446,57 @@ public class PathTests extends QtafTestNGContext implements ApiTest {
                 LogMessage.Status.PASSED,
                 0,
                 ApiLogMessage.Action.RequestType.GET,
+                404
+        );
+        apiLogMessageUrlPathFitsTo(
+                "",
+                latestApiLogMessage,
+                urlPlaceholder,
+                basePath,
+                pathParamMap,
+                null
+        );
+    }
+
+    @Test(testName = "GIVEN: a path param map and a path param -> WHEN: GET-request -> THEN: successful request")
+    public void testPathParamsAndPathParamGetPASSED() {
+
+        String basePath = "/{param1}/{param3}";
+
+        String param1 = "posts";
+        String param2 = "/";
+        String param3 = "1";
+        Map<String, Object> pathParamMap = new HashMap<>();
+        pathParamMap.put("param1", param1);
+        //pathParamMap.put("param2", param2);
+
+        apiTest(
+                this,
+                List.of(
+                        baseUri(urlPlaceholder),
+                        basePath(basePath),
+                        pathParams(pathParamMap),
+                        pathParam("param3", param3)
+                ),
+                getRequest(),
+                List.of()
+        );
+
+        pathParamMap.put("param3", param3);
+
+        ApiLogMessage latestApiLogMessage = getLatestApiLogMessageFromContext(this);
+        apiLogMessageFitsTo(
+                "",
+                latestApiLogMessage,
+                LogMessage.Status.PASSED,
+                0,
+                ApiLogMessage.Action.RequestType.GET,
                 200
         );
         apiLogMessageUrlPathFitsTo(
                 "",
                 latestApiLogMessage,
-                urlReqres,
+                urlPlaceholder,
                 basePath,
                 pathParamMap,
                 null

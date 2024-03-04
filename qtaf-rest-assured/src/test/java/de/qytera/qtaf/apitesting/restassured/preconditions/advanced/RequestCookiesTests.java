@@ -1,4 +1,4 @@
-package de.qytera.qtaf.apitesting.restassured.preconditions;
+package de.qytera.qtaf.apitesting.restassured.preconditions.advanced;
 
 import de.qytera.qtaf.apitesting.ApiTest;
 import de.qytera.qtaf.apitesting.ExecutedApiTest;
