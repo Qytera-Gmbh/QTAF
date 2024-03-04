@@ -4,9 +4,12 @@ import de.qytera.qtaf.apitesting.log.model.message.ApiLogMessage;
 import io.restassured.http.*;
 import io.restassured.specification.RequestSpecification;
 import org.json.simple.JSONObject;
+import org.testng.Assert;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public interface ApiPreconditions {
@@ -44,28 +47,37 @@ public interface ApiPreconditions {
     default ApiPrecondition pathParams(Map<String, Object> params) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.pathParams(params);
-
-            logMessage.getRequest().setPathParams(params);
+            if (logMessage.getRequest().getPathParams() != null){
+                logMessage.getRequest().getPathParams().putAll(params);
+            } else {
+                logMessage.getRequest().setPathParams(params);
+            }
         };
     }
 
 
-    default ApiPrecondition queryParam(String key, String value) {
+    default ApiPrecondition queryParam(String key, Object value) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.queryParam(key, value);
-
-            HashMap<String, String> map = new HashMap<>();
-            map.put(key, value);
-            logMessage.getRequest().setQueryParams(map);
+            if (logMessage.getRequest().getQueryParams() != null){
+                logMessage.getRequest().getQueryParams().put(key, value);
+            } else {
+                HashMap<String, Object> map = new HashMap<>();
+                map.put(key, value);
+                logMessage.getRequest().setQueryParams(map);
+            }
         };
     }
 
 
-    default ApiPrecondition queryParams(Map<String, ?> params) {
+    default ApiPrecondition queryParams(Map<String, Object> params) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.queryParams(params);
-
-            logMessage.getRequest().setQueryParams(params);
+            if (logMessage.getRequest().getQueryParams() != null){
+                logMessage.getRequest().getQueryParams().putAll(params);
+            } else {
+                logMessage.getRequest().setQueryParams(params);
+            }
         };
     }
 
@@ -94,7 +106,7 @@ public interface ApiPreconditions {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.body(body);
 
-            logMessage.getRequest().setBodyString(body);
+            logMessage.getRequest().setBody(body);
         };
     }
 
@@ -103,7 +115,7 @@ public interface ApiPreconditions {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.body(object);
 
-            logMessage.getRequest().setBodyObject(object);
+            logMessage.getRequest().setBody(object.toString());
         };
     }
 
@@ -112,7 +124,7 @@ public interface ApiPreconditions {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.body(file);
 
-            // TODO logMessage.getRequest().setBodyFile(file);
+            logMessage.getRequest().setBody("Filepath: " + file.getPath());
         };
     }
 
@@ -122,7 +134,7 @@ public interface ApiPreconditions {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.contentType(contentType);
 
-            logMessage.getRequest().setContentTypeString(contentType);
+            logMessage.getRequest().getContentType().add(contentType);
         };
     }
 
@@ -131,7 +143,15 @@ public interface ApiPreconditions {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.contentType(contentType);
 
-            logMessage.getRequest().setContentType(contentType);
+            logMessage.getRequest().getContentType().add(contentType.toString());
+        };
+    }
+
+    default ApiPrecondition removeContentType() {
+        return (RequestSpecification req, ApiLogMessage logMessage) -> {
+            req.noContentType();
+
+            logMessage.getRequest().getContentType().clear();
         };
     }
 
@@ -161,8 +181,13 @@ public interface ApiPreconditions {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.header(key, value);
 
-            Header h = new Header(key, value);
-            logMessage.getRequest().setHeader(h);
+            Assert.assertNotNull(logMessage.getRequest().getHeaders());
+            Header newHeader = new Header(key, value);
+            List<Header> headerList = logMessage.getRequest().getHeaders().asList();
+            List<Header> modifiableHeaderList = new ArrayList<>(headerList);
+            modifiableHeaderList.add(newHeader);
+            Headers headers = new Headers(modifiableHeaderList);
+            logMessage.getRequest().setHeaders(headers);
         };
     }
 
@@ -171,7 +196,10 @@ public interface ApiPreconditions {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.header(header);
 
-            logMessage.getRequest().setHeader(header);
+            List<Header> headerList = logMessage.getRequest().getHeaders().asList();
+            headerList.add(header);
+            Headers headers = new Headers(headerList);
+            logMessage.getRequest().setHeaders(headers);
         };
     }
     /* TODO
@@ -188,7 +216,7 @@ public interface ApiPreconditions {
 
     // RequestSpecification headers(Map<String, ?> var1);
 
-
+    /*
     default ApiPrecondition headers(Map<String, ?> headers) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.headers(headers);
@@ -196,6 +224,8 @@ public interface ApiPreconditions {
             logMessage.getRequest().setHeaders(headers);
         };
     }
+     */
+
 
 
 
@@ -246,7 +276,7 @@ public interface ApiPreconditions {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.contentType(ContentType.JSON);
 
-            logMessage.getRequest().setContentType(ContentType.JSON);
+            logMessage.getRequest().getContentType().add(ContentType.JSON.toString());
         };
     }
 
@@ -255,8 +285,8 @@ public interface ApiPreconditions {
             req.contentType(ContentType.JSON);
             req.body(jsonObject.toString());
 
-            logMessage.getRequest().setContentType(ContentType.JSON);
-            logMessage.getRequest().setBodyString(jsonObject.toString());
+            logMessage.getRequest().getContentType().add(ContentType.JSON.toString());
+            logMessage.getRequest().setBody(jsonObject.toString());
         };
     }
 
@@ -264,7 +294,7 @@ public interface ApiPreconditions {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.contentType(ContentType.MULTIPART);
 
-            logMessage.getRequest().setContentType(ContentType.MULTIPART);
+            logMessage.getRequest().getContentType().add(ContentType.MULTIPART.toString());
         };
     }
 
@@ -273,7 +303,7 @@ public interface ApiPreconditions {
             req.contentType(ContentType.MULTIPART);
             req.multiPart(s, o);
 
-            logMessage.getRequest().setContentType(ContentType.MULTIPART);
+            logMessage.getRequest().getContentType().add(ContentType.MULTIPART.toString());
             logMessage.getRequest().setMultipartString(s);
             logMessage.getRequest().setMultipartObject(o);
         };
@@ -290,7 +320,7 @@ public interface ApiPreconditions {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.contentType(ContentType.TEXT);
 
-            logMessage.getRequest().setContentType(ContentType.TEXT);
+            logMessage.getRequest().getContentType().add(ContentType.TEXT.toString());
         };
     }
 
@@ -298,7 +328,7 @@ public interface ApiPreconditions {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.contentType(ContentType.XML);
 
-            logMessage.getRequest().setContentType(ContentType.XML);
+            logMessage.getRequest().getContentType().add(ContentType.XML.toString());
         };
     }
 
