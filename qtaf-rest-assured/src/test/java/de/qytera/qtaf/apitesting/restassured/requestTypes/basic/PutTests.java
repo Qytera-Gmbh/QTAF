@@ -7,8 +7,10 @@ import de.qytera.qtaf.core.config.annotations.TestFeature;
 import de.qytera.qtaf.core.log.model.message.LogMessage;
 import de.qytera.qtaf.testng.context.QtafTestNGContext;
 import org.json.simple.JSONObject;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.net.ConnectException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +19,7 @@ import static de.qytera.qtaf.apitesting.ApiTestExecutor.apiTest;
 
 import static de.qytera.qtaf.apitesting.restassured.util.TestHelper.*;
 
-@TestFeature(name = "Body Assertion Tests", description = "Check the body assertion methods")
+@TestFeature(name = "Put Request Tests", description = "Check the put request methods")
 public class PutTests extends QtafTestNGContext implements ApiTest {
     String url = "https://jsonplaceholder.typicode.com";
     @Test(testName = "test putsRequest() -> PASSED")
@@ -84,6 +86,29 @@ public class PutTests extends QtafTestNGContext implements ApiTest {
                 0,
                 ApiLogMessage.Action.RequestType.PUT,
                 404
+        );
+    }
+
+    @Test(testName = "test putRequest() no path -> PENDING")
+    public void testPutRequestNoPathPASSED() {
+        try {
+            apiTest(
+                    this,
+                    List.of(),
+                    putRequest(),
+                    List.of()
+            );
+        } catch (Exception e){
+            Assert.assertTrue(e instanceof ConnectException);
+        }
+        ApiLogMessage latestApiLogMessage = getLatestApiLogMessageFromContext(this);
+        apiLogMessageFitsTo(
+                "",
+                latestApiLogMessage,
+                LogMessage.Status.PENDING,
+                0,
+                ApiLogMessage.Action.RequestType.PUT,
+                0
         );
     }
 }
