@@ -186,7 +186,7 @@ public class AuthenticationTests extends QtafTestNGContext implements ApiTest {
         var response = apiTest(
                 this,
                 List.of(
-                        headers(headers),
+                        header("content-type", "application/json; charset=utf-8"),
                         baseUri(url),
                         basePath("/login"),
                         json(body)),

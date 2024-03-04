@@ -47,7 +47,8 @@ public class ApiTestMixedTests extends QtafTestNGContext implements ApiTest {
 
         ExtractableResponse<Response> response = apiTest(
                 this,
-                List.of(headers(headers),
+                List.of(header("content-type", "application/json; charset=utf-8"),
+                        header("Testheader", "Headertest"),
                         baseUri(url),
                         basePath("/posts/1"),
                         json(body)
@@ -82,7 +83,8 @@ public class ApiTestMixedTests extends QtafTestNGContext implements ApiTest {
 
         QueryableRequestSpecification req = apiTest(
                 this,
-                List.of(headers(headers),
+                List.of(header("content-type", "application/json; charset=utf-8"),
+                        header("Testheader", "Headertest"),
                         baseUri(url),
                         basePath("/posts/1"),
                         pathParams(params),
