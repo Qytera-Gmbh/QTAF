@@ -6,8 +6,10 @@ import de.qytera.qtaf.core.config.annotations.TestFeature;
 import de.qytera.qtaf.core.log.model.message.LogMessage;
 import de.qytera.qtaf.testng.context.QtafTestNGContext;
 import org.json.simple.JSONObject;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.net.ConnectException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -86,6 +88,29 @@ public class PostTests extends QtafTestNGContext implements ApiTest {
                 0,
                 ApiLogMessage.Action.RequestType.POST,
                 415
+        );
+    }
+
+    @Test(testName = "test postRequest() no path -> PENDING")
+    public void testPostRequestNoPathPASSED() {
+        try {
+            apiTest(
+                    this,
+                    List.of(),
+                    postRequest(),
+                    List.of()
+            );
+        } catch (Exception e){
+            Assert.assertTrue(e instanceof ConnectException);
+        }
+        ApiLogMessage latestApiLogMessage = getLatestApiLogMessageFromContext(this);
+        apiLogMessageFitsTo(
+                "",
+                latestApiLogMessage,
+                LogMessage.Status.PENDING,
+                0,
+                ApiLogMessage.Action.RequestType.POST,
+                0
         );
     }
 }
