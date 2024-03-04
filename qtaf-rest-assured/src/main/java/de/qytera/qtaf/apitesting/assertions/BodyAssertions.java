@@ -14,7 +14,7 @@ public interface BodyAssertions {
             ApiAssertionLogMessageHelper.createAndAppendBodyAssertionLogMessage(
                     logMessage,
                     "body Assertion",
-                    matcher,
+                    matcher.toString(),
                     AssertionLogMessageType.ASSERT_EQUALS
             );
 
@@ -23,17 +23,17 @@ public interface BodyAssertions {
     }
 
 
-    default ApiAssertion body(String s, Matcher<?> matcher) {
+    default ApiAssertion body(String path, Matcher<?> matcher) {
         return (ValidatableResponse res, ApiLogMessage logMessage) -> {
 
             ApiAssertionLogMessageHelper.createAndAppendBodyAssertionLogMessage(
                     logMessage,
                     "body Assertion",
-                    matcher,
+                    path + ": " + matcher.toString(),
                     AssertionLogMessageType.ASSERT_EQUALS
             );
 
-            res.body(s, matcher);
+            res.body(path, matcher);
         };
     }
 
