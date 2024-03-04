@@ -102,7 +102,7 @@ public class ApiAssertionLogMessageHelper {
     public static Object computeActualValue(AssertionLogMessage assertionLogMessage, ExtractableResponse<Response> response) {
 
         if (assertionLogMessage.actual() == UNKNOWN_ACTUAL_VALUE_forBodyAssertion) {
-            return response.body();
+            return response.body().asString();
         }
         if (assertionLogMessage.actual() == UNKNOWN_ACTUAL_VALUE_forStatusCodeAssertion) {
             return response.statusCode();
