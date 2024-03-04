@@ -96,4 +96,17 @@ public class TestHelper {
         Assert.assertEquals(apiLogMessage.getRequest().getPathParams(), pathParams, message + " <- from pathParams");
         Assert.assertEquals(apiLogMessage.getRequest().getQueryParams(), queryParams, message + " <- from queryParams");
     }
+
+    public static void apiLogMessageRequestBodyFitsTo(String message,
+                                                  ApiLogMessage apiLogMessage,
+                                                  String expectedBody){
+        Assert.assertEquals(apiLogMessage.getRequest().getBody(), expectedBody, message + " <- from body");
+    }
+
+    public static void apiLogMessageContentTypeFitsTo(String message,
+                                                      ApiLogMessage apiLogMessage,
+                                                      ArrayList<String> expectedContentTypes){
+        ArrayList<String> logMessageContentTypes = apiLogMessage.getRequest().getContentType();
+        Assert.assertTrue(logMessageContentTypes.containsAll(expectedContentTypes) && expectedContentTypes.containsAll(logMessageContentTypes));
+    }
 }
