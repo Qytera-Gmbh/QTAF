@@ -1,5 +1,6 @@
 package de.qytera.qtaf.apitesting;
 
+import de.qytera.qtaf.apitesting.preconditions.ApiPreconditions;
 import de.qytera.qtaf.apitesting.requesttypes.ApiRequestType;
 import de.qytera.qtaf.apitesting.log.model.message.ApiLogMessage;
 import de.qytera.qtaf.apitesting.preconditions.ApiPrecondition;
@@ -122,4 +123,32 @@ public class ApiTestExecutor {
 
         return assertionLogMessages.get(index);
     }
+
+    /**
+     * This function is syntactic sugar.
+     * It can be called in the apiTest()-Method
+     * to provide a List<ApiPrecondtition>.
+     * Due to the naming of this method
+     * the test case is more readable for users.
+     *
+     * @param apiPreconditions api preconditions to specify the request
+     * @return  a list of the provided api preconditions
+     */
+    public static List<ApiPrecondition> specifyRequest(ApiPrecondition ... apiPreconditions){
+        return List.of(apiPreconditions);
+    };
+
+    /**
+     * This function is syntactic sugar.
+     * It can be called in the apiTest()-Method
+     * to provide a List<ApiAssertion>.
+     * Due to the naming of this method
+     * the test case is more readable for users.
+     *
+     * @param apiAssertions api preconditions to specify the request
+     * @return  a list of the provided api assertions
+     */
+    public static List<ApiAssertion> specifyAssertions(ApiAssertion ... apiAssertions){
+        return List.of(apiAssertions);
+    };
 }
