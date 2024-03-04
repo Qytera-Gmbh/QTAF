@@ -51,6 +51,66 @@ public class PathTests extends QtafTestNGContext implements ApiTest {
         );
     }
 
+    @Test(testName = "multiple baseUrisPASSED")
+    public void testMultipleBaseUrisGetPASSED() {
+        apiTest(
+                this,
+                List.of(
+                        baseUri("dummy"),
+                        baseUri(urlPlaceholder)
+                ),
+                getRequest(),
+                List.of()
+        );
+        ApiLogMessage latestApiLogMessage = getLatestApiLogMessageFromContext(this);
+        apiLogMessageFitsTo(
+                "",
+                latestApiLogMessage,
+                LogMessage.Status.PASSED,
+                0,
+                ApiLogMessage.Action.RequestType.GET,
+                200
+        );
+        apiLogMessageUrlPathFitsTo(
+                "",
+                latestApiLogMessage,
+                urlPlaceholder,
+                null,
+                null,
+                null
+        );
+    }
+
+    @Test(testName = "multiple baseUris -> FAILED")
+    public void testMultipleBaseUrisGetFAILED() {
+        apiTest(
+                this,
+                List.of(
+                        // baseUri(urlPlaceholder),
+                        baseUri("dummy")
+                ),
+                getRequest(),
+                List.of()
+        );
+        ApiLogMessage latestApiLogMessage = getLatestApiLogMessageFromContext(this);
+        apiLogMessageFitsTo(
+                "",
+                latestApiLogMessage,
+                LogMessage.Status.PENDING,
+                0,
+                ApiLogMessage.Action.RequestType.GET,
+                0
+        );
+        apiLogMessageUrlPathFitsTo(
+                "",
+                latestApiLogMessage,
+                "dummy",
+                null,
+                null,
+                null
+        );
+    }
+
     @Test(testName = "baseUri() & basePath() post 200 -> PASSED")
     public void testBaseUriBasePathPost() {
         // de/qytera/qtaf/apitesting/restassured/preconditions/basic/PathTests.java
@@ -394,4 +454,232 @@ public class PathTests extends QtafTestNGContext implements ApiTest {
         );
     }
 
+    @Test(testName = "pathParams() with same keys in map -> PASSED")
+    public void testQueryParamPASSED() {
+
+        String basePath = "/api/users";
+
+        String queryParamKey = "page";
+        int queryParamValue = 2;
+        Map<String, Object> queryParamMap = new HashMap<>();
+        queryParamMap.put(queryParamKey, queryParamValue);
+
+        apiTest(
+                this,
+                List.of(
+                        baseUri(urlReqres),
+                        basePath(basePath),
+                        queryParam(queryParamKey , queryParamValue)
+                ),
+                getRequest(),
+                List.of()
+        );
+
+        ApiLogMessage latestApiLogMessage = getLatestApiLogMessageFromContext(this);
+        apiLogMessageFitsTo(
+                "",
+                latestApiLogMessage,
+                LogMessage.Status.PASSED,
+                0,
+                ApiLogMessage.Action.RequestType.GET,
+                200
+        );
+        apiLogMessageUrlPathFitsTo(
+                "",
+                latestApiLogMessage,
+                urlReqres,
+                basePath,
+                null,
+                queryParamMap
+        );
+    }
+
+    @Test(testName = "pathParams() with same keys in map -> PASSED")
+    public void testMultipleQueryParamPASSED() {
+
+        String basePath = "/api/users";
+
+        String queryParamKey1 = "page";
+        int queryParamValue1 = 2;
+
+        String queryParamKey2 = "delay";
+        int queryParamValue2 = 1;
+
+        Map<String, Object> queryParamMap = new HashMap<>();
+        queryParamMap.put(queryParamKey1, queryParamValue1);
+        queryParamMap.put(queryParamKey2, queryParamValue2);
+
+        apiTest(
+                this,
+                List.of(
+                        baseUri(urlReqres),
+                        basePath(basePath),
+                        queryParam(queryParamKey1 , queryParamValue1),
+                        queryParam(queryParamKey2 , queryParamValue2)
+                ),
+                getRequest(),
+                List.of()
+        );
+
+        ApiLogMessage latestApiLogMessage = getLatestApiLogMessageFromContext(this);
+        apiLogMessageFitsTo(
+                "",
+                latestApiLogMessage,
+                LogMessage.Status.PASSED,
+                0,
+                ApiLogMessage.Action.RequestType.GET,
+                200
+        );
+        apiLogMessageUrlPathFitsTo(
+                "",
+                latestApiLogMessage,
+                urlReqres,
+                basePath,
+                null,
+                queryParamMap
+        );
+    }
+
+    @Test(testName = "pathParams() with same keys in map -> PASSED")
+    public void testQueryParamsPASSED() {
+
+        String basePath = "/api/users";
+
+        String queryParamKey1 = "page";
+        int queryParamValue1 = 2;
+
+        String queryParamKey2 = "delay";
+        int queryParamValue2 = 1;
+
+        Map<String, Object> queryParamMap = new HashMap<>();
+        queryParamMap.put(queryParamKey1, queryParamValue1);
+        queryParamMap.put(queryParamKey2, queryParamValue2);
+
+        apiTest(
+                this,
+                List.of(
+                        baseUri(urlReqres),
+                        basePath(basePath),
+                        queryParams(queryParamMap)
+                ),
+                getRequest(),
+                List.of()
+        );
+
+        ApiLogMessage latestApiLogMessage = getLatestApiLogMessageFromContext(this);
+        apiLogMessageFitsTo(
+                "",
+                latestApiLogMessage,
+                LogMessage.Status.PASSED,
+                0,
+                ApiLogMessage.Action.RequestType.GET,
+                200
+        );
+        apiLogMessageUrlPathFitsTo(
+                "",
+                latestApiLogMessage,
+                urlReqres,
+                basePath,
+                null,
+                queryParamMap
+        );
+    }
+
+    @Test(testName = "pathParams() with same keys in map -> PASSED")
+    public void testQueryParamAndParamsPASSED() {
+
+        String basePath = "/api/users";
+
+        String queryParamKey1 = "page";
+        int queryParamValue1 = 2;
+
+        String queryParamKey2 = "delay";
+        int queryParamValue2 = 1;
+
+        Map<String, Object> queryParamsAllMap = new HashMap<>();
+        queryParamsAllMap.put(queryParamKey1, queryParamValue1);
+        queryParamsAllMap.put(queryParamKey2, queryParamValue2);
+
+        Map<String, Object> queryParamsMap = new HashMap<>();
+        queryParamsMap.put(queryParamKey2, queryParamValue2);
+
+        apiTest(
+                this,
+                List.of(
+                        baseUri(urlReqres),
+                        basePath(basePath),
+                        queryParam(queryParamKey1, queryParamValue1),
+                        queryParams(queryParamsMap)
+                ),
+                getRequest(),
+                List.of()
+        );
+
+        ApiLogMessage latestApiLogMessage = getLatestApiLogMessageFromContext(this);
+        apiLogMessageFitsTo(
+                "",
+                latestApiLogMessage,
+                LogMessage.Status.PASSED,
+                0,
+                ApiLogMessage.Action.RequestType.GET,
+                200
+        );
+        apiLogMessageUrlPathFitsTo(
+                "",
+                latestApiLogMessage,
+                urlReqres,
+                basePath,
+                null,
+                queryParamsAllMap
+        );
+    }
+
+    @Test(testName = "pathParams() with same keys in map -> PASSED")
+    public void testQueryParamsAndParamPASSED() {
+
+        String basePath = "/api/users";
+
+        String queryParamKey1 = "page";
+        int queryParamValue1 = 2;
+
+        String queryParamKey2 = "delay";
+        int queryParamValue2 = 1;
+
+        Map<String, Object> queryParamsAllMap = new HashMap<>();
+        queryParamsAllMap.put(queryParamKey1, queryParamValue1);
+        queryParamsAllMap.put(queryParamKey2, queryParamValue2);
+
+        Map<String, Object> queryParamsMap = new HashMap<>();
+        queryParamsMap.put(queryParamKey2, queryParamValue2);
+
+        apiTest(
+                this,
+                List.of(
+                        baseUri(urlReqres),
+                        basePath(basePath),
+                        queryParams(queryParamsMap),
+                        queryParam(queryParamKey1, queryParamValue1)
+                ),
+                getRequest(),
+                List.of()
+        );
+
+        ApiLogMessage latestApiLogMessage = getLatestApiLogMessageFromContext(this);
+        apiLogMessageFitsTo(
+                "",
+                latestApiLogMessage,
+                LogMessage.Status.PASSED,
+                0,
+                ApiLogMessage.Action.RequestType.GET,
+                200
+        );
+        apiLogMessageUrlPathFitsTo(
+                "",
+                latestApiLogMessage,
+                urlReqres,
+                basePath,
+                null,
+                queryParamsAllMap
+        );
+    }
 }
