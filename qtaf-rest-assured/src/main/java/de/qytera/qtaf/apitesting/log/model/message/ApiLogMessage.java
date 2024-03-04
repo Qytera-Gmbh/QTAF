@@ -1,20 +1,16 @@
 package de.qytera.qtaf.apitesting.log.model.message;
 
-import com.google.gson.Gson;
 import de.qytera.qtaf.core.log.model.LogLevel;
 import de.qytera.qtaf.core.log.model.message.LogMessage;
 import io.restassured.http.*;
 import io.restassured.response.ExtractableResponse;
-import io.restassured.response.Response;
-import io.restassured.response.ResponseBodyExtractionOptions;
 import lombok.Getter;
 import lombok.Setter;
 import org.json.simple.JSONObject;
-import org.testng.Assert;
 
-import java.io.File;
 import java.net.URI;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -56,27 +52,30 @@ public class ApiLogMessage extends LogMessage {
         private Map<String, Object> pathParams;
 
         @Getter @Setter
-        private Map<String, ?> queryParams;
+        private Map<String, Object> queryParams;
 
         @Getter @Setter
         private Map<String, ?>  formParams;
 
         @Getter @Setter
-        private String bodyString;
+        private String body;
 
+        /*
         @Getter @Setter
         private Object bodyObject;
+         */
 
         /* TODO
         @Getter @Setter
         private File bodyFile;
         */
-
+        /*
         @Getter @Setter
         private String contentTypeString;
+         */
 
         @Getter @Setter
-        private ContentType contentType;
+        private ArrayList<String> contentType = new ArrayList<>();
 
         /* TODO
         @Getter @Setter
@@ -85,17 +84,19 @@ public class ApiLogMessage extends LogMessage {
 
         @Getter @Setter
         private String fileString;
-
+        /*
         @Getter @Setter
         private Header header;
-
-        /* TODO
-        @Getter @Setter
-        private Headers headers;
          */
 
+
+        @Getter @Setter
+        private Headers headers = new Headers();
+
+        /*
         @Getter @Setter
         private Map<String, ?> headers;
+         */
 
         @Getter @Setter
         private String beareToken;
@@ -143,8 +144,6 @@ public class ApiLogMessage extends LogMessage {
         @Getter @Setter
         private URL requestUrl;
 
-
-
         public enum RequestType {
             GET,
             POST,
@@ -155,8 +154,6 @@ public class ApiLogMessage extends LogMessage {
             TRACE,
             OPTIONS,
             CONNECT,
-
-
         }
 
     }
