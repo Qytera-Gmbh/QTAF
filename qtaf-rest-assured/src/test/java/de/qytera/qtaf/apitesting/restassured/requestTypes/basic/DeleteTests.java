@@ -6,8 +6,10 @@ import de.qytera.qtaf.core.config.annotations.TestFeature;
 import de.qytera.qtaf.core.log.model.message.AssertionLogMessageType;
 import de.qytera.qtaf.core.log.model.message.LogMessage;
 import de.qytera.qtaf.testng.context.QtafTestNGContext;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.net.ConnectException;
 import java.util.List;
 
 import static de.qytera.qtaf.apitesting.ApiTestExecutor.apiTest;
@@ -85,6 +87,31 @@ public class DeleteTests extends QtafTestNGContext implements ApiTest {
                 0,
                 ApiLogMessage.Action.RequestType.DELETE,
                 204
+        );
+    }
+
+    @Test(testName = "test deleteRequest() not path -> PENDING")
+    public void testDeleteRequestNoPathPASSED() {
+
+        try {
+            apiTest(
+                    this,
+                    List.of(),
+                    deleteRequest(),
+                    List.of()
+            );
+        } catch (Exception e){
+            Assert.assertTrue(e instanceof ConnectException);
+        }
+
+        ApiLogMessage latestApiLogMessage = getLatestApiLogMessageFromContext(this);
+        apiLogMessageFitsTo(
+                "",
+                latestApiLogMessage,
+                LogMessage.Status.PENDING,
+                0,
+                ApiLogMessage.Action.RequestType.DELETE,
+                0
         );
     }
 }
