@@ -12,6 +12,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static de.qytera.qtaf.apitesting.log.model.message.ApiLogMessageUpdater.updateHeaderLogsByAddingAHeader;
+
 public interface ApiPreconditions {
     default ApiPrecondition baseUri(String baseUri) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
@@ -86,20 +88,21 @@ public interface ApiPreconditions {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.formParam(key, value);
 
-            HashMap<String, String> map = new HashMap<>();
-            map.put(key, value);
-            logMessage.getRequest().setFormParams(map);
+            logMessage.getRequest().getFormParams().put(key, value);
         };
     }
 
 
-    default ApiPrecondition formParams(Map<String, ?> params) {
+    default ApiPrecondition formParams(Map<String, Object> params) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.formParams(params);
 
-            logMessage.getRequest().setFormParams(params);
+            for (Map.Entry<String, Object> param: params.entrySet()){
+                logMessage.getRequest().getFormParams().put(param.getKey(), param.getValue());
+            }
         };
     }
+
 
 
     default ApiPrecondition body(String body) {
@@ -181,13 +184,8 @@ public interface ApiPreconditions {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.header(key, value);
 
-            Assert.assertNotNull(logMessage.getRequest().getHeaders());
             Header newHeader = new Header(key, value);
-            List<Header> headerList = logMessage.getRequest().getHeaders().asList();
-            List<Header> modifiableHeaderList = new ArrayList<>(headerList);
-            modifiableHeaderList.add(newHeader);
-            Headers headers = new Headers(modifiableHeaderList);
-            logMessage.getRequest().setHeaders(headers);
+            updateHeaderLogsByAddingAHeader(logMessage, newHeader);
         };
     }
 
@@ -196,10 +194,7 @@ public interface ApiPreconditions {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.header(header);
 
-            List<Header> headerList = logMessage.getRequest().getHeaders().asList();
-            headerList.add(header);
-            Headers headers = new Headers(headerList);
-            logMessage.getRequest().setHeaders(headers);
+            updateHeaderLogsByAddingAHeader(logMessage, header);
         };
     }
     /* TODO
