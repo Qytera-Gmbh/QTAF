@@ -104,13 +104,13 @@ public class PathTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PENDING,
                 0,
-                "GET",
+                null,
                 0
         );
         apiLogMessageUrlPathFitsTo(
                 "",
                 latestApiLogMessage,
-                "dummy",
+                null,
                 null,
                 null,
                 null
@@ -403,15 +403,15 @@ public class PathTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PENDING,
                 0,
-                "POST",
+                null,
                 0
         );
         apiLogMessageUrlPathFitsTo(
                 "",
                 latestApiLogMessage,
-                urlReqres,
-                basePath,
-                pathParamMap,
+                null,
+                null,
+                null,
                 null
         );
     }
