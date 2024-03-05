@@ -6,6 +6,7 @@ import de.qytera.qtaf.core.context.IQtafTestContext;
 import de.qytera.qtaf.core.log.model.message.AssertionLogMessage;
 import de.qytera.qtaf.core.log.model.message.AssertionLogMessageType;
 import de.qytera.qtaf.core.log.model.message.LogMessage;
+import io.restassured.http.Headers;
 import lombok.Getter;
 import lombok.Setter;
 import org.testng.Assert;
@@ -108,5 +109,16 @@ public class TestHelper {
                                                       ArrayList<String> expectedContentTypes){
         ArrayList<String> logMessageContentTypes = apiLogMessage.getRequest().getContentType();
         Assert.assertTrue(logMessageContentTypes.containsAll(expectedContentTypes) && expectedContentTypes.containsAll(logMessageContentTypes));
+    }
+
+    public static void apiLogMessageHeadersFitsTo(String message,
+                                                  ApiLogMessage apiLogMessage,
+                                                  Headers expectedHeaders){
+        Assert.assertEquals(apiLogMessage.getRequest().getHeaders(), expectedHeaders, message + " <- from header");
+    }
+    public static void apiLogMessageFormParamsFitsTo(String message,
+                                                  ApiLogMessage apiLogMessage,
+                                                     Map<String, Object>  formParams){
+        Assert.assertEquals(apiLogMessage.getRequest().getFormParams(), formParams, message + " <- from formParams");
     }
 }
