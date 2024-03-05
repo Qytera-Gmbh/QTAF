@@ -10,6 +10,7 @@ import lombok.Setter;
 
 import java.util.*;
 
+
 public class ApiLogMessage extends LogMessage {
 
     @Getter @Setter

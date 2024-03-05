@@ -16,8 +16,9 @@ public interface ApiRequestTypes {
 
     /**
      * Perform a HEAD request
-     * to the statically configured path (by default http://localhost:8080)
-     * @return The response of the request.
+     * to the statically configured path (by default <a href="http://localhost:8080">http://localhost:8080</a>)
+     *
+     * @return lambda
      */
     @NotNull
     default ApiRequestType headRequest() {
@@ -69,8 +70,9 @@ public interface ApiRequestTypes {
 
     /**
      * Perform a OPTIONS request
-     * to the statically configured path (by default http://localhost:8080)
-     * @return The response of the request.
+     * to the statically configured path (by default <a href="http://localhost:8080">http://localhost:8080</a>)
+     *
+     * @return lambda
      */
     @NotNull
     default ApiRequestType optionsRequest() {
@@ -120,8 +122,9 @@ public interface ApiRequestTypes {
 
     /**
      * Perform a GET request
-     * to the statically configured path (by default http://localhost:8080).
-     * @return The response of the GET request.
+     * to the statically configured path (by default <a href="http://localhost:8080">http://localhost:8080</a>).
+     *
+     * @return lambda
      */
     @NotNull
     default ApiRequestType getRequest() {
@@ -193,8 +196,9 @@ public interface ApiRequestTypes {
 
     /**
      * Perform a POST request
-     * to the statically configured path (by default http://localhost:8080).
-     * @return The response of the request.
+     * to the statically configured path (by default <a href="http://localhost:8080">http://localhost:8080</a>).
+     *
+     * @return lambda
      */
     @NotNull
     default ApiRequestType postRequest() {
@@ -247,8 +251,9 @@ public interface ApiRequestTypes {
 
     /**
      * Perform a PUT request
-     * to the statically configured path (by default http://localhost:8080).
-     * @return The response of the request.
+     * to the statically configured path (by default <a href="http://localhost:8080">http://localhost:8080</a>).
+     *
+     * @return lambda
      */
     @NotNull
     default ApiRequestType putRequest() {
@@ -301,8 +306,9 @@ public interface ApiRequestTypes {
 
     /**
      * Perform a DELETE request
-     * to the statically configured path (by default http://localhost:8080).
-     * @return The response of the request.
+     * to the statically configured path (by default <a href="http://localhost:8080">http://localhost:8080</a>).
+     *
+     * @return lambda
      */
     @NotNull
     default ApiRequestType deleteRequest() {

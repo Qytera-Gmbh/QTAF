@@ -44,7 +44,7 @@ public class ApiAssertionLogMessageHelper {
         // TODO: assertionLogMessage.setFeatureId()
         // TODO: assertionLogMessage.setAbstractScenarioId()
         // TODO: assertionLogMessage.setScenarioId()
-    };
+    }
 
 
     /**
@@ -60,7 +60,7 @@ public class ApiAssertionLogMessageHelper {
     public static void createAndAppendBodyAssertionLogMessage(ApiLogMessage apiLogMessage, String message, Object expectedValue, AssertionLogMessageType assertionLogMessageType){
         ApiAssertionLogMessageHelper apiAssertionLogMessageHelper = new ApiAssertionLogMessageHelper();
         apiAssertionLogMessageHelper.createAndAppendAssertionLogMessage(apiLogMessage, message, expectedValue, assertionLogMessageType, UNKNOWN_ACTUAL_VALUE_forBodyAssertion);
-    };
+    }
 
     /**
      * Meant to be used in the context of a status code assertion.
@@ -75,7 +75,7 @@ public class ApiAssertionLogMessageHelper {
     public static void createAndAppendStatusCodeAssertionLogMessage(ApiLogMessage apiLogMessage, String message, Object expectedValue, AssertionLogMessageType assertionLogMessageType){
         ApiAssertionLogMessageHelper apiAssertionLogMessageHelper = new ApiAssertionLogMessageHelper();
         apiAssertionLogMessageHelper.createAndAppendAssertionLogMessage(apiLogMessage, message, expectedValue, assertionLogMessageType, UNKNOWN_ACTUAL_VALUE_forStatusCodeAssertion);
-    };
+    }
 
     /**
      * Meant to be used in the context of a time assertion.
@@ -90,7 +90,7 @@ public class ApiAssertionLogMessageHelper {
     public static void createAndAppendTimeAssertionLogMessage(ApiLogMessage apiLogMessage, String message, Object expectedValue, AssertionLogMessageType assertionLogMessageType){
         ApiAssertionLogMessageHelper apiAssertionLogMessageHelper = new ApiAssertionLogMessageHelper();
         apiAssertionLogMessageHelper.createAndAppendAssertionLogMessage(apiLogMessage, message, expectedValue, assertionLogMessageType, UNKNOWN_ACTUAL_VALUE_forTimeAssertion);
-    };
+    }
 
 
     /**
@@ -120,7 +120,6 @@ public class ApiAssertionLogMessageHelper {
      *
      * @param currentAssertionLogMessage The AssertionLogMessage object to be updated.
      * @param status                     The new status to set for the AssertionLogMessage.
-     * @param condition                  The new condition to set for the AssertionLogMessage.
      * @param response                   The ExtractableResponse containing the response data.
      * @param error                      The AssertionError object representing an error (optional, can be null).
      */
