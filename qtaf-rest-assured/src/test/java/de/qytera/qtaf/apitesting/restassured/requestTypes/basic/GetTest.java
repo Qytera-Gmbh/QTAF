@@ -35,7 +35,7 @@ public class GetTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PASSED,
                 0,
-                ApiLogMessage.Action.RequestType.GET,
+                "GET",
                 200
         );
     }
@@ -56,7 +56,7 @@ public class GetTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PASSED,
                 0,
-                ApiLogMessage.Action.RequestType.GET,
+                "GET",
                 404
         );
     }
@@ -81,7 +81,7 @@ public class GetTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PENDING,
                 0,
-                ApiLogMessage.Action.RequestType.GET,
+                null,
                 0
         );
     }

@@ -37,7 +37,7 @@ public class BodyTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PASSED,
                 1,
-                ApiLogMessage.Action.RequestType.GET,
+                "GET",
                 200
         );
         apiAssertionMessageFitsTo(
@@ -71,7 +71,7 @@ public class BodyTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PASSED,
                 2,
-                ApiLogMessage.Action.RequestType.GET,
+                "GET",
                 200
         );
         apiAssertionMessageFitsTo(
@@ -115,7 +115,7 @@ public class BodyTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PASSED,
                 4,
-                ApiLogMessage.Action.RequestType.GET,
+                "GET",
                 200
         );
         apiAssertionMessageFitsTo(

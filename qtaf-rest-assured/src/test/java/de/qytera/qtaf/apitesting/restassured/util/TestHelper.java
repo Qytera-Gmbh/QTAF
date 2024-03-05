@@ -79,11 +79,11 @@ public class TestHelper {
                                            ApiLogMessage apiLogMessage,
                                            LogMessage.Status apiLogMessageStatus,
                                            int numberOfAssertions,
-                                           ApiLogMessage.Action.RequestType requestType,
+                                           String requestMethod,
                                            int statusCode){
         Assert.assertEquals(apiLogMessage.getStatus(), apiLogMessageStatus, message);
         Assert.assertEquals(apiLogMessage.getAssertions().size(), numberOfAssertions, message);
-        Assert.assertEquals(apiLogMessage.getAction().getRequestType(), requestType, message);
+        Assert.assertEquals(apiLogMessage.getRequest().getRequestMethod(), requestMethod, message);
         Assert.assertEquals(apiLogMessage.getResponse().getStatusCode(), statusCode, message);
     }
     public static void apiLogMessageUrlPathFitsTo(String message,
@@ -106,9 +106,10 @@ public class TestHelper {
 
     public static void apiLogMessageContentTypeFitsTo(String message,
                                                       ApiLogMessage apiLogMessage,
-                                                      ArrayList<String> expectedContentTypes){
-        ArrayList<String> logMessageContentTypes = apiLogMessage.getRequest().getContentType();
-        Assert.assertTrue(logMessageContentTypes.containsAll(expectedContentTypes) && expectedContentTypes.containsAll(logMessageContentTypes));
+                                                      String expectedContentTypes){
+        String logMessageContentTypes = apiLogMessage.getRequest().getContentType();
+        Assert.assertEquals(logMessageContentTypes, expectedContentTypes, message + " <- from content types");
+        // Assert.assertTrue(logMessageContentTypes.containsAll(expectedContentTypes) && expectedContentTypes.containsAll(logMessageContentTypes));
     }
 
     public static void apiLogMessageHeadersFitsTo(String message,

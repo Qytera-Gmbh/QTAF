@@ -35,7 +35,7 @@ public class SyntacticSugarTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PASSED,
                 1,
-                ApiLogMessage.Action.RequestType.GET,
+                "GET",
                 200
         );
         apiAssertionMessageFitsTo(

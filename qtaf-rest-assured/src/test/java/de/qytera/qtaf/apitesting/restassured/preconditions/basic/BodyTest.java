@@ -43,7 +43,7 @@ public class BodyTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PASSED,
                 1,
-                ApiLogMessage.Action.RequestType.PUT,
+                "PUT",
                 200
         );
         apiLogMessageRequestBodyFitsTo(
@@ -78,7 +78,7 @@ public class BodyTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PASSED,
                 1,
-                ApiLogMessage.Action.RequestType.PUT,
+                "PUT",
                 200
         );
         apiLogMessageRequestBodyFitsTo(
@@ -111,13 +111,13 @@ public class BodyTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PASSED,
                 1,
-                ApiLogMessage.Action.RequestType.PUT,
+                "PUT",
                 200
         );
         apiLogMessageRequestBodyFitsTo(
                 "",
                 latestApiLogMessage,
-                "Filepath: src\\test\\java\\de\\qytera\\qtaf\\apitesting\\restassured\\preconditions\\basic\\assets\\user1.json");
+                "src\\test\\java\\de\\qytera\\qtaf\\apitesting\\restassured\\preconditions\\basic\\assets\\user1.json");
     }
 
 
@@ -161,7 +161,7 @@ public class BodyTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PASSED,
                 1,
-                ApiLogMessage.Action.RequestType.PUT,
+                "PUT",
                 200
         );
         apiLogMessageRequestBodyFitsTo(
@@ -207,13 +207,13 @@ public class BodyTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PASSED,
                 1,
-                ApiLogMessage.Action.RequestType.PUT,
+                "PUT",
                 200
         );
         apiLogMessageRequestBodyFitsTo(
                 "",
                 latestApiLogMessage,
-                "Filepath: src\\test\\java\\de\\qytera\\qtaf\\apitesting\\restassured\\preconditions\\basic\\assets\\user1.json"
+                "src\\test\\java\\de\\qytera\\qtaf\\apitesting\\restassured\\preconditions\\basic\\assets\\user1.json"
         );
     }
 }

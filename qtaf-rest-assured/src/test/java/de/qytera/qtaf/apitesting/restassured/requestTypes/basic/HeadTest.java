@@ -35,7 +35,7 @@ public class HeadTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PASSED,
                 0,
-                ApiLogMessage.Action.RequestType.HEAD,
+                "HEAD",
                 200
         );
     }
@@ -56,7 +56,7 @@ public class HeadTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PASSED,
                 0,
-                ApiLogMessage.Action.RequestType.HEAD,
+                "HEAD",
                 404
         );
     }
@@ -81,7 +81,7 @@ public class HeadTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PENDING,
                 0,
-                ApiLogMessage.Action.RequestType.HEAD,
+                null,
                 0
         );
     }

@@ -62,7 +62,7 @@ public class AuthenticationTest extends QtafTestNGContext implements ApiTest {
                     latestApiLogMessage,
                     LogMessage.Status.PASSED,
                     1,
-                    ApiLogMessage.Action.RequestType.POST,
+                    "POST",
                     200
             );
             apiAssertionMessageFitsTo(
@@ -80,7 +80,7 @@ public class AuthenticationTest extends QtafTestNGContext implements ApiTest {
                     latestApiLogMessage,
                     LogMessage.Status.FAILED,
                     1,
-                    ApiLogMessage.Action.RequestType.POST,
+                    "POST",
                     400
             );
             apiAssertionMessageFitsTo(

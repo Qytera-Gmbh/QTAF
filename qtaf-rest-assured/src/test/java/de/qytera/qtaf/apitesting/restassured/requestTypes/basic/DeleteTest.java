@@ -36,7 +36,7 @@ public class DeleteTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PASSED,
                 0,
-                ApiLogMessage.Action.RequestType.DELETE,
+                "DELETE",
                 200
         );
     }
@@ -58,7 +58,7 @@ public class DeleteTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PASSED,
                 0,
-                ApiLogMessage.Action.RequestType.DELETE,
+                "DELETE",
                 404
         );
     }
@@ -81,7 +81,7 @@ public class DeleteTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PASSED,
                 0,
-                ApiLogMessage.Action.RequestType.DELETE,
+                "DELETE",
                 204
         );
     }
@@ -106,7 +106,7 @@ public class DeleteTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PENDING,
                 0,
-                ApiLogMessage.Action.RequestType.DELETE,
+                null,
                 0
         );
     }

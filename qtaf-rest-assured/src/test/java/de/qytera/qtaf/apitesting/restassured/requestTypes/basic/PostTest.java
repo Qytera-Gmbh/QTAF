@@ -38,7 +38,7 @@ public class PostTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PASSED,
                 0,
-                ApiLogMessage.Action.RequestType.POST,
+                "POST",
                 415
         );
     }
@@ -68,7 +68,7 @@ public class PostTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PASSED,
                 0,
-                ApiLogMessage.Action.RequestType.POST,
+                "POST",
                 201
         );
     }
@@ -89,7 +89,7 @@ public class PostTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PASSED,
                 0,
-                ApiLogMessage.Action.RequestType.POST,
+                "POST",
                 415
         );
     }
@@ -112,7 +112,7 @@ public class PostTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PENDING,
                 0,
-                ApiLogMessage.Action.RequestType.POST,
+                null,
                 0
         );
     }

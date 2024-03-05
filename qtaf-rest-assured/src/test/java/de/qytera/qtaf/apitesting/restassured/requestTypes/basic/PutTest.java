@@ -38,7 +38,7 @@ public class PutTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PASSED,
                 0,
-                ApiLogMessage.Action.RequestType.PUT,
+                "PUT",
                 200
         );
     }
@@ -65,7 +65,7 @@ public class PutTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PASSED,
                 0,
-                ApiLogMessage.Action.RequestType.PUT,
+                "PUT",
                 200
         );
     }
@@ -86,7 +86,7 @@ public class PutTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PASSED,
                 0,
-                ApiLogMessage.Action.RequestType.PUT,
+                "PUT",
                 404
         );
     }
@@ -109,7 +109,7 @@ public class PutTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PENDING,
                 0,
-                ApiLogMessage.Action.RequestType.PUT,
+                null,
                 0
         );
     }

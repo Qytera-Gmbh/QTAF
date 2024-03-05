@@ -40,7 +40,7 @@ public class PathTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PASSED,
                 0,
-                ApiLogMessage.Action.RequestType.GET,
+                "GET",
                 200
         );
         apiLogMessageUrlPathFitsTo(
@@ -70,7 +70,7 @@ public class PathTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PASSED,
                 0,
-                ApiLogMessage.Action.RequestType.GET,
+                "GET",
                 200
         );
         apiLogMessageUrlPathFitsTo(
@@ -104,7 +104,7 @@ public class PathTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PENDING,
                 0,
-                ApiLogMessage.Action.RequestType.GET,
+                "GET",
                 0
         );
         apiLogMessageUrlPathFitsTo(
@@ -137,7 +137,7 @@ public class PathTest extends QtafTestNGContext implements ApiTest {
                 postRequest(),
                 List.of()
         );
-        System.out.println("----- " + executedApiTest.getRes().body().asString());
+        // System.out.println("----- " + executedApiTest.getRes().body().asString());
 
         ApiLogMessage latestApiLogMessage = getLatestApiLogMessageFromContext(this);
         apiLogMessageFitsTo(
@@ -145,7 +145,7 @@ public class PathTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PASSED,
                 0,
-                ApiLogMessage.Action.RequestType.POST,
+                "POST",
                 201
         );
         apiLogMessageUrlPathFitsTo(
@@ -180,7 +180,7 @@ public class PathTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PASSED,
                 0,
-                ApiLogMessage.Action.RequestType.DELETE,
+                "DELETE",
                 204
         );
 
@@ -219,12 +219,12 @@ public class PathTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PASSED,
                 0,
-                ApiLogMessage.Action.RequestType.DELETE,
+                "DELETE",
                 204
         );
 
-        Map<String, Object> pathParamMap = new HashMap<>();
-        pathParamMap.put("id", id);
+        Map<String, String> pathParamMap = new HashMap<>();
+        pathParamMap.put("id", "2");
 
         apiLogMessageUrlPathFitsTo(
                 "",
@@ -264,7 +264,7 @@ public class PathTest extends QtafTestNGContext implements ApiTest {
                     apiLogMessage,
                     LogMessage.Status.PASSED,
                     0,
-                    ApiLogMessage.Action.RequestType.POST,
+                    "POST",
                     201
             );
             Map<String, String> pathParamMap = new HashMap<>();
@@ -310,7 +310,7 @@ public class PathTest extends QtafTestNGContext implements ApiTest {
                 apiLogMessage,
                 LogMessage.Status.PASSED,
                 0,
-                ApiLogMessage.Action.RequestType.POST,
+                "POST",
                 201
         );
         Map<String, Object> pathParamMap = new HashMap<>();
@@ -354,7 +354,7 @@ public class PathTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PASSED,
                 0,
-                ApiLogMessage.Action.RequestType.GET,
+                "GET",
                 200
         );
         apiLogMessageUrlPathFitsTo(
@@ -403,7 +403,7 @@ public class PathTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PENDING,
                 0,
-                ApiLogMessage.Action.RequestType.POST,
+                "POST",
                 0
         );
         apiLogMessageUrlPathFitsTo(
@@ -449,7 +449,7 @@ public class PathTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PASSED,
                 0,
-                ApiLogMessage.Action.RequestType.GET,
+                "GET",
                 404
         );
         apiLogMessageUrlPathFitsTo(
@@ -494,7 +494,7 @@ public class PathTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PASSED,
                 0,
-                ApiLogMessage.Action.RequestType.GET,
+                "GET",
                 200
         );
         apiLogMessageUrlPathFitsTo(
@@ -514,8 +514,8 @@ public class PathTest extends QtafTestNGContext implements ApiTest {
 
         String queryParamKey = "page";
         int queryParamValue = 2;
-        Map<String, Object> queryParamMap = new HashMap<>();
-        queryParamMap.put(queryParamKey, queryParamValue);
+        Map<String, String> queryParamMap = new HashMap<>();
+        queryParamMap.put(queryParamKey, Integer.toString(queryParamValue));
 
         apiTest(
                 this,
@@ -534,7 +534,7 @@ public class PathTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PASSED,
                 0,
-                ApiLogMessage.Action.RequestType.GET,
+                "GET",
                 200
         );
         apiLogMessageUrlPathFitsTo(
@@ -562,6 +562,10 @@ public class PathTest extends QtafTestNGContext implements ApiTest {
         queryParamMap.put(queryParamKey1, queryParamValue1);
         queryParamMap.put(queryParamKey2, queryParamValue2);
 
+        Map<String, String> queryParamMapLogs = new HashMap<>();
+        queryParamMapLogs.put(queryParamKey1, Integer.toString(queryParamValue1));
+        queryParamMapLogs.put(queryParamKey2, Integer.toString(queryParamValue2));
+
         apiTest(
                 this,
                 List.of(
@@ -580,7 +584,7 @@ public class PathTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PASSED,
                 0,
-                ApiLogMessage.Action.RequestType.GET,
+                "GET",
                 200
         );
         apiLogMessageUrlPathFitsTo(
@@ -589,7 +593,7 @@ public class PathTest extends QtafTestNGContext implements ApiTest {
                 urlReqres,
                 basePath,
                 null,
-                queryParamMap
+                queryParamMapLogs
         );
     }
 
@@ -608,6 +612,10 @@ public class PathTest extends QtafTestNGContext implements ApiTest {
         queryParamMap.put(queryParamKey1, queryParamValue1);
         queryParamMap.put(queryParamKey2, queryParamValue2);
 
+        Map<String, String> queryParamMapLog = new HashMap<>();
+        queryParamMapLog.put(queryParamKey1, Integer.toString(queryParamValue1));
+        queryParamMapLog.put(queryParamKey2, Integer.toString(queryParamValue2));
+
         apiTest(
                 this,
                 List.of(
@@ -625,7 +633,7 @@ public class PathTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PASSED,
                 0,
-                ApiLogMessage.Action.RequestType.GET,
+                "GET",
                 200
         );
         apiLogMessageUrlPathFitsTo(
@@ -634,7 +642,7 @@ public class PathTest extends QtafTestNGContext implements ApiTest {
                 urlReqres,
                 basePath,
                 null,
-                queryParamMap
+                queryParamMapLog
         );
     }
 
@@ -649,9 +657,9 @@ public class PathTest extends QtafTestNGContext implements ApiTest {
         String queryParamKey2 = "delay";
         int queryParamValue2 = 1;
 
-        Map<String, Object> queryParamsAllMap = new HashMap<>();
-        queryParamsAllMap.put(queryParamKey1, queryParamValue1);
-        queryParamsAllMap.put(queryParamKey2, queryParamValue2);
+        Map<String, String> queryParamsAllMap = new HashMap<>();
+        queryParamsAllMap.put(queryParamKey1, Integer.toString(queryParamValue1));
+        queryParamsAllMap.put(queryParamKey2, Integer.toString(queryParamValue2));
 
         Map<String, Object> queryParamsMap = new HashMap<>();
         queryParamsMap.put(queryParamKey2, queryParamValue2);
@@ -674,7 +682,7 @@ public class PathTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PASSED,
                 0,
-                ApiLogMessage.Action.RequestType.GET,
+                "GET",
                 200
         );
         apiLogMessageUrlPathFitsTo(
@@ -698,9 +706,9 @@ public class PathTest extends QtafTestNGContext implements ApiTest {
         String queryParamKey2 = "delay";
         int queryParamValue2 = 1;
 
-        Map<String, Object> queryParamsAllMap = new HashMap<>();
-        queryParamsAllMap.put(queryParamKey1, queryParamValue1);
-        queryParamsAllMap.put(queryParamKey2, queryParamValue2);
+        Map<String, String> queryParamsAllMap = new HashMap<>();
+        queryParamsAllMap.put(queryParamKey1, Integer.toString(queryParamValue1));
+        queryParamsAllMap.put(queryParamKey2, Integer.toString(queryParamValue2));
 
         Map<String, Object> queryParamsMap = new HashMap<>();
         queryParamsMap.put(queryParamKey2, queryParamValue2);
@@ -723,7 +731,7 @@ public class PathTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PASSED,
                 0,
-                ApiLogMessage.Action.RequestType.GET,
+                "GET",
                 200
         );
         apiLogMessageUrlPathFitsTo(

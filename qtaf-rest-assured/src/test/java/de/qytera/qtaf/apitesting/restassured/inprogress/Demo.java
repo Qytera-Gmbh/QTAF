@@ -176,7 +176,7 @@ public class Demo extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.FAILED,
                 2,
-                ApiLogMessage.Action.RequestType.GET,
+                "GET",
                 200
         );
         List<AssertionLogMessage> assertionLogMessages  = getAssertionMessagesFormApiLogMessage(latestApiLogMessage);

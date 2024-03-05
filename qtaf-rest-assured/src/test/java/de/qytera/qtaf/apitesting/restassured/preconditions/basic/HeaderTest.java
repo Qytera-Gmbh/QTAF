@@ -50,7 +50,7 @@ public class HeaderTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PASSED,
                 1,
-                ApiLogMessage.Action.RequestType.PUT,
+                "PUT",
                 200
         );
         apiLogMessageRequestBodyFitsTo(
@@ -58,8 +58,7 @@ public class HeaderTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 "{\"name\":\"morpheus\",\"job\":\"leader\"}"
         );
-        ArrayList<String> expectedContentTypes = new ArrayList<>();
-        expectedContentTypes.add(ContentType.JSON.toString());
+        String expectedContentTypes = ContentType.JSON.toString();
         apiLogMessageContentTypeFitsTo(
                 "",
                 latestApiLogMessage,
@@ -88,7 +87,7 @@ public class HeaderTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.FAILED,
                 1,
-                ApiLogMessage.Action.RequestType.PUT,
+                "PUT",
                 200
         );
         apiAssertionMessageFitsTo(
@@ -104,8 +103,7 @@ public class HeaderTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 "{\"name\":\"morpheus\",\"job\":\"leader\"}"
         );
-        ArrayList<String> expectedContentTypes = new ArrayList<>();
-        expectedContentTypes.add(ContentType.TEXT.toString());
+        String expectedContentTypes = "text/plain; charset=ISO-8859-1";
         apiLogMessageContentTypeFitsTo(
                 "",
                 latestApiLogMessage,
@@ -138,7 +136,7 @@ public class HeaderTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PASSED,
                 1,
-                ApiLogMessage.Action.RequestType.PUT,
+                "PUT",
                 200
         );
         apiAssertionMessageFitsTo(
@@ -154,8 +152,8 @@ public class HeaderTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 "{\"name\":\"morpheus\",\"job\":\"leader\"}"
         );
-        ArrayList<String> expectedContentTypes = new ArrayList<>();
-        expectedContentTypes.add(ContentType.JSON.toString());
+        String expectedContentTypes = ContentType.JSON.toString();
+
         apiLogMessageContentTypeFitsTo(
                 "",
                 latestApiLogMessage,
@@ -184,7 +182,7 @@ public class HeaderTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PASSED,
                 1,
-                ApiLogMessage.Action.RequestType.PUT,
+                "PUT",
                 200
         );
         apiAssertionMessageFitsTo(
@@ -200,8 +198,7 @@ public class HeaderTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 "{\"name\":\"morpheus\",\"job\":\"leader\"}"
         );
-        ArrayList<String> expectedContentTypes = new ArrayList<>();
-        expectedContentTypes.add(ContentType.JSON.toString());
+        String expectedContentTypes = ContentType.JSON.toString();
         apiLogMessageContentTypeFitsTo(
                 "",
                 latestApiLogMessage,
@@ -225,7 +222,7 @@ public class HeaderTest extends QtafTestNGContext implements ApiTest {
                         contentType(ContentType.JSON),
                         contentType(ContentType.JSON.toString()),
                         contentType(ContentType.JSON.toString()),
-                        contentType(ContentType.JSON),
+                        contentType("charset=ISO-8859-1"),
                         contentType(ContentType.JSON),
                         body("{\"name\":\"morpheus\",\"job\":\"leader\"}")
                 ),
@@ -240,7 +237,7 @@ public class HeaderTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PASSED,
                 1,
-                ApiLogMessage.Action.RequestType.PUT,
+                "PUT",
                 200
         );
         apiAssertionMessageFitsTo(
@@ -256,12 +253,8 @@ public class HeaderTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 "{\"name\":\"morpheus\",\"job\":\"leader\"}"
         );
-        ArrayList<String> expectedContentTypes = new ArrayList<>();
-        expectedContentTypes.add(ContentType.JSON.toString());
-        expectedContentTypes.add(ContentType.JSON.toString());
-        expectedContentTypes.add(ContentType.JSON.toString());
-        expectedContentTypes.add(ContentType.JSON.toString());
-        expectedContentTypes.add(ContentType.JSON.toString());
+        String expectedContentTypes = "application/json";
+
         apiLogMessageContentTypeFitsTo(
                 "",
                 latestApiLogMessage,
@@ -297,11 +290,12 @@ public class HeaderTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PASSED,
                 1,
-                ApiLogMessage.Action.RequestType.POST,
+                "POST",
                 201
         );
         Header contentTypeHeader = new Header("Content-Type", "application/json");
-        Headers headers = new Headers(contentTypeHeader);
+        Header acceptHeader = new Header("Accept", "*/*");
+        Headers headers = new Headers(acceptHeader, contentTypeHeader);
 
         apiLogMessageHeadersFitsTo(
                 "",
@@ -334,14 +328,14 @@ public class HeaderTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PASSED,
                 1,
-                ApiLogMessage.Action.RequestType.PUT,
+                "PUT",
                 200
         );
         Header contentTypeHeader = new Header("Content-Type", "application/json");
         Header acceptHeader = new Header("Accept", "application/json");
         Header authHeader = new Header("Authorization", "Basic YWRtaW46cGFzc3dvcmQxMjM=");
 
-        Headers headers = new Headers(contentTypeHeader,acceptHeader, authHeader);
+        Headers headers = new Headers(acceptHeader, authHeader, contentTypeHeader);
         apiLogMessageHeadersFitsTo(
                 "",
                 latestApiLogMessage,
@@ -377,11 +371,11 @@ public class HeaderTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PASSED,
                 1,
-                ApiLogMessage.Action.RequestType.POST,
+                "POST",
                 201
         );
-
-        Headers headers = new Headers(contentTypeHeader);
+        Header acceptHeader = new Header("Accept", "*/*");
+        Headers headers = new Headers(acceptHeader, contentTypeHeader);
 
         apiLogMessageHeadersFitsTo(
                 "",
@@ -417,10 +411,10 @@ public class HeaderTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PASSED,
                 1,
-                ApiLogMessage.Action.RequestType.PUT,
+                "PUT",
                 200
         );
-        Headers headers = new Headers(contentTypeHeader,acceptHeader, authHeader);
+        Headers headers = new Headers(acceptHeader, authHeader, contentTypeHeader);
         apiLogMessageHeadersFitsTo(
                 "",
                 latestApiLogMessage,
@@ -451,8 +445,9 @@ public class HeaderTest extends QtafTestNGContext implements ApiTest {
                         statusCodeIs(200)
                 )
         );
-        Header header = new Header("Cookie", "bar-foo=foo_bar; foo-bar=bar_foo");
-        Headers headers = new Headers(header);
+        Header cookieHeader = new Header("Cookie", "bar-foo=foo_bar; foo-bar=bar_foo");
+        Header acceptHeader = new Header("Accept", "*/*");
+        Headers headers = new Headers(cookieHeader, acceptHeader);
 
         ApiLogMessage latestApiLogMessage = getLatestApiLogMessageFromContext(this);
         apiLogMessageHeadersFitsTo(

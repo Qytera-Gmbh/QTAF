@@ -42,7 +42,7 @@ public class StatusCodeTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PASSED,
                 1,
-                ApiLogMessage.Action.RequestType.GET,
+                "GET",
                 200
         );
         apiAssertionMessageFitsTo(
@@ -74,7 +74,7 @@ public class StatusCodeTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.FAILED,
                 1,
-                ApiLogMessage.Action.RequestType.GET,
+                "GET",
                 200
         );
         apiAssertionMessageFitsTo(
@@ -105,7 +105,7 @@ public class StatusCodeTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PASSED,
                 1,
-                ApiLogMessage.Action.RequestType.GET,
+                "GET",
                 200
         );
         apiAssertionMessageFitsTo(
@@ -136,7 +136,7 @@ public class StatusCodeTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.FAILED,
                 1,
-                ApiLogMessage.Action.RequestType.GET,
+                "GET",
                 200
         );
         apiAssertionMessageFitsTo(
@@ -168,7 +168,7 @@ public class StatusCodeTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.FAILED,
                 1,
-                ApiLogMessage.Action.RequestType.GET,
+                "GET",
                 200
         );
         apiAssertionMessageFitsTo(
@@ -198,7 +198,7 @@ public class StatusCodeTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PASSED,
                 1,
-                ApiLogMessage.Action.RequestType.GET,
+                "GET",
                 200
         );
         apiAssertionMessageFitsTo(
@@ -229,7 +229,7 @@ public class StatusCodeTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PASSED,
                 1,
-                ApiLogMessage.Action.RequestType.GET,
+                "GET",
                 200
         );
         apiAssertionMessageFitsTo(
@@ -258,7 +258,7 @@ public class StatusCodeTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.FAILED,
                 1,
-                ApiLogMessage.Action.RequestType.GET,
+                "GET",
                 404
         );
         apiAssertionMessageFitsTo(
@@ -288,7 +288,7 @@ public class StatusCodeTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PASSED,
                 1,
-                ApiLogMessage.Action.RequestType.GET,
+                "GET",
                 404
         );
         apiAssertionMessageFitsTo(
@@ -317,7 +317,7 @@ public class StatusCodeTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.FAILED,
                 1,
-                ApiLogMessage.Action.RequestType.GET,
+                "GET",
                 200
         );
         apiAssertionMessageFitsTo(
@@ -349,7 +349,7 @@ public class StatusCodeTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.FAILED,
                 1,
-                ApiLogMessage.Action.RequestType.GET,
+                "GET",
                 200
         );
         apiAssertionMessageFitsTo(
@@ -379,7 +379,7 @@ public class StatusCodeTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PASSED,
                 1,
-                ApiLogMessage.Action.RequestType.GET,
+                "GET",
                 200
         );
         apiAssertionMessageFitsTo(
@@ -411,7 +411,7 @@ public class StatusCodeTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PASSED,
                 1,
-                ApiLogMessage.Action.RequestType.GET,
+                "GET",
                 404
         );
         apiAssertionMessageFitsTo(
@@ -440,7 +440,7 @@ public class StatusCodeTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.FAILED,
                 1,
-                ApiLogMessage.Action.RequestType.GET,
+                "GET",
                 200
         );
         apiAssertionMessageFitsTo(
@@ -470,7 +470,7 @@ public class StatusCodeTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PASSED,
                 1,
-                ApiLogMessage.Action.RequestType.GET,
+                "GET",
                 200
         );
         apiAssertionMessageFitsTo(
@@ -499,7 +499,7 @@ public class StatusCodeTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.FAILED,
                 1,
-                ApiLogMessage.Action.RequestType.GET,
+                "GET",
                 404
         );
         apiAssertionMessageFitsTo(
@@ -531,7 +531,7 @@ public class StatusCodeTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.FAILED,
                 1,
-                ApiLogMessage.Action.RequestType.GET,
+                "GET",
                 404
         );
         apiAssertionMessageFitsTo(
@@ -561,7 +561,7 @@ public class StatusCodeTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PASSED,
                 1,
-                ApiLogMessage.Action.RequestType.GET,
+                "GET",
                 404
         );
         apiAssertionMessageFitsTo(
@@ -598,7 +598,7 @@ public class StatusCodeTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PASSED,
                 7,
-                ApiLogMessage.Action.RequestType.GET,
+                "GET",
                 200
         );
 
@@ -682,7 +682,7 @@ public class StatusCodeTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.FAILED,
                 7,
-                ApiLogMessage.Action.RequestType.GET,
+                "GET",
                 200
         );
 
@@ -765,7 +765,7 @@ public class StatusCodeTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PASSED,
                 1,
-                ApiLogMessage.Action.RequestType.POST,
+                "POST",
                 201
         );
         apiAssertionMessageFitsTo(
@@ -795,7 +795,7 @@ public class StatusCodeTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.FAILED,
                 2,
-                ApiLogMessage.Action.RequestType.GET,
+                "GET",
                 200
         );
         apiAssertionMessageFitsTo(

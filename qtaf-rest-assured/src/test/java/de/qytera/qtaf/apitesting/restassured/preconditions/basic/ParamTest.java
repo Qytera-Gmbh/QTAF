@@ -9,6 +9,7 @@ import org.hamcrest.Matchers;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import static de.qytera.qtaf.apitesting.ApiTestExecutor.*;
@@ -42,7 +43,7 @@ public class ParamTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PASSED,
                 2,
-                ApiLogMessage.Action.RequestType.POST,
+                "POST",
                 201
         );
         HashMap<String, Object> formParams = new HashMap<>();
@@ -54,7 +55,7 @@ public class ParamTest extends QtafTestNGContext implements ApiTest {
         );
     }
 
-    @Test(testName = "GIVEN: the same formParam(String, String) twice -> WHEN: correct POST-request -> THEN: formParam in LogMessage has just one entry as expected") @Ignore
+    @Test(testName = "GIVEN: the same formParam(String, String) twice -> WHEN: correct POST-request -> THEN: formParam in LogMessage has just one entry as expected")
     public void testDuplicatedFormParams() {
         apiTest(
                 this,
@@ -69,7 +70,7 @@ public class ParamTest extends QtafTestNGContext implements ApiTest {
                 postRequest(),
                 specifyAssertions(
                         statusCodeIs(201),
-                        body(Matchers.containsString("{\n  \"zone\": \"computer\",\n  \"id\": 101\n}"))
+                        body(Matchers.containsString("{\n  \"zone\": [\n    \"computer\",\n    \"computer\"\n  ],\n  \"id\": 101\n}"))
                 )
         );
         ApiLogMessage latestApiLogMessage = getLatestApiLogMessageFromContext(this);
@@ -78,11 +79,15 @@ public class ParamTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PASSED,
                 2,
-                ApiLogMessage.Action.RequestType.POST,
+                "POST",
                 201
         );
         HashMap<String, Object> formParams = new HashMap<>();
-        formParams.put("zone", "computer");
+        ArrayList<String> doubledParam = new ArrayList<>();
+        doubledParam.add("computer");
+        doubledParam.add("computer");
+
+        formParams.put("zone", doubledParam);
         apiLogMessageFormParamsFitsTo(
                 "",
                 latestApiLogMessage,
@@ -114,7 +119,7 @@ public class ParamTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PASSED,
                 2,
-                ApiLogMessage.Action.RequestType.POST,
+                "POST",
                 201
         );
         HashMap<String, Object> formParams = new HashMap<>();
@@ -156,7 +161,7 @@ public class ParamTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PASSED,
                 2,
-                ApiLogMessage.Action.RequestType.POST,
+                "POST",
                 201
         );
 
