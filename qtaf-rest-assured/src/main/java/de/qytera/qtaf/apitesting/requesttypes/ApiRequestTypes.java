@@ -11,22 +11,19 @@ import java.util.Arrays;
 
 public interface ApiRequestTypes {
 
-    // TODO: Missing methods for: PATCH, TRACE, CONNECT Calls
 
     // ========== HEAD ==========
 
     /**
-     * TODO: Fix Docu
-     * Send a HEAD request
-     * @return Response object
+     * Perform a HEAD request
+     * to the statically configured path (by default http://localhost:8080)
+     * @return The response of the request.
      */
     @NotNull
     default ApiRequestType headRequest() {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
 
             logMessage.getAction().setRequestType(ApiLogMessage.Action.RequestType.HEAD);
-
-            // return RequestSenderOptions::head;
             return req.head();
         };
     }
@@ -42,7 +39,9 @@ public interface ApiRequestTypes {
             return req.head(uri);
         };
     }
+    */
 
+    /*
     @NotNull
     default ApiRequestType headRequest(URL url) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
@@ -53,7 +52,9 @@ public interface ApiRequestTypes {
             return req.head(url);
         };
     }
+    */
 
+    /*
     @NotNull
     default ApiRequestType headRequest(String path, Object... pathParams) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
@@ -67,21 +68,19 @@ public interface ApiRequestTypes {
     }
      */
 
+
     // ========== OPTION ==========
 
     /**
-     * TODO: Fix Docu
-     * Send an OPTIONS request
-     * @return Response object
+     * Perform a OPTIONS request
+     * to the statically configured path (by default http://localhost:8080)
+     * @return The response of the request.
      */
-
     @NotNull
     default ApiRequestType optionsRequest() {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
 
             logMessage.getAction().setRequestType(ApiLogMessage.Action.RequestType.OPTIONS);
-
-            // return RequestSenderOptions::options;
             return req.options();
         };
     }
@@ -96,7 +95,9 @@ public interface ApiRequestTypes {
             return req.options(uri);
         };
     }
+    */
 
+    /*
     @NotNull
     default ApiRequestType optionsRequest(URL url) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
@@ -106,7 +107,9 @@ public interface ApiRequestTypes {
             return req.options(url);
         };
     }
+    */
 
+    /*
     @NotNull
     default ApiRequestType optionsRequest(String path, Object... pathParams) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
@@ -118,28 +121,24 @@ public interface ApiRequestTypes {
             return req.options(path, pathParams);
         };
     }
-
      */
+
 
     // ========== GET ==========
 
     /**
-     * TODO: Fix Docu
-     * Send a GET request
-     * @return Response object
+     * Perform a GET request
+     * to the statically configured path (by default http://localhost:8080).
+     * @return The response of the GET request.
      */
-
-    // @NotNull
+    @NotNull
     default ApiRequestType getRequest() {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
 
             logMessage.getAction().setRequestType(ApiLogMessage.Action.RequestType.GET);
-
-            // return RequestSenderOptions::get;
             return req.get();
         };
     }
-
 
     /*
     @NotNull
@@ -152,7 +151,9 @@ public interface ApiRequestTypes {
             return req.get(uri);
         };
     }
+    */
 
+    /*
     @NotNull
     default ApiRequestType getRequest(URL url) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
@@ -163,24 +164,26 @@ public interface ApiRequestTypes {
             return req.get(url);
         };
     }
+    */
 
+    /*
     @NotNull
     default ApiRequestType getRequest(String path, Object... pathParams) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
 
-            // TODO: Specify desired behaviour and adapt implementation
+            //  Specify desired behaviour and adapt implementation
             // Option 1: the path passed must be complete. this can be confusing if you have already set the basePath or baseUri beforehand.
             // Option 2: an incomplete path is attempted to be calculated from the already set baseUri and basePath
             // Option 3: an exception is thrown if baseUir or basePath have already been set
 
-            // TODO: potential Bug-> Methode doesn't seem to work when basePath or baseUri got set
+            // potential Bug-> Methode doesn't seem to work when basePath or baseUri got set
 
             logMessage.getAction().setRequestType(ApiLogMessage.Action.RequestType.GET);
             logMessage.getAction().setRequestPath(path);
             ArrayList<Object> pathParamsList = new ArrayList<>(Arrays.asList(pathParams));
             logMessage.getAction().setRequestPathParams(pathParamsList);
 
-            // TODO: potential Fix:
+            // potential Fix
 
             String newPath = path;
 
@@ -201,16 +204,15 @@ public interface ApiRequestTypes {
     // ========== POST ==========
 
     /**
-     * Send a POST request
-     * @return Response object
+     * Perform a POST request
+     * to the statically configured path (by default http://localhost:8080).
+     * @return The response of the request.
      */
     @NotNull
     default ApiRequestType postRequest() {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
 
             logMessage.getAction().setRequestType(ApiLogMessage.Action.RequestType.POST);
-
-            // return RequestSenderOptions::get;
             return req.post();
         };
     }
@@ -226,8 +228,9 @@ public interface ApiRequestTypes {
             return req.post(uri);
         };
     }
+    */
 
-
+    /*
     @NotNull
     default ApiRequestType postRequest(URL url) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
@@ -238,7 +241,9 @@ public interface ApiRequestTypes {
             return req.post(url);
         };
     }
+    */
 
+    /*
     @NotNull
     default ApiRequestType postRequest(String path, Object... pathParams) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
@@ -256,21 +261,20 @@ public interface ApiRequestTypes {
 
     // ========== PUT ==========
 
-
     /**
-     * Send a PUT request
-     * @return Response object
+     * Perform a PUT request
+     * to the statically configured path (by default http://localhost:8080).
+     * @return The response of the request.
      */
-
     @NotNull
     default ApiRequestType putRequest() {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
 
             logMessage.getAction().setRequestType(ApiLogMessage.Action.RequestType.PUT);
-
             return req.put();
         };
     }
+
     /*
     @NotNull
     default ApiRequestType putRequest(URI uri) {
@@ -282,7 +286,9 @@ public interface ApiRequestTypes {
             return req.put(uri);
         };
     }
+    */
 
+    /*
     @NotNull
     default ApiRequestType putRequest(URL url) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
@@ -293,7 +299,9 @@ public interface ApiRequestTypes {
             return req.put(url);
         };
     }
+    */
 
+    /*
     @NotNull
     default ApiRequestType putRequest(String path, Object... pathParams) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
@@ -308,19 +316,19 @@ public interface ApiRequestTypes {
     }
      */
 
+
     // ========== DELETE ==========
 
-
     /**
-     * Send a DELETE request
-     * @return Response object
+     * Perform a DELETE request
+     * to the statically configured path (by default http://localhost:8080).
+     * @return The response of the request.
      */
     @NotNull
     default ApiRequestType deleteRequest() {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
 
             logMessage.getAction().setRequestType(ApiLogMessage.Action.RequestType.DELETE);
-
             return req.delete();
         };
     }
@@ -331,7 +339,9 @@ public interface ApiRequestTypes {
     default ApiAction deleteRequest() {
         return RequestSenderOptions::delete;
     }
+    */
 
+    /*
     @NotNull
     default ApiRequestType deleteRequest(URI uri) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
@@ -342,7 +352,9 @@ public interface ApiRequestTypes {
             return req.delete(uri);
         };
     }
+    */
 
+    /*
     @NotNull
     default ApiRequestType deleteRequest(URL url) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
@@ -353,7 +365,9 @@ public interface ApiRequestTypes {
             return req.delete(url);
         };
     }
+    */
 
+    /*
     @NotNull
     default ApiRequestType deleteRequest(String path, Object... pathParams) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
