@@ -1,9 +1,8 @@
 package de.qytera.qtaf.apitesting;
 
-import de.qytera.qtaf.apitesting.preconditions.ApiPreconditions;
 import de.qytera.qtaf.apitesting.requesttypes.ApiRequestType;
 import de.qytera.qtaf.apitesting.log.model.message.ApiLogMessage;
-import de.qytera.qtaf.apitesting.preconditions.ApiPrecondition;
+import de.qytera.qtaf.apitesting.requestspecifications.ApiRequestSpecification;
 import de.qytera.qtaf.apitesting.assertions.ApiAssertion;
 import de.qytera.qtaf.core.context.IQtafTestContext;
 import de.qytera.qtaf.core.log.model.LogLevel;
@@ -33,21 +32,21 @@ import static de.qytera.qtaf.apitesting.assertions.ApiAssertionLogMessageHelper.
 public class ApiTestExecutor {
     /**
      * This function is intended to be called by a user of QTAF when he wants to perform an API test.
-     * The function takes a list of preconditions, the request type and a list of assertions
+     * The function takes a list of requestSpecifications, the request type and a list of assertions
      * that should be performed during the API Test.
-     * The preconditions and assertions passed are themselves methods of functional interfaces
+     * The requestSpecifications and assertions passed are themselves methods of functional interfaces
      * that are evaluated when apiText is executed.
      * This allows QTAF to hook into the existing RestAssured library
      * and generate corresponding LogMessages.
      *
-     * @param preconditions List of api preconditions
+     * @param requestSpecifications List of api requestSpecifications
      * @param requestType   Api request type that should be performed
      * @param assertions    List of assertions
      * @return  ExecutedApiTest result
      */
     public static ExecutedApiTest apiTest(
             IQtafTestContext context,
-            List<ApiPrecondition> preconditions,
+            List<ApiRequestSpecification> requestSpecifications,
             ApiRequestType requestType,
             List<ApiAssertion> assertions
     ) {
@@ -64,7 +63,7 @@ public class ApiTestExecutor {
         QueryableRequestSpecification q = SpecificationQuerier.query(req);
 
         // Preconditions
-        apiTestExecutor.applyPreconditions(req, preconditions, logMessage);
+        apiTestExecutor.applyRequestSpecifications(req, requestSpecifications, logMessage);
 
         // Api request based on type
         Response res = requestType.perform(req, logMessage);
@@ -87,19 +86,20 @@ public class ApiTestExecutor {
                  * and appended to the LogMessage
                  * before an exception is thrown.
                  */
-                //assertion.apply(validatableResponse, logMessage);
+
+                // It is necessary to provide a new ValidatalbeResponse via res.then() here
+                // to avoid undesirable behaviour
                 assertion.apply(res.then(), logMessage);
 
 
                 // The following code is not executed if the above call of apply() throws an exception
-                // AssertionLogMessage currentAssertionLogMessage = apiTestExecutor.getCurrentAssertionLogMessage(logCollection, i);
+
                 AssertionLogMessage currentAssertionLogMessage = logMessage.getAssertions().get(i);
                 changeMessageAccordingToAssertionPassed(currentAssertionLogMessage, response);
 
             } catch (AssertionError error){
                 hasPassed = false;
 
-                // AssertionLogMessage currentAssertionLogMessage = apiTestExecutor.getCurrentAssertionLogMessage(logCollection, i);
                 AssertionLogMessage currentAssertionLogMessage = logMessage.getAssertions().get(i);
                 changeMessageAccordingToAssertionFailure(currentAssertionLogMessage, response, error);
             }
@@ -113,33 +113,25 @@ public class ApiTestExecutor {
         return new ExecutedApiTest(q, validatableResponse.extract());
     }
 
-    private void applyPreconditions(RequestSpecification request, @NotNull List<ApiPrecondition> preconditions, ApiLogMessage logMessage){
-        for (ApiPrecondition precondition : preconditions) {
+    private void applyRequestSpecifications(RequestSpecification request, @NotNull List<ApiRequestSpecification> preconditions, ApiLogMessage logMessage){
+        for (ApiRequestSpecification precondition : preconditions) {
             precondition.apply(request, logMessage);
         }
-    }
-    private AssertionLogMessage getCurrentAssertionLogMessage(TestScenarioLogCollection logCollection, int index){
-
-        List<LogMessage> logMessages = logCollection.getLogMessages();
-        LogMessage latestLogMessage = logMessages.get(0);
-        List<AssertionLogMessage> assertionLogMessages = latestLogMessage.getAssertions();
-
-        return assertionLogMessages.get(index);
     }
 
     /**
      * This function is syntactic sugar.
      * It can be called in the apiTest()-Method
-     * to provide a List<ApiPrecondtition>.
+     * to provide a List<ApiPrecondition>.
      * Due to the naming of this method
      * the test case is more readable for users.
      *
      * @param apiPreconditions api preconditions to specify the request
      * @return  a list of the provided api preconditions
      */
-    public static List<ApiPrecondition> specifyRequest(ApiPrecondition ... apiPreconditions){
+    public static List<ApiRequestSpecification> specifyRequest(ApiRequestSpecification... apiPreconditions){
         return List.of(apiPreconditions);
-    };
+    }
 
     /**
      * This function is syntactic sugar.
@@ -153,5 +145,5 @@ public class ApiTestExecutor {
      */
     public static List<ApiAssertion> specifyAssertions(ApiAssertion ... apiAssertions){
         return List.of(apiAssertions);
-    };
+    }
 }

@@ -1,4 +1,4 @@
-package de.qytera.qtaf.apitesting.preconditions;
+package de.qytera.qtaf.apitesting.requestspecifications;
 
 import de.qytera.qtaf.apitesting.log.model.message.ApiLogMessage;
 import io.restassured.http.*;
@@ -8,101 +8,89 @@ import java.io.File;
 import java.util.Map;
 
 
-public interface ApiPreconditions {
-    default ApiPrecondition baseUri(String baseUri) {
-        return (RequestSpecification req, ApiLogMessage logMessage) -> {
-            req.baseUri(baseUri);
-        };
+public interface ApiRequestSpecifications {
+    /**
+     * Adding the baseUri
+     *
+     * @param baseUri The uri
+     * @return lambda
+     */
+    default ApiRequestSpecification baseUri(String baseUri) {
+        return (RequestSpecification req, ApiLogMessage logMessage) -> req.baseUri(baseUri);
     }
 
-    default ApiPrecondition basePath(String basePath) {
-        return (RequestSpecification req, ApiLogMessage logMessage) -> {
-            req.basePath(basePath);
-        };
+    /**
+     * Adding the basePath
+     *
+     * @param basePath The uri
+     * @return lambda
+     */
+    default ApiRequestSpecification basePath(String basePath) {
+        return (RequestSpecification req, ApiLogMessage logMessage) -> req.basePath(basePath);
     }
 
-    default ApiPrecondition pathParam(String key, Object value) {
-        return (RequestSpecification req, ApiLogMessage logMessage) -> {
-            req.pathParam(key, value);
-        };
+    /**
+     * Specify a path parameter.
+     * Path parameters can be used to improve readability of the request path.
+     *
+     * @param parameterKey The parameter key
+     * @param parameterValue The parameter value
+     * @return lambda
+     */
+    default ApiRequestSpecification pathParam(String parameterKey, Object parameterValue) {
+        return (RequestSpecification req, ApiLogMessage logMessage) -> req.pathParam(parameterKey, parameterValue);
     }
 
-    default ApiPrecondition pathParams(Map<String, Object> params) {
-        return (RequestSpecification req, ApiLogMessage logMessage) -> {
-            req.pathParams(params);
-        };
+    default ApiRequestSpecification pathParams(Map<String, Object> params) {
+        return (RequestSpecification req, ApiLogMessage logMessage) -> req.pathParams(params);
     }
 
-    default ApiPrecondition queryParam(String key, Object value) {
-        return (RequestSpecification req, ApiLogMessage logMessage) -> {
-            req.queryParam(key, value);
-        };
+    default ApiRequestSpecification queryParam(String key, Object value) {
+        return (RequestSpecification req, ApiLogMessage logMessage) -> req.queryParam(key, value);
     }
 
-    default ApiPrecondition queryParams(Map<String, Object> params) {
-        return (RequestSpecification req, ApiLogMessage logMessage) -> {
-            req.queryParams(params);
-        };
+    default ApiRequestSpecification queryParams(Map<String, Object> params) {
+        return (RequestSpecification req, ApiLogMessage logMessage) -> req.queryParams(params);
     }
 
-    default ApiPrecondition formParam(String key, Object value) {
-        return (RequestSpecification req, ApiLogMessage logMessage) -> {
-            req.formParam(key, value);
-        };
+    default ApiRequestSpecification formParam(String key, Object value) {
+        return (RequestSpecification req, ApiLogMessage logMessage) -> req.formParam(key, value);
     }
 
-    default ApiPrecondition formParams(Map<String, Object> params) {
-        return (RequestSpecification req, ApiLogMessage logMessage) -> {
-            req.formParams(params);
-        };
+    default ApiRequestSpecification formParams(Map<String, Object> params) {
+        return (RequestSpecification req, ApiLogMessage logMessage) -> req.formParams(params);
     }
 
-    default ApiPrecondition body(String body) {
-        return (RequestSpecification req, ApiLogMessage logMessage) -> {
-            req.body(body);
-        };
+    default ApiRequestSpecification body(String body) {
+        return (RequestSpecification req, ApiLogMessage logMessage) -> req.body(body);
     }
 
-    default ApiPrecondition body(Object object) {
-        return (RequestSpecification req, ApiLogMessage logMessage) -> {
-            req.body(object);
-        };
+    default ApiRequestSpecification body(Object object) {
+        return (RequestSpecification req, ApiLogMessage logMessage) -> req.body(object);
     }
 
-    default ApiPrecondition body(File file) {
-        return (RequestSpecification req, ApiLogMessage logMessage) -> {
-            req.body(file);
-        };
+    default ApiRequestSpecification body(File file) {
+        return (RequestSpecification req, ApiLogMessage logMessage) -> req.body(file);
     }
 
-    default ApiPrecondition contentType(String contentType) {
-        return (RequestSpecification req, ApiLogMessage logMessage) -> {
-            req.contentType(contentType);
-        };
+    default ApiRequestSpecification contentType(String contentType) {
+        return (RequestSpecification req, ApiLogMessage logMessage) -> req.contentType(contentType);
     }
 
-    default ApiPrecondition contentType(ContentType contentType) {
-        return (RequestSpecification req, ApiLogMessage logMessage) -> {
-            req.contentType(contentType);
-        };
+    default ApiRequestSpecification contentType(ContentType contentType) {
+        return (RequestSpecification req, ApiLogMessage logMessage) -> req.contentType(contentType);
     }
 
-    default ApiPrecondition removeContentType() {
-        return (RequestSpecification req, ApiLogMessage logMessage) -> {
-            req.noContentType();
-        };
+    default ApiRequestSpecification removeContentType() {
+        return (RequestSpecification req, ApiLogMessage logMessage) -> req.noContentType();
     }
 
-    default ApiPrecondition header(String key, String value) {
-        return (RequestSpecification req, ApiLogMessage logMessage) -> {
-            req.header(key, value);
-        };
+    default ApiRequestSpecification header(String key, String value) {
+        return (RequestSpecification req, ApiLogMessage logMessage) -> req.header(key, value);
     }
 
-    default ApiPrecondition header(Header header) {
-        return (RequestSpecification req, ApiLogMessage logMessage) -> {
-            req.header(header);
-        };
+    default ApiRequestSpecification header(Header header) {
+        return (RequestSpecification req, ApiLogMessage logMessage) -> req.header(header);
     }
 
     /*
@@ -231,13 +219,14 @@ public interface ApiPreconditions {
     }
      */
 
-
+    /*
     default ApiPrecondition multiPart(String s, File file) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.contentType(ContentType.MULTIPART);
             req.multiPart(s, file);
         };
     }
+     */
 
 
 
