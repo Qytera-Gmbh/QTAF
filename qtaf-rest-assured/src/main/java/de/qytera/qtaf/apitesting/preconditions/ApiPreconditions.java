@@ -32,10 +32,10 @@ public interface ApiPreconditions {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.pathParam(key, value);
             if (logMessage.getRequest().getPathParams() != null){
-                logMessage.getRequest().getPathParams().put(key, value);
+                logMessage.getRequest().getPathParams().put(key, value.toString());
             } else {
-                HashMap<String, Object> map = new HashMap<>();
-                map.put(key, value);
+                HashMap<String, String> map = new HashMap<>();
+                map.put(key, value.toString());
                 logMessage.getRequest().setPathParams(map);
             }
         };
@@ -44,10 +44,15 @@ public interface ApiPreconditions {
     default ApiPrecondition pathParams(Map<String, Object> params) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.pathParams(params);
+            // convert params
+            HashMap<String, String> convertedParams = new HashMap<>();
+            for(Map.Entry<String, Object> param : params.entrySet()) {
+                convertedParams.put(param.getKey(), param.getValue().toString());
+            }
             if (logMessage.getRequest().getPathParams() != null){
-                logMessage.getRequest().getPathParams().putAll(params);
+                logMessage.getRequest().getPathParams().putAll(convertedParams);
             } else {
-                logMessage.getRequest().setPathParams(params);
+                logMessage.getRequest().setPathParams(convertedParams);
             }
         };
     }
@@ -56,10 +61,10 @@ public interface ApiPreconditions {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.queryParam(key, value);
             if (logMessage.getRequest().getQueryParams() != null){
-                logMessage.getRequest().getQueryParams().put(key, value);
+                logMessage.getRequest().getQueryParams().put(key, value.toString());
             } else {
-                HashMap<String, Object> map = new HashMap<>();
-                map.put(key, value);
+                HashMap<String, String> map = new HashMap<>();
+                map.put(key, value.toString());
                 logMessage.getRequest().setQueryParams(map);
             }
         };
@@ -68,10 +73,14 @@ public interface ApiPreconditions {
     default ApiPrecondition queryParams(Map<String, Object> params) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.queryParams(params);
+            HashMap<String, String> convertedParams = new HashMap<>();
+            for(Map.Entry<String, Object> param : params.entrySet()) {
+                convertedParams.put(param.getKey(), param.getValue().toString());
+            }
             if (logMessage.getRequest().getQueryParams() != null){
-                logMessage.getRequest().getQueryParams().putAll(params);
+                logMessage.getRequest().getQueryParams().putAll(convertedParams);
             } else {
-                logMessage.getRequest().setQueryParams(params);
+                logMessage.getRequest().setQueryParams(convertedParams);
             }
         };
     }
@@ -80,17 +89,20 @@ public interface ApiPreconditions {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.formParam(key, value);
 
+            /*
             logMessage.getRequest().getFormParams().put(key, value);
+             */
         };
     }
 
     default ApiPrecondition formParams(Map<String, Object> params) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.formParams(params);
-
+            /*
             for (Map.Entry<String, Object> param: params.entrySet()){
                 logMessage.getRequest().getFormParams().put(param.getKey(), param.getValue());
             }
+             */
         };
     }
 
@@ -122,7 +134,11 @@ public interface ApiPreconditions {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.contentType(contentType);
 
-            logMessage.getRequest().getContentType().add(contentType);
+            // logMessage.getRequest().getContentType().add(contentType);
+            String currentContentType = logMessage.getRequest().getContentType();
+            logMessage.getRequest().setContentType(currentContentType + " " + contentType);
+
+
         };
     }
 
@@ -130,7 +146,9 @@ public interface ApiPreconditions {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.contentType(contentType);
 
-            logMessage.getRequest().getContentType().add(contentType.toString());
+            // logMessage.getRequest().getContentType().add(contentType.toString());
+            String currentContentType = logMessage.getRequest().getContentType();
+            logMessage.getRequest().setContentType(currentContentType + " " + contentType);
         };
     }
 
@@ -138,7 +156,9 @@ public interface ApiPreconditions {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.noContentType();
 
-            logMessage.getRequest().getContentType().clear();
+            //logMessage.getRequest().getContentType().clear();
+
+            logMessage.getRequest().setContentType(null);
         };
     }
 

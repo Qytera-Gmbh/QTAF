@@ -23,7 +23,7 @@ public interface ApiRequestTypes {
     default ApiRequestType headRequest() {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
 
-            logMessage.getAction().setRequestType(ApiLogMessage.Action.RequestType.HEAD);
+            // logMessage.getAction().setRequestType(ApiLogMessage.Action.RequestType.HEAD);
             return req.head();
         };
     }
@@ -80,7 +80,7 @@ public interface ApiRequestTypes {
     default ApiRequestType optionsRequest() {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
 
-            logMessage.getAction().setRequestType(ApiLogMessage.Action.RequestType.OPTIONS);
+            // logMessage.getAction().setRequestType(ApiLogMessage.Action.RequestType.OPTIONS);
             return req.options();
         };
     }
@@ -135,7 +135,7 @@ public interface ApiRequestTypes {
     default ApiRequestType getRequest() {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
 
-            logMessage.getAction().setRequestType(ApiLogMessage.Action.RequestType.GET);
+            // logMessage.getAction().setRequestType(ApiLogMessage.Action.RequestType.GET);
             return req.get();
         };
     }
@@ -212,7 +212,7 @@ public interface ApiRequestTypes {
     default ApiRequestType postRequest() {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
 
-            logMessage.getAction().setRequestType(ApiLogMessage.Action.RequestType.POST);
+            // logMessage.getAction().setRequestType(ApiLogMessage.Action.RequestType.POST);
             return req.post();
         };
     }
@@ -270,7 +270,7 @@ public interface ApiRequestTypes {
     default ApiRequestType putRequest() {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
 
-            logMessage.getAction().setRequestType(ApiLogMessage.Action.RequestType.PUT);
+            // logMessage.getAction().setRequestType(ApiLogMessage.Action.RequestType.PUT);
             return req.put();
         };
     }
@@ -328,7 +328,7 @@ public interface ApiRequestTypes {
     default ApiRequestType deleteRequest() {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
 
-            logMessage.getAction().setRequestType(ApiLogMessage.Action.RequestType.DELETE);
+            // logMessage.getAction().setRequestType(ApiLogMessage.Action.RequestType.DELETE);
             return req.delete();
         };
     }
