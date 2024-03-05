@@ -2,7 +2,6 @@ package de.qytera.qtaf.apitesting.preconditions;
 
 import de.qytera.qtaf.apitesting.log.model.message.ApiLogMessage;
 import io.restassured.http.*;
-import io.restassured.specification.MultiPartSpecification;
 import io.restassured.specification.RequestSpecification;
 
 import java.io.File;
@@ -16,7 +15,7 @@ public interface ApiPreconditions {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.baseUri(baseUri);
 
-            logMessage.getRequest().setBaseUri(baseUri);
+            // logMessage.getRequest().setBaseUri(baseUri);
         };
     }
 
@@ -24,13 +23,15 @@ public interface ApiPreconditions {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.basePath(basePath);
 
-            logMessage.getRequest().setBasePath(basePath);
+            // logMessage.getRequest().setBasePath(basePath);
         };
     }
 
     default ApiPrecondition pathParam(String key, Object value) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.pathParam(key, value);
+
+            /*
             if (logMessage.getRequest().getPathParams() != null){
                 logMessage.getRequest().getPathParams().put(key, value.toString());
             } else {
@@ -38,6 +39,7 @@ public interface ApiPreconditions {
                 map.put(key, value.toString());
                 logMessage.getRequest().setPathParams(map);
             }
+             */
         };
     }
 
@@ -45,6 +47,8 @@ public interface ApiPreconditions {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.pathParams(params);
             // convert params
+
+            /*
             HashMap<String, String> convertedParams = new HashMap<>();
             for(Map.Entry<String, Object> param : params.entrySet()) {
                 convertedParams.put(param.getKey(), param.getValue().toString());
@@ -54,12 +58,15 @@ public interface ApiPreconditions {
             } else {
                 logMessage.getRequest().setPathParams(convertedParams);
             }
+             */
         };
     }
 
     default ApiPrecondition queryParam(String key, Object value) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.queryParam(key, value);
+
+            /*
             if (logMessage.getRequest().getQueryParams() != null){
                 logMessage.getRequest().getQueryParams().put(key, value.toString());
             } else {
@@ -67,12 +74,15 @@ public interface ApiPreconditions {
                 map.put(key, value.toString());
                 logMessage.getRequest().setQueryParams(map);
             }
+             */
         };
     }
 
     default ApiPrecondition queryParams(Map<String, Object> params) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.queryParams(params);
+
+            /*
             HashMap<String, String> convertedParams = new HashMap<>();
             for(Map.Entry<String, Object> param : params.entrySet()) {
                 convertedParams.put(param.getKey(), param.getValue().toString());
@@ -82,6 +92,8 @@ public interface ApiPreconditions {
             } else {
                 logMessage.getRequest().setQueryParams(convertedParams);
             }
+
+             */
         };
     }
 
@@ -110,7 +122,7 @@ public interface ApiPreconditions {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.body(body);
 
-            logMessage.getRequest().setBody(body);
+            // logMessage.getRequest().setBodyAsString(body);
         };
     }
 
@@ -118,7 +130,7 @@ public interface ApiPreconditions {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.body(object);
 
-            logMessage.getRequest().setBody(object.toString());
+            // logMessage.getRequest().setBodyAsString(object.toString());
         };
     }
 
@@ -126,7 +138,7 @@ public interface ApiPreconditions {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.body(file);
 
-            logMessage.getRequest().setBody("Filepath: " + file.getPath());
+            // logMessage.getRequest().setBodyAsString("Filepath: " + file.getPath());
         };
     }
 
@@ -135,8 +147,11 @@ public interface ApiPreconditions {
             req.contentType(contentType);
 
             // logMessage.getRequest().getContentType().add(contentType);
+            /*
             String currentContentType = logMessage.getRequest().getContentType();
             logMessage.getRequest().setContentType(currentContentType + " " + contentType);
+
+             */
 
 
         };
@@ -147,8 +162,11 @@ public interface ApiPreconditions {
             req.contentType(contentType);
 
             // logMessage.getRequest().getContentType().add(contentType.toString());
+            /*
             String currentContentType = logMessage.getRequest().getContentType();
             logMessage.getRequest().setContentType(currentContentType + " " + contentType);
+
+             */
         };
     }
 
@@ -158,7 +176,7 @@ public interface ApiPreconditions {
 
             //logMessage.getRequest().getContentType().clear();
 
-            logMessage.getRequest().setContentType(null);
+            // logMessage.getRequest().setContentType(null);
         };
     }
 
@@ -166,8 +184,12 @@ public interface ApiPreconditions {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.header(key, value);
 
+            /*
+
             Header newHeader = new Header(key, value);
             updateHeaderLogsByAddingAHeader(logMessage, newHeader);
+
+             */
         };
     }
 
@@ -175,7 +197,10 @@ public interface ApiPreconditions {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.header(header);
 
+            /*
             updateHeaderLogsByAddingAHeader(logMessage, header);
+
+             */
         };
     }
 
@@ -311,7 +336,7 @@ public interface ApiPreconditions {
             req.contentType(ContentType.MULTIPART);
             req.multiPart(s, file);
 
-            logMessage.getRequest().setFileString(s);
+            // logMessage.getRequest().setFileString(s);
             // logMessage.getRequest().setFile(file);
         };
     }

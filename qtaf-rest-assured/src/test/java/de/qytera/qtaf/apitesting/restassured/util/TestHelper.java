@@ -7,8 +7,6 @@ import de.qytera.qtaf.core.log.model.message.AssertionLogMessage;
 import de.qytera.qtaf.core.log.model.message.AssertionLogMessageType;
 import de.qytera.qtaf.core.log.model.message.LogMessage;
 import io.restassured.http.Headers;
-import lombok.Getter;
-import lombok.Setter;
 import org.testng.Assert;
 
 import java.util.ArrayList;
@@ -101,7 +99,7 @@ public class TestHelper {
     public static void apiLogMessageRequestBodyFitsTo(String message,
                                                   ApiLogMessage apiLogMessage,
                                                   String expectedBody){
-        Assert.assertEquals(apiLogMessage.getRequest().getBody(), expectedBody, message + " <- from body");
+        Assert.assertEquals(apiLogMessage.getRequest().getBodyAsString(), expectedBody, message + " <- from body");
     }
 
     public static void apiLogMessageContentTypeFitsTo(String message,

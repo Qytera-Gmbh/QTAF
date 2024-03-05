@@ -14,6 +14,6 @@ public class ApiLogMessageUpdater {
         List<Header> modifiableHeaderList = new ArrayList<>(headerList);
         modifiableHeaderList.add(newHeader);
         Headers headers = new Headers(modifiableHeaderList);
-        logMessage.getRequest().setHeaders(headers);
+        // logMessage.getRequest().setHeaders(headers);
     }
 }
