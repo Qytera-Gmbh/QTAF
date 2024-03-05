@@ -9,7 +9,7 @@ import java.util.List;
 
 import static de.qytera.qtaf.apitesting.ApiTestExecutor.apiTest;
 
-public class RequestMethodsTests extends QtafTestNGContext implements ApiTest {
+public class RequestMethodsTest extends QtafTestNGContext implements ApiTest {
 
     private static String url = "https://jsonplaceholder.typicode.com";
 

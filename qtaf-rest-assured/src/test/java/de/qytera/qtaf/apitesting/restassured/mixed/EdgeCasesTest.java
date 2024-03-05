@@ -10,7 +10,7 @@ import java.util.List;
 import static de.qytera.qtaf.apitesting.ApiTestExecutor.apiTest;
 
 @TestFeature(name = "Status Code Assertion Tests", description = "Check the status code assertion methods")
-public class EdgeCasesTests extends QtafTestNGContext implements ApiTest {
+public class EdgeCasesTest extends QtafTestNGContext implements ApiTest {
     private static final String url = "https://jsonplaceholder.typicode.com";
 
 

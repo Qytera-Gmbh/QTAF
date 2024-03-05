@@ -9,13 +9,12 @@ import org.hamcrest.Matchers;
 import org.testng.annotations.Test;
 
 import java.util.HashMap;
-import java.util.List;
 
 import static de.qytera.qtaf.apitesting.ApiTestExecutor.*;
 import static de.qytera.qtaf.apitesting.restassured.util.TestHelper.*;
 
 @TestFeature(name = "Time Assertion Tests", description = "Check the time assertion methods")
-public class ParamTests extends QtafTestNGContext implements ApiTest {
+public class ParamTest extends QtafTestNGContext implements ApiTest {
 
     // ====== formParams ======
 

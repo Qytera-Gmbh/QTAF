@@ -19,7 +19,7 @@ import static de.qytera.qtaf.apitesting.ApiTestExecutor.apiTest;
 import static de.qytera.qtaf.apitesting.restassured.util.TestHelper.*;
 
 @TestFeature(name = "Time Assertion Tests", description = "Check the time assertion methods")
-public class PathTests extends QtafTestNGContext implements ApiTest {
+public class PathTest extends QtafTestNGContext implements ApiTest {
 
     private static final String urlPlaceholder = "https://jsonplaceholder.typicode.com";
     String urlReqres = "https://reqres.in";

@@ -1,6 +1,5 @@
 package de.qytera.qtaf.apitesting.restassured.requestTypes.basic;
 
-import com.google.gson.JsonObject;
 import de.qytera.qtaf.apitesting.ApiTest;
 import de.qytera.qtaf.apitesting.log.model.message.ApiLogMessage;
 import de.qytera.qtaf.core.config.annotations.TestFeature;
@@ -19,17 +18,17 @@ import static de.qytera.qtaf.apitesting.ApiTestExecutor.apiTest;
 
 import static de.qytera.qtaf.apitesting.restassured.util.TestHelper.*;
 
-@TestFeature(name = "Put Request Tests", description = "Check the put request methods")
-public class PutTests extends QtafTestNGContext implements ApiTest {
-    String url = "https://jsonplaceholder.typicode.com";
-    @Test(testName = "test putsRequest() -> PASSED")
-    public void testPutRequest200PASSED() {
+@TestFeature(name = "POST Request Tests", description = "Check the post request methods")
+public class PostTest extends QtafTestNGContext implements ApiTest {
+    String url = "https://reqres.in";
+    @Test(testName = "test postRequest() with wrong mediaFile-> PASSED")
+    public void testPostRequest_serverReceivesAnUnexpectedMediaFileType_PASSED() {
         apiTest(
                 this,
                 List.of(
                         baseUri(url),
-                        basePath("/users/1")),
-                putRequest(),
+                        basePath("/api/users")),
+                postRequest(),
                 List.of()
         );
         ApiLogMessage latestApiLogMessage = getLatestApiLogMessageFromContext(this);
@@ -38,23 +37,26 @@ public class PutTests extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PASSED,
                 0,
-                ApiLogMessage.Action.RequestType.PUT,
-                200
+                ApiLogMessage.Action.RequestType.POST,
+                415
         );
     }
-    @Test(testName = "test putsRequest() with json -> PASSED")
-    public void testPutRequestJsonPASSED() {
+
+    @Test(testName = "test postRequest() with right mediaFile-> PASSED")
+    public void testPostRequestPASSED() {
         Map<String, String> jsonMap = new HashMap<>();
         jsonMap.put("name", "morpheus");
-        jsonMap.put("job", "zion resident");
+        jsonMap.put("job", "leader");
+
         JSONObject jsonObject = new JSONObject(jsonMap);
         apiTest(
                 this,
                 List.of(
-                        baseUri("https://reqres.in/"),
-                        basePath("/api/users/2"),
-                        json(jsonObject)),
-                putRequest(),
+                        baseUri(url),
+                        basePath("/api/users"),
+                        json(jsonObject)
+                ),
+                postRequest(),
                 List.of()
         );
         ApiLogMessage latestApiLogMessage = getLatestApiLogMessageFromContext(this);
@@ -63,19 +65,19 @@ public class PutTests extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PASSED,
                 0,
-                ApiLogMessage.Action.RequestType.PUT,
-                200
+                ApiLogMessage.Action.RequestType.POST,
+                201
         );
     }
 
-    @Test(testName = "test putRequest() with wrong path but no assertion -> PASSED")
-    public void testPutRequestPASSEDWrongPathNoAssertions404PASSED() {
+    @Test(testName = "test postRequest() with wrong path but no assertion -> PASSED")
+    public void testPostRequestPASSEDWrongPathNoAssertionsPASSED() {
         apiTest(
                 this,
                 List.of(
                         baseUri(url),
                         basePath("/user/1")),
-                putRequest(),
+                postRequest(),
                 List.of()
         );
         ApiLogMessage latestApiLogMessage = getLatestApiLogMessageFromContext(this);
@@ -84,18 +86,18 @@ public class PutTests extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PASSED,
                 0,
-                ApiLogMessage.Action.RequestType.PUT,
-                404
+                ApiLogMessage.Action.RequestType.POST,
+                415
         );
     }
 
-    @Test(testName = "test putRequest() no path -> PENDING")
-    public void testPutRequestNoPathPASSED() {
+    @Test(testName = "test postRequest() no path -> PENDING")
+    public void testPostRequestNoPathPASSED() {
         try {
             apiTest(
                     this,
                     List.of(),
-                    putRequest(),
+                    postRequest(),
                     List.of()
             );
         } catch (Exception e){
@@ -107,7 +109,7 @@ public class PutTests extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PENDING,
                 0,
-                ApiLogMessage.Action.RequestType.PUT,
+                ApiLogMessage.Action.RequestType.POST,
                 0
         );
     }

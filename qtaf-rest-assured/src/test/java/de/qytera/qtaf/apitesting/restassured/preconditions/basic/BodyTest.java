@@ -6,7 +6,6 @@ import de.qytera.qtaf.core.config.annotations.TestFeature;
 import de.qytera.qtaf.core.log.model.message.LogMessage;
 import de.qytera.qtaf.testng.context.QtafTestNGContext;
 import io.restassured.http.ContentType;
-import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.json.simple.JSONObject;
 import org.testng.annotations.Test;
@@ -19,10 +18,8 @@ import java.util.Map;
 import static de.qytera.qtaf.apitesting.ApiTestExecutor.apiTest;
 import static de.qytera.qtaf.apitesting.restassured.util.TestHelper.*;
 
-import org.hamcrest.Matchers.*;
-
 @TestFeature(name = "Body Precondition Tests", description = "Check the body precondition methods")
-public class BodyTests extends QtafTestNGContext implements ApiTest {
+public class BodyTest extends QtafTestNGContext implements ApiTest {
 
     @Test(testName = "test body(String body) -> PASSED")
     public void testBodyStringPASSED() {

@@ -18,7 +18,7 @@ import static de.qytera.qtaf.apitesting.restassured.util.TestHelper.*;
  * This class contains tests for the status code assertions of QTAF API Tests
  */
 @TestFeature(name = "Status Code Assertion Tests", description = "Check the status code assertion methods")
-public class StatusCodeTests extends QtafTestNGContext implements ApiTest {
+public class StatusCodeTest extends QtafTestNGContext implements ApiTest {
 
     private static final String url = "https://jsonplaceholder.typicode.com";
 

@@ -15,7 +15,7 @@ import static de.qytera.qtaf.apitesting.restassured.util.TestHelper.*;
 import static org.hamcrest.Matchers.*;
 
 @TestFeature(name = "Body Assertion Tests", description = "Check the body assertion methods")
-public class BodyTests extends QtafTestNGContext implements ApiTest {
+public class BodyTest extends QtafTestNGContext implements ApiTest {
     String url = "https://fakerestapi.azurewebsites.net/";
     @Test(testName = "Test body(path, hasKey()) -> PASSED")
     public void testBodyHasKey() {

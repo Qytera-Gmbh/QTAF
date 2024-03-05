@@ -3,7 +3,6 @@ package de.qytera.qtaf.apitesting.restassured.requestTypes.basic;
 import de.qytera.qtaf.apitesting.ApiTest;
 import de.qytera.qtaf.apitesting.log.model.message.ApiLogMessage;
 import de.qytera.qtaf.core.config.annotations.TestFeature;
-import de.qytera.qtaf.core.log.model.message.AssertionLogMessageType;
 import de.qytera.qtaf.core.log.model.message.LogMessage;
 import de.qytera.qtaf.testng.context.QtafTestNGContext;
 import org.testng.Assert;
@@ -14,13 +13,10 @@ import java.util.List;
 
 import static de.qytera.qtaf.apitesting.ApiTestExecutor.apiTest;
 
-import java.util.List;
-
-import static de.qytera.qtaf.apitesting.ApiTestExecutor.apiTest;
 import static de.qytera.qtaf.apitesting.restassured.util.TestHelper.*;
 
 @TestFeature(name = "DELETE Request Tests", description = "Check the delete request methods")
-public class DeleteTests extends QtafTestNGContext implements ApiTest {
+public class DeleteTest extends QtafTestNGContext implements ApiTest {
 
     String url = "https://jsonplaceholder.typicode.com";
     @Test(testName = "test deleteRequest() -> PASSED")

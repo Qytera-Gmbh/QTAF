@@ -14,18 +14,19 @@ import java.util.List;
 import static de.qytera.qtaf.apitesting.ApiTestExecutor.apiTest;
 
 import static de.qytera.qtaf.apitesting.restassured.util.TestHelper.*;
+@TestFeature(name = "HEAD Request Tests", description = "Check the head request methods")
+public class HeadTest extends QtafTestNGContext implements ApiTest {
 
-@TestFeature(name = "OPTIONS Request Tests", description = "Check the options request methods")
-public class OptionsTests extends QtafTestNGContext implements ApiTest {
     String url = "https://jsonplaceholder.typicode.com";
-    @Test(testName = "test optionsRequest() -> PASSED")
-    public void testOptionsRequestPASSED() {
+    @Test(testName = "test headRequest() -> PASSED")
+    public void testHeadRequestPASSED() {
+
         apiTest(
                 this,
                 List.of(
                         baseUri(url),
                         basePath("/users/1")),
-                optionsRequest(),
+                headRequest(),
                 List.of()
         );
         ApiLogMessage latestApiLogMessage = getLatestApiLogMessageFromContext(this);
@@ -34,19 +35,19 @@ public class OptionsTests extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PASSED,
                 0,
-                ApiLogMessage.Action.RequestType.OPTIONS,
-                204
+                ApiLogMessage.Action.RequestType.HEAD,
+                200
         );
     }
 
-    @Test(testName = "test optionsRequest() with wrong path but no assertion -> PASSED")
-    public void testOptionsRequestPASSEDWrongPathNoAssertionsPASSED() {
+    @Test(testName = "test headRequest()with wrong path but no assertion -> PASSED")
+    public void testHeadRequestPASSEDWrongPathNoAssertionsPASSED() {
         apiTest(
                 this,
                 List.of(
                         baseUri(url),
                         basePath("/user/1")),
-                optionsRequest(),
+                headRequest(),
                 List.of()
         );
         ApiLogMessage latestApiLogMessage = getLatestApiLogMessageFromContext(this);
@@ -55,19 +56,19 @@ public class OptionsTests extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PASSED,
                 0,
-                ApiLogMessage.Action.RequestType.OPTIONS,
-                204
+                ApiLogMessage.Action.RequestType.HEAD,
+                404
         );
     }
 
-    @Test(testName = "test optionsRequest() no path -> PENDING")
-    public void testOptionsRequestNoPathPASSED() {
+    @Test(testName = "test headRequest() not path -> PENDING")
+    public void testHeadRequestNoPathPASSED() {
 
         try {
             apiTest(
                     this,
                     List.of(),
-                    optionsRequest(),
+                    headRequest(),
                     List.of()
             );
         } catch (Exception e){
@@ -80,7 +81,7 @@ public class OptionsTests extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 LogMessage.Status.PENDING,
                 0,
-                ApiLogMessage.Action.RequestType.OPTIONS,
+                ApiLogMessage.Action.RequestType.HEAD,
                 0
         );
     }

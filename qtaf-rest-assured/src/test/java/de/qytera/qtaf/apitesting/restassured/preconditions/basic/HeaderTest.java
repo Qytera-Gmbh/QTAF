@@ -23,7 +23,7 @@ import static de.qytera.qtaf.apitesting.ApiTestExecutor.*;
 import static de.qytera.qtaf.apitesting.restassured.util.TestHelper.*;
 
 @TestFeature(name = "Header Precondition Tests", description = "Check the header precondition methods")
-public class HeaderTests extends QtafTestNGContext implements ApiTest {
+public class HeaderTest extends QtafTestNGContext implements ApiTest {
 
     // ====== ContentType ======
     @Test(testName = "test contentType(ContentType) -> PASSED")

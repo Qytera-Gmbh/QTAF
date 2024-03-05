@@ -6,7 +6,6 @@ import de.qytera.qtaf.core.config.annotations.TestFeature;
 import de.qytera.qtaf.core.log.model.message.AssertionLogMessageType;
 import de.qytera.qtaf.core.log.model.message.LogMessage;
 import de.qytera.qtaf.testng.context.QtafTestNGContext;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import java.util.List;
@@ -15,7 +14,7 @@ import static de.qytera.qtaf.apitesting.ApiTestExecutor.apiTest;
 import static de.qytera.qtaf.apitesting.restassured.util.TestHelper.*;
 
 @TestFeature(name = "Time Assertion Tests", description = "Check the time assertion methods")
-public class TimeTests extends QtafTestNGContext implements ApiTest {
+public class TimeTest extends QtafTestNGContext implements ApiTest {
 
     String url = "https://jsonplaceholder.typicode.com";
 

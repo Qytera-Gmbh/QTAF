@@ -8,14 +8,12 @@ import de.qytera.qtaf.core.log.model.message.LogMessage;
 import de.qytera.qtaf.testng.context.QtafTestNGContext;
 import org.testng.annotations.Test;
 
-import java.util.List;
-
 import static de.qytera.qtaf.apitesting.ApiTestExecutor.*;
 import static de.qytera.qtaf.apitesting.restassured.util.TestHelper.*;
 import static de.qytera.qtaf.apitesting.restassured.util.TestHelper.getAssertionMessagesFormApiLogMessage;
 
 @TestFeature(name = "Status Code Assertion Tests", description = "Check the status code assertion methods")
-public class SyntacticSugarTests extends QtafTestNGContext implements ApiTest {
+public class SyntacticSugarTest extends QtafTestNGContext implements ApiTest {
 
     private static final String url = "https://jsonplaceholder.typicode.com";
     @Test(testName = "Test statusCodeIs(200) -> expect a logMessage that indicates PASSED")

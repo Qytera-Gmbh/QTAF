@@ -25,7 +25,7 @@ import java.util.Map;
 import static de.qytera.qtaf.apitesting.ApiTestExecutor.apiTest;
 
 @TestFeature(name = "Authentication unit tests", description = "Check authentication and login process using Rest-assured")
-public class AuthenticationTests extends QtafTestNGContext implements ApiTest {
+public class AuthenticationTest extends QtafTestNGContext implements ApiTest {
 
     List<User> users;
     private User user1;

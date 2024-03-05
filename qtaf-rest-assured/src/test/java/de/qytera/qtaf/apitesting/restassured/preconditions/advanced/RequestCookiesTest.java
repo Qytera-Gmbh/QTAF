@@ -13,7 +13,7 @@ import java.util.Map;
 
 import static de.qytera.qtaf.apitesting.ApiTestExecutor.apiTest;
 
-public class RequestCookiesTests extends QtafTestNGContext implements ApiTest {
+public class RequestCookiesTest extends QtafTestNGContext implements ApiTest {
     private static String url = "https://jsonplaceholder.typicode.com";
 
     @Test(testName = "Test cookies using strings precondition")

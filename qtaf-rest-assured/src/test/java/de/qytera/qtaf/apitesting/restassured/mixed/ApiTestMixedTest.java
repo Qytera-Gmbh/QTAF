@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class ApiTestMixedTests extends QtafTestNGContext implements ApiTest {
+public class ApiTestMixedTest extends QtafTestNGContext implements ApiTest {
 
     String url = "https://jsonplaceholder.typicode.com";
 
