@@ -72,6 +72,9 @@ public class ApiTestExecutor {
         // Handel Response
         ValidatableResponse validatableResponse = res.then();
         ExtractableResponse<Response> response = validatableResponse.extract();
+
+        // Update QTAF-LogMessage
+        logMessage.getRequest().setRequestAttributes(q);
         logMessage.getResponse().setResponseAttributes(response);
 
         // Check Assertions

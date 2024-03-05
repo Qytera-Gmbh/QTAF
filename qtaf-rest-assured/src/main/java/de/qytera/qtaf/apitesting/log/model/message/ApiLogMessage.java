@@ -4,24 +4,24 @@ import de.qytera.qtaf.core.log.model.LogLevel;
 import de.qytera.qtaf.core.log.model.message.LogMessage;
 import io.restassured.http.*;
 import io.restassured.response.ExtractableResponse;
+import io.restassured.specification.QueryableRequestSpecification;
+import io.restassured.specification.RequestSpecification;
 import lombok.Getter;
 import lombok.Setter;
 import org.json.simple.JSONObject;
 
 import java.net.URI;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ApiLogMessage extends LogMessage {
 
     @Getter @Setter
     Request request = new Request();
-
+    /*
     @Getter @Setter
     Action action = new Action();
+     */
 
     @Getter @Setter
     Response response = new Response();
@@ -44,19 +44,22 @@ public class ApiLogMessage extends LogMessage {
     public class Request {
 
         @Getter @Setter
+        private String requestMethod;
+
+        @Getter @Setter
         private String baseUri;
 
         @Getter @Setter
         private String basePath;
 
         @Getter @Setter
-        private Map<String, Object> pathParams;
+        private Map<String, String> pathParams;
 
         @Getter @Setter
-        private Map<String, Object> queryParams;
+        private Map<String, String> queryParams;
 
         @Getter @Setter
-        private Map<String, Object>  formParams = new HashMap<>();;
+        private Map<String, String>  formParams;
 
         @Getter @Setter
         private String body;
@@ -76,7 +79,7 @@ public class ApiLogMessage extends LogMessage {
          */
 
         @Getter @Setter
-        private ArrayList<String> contentType = new ArrayList<>();
+        private String contentType;
 
         /* TODO
         @Getter @Setter
@@ -92,7 +95,7 @@ public class ApiLogMessage extends LogMessage {
 
 
         @Getter @Setter
-        private Headers headers = new Headers();
+        private Headers headers;
 
         /*
         @Getter @Setter
@@ -126,7 +129,21 @@ public class ApiLogMessage extends LogMessage {
         @Getter @Setter
         private Object multipartObject;
 
+        public void setRequestAttributes(QueryableRequestSpecification request){
+
+            requestMethod = request.getMethod();
+            baseUri = (!Objects.equals(request.getBaseUri(), "")) ? request.getBaseUri() : null;
+            basePath = (!Objects.equals(request.getBasePath(), "")) ? request.getBasePath() : null;
+            pathParams = !request.getPathParams().isEmpty() ? request.getPathParams() : null;
+            queryParams = !request.getQueryParams().isEmpty() ? request.getQueryParams() : null;
+            headers = request.getHeaders();
+            contentType = request.getContentType();
+            formParams = request.getFormParams();
+            body = (request.getBody() != null) ? request.getBody().toString() : null;
+        }
+
     }
+    /*
 
     public class Action {
 
@@ -158,6 +175,7 @@ public class ApiLogMessage extends LogMessage {
         }
 
     }
+     */
 
 
     public class Response {
