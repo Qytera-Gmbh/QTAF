@@ -7,7 +7,6 @@ import de.qytera.qtaf.core.config.annotations.TestFeature;
 import de.qytera.qtaf.core.log.model.message.LogMessage;
 import de.qytera.qtaf.testng.context.QtafTestNGContext;
 import io.restassured.http.ContentType;
-import org.json.simple.JSONObject;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -24,6 +23,9 @@ public class PathTests extends QtafTestNGContext implements ApiTest {
 
     private static final String urlPlaceholder = "https://jsonplaceholder.typicode.com";
     String urlReqres = "https://reqres.in";
+
+    // ====== baseUri ======
+
     @Test(testName = "baseUri get just baseUri 200 -> PASSED")
     public void testBaseUriGet() {
         apiTest(
@@ -114,6 +116,8 @@ public class PathTests extends QtafTestNGContext implements ApiTest {
                 null
         );
     }
+
+    // ====== basePath ======
 
     @Test(testName = "baseUri() & basePath() post 200 -> PASSED")
     public void testBaseUriBasePathPost() {
