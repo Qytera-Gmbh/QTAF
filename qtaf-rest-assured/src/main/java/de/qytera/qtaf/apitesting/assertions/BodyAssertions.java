@@ -22,7 +22,6 @@ public interface BodyAssertions {
         };
     }
 
-
     default ApiAssertion body(String path, Matcher<?> matcher) {
         return (ValidatableResponse res, ApiLogMessage logMessage) -> {
 
@@ -36,5 +35,4 @@ public interface BodyAssertions {
             res.body(path, matcher);
         };
     }
-
 }

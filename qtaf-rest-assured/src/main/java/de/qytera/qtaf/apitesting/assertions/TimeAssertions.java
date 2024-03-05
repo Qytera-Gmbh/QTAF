@@ -23,7 +23,8 @@ public interface TimeAssertions {
             res.time(matcher);
         };
     }
-     */
+    */
+
     default ApiAssertion responseTimeShouldBeLessThanXMilliseconds(long duration) {
         return (ValidatableResponse res, ApiLogMessage logMessage) -> {
 
