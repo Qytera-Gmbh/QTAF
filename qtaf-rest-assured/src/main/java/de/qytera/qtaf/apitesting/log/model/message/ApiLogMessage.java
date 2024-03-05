@@ -18,7 +18,6 @@ public class ApiLogMessage extends LogMessage {
     @Getter @Setter
     Response response = new Response();
 
-
     /**
      * Constructor.
      *
@@ -70,7 +69,6 @@ public class ApiLogMessage extends LogMessage {
             formParams = request.getFormParams();
             bodyAsString = (request.getBody() != null) ? request.getBody().toString() : null;
         }
-
     }
 
     public class Response {
@@ -94,6 +92,7 @@ public class ApiLogMessage extends LogMessage {
         private long time;
 
         public void setResponseAttributes(ExtractableResponse<io.restassured.response.Response> response){
+
             statusCode = response.statusCode();
             headers = response.headers();
             cookies = response.cookies();
@@ -102,20 +101,4 @@ public class ApiLogMessage extends LogMessage {
             bodyAsString = response.body().asString();
         }
     }
-
-
-    /*
-    public enum Status {
-
-        PENDING,
-
-        PASS,
-
-        ERROR,
-
-        SKIPPED,
-
-        UNDEFINED,
-    }
-     */
 }
