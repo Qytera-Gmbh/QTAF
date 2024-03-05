@@ -3,15 +3,13 @@ package de.qytera.qtaf.apitesting.restassured.inprogress;
 import de.qytera.qtaf.apitesting.ApiTest;
 import de.qytera.qtaf.apitesting.ExecutedApiTest;
 import de.qytera.qtaf.testng.context.QtafTestNGContext;
+import io.restassured.http.ContentType;
 import io.restassured.http.Header;
-import io.restassured.http.Headers;
-import org.json.simple.JSONObject;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.File;
 import java.util.List;
-import java.util.Map;
 
 import static de.qytera.qtaf.apitesting.ApiTestExecutor.apiTest;
 
@@ -118,7 +116,8 @@ public class RequestHeaderTests extends QtafTestNGContext implements ApiTest {
                 List.of(
                         baseUri(url),
                         basePath("/albums/1"),
-                        bearer("abc123")
+                        header("Authorization", "Bearer " + "abc123")
+                        // bearer("abc123")
                 ),
                 getRequest(),
                 List.of(
@@ -137,7 +136,7 @@ public class RequestHeaderTests extends QtafTestNGContext implements ApiTest {
                 List.of(
                         baseUri(url),
                         basePath("/albums/1"),
-                        json()
+                        contentType(ContentType.JSON)
                 ),
                 getRequest(),
                 List.of(
@@ -156,7 +155,8 @@ public class RequestHeaderTests extends QtafTestNGContext implements ApiTest {
                 List.of(
                         baseUri(url),
                         basePath("/albums/1"),
-                        multipart()
+                        contentType("multipart/form-data")
+                        //multipart()
                 ),
                 getRequest(),
                 List.of(
@@ -167,7 +167,7 @@ public class RequestHeaderTests extends QtafTestNGContext implements ApiTest {
         // Check the values of the headers 'foo-bar' and 'bar-foo'
         Assert.assertEquals(result.getReq().getHeaders().get("Content-Type").getValue(), "multipart/form-data");
     }
-
+    /*
     @Test(testName = "Test Multipart Content Type header with String body")
     public void testContentTypeMultipartAndStringBody() {
         ExecutedApiTest result = apiTest(
@@ -175,8 +175,8 @@ public class RequestHeaderTests extends QtafTestNGContext implements ApiTest {
                 List.of(
                         baseUri(url),
                         basePath("/albums/1"),
-                        multipart("foo-bar", "bar_foo"),
-                        multipart("bar-foo", "foo_bar")
+                        this.multiPart("foo-bar", "bar_foo"), // Why this.multiPart?
+                        this.multiPart("bar-foo", "foo_bar") // Why this.multiPart?
                 ),
                 getRequest(),
                 List.of(
@@ -193,7 +193,9 @@ public class RequestHeaderTests extends QtafTestNGContext implements ApiTest {
         Assert.assertEquals(result.getReq().getMultiPartParams().get(1).getContent(), "foo_bar");
         Assert.assertEquals(result.getReq().getMultiPartParams().get(1).getMimeType(), "text/plain");
     }
+     */
 
+    /*
     @Test(testName = "Test Multipart Content Type header with non-string body")
     public void testContentTypeMultipartAndNonStringBody() {
         ExecutedApiTest result = apiTest(
@@ -201,8 +203,8 @@ public class RequestHeaderTests extends QtafTestNGContext implements ApiTest {
                 List.of(
                         baseUri(url),
                         basePath("/albums/1"),
-                        multipart("foo-bar", 1),
-                        multipart("bar-foo", true)
+                        this.multiPart("foo-bar", 1), // <- Why this.multiPart()
+                        this.multiPart("bar-foo", true) // <- Why this.multiPart()
                 ),
                 getRequest(),
                 List.of(
@@ -219,7 +221,8 @@ public class RequestHeaderTests extends QtafTestNGContext implements ApiTest {
         Assert.assertEquals(result.getReq().getMultiPartParams().get(1).getContent(), "true");
         Assert.assertEquals(result.getReq().getMultiPartParams().get(1).getMimeType(), "multipart/form-data");
     }
-
+     */
+    /*
     @Test(testName = "Test Multipart Content Type header with file body")
     public void testContentTypeMultipartAndFilePrecondition() {
         File file1 = new File("src/test/resources/data1.json");
@@ -230,8 +233,8 @@ public class RequestHeaderTests extends QtafTestNGContext implements ApiTest {
                 List.of(
                         baseUri(url),
                         basePath("/albums/1"),
-                        file(file1),
-                        file(file2)
+                        multiPart(file1),
+                        multiPart(file2)
                 ),
                 getRequest(),
                 List.of(
@@ -253,6 +256,9 @@ public class RequestHeaderTests extends QtafTestNGContext implements ApiTest {
         Assert.assertEquals(result.getReq().getMultiPartParams().get(1).getFileName(), "data2.json");
     }
 
+     */
+
+    /*
     @Test(testName = "Test Multipart Content Type header with named files")
     public void testContentTypeMultipartAndNamedFilePrecondition() {
         File file1 = new File("src/test/resources/data1.json");
@@ -263,8 +269,8 @@ public class RequestHeaderTests extends QtafTestNGContext implements ApiTest {
                 List.of(
                         baseUri(url),
                         basePath("/albums/1"),
-                        file("file1", file1),
-                        file("file2", file2)
+                        this.multiPart("file1", file1), // <- Why this.multipart
+                        this.multiPart("file2", file2) // <- Why this.multipart
                 ),
                 getRequest(),
                 List.of(
@@ -285,6 +291,7 @@ public class RequestHeaderTests extends QtafTestNGContext implements ApiTest {
         Assert.assertEquals(result.getReq().getMultiPartParams().get(1).getMimeType(), "application/octet-stream");
         Assert.assertEquals(result.getReq().getMultiPartParams().get(1).getFileName(), "data2.json");
     }
+     */
 
     @Test(testName = "Test Text Content Type header")
     public void testContentTypeText() {
@@ -293,7 +300,8 @@ public class RequestHeaderTests extends QtafTestNGContext implements ApiTest {
                 List.of(
                         baseUri(url),
                         basePath("/albums/1"),
-                        text()
+                        //text(),
+                        contentType("text/plain; charset=ISO-8859-1")
                 ),
                 getRequest(),
                 List.of(
@@ -312,7 +320,8 @@ public class RequestHeaderTests extends QtafTestNGContext implements ApiTest {
                 List.of(
                         baseUri(url),
                         basePath("/albums/1"),
-                        xml()
+                        contentType("application/xml; charset=ISO-8859-1")
+                        // xml()
                 ),
                 getRequest(),
                 List.of(

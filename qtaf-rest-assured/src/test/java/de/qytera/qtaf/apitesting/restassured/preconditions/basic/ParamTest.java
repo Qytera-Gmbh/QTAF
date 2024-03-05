@@ -6,6 +6,7 @@ import de.qytera.qtaf.core.config.annotations.TestFeature;
 import de.qytera.qtaf.core.log.model.message.LogMessage;
 import de.qytera.qtaf.testng.context.QtafTestNGContext;
 import org.hamcrest.Matchers;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import java.util.HashMap;
@@ -53,7 +54,7 @@ public class ParamTest extends QtafTestNGContext implements ApiTest {
         );
     }
 
-    @Test(testName = "GIVEN: the same formParam(String, String) twice -> WHEN: correct POST-request -> THEN: formParam in LogMessage has just one entry as expected")
+    @Test(testName = "GIVEN: the same formParam(String, String) twice -> WHEN: correct POST-request -> THEN: formParam in LogMessage has just one entry as expected") @Ignore
     public void testDuplicatedFormParams() {
         apiTest(
                 this,

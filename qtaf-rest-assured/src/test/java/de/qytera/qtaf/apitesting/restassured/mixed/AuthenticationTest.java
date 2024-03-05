@@ -8,6 +8,7 @@ import de.qytera.qtaf.core.log.model.message.AssertionLogMessage;
 import de.qytera.qtaf.core.log.model.message.AssertionLogMessageType;
 import de.qytera.qtaf.core.log.model.message.LogMessage;
 import de.qytera.qtaf.testng.context.QtafTestNGContext;
+import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
 import org.json.simple.JSONObject;
 import org.testng.Assert;
@@ -135,7 +136,8 @@ public class AuthenticationTest extends QtafTestNGContext implements ApiTest {
         var response = apiTest(
                 this,
                 List.of(
-                        bearer(token.getString("token")),
+                        //bearer(token.getString("token")),
+                        header("Authorization", "Bearer " + token.getString("token")),
                         baseUri(loginUrl),
                         basePath("/me")
                 ),
@@ -189,7 +191,10 @@ public class AuthenticationTest extends QtafTestNGContext implements ApiTest {
                         header("content-type", "application/json; charset=utf-8"),
                         baseUri(url),
                         basePath("/login"),
-                        json(body)),
+                        contentType(ContentType.JSON),
+                        body(body)
+                        // json(body)
+                ),
                 postRequest(),
                 List.of(statusCodeIs(200))
         );

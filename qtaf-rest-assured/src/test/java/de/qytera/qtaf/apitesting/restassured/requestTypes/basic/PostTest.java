@@ -5,6 +5,7 @@ import de.qytera.qtaf.apitesting.log.model.message.ApiLogMessage;
 import de.qytera.qtaf.core.config.annotations.TestFeature;
 import de.qytera.qtaf.core.log.model.message.LogMessage;
 import de.qytera.qtaf.testng.context.QtafTestNGContext;
+import io.restassured.http.ContentType;
 import org.json.simple.JSONObject;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -54,7 +55,9 @@ public class PostTest extends QtafTestNGContext implements ApiTest {
                 List.of(
                         baseUri(url),
                         basePath("/api/users"),
-                        json(jsonObject)
+                        body(jsonObject),
+                        contentType(ContentType.JSON)
+                        //json(jsonObject)
                 ),
                 postRequest(),
                 List.of()

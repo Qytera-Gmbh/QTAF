@@ -297,7 +297,7 @@ public class PathTest extends QtafTestNGContext implements ApiTest {
                         basePath(basePath),
                         pathParam("param1", param1),
                         pathParam("param2", param2),
-                        json(),
+                        contentType(ContentType.JSON),
                         body(file)
                 ),
                 postRequest(),

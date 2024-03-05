@@ -8,6 +8,7 @@ import com.google.gson.JsonObject;
 
 import de.qytera.qtaf.apitesting.log.model.message.ApiLogMessage;
 import de.qytera.qtaf.testng.context.QtafTestNGContext;
+import io.restassured.http.ContentType;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import io.restassured.specification.QueryableRequestSpecification;
@@ -51,7 +52,9 @@ public class ApiTestMixedTest extends QtafTestNGContext implements ApiTest {
                         header("Testheader", "Headertest"),
                         baseUri(url),
                         basePath("/posts/1"),
-                        json(body)
+                        body(body),
+                        contentType(ContentType.JSON)
+                        // json(body)
                         ),
                 putRequest(),
                 List.of(statusCodeIs(200))
@@ -88,7 +91,9 @@ public class ApiTestMixedTest extends QtafTestNGContext implements ApiTest {
                         baseUri(url),
                         basePath("/posts/1"),
                         pathParams(params),
-                        json(body)
+                        body(body),
+                        contentType(ContentType.JSON)
+                        //json(body)
                 ),
                 putRequest(),
                 List.of(statusCodeIs(200))

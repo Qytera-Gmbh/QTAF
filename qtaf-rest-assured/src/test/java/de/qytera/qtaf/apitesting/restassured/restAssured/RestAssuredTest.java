@@ -139,4 +139,15 @@ public class RestAssuredTest {
         .then()
             .statusCode(200);
     }
+
+    @Test
+    public void multipartRestAssuredTest() {
+        given()
+            .baseUri("https://jsonplaceholder.typicode.com")
+
+        .when()
+            .get(url + "/user/1")
+        .then()
+            .statusCode(404);
+    }
 }

@@ -1,16 +1,19 @@
 package de.qytera.qtaf.apitesting.restassured.preconditions.basic;
 
 import de.qytera.qtaf.apitesting.ApiTest;
+import de.qytera.qtaf.apitesting.ExecutedApiTest;
 import de.qytera.qtaf.apitesting.log.model.message.ApiLogMessage;
 import de.qytera.qtaf.core.config.annotations.TestFeature;
 import de.qytera.qtaf.core.log.model.message.AssertionLogMessageType;
 import de.qytera.qtaf.core.log.model.message.LogMessage;
 import de.qytera.qtaf.testng.context.QtafTestNGContext;
 import io.restassured.http.ContentType;
+import io.restassured.http.Cookie;
 import io.restassured.http.Header;
 import io.restassured.http.Headers;
 import org.hamcrest.Matchers;
 import org.json.simple.JSONObject;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -423,5 +426,45 @@ public class HeaderTest extends QtafTestNGContext implements ApiTest {
                 latestApiLogMessage,
                 headers
         );
+    }
+
+    // ====== Cookies ======
+
+    @Test(testName = "GIVEN: cookie provided with header() -> WHEN: correct request -> THEN: cookie got set in log header")
+    public void testCookiesUsingCookieObjectsPrecondition() {
+        Cookie cookie1 = (new Cookie.Builder("bar-foo", "foo_bar")).build();
+        Cookie cookie2 = (new Cookie.Builder("foo-bar", "bar_foo")).build();
+
+        String url = "https://jsonplaceholder.typicode.com";
+
+        ExecutedApiTest result = apiTest(
+                this,
+                List.of(
+                        baseUri(url),
+                        basePath("/albums/1"),
+                        header("Cookie", "bar-foo=foo_bar; foo-bar=bar_foo")
+                        //cookie(cookie1),
+                        //cookie(cookie2)
+                ),
+                getRequest(),
+                List.of(
+                        statusCodeIs(200)
+                )
+        );
+        Header header = new Header("Cookie", "bar-foo=foo_bar; foo-bar=bar_foo");
+        Headers headers = new Headers(header);
+
+        ApiLogMessage latestApiLogMessage = getLatestApiLogMessageFromContext(this);
+        apiLogMessageHeadersFitsTo(
+                "",
+                latestApiLogMessage,
+                headers
+        );
+
+        // Check the values of cookies 'bar-foo' and 'foo-bar'
+        Assert.assertEquals(result.getReq().getHeaders().getValue("Cookie"), "bar-foo=foo_bar; foo-bar=bar_foo");
+
+        // The cookie 'xxx' should not exist
+        Assert.assertNull(result.getReq().getCookies().get("xxx"));
     }
 }

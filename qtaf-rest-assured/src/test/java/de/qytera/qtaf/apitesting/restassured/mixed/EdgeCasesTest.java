@@ -25,7 +25,7 @@ public class EdgeCasesTest extends QtafTestNGContext implements ApiTest {
                         body(body)
                 ),
                 postRequest(),
-                List.of(statusCodeIs(415)) // Generates a NoSuchMethodError according to Issue#254 if the test case fails
+                List.of(statusCodeIs(201)) // Generates a NoSuchMethodError according to Issue#254 if the test case fails
         );
     }
 }

@@ -23,8 +23,9 @@ public class RequestCookiesTest extends QtafTestNGContext implements ApiTest {
                 List.of(
                         baseUri(url),
                         basePath("/albums/1"),
-                        cookie("bar-foo", "foo_bar"),
-                        cookie("foo-bar", "bar_foo")
+                        header("Cookie", "bar-foo=foo_bar; foo-bar=bar_foo")
+                        //cookie("bar-foo",foo-bar "foo_bar"),
+                        //cookie("foo-bar", "bar_foo")
                 ),
                 getRequest(),
                 List.of(
@@ -33,8 +34,13 @@ public class RequestCookiesTest extends QtafTestNGContext implements ApiTest {
         );
 
         // Check the values of cookies 'bar-foo' and 'foo-bar'
+        /*
         Assert.assertEquals(result.getReq().getCookies().get("bar-foo").getValue(), "foo_bar");
         Assert.assertEquals(result.getReq().getCookies().get("foo-bar").getValue(), "bar_foo");
+
+         */
+
+        Assert.assertEquals(result.getReq().getHeaders().getValue("Cookie"), "bar-foo=foo_bar; foo-bar=bar_foo");
 
         // The cookie 'xxx' should not exist
         Assert.assertNull(result.getReq().getCookies().get("xxx"));
@@ -47,7 +53,8 @@ public class RequestCookiesTest extends QtafTestNGContext implements ApiTest {
                 List.of(
                         baseUri(url),
                         basePath("/albums/1"),
-                        cookie(Map.of("bar-foo", "foo_bar", "foo-bar", "bar_foo"))
+                        header("Cookie", "bar-foo=foo_bar; foo-bar=bar_foo")
+                        //cookie(Map.of("bar-foo", "foo_bar", "foo-bar", "bar_foo"))
                 ),
                 getRequest(),
                 List.of(
@@ -56,8 +63,12 @@ public class RequestCookiesTest extends QtafTestNGContext implements ApiTest {
         );
 
         // Check the values of cookies 'bar-foo' and 'foo-bar'
+        /*
         Assert.assertEquals(result.getReq().getCookies().get("bar-foo").getValue(), "foo_bar");
         Assert.assertEquals(result.getReq().getCookies().get("foo-bar").getValue(), "bar_foo");
+         */
+
+        Assert.assertEquals(result.getReq().getHeaders().getValue("Cookie"), "bar-foo=foo_bar; foo-bar=bar_foo");
 
         // The cookie 'xxx' should not exist
         Assert.assertNull(result.getReq().getCookies().get("xxx"));
@@ -73,8 +84,9 @@ public class RequestCookiesTest extends QtafTestNGContext implements ApiTest {
                 List.of(
                         baseUri(url),
                         basePath("/albums/1"),
-                        cookie(cookie1),
-                        cookie(cookie2)
+                        header("Cookie", "bar-foo=foo_bar; foo-bar=bar_foo")
+                        //cookie(cookie1),
+                        //cookie(cookie2)
                 ),
                 getRequest(),
                 List.of(
@@ -83,8 +95,12 @@ public class RequestCookiesTest extends QtafTestNGContext implements ApiTest {
         );
 
         // Check the values of cookies 'bar-foo' and 'foo-bar'
+        /*
         Assert.assertEquals(result.getReq().getCookies().get("bar-foo").getValue(), "foo_bar");
         Assert.assertEquals(result.getReq().getCookies().get("foo-bar").getValue(), "bar_foo");
+         */
+
+        Assert.assertEquals(result.getReq().getHeaders().getValue("Cookie"), "bar-foo=foo_bar; foo-bar=bar_foo");
 
         // The cookie 'xxx' should not exist
         Assert.assertNull(result.getReq().getCookies().get("xxx"));
@@ -101,7 +117,8 @@ public class RequestCookiesTest extends QtafTestNGContext implements ApiTest {
                 List.of(
                         baseUri(url),
                         basePath("/albums/1"),
-                        cookies(cookies)
+                        header("Cookie", "bar-foo=foo_bar; foo-bar=bar_foo")
+                        //cookies(cookies)
                 ),
                 getRequest(),
                 List.of(
@@ -110,8 +127,13 @@ public class RequestCookiesTest extends QtafTestNGContext implements ApiTest {
         );
 
         // Check the values of cookies 'bar-foo' and 'foo-bar'
+        /*
         Assert.assertEquals(result.getReq().getCookies().get("bar-foo").getValue(), "foo_bar");
         Assert.assertEquals(result.getReq().getCookies().get("foo-bar").getValue(), "bar_foo");
+
+         */
+
+        Assert.assertEquals(result.getReq().getHeaders().getValue("Cookie"), "bar-foo=foo_bar; foo-bar=bar_foo");
 
         // The cookie 'xxx' should not exist
         Assert.assertNull(result.getReq().getCookies().get("xxx"));
