@@ -41,26 +41,67 @@ public interface ApiRequestSpecifications {
         return (RequestSpecification req, ApiLogMessage logMessage) -> req.pathParam(parameterKey, parameterValue);
     }
 
-    default ApiRequestSpecification pathParams(Map<String, Object> params) {
-        return (RequestSpecification req, ApiLogMessage logMessage) -> req.pathParams(params);
+    /**
+     * Specify multiple path parameter name-value pairs.
+     * Path parameters can be used to improve readability of the request path.
+     *
+     * @param parameterNameValuePairs A map containing the path parameters.
+     * @return lambda
+     */
+    default ApiRequestSpecification pathParams(Map<String, Object> parameterNameValuePairs) {
+        return (RequestSpecification req, ApiLogMessage logMessage) -> req.pathParams(parameterNameValuePairs);
     }
 
-    default ApiRequestSpecification queryParam(String key, Object value) {
-        return (RequestSpecification req, ApiLogMessage logMessage) -> req.queryParam(key, value);
+    /**
+     * Specify a query parameter that'll be sent with the request.
+     *
+     * @param parameterName The parameter name / key
+     * @param parameterValue The parameter value
+     * @return lambda
+     */
+    default ApiRequestSpecification queryParam(String parameterName, Object parameterValue) {
+        return (RequestSpecification req, ApiLogMessage logMessage) -> req.queryParam(parameterName, parameterValue);
     }
 
-    default ApiRequestSpecification queryParams(Map<String, Object> params) {
-        return (RequestSpecification req, ApiLogMessage logMessage) -> req.queryParams(params);
+    /**
+     * Specify the query parameters that'll be sent with the request.
+     *
+     * @param parametersMap The Map containing the parameter names and their values to send with the request.
+     * @return lambda
+     */
+    default ApiRequestSpecification queryParams(Map<String, Object> parametersMap) {
+        return (RequestSpecification req, ApiLogMessage logMessage) -> req.queryParams(parametersMap);
     }
 
-    default ApiRequestSpecification formParam(String key, Object value) {
-        return (RequestSpecification req, ApiLogMessage logMessage) -> req.formParam(key, value);
+    /**
+     * Specify a form parameter that'll be sent with the request. 
+     *
+     * @param parameterName The parameter name / key
+     * @param parameterValue The parameter value
+     * @return lambda
+     */
+    default ApiRequestSpecification formParam(String parameterName, Object parameterValue) {
+        return (RequestSpecification req, ApiLogMessage logMessage) -> req.formParam(parameterName, parameterValue);
     }
 
-    default ApiRequestSpecification formParams(Map<String, Object> params) {
-        return (RequestSpecification req, ApiLogMessage logMessage) -> req.formParams(params);
+    /**
+     * Specify the form parameters that'll be sent with the request.
+     *
+     * @param parametersMap The Map containing the form parameter names and their values to send with the request.
+     * @return lambda
+     */
+    default ApiRequestSpecification formParams(Map<String, Object> parametersMap) {
+        return (RequestSpecification req, ApiLogMessage logMessage) -> req.formParams(parametersMap);
     }
 
+    /**
+     * Specify a String request body (such as e.g. JSON or XML) that'll be sent with the request.
+     * This works for the POST and PUT methods only.
+     * Trying to do this for the other http methods will cause an exception to be thrown.
+     *
+     * @param body The body to send.
+     * @return labmda
+     */
     default ApiRequestSpecification body(String body) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> req.body(body);
     }
