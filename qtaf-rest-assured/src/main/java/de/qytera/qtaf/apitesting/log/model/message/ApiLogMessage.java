@@ -10,7 +10,11 @@ import lombok.Setter;
 
 import java.util.*;
 
-
+/**
+ * This class provides the data format for Api log messages, which QTAF uses for reporting and logging.
+ * This format is visible to users and is also used in other QTAF modules,
+ * e.g. when creating JSON or HTML reports or in plugins.
+ */
 public class ApiLogMessage extends LogMessage {
 
     @Getter @Setter
@@ -29,6 +33,10 @@ public class ApiLogMessage extends LogMessage {
         super(level, message);
     }
 
+    /**
+     * One part of the API log message is the request.
+     * It's data format is defined in this class
+     */
     public class Request {
 
         @Getter
@@ -58,6 +66,12 @@ public class ApiLogMessage extends LogMessage {
         @Getter
         private Headers headers;
 
+        /**
+         * Set the corresponding values in the Request-Api-LogMessage,
+         * depending on the response of the API request from RESTAssured
+         *
+         * @param request queryable request specification of RESTassured
+         */
         public void setRequestAttributes(QueryableRequestSpecification request){
 
             requestMethod = request.getMethod();
@@ -72,6 +86,10 @@ public class ApiLogMessage extends LogMessage {
         }
     }
 
+    /**
+     * One part of the API log message is the response.
+     * It's data format is defined in this class
+     */
     public class Response {
 
         @Getter
@@ -92,6 +110,12 @@ public class ApiLogMessage extends LogMessage {
         @Getter
         private long time;
 
+        /**
+         * Set the corresponding values in the Response-Api-LogMessage,
+         * depending on the request the API call is based on provided by RESTAssured.
+         *
+         * @param response extractable response of RESTassured
+         */
         public void setResponseAttributes(ExtractableResponse<io.restassured.response.Response> response){
 
             statusCode = response.statusCode();
