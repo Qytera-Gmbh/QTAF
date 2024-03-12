@@ -4,11 +4,6 @@ import de.qytera.qtaf.apitesting.log.model.message.ApiLogMessage;
 import io.restassured.specification.RequestSpecification;
 import org.jetbrains.annotations.NotNull;
 
-import java.net.URI;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-
 public interface ApiRequestTypes {
 
 
