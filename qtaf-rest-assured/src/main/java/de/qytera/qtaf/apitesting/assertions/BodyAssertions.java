@@ -8,7 +8,7 @@ import org.hamcrest.Matcher;
 public interface BodyAssertions {
 
     /**
-     * Validate that the response body conforms to one or more Hamcrest matchers. E.g.
+     * Validate that the response body conforms to the provided Hamcrest matcher.
      *
      * @param matcher The hamcrest matcher the response body must match.
      * @return lambda
