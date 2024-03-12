@@ -106,30 +106,98 @@ public interface ApiRequestSpecifications {
         return (RequestSpecification req, ApiLogMessage logMessage) -> req.body(body);
     }
 
+    /**
+     * Specify an Object request content that will automatically be serialized to JSON or XML
+     * and sent with the request.
+     * If the object is a primitive or Number the object will be converted to a String and put in the request body.
+     * This works for the POST and PUT methods only.
+     * Trying to do this for the other http methods will cause an exception to be thrown.
+     * Note:
+     * If the content-type is "application/json" then REST Assured will automatically
+     * try to serialize the object using Jackson  or Gson if they are available in the classpath.
+     * If any of these frameworks are not in the classpath then an exception is thrown.
+     * If the content-type is "application/xml" then REST Assured will automatically
+     * try to serialize the object using JAXB  if it's available in the classpath.
+     * Otherwise, an exception will be thrown.
+     * If no request content-type is specified then REST Assured determine the parser in the following order:
+     * Jackson
+     * Gson
+     * JAXB
+     *
+     * @param object The object to serialize and send with the request
+     * @return lambda
+     */
     default ApiRequestSpecification body(Object object) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> req.body(object);
     }
 
-    default ApiRequestSpecification body(File file) {
-        return (RequestSpecification req, ApiLogMessage logMessage) -> req.body(file);
+    /**
+     * Specify file content that'll be sent with the request.
+     * This only works for the POST, PATCH and PUT http method.
+     * Trying to do this for the other http methods will cause an exception to be thrown.
+     *
+     * @param body The content to send.
+     * @return lambda
+     */
+    default ApiRequestSpecification body(File body) {
+        return (RequestSpecification req, ApiLogMessage logMessage) -> req.body(body);
     }
 
+    /**
+     * Specify the content type of the request.
+     *
+     * @param contentType The content type of the request
+     * @return lambda
+     */
     default ApiRequestSpecification contentType(String contentType) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> req.contentType(contentType);
     }
 
+    /**
+     * Specify the content type of the request.
+     *
+     * @param contentType The content type of the request
+     * @return lambda
+     */
     default ApiRequestSpecification contentType(ContentType contentType) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> req.contentType(contentType);
     }
 
+    /**
+     * Instructs rest assured to don't include a content-type in the request
+     *
+     * @return lambda
+     */
     default ApiRequestSpecification removeContentType() {
         return (RequestSpecification req, ApiLogMessage logMessage) -> req.noContentType();
     }
 
-    default ApiRequestSpecification header(String key, String value) {
-        return (RequestSpecification req, ApiLogMessage logMessage) -> req.header(key, value);
+    /**
+     * Specify a header that'll be sent with the request.
+     * You can also specify several headers by using this method multiple times:
+     *   header("username", "John"),
+     *   header("zipCode", "12345")
+     *
+     * @param headerName The header name
+     * @param headerValue The header value
+     * @return lambda
+     */
+    default ApiRequestSpecification header(String headerName, String headerValue) {
+        return (RequestSpecification req, ApiLogMessage logMessage) -> req.header(headerName, headerValue);
     }
 
+    /**
+     * Specify a Header to send with the request.
+     *   e.g:
+     *   Header someHeader = new Header("some_name", "some_value");
+     * This will set the header some_name=some_value.
+     * You can also specify several headers by using this method multiple times:
+     *   header(someHeader1),
+     *   header(someHeader2)
+     *
+     * @param header The header to add to the request
+     * @return lambda
+     */
     default ApiRequestSpecification header(Header header) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> req.header(header);
     }
@@ -269,10 +337,6 @@ public interface ApiRequestSpecifications {
     }
      */
 
-
-
-
-
     /*
     default ApiPrecondition multipart(String s, Object o) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
@@ -314,5 +378,4 @@ public interface ApiRequestSpecifications {
         };
     }
      */
-
 }
