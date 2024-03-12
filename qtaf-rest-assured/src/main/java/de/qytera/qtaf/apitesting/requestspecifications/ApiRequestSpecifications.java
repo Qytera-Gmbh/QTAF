@@ -16,7 +16,8 @@ public interface ApiRequestSpecifications {
      * @return lambda
      */
     default ApiRequestSpecification baseUri(String baseUri) {
-        return (RequestSpecification req, ApiLogMessage logMessage) -> req.baseUri(baseUri);
+        // return (RequestSpecification req, ApiLogMessage logMessage) -> req.baseUri(baseUri);
+        return (RequestSpecification req) -> req.baseUri(baseUri);
     }
 
     /**
@@ -26,7 +27,7 @@ public interface ApiRequestSpecifications {
      * @return lambda
      */
     default ApiRequestSpecification basePath(String basePath) {
-        return (RequestSpecification req, ApiLogMessage logMessage) -> req.basePath(basePath);
+        return (RequestSpecification req) -> req.basePath(basePath);
     }
 
     /**
@@ -38,7 +39,7 @@ public interface ApiRequestSpecifications {
      * @return lambda
      */
     default ApiRequestSpecification pathParam(String parameterKey, Object parameterValue) {
-        return (RequestSpecification req, ApiLogMessage logMessage) -> req.pathParam(parameterKey, parameterValue);
+        return (RequestSpecification req) -> req.pathParam(parameterKey, parameterValue);
     }
 
     /**
@@ -49,7 +50,7 @@ public interface ApiRequestSpecifications {
      * @return lambda
      */
     default ApiRequestSpecification pathParams(Map<String, Object> parameterNameValuePairs) {
-        return (RequestSpecification req, ApiLogMessage logMessage) -> req.pathParams(parameterNameValuePairs);
+        return (RequestSpecification req) -> req.pathParams(parameterNameValuePairs);
     }
 
     /**
@@ -60,7 +61,7 @@ public interface ApiRequestSpecifications {
      * @return lambda
      */
     default ApiRequestSpecification queryParam(String parameterName, Object parameterValue) {
-        return (RequestSpecification req, ApiLogMessage logMessage) -> req.queryParam(parameterName, parameterValue);
+        return (RequestSpecification req) -> req.queryParam(parameterName, parameterValue);
     }
 
     /**
@@ -70,7 +71,7 @@ public interface ApiRequestSpecifications {
      * @return lambda
      */
     default ApiRequestSpecification queryParams(Map<String, Object> parametersMap) {
-        return (RequestSpecification req, ApiLogMessage logMessage) -> req.queryParams(parametersMap);
+        return (RequestSpecification req) -> req.queryParams(parametersMap);
     }
 
     /**
@@ -81,7 +82,7 @@ public interface ApiRequestSpecifications {
      * @return lambda
      */
     default ApiRequestSpecification formParam(String parameterName, Object parameterValue) {
-        return (RequestSpecification req, ApiLogMessage logMessage) -> req.formParam(parameterName, parameterValue);
+        return (RequestSpecification req) -> req.formParam(parameterName, parameterValue);
     }
 
     /**
@@ -91,7 +92,7 @@ public interface ApiRequestSpecifications {
      * @return lambda
      */
     default ApiRequestSpecification formParams(Map<String, Object> parametersMap) {
-        return (RequestSpecification req, ApiLogMessage logMessage) -> req.formParams(parametersMap);
+        return (RequestSpecification req) -> req.formParams(parametersMap);
     }
 
     /**
@@ -100,10 +101,10 @@ public interface ApiRequestSpecifications {
      * Trying to do this for the other http methods will cause an exception to be thrown.
      *
      * @param body The body to send.
-     * @return labmda
+     * @return lambda
      */
     default ApiRequestSpecification body(String body) {
-        return (RequestSpecification req, ApiLogMessage logMessage) -> req.body(body);
+        return (RequestSpecification req) -> req.body(body);
     }
 
     /**
@@ -128,7 +129,7 @@ public interface ApiRequestSpecifications {
      * @return lambda
      */
     default ApiRequestSpecification body(Object object) {
-        return (RequestSpecification req, ApiLogMessage logMessage) -> req.body(object);
+        return (RequestSpecification req) -> req.body(object);
     }
 
     /**
@@ -140,7 +141,7 @@ public interface ApiRequestSpecifications {
      * @return lambda
      */
     default ApiRequestSpecification body(File body) {
-        return (RequestSpecification req, ApiLogMessage logMessage) -> req.body(body);
+        return (RequestSpecification req) -> req.body(body);
     }
 
     /**
@@ -150,7 +151,7 @@ public interface ApiRequestSpecifications {
      * @return lambda
      */
     default ApiRequestSpecification contentType(String contentType) {
-        return (RequestSpecification req, ApiLogMessage logMessage) -> req.contentType(contentType);
+        return (RequestSpecification req) -> req.contentType(contentType);
     }
 
     /**
@@ -160,7 +161,7 @@ public interface ApiRequestSpecifications {
      * @return lambda
      */
     default ApiRequestSpecification contentType(ContentType contentType) {
-        return (RequestSpecification req, ApiLogMessage logMessage) -> req.contentType(contentType);
+        return (RequestSpecification req) -> req.contentType(contentType);
     }
 
     /**
@@ -169,7 +170,7 @@ public interface ApiRequestSpecifications {
      * @return lambda
      */
     default ApiRequestSpecification removeContentType() {
-        return (RequestSpecification req, ApiLogMessage logMessage) -> req.noContentType();
+        return RequestSpecification::noContentType;
     }
 
     /**
@@ -183,7 +184,7 @@ public interface ApiRequestSpecifications {
      * @return lambda
      */
     default ApiRequestSpecification header(String headerName, String headerValue) {
-        return (RequestSpecification req, ApiLogMessage logMessage) -> req.header(headerName, headerValue);
+        return (RequestSpecification req) -> req.header(headerName, headerValue);
     }
 
     /**
@@ -199,7 +200,7 @@ public interface ApiRequestSpecifications {
      * @return lambda
      */
     default ApiRequestSpecification header(Header header) {
-        return (RequestSpecification req, ApiLogMessage logMessage) -> req.header(header);
+        return (RequestSpecification req) -> req.header(header);
     }
 
     /*
@@ -227,8 +228,7 @@ public interface ApiRequestSpecifications {
     default ApiPrecondition bearer(String bearerToken) {
         return (RequestSpecification req, ApiLogMessage logMessage) -> {
             req.header("Authorization", "Bearer " + bearerToken);
-
-            logMessage.getRequest().setBeareToken(bearerToken);
+            logMessage.getRequest().setBearerToken(bearerToken);
         };
     }
      */

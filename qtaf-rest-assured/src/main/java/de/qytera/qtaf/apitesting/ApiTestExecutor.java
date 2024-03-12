@@ -59,22 +59,22 @@ public class ApiTestExecutor {
         logCollection.addLogMessage(logMessage);
 
         // Setup Request
-        RequestSpecification req = RestAssured.given();
-        QueryableRequestSpecification q = SpecificationQuerier.query(req);
+        RequestSpecification requestSpecification = RestAssured.given();
+        QueryableRequestSpecification queryableRequestSpecification = SpecificationQuerier.query(requestSpecification);
 
-        // Preconditions
-        apiTestExecutor.applyRequestSpecifications(req, requestSpecifications, logMessage);
+        // Apply preconditions
+        apiTestExecutor.applyRequestSpecifications(requestSpecification, requestSpecifications, logMessage);
 
-        // Api request based on type
-        Response res = requestType.perform(req, logMessage);
+        // Perform api request based on selected request type
+        Response response = requestType.perform(requestSpecification, logMessage);
 
         // Handel Response
-        ValidatableResponse validatableResponse = res.then();
-        ExtractableResponse<Response> response = validatableResponse.extract();
+        ValidatableResponse validatableResponse = response.then();
+        ExtractableResponse<Response> extractableResponse = validatableResponse.extract();
 
         // Update QTAF-LogMessage
-        logMessage.getRequest().setRequestAttributes(q);
-        logMessage.getResponse().setResponseAttributes(response);
+        logMessage.getRequest().setRequestAttributes(queryableRequestSpecification);
+        logMessage.getResponse().setResponseAttributes(extractableResponse);
 
         // Check Assertions
         boolean hasPassed = true;
@@ -87,21 +87,21 @@ public class ApiTestExecutor {
                  * before an exception is thrown.
                  */
 
-                // It is necessary to provide a new ValidatalbeResponse via res.then() here
-                // to avoid undesirable behaviour
-                assertion.apply(res.then(), logMessage);
+                // It is necessary to provide a new ValidatalbeResponse via response.then() here
+                // to avoid undesirable behaviour fo RESTassured
+                assertion.apply(response.then(), logMessage);
 
 
                 // The following code is not executed if the above call of apply() throws an exception
 
                 AssertionLogMessage currentAssertionLogMessage = logMessage.getAssertions().get(i);
-                changeMessageAccordingToAssertionPassed(currentAssertionLogMessage, response);
+                changeMessageAccordingToAssertionPassed(currentAssertionLogMessage, extractableResponse);
 
             } catch (AssertionError error){
                 hasPassed = false;
 
                 AssertionLogMessage currentAssertionLogMessage = logMessage.getAssertions().get(i);
-                changeMessageAccordingToAssertionFailure(currentAssertionLogMessage, response, error);
+                changeMessageAccordingToAssertionFailure(currentAssertionLogMessage, extractableResponse, error);
             }
             i++;
         }
@@ -110,12 +110,22 @@ public class ApiTestExecutor {
         } else {
             logMessage.setStatus(LogMessage.Status.FAILED);
         }
-        return new ExecutedApiTest(q, validatableResponse.extract());
+        return new ExecutedApiTest(queryableRequestSpecification, extractableResponse);
     }
 
-    private void applyRequestSpecifications(RequestSpecification request, @NotNull List<ApiRequestSpecification> preconditions, ApiLogMessage logMessage){
-        for (ApiRequestSpecification precondition : preconditions) {
-            precondition.apply(request, logMessage);
+    /**
+     * Apply provided request specifications
+     * for setting up the request by RESTassured
+     *
+     * @param requestSpecification The requestSpecifiaction of RESTassured that should get updated
+     * @param apiRequestSpecifications The api request specifications according to which
+     *                                 the provided requestSpecifiaction of RESTassured should get updated
+     * @param logMessage
+     */
+    private void applyRequestSpecifications(RequestSpecification requestSpecification, @NotNull List<ApiRequestSpecification> apiRequestSpecifications, ApiLogMessage logMessage){
+        for (ApiRequestSpecification precondition : apiRequestSpecifications) {
+            // precondition.apply(requestSpecification, logMessage);
+            precondition.apply(requestSpecification);
         }
     }
 
