@@ -9,6 +9,5 @@ import io.restassured.specification.RequestSpecification;
  */
 @FunctionalInterface
 public interface ApiRequestType {
-    // Response perform(RequestSpecification req, ApiLogMessage logMessage);
     Response perform(RequestSpecification req, ApiLogMessage logMessage);
 }
