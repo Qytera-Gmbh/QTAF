@@ -8,7 +8,7 @@
     "continueOnAssertionFailure": true
   },
   "driver": {
-    "name": "chrome",
+    "name": "edge",
     "remoteUrl": null,
     "implicitWaitTimeout": 0,
     "quitAfterTesting": true,

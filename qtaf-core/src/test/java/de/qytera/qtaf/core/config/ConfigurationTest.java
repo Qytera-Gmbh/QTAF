@@ -81,7 +81,7 @@ public class ConfigurationTest {
         ConfigMap config = ConfigurationFactory.getInstance();
 
         // Driver configuration
-        Assert.assertEquals(config.getString("driver.name"), "chrome");
+        Assert.assertEquals(config.getString("driver.name"), "edge");
         Assert.assertNull(config.getString("driver.remoteUrl"));
         Assert.assertTrue(config.getBoolean("driver.quitAfterTesting"));
     }
