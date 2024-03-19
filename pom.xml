@@ -6,7 +6,7 @@
 
     <groupId>de.qytera</groupId>
     <artifactId>qtaf</artifactId>
-    <version>0.2.8</version>
+    <version>0.2.9</version>
     <packaging>pom</packaging>
 
     <name>${project.groupId}:${project.artifactId}</name>
@@ -80,7 +80,7 @@
         <mavenJarPluginVersion>3.3.0</mavenJarPluginVersion>
         <mavenJavadocPluginVersion>3.5.0</mavenJavadocPluginVersion>
         <mavenSourcePluginVersion>3.3.0</mavenSourcePluginVersion>
-        <mavenSurefirePluginVersion>3.1.2</mavenSurefirePluginVersion>
+        <mavenSurefirePluginVersion>3.2.3</mavenSurefirePluginVersion>
         <nexusStagingMavenPluginVersion>1.6.13</nexusStagingMavenPluginVersion>
         <sonarMavenPluginVersion>3.10.0.2594</sonarMavenPluginVersion>
     </properties>
