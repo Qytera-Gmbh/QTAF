@@ -1,0 +1,84 @@
+package de.qytera.qtaf.xray.builder;
+
+import de.qytera.qtaf.core.QtafFactory;
+import de.qytera.qtaf.core.config.entity.ConfigMap;
+import de.qytera.qtaf.core.log.model.collection.TestFeatureLogCollection;
+import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
+import de.qytera.qtaf.core.log.model.collection.TestSuiteLogCollection;
+import de.qytera.qtaf.xray.annotation.XrayTest;
+import de.qytera.qtaf.xray.builder.test.MultipleIterationsXrayTestEntityBuilder;
+import de.qytera.qtaf.xray.builder.test.XrayTestEntityBuilder;
+import de.qytera.qtaf.xray.config.XrayConfigHelper;
+import de.qytera.qtaf.xray.entity.XrayTestEntity;
+import org.testng.annotations.Test;
+
+import java.lang.annotation.Annotation;
+import java.time.Instant;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class XrayTestEntityBuilderTest {
+
+    private static TestScenarioLogCollection scenario(int scenarioIteration, String featureName, XrayTest annotation) {
+        TestScenarioLogCollection scenarioCollection = TestScenarioLogCollection.createTestScenarioLogCollection(
+                featureName,
+                "SomeClass.doesSomething",
+                String.valueOf(scenarioIteration),
+                "a test scenario"
+        );
+        scenarioCollection.setStart(Date.from(Instant.now().minusSeconds(3600)));
+        scenarioCollection.setEnd(Date.from(Instant.now()));
+        scenarioCollection.setAnnotations(new Annotation[] {annotation});
+        // Add scenario to its corresponding feature collection.
+        TestFeatureLogCollection featureCollection = TestFeatureLogCollection.createFeatureLogCollectionIfNotExists(
+                featureName,
+                "a test feature"
+        );
+        featureCollection.addScenarioLogCollection(scenarioCollection);
+        // Add feature to suite collection.
+        TestSuiteLogCollection.getInstance().addTestClassLogCollection(featureCollection);
+        return scenarioCollection;
+    }
+
+    @Test
+    public void testBuildTestInfoStepEntities() throws NoSuchMethodException {
+        // Get the QTAF configuration
+        ConfigMap configMap = QtafFactory.getConfiguration();
+
+        // Set merge steps value in config to false
+        boolean mergeStepsOldValue = configMap.getBoolean(XrayConfigHelper.RESULTS_UPLOAD_TESTS_INFO_STEPS_MERGE, false);
+        configMap.setBoolean(XrayConfigHelper.RESULTS_UPLOAD_TESTS_INFO_STEPS_MERGE, false);
+
+        // Get an annotation object needed for the test entity builder
+        XrayTest xrayTestAnnotation = DemoTest.class.getMethod("foo").getAnnotation(XrayTest.class);
+
+        // Get the suite log collection needed to the entity builder
+        TestSuiteLogCollection suiteLogCollection = QtafFactory.getTestSuiteLogCollection();
+
+        // The entity builder
+        XrayTestEntityBuilder<List<TestScenarioLogCollection>> builder = new MultipleIterationsXrayTestEntityBuilder(
+                suiteLogCollection,
+                new HashMap<>()
+        );
+
+        // Get dummy scenario log collections
+        TestScenarioLogCollection s1 = scenario(1, "scenario1", xrayTestAnnotation);
+        TestScenarioLogCollection s2 = scenario(1, "scenario2", xrayTestAnnotation);
+        List<TestScenarioLogCollection> sList = List.of(s1, s2);
+
+        // Build the xray upload entity for the dummy scenarios
+        XrayTestEntity xrayTestEntity = builder.buildTestEntity(xrayTestAnnotation, sList);
+
+        // Set merge steps value in config to old value
+        configMap.setBoolean(XrayConfigHelper.RESULTS_UPLOAD_TESTS_INFO_STEPS_MERGE, mergeStepsOldValue);
+    }
+}
+
+class DemoTest {
+    @XrayTest(key = "foo")
+    public void foo() {
+
+    }
+}
