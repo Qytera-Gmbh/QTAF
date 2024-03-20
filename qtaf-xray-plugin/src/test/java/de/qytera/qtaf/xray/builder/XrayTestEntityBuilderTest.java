@@ -17,10 +17,19 @@ import java.time.Instant;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+
+/**
+ * This test feature tests the XrayTestEntityBuilder class
+ */
 public class XrayTestEntityBuilderTest {
-
+    /**
+     * This is a method for building a dummy scenario
+     * @param scenarioIteration scenario iteration number
+     * @param featureName       name of the feature the scenario belongs to
+     * @param annotation        A list of test annotations
+     * @return  a dummy scenario
+     */
     private static TestScenarioLogCollection scenario(int scenarioIteration, String featureName, XrayTest annotation) {
         TestScenarioLogCollection scenarioCollection = TestScenarioLogCollection.createTestScenarioLogCollection(
                 featureName,
@@ -42,6 +51,11 @@ public class XrayTestEntityBuilderTest {
         return scenarioCollection;
     }
 
+    /**
+     * This test case tests the building of the XrayTestEntity for the following configuration:
+     * - steps should not be merged
+     * - test info should be updated
+     */
     @Test
     public void testBuildTestInfoStepEntities() throws NoSuchMethodException {
         // Get the QTAF configuration
@@ -49,7 +63,9 @@ public class XrayTestEntityBuilderTest {
 
         // Set merge steps value in config to false
         boolean mergeStepsOldValue = configMap.getBoolean(XrayConfigHelper.RESULTS_UPLOAD_TESTS_INFO_STEPS_MERGE, false);
+        boolean stepUpdateOOldValue = configMap.getBoolean(XrayConfigHelper.RESULTS_UPLOAD_TESTS_INFO_STEPS_UPDATE, true);
         configMap.setBoolean(XrayConfigHelper.RESULTS_UPLOAD_TESTS_INFO_STEPS_MERGE, false);
+        configMap.setBoolean(XrayConfigHelper.RESULTS_UPLOAD_TESTS_INFO_STEPS_UPDATE, true);
 
         // Get an annotation object needed for the test entity builder
         XrayTest xrayTestAnnotation = DemoTest.class.getMethod("foo").getAnnotation(XrayTest.class);
@@ -73,9 +89,13 @@ public class XrayTestEntityBuilderTest {
 
         // Set merge steps value in config to old value
         configMap.setBoolean(XrayConfigHelper.RESULTS_UPLOAD_TESTS_INFO_STEPS_MERGE, mergeStepsOldValue);
+        configMap.setBoolean(XrayConfigHelper.RESULTS_UPLOAD_TESTS_INFO_STEPS_UPDATE, stepUpdateOOldValue);
     }
 }
 
+/**
+ * This is a demo test case that is used by the tests above
+ */
 class DemoTest {
     @XrayTest(key = "foo")
     public void foo() {
