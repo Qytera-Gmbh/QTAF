@@ -81,9 +81,13 @@ public class XrayTestEntityBuilderTest {
         TestScenarioLogCollection s1 = scenario(1, "scenario1", xrayTestAnnotation);
         s1.addLogMessage(successfulStep("foo"));
         s1.addLogMessage(successfulStep("bar"));
+        s1.addScreenshotPath("foo/bar/1");
+        s1.addScreenshotPath("foo/bar/2");
         TestScenarioLogCollection s2 = scenario(1, "scenario2", xrayTestAnnotation);
         s2.addLogMessage(successfulStep("foo"));
         s2.addLogMessage(successfulStep("bar"));
+        s2.addScreenshotPath("foo/bar/1");
+        s2.addScreenshotPath("foo/bar/2");
         List<TestScenarioLogCollection> sList = List.of(s1, s2);
 
         // Build the xray upload entity for the dummy scenarios
@@ -139,9 +143,13 @@ public class XrayTestEntityBuilderTest {
         TestScenarioLogCollection s1 = scenario(1, "scenario1", xrayTestAnnotation);
         s1.addLogMessage(successfulStep("foo"));
         s1.addLogMessage(successfulStep("bar"));
+        s1.addScreenshotPath("foo/bar/1");
+        s1.addScreenshotPath("foo/bar/2");
         TestScenarioLogCollection s2 = scenario(1, "scenario2", xrayTestAnnotation);
         s2.addLogMessage(successfulStep("foo"));
         s2.addLogMessage(successfulStep("bar"));
+        s2.addScreenshotPath("foo/bar/1");
+        s2.addScreenshotPath("foo/bar/2");
         List<TestScenarioLogCollection> sList = List.of(s1, s2);
 
         // Build the xray upload entity for the dummy scenarios
