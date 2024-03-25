@@ -225,6 +225,5 @@
             <version>${project.parent.version}</version>
             <scope>compile</scope>
         </dependency>
-
     </dependencies>
 </project>
