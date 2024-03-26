@@ -1,6 +1,7 @@
 package de.qytera.qtaf.core.event_subscriber.step;
 
 import de.qytera.qtaf.core.QtafFactory;
+import de.qytera.qtaf.core.config.entity.ConfigMap;
 import de.qytera.qtaf.core.console.ConsoleColors;
 import de.qytera.qtaf.core.context.IQtafTestContext;
 import de.qytera.qtaf.core.events.QtafEvents;
@@ -278,39 +279,55 @@ public class StepLoggerSubscriber implements IEventSubscriber {
      * @param message           log message
      */
     private void log(StepExecutionInfo stepExecutionInfo, String message) {
-        String assertionMessage = "[Step] [%s] [%s] %s: %s";
-        String stepMessage = "[Step] [%s] [%s] %s";
+        if (checkIfStepLoggingIsConfigured()){
+            String assertionMessage = "[Step] [%s] [%s] %s: %s";
+            String stepMessage = "[Step] [%s] [%s] %s";
 
-        logger.info(
-                stepMessage.formatted(
-                        stepExecutionInfo.getId(),
-                        stepExecutionInfo.getAnnotation().name(),
-                        message
-                )
-        );
+            logger.info(
+                    stepMessage.formatted(
+                            stepExecutionInfo.getId(),
+                            stepExecutionInfo.getAnnotation().name(),
+                            message
+                    )
+            );
 
-        if (stepExecutionInfo.getLogMessage() != null) {
-            for (AssertionLogMessage m : stepExecutionInfo.getLogMessage().getAssertions()) {
-                if (m.hasFailed()) {
-                    logger.info(
-                            assertionMessage.formatted(
-                                    stepExecutionInfo.getId(),
-                                    m.type(),
-                                    ConsoleColors.red("failed"),
-                                    m.getMessage()
-                            )
-                    );
-                } else {
-                    logger.info(
-                            assertionMessage.formatted(
-                                    stepExecutionInfo.getId(),
-                                    m.type(),
-                                    ConsoleColors.green("passed"),
-                                    m.getMessage()
-                            )
-                    );
+            if (stepExecutionInfo.getLogMessage() != null) {
+                for (AssertionLogMessage m : stepExecutionInfo.getLogMessage().getAssertions()) {
+                    if (m.hasFailed()) {
+                        logger.info(
+                                assertionMessage.formatted(
+                                        stepExecutionInfo.getId(),
+                                        m.type(),
+                                        ConsoleColors.red("failed"),
+                                        m.getMessage()
+                                )
+                        );
+                    } else {
+                        logger.info(
+                                assertionMessage.formatted(
+                                        stepExecutionInfo.getId(),
+                                        m.type(),
+                                        ConsoleColors.green("passed"),
+                                        m.getMessage()
+                                )
+                        );
+                    }
                 }
             }
         }
+    }
+
+    /**
+     * The QTAF-User has the option to configure
+     * if the test steps should get logged to the console.
+     * If in the qtaf.json the login.logSteps is set to false
+     * no steps should get logged.
+     * This is usefully if the user wants shorter logs.
+     *
+     * @return boolean that is to true if logging is wanted and to false if logging is unwanted
+     */
+    private boolean checkIfStepLoggingIsConfigured(){
+        ConfigMap config = QtafFactory.getConfiguration();
+        return config.getBoolean("logging.logSteps");
     }
 }
