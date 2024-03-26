@@ -12,6 +12,7 @@ import de.qytera.qtaf.xray.entity.*;
 import lombok.NonNull;
 import org.apache.logging.log4j.util.Strings;
 
+import java.io.Writer;
 import java.util.*;
 
 /**
@@ -174,8 +175,23 @@ public class MultipleIterationsXrayTestEntityBuilder extends XrayTestEntityBuild
 
     @Override
     protected List<XrayEvidenceItemEntity> getEvidence(XrayTest xrayTest, List<TestScenarioLogCollection> scenarioLogs) {
-        // Evidence is attached to iterations instead of the scenario here.
-        return Collections.emptyList();
+        List<XrayEvidenceItemEntity> evidence = new ArrayList<>();
+        int i = 1;
+        for (TestScenarioLogCollection scenario : scenarioLogs) {
+            if (XrayConfigHelper.isScenarioReportEvidenceEnabled() && xrayTest.scenarioReport()) {
+                Writer renderedTemplate = reportCreator.getRenderedTemplate(collection, scenario);
+                String filename = "scenario_" + scenario.getScenarioId() + "_" + i + ".html";
+                evidence.add(XrayEvidenceItemEntity.fromString(renderedTemplate.toString(), filename));
+            }
+
+            if (XrayConfigHelper.isScenarioImageEvidenceEnabled() && xrayTest.screenshots()) {
+                for (String filepath : scenario.getScreenshotPaths()) {
+                    evidence.add(XrayEvidenceItemEntity.fromFile(filepath));
+                }
+            }
+            i++;
+        }
+        return evidence;
     }
 
     @Override

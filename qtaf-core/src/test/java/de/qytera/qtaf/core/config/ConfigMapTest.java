@@ -2,6 +2,7 @@ package de.qytera.qtaf.core.config;
 
 import de.qytera.qtaf.core.QtafFactory;
 import de.qytera.qtaf.core.config.entity.ConfigMap;
+import de.qytera.qtaf.core.log.model.error.ErrorLogCollection;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -95,5 +96,27 @@ public class ConfigMapTest {
         config.setString(key, null);
         System.clearProperty(key);
         Assert.assertTrue(config.getList(key).isEmpty());
+    }
+
+    @Test
+    public void TestLogUnknownValue(){
+        ConfigMap configMap = ConfigurationFactory.getInstance();
+
+        // if
+        configMap.logUnknownValue("key","unknownValue","fallbackValue",new String[]{});
+        String expectedMessage = "Unknown value for 'key': 'unknownValue'. Defaulting to 'fallbackValue'.";
+        Assert.assertEquals(ErrorLogCollection.getInstance().getErrorLogs().get(0).getErrorMessage(),expectedMessage);
+
+        String fallbackValue = configMap.logUnknownValue("key","unknownValue","fallbackValue",new String[]{"knownValues"});
+        expectedMessage = "Unknown value for 'key': 'unknownValue' (known values: '[knownValues]'). Defaulting to 'fallbackValue'.";
+        Assert.assertEquals(ErrorLogCollection.getInstance().getErrorLogs().get(1).getErrorMessage(),expectedMessage);
+
+        Assert.assertEquals(fallbackValue,"fallbackValue"); // Check return value from logUnknownValue
+    }
+
+    @Test
+    public void TestLogMissingValue(){
+        ConfigMap configMap = ConfigurationFactory.getInstance();
+        Assert.assertEquals(configMap.logMissingValue("key","fallbackValue"),"fallbackValue");
     }
 }
