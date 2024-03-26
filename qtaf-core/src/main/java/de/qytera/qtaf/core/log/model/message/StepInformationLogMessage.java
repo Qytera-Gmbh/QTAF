@@ -85,8 +85,30 @@ public class StepInformationLogMessage extends LogMessage {
      * @return this
      */
     public StepInformationLogMessage setStep(de.qytera.qtaf.core.guice.annotations.Step step) {
-        this.step.setName(step.name());
-        this.step.setDescription(step.description());
+        this.setStepName(step.name());
+        this.setStepDescription(step.description());
+        return this;
+    }
+
+    /**
+     * Set step name.
+     *
+     * @param stepName step name
+     * @return this
+     */
+    public StepInformationLogMessage setStepName(String stepName) {
+        this.step.setName(stepName);
+        return this;
+    }
+
+    /**
+     * Set step description.
+     *
+     * @param stepDescription step description
+     * @return this
+     */
+    public StepInformationLogMessage setStepDescription(String stepDescription) {
+        this.step.setDescription(stepDescription);
         return this;
     }
 

@@ -23,6 +23,28 @@ public class StepInformationLogMessageTest {
     }
 
     @Test
+    public void testSetStepName() throws NoSuchMethodException {
+        DemoStepClass demoTest = new DemoStepClass();
+        Step stepAnnotation = demoTest.getClass().getMethod("foo", String.class, int.class).getAnnotation(Step.class);
+        StepInformationLogMessage stepInformationLogMessage = new StepInformationLogMessage("method1", "step one was executed");
+        stepInformationLogMessage.setStep(stepAnnotation);
+        Assert.assertEquals(stepInformationLogMessage.getStep().getName(), "step one");
+        stepInformationLogMessage.setStepName("bar");
+        Assert.assertEquals(stepInformationLogMessage.getStep().getName(), "bar");
+    }
+
+    @Test
+    public void testSetStepDescription() throws NoSuchMethodException {
+        DemoStepClass demoTest = new DemoStepClass();
+        Step stepAnnotation = demoTest.getClass().getMethod("foo", String.class, int.class).getAnnotation(Step.class);
+        StepInformationLogMessage stepInformationLogMessage = new StepInformationLogMessage("method1", "step one was executed");
+        stepInformationLogMessage.setStep(stepAnnotation);
+        Assert.assertEquals(stepInformationLogMessage.getStep().getDescription(), "this is step one");
+        stepInformationLogMessage.setStepDescription("bar");
+        Assert.assertEquals(stepInformationLogMessage.getStep().getDescription(), "bar");
+    }
+
+    @Test
     public void testAddParameter() {
         StepInformationLogMessage stepInformationLogMessage = new StepInformationLogMessage("method1", "step one was executed");
         stepInformationLogMessage.addStepParameter("param1", "value1");
