@@ -166,7 +166,7 @@ public class UploadTestsSubscriber implements IEventSubscriber {
      */
     public void handleScenarioFailure(TestScenarioLogCollection scenarioLog, TestRail testRailIdAnnotation) {
         String errorMessage = scenarioLog.getLogMessages(StepInformationLogMessage.class).stream()
-                .filter(d -> d.getStatus().equals(StepInformationLogMessage.Status.ERROR))
+                .filter(d -> d.getStatus().equals(StepInformationLogMessage.Status.FAILED))
                 .map(LogMessage::getMessage)
                 .findFirst()
                 .orElseThrow(() -> new IllegalStateException("expected at least one failed step"));

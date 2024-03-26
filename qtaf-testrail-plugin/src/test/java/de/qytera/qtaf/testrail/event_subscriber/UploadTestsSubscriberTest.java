@@ -9,6 +9,7 @@ import de.qytera.qtaf.core.log.model.collection.TestFeatureLogCollection;
 import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
 import de.qytera.qtaf.core.log.model.collection.TestSuiteLogCollection;
 import de.qytera.qtaf.core.log.model.index.IndexHelper;
+import de.qytera.qtaf.core.log.model.message.LogMessage;
 import de.qytera.qtaf.core.log.model.message.StepInformationLogMessage;
 import de.qytera.qtaf.security.aes.AES;
 import de.qytera.qtaf.testrail.annotations.TestRail;
@@ -566,7 +567,7 @@ public class UploadTestsSubscriberTest {
                     "scenario1"
             );
             StepInformationLogMessage step = new StepInformationLogMessage("foo.bar", "message");
-            step.setStatus(StepInformationLogMessage.Status.ERROR);
+            step.setStatus(StepInformationLogMessage.Status.FAILED);
             step.setScreenshotBefore("nonexistent.png");
             step.setScreenshotAfter(".gitignore");
             scenario1.addLogMessage(step);

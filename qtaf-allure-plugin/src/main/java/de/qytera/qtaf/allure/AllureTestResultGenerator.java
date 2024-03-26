@@ -150,7 +150,7 @@ public class AllureTestResultGenerator {
      */
     public static Stage getStepStageFromQtafStep(StepInformationLogMessage stepLog) {
         return switch (stepLog.getStatus()) {
-            case PASS, ERROR, SKIPPED, UNDEFINED -> Stage.FINISHED;
+            case PASSED, FAILED, SKIPPED -> Stage.FINISHED;
             case PENDING -> Stage.PENDING;
         };
     }
@@ -164,10 +164,10 @@ public class AllureTestResultGenerator {
      */
     public static Status getStepStatusFromQtafStep(StepInformationLogMessage stepLog) {
         return switch (stepLog.getStatus()) {
-            case PASS -> Status.PASSED;
+            case PASSED -> Status.PASSED;
             case SKIPPED, PENDING -> Status.SKIPPED;
-            case ERROR -> Status.FAILED;
-            case UNDEFINED -> Status.BROKEN;
+            case FAILED -> Status.FAILED;
+            // case UNDEFINED -> Status.BROKEN;
         };
     }
 

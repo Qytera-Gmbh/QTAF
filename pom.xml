@@ -46,6 +46,7 @@
         <module>qtaf-testrail-plugin</module>
         <module>qtaf-security</module>
         <module>qtaf-aws-devicefarm</module>
+        <module>qtaf-rest-assured</module>
     </modules>
 
     <properties>

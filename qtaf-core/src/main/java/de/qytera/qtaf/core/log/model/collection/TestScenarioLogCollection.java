@@ -373,7 +373,8 @@ public class TestScenarioLogCollection {
      * Method to compute the status of the test scenario.
      */
     public void computeStatus() {
-        if (!LogMessageIndex.getInstance().getByScenarioIdAndFailed(getScenarioId()).isEmpty()) {
+        LogMessageIndex tmpIndex = logMessageIndex;
+        if (!logMessageIndex.getByScenarioIdAndFailed(getScenarioId()).isEmpty()) {
             status = Status.FAILURE;
         } else {
             status = Status.SUCCESS;
@@ -542,8 +543,8 @@ public class TestScenarioLogCollection {
      *
      * @return Step log object of the currently pending step
      */
-    public synchronized StepInformationLogMessage getStepLogOfPendingStep() {
-        List<StepInformationLogMessage> stepLogMessages = LogMessageIndex.getInstance().getByScenarioIdAndPending(getScenarioId());
+    public synchronized LogMessage getStepLogOfPendingStep() {
+        List<LogMessage> stepLogMessages = LogMessageIndex.getInstance().getByScenarioIdAndPending(getScenarioId());
         return stepLogMessages.isEmpty() ? null : stepLogMessages.get(0);
     }
 

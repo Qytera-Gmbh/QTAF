@@ -12,10 +12,7 @@ import java.util.*;
  * Log message for called steps.
  */
 public class StepInformationLogMessage extends LogMessage {
-    /**
-     * Unique id.
-     */
-    private final UUID uuid = UUID.randomUUID();
+
 
     /**
      * Log message type.
@@ -32,30 +29,7 @@ public class StepInformationLogMessage extends LogMessage {
      */
     private final Step step = new Step();
 
-    /**
-     * Step status.
-     */
-    private Status status = Status.PENDING;
 
-    /**
-     * Time when step was started.
-     */
-    private Date start = null;
-
-    /**
-     * Time when step was finished.
-     */
-    private Date end = null;
-
-    /**
-     * Time needed for executing the step method.
-     */
-    private long duration = 0L;
-
-    /**
-     * List of assertions that were checked in this step.
-     */
-    private List<AssertionLogMessage> assertions = Collections.synchronizedList(new ArrayList<>());
 
     /**
      * The list of the step's method parameters.
@@ -80,11 +54,7 @@ public class StepInformationLogMessage extends LogMessage {
      */
     private String screenshotAfter = "";
 
-    /**
-     * Step error.
-     * If an error occures during the step method execution it is stored in this attribute.
-     */
-    private ThrowableWrapper error = null;
+
 
     /**
      * Constructor.
@@ -97,14 +67,7 @@ public class StepInformationLogMessage extends LogMessage {
         this.methodName = methodName;
     }
 
-    /**
-     * Get uuid.
-     *
-     * @return uuid
-     */
-    public UUID getUuid() {
-        return uuid;
-    }
+
 
     /**
      * Get step annotation.
@@ -162,72 +125,6 @@ public class StepInformationLogMessage extends LogMessage {
     }
 
     /**
-     * Get status.
-     *
-     * @return status Status
-     */
-    public Status getStatus() {
-        return status;
-    }
-
-    /**
-     * Computes the status of the test step.
-     */
-    public void computeStatus() {
-        // Check if this step has an error object. If there is one the step has failed.
-        if (this.error != null) {
-            status = Status.ERROR;
-            return;
-        }
-
-        // Check if there are any failed assertions. If there are any the step has failed.
-        for (AssertionLogMessage assertion : assertions) {
-            if (assertion.hasFailed()) {
-                status = Status.ERROR;
-                return;
-            }
-        }
-
-        status = Status.PASS;
-    }
-
-    /**
-     * Checks if step has failed.
-     *
-     * @return true if step has failed, false otherwise
-     */
-    public boolean hasFailed() {
-        return status == Status.ERROR;
-    }
-
-    /**
-     * Checks if step has passed.
-     *
-     * @return true if step has passed, false otherwise
-     */
-    public boolean hasPassed() {
-        return status == Status.PASS;
-    }
-
-    /**
-     * Checks if step is pending.
-     *
-     * @return true if step is pending, false otherwise
-     */
-    public boolean isPending() {
-        return status == Status.PENDING;
-    }
-
-    /**
-     * Checks if step is skipped.
-     *
-     * @return true if step is skipped, false otherwise
-     */
-    public boolean isSkipped() {
-        return status == Status.SKIPPED;
-    }
-
-    /**
      * Get step result.
      *
      * @return step result
@@ -247,47 +144,6 @@ public class StepInformationLogMessage extends LogMessage {
         return this;
     }
 
-    /**
-     * Get step error.
-     *
-     * @return step error
-     */
-    public ThrowableWrapper getError() {
-        return error;
-    }
-
-    /**
-     * Check if an error occurred.
-     *
-     * @return true if an error occurred during method execution, false otherwise
-     */
-    public boolean hasError() {
-        return this.error != null;
-    }
-
-    /**
-     * Set step error.
-     *
-     * @param error step error
-     * @return this
-     */
-    public StepInformationLogMessage setError(Throwable error) {
-        this.error = new ThrowableWrapper(error);
-        this.status = Status.ERROR;
-        return this;
-    }
-
-    /**
-     * Set step error.
-     *
-     * @param error step error
-     * @return this
-     */
-    public StepInformationLogMessage setError(ThrowableWrapper error) {
-        this.error = error;
-        this.status = Status.ERROR;
-        return this;
-    }
 
     /**
      * Get type.
@@ -318,70 +174,8 @@ public class StepInformationLogMessage extends LogMessage {
         return this;
     }
 
-    /**
-     * Set status.
-     *
-     * @param status Status
-     * @return this
-     */
-    public StepInformationLogMessage setStatus(Status status) {
-        this.status = status;
-        return this;
-    }
 
-    /**
-     * Get start.
-     *
-     * @return start
-     */
-    public Date getStart() {
-        return start;
-    }
 
-    /**
-     * Set start.
-     *
-     * @param start Start
-     * @return this
-     */
-    public StepInformationLogMessage setStart(Date start) {
-        this.start = start;
-        return this;
-    }
-
-    /**
-     * Get end.
-     *
-     * @return end
-     */
-    public Date getEnd() {
-        return end;
-    }
-
-    /**
-     * Set end.
-     *
-     * @param end End
-     * @return this
-     */
-    public StepInformationLogMessage setEnd(Date end) {
-        this.end = end;
-        computeStatus();
-        return this;
-    }
-
-    /**
-     * Get duration.
-     *
-     * @return duration
-     */
-    public long getDuration() {
-        if (this.end != null && this.getStart() != null) {
-            return this.end.getTime() - this.getStart().getTime();
-        }
-
-        return 0;
-    }
 
     /**
      * Get screenshotBefore.
@@ -423,67 +217,8 @@ public class StepInformationLogMessage extends LogMessage {
         return this;
     }
 
-    /**
-     * Get assertions.
-     *
-     * @return list of assertions
-     */
-    public List<AssertionLogMessage> getAssertions() {
-        return assertions;
-    }
 
-    /**
-     * Set list of assertions.
-     *
-     * @param assertions list of assertions
-     * @return this
-     */
-    public StepInformationLogMessage setAssertions(List<AssertionLogMessage> assertions) {
-        this.assertions = assertions;
-        return this;
-    }
 
-    /**
-     * Add an assertion to the list.
-     *
-     * @param assertion Assertion
-     * @return this
-     */
-    public StepInformationLogMessage addAssertion(AssertionLogMessage assertion) {
-        this.assertions.add(assertion);
-
-        if (assertion.hasFailed()) {
-            status = Status.ERROR;
-        }
-
-        return this;
-    }
-
-    /**
-     * Step status.
-     */
-    public enum Status {
-        /**
-         * The step is still pending execution.
-         */
-        PENDING,
-        /**
-         * The step was executed successfully.
-         */
-        PASS,
-        /**
-         * There were errors during step execution.
-         */
-        ERROR,
-        /**
-         * The step's execution was skipped.
-         */
-        SKIPPED,
-        /**
-         * The step status could not be determined.
-         */
-        UNDEFINED,
-    }
 
     /**
      * This data class holds the information from the Step annotation.
