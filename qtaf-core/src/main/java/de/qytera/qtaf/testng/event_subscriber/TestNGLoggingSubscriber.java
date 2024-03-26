@@ -227,7 +227,7 @@ public class TestNGLoggingSubscriber implements IEventSubscriber {
         String methodName = iTestResult.getMethod().getMethodName();
         logger.info("[Test] [%s] %s"
                 .formatted(
-                        packageAndClassName + "." +  methodName,
+                        packageAndClassName + "." + methodName,
                         message
                 )
         );

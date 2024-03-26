@@ -1,7 +1,7 @@
 package de.qytera.qtaf.core.event_subscriber.step;
 
 import de.qytera.qtaf.core.QtafFactory;
-import de.qytera.qtaf.core.config.entity.ConfigMap;
+import de.qytera.qtaf.core.config.helper.QtafTestExecutionConfigHelper;
 import de.qytera.qtaf.core.console.ConsoleColors;
 import de.qytera.qtaf.core.context.IQtafTestContext;
 import de.qytera.qtaf.core.events.QtafEvents;
@@ -279,7 +279,7 @@ public class StepLoggerSubscriber implements IEventSubscriber {
      * @param message           log message
      */
     private void log(StepExecutionInfo stepExecutionInfo, String message) {
-        if (checkIfStepLoggingIsConfigured()){
+        if (QtafTestExecutionConfigHelper.isStepLoggingEnabled()) {
             String assertionMessage = "[Step] [%s] [%s] %s: %s";
             String stepMessage = "[Step] [%s] [%s] %s";
 
@@ -315,19 +315,5 @@ public class StepLoggerSubscriber implements IEventSubscriber {
                 }
             }
         }
-    }
-
-    /**
-     * The QTAF-User has the option to configure
-     * if the test steps should get logged to the console.
-     * If in the qtaf.json the login.logSteps is set to false
-     * no steps should get logged.
-     * This is usefully if the user wants shorter logs.
-     *
-     * @return boolean that is to true if logging is wanted and to false if logging is unwanted
-     */
-    private boolean checkIfStepLoggingIsConfigured(){
-        ConfigMap config = QtafFactory.getConfiguration();
-        return config.getBoolean("logging.logSteps");
     }
 }
