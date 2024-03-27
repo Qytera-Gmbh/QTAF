@@ -223,10 +223,11 @@ public class TestNGLoggingSubscriber implements IEventSubscriber {
      * @param message     Log message
      */
     private void log(ITestResult iTestResult, String message) {
-        logger.info("[Test] [%s] [%s] %s"
+        String packageAndClassName = TestResultHelper.getTestContextInstance(iTestResult).getClass().getName();
+        String methodName = iTestResult.getMethod().getMethodName();
+        logger.info("[Test] [%s] %s"
                 .formatted(
-                        iTestResult.hashCode(),
-                        TestResultHelper.getTestContextInstance(iTestResult).getClass().getName(),
+                        packageAndClassName + "." + methodName,
                         message
                 )
         );
