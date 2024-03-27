@@ -60,6 +60,6 @@ public class QtafTestExecutionConfigHelper {
      */
     public static boolean isStepLoggingEnabled() {
         ConfigMap config = QtafFactory.getConfiguration();
-        return config.getBoolean(LOGGING_LOG_STEPS);
+        return config.getBoolean(LOGGING_LOG_STEPS, false);
     }
 }
