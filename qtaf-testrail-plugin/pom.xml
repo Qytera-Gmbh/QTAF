@@ -6,7 +6,7 @@
     <parent>
         <groupId>de.qytera</groupId>
         <artifactId>qtaf</artifactId>
-        <version>0.2.11</version>
+        <version>0.2.12</version>
     </parent>
 
     <artifactId>qtaf-testrail-plugin</artifactId>

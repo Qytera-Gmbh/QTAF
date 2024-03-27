@@ -138,6 +138,11 @@ public class StepLoggerSubscriber implements IEventSubscriber {
         // Add information to log message
         StepInformationLogMessage logMessage = stepIdLogMap.get(stepExecutionInfo.getId());
 
+        // Get log message from step execution info. This is needed if a new step for an assertion outside a step method is created.
+        if (logMessage == null) {
+            logMessage = stepExecutionInfo.getLogMessage();
+        }
+
         // Add information to log message
         logMessage
                 .setResult(stepExecutionInfo.getResult());
@@ -161,6 +166,11 @@ public class StepLoggerSubscriber implements IEventSubscriber {
 
         // Add information to log message
         StepInformationLogMessage logMessage = stepIdLogMap.get(stepExecutionInfo.getId());
+
+        // Get log message from step execution info. This is needed if a new step for an assertion outside a step method is created.
+        if (logMessage == null) {
+            logMessage = stepExecutionInfo.getLogMessage();
+        }
 
         // Add information to log message
         logMessage
@@ -238,7 +248,12 @@ public class StepLoggerSubscriber implements IEventSubscriber {
             String logDir,
             UUID uuid
     ) {
-        String name = stepExecutionInfo.getMethodInvocation().getMethod().getName();
+        String name;
+        if (stepExecutionInfo.getMethodInvocation() != null) {
+            name = stepExecutionInfo.getMethodInvocation().getMethod().getName();
+        } else {
+            name = String.format("annotation_%s", stepExecutionInfo.getId());
+        }
 
         return logDir
                 + "/" + name + "_"
