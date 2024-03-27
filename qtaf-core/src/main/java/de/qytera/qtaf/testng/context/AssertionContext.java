@@ -1,6 +1,8 @@
 package de.qytera.qtaf.testng.context;
 
 import de.qytera.qtaf.core.config.helper.QtafTestExecutionConfigHelper;
+import de.qytera.qtaf.core.events.QtafEvents;
+import de.qytera.qtaf.core.guice.invokation.StepExecutionInfo;
 import de.qytera.qtaf.core.log.model.LogLevel;
 import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
 import de.qytera.qtaf.core.log.model.message.AssertionLogMessage;
@@ -719,14 +721,22 @@ public interface AssertionContext {
         // Get log collection of current scenario
         TestScenarioLogCollection scenarioLogCollection = getLogCollection();
 
+        StepExecutionInfo stepExecutionInfo = new StepExecutionInfo();
+
         // Create new step log message
         StepInformationLogMessage stepLog = new StepInformationLogMessage(scenarioLogCollection.getAbstractScenarioId(), message);
         stepLog.setStepName(message);
         stepLog.setStepDescription(error != null ? error.getMessage() : message);
         stepLog.setStatus(error != null ? StepInformationLogMessage.Status.ERROR : StepInformationLogMessage.Status.PASS);
+        stepExecutionInfo.setError(error);
 
         // Add log message to scenario logs
-        scenarioLogCollection.addLogMessage(stepLog);
+        if (error == null) {
+            QtafEvents.stepExecutionSuccess.onNext(stepExecutionInfo);
+        } else {
+            QtafEvents.stepExecutionFailure.onNext(stepExecutionInfo);
+        }
+
         return stepLog;
     }
 
