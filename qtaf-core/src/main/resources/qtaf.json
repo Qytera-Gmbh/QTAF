@@ -22,7 +22,8 @@
     }
   },
   "logging": {
-    "enabled": true
+    "enabled": true,
+    "logSteps": false
   },
   "xray": {
     "enabled": false,
