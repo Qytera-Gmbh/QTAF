@@ -22,11 +22,6 @@ public class AssertionLogMessage extends LogMessage {
     protected transient StepInformationLogMessage step;
 
     /**
-     * Assertion status.
-     */
-    // protected Status status;
-
-    /**
      * Assertion condition.
      */
     protected boolean condition;
@@ -41,12 +36,6 @@ public class AssertionLogMessage extends LogMessage {
      */
     protected Object expected;
 
-    /**
-     * Assertion Error.
-     */
-    /*
-    protected ThrowableWrapper error; TODO
-    */
     /**
      * Constructor.
      *
@@ -236,18 +225,4 @@ public class AssertionLogMessage extends LogMessage {
         setStatus(Status.FAILED);
         return this;
     }
-
-
-    /**
-     * Step status.
-     */
-    /*
-    private enum Status { TODO
-
-        PASSED,
-
-        FAILED,
-    }
-    */
-
 }

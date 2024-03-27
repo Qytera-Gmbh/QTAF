@@ -40,11 +40,6 @@ public class LogMessage {
     protected Date end = null;
 
     /**
-     * Time needed for executing the step method.
-     */
-    // private long duration = 0L; TODO
-
-    /**
      * Step error.
      * If an error occures during the step method execution it is stored in this attribute.
      */
@@ -422,7 +417,7 @@ public class LogMessage {
 
         //TODO: Clean up status: (Failed vs. Failure vs. Error, Passed vs. Pass ...)
         /**
-         * Status is currently not know
+         * Status is currently not know.
          */
         PENDING,
 
@@ -441,25 +436,5 @@ public class LogMessage {
          * Status of failed assertions.
          */
         FAILED,
-
-        /**
-         * There were errors during step execution.
-         */
-        // ERROR,
-
-        //FAILURE
-
-        //==== OLD ====
-        /**
-         * The step status could not be determined.
-         */
-        // UNDEFINED,
-
-
-        /**
-         * The step was executed successfully.
-         */
-        // PASS,
-
     }
 }

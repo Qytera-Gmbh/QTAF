@@ -44,7 +44,7 @@ public interface StatusCodeAssertions {
 
     /**
      * Validate that the response status is in the interval [100, 200).
-     * This means: 100 <= status code < 200
+     * This means: 100 less/equal status code less 200
      *
      * @return lambda
      */
@@ -65,7 +65,7 @@ public interface StatusCodeAssertions {
     }
     /**
      * Validate that the response status is not in the interval [100, 200).
-     * This means: (status code < 100) || (200 <= status code)
+     * This means: (status code less 100) || (200 less/equal status code)
      *
      * @return lambda
      */
@@ -86,7 +86,7 @@ public interface StatusCodeAssertions {
 
     /**
      * Validate that the response status is in the interval [200, 300).
-     * This means: 200 <= status code < 300
+     * This means: 200 less/equal status code less 300
      *
      * @return lambda
      */
@@ -110,7 +110,7 @@ public interface StatusCodeAssertions {
 
     /**
      * Validate that the response status is not in the interval [200, 300).
-     * This means: (status code < 200) || (300 <= status code)
+     * This means: (status code less 200) || (300 less/equal status code)
      *
      * @return lambda
      */
@@ -133,7 +133,7 @@ public interface StatusCodeAssertions {
 
     /**
      * Validate that the response status is in the interval [300, 400).
-     * This means: 300 <= status code < 400
+     * This means: 300 less/equal status code less 400
      *
      * @return lambda
      */
@@ -156,7 +156,7 @@ public interface StatusCodeAssertions {
 
     /**
      * Validate that the response status is not in the interval [300, 400).
-     * This means: (status code < 300) || (400 <= status code)
+     * This means: (status code less 300) || (400 less/equal status code)
      *
      * @return lambda
      */
@@ -180,7 +180,7 @@ public interface StatusCodeAssertions {
 
     /**
      * Validate that the response status is in the interval [400, 500).
-     * This means: 400 <= status code < 500
+     * This means: 400 less/equal status code less 500
      *
      * @return lambda
      */
@@ -204,7 +204,7 @@ public interface StatusCodeAssertions {
 
     /**
      * Validate that the response status is not in the interval [400, 500).
-     * This means: (status code < 400) || (500 <= status code)
+     * This means: (status code less 400) || (500 less/equal status code)
      *
      * @return lambda
      */
@@ -228,7 +228,7 @@ public interface StatusCodeAssertions {
 
     /**
      * Validate that the response status is in the interval [500, 600).
-     * This means: 500 <= status code < 600
+     * This means: 500 less/equal status code less 600
      *
      * @return lambda
      */
@@ -252,7 +252,7 @@ public interface StatusCodeAssertions {
 
     /**
      * Validate that the response status is not in the interval [500, 600).
-     * This means: (status code < 500) || (600 <= status code)
+     * This means: (status code less 500) || (600 less/equal status code)
      *
      * @return lambda
      */
