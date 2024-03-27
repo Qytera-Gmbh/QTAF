@@ -750,10 +750,16 @@ public interface AssertionContext {
         stepExecutionInfo.setThread(Thread.currentThread());
         stepExecutionInfo.setError(error);
 
+        // Set attributes of step log message
+        stepLog.setFeatureId(scenarioLogCollection.getFeatureId());
+        stepLog.setScenarioId(scenarioLogCollection.getScenarioId());
         stepLog.setStep(stepAnnotation);
         stepLog.setStepName(message);
         stepLog.setStepDescription(message);
         stepLog.setStatus(error != null ? StepInformationLogMessage.Status.ERROR : StepInformationLogMessage.Status.PASS);
+
+        // Add step log to scenario log collection
+        scenarioLogCollection.addLogMessage(stepLog);
 
         // Add log message to scenario logs
         if (error == null) {
