@@ -23,6 +23,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Stream;
 
 import static org.mockito.ArgumentMatchers.anyString;
@@ -38,6 +39,23 @@ public class StepLoggerSubscriberTests {
                                 "[Step] [0] [sleep] started",
                                 "[Step] [0] [sleep] %s".formatted(ConsoleColors.green("success")),
                                 "[Step] [0] [wake up] started",
+                                "[Step] [0] [wake up] %s".formatted(ConsoleColors.red("failure"))
+                        )
+                },
+                new Object[]{
+                        false,
+                        Collections.emptyList()
+                }
+        ).toArray(Object[][]::new);
+    }
+
+    @DataProvider
+    public Object[][] provideExpectedAssertionLogs() {
+        return Stream.of(
+                new Object[]{
+                        true,
+                        List.of(
+                                "[Step] [0] [sleep] %s".formatted(ConsoleColors.green("success")),
                                 "[Step] [0] [wake up] %s".formatted(ConsoleColors.red("failure"))
                         )
                 },
@@ -88,6 +106,48 @@ public class StepLoggerSubscriberTests {
             stepExecutionInfo.setAnnotation(step);
             stepExecutionInfo.setMethodInvocation(getInvocation(context, "doWakeUp"));
             QtafEvents.beforeStepExecution.onNext(stepExecutionInfo);
+            QtafEvents.stepExecutionFailure.onNext(stepExecutionInfo);
+        }
+
+        Assert.assertEquals(messages, expectedMessages);
+    }
+
+    @Test(description = "Test logging of assertions outside of step methods", dataProvider = "provideExpectedAssertionLogs")
+    public void testAssertionLogging(boolean enableStepLogging, List<String> expectedMessages) throws NoSuchMethodException {
+        QtafFactory.getConfiguration().setBoolean(QtafTestExecutionConfigHelper.LOGGING_LOG_STEPS, enableStepLogging);
+        List<String> messages = new ArrayList<>();
+
+        // Our mock object containing step-annotated methods.
+        QtafTestNGContext context = new NightTime();
+        context.setLogCollection(TestScenarioLogCollection.createTestScenarioLogCollection(
+                "0",
+                NightTime.class.getCanonicalName(),
+                "0",
+                "testMorningRoutine"
+        ));
+
+        try (MockedStatic<QtafFactory> qtafFactory = Mockito.mockStatic(QtafFactory.class, Mockito.CALLS_REAL_METHODS)) {
+            Logger logger = Mockito.mock(Logger.class);
+            qtafFactory.when(QtafFactory::getLogger).thenReturn(logger);
+
+            new StepLoggerSubscriber().initialize();
+
+            Mockito.doAnswer(answer -> {
+                messages.add(answer.getArgument(0, String.class));
+                return null;
+            }).when(logger).info(anyString());
+
+            Step step = NightTime.class.getMethod("doSleep").getAnnotation(Step.class);
+            StepExecutionInfo stepExecutionInfo = new StepExecutionInfo();
+            stepExecutionInfo.setLogMessage(new StepInformationLogMessage("doSleep", "still dreaming"));
+            stepExecutionInfo.setAnnotation(step);
+            QtafEvents.stepExecutionSuccess.onNext(stepExecutionInfo);
+
+            step = NightTime.class.getMethod("doWakeUp").getAnnotation(Step.class);
+            stepExecutionInfo = new StepExecutionInfo();
+            stepExecutionInfo.setLogMessage(new StepInformationLogMessage("doWakeUp", "too early man"));
+            stepExecutionInfo.setAnnotation(step);
+            stepExecutionInfo.setMethodInvocation(getInvocation(context, "doWakeUp"));
             QtafEvents.stepExecutionFailure.onNext(stepExecutionInfo);
         }
 
