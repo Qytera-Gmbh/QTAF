@@ -1,6 +1,9 @@
 package de.qytera.qtaf.testng.context;
 
 import de.qytera.qtaf.core.config.helper.QtafTestExecutionConfigHelper;
+import de.qytera.qtaf.core.events.QtafEvents;
+import de.qytera.qtaf.core.guice.annotations.Step;
+import de.qytera.qtaf.core.guice.invokation.StepExecutionInfo;
 import de.qytera.qtaf.core.log.model.LogLevel;
 import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
 import de.qytera.qtaf.core.log.model.message.AssertionLogMessage;
@@ -9,6 +12,7 @@ import de.qytera.qtaf.core.log.model.message.StepInformationLogMessage;
 import org.testng.Assert;
 import org.testng.annotations.Ignore;
 
+import java.lang.annotation.Annotation;
 import java.util.Map;
 import java.util.Set;
 
@@ -719,14 +723,51 @@ public interface AssertionContext {
         // Get log collection of current scenario
         TestScenarioLogCollection scenarioLogCollection = getLogCollection();
 
+        Step stepAnnotation = new Step() {
+            @Override
+            public Class<? extends Annotation> annotationType() {
+                return Step.class;
+            }
+
+            @Override
+            public String name() {
+                return message;
+            }
+
+            @Override
+            public String description() {
+                return message;
+            }
+        };
+
+        StepExecutionInfo stepExecutionInfo = new StepExecutionInfo();
+
         // Create new step log message
         StepInformationLogMessage stepLog = new StepInformationLogMessage(scenarioLogCollection.getAbstractScenarioId(), message);
+        stepExecutionInfo.setId(stepExecutionInfo.hashCode());
+        stepExecutionInfo.setAnnotation(stepAnnotation);
+        stepExecutionInfo.setLogMessage(stepLog);
+        stepExecutionInfo.setThread(Thread.currentThread());
+        stepExecutionInfo.setError(error);
+
+        // Set attributes of step log message
+        stepLog.setFeatureId(scenarioLogCollection.getFeatureId());
+        stepLog.setScenarioId(scenarioLogCollection.getScenarioId());
+        stepLog.setStep(stepAnnotation);
         stepLog.setStepName(message);
-        stepLog.setStepDescription(error != null ? error.getMessage() : message);
+        stepLog.setStepDescription(message);
         stepLog.setStatus(error != null ? StepInformationLogMessage.Status.ERROR : StepInformationLogMessage.Status.PASS);
 
-        // Add log message to scenario logs
+        // Add step log to scenario log collection
         scenarioLogCollection.addLogMessage(stepLog);
+
+        // Add log message to scenario logs
+        if (error == null) {
+            QtafEvents.stepExecutionSuccess.onNext(stepExecutionInfo);
+        } else {
+            QtafEvents.stepExecutionFailure.onNext(stepExecutionInfo);
+        }
+
         return stepLog;
     }
 
