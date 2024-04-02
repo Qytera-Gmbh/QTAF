@@ -27,15 +27,13 @@ public class InitializationSubscriber implements IEventSubscriber {
         if (eventInitializationSubscription != null) {
             return;
         }
-        this.eventInitializationSubscription = QtafEvents.eventListenersInitialized.subscribe(this::onEventListenersInitialized);
+        this.eventInitializationSubscription = QtafEvents.eventListenersInitialized.subscribe(ignored -> this.onEventListenersInitialized());
     }
 
     /**
      * Method that is executed when all event listeners have been initialized.
-     *
-     * @param v ignored
      */
-    private void onEventListenersInitialized(Void v) {
+    private void onEventListenersInitialized() {
         if (!XrayConfigHelper.isEnabled()) {
             return;
         }

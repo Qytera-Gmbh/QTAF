@@ -23,6 +23,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 
 
@@ -55,8 +56,19 @@ public class InitializationSubscriberTest {
         }
     };
 
-    @Test(description = "import execution results should be called exactly once")
-    public void testUploadSubscriberEnabled() {
+    @Test(description = "test enhancer registration")
+    public void testLogEnhancerRegistration() {
+        QtafFactory.getConfiguration().setBoolean(XrayConfigHelper.XRAY_ENABLED, true);
+        try (MockedStatic<EventListenerInitializer> eventInitializer = Mockito.mockStatic(EventListenerInitializer.class)) {
+            TestNGLoggingSubscriber testNGLoggingSubscriber = Mockito.mock(TestNGLoggingSubscriber.class);
+            eventInitializer.when(EventListenerInitializer::getEventSubscribers).thenReturn(List.of(testNGLoggingSubscriber));
+            new InitializationSubscriber().initialize();
+            Mockito.verify(testNGLoggingSubscriber, Mockito.times(1)).addLogMessageEnhancer(any());
+        }
+    }
+
+    @Test(description = "test enhanced message output")
+    public void testLogEnhancerMessage() {
         QtafFactory.getConfiguration().setBoolean(XrayConfigHelper.XRAY_ENABLED, true);
 
         List<String> messages = new ArrayList<>();
@@ -91,7 +103,6 @@ public class InitializationSubscriberTest {
                     )
             );
         }
-
     }
 
     private IQtafTestEventPayload getTestEventPayload(

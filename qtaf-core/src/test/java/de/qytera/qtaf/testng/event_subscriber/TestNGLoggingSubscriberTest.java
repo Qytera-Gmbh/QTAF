@@ -16,6 +16,7 @@ import org.testng.annotations.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.anyString;
 
@@ -105,6 +106,41 @@ public class TestNGLoggingSubscriberTest {
                 loggedMessages,
                 List.of(
                         "[Test] [de.qytera.qtaf.testng.event_subscriber.TestNGLoggingSubscriberTest$1.testMethod] %s"
+                                .formatted(
+                                        ConsoleColors.redBright("failure")
+                                )
+                )
+        );
+    }
+
+    @Test(description = "Test enhanced logging")
+    public void testLoggingTestEnhanced() {
+        List<String> loggedMessages = new ArrayList<>();
+        try (MockedStatic<QtafFactory> qtafFactory = Mockito.mockStatic(QtafFactory.class, Mockito.CALLS_REAL_METHODS)) {
+            Logger logger = Mockito.mock(Logger.class);
+            qtafFactory.when(QtafFactory::getLogger).thenReturn(logger);
+
+            TestNGLoggingSubscriber testNGLoggingSubscriber = new TestNGLoggingSubscriber();
+            testNGLoggingSubscriber.initialize();
+
+            testNGLoggingSubscriber.addLogMessageEnhancer(testResult -> Optional.of("Bonjour"));
+
+            Mockito.doAnswer(answer -> {
+                loggedMessages.add(answer.getArgument(0, String.class));
+                return null;
+            }).when(logger).info(anyString());
+
+            ITestNGMethod testMethod = getTestMethod("testMethod");
+            ITestResult testResult = getTestResult(
+                    testMethod
+            );
+
+            QtafEvents.testFailure.onNext(getTestEventPayload(testResult));
+        }
+        Assert.assertEquals(
+                loggedMessages,
+                List.of(
+                        "[Test] [Bonjour] [de.qytera.qtaf.testng.event_subscriber.TestNGLoggingSubscriberTest$1.testMethod] %s"
                                 .formatted(
                                         ConsoleColors.redBright("failure")
                                 )
