@@ -67,6 +67,17 @@ public class InitializationSubscriberTest {
         }
     }
 
+    @Test(description = "test that no registration takes place if the xray plugin is disabled")
+    public void testLogEnhancerRegistrationDisabled() {
+        QtafFactory.getConfiguration().setBoolean(XrayConfigHelper.XRAY_ENABLED, false);
+        try (MockedStatic<EventListenerInitializer> eventInitializer = Mockito.mockStatic(EventListenerInitializer.class)) {
+            TestNGLoggingSubscriber testNGLoggingSubscriber = Mockito.mock(TestNGLoggingSubscriber.class);
+            eventInitializer.when(EventListenerInitializer::getEventSubscribers).thenReturn(List.of(testNGLoggingSubscriber));
+            new InitializationSubscriber().initialize();
+            Mockito.verify(testNGLoggingSubscriber, Mockito.times(0)).addLogMessageEnhancer(any());
+        }
+    }
+
     @Test(description = "test enhanced message output")
     public void testLogEnhancerMessage() {
         QtafFactory.getConfiguration().setBoolean(XrayConfigHelper.XRAY_ENABLED, true);
@@ -105,6 +116,44 @@ public class InitializationSubscriberTest {
         }
     }
 
+    @Test(description = "test enhanced message output for non-xray tests")
+    public void testLogEnhancerMessageNoXray() {
+        QtafFactory.getConfiguration().setBoolean(XrayConfigHelper.XRAY_ENABLED, true);
+
+        List<String> messages = new ArrayList<>();
+        try (MockedStatic<QtafFactory> qtafFactory = Mockito.mockStatic(QtafFactory.class, Mockito.CALLS_REAL_METHODS)) {
+            Logger logger = Mockito.mock(Logger.class);
+            qtafFactory.when(QtafFactory::getLogger).thenReturn(logger);
+
+            TestNGLoggingSubscriber testNGLoggingSubscriber = new TestNGLoggingSubscriber();
+            testNGLoggingSubscriber.initialize();
+
+            new InitializationSubscriber().initialize();
+
+            Mockito.doAnswer(answer -> {
+                messages.add(answer.getArgument(0, String.class));
+                return null;
+            }).when(logger).info(anyString());
+
+
+            try (MockedStatic<EventListenerInitializer> eventInitializer = Mockito.mockStatic(EventListenerInitializer.class)) {
+                eventInitializer.when(EventListenerInitializer::getEventSubscribers).thenReturn(List.of(testNGLoggingSubscriber));
+                QtafEvents.eventListenersInitialized.onNext(null);
+            }
+
+            QtafEvents.testSuccess.onNext(getTestEventPayload(getTestResult(getTestMethod(null))));
+
+            Assert.assertEquals(messages,
+                    List.of(
+                            "[Test] [de.qytera.qtaf.xray.event_subscriber.InitializationSubscriberTest$1.mockMethod] %s"
+                                    .formatted(
+                                            ConsoleColors.greenBright("success")
+                                    )
+                    )
+            );
+        }
+    }
+
     private IQtafTestEventPayload getTestEventPayload(
             ITestResult originalEvent
     ) {
@@ -127,10 +176,13 @@ public class InitializationSubscriberTest {
     }
 
     public ITestNGMethod getTestMethod(String key) {
-        XrayTest annotation = Mockito.mock(XrayTest.class, invocation -> {
-            throw new UnsupportedOperationException();
-        });
-        Mockito.doReturn(key).when(annotation).key();
+        XrayTest annotation = null;
+        if (key != null) {
+            annotation = Mockito.mock(XrayTest.class, invocation -> {
+                throw new UnsupportedOperationException();
+            });
+            Mockito.doReturn(key).when(annotation).key();
+        }
         Method method = Mockito.mock(Method.class, invocation -> {
             throw new UnsupportedOperationException();
         });
