@@ -3,6 +3,8 @@ package de.qytera.qtaf.core.events;
 import de.qytera.qtaf.core.events.interfaces.IEventSubscriber;
 import de.qytera.qtaf.core.reflection.ClassLoader;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,5 +50,14 @@ public class EventListenerInitializer {
 
         // Save initialization status
         isInitialized = true;
+    }
+
+    /**
+     * Returns all event subscribers which were initialized by QTAF.
+     *
+     * @return the event subscribers
+     */
+    public static Collection<IEventSubscriber> getEventSubscribers() {
+        return Collections.unmodifiableCollection(EventListenerInitializer.instances.values());
     }
 }
