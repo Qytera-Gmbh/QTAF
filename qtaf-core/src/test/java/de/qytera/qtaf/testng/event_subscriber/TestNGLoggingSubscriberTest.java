@@ -7,11 +7,13 @@ import de.qytera.qtaf.core.events.QtafEvents;
 import de.qytera.qtaf.core.events.payload.IQtafTestEventPayload;
 import de.qytera.qtaf.core.log.Logger;
 import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
+import de.qytera.qtaf.core.selenium.helper.SeleniumDriverConfigHelper;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.testng.Assert;
 import org.testng.ITestNGMethod;
 import org.testng.ITestResult;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
@@ -21,6 +23,12 @@ import java.util.Optional;
 import static org.mockito.ArgumentMatchers.anyString;
 
 public class TestNGLoggingSubscriberTest {
+
+    @BeforeMethod
+    public void clear() {
+        System.clearProperty(SeleniumDriverConfigHelper.DRIVER_CAPABILITIES);
+        System.clearProperty(SeleniumDriverConfigHelper.DRIVER_OPTIONS);
+    }
 
     private static final IQtafTestContext CONTEXT = new IQtafTestContext() {
         @Override
