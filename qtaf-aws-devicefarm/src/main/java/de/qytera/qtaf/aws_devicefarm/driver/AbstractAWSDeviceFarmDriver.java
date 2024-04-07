@@ -7,6 +7,7 @@ import com.amazonaws.services.devicefarm.model.CreateTestGridUrlRequest;
 import com.amazonaws.services.devicefarm.model.CreateTestGridUrlResult;
 import de.qytera.qtaf.aws_devicefarm.config.AWSDeviceFarmConfigHelper;
 import de.qytera.qtaf.core.selenium.AbstractDriver;
+import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
@@ -37,6 +38,13 @@ public abstract class AbstractAWSDeviceFarmDriver extends AbstractDriver {
         // You can now pass this URL into RemoteWebDriver.
         return new RemoteWebDriver(testGridUrl, getCapabilities());
     }
+
+    /**
+     * Gets the capabilities for the remote driver instance.
+     *
+     * @return the capabilities
+     */
+    protected abstract Capabilities getCapabilities();
 
     /**
      * Get the AWS device farm grid URL.

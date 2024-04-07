@@ -140,7 +140,7 @@ public class CapabilityFactoryTest {
             helper.when(SeleniumDriverConfigHelper::getDriverOptions).thenReturn(OPTIONS);
             helper.when(SeleniumDriverConfigHelper::getDriverCapabilities).thenReturn(CAPABILITIES);
 
-            FirefoxOptions actualOptions = CapabilityFactory.getCapabilitiesFirefox();
+            FirefoxOptions actualOptions = CapabilityFactory.getCapabilitiesFirefoxRemote();
             helper.verify(SeleniumDriverConfigHelper::getDriverOptions, Mockito.times(1));
             helper.verify(SeleniumDriverConfigHelper::getDriverCapabilities, Mockito.times(1));
             helper.verifyNoMoreInteractions();
