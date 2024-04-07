@@ -1,7 +1,9 @@
 package de.qytera.qtaf.core.selenium;
 
+import de.qytera.qtaf.core.selenium.helper.SeleniumDriverConfigHelper;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 /**
@@ -9,6 +11,13 @@ import org.testng.annotations.Test;
  */
 @Test(groups = {"driver"})
 public class DriverTest {
+
+    @BeforeMethod
+    public void clear() {
+        System.clearProperty(SeleniumDriverConfigHelper.DRIVER_CAPABILITIES);
+        System.clearProperty(SeleniumDriverConfigHelper.DRIVER_OPTIONS);
+    }
+
     /**
      * Test if the driver gets cached
      */
