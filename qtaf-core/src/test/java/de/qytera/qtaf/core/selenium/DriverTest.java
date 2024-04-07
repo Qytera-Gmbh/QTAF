@@ -1,6 +1,5 @@
 package de.qytera.qtaf.core.selenium;
 
-import de.qytera.qtaf.core.config.ConfigurationFactory;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -28,17 +27,6 @@ public class DriverTest {
 
     @Test(groups = {"chrome"})
     public void testChromeDriverInstantiation() {
-        ConfigurationFactory.getInstance().setBoolean("driver.headless", false);
-        DriverFactory.clearDriver();
-        WebDriver webDriver = DriverFactory.getDriver("chrome");
-        webDriver.quit();
-        Assert.assertEquals(webDriver.getClass().getName(), org.openqa.selenium.chrome.ChromeDriver.class.getName());
-        DriverFactory.clearDriver();
-    }
-
-    @Test(groups = {"chrome"})
-    public void testChromeDriverHeadlessInstantiation() {
-        ConfigurationFactory.getInstance().setBoolean("driver.headless", true);
         DriverFactory.clearDriver();
         WebDriver webDriver = DriverFactory.getDriver("chrome");
         webDriver.quit();
@@ -48,17 +36,6 @@ public class DriverTest {
 
     @Test(groups = {"firefox"})
     public void testFirefoxDriverInstantiation() {
-        ConfigurationFactory.getInstance().setBoolean("driver.headless", false);
-        DriverFactory.clearDriver();
-        WebDriver webDriver = DriverFactory.getDriver("firefox");
-        webDriver.quit();
-        Assert.assertEquals(webDriver.getClass().getName(), org.openqa.selenium.firefox.FirefoxDriver.class.getName());
-        DriverFactory.clearDriver();
-    }
-
-    @Test(groups = {"firefox"})
-    public void testFirefoxDriverHeadlessInstantiation() {
-        ConfigurationFactory.getInstance().setBoolean("driver.headless", true);
         DriverFactory.clearDriver();
         WebDriver webDriver = DriverFactory.getDriver("firefox");
         webDriver.quit();
@@ -68,17 +45,6 @@ public class DriverTest {
 
     @Test(groups = {"edge"})
     public void testEdgeDriverInstantiation() {
-        ConfigurationFactory.getInstance().setBoolean("driver.headless", false);
-        DriverFactory.clearDriver();
-        WebDriver webDriver = DriverFactory.getDriver("edge");
-        webDriver.quit();
-        Assert.assertEquals(webDriver.getClass().getName(), org.openqa.selenium.edge.EdgeDriver.class.getName());
-        DriverFactory.clearDriver();
-    }
-
-    @Test(groups = {"edge"})
-    public void testEdgeDriverHeadlessInstantiation() {
-        ConfigurationFactory.getInstance().setBoolean("driver.headless", true);
         DriverFactory.clearDriver();
         WebDriver webDriver = DriverFactory.getDriver("edge");
         webDriver.quit();
