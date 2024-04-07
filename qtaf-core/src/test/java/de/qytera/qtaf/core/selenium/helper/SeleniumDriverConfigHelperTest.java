@@ -115,6 +115,7 @@ public class SeleniumDriverConfigHelperTest {
 
     @Test
     public void testGetRemoteUrlNull() {
+        System.clearProperty(SeleniumDriverConfigHelper.DRIVER_REMOTE_URL);
         try {
             SeleniumDriverConfigHelper.getRemoteUrl();
         } catch (IllegalArgumentException exception) {
