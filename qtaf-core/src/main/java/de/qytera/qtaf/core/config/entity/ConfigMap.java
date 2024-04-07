@@ -278,10 +278,10 @@ public class ConfigMap extends HashMap<String, Object> {
      *
      * @param key the key of the array to retrieve
      * @return the list of JSON elements or an empty list if:
-     * <ul>
-     *   <li>there is no value</li>
-     *   <li>the value cannot be interpreted as a JSON array</li>
-     * </ul>
+     *     <ul>
+     *         <li>there is no value</li>
+     *         <li>the value cannot be interpreted as a JSON array</li>
+     *     </ul>
      */
     public List<JsonElement> getList(String key) {
         Object value = null;
@@ -313,10 +313,10 @@ public class ConfigMap extends HashMap<String, Object> {
      *
      * @param key the key of the JSON object to retrieve
      * @return a map representing the JSON object or an empty map if:
-     * <ul>
-     *   <li>there is no value</li>
-     *   <li>the value cannot be interpreted as a JSON object</li>
-     * </ul>
+     *     <ul>
+     *         <li>there is no value</li>
+     *         <li>the value cannot be interpreted as a JSON object</li>
+     *     </ul>
      */
     public Map<String, JsonElement> getMap(String key) {
         Object value = null;
