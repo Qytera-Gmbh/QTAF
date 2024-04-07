@@ -4,21 +4,13 @@ import de.qytera.qtaf.core.QtafFactory;
 import de.qytera.qtaf.core.events.payload.QtafTestEventPayload;
 import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
 import de.qytera.qtaf.core.log.model.index.IndexHelper;
-import de.qytera.qtaf.core.selenium.helper.SeleniumDriverConfigHelper;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 public class QtafTestNGContextTest {
-
-    @BeforeMethod
-    public void clear() {
-        System.clearProperty(SeleniumDriverConfigHelper.DRIVER_CAPABILITIES);
-        System.clearProperty(SeleniumDriverConfigHelper.DRIVER_OPTIONS);
-    }
 
     @Test
     public void testSetLoggerRecursively() {

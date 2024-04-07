@@ -3,6 +3,7 @@ package de.qytera.qtaf.core.selenium.helper;
 import de.qytera.qtaf.core.QtafFactory;
 import org.openqa.selenium.MutableCapabilities;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -15,6 +16,12 @@ public class SeleniumDriverConfigHelperTest {
     @BeforeMethod
     public void clearConfiguration() {
         QtafFactory.getConfiguration().clear();
+    }
+
+    @AfterMethod
+    public void clear() {
+        System.clearProperty(SeleniumDriverConfigHelper.DRIVER_CAPABILITIES);
+        System.clearProperty(SeleniumDriverConfigHelper.DRIVER_OPTIONS);
     }
 
     @Test
