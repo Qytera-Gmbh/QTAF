@@ -1,10 +1,17 @@
 package de.qytera.qtaf.core.config;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonNull;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import de.qytera.qtaf.core.QtafFactory;
 import de.qytera.qtaf.core.config.entity.ConfigMap;
 import de.qytera.qtaf.core.log.model.error.ErrorLogCollection;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import java.util.Collections;
+import java.util.Map;
 
 public class ConfigMapTest {
 
@@ -99,24 +106,68 @@ public class ConfigMapTest {
     }
 
     @Test
-    public void TestLogUnknownValue(){
-        ConfigMap configMap = ConfigurationFactory.getInstance();
-
-        // if
-        configMap.logUnknownValue("key","unknownValue","fallbackValue",new String[]{});
-        String expectedMessage = "Unknown value for 'key': 'unknownValue'. Defaulting to 'fallbackValue'.";
-        Assert.assertEquals(ErrorLogCollection.getInstance().getErrorLogs().get(0).getErrorMessage(),expectedMessage);
-
-        String fallbackValue = configMap.logUnknownValue("key","unknownValue","fallbackValue",new String[]{"knownValues"});
-        expectedMessage = "Unknown value for 'key': 'unknownValue' (known values: '[knownValues]'). Defaulting to 'fallbackValue'.";
-        Assert.assertEquals(ErrorLogCollection.getInstance().getErrorLogs().get(1).getErrorMessage(),expectedMessage);
-
-        Assert.assertEquals(fallbackValue,"fallbackValue"); // Check return value from logUnknownValue
+    public void testGetObject() {
+        String key = "hello.there.object";
+        ConfigMap config = ConfigurationFactory.getInstance();
+        Assert.assertEquals(config.getObject(key), Collections.emptyMap());
+        System.setProperty(key, "null");
+        Assert.assertEquals(config.getObject(key), Collections.emptyMap());
+        System.setProperty(key, """
+                {
+                  "a": 123,
+                  "b": ["good", "morning"],
+                  "c": null,
+                  "d": {
+                    "d.a": "good",
+                    "d.b": ["evening", 456]
+                  }
+                }
+                """);
+        JsonArray goodMorningArray = new JsonArray();
+        goodMorningArray.add("good");
+        goodMorningArray.add("morning");
+        JsonObject d = new JsonObject();
+        d.add("d.a", new JsonPrimitive("good"));
+        JsonArray goodEveningArray = new JsonArray();
+        goodEveningArray.add("evening");
+        goodEveningArray.add(456);
+        d.add("d.b", goodEveningArray);
+        Assert.assertEquals(config.getObject(key), Map.of(
+                "a", new JsonPrimitive(123),
+                "b", goodMorningArray,
+                "c", JsonNull.INSTANCE,
+                "d", d
+        ));
+        System.setProperty(key, """
+                {
+                  "a": "missingQuote
+                }
+                """);
+        Assert.assertEquals(config.getObject(key), Collections.emptyMap());
+        config.setString(key, null);
+        System.clearProperty(key);
+        Assert.assertEquals(config.getObject(key), Collections.emptyMap());
     }
 
     @Test
-    public void TestLogMissingValue(){
+    public void TestLogUnknownValue() {
         ConfigMap configMap = ConfigurationFactory.getInstance();
-        Assert.assertEquals(configMap.logMissingValue("key","fallbackValue"),"fallbackValue");
+
+        // if
+        configMap.logUnknownValue("key", "unknownValue", "fallbackValue", new String[]{});
+        String expectedMessage = "Unknown value for 'key': 'unknownValue'. Defaulting to 'fallbackValue'.";
+        Assert.assertEquals(ErrorLogCollection.getInstance().getErrorLogs().get(0).getErrorMessage(), expectedMessage);
+
+        String fallbackValue = configMap.logUnknownValue("key", "unknownValue", "fallbackValue", new String[]{"knownValues"});
+        expectedMessage = "Unknown value for 'key': 'unknownValue' (known values: '[knownValues]'). Defaulting to 'fallbackValue'.";
+        Assert.assertEquals(ErrorLogCollection.getInstance().getErrorLogs().get(1).getErrorMessage(), expectedMessage);
+
+        Assert.assertEquals(fallbackValue, "fallbackValue"); // Check return value from logUnknownValue
+    }
+
+    @Test
+    public void TestLogMissingValue() {
+        ConfigMap configMap = ConfigurationFactory.getInstance();
+        Assert.assertEquals(configMap.logMissingValue("key", "fallbackValue"), "fallbackValue");
     }
 }
