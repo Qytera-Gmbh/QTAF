@@ -32,10 +32,7 @@ public class SaucelabsDriver extends AbstractDriver {
         capabilities.setCapability("browserVersion", SeleniumDriverConfigHelper.getDriverVersion());
         capabilities.setCapability("platformName", SeleniumDriverConfigHelper.getPlatformName());
         capabilities.setCapability("sauce:options", sauceOptions);
-
-        SeleniumDriverConfigHelper.getDriverCapabilities().forEach((key, value) ->
-                capabilities.setCapability(key, value.getAsString())
-        );
+        capabilities = capabilities.merge(SeleniumDriverConfigHelper.getDriverCapabilities());
         return capabilities;
     }
 

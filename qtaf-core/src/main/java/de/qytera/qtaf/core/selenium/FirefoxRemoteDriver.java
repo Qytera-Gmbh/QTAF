@@ -25,14 +25,12 @@ public class FirefoxRemoteDriver extends AbstractDriver {
     @Override
     protected Capabilities getCapabilities() {
         FirefoxOptions options = new FirefoxOptions();
-        SeleniumDriverConfigHelper.getDriverCapabilities().forEach((key, value) ->
-                options.setCapability(key, value.getAsString())
-        );
         options.addArguments(
                 SeleniumDriverConfigHelper.getDriverOptions().stream()
                         .map(JsonElement::getAsString)
                         .toArray(String[]::new)
         );
+        options = options.merge(SeleniumDriverConfigHelper.getDriverCapabilities());
         return options;
     }
 

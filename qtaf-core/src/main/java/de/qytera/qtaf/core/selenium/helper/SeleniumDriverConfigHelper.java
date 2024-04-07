@@ -1,13 +1,21 @@
 package de.qytera.qtaf.core.selenium.helper;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import de.qytera.qtaf.core.QtafFactory;
 import de.qytera.qtaf.core.config.entity.ConfigMap;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.ImmutableCapabilities;
+import org.openqa.selenium.MutableCapabilities;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -142,8 +150,49 @@ public class SeleniumDriverConfigHelper {
      *
      * @return the driver capabilities
      */
-    public static Map<String, JsonElement> getDriverCapabilities() {
-        return config.getMap(DRIVER_CAPABILITIES);
+    public static Capabilities getDriverCapabilities() {
+        MutableCapabilities capabilities = new MutableCapabilities();
+        toPrimitive(config.getMap(DRIVER_CAPABILITIES)).forEach(capabilities::setCapability);
+        return ImmutableCapabilities.copyOf(capabilities);
+    }
+
+    private static Map<String, Object> toPrimitive(Map<String, JsonElement> map) {
+        Map<String, Object> primitiveMap = new HashMap<>();
+        map.forEach((key, element) -> {
+            if (element instanceof JsonPrimitive primitive) {
+                primitiveMap.put(key, toPrimitive(primitive));
+            } else if (element instanceof JsonArray array) {
+                primitiveMap.put(key, toPrimitive(array.asList()));
+            } else if (element instanceof JsonObject object) {
+                primitiveMap.put(key, toPrimitive(object.asMap()));
+            }
+        });
+        return primitiveMap;
+    }
+
+    private static List<Object> toPrimitive(List<JsonElement> array) {
+        List<Object> primitiveArray = new ArrayList<>();
+        array.forEach(element -> {
+            if (element.isJsonNull()) {
+                primitiveArray.add(null);
+            } else if (element instanceof JsonPrimitive primitive) {
+                primitiveArray.add(toPrimitive(primitive));
+            } else if (element instanceof JsonArray nestedArray) {
+                primitiveArray.add(toPrimitive(nestedArray.asList()));
+            } else if (element instanceof JsonObject nestedObject) {
+                primitiveArray.add(toPrimitive(nestedObject.asMap()));
+            }
+        });
+        return primitiveArray;
+    }
+
+    private static Object toPrimitive(JsonPrimitive element) {
+        if (element.isBoolean()) {
+            return element.getAsBoolean();
+        } else if (element.isNumber()) {
+            return element.getAsNumber();
+        }
+        return element.getAsString();
     }
 
     /**

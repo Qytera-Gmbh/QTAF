@@ -25,14 +25,12 @@ public class EdgeRemoteDriver extends AbstractDriver {
     @Override
     protected Capabilities getCapabilities() {
         EdgeOptions options = new EdgeOptions();
-        SeleniumDriverConfigHelper.getDriverCapabilities().forEach((key, value) ->
-                options.setCapability(key, value.getAsString())
-        );
         options.addArguments(
                 SeleniumDriverConfigHelper.getDriverOptions().stream()
                         .map(JsonElement::getAsString)
                         .toArray(String[]::new)
         );
+        options = options.merge(SeleniumDriverConfigHelper.getDriverCapabilities());
         return options;
 
     }

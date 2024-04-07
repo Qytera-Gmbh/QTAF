@@ -28,14 +28,12 @@ public class FirefoxDriver extends AbstractDriver {
         // Make selenium use the selenium-http-jdk-client package
         System.setProperty("webdriver.http.factory", "jdk-http-client");
         FirefoxOptions options = new FirefoxOptions();
-        SeleniumDriverConfigHelper.getDriverCapabilities().forEach((key, value) ->
-                options.setCapability(key, value.getAsString())
-        );
         options.addArguments(
                 SeleniumDriverConfigHelper.getDriverOptions().stream()
                         .map(JsonElement::getAsString)
                         .toArray(String[]::new)
         );
+        options = options.merge(SeleniumDriverConfigHelper.getDriverCapabilities());
         return options;
     }
 
