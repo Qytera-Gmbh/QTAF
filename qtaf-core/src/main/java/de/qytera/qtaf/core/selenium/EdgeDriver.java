@@ -1,9 +1,7 @@
 package de.qytera.qtaf.core.selenium;
 
-import de.qytera.qtaf.core.selenium.helper.SeleniumDriverConfigHelper;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.edge.EdgeOptions;
 
 /**
  * This class is responsible for connecting to a local edge browser.
@@ -19,17 +17,7 @@ public class EdgeDriver extends AbstractDriver {
     public WebDriver getDriver() {
         WebDriverManager webDriverManager = WebDriverManager.edgedriver();
         initWebDriverManager(webDriverManager);
-        return new org.openqa.selenium.edge.EdgeDriver(getCapabilities());
-    }
-
-    @Override
-    protected EdgeOptions getCapabilities() {
-        // Make selenium use the selenium-http-jdk-client package
-        System.setProperty("webdriver.http.factory", "jdk-http-client");
-        EdgeOptions options = new EdgeOptions();
-        options.addArguments(SeleniumDriverConfigHelper.getDriverOptions().toArray(String[]::new));
-        options = options.merge(SeleniumDriverConfigHelper.getDriverCapabilities());
-        return options;
+        return new org.openqa.selenium.edge.EdgeDriver(CapabilityFactory.getCapabilitiesEdge());
     }
 
     @Override

@@ -1,9 +1,7 @@
 package de.qytera.qtaf.core.selenium;
 
 import de.qytera.qtaf.core.selenium.helper.SeleniumDriverConfigHelper;
-import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 /**
@@ -18,15 +16,10 @@ public class FirefoxRemoteDriver extends AbstractDriver {
 
     @Override
     public WebDriver getDriver() {
-        return new RemoteWebDriver(SeleniumDriverConfigHelper.getRemoteUrl(), getCapabilities());
-    }
-
-    @Override
-    protected Capabilities getCapabilities() {
-        FirefoxOptions options = new FirefoxOptions();
-        options.addArguments(SeleniumDriverConfigHelper.getDriverOptions().toArray(String[]::new));
-        options = options.merge(SeleniumDriverConfigHelper.getDriverCapabilities());
-        return options;
+        return new RemoteWebDriver(
+                SeleniumDriverConfigHelper.getRemoteUrl(),
+                CapabilityFactory.getCapabilitiesFirefoxRemote()
+        );
     }
 
     @Override

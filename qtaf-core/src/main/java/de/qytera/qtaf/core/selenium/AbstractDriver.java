@@ -5,7 +5,6 @@ import de.qytera.qtaf.core.config.entity.ConfigMap;
 import de.qytera.qtaf.core.log.Logger;
 import de.qytera.qtaf.core.selenium.helper.SeleniumDriverConfigHelper;
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.LocalFileDetector;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -52,22 +51,6 @@ public abstract class AbstractDriver {
      * @return the instance
      */
     protected abstract WebDriver getDriver();
-
-    /**
-     * Log an info message.
-     *
-     * @param message Log message
-     */
-    static void logInfo(String message) {
-        LOGGER.info("[DriverFactory] " + message);
-    }
-
-    /**
-     * Get driver capabilities.
-     *
-     * @return driver capabilities
-     */
-    protected abstract Capabilities getCapabilities();
 
     /**
      * Initialize web driver manager.

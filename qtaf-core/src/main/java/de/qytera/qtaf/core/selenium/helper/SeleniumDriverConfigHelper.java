@@ -73,18 +73,6 @@ public class SeleniumDriverConfigHelper {
      * Whether Selenium should take a screenshot on step failure.
      */
     public static final String SCREENSHOTS_AFTER_STEP_FAILURE = "driver.screenshots.afterStepFailure";
-    /**
-     * The Saucelabs username.
-     */
-    public static final String SAUCE_USERNAME = "sauce.username";
-    /**
-     * The Saucelabs access key.
-     */
-    public static final String SAUCE_ACCESS_KEY = "sauce.accessKey";
-    /**
-     * The Saucelabs browser name.
-     */
-    public static final String SAUCE_BROWSER_NAME = "sauce.browserName";
 
     /**
      * Config.
@@ -108,14 +96,18 @@ public class SeleniumDriverConfigHelper {
      * @return remote URL
      */
     public static URL getRemoteUrl() {
+        String url = config.getString(DRIVER_REMOTE_URL);
         try {
-            return new URL(config.getString(DRIVER_REMOTE_URL));
+            if (url == null) {
+                throw new MalformedURLException(
+                        "Failed to get remote driver URL, configuration key '%s' is null".formatted(DRIVER_REMOTE_URL)
+                );
+            }
+            return new URL(url);
         } catch (MalformedURLException e) {
-            QtafFactory.getLogger().fatal("The given driver url is malformed");
-            System.exit(1);
+            QtafFactory.getLogger().fatal("The given remote driver url is malformed: %s".formatted(url));
+            throw new IllegalArgumentException(e);
         }
-
-        return null;
     }
 
     /**
@@ -200,33 +192,6 @@ public class SeleniumDriverConfigHelper {
             }
         }
         return element.getAsString();
-    }
-
-    /**
-     * Get Saucelab Browser Name.
-     *
-     * @return Saucelab Browser Name
-     */
-    public static String getSaucelabBrowserName() {
-        return config.getString(SAUCE_BROWSER_NAME);
-    }
-
-    /**
-     * Get Saucelab Username.
-     *
-     * @return Saucelab Username
-     */
-    public static String getSaucelabUsername() {
-        return config.getString(SAUCE_USERNAME);
-    }
-
-    /**
-     * Get Saucelab Access Key.
-     *
-     * @return Saucelab Access Key
-     */
-    public static String getSaucelabAccessKey() {
-        return config.getString(SAUCE_ACCESS_KEY);
     }
 
     /**

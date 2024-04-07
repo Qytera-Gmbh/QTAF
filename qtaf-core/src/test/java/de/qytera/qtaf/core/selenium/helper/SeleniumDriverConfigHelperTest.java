@@ -112,4 +112,23 @@ public class SeleniumDriverConfigHelperTest {
         ));
         Assert.assertEquals(SeleniumDriverConfigHelper.getDriverCapabilities(), expectedCapabilities);
     }
+
+    @Test
+    public void testGetRemoteUrlNull() {
+        try {
+            SeleniumDriverConfigHelper.getRemoteUrl();
+        } catch (IllegalArgumentException exception) {
+            Assert.assertEquals(exception.getMessage(), "java.net.MalformedURLException: Failed to get remote driver URL, configuration key 'driver.remoteUrl' is null");
+        }
+    }
+
+    @Test
+    public void testGetRemoteUrlMalformed() {
+        System.setProperty(SeleniumDriverConfigHelper.DRIVER_REMOTE_URL, "abc");
+        try {
+            SeleniumDriverConfigHelper.getRemoteUrl();
+        } catch (IllegalArgumentException exception) {
+            Assert.assertEquals(exception.getMessage(), "java.net.MalformedURLException: no protocol: abc");
+        }
+    }
 }
