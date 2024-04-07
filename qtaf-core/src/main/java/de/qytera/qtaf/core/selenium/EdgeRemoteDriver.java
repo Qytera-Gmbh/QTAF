@@ -1,5 +1,6 @@
 package de.qytera.qtaf.core.selenium;
 
+import com.google.gson.JsonElement;
 import de.qytera.qtaf.core.selenium.helper.SeleniumDriverConfigHelper;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
@@ -23,7 +24,17 @@ public class EdgeRemoteDriver extends AbstractDriver {
 
     @Override
     protected Capabilities getCapabilities() {
-        return new EdgeOptions();
+        EdgeOptions options = new EdgeOptions();
+        SeleniumDriverConfigHelper.getDriverCapabilities().forEach((key, value) ->
+                options.setCapability(key, value.getAsString())
+        );
+        options.addArguments(
+                SeleniumDriverConfigHelper.getDriverOptions().stream()
+                        .map(JsonElement::getAsString)
+                        .toArray(String[]::new)
+        );
+        return options;
+
     }
 
     @Override

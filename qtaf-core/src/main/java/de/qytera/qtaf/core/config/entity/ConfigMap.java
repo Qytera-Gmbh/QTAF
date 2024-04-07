@@ -318,7 +318,7 @@ public class ConfigMap extends HashMap<String, Object> {
      *   <li>the value cannot be interpreted as a JSON object</li>
      * </ul>
      */
-    public Map<String, JsonElement> getObject(String key) {
+    public Map<String, JsonElement> getMap(String key) {
         Object value = null;
         try {
             value = getValue(key);

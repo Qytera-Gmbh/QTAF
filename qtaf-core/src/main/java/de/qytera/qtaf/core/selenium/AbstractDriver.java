@@ -98,13 +98,4 @@ public abstract class AbstractDriver {
      * @return whether the driver runs on a different machine
      */
     protected abstract boolean isRemoteDriver();
-
-    /**
-     * Check if driver should be started in headless mode.
-     *
-     * @return true if headless, false otherwise
-     */
-    protected boolean headless() {
-        return ConfigurationFactory.getInstance().getBoolean("driver.headless", false);
-    }
 }

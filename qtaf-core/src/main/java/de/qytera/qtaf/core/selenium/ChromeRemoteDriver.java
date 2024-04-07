@@ -1,5 +1,6 @@
 package de.qytera.qtaf.core.selenium;
 
+import com.google.gson.JsonElement;
 import de.qytera.qtaf.core.selenium.helper.SeleniumDriverConfigHelper;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
@@ -24,10 +25,14 @@ public class ChromeRemoteDriver extends AbstractDriver {
     @Override
     protected Capabilities getCapabilities() {
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--no-sandbox"); // Bypass OS security model
-        options.addArguments("--disable-extensions"); // disabling extensions
-        options.addArguments("--disable-dev-shm-usage"); // overcome limited resource problems
-        options.addArguments("--headless");
+        SeleniumDriverConfigHelper.getDriverCapabilities().forEach((key, value) ->
+                options.setCapability(key, value.getAsString())
+        );
+        options.addArguments(
+                SeleniumDriverConfigHelper.getDriverOptions().stream()
+                        .map(JsonElement::getAsString)
+                        .toArray(String[]::new)
+        );
         return options;
     }
 

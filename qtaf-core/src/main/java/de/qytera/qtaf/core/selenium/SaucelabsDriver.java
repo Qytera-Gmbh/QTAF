@@ -1,5 +1,6 @@
 package de.qytera.qtaf.core.selenium;
 
+import com.google.gson.JsonElement;
 import de.qytera.qtaf.core.selenium.helper.SeleniumDriverConfigHelper;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.MutableCapabilities;
@@ -33,6 +34,9 @@ public class SaucelabsDriver extends AbstractDriver {
         capabilities.setCapability("platformName", SeleniumDriverConfigHelper.getPlatformName());
         capabilities.setCapability("sauce:options", sauceOptions);
 
+        SeleniumDriverConfigHelper.getDriverCapabilities().forEach((key, value) ->
+                capabilities.setCapability(key, value.getAsString())
+        );
         return capabilities;
     }
 

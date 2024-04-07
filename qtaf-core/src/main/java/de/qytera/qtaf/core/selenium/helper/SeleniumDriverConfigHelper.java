@@ -1,5 +1,6 @@
 package de.qytera.qtaf.core.selenium.helper;
 
+import com.google.gson.JsonElement;
 import de.qytera.qtaf.core.QtafFactory;
 import de.qytera.qtaf.core.config.entity.ConfigMap;
 import lombok.AccessLevel;
@@ -7,6 +8,8 @@ import lombok.NoArgsConstructor;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Helper class for getting selenium driver configuration values.
@@ -30,6 +33,14 @@ public class SeleniumDriverConfigHelper {
      * The driver's version.
      */
     public static final String DRIVER_VERSION = "driver.version";
+    /**
+     * Additional driver options to consider during driver instantiation.
+     */
+    public static final String DRIVER_OPTIONS = "driver.options";
+    /**
+     * Additional driver capabilities to consider during driver instantiation.
+     */
+    public static final String DRIVER_CAPABILITIES = "driver.capabilities";
     /**
      * Whether the driver should quit after testing.
      */
@@ -115,6 +126,24 @@ public class SeleniumDriverConfigHelper {
      */
     public static String getDriverVersion() {
         return config.getString(DRIVER_VERSION);
+    }
+
+    /**
+     * Returns the configured driver options to consider during driver instantiation.
+     *
+     * @return the driver options
+     */
+    public static List<JsonElement> getDriverOptions() {
+        return config.getList(DRIVER_OPTIONS);
+    }
+
+    /**
+     * Returns the configured driver capabilities to consider during driver instantiation.
+     *
+     * @return the driver capabilities
+     */
+    public static Map<String, JsonElement> getDriverCapabilities() {
+        return config.getMap(DRIVER_CAPABILITIES);
     }
 
     /**

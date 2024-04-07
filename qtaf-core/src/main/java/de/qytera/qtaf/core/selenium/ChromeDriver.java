@@ -1,5 +1,7 @@
 package de.qytera.qtaf.core.selenium;
 
+import com.google.gson.JsonElement;
+import de.qytera.qtaf.core.selenium.helper.SeleniumDriverConfigHelper;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -26,16 +28,14 @@ public class ChromeDriver extends AbstractDriver {
         // Make selenium use the selenium-http-jdk-client package
         System.setProperty("webdriver.http.factory", "jdk-http-client");
         ChromeOptions options = new ChromeOptions();
-        if (headless()) {
-            options.addArguments(
-                    "--headless",
-                    "--disable-gpu",
-                    "--ignore-certificate-errors",
-                    "--disable-extensions",
-                    "--no-sandbox",
-                    "--disable-dev-shm-usage"
-            );
-        }
+        SeleniumDriverConfigHelper.getDriverCapabilities().forEach((key, value) ->
+                options.setCapability(key, value.getAsString())
+        );
+        options.addArguments(
+                SeleniumDriverConfigHelper.getDriverOptions().stream()
+                        .map(JsonElement::getAsString)
+                        .toArray(String[]::new)
+        );
         return options;
     }
 
