@@ -1,7 +1,6 @@
 package de.qytera.qtaf.core.selenium;
 
 import de.qytera.qtaf.core.QtafFactory;
-import de.qytera.qtaf.core.config.ConfigurationFactory;
 import de.qytera.qtaf.core.config.entity.ConfigMap;
 import de.qytera.qtaf.core.log.Logger;
 import de.qytera.qtaf.core.selenium.helper.SeleniumDriverConfigHelper;

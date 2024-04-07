@@ -1,6 +1,5 @@
 package de.qytera.qtaf.core.selenium;
 
-import com.google.gson.JsonElement;
 import de.qytera.qtaf.core.selenium.helper.SeleniumDriverConfigHelper;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.MutableCapabilities;
