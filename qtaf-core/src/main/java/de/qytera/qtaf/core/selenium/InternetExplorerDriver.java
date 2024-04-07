@@ -1,6 +1,5 @@
 package de.qytera.qtaf.core.selenium;
 
-import com.google.gson.JsonElement;
 import de.qytera.qtaf.core.selenium.helper.SeleniumDriverConfigHelper;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
@@ -30,11 +29,7 @@ public class InternetExplorerDriver extends AbstractDriver {
     public InternetExplorerOptions getCapabilities() {
         InternetExplorerOptions caps = new InternetExplorerOptions();
         caps.setCapability("ignoreZoomSetting", true);
-        caps.addCommandSwitches(
-                SeleniumDriverConfigHelper.getDriverOptions().stream()
-                        .map(JsonElement::getAsString)
-                        .toArray(String[]::new)
-        );
+        caps.addCommandSwitches(SeleniumDriverConfigHelper.getDriverOptions().toArray(String[]::new));
         caps = caps.merge(SeleniumDriverConfigHelper.getDriverCapabilities());
         return caps;
     }

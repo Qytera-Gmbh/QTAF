@@ -141,8 +141,13 @@ public class SeleniumDriverConfigHelper {
      *
      * @return the driver options
      */
-    public static List<JsonElement> getDriverOptions() {
-        return config.getList(DRIVER_OPTIONS);
+    public static List<String> getDriverOptions() {
+        return config.getList(DRIVER_OPTIONS).stream()
+                .filter(JsonPrimitive.class::isInstance)
+                .map(JsonPrimitive.class::cast)
+                .filter(JsonPrimitive::isString)
+                .map(JsonPrimitive::getAsString)
+                .toList();
     }
 
     /**
@@ -190,7 +195,11 @@ public class SeleniumDriverConfigHelper {
         if (element.isBoolean()) {
             return element.getAsBoolean();
         } else if (element.isNumber()) {
-            return element.getAsNumber();
+            try {
+                return Long.parseLong(element.getAsString());
+            } catch (NumberFormatException exception) {
+                return Double.parseDouble(element.getAsString());
+            }
         }
         return element.getAsString();
     }

@@ -1,6 +1,5 @@
 package de.qytera.qtaf.core.selenium;
 
-import com.google.gson.JsonElement;
 import de.qytera.qtaf.core.selenium.helper.SeleniumDriverConfigHelper;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
@@ -28,11 +27,7 @@ public class FirefoxDriver extends AbstractDriver {
         // Make selenium use the selenium-http-jdk-client package
         System.setProperty("webdriver.http.factory", "jdk-http-client");
         FirefoxOptions options = new FirefoxOptions();
-        options.addArguments(
-                SeleniumDriverConfigHelper.getDriverOptions().stream()
-                        .map(JsonElement::getAsString)
-                        .toArray(String[]::new)
-        );
+        options.addArguments(SeleniumDriverConfigHelper.getDriverOptions().toArray(String[]::new));
         options = options.merge(SeleniumDriverConfigHelper.getDriverCapabilities());
         return options;
     }
