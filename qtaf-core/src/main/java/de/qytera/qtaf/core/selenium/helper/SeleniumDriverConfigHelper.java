@@ -178,9 +178,7 @@ public class SeleniumDriverConfigHelper {
     private static List<Object> toPrimitive(List<JsonElement> array) {
         List<Object> primitiveArray = new ArrayList<>();
         array.forEach(element -> {
-            if (element.isJsonNull()) {
-                primitiveArray.add(null);
-            } else if (element instanceof JsonPrimitive primitive) {
+            if (element instanceof JsonPrimitive primitive) {
                 primitiveArray.add(toPrimitive(primitive));
             } else if (element instanceof JsonArray nestedArray) {
                 primitiveArray.add(toPrimitive(nestedArray.asList()));

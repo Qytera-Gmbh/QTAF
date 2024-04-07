@@ -90,8 +90,9 @@ public class SeleniumDriverConfigHelperTest {
                   "e": {
                     "f": true,
                     "g": {
-                      "h": [1, 2.14, 3],
-                      "i": null
+                      "h": [1, 2.14, 3, null, 5],
+                      "i": null,
+                      "j": [[10], {"k": true}]
                     }
                   }
                 }
@@ -105,7 +106,8 @@ public class SeleniumDriverConfigHelperTest {
         expectedCapabilities.setCapability("e", Map.of(
                 "f", true,
                 "g", Map.of(
-                        "h", List.of(1L, 2.14D, 3L)
+                        "h", List.of(1L, 2.14D, 3L, 5L),
+                        "j", List.of(List.of(10L), Map.of("k", true))
                 )
         ));
         Assert.assertEquals(SeleniumDriverConfigHelper.getDriverCapabilities(), expectedCapabilities);
