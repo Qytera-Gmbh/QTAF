@@ -69,7 +69,7 @@ public class SeleniumDriverConfigHelperTest {
 
     @Test
     public void testGetDriverCapabilitiesDefault() {
-        Assert.assertEquals(SeleniumDriverConfigHelper.getDriverOptions(), Collections.emptyMap());
+        Assert.assertEquals(SeleniumDriverConfigHelper.getDriverOptions(), Collections.emptyList());
     }
 
     @Test
