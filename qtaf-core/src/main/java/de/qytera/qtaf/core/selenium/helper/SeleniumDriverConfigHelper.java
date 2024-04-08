@@ -1,12 +1,23 @@
 package de.qytera.qtaf.core.selenium.helper;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import de.qytera.qtaf.core.QtafFactory;
 import de.qytera.qtaf.core.config.entity.ConfigMap;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.ImmutableCapabilities;
+import org.openqa.selenium.MutableCapabilities;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Helper class for getting selenium driver configuration values.
@@ -31,6 +42,14 @@ public class SeleniumDriverConfigHelper {
      */
     public static final String DRIVER_VERSION = "driver.version";
     /**
+     * Additional driver options to consider during driver instantiation.
+     */
+    public static final String DRIVER_OPTIONS = "driver.options";
+    /**
+     * Additional driver capabilities to consider during driver instantiation.
+     */
+    public static final String DRIVER_CAPABILITIES = "driver.capabilities";
+    /**
      * Whether the driver should quit after testing.
      */
     public static final String DRIVER_QUIT_AFTER_TESTING = "driver.quitAfterTesting";
@@ -54,18 +73,6 @@ public class SeleniumDriverConfigHelper {
      * Whether Selenium should take a screenshot on step failure.
      */
     public static final String SCREENSHOTS_AFTER_STEP_FAILURE = "driver.screenshots.afterStepFailure";
-    /**
-     * The Saucelabs username.
-     */
-    public static final String SAUCE_USERNAME = "sauce.username";
-    /**
-     * The Saucelabs access key.
-     */
-    public static final String SAUCE_ACCESS_KEY = "sauce.accessKey";
-    /**
-     * The Saucelabs browser name.
-     */
-    public static final String SAUCE_BROWSER_NAME = "sauce.browserName";
 
     /**
      * Config.
@@ -89,14 +96,18 @@ public class SeleniumDriverConfigHelper {
      * @return remote URL
      */
     public static URL getRemoteUrl() {
+        String url = config.getString(DRIVER_REMOTE_URL);
         try {
-            return new URL(config.getString(DRIVER_REMOTE_URL));
+            if (url == null) {
+                throw new MalformedURLException(
+                        "Failed to get remote driver URL, configuration key '%s' is null".formatted(DRIVER_REMOTE_URL)
+                );
+            }
+            return new URL(url);
         } catch (MalformedURLException e) {
-            QtafFactory.getLogger().fatal("The given driver url is malformed");
-            System.exit(1);
+            QtafFactory.getLogger().fatal("The given remote driver url is malformed: %s".formatted(url));
+            throw new IllegalArgumentException(e);
         }
-
-        return null;
     }
 
     /**
@@ -118,30 +129,69 @@ public class SeleniumDriverConfigHelper {
     }
 
     /**
-     * Get Saucelab Browser Name.
+     * Returns the configured driver options to consider during driver instantiation.
      *
-     * @return Saucelab Browser Name
+     * @return the driver options
      */
-    public static String getSaucelabBrowserName() {
-        return config.getString(SAUCE_BROWSER_NAME);
+    public static List<String> getDriverOptions() {
+        return config.getList(DRIVER_OPTIONS).stream()
+                .filter(JsonPrimitive.class::isInstance)
+                .map(JsonPrimitive.class::cast)
+                .filter(JsonPrimitive::isString)
+                .map(JsonPrimitive::getAsString)
+                .toList();
     }
 
     /**
-     * Get Saucelab Username.
+     * Returns the configured driver capabilities to consider during driver instantiation.
      *
-     * @return Saucelab Username
+     * @return the driver capabilities
      */
-    public static String getSaucelabUsername() {
-        return config.getString(SAUCE_USERNAME);
+    public static Capabilities getDriverCapabilities() {
+        MutableCapabilities capabilities = new MutableCapabilities();
+        toPrimitive(config.getMap(DRIVER_CAPABILITIES)).forEach(capabilities::setCapability);
+        return ImmutableCapabilities.copyOf(capabilities);
     }
 
-    /**
-     * Get Saucelab Access Key.
-     *
-     * @return Saucelab Access Key
-     */
-    public static String getSaucelabAccessKey() {
-        return config.getString(SAUCE_ACCESS_KEY);
+    private static Map<String, Object> toPrimitive(Map<String, JsonElement> map) {
+        Map<String, Object> primitiveMap = new HashMap<>();
+        map.forEach((key, element) -> {
+            if (element instanceof JsonPrimitive primitive) {
+                primitiveMap.put(key, toPrimitive(primitive));
+            } else if (element instanceof JsonArray array) {
+                primitiveMap.put(key, toPrimitive(array.asList()));
+            } else if (element instanceof JsonObject object) {
+                primitiveMap.put(key, toPrimitive(object.asMap()));
+            }
+        });
+        return primitiveMap;
+    }
+
+    private static List<Object> toPrimitive(List<JsonElement> array) {
+        List<Object> primitiveArray = new ArrayList<>();
+        array.forEach(element -> {
+            if (element instanceof JsonPrimitive primitive) {
+                primitiveArray.add(toPrimitive(primitive));
+            } else if (element instanceof JsonArray nestedArray) {
+                primitiveArray.add(toPrimitive(nestedArray.asList()));
+            } else if (element instanceof JsonObject nestedObject) {
+                primitiveArray.add(toPrimitive(nestedObject.asMap()));
+            }
+        });
+        return primitiveArray;
+    }
+
+    private static Object toPrimitive(JsonPrimitive element) {
+        if (element.isBoolean()) {
+            return element.getAsBoolean();
+        } else if (element.isNumber()) {
+            try {
+                return Long.parseLong(element.getAsString());
+            } catch (NumberFormatException exception) {
+                return Double.parseDouble(element.getAsString());
+            }
+        }
+        return element.getAsString();
     }
 
     /**

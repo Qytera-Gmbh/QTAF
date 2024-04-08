@@ -11,6 +11,7 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.Test;
 
 public class QtafTestNGContextTest {
+
     @Test
     public void testSetLoggerRecursively() {
         MyContext context = new MyContext();
