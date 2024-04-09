@@ -26,6 +26,7 @@ import de.qytera.qtaf.xray.repository.jira.JiraIssueRepository;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -36,9 +37,12 @@ import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static de.qytera.qtaf.xray.builder.XrayTestEntityHelper.scenario;
+
 public class XrayJsonImportBuilderTest {
 
     @BeforeMethod(description = "clear the entire configuration and set appropriate values for testing")
+    @AfterMethod(description = "clear the entire configuration and set appropriate values for testing")
     public void clearSuite() {
         TestSuiteLogCollection.getInstance().clear();
         TestFeatureLogCollection.clearIndex();
@@ -48,50 +52,6 @@ public class XrayJsonImportBuilderTest {
         QtafFactory.getConfiguration().setString(XrayConfigHelper.PROJECT_KEY, "QTAF");
         // We're not actually uploading anything, no need to query Jira for actual issue summaries during testing.
         QtafFactory.getConfiguration().setBoolean(XrayConfigHelper.RESULTS_UPLOAD_TESTS_INFO_KEEP_JIRA_SUMMARY, false);
-    }
-
-    private static final XrayTest ANNOTATION = new XrayTest() {
-
-        @Override
-        public String key() {
-            return "QTAF-42";
-        }
-
-        @Override
-        public boolean scenarioReport() {
-            return true;
-        }
-
-        @Override
-        public boolean screenshots() {
-            return true;
-        }
-
-        @Override
-        public Class<? extends Annotation> annotationType() {
-            return XrayTest.class;
-        }
-    };
-
-    private static TestScenarioLogCollection scenario(int scenarioIteration, String featureName) {
-        TestScenarioLogCollection scenarioCollection = TestScenarioLogCollection.createTestScenarioLogCollection(
-                featureName,
-                "SomeClass.doesSomething",
-                String.valueOf(scenarioIteration),
-                "a test scenario"
-        );
-        scenarioCollection.setStart(Date.from(Instant.now().minusSeconds(3600)));
-        scenarioCollection.setEnd(Date.from(Instant.now()));
-        scenarioCollection.setAnnotations(new Annotation[]{ANNOTATION});
-        // Add scenario to its corresponding feature collection.
-        TestFeatureLogCollection featureCollection = TestFeatureLogCollection.createFeatureLogCollectionIfNotExists(
-                featureName,
-                "a test feature"
-        );
-        featureCollection.addScenarioLogCollection(scenarioCollection);
-        // Add feature to suite collection.
-        TestSuiteLogCollection.getInstance().addTestClassLogCollection(featureCollection);
-        return scenarioCollection;
     }
 
     private static TestScenarioLogCollection scenarioWithoutAnnotation(int scenarioIteration, String featureName) {

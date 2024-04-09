@@ -6,7 +6,7 @@
     <parent>
         <groupId>de.qytera</groupId>
         <artifactId>qtaf</artifactId>
-        <version>0.2.8</version>
+        <version>0.2.13</version>
     </parent>
 
     <artifactId>qtaf-aws-devicefarm</artifactId>
@@ -15,7 +15,7 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <aws.java.sdk.version>2.20.162</aws.java.sdk.version>
+        <aws.java.sdk.version>2.21.12</aws.java.sdk.version>
         <slf4j.version>1.7.28</slf4j.version>
     </properties>
 
@@ -69,7 +69,7 @@
         <dependency>
             <groupId>com.amazonaws</groupId>
             <artifactId>aws-java-sdk-devicefarm</artifactId>
-            <version>1.12.462</version>
+            <version>1.12.682</version>
         </dependency>
 
         <dependency>

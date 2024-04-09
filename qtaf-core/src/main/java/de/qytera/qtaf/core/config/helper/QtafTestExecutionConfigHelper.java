@@ -20,6 +20,10 @@ public class QtafTestExecutionConfigHelper {
 
     private static final String TEST_GROUPS = "tests.groups";
     private static final String TEST_ASSERTION_BEHAVIOUR_ON_FAILURE = "tests.continueOnAssertionFailure";
+    /**
+     * Flag for toggling step logging on or off.
+     */
+    public static final String LOGGING_LOG_STEPS = "logging.logSteps";
 
     /**
      * Get all groups that should run.
@@ -45,5 +49,17 @@ public class QtafTestExecutionConfigHelper {
      */
     public static boolean continueOnAssertionFailure() {
         return config.getBoolean(TEST_ASSERTION_BEHAVIOUR_ON_FAILURE);
+    }
+
+
+    /**
+     * QTAF users have the option to configure if the test steps should get logged to the console. This is useful if
+     * the user wants shorter logs.
+     *
+     * @return true if step logging is wanted and false if logging is unwanted
+     */
+    public static boolean isStepLoggingEnabled() {
+        ConfigMap config = QtafFactory.getConfiguration();
+        return config.getBoolean(LOGGING_LOG_STEPS, false);
     }
 }

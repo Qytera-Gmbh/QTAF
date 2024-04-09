@@ -2,6 +2,7 @@ package de.qytera.qtaf.testng;
 
 import de.qytera.qtaf.core.config.ConfigurationFactory;
 import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
+import de.qytera.qtaf.core.log.model.collection.TestSuiteLogCollection;
 import de.qytera.qtaf.core.log.model.index.IndexHelper;
 import de.qytera.qtaf.core.log.model.message.*;
 import de.qytera.qtaf.core.log.model.message.LogMessage;
@@ -1066,6 +1067,8 @@ public class AssertionContextTest {
 
     @Test(description = "Test creation of new step log message")
     public void testCreationOfNewStepLogMessage() {
+        IndexHelper.clearAllIndices();
+        TestSuiteLogCollection.getInstance().clearCollection();
         TestContext context = new TestContext();
         TestScenarioLogCollection scenarioLogCollection = context.getLogCollection();
         Assert.assertEquals(scenarioLogCollection.getLogMessages().size(), 1, "First there should be only the 'foo' log message");
@@ -1077,6 +1080,7 @@ public class AssertionContextTest {
         Assert.assertEquals(scenarioLogCollection.getLogMessages().size(), 2, "There should be two step log messages before the first assertion");
         Assert.assertEquals(logMessage.getAssertions().size(), 0, "Expected log message to have no assertions yet");
 
+        // The step' status is PENDING. This means assertions are assigned to this step and no new step is created.
         context.assertEquals(2, 2, "Expected both integers to be identical");
         Assert.assertEquals(scenarioLogCollection.getLogMessages().size(), 2, "There should be two step log messages after the first assertion");
         Assert.assertEquals(logMessage.getAssertions().size(), 1, "Expected assertion log to be added to the pending step");

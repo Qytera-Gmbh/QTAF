@@ -12,17 +12,19 @@
     "remoteUrl": null,
     "implicitWaitTimeout": 0,
     "quitAfterTesting": true,
-    "headless": false,
     "screenshots": {
       "beforeScenario": true,
       "afterScenario": true,
       "beforeStep": false,
       "afterStep": false,
       "afterStepFailure": true
-    }
+    },
+    "options": [],
+    "capabilities": {}
   },
   "logging": {
-    "enabled": true
+    "enabled": true,
+    "logSteps": false
   },
   "xray": {
     "enabled": false,

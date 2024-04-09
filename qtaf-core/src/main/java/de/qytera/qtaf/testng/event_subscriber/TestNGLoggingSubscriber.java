@@ -15,7 +15,11 @@ import io.cucumber.testng.CucumberOptions;
 import org.testng.ITestResult;
 
 import java.lang.annotation.Annotation;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+import java.util.function.Function;
 
 /**
  * Event subscriber that reacts to Qtaf lifecycle events and creates log messages.
@@ -31,6 +35,11 @@ public class TestNGLoggingSubscriber implements IEventSubscriber {
      * Logger.
      */
     private final Logger logger = QtafFactory.getLogger();
+
+    /**
+     * Contains enhancers which are called when printing a log message.
+     */
+    private final List<Function<ITestResult, Optional<String>>> logMessageEnhancers = new ArrayList<>();
 
     /**
      * Subscribe to events and register event handlers.
@@ -57,12 +66,20 @@ public class TestNGLoggingSubscriber implements IEventSubscriber {
     }
 
     /**
+     * Registers a log message enhancer which will be called whenever this subscriber prints a log message.
+     *
+     * @param enhancer the enhancing function
+     */
+    public void addLogMessageEnhancer(Function<ITestResult, Optional<String>> enhancer) {
+        this.logMessageEnhancers.add(enhancer);
+    }
+
+    /**
      * This method is called every time before a test is executed.
      *
      * @param iQtafTestEventPayload Test context object
      * @deprecated
      */
-
     @Deprecated
     private void onTestStarted(IQtafTestEventPayload iQtafTestEventPayload) {
         // Check if this listener is responsible for this event
@@ -223,13 +240,15 @@ public class TestNGLoggingSubscriber implements IEventSubscriber {
      * @param message     Log message
      */
     private void log(ITestResult iTestResult, String message) {
-        logger.info("[Test] [%s] [%s] %s"
-                .formatted(
-                        iTestResult.hashCode(),
-                        TestResultHelper.getTestContextInstance(iTestResult).getClass().getName(),
-                        message
-                )
-        );
+        String packageAndClassName = TestResultHelper.getTestContextInstance(iTestResult).getClass().getName();
+        String methodName = iTestResult.getMethod().getMethodName();
+        StringBuilder logMessage = new StringBuilder("[Test] ");
+        for (Function<ITestResult, Optional<String>> enhancer : logMessageEnhancers) {
+            Optional<String> result = enhancer.apply(iTestResult);
+            result.ifPresent(s -> logMessage.append("[%s] ".formatted(s)));
+        }
+        logMessage.append("[%s.%s] %s".formatted(packageAndClassName, methodName, message));
+        logger.info(logMessage.toString());
     }
 
     /**

@@ -2,6 +2,7 @@ package de.qytera.qtaf.core.config.entity;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.PathNotFoundException;
@@ -13,10 +14,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Stream;
 
 /**
@@ -279,14 +277,20 @@ public class ConfigMap extends HashMap<String, Object> {
      * Retrieves a list of values for the given key.
      *
      * @param key the key of the array to retrieve
-     * @return the list or null if there is no value or if the value cannot be interpreted as a list of {@link JsonElement}
+     * @return the list of JSON elements or an empty list if:
+     *     <ul>
+     *         <li>there is no value</li>
+     *         <li>the value cannot be interpreted as a JSON array</li>
+     *     </ul>
      */
     public List<JsonElement> getList(String key) {
         Object value = null;
         try {
             value = getValue(key);
             if (value != null) {
-                return GsonFactory.getInstanceWithoutCustomSerializers().fromJson(value.toString(), JsonArray.class).asList();
+                return GsonFactory.getInstanceWithoutCustomSerializers()
+                        .fromJson(value.toString(), JsonArray.class)
+                        .asList();
             }
         } catch (PathNotFoundException exception) {
             logMissingKey(key);
@@ -302,6 +306,41 @@ public class ConfigMap extends HashMap<String, Object> {
             ERROR_LOG_COLLECTION.addErrorLog(new ConfigurationError(exception));
         }
         return Collections.emptyList();
+    }
+
+    /**
+     * Retrieves a JSON object for the given key.
+     *
+     * @param key the key of the JSON object to retrieve
+     * @return a map representing the JSON object or an empty map if:
+     *     <ul>
+     *         <li>there is no value</li>
+     *         <li>the value cannot be interpreted as a JSON object</li>
+     *     </ul>
+     */
+    public Map<String, JsonElement> getMap(String key) {
+        Object value = null;
+        try {
+            value = getValue(key);
+            if (value != null) {
+                return GsonFactory.getInstanceWithoutCustomSerializers()
+                        .fromJson(value.toString(), JsonObject.class)
+                        .asMap();
+            }
+        } catch (PathNotFoundException exception) {
+            logMissingKey(key);
+        } catch (JsonSyntaxException exception) {
+            QtafFactory.getLogger().error(
+                    String.format(
+                            "Value '%s' of key '%s' could not be parsed as a JSON object (%s)",
+                            value,
+                            key,
+                            exception
+                    )
+            );
+            ERROR_LOG_COLLECTION.addErrorLog(new ConfigurationError(exception));
+        }
+        return Collections.emptyMap();
     }
 
     private void logMissingKey(String key) {

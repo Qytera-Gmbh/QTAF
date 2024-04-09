@@ -1,8 +1,6 @@
 package de.qytera.qtaf.core.selenium;
 
 import de.qytera.qtaf.core.selenium.helper.SeleniumDriverConfigHelper;
-import org.openqa.selenium.Capabilities;
-import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
@@ -18,26 +16,14 @@ public class SaucelabsDriver extends AbstractDriver {
 
     @Override
     public WebDriver getDriver() {
-        return new RemoteWebDriver(SeleniumDriverConfigHelper.getRemoteUrl(), getCapabilities());
-    }
-
-    @Override
-    protected Capabilities getCapabilities() {
-        MutableCapabilities sauceOptions = new MutableCapabilities();
-        sauceOptions.setCapability("username", SeleniumDriverConfigHelper.getSaucelabUsername());
-        sauceOptions.setCapability("accesskey", SeleniumDriverConfigHelper.getSaucelabAccessKey());
-
-        MutableCapabilities capabilities = new MutableCapabilities();
-        capabilities.setCapability("browserName", SeleniumDriverConfigHelper.getSaucelabBrowserName());
-        capabilities.setCapability("browserVersion", SeleniumDriverConfigHelper.getDriverVersion());
-        capabilities.setCapability("platformName", SeleniumDriverConfigHelper.getPlatformName());
-        capabilities.setCapability("sauce:options", sauceOptions);
-
-        return capabilities;
+        return new RemoteWebDriver(
+                SeleniumDriverConfigHelper.getRemoteUrl(),
+                CapabilityFactory.getCapabilitiesSaucelabs()
+        );
     }
 
     @Override
     protected boolean isRemoteDriver() {
-        return false;
+        return true;
     }
 }

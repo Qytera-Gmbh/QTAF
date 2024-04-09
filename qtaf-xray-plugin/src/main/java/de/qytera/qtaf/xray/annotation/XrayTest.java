@@ -23,12 +23,12 @@ public @interface XrayTest {
      *
      * @return whether HTML reports should be added
      */
-    boolean scenarioReport() default false;
+    boolean scenarioReport() default true;
 
     /**
      * Flag that indicates whether screenshots should be added as evidence to this test.
      *
      * @return whether screenshots should be added
      */
-    boolean screenshots() default false;
+    boolean screenshots() default true;
 }
