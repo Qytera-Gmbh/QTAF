@@ -1,14 +1,18 @@
 package de.qytera.qtaf.core.selenium;
 
-import io.appium.java_client.remote.MobileCapabilityType;
+import de.qytera.qtaf.core.QtafFactory;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.remote.CapabilityType;
-import org.openqa.selenium.remote.DesiredCapabilities;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  * This class is responsible for managing the appium android driver.
  */
-public class AndroidDriver extends AbstractAndroidDriver {
+public class AndroidDriver extends AbstractDriver {
+
+    private static final String KEY_APPIUM_DRIVERSETTINGS_URL = "appium.driverSettings.url";
+
     @Override
     public String getName() {
         return "android";
@@ -16,26 +20,21 @@ public class AndroidDriver extends AbstractAndroidDriver {
 
     @Override
     public WebDriver getDriver() {
-        return getAndroidDriver(getCapabilities());
-    }
-
-    /**
-     * Get capabilities.
-     *
-     * @return capabilities
-     */
-    @Override
-    protected DesiredCapabilities getCapabilities() {
-        DesiredCapabilities dc = super.getCapabilities();
-        logDesiredCapability(MobileCapabilityType.UDID, CONFIG.getString("appium.capabilities.udid"));
-        logDesiredCapability(CapabilityType.BROWSER_VERSION, CONFIG.getString("appium.capabilities.androidVersion"));
-        logDesiredCapability("appPackage", CONFIG.getString("appium.capabilities.appPackage"));
-        logDesiredCapability("appActivity", CONFIG.getString("appium.capabilities.appActivity"));
-        dc.setCapability(MobileCapabilityType.UDID, CONFIG.getString("appium.capabilities.udid"));
-        dc.setCapability(CapabilityType.BROWSER_VERSION, CONFIG.getString("appium.capabilities.androidVersion"));
-        dc.setCapability("appPackage", CONFIG.getString("appium.capabilities.appPackage"));
-        dc.setCapability("appActivity", CONFIG.getString("appium.capabilities.appActivity"));
-        return dc;
+        String url = CONFIG.getString(KEY_APPIUM_DRIVERSETTINGS_URL);
+        try {
+            if (url == null) {
+                throw new MalformedURLException(
+                        "Failed to get Appium driver URL, configuration key '%s' is null".formatted(KEY_APPIUM_DRIVERSETTINGS_URL)
+                );
+            }
+            return new io.appium.java_client.android.AndroidDriver(
+                    new URL(url),
+                    CapabilityFactory.getCapabilitiesAndroid()
+            );
+        } catch (MalformedURLException e) {
+            QtafFactory.getLogger().fatal("The given Appium driver url is malformed: %s".formatted(url));
+            throw new IllegalArgumentException(e);
+        }
     }
 
     @Override

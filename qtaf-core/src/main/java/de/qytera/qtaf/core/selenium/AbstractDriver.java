@@ -1,12 +1,10 @@
 package de.qytera.qtaf.core.selenium;
 
 import de.qytera.qtaf.core.QtafFactory;
-import de.qytera.qtaf.core.config.ConfigurationFactory;
 import de.qytera.qtaf.core.config.entity.ConfigMap;
 import de.qytera.qtaf.core.log.Logger;
 import de.qytera.qtaf.core.selenium.helper.SeleniumDriverConfigHelper;
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.LocalFileDetector;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -55,22 +53,6 @@ public abstract class AbstractDriver {
     protected abstract WebDriver getDriver();
 
     /**
-     * Log an info message.
-     *
-     * @param message Log message
-     */
-    static void logInfo(String message) {
-        LOGGER.info("[DriverFactory] " + message);
-    }
-
-    /**
-     * Get driver capabilities.
-     *
-     * @return driver capabilities
-     */
-    protected abstract Capabilities getCapabilities();
-
-    /**
      * Initialize web driver manager.
      *
      * @param webDriverManager web driver manager
@@ -98,13 +80,4 @@ public abstract class AbstractDriver {
      * @return whether the driver runs on a different machine
      */
     protected abstract boolean isRemoteDriver();
-
-    /**
-     * Check if driver should be started in headless mode.
-     *
-     * @return true if headless, false otherwise
-     */
-    protected boolean headless() {
-        return ConfigurationFactory.getInstance().getBoolean("driver.headless", false);
-    }
 }
