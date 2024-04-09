@@ -3,12 +3,12 @@ package de.qytera.qtaf.xray.entity;
 import de.qytera.qtaf.core.log.model.error.ErrorLogCollection;
 import de.qytera.qtaf.core.util.Base64Helper;
 import de.qytera.qtaf.xray.error.EvidenceUploadError;
+import jakarta.activation.FileTypeMap;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.activation.FileTypeMap;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
