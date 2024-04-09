@@ -48,8 +48,12 @@
             <artifactId>rest-assured</artifactId>
             <version>5.3.1</version>
         </dependency>
-
-
+        <dependency>
+            <groupId>de.qytera</groupId>
+            <artifactId>qtaf-core</artifactId>
+            <version>0.2.13</version>
+            <scope>compile</scope>
+        </dependency>
 
 
     </dependencies>

@@ -53,8 +53,9 @@ public class RequestHeaderTests extends QtafTestNGContext implements ApiTest {
                 this,
                 List.of(
                         baseUri(url),
-                        basePath("/albums/1")
-                        //headers(Map.of("foo-bar", "bar_foo", "bar-foo", "foo_bar"))
+                        basePath("/albums/1"),
+                        header("foo-bar", "bar_foo"),
+                        header("bar-foo", "foo_bar")
                 ),
                 getRequest(),
                 List.of(

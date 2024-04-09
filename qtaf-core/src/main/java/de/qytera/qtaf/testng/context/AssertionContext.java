@@ -757,7 +757,7 @@ public interface AssertionContext {
         stepLog.setStep(stepAnnotation);
         stepLog.setStepName(message);
         stepLog.setStepDescription(message);
-        stepLog.setStatus(error != null ? StepInformationLogMessage.Status.ERROR : StepInformationLogMessage.Status.PASS);
+        stepLog.setStatus(error != null ? StepInformationLogMessage.Status.FAILED : StepInformationLogMessage.Status.PASSED);
 
         // Add step log to scenario log collection
         scenarioLogCollection.addLogMessage(stepLog);
