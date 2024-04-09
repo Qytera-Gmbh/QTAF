@@ -26,6 +26,7 @@ public interface QtafMethodInterceptor {
 
     /**
      * Get an instance of MethodInterceptor that contains the logic for intercepting methods.
+     *
      * @return  MethodInterceptor object
      */
     MethodInterceptor getMethodInterceptor();
