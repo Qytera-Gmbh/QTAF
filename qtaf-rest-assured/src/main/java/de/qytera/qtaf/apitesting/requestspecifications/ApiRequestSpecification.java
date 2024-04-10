@@ -8,6 +8,10 @@ import io.restassured.specification.RequestSpecification;
  */
 @FunctionalInterface
 public interface ApiRequestSpecification {
-    // void apply(RequestSpecification req, ApiLogMessage logMessage);
+    /**
+     * Apply.
+     *
+     * @param req   Request specification
+     */
     void apply(RequestSpecification req);
 }

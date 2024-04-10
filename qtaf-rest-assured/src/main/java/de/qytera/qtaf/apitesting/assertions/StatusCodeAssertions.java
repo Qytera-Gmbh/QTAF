@@ -5,6 +5,9 @@ import de.qytera.qtaf.core.log.model.message.AssertionLogMessageType;
 import io.restassured.response.ValidatableResponse;
 import org.hamcrest.Matchers;
 
+/**
+ * Interface for classes that provide methods for checking the response status code.
+ */
 public interface StatusCodeAssertions {
     /**
      * Validate that the response status code matches an integer.

@@ -2,6 +2,7 @@ package de.qytera.qtaf.apitesting.log.model.message;
 
 import de.qytera.qtaf.core.log.model.LogLevel;
 import de.qytera.qtaf.core.log.model.message.LogMessage;
+import de.qytera.qtaf.core.log.model.message.StepInformationLogMessage;
 import io.restassured.http.*;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.specification.QueryableRequestSpecification;
@@ -16,10 +17,15 @@ import java.util.*;
  * e.g. when creating JSON or HTML reports or in plugins.
  */
 public class ApiLogMessage extends LogMessage {
-
+    /**
+     * Request object.
+     */
     @Getter @Setter
     Request request = new Request();
 
+    /**
+     * Response object.
+     */
     @Getter @Setter
     Response response = new Response();
 
@@ -67,8 +73,8 @@ public class ApiLogMessage extends LogMessage {
         private Headers headers;
 
         /**
-         * Set the corresponding values in the Request-Api-LogMessage,
-         * depending on the response of the API request from RESTAssured
+         * Set the corresponding values in the Request-Api-LogMessage.
+         * Depending on the response of the API request from RESTAssured.
          *
          * @param request queryable request specification of RESTassured
          */
@@ -125,5 +131,81 @@ public class ApiLogMessage extends LogMessage {
             time = response.time();
             bodyAsString = response.body().asString();
         }
+    }
+
+    /**
+     * Create a log message based on the attributes.
+     *
+     * @return Log message text
+     */
+    public String buildMessage() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("REQUEST:\n\n");
+        if (this.getRequest().getRequestMethod() != null) {
+            sb.append("Request Method: " + this.getRequest().getRequestMethod() + "\n");
+        }
+        if (this.getRequest().getBaseUri() != null) {
+            sb.append("Base URI: " + this.getRequest().getBaseUri() + "\n");
+        }
+        if (this.getRequest().getBasePath() != null) {
+            sb.append("Base Path: " + this.getRequest().getBasePath() + "\n");
+        }
+        if (this.getRequest().getContentType() != null) {
+            sb.append("Content Type: " + this.getRequest().getContentType() + "\n");
+        }
+        if (this.getRequest().getHeaders() != null && this.getRequest().getHeaders().size() > 0) {
+            sb.append("\nHeaders: \n");
+            for (Header header : this.getRequest().getHeaders()) {
+                sb.append("\t" + header.getName() + " = " + header.getValue() + "\n");
+            }
+        }
+        if (this.getRequest().getPathParams() != null && this.getRequest().getPathParams().size() > 0) {
+            sb.append("\nPath Params: \n");
+            for (Map.Entry<String, String> pathParam : this.getRequest().getPathParams().entrySet()) {
+                sb.append("\t" + pathParam.getKey() + " = " + pathParam.getValue() + "\n");
+            }
+        }
+        if (this.getRequest().getQueryParams() != null && this.getRequest().getQueryParams().size() > 0) {
+            sb.append("\nQuery Params: \n");
+            for (Map.Entry<String, String> queryParam : this.getRequest().getQueryParams().entrySet()) {
+                sb.append("\t" + queryParam.getKey() + " = " + queryParam.getValue() + "\n");
+            }
+        }
+        if (this.getRequest().getFormParams() != null && this.getRequest().getFormParams().size() > 0) {
+            sb.append("\nForm Params: \n");
+            for (Map.Entry<String, String> formParam : this.getRequest().getFormParams().entrySet()) {
+                sb.append("\t" + formParam.getKey() + " = " + formParam.getValue() + "\n");
+            }
+        }
+        if (this.getRequest().getBodyAsString() != null) {
+            sb.append("\nBody:\n");
+            sb.append(this.getRequest().getBodyAsString());
+        }
+
+        sb.append("\n\nRESPONSE\n\n");
+        sb.append("Status Code: " + this.getResponse().getStatusCode() + "\n");
+        sb.append("Time: " + this.getResponse().getTime() + "\n");
+        if (this.getResponse().getContentType() != null) {
+            sb.append("Content Type: " + this.getResponse().getContentType() + "\n");
+        }
+        if (this.getResponse().getHeaders() != null && this.getResponse().getHeaders().size() > 0) {
+            sb.append("\nHeaders: \n");
+            for (Header header : this.getResponse().getHeaders()) {
+                sb.append("\t" + header.getName() + " = " + header.getValue() + "\n");
+
+            }
+        }
+        if (this.getResponse().getCookies() != null && this.getResponse().getCookies().size() > 0) {
+            sb.append("\nCookies: \n");
+            for (Map.Entry<String, String> cookie : this.getResponse().getCookies().entrySet()) {
+                sb.append("\t" + cookie.getKey() + " = " + cookie.getValue() + "\n");
+            }
+        }
+        if (this.getResponse().getBodyAsString() != null) {
+            sb.append("\nBody:\n");
+            sb.append(this.getResponse().getBodyAsString());
+        }
+
+        return sb.toString();
     }
 }

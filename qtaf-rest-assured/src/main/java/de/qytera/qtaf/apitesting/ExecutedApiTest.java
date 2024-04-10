@@ -10,17 +10,18 @@ import io.restassured.specification.QueryableRequestSpecification;
  */
 public class ExecutedApiTest {
     /**
-     * Request specification information
+     * Request specification information.
      */
     protected QueryableRequestSpecification request;
 
     /**
-     * API Response information
+     * API Response information.
      */
     protected ExtractableResponse<Response> response;
 
     /**
-     * Constructor
+     * Constructor.
+     *
      * @param request   Request specification information
      * @param response   Response information
      */
@@ -30,7 +31,8 @@ public class ExecutedApiTest {
     }
 
     /**
-     * Getter for request specification
+     * Getter for request specification.
+     *
      * @return  request specification
      */
     public QueryableRequestSpecification getReq() {
@@ -39,15 +41,18 @@ public class ExecutedApiTest {
 
     /**
      * Getter for request specification. Kotlin uses this function for Pair destructuring.
-     * @see <a href="https://kotlinlang.org/docs/destructuring-declarations.html">Kotlin Destructuring</a>
+     *
      * @return request specification
+     *
+     * @see <a href="https://kotlinlang.org/docs/destructuring-declarations.html">Kotlin Destructuring</a>
      */
     public QueryableRequestSpecification component1() {
         return request;
     }
 
     /**
-     * Getter for response
+     * Getter for response.
+     *
      * @return  response
      */
     public ExtractableResponse<Response> getRes() {
@@ -56,8 +61,10 @@ public class ExecutedApiTest {
 
     /**
      * Getter for Kotlin code. Kotlin uses this function for Pair destructuring.
-     * @see <a href="https://kotlinlang.org/docs/destructuring-declarations.html">Kotlin Destructuring</a>
+     *
      * @return response
+     *
+     * @see <a href="https://kotlinlang.org/docs/destructuring-declarations.html">Kotlin Destructuring</a>
      */
     public ExtractableResponse<Response> component2() {
         return response;

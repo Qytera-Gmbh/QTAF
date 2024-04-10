@@ -39,6 +39,7 @@ public class ApiTestExecutor {
      * This allows QTAF to hook into the existing RestAssured library
      * and generate corresponding LogMessages.
      *
+     * @param context QTAF test context
      * @param requestSpecifications List of api requestSpecifications
      * @param requestType   Api request type that should be performed
      * @param assertions    List of assertions
@@ -114,8 +115,7 @@ public class ApiTestExecutor {
     }
 
     /**
-     * Apply provided request specifications
-     * for setting up the request by RESTassured
+     * Apply provided request specifications for setting up the request by RESTassured.
      *
      * @param requestSpecification The requestSpecifiaction of RESTassured that should get updated
      * @param apiRequestSpecifications The api request specifications according to which
@@ -132,7 +132,7 @@ public class ApiTestExecutor {
     /**
      * This function is syntactic sugar.
      * It can be called in the apiTest()-Method
-     * to provide a List<ApiPrecondition>.
+     * to provide a List[ApiPrecondition].
      * Due to the naming of this method
      * the test case is more readable for users.
      *
@@ -146,7 +146,7 @@ public class ApiTestExecutor {
     /**
      * This function is syntactic sugar.
      * It can be called in the apiTest()-Method
-     * to provide a List<ApiAssertion>.
+     * to provide a List[ApiAssertion].
      * Due to the naming of this method
      * the test case is more readable for users.
      *

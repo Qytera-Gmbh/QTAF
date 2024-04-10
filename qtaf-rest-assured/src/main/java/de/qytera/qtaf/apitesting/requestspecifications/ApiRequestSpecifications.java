@@ -7,10 +7,12 @@ import io.restassured.specification.RequestSpecification;
 import java.io.File;
 import java.util.Map;
 
-
+/**
+ * Api Request Specifications Interface.
+ */
 public interface ApiRequestSpecifications {
     /**
-     * Adding the baseUri
+     * Adding the baseUri.
      *
      * @param baseUri The uri
      * @return lambda
@@ -21,7 +23,7 @@ public interface ApiRequestSpecifications {
     }
 
     /**
-     * Adding the basePath
+     * Adding the basePath.
      *
      * @param basePath The uri
      * @return lambda
@@ -165,7 +167,7 @@ public interface ApiRequestSpecifications {
     }
 
     /**
-     * Instructs rest assured to don't include a content-type in the request
+     * Instructs rest assured to don't include a content-type in the request.
      *
      * @return lambda
      */

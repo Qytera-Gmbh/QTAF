@@ -6,10 +6,9 @@
     <parent>
         <groupId>de.qytera</groupId>
         <artifactId>qtaf</artifactId>
-        <version>0.2.8</version>
+        <version>0.2.13</version>
     </parent>
 
-    <groupId>de.qytera.qtaf</groupId>
     <artifactId>qtaf-rest-assured</artifactId>
 
     <properties>

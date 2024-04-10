@@ -5,6 +5,9 @@ import de.qytera.qtaf.core.log.model.message.AssertionLogMessageType;
 import io.restassured.response.ValidatableResponse;
 import org.hamcrest.Matcher;
 
+/**
+ * Interface for classes that provide methods for checking the response body.
+ */
 public interface BodyAssertions {
 
     /**

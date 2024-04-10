@@ -4,13 +4,12 @@ import de.qytera.qtaf.apitesting.log.model.message.ApiLogMessage;
 import io.restassured.specification.RequestSpecification;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Functional interface which is used for handling the api request types.
+ */
 public interface ApiRequestTypes {
-
-
-    // ========== HEAD ==========
-
     /**
-     * Perform a HEAD request
+     * Perform a HEAD request.
      * to the statically configured path (by default <a href="http://localhost:8080">http://localhost:8080</a>)
      *
      * @return lambda
@@ -64,7 +63,7 @@ public interface ApiRequestTypes {
     // ========== OPTION ==========
 
     /**
-     * Perform a OPTIONS request
+     * Perform a OPTIONS request.
      * to the statically configured path (by default <a href="http://localhost:8080">http://localhost:8080</a>)
      *
      * @return lambda
@@ -116,7 +115,7 @@ public interface ApiRequestTypes {
     // ========== GET ==========
 
     /**
-     * Perform a GET request
+     * Perform a GET request.
      * to the statically configured path (by default <a href="http://localhost:8080">http://localhost:8080</a>).
      *
      * @return lambda
@@ -190,7 +189,7 @@ public interface ApiRequestTypes {
     // ========== POST ==========
 
     /**
-     * Perform a POST request
+     * Perform a POST request.
      * to the statically configured path (by default <a href="http://localhost:8080">http://localhost:8080</a>).
      *
      * @return lambda
@@ -245,7 +244,7 @@ public interface ApiRequestTypes {
     // ========== PUT ==========
 
     /**
-     * Perform a PUT request
+     * Perform a PUT request.
      * to the statically configured path (by default <a href="http://localhost:8080">http://localhost:8080</a>).
      *
      * @return lambda
@@ -300,7 +299,7 @@ public interface ApiRequestTypes {
     // ========== DELETE ==========
 
     /**
-     * Perform a DELETE request
+     * Perform a DELETE request.
      * to the statically configured path (by default <a href="http://localhost:8080">http://localhost:8080</a>).
      *
      * @return lambda

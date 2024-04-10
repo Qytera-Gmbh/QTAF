@@ -21,8 +21,7 @@ import static de.qytera.qtaf.apitesting.assertions.AssertionPlaceholdersForActua
  */
 public class ApiAssertionLogMessageHelper {
     /**
-     * Creates and appends an AssertionLogMessage to the provided ApiLogMessage
-     * and sets relevant attributes
+     * Creates and appends an AssertionLogMessage to the provided ApiLogMessage and sets relevant attributes.
      *
      * @param  apiLogMessage  the ApiLogMessage the AssertionLogMessage should be appended
      * @param  message the message of the AssertionLogMessage
@@ -31,8 +30,14 @@ public class ApiAssertionLogMessageHelper {
      *                                However, the information which value is to be compared is required later.
      *                                Therefore, this placeholder is set so that the actual value can be computed
      *                                based on the response of the API call.
+     * @param  assertionLogMessageType Type of assertion
      */
-    private void createAndAppendAssertionLogMessage(@NotNull ApiLogMessage apiLogMessage, String message, Object expectedValue, AssertionLogMessageType assertionLogMessageType, AssertionPlaceholdersForActualValue.Type actualValuePlaceholder ){
+    private void createAndAppendAssertionLogMessage(
+            @NotNull ApiLogMessage apiLogMessage,
+            String message, Object expectedValue,
+            AssertionLogMessageType assertionLogMessageType,
+            AssertionPlaceholdersForActualValue.Type actualValuePlaceholder
+    ){
         AssertionLogMessage assertionLogMessage = new AssertionLogMessage(LogLevel.INFO, message);
         assertionLogMessage.setStatus(LogMessage.Status.PENDING);
         assertionLogMessage.setExpected(expectedValue);
@@ -56,8 +61,14 @@ public class ApiAssertionLogMessageHelper {
      * @param  apiLogMessage  the ApiLogMessage the AssertionLogMessage should be appended
      * @param  message the message of the AssertionLogMessage
      * @param  expectedValue the expectedValue of the assertion
+     * @param  assertionLogMessageType Type of assertion
      */
-    public static void createAndAppendBodyAssertionLogMessage(ApiLogMessage apiLogMessage, String message, Object expectedValue, AssertionLogMessageType assertionLogMessageType){
+    public static void createAndAppendBodyAssertionLogMessage(
+            ApiLogMessage apiLogMessage,
+            String message,
+            Object expectedValue,
+            AssertionLogMessageType assertionLogMessageType
+    ){
         ApiAssertionLogMessageHelper apiAssertionLogMessageHelper = new ApiAssertionLogMessageHelper();
         apiAssertionLogMessageHelper.createAndAppendAssertionLogMessage(apiLogMessage, message, expectedValue, assertionLogMessageType, UNKNOWN_ACTUAL_VALUE_forBodyAssertion);
     }
@@ -71,8 +82,14 @@ public class ApiAssertionLogMessageHelper {
      * @param  apiLogMessage  the ApiLogMessage the AssertionLogMessage should be appended
      * @param  message the message of the AssertionLogMessage
      * @param  expectedValue the expectedValue of the assertion
+     * @param  assertionLogMessageType Type of assertion
      */
-    public static void createAndAppendStatusCodeAssertionLogMessage(ApiLogMessage apiLogMessage, String message, Object expectedValue, AssertionLogMessageType assertionLogMessageType){
+    public static void createAndAppendStatusCodeAssertionLogMessage(
+            ApiLogMessage apiLogMessage,
+            String message,
+            Object expectedValue,
+            AssertionLogMessageType assertionLogMessageType
+    ){
         ApiAssertionLogMessageHelper apiAssertionLogMessageHelper = new ApiAssertionLogMessageHelper();
         apiAssertionLogMessageHelper.createAndAppendAssertionLogMessage(apiLogMessage, message, expectedValue, assertionLogMessageType, UNKNOWN_ACTUAL_VALUE_forStatusCodeAssertion);
     }
@@ -86,20 +103,31 @@ public class ApiAssertionLogMessageHelper {
      * @param  apiLogMessage  the ApiLogMessage the AssertionLogMessage should be appended
      * @param  message the message of the AssertionLogMessage
      * @param  expectedValue the expectedValue of the assertion
+     * @param  assertionLogMessageType Type of assertion
      */
-    public static void createAndAppendTimeAssertionLogMessage(ApiLogMessage apiLogMessage, String message, Object expectedValue, AssertionLogMessageType assertionLogMessageType){
+    public static void createAndAppendTimeAssertionLogMessage(
+            ApiLogMessage apiLogMessage,
+            String message,
+            Object expectedValue,
+            AssertionLogMessageType assertionLogMessageType
+    ){
         ApiAssertionLogMessageHelper apiAssertionLogMessageHelper = new ApiAssertionLogMessageHelper();
         apiAssertionLogMessageHelper.createAndAppendAssertionLogMessage(apiLogMessage, message, expectedValue, assertionLogMessageType, UNKNOWN_ACTUAL_VALUE_forTimeAssertion);
     }
 
 
     /**
-     * returns the actual value based on the response and the previously set placeholder
+     * Returns the actual value based on the response and the previously set placeholder.
      *
      * @param  assertionLogMessage  the assertionLogMessage the actual value should be computed for
      * @param  response the response of the api call that contains the actual value
+     *
+     * @return Actual value
      */
-    public static Object computeActualValue(AssertionLogMessage assertionLogMessage, ExtractableResponse<Response> response) {
+    public static Object computeActualValue(
+            AssertionLogMessage assertionLogMessage,
+            ExtractableResponse<Response> response
+    ) {
 
         if (assertionLogMessage.actual() == UNKNOWN_ACTUAL_VALUE_forBodyAssertion) {
             return response.body().asString();
