@@ -3,13 +3,13 @@ package de.qytera.qtaf.xray.entity;
 import de.qytera.qtaf.core.log.model.error.ErrorLogCollection;
 import de.qytera.qtaf.core.util.Base64Helper;
 import de.qytera.qtaf.xray.error.EvidenceUploadError;
-import jakarta.activation.FileTypeMap;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.io.IOException;
+import java.net.URLConnection;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -57,9 +57,10 @@ public class XrayEvidenceItemEntity {
     public static XrayEvidenceItemEntity fromFile(String filepath, String evidenceName) {
         try {
             Path path = Paths.get(filepath);
-            String mimeType = FileTypeMap.getDefaultFileTypeMap().getContentType(path.toFile());
+            String filename = evidenceName == null ? path.getFileName().toString() : evidenceName;
+            String mimeType = URLConnection.guessContentTypeFromName(filename);
             return XrayEvidenceItemEntity.builder()
-                    .filename(evidenceName == null ? path.getFileName().toString() : evidenceName)
+                    .filename(filename)
                     .data(Base64Helper.encodeFileContent(path.toAbsolutePath().toString()))
                     .contentType(mimeType)
                     .build();
@@ -80,7 +81,7 @@ public class XrayEvidenceItemEntity {
      */
     public static XrayEvidenceItemEntity fromString(String data, String evidenceName) {
         try {
-            String mimeType = FileTypeMap.getDefaultFileTypeMap().getContentType(data);
+            String mimeType = URLConnection.guessContentTypeFromName(evidenceName);
             return XrayEvidenceItemEntity.builder()
                     .filename(evidenceName)
                     .data(Base64Helper.encode(data))
