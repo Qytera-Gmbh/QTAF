@@ -20,8 +20,9 @@ public class SeleniumDriverConfigHelperTest {
 
     @AfterMethod
     public void clear() {
-        System.clearProperty(SeleniumDriverConfigHelper.DRIVER_CAPABILITIES);
         System.clearProperty(SeleniumDriverConfigHelper.DRIVER_OPTIONS);
+        System.clearProperty(SeleniumDriverConfigHelper.DRIVER_CAPABILITIES);
+        System.clearProperty(SeleniumDriverConfigHelper.DRIVER_PREFERENCES);
     }
 
     @Test
