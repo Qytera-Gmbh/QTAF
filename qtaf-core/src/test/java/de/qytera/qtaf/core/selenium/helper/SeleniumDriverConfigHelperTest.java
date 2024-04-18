@@ -76,7 +76,7 @@ public class SeleniumDriverConfigHelperTest {
 
     @Test
     public void testGetDriverCapabilitiesDefault() {
-        Assert.assertEquals(SeleniumDriverConfigHelper.getDriverOptions(), Collections.emptyList());
+        Assert.assertEquals(SeleniumDriverConfigHelper.getDriverCapabilities(), new MutableCapabilities());
     }
 
     @Test
@@ -111,6 +111,47 @@ public class SeleniumDriverConfigHelperTest {
                 )
         ));
         Assert.assertEquals(SeleniumDriverConfigHelper.getDriverCapabilities(), expectedCapabilities);
+    }
+
+    @Test
+    public void testGetDriverPreferencesDefault() {
+        Assert.assertEquals(SeleniumDriverConfigHelper.getDriverPreferences(), Collections.emptyMap());
+    }
+
+    @Test
+    public void testGetDriverPreferencesHappyPath() {
+        System.setProperty(SeleniumDriverConfigHelper.DRIVER_PREFERENCES, """
+                {
+                  "a": "good morning",
+                  "b": 3,
+                  "c": false,
+                  "d": [8080, 443],
+                  "e": {
+                    "f": true,
+                    "g": {
+                      "h": [1, 2.14, 3, null, 5],
+                      "i": null,
+                      "j": [[10], {"k": true}]
+                    }
+                  }
+                }
+                """
+        );
+        Assert.assertEquals(
+                SeleniumDriverConfigHelper.getDriverPreferences(),
+                Map.of(
+                        "a", "good morning",
+                        "b", 3L,
+                        "c", false,
+                        "d", List.of(8080L, 443L),
+                        "e", Map.of(
+                                "f", true,
+                                "g", Map.of(
+                                        "h", List.of(1L, 2.14D, 3L, 5L),
+                                        "j", List.of(List.of(10L), Map.of("k", true))
+                                )
+                        )
+                ));
     }
 
     @Test
