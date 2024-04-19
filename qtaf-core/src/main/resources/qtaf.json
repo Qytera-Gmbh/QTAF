@@ -20,7 +20,8 @@
       "afterStepFailure": true
     },
     "options": [],
-    "capabilities": {}
+    "capabilities": {},
+    "preferences": {}
   },
   "logging": {
     "enabled": true,

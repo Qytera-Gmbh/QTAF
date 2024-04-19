@@ -10,6 +10,7 @@ import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.ie.InternetExplorerOptions;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -39,6 +40,14 @@ public class CapabilityFactoryTest {
             )
     );
 
+    private static final Map<String, Object> PREFERENCES = Map.of(
+            "f", true,
+            "g", Map.of(
+                    "h", List.of(1L, 2.14D, 3L, 5L),
+                    "j", List.of(List.of(10L), Map.of("k", true))
+            )
+    );
+
     @Test
     public void testGetCapabilitiesChrome() {
         try (MockedStatic<SeleniumDriverConfigHelper> helper = Mockito.mockStatic(SeleniumDriverConfigHelper.class)) {
@@ -48,11 +57,26 @@ public class CapabilityFactoryTest {
             ChromeOptions actualOptions = CapabilityFactory.getCapabilitiesChrome();
             helper.verify(SeleniumDriverConfigHelper::getDriverOptions, Mockito.times(1));
             helper.verify(SeleniumDriverConfigHelper::getDriverCapabilities, Mockito.times(1));
-            helper.verifyNoMoreInteractions();
 
             ChromeOptions expectedOptions = new ChromeOptions();
             expectedOptions.addArguments(OPTIONS);
             expectedOptions = expectedOptions.merge(CAPABILITIES);
+
+            Assert.assertEquals(actualOptions, expectedOptions);
+        }
+    }
+
+    @Test
+    public void testGetCapabilitiesChromeWithPreferences() {
+        try (MockedStatic<SeleniumDriverConfigHelper> helper = Mockito.mockStatic(SeleniumDriverConfigHelper.class)) {
+            helper.when(SeleniumDriverConfigHelper::getDriverPreferences).thenReturn(PREFERENCES);
+            helper.when(SeleniumDriverConfigHelper::getDriverCapabilities).thenReturn(new MutableCapabilities());
+
+            ChromeOptions actualOptions = CapabilityFactory.getCapabilitiesChrome();
+            helper.verify(SeleniumDriverConfigHelper::getDriverPreferences, Mockito.times(1));
+
+            ChromeOptions expectedOptions = new ChromeOptions();
+            PREFERENCES.forEach(expectedOptions::setExperimentalOption);
 
             Assert.assertEquals(actualOptions, expectedOptions);
         }
@@ -67,11 +91,26 @@ public class CapabilityFactoryTest {
             ChromeOptions actualOptions = CapabilityFactory.getCapabilitiesChromeRemote();
             helper.verify(SeleniumDriverConfigHelper::getDriverOptions, Mockito.times(1));
             helper.verify(SeleniumDriverConfigHelper::getDriverCapabilities, Mockito.times(1));
-            helper.verifyNoMoreInteractions();
 
             ChromeOptions expectedOptions = new ChromeOptions();
             expectedOptions.addArguments(OPTIONS);
             expectedOptions = expectedOptions.merge(CAPABILITIES);
+
+            Assert.assertEquals(actualOptions, expectedOptions);
+        }
+    }
+
+    @Test
+    public void testGetCapabilitiesChromeRemoteWithPreferences() {
+        try (MockedStatic<SeleniumDriverConfigHelper> helper = Mockito.mockStatic(SeleniumDriverConfigHelper.class)) {
+            helper.when(SeleniumDriverConfigHelper::getDriverPreferences).thenReturn(PREFERENCES);
+            helper.when(SeleniumDriverConfigHelper::getDriverCapabilities).thenReturn(new MutableCapabilities());
+
+            ChromeOptions actualOptions = CapabilityFactory.getCapabilitiesChromeRemote();
+            helper.verify(SeleniumDriverConfigHelper::getDriverPreferences, Mockito.times(1));
+
+            ChromeOptions expectedOptions = new ChromeOptions();
+            PREFERENCES.forEach(expectedOptions::setExperimentalOption);
 
             Assert.assertEquals(actualOptions, expectedOptions);
         }
@@ -86,11 +125,26 @@ public class CapabilityFactoryTest {
             EdgeOptions actualOptions = CapabilityFactory.getCapabilitiesEdge();
             helper.verify(SeleniumDriverConfigHelper::getDriverOptions, Mockito.times(1));
             helper.verify(SeleniumDriverConfigHelper::getDriverCapabilities, Mockito.times(1));
-            helper.verifyNoMoreInteractions();
 
             EdgeOptions expectedOptions = new EdgeOptions();
             expectedOptions.addArguments(OPTIONS);
             expectedOptions = expectedOptions.merge(CAPABILITIES);
+
+            Assert.assertEquals(actualOptions, expectedOptions);
+        }
+    }
+
+    @Test
+    public void testGetCapabilitiesEdgeWithPreferences() {
+        try (MockedStatic<SeleniumDriverConfigHelper> helper = Mockito.mockStatic(SeleniumDriverConfigHelper.class)) {
+            helper.when(SeleniumDriverConfigHelper::getDriverPreferences).thenReturn(PREFERENCES);
+            helper.when(SeleniumDriverConfigHelper::getDriverCapabilities).thenReturn(new MutableCapabilities());
+
+            EdgeOptions actualOptions = CapabilityFactory.getCapabilitiesEdge();
+            helper.verify(SeleniumDriverConfigHelper::getDriverPreferences, Mockito.times(1));
+
+            EdgeOptions expectedOptions = new EdgeOptions();
+            PREFERENCES.forEach(expectedOptions::setExperimentalOption);
 
             Assert.assertEquals(actualOptions, expectedOptions);
         }
@@ -105,11 +159,26 @@ public class CapabilityFactoryTest {
             EdgeOptions actualOptions = CapabilityFactory.getCapabilitiesEdgeRemote();
             helper.verify(SeleniumDriverConfigHelper::getDriverOptions, Mockito.times(1));
             helper.verify(SeleniumDriverConfigHelper::getDriverCapabilities, Mockito.times(1));
-            helper.verifyNoMoreInteractions();
 
             EdgeOptions expectedOptions = new EdgeOptions();
             expectedOptions.addArguments(OPTIONS);
             expectedOptions = expectedOptions.merge(CAPABILITIES);
+
+            Assert.assertEquals(actualOptions, expectedOptions);
+        }
+    }
+
+    @Test
+    public void testGetCapabilitiesEdgeRemoteWithPreferences() {
+        try (MockedStatic<SeleniumDriverConfigHelper> helper = Mockito.mockStatic(SeleniumDriverConfigHelper.class)) {
+            helper.when(SeleniumDriverConfigHelper::getDriverPreferences).thenReturn(PREFERENCES);
+            helper.when(SeleniumDriverConfigHelper::getDriverCapabilities).thenReturn(new MutableCapabilities());
+
+            EdgeOptions actualOptions = CapabilityFactory.getCapabilitiesEdgeRemote();
+            helper.verify(SeleniumDriverConfigHelper::getDriverPreferences, Mockito.times(1));
+
+            EdgeOptions expectedOptions = new EdgeOptions();
+            PREFERENCES.forEach(expectedOptions::setExperimentalOption);
 
             Assert.assertEquals(actualOptions, expectedOptions);
         }
@@ -124,11 +193,28 @@ public class CapabilityFactoryTest {
             FirefoxOptions actualOptions = CapabilityFactory.getCapabilitiesFirefox();
             helper.verify(SeleniumDriverConfigHelper::getDriverOptions, Mockito.times(1));
             helper.verify(SeleniumDriverConfigHelper::getDriverCapabilities, Mockito.times(1));
-            helper.verifyNoMoreInteractions();
 
             FirefoxOptions expectedOptions = new FirefoxOptions();
             expectedOptions.addArguments(OPTIONS);
             expectedOptions = expectedOptions.merge(CAPABILITIES);
+
+            Assert.assertEquals(actualOptions, expectedOptions);
+        }
+    }
+
+    @Test
+    public void testGetCapabilitiesFirefoxWithPreferences() {
+        try (MockedStatic<SeleniumDriverConfigHelper> helper = Mockito.mockStatic(SeleniumDriverConfigHelper.class)) {
+            helper.when(SeleniumDriverConfigHelper::getDriverPreferences).thenReturn(PREFERENCES);
+            helper.when(SeleniumDriverConfigHelper::getDriverCapabilities).thenReturn(new MutableCapabilities());
+
+            FirefoxOptions actualOptions = CapabilityFactory.getCapabilitiesFirefox();
+            helper.verify(SeleniumDriverConfigHelper::getDriverPreferences, Mockito.times(1));
+
+            FirefoxOptions expectedOptions = new FirefoxOptions();
+            FirefoxProfile profile = new FirefoxProfile();
+            PREFERENCES.forEach(profile::setPreference);
+            expectedOptions.setProfile(profile);
 
             Assert.assertEquals(actualOptions, expectedOptions);
         }
@@ -143,11 +229,28 @@ public class CapabilityFactoryTest {
             FirefoxOptions actualOptions = CapabilityFactory.getCapabilitiesFirefoxRemote();
             helper.verify(SeleniumDriverConfigHelper::getDriverOptions, Mockito.times(1));
             helper.verify(SeleniumDriverConfigHelper::getDriverCapabilities, Mockito.times(1));
-            helper.verifyNoMoreInteractions();
 
             FirefoxOptions expectedOptions = new FirefoxOptions();
             expectedOptions.addArguments(OPTIONS);
             expectedOptions = expectedOptions.merge(CAPABILITIES);
+
+            Assert.assertEquals(actualOptions, expectedOptions);
+        }
+    }
+
+    @Test
+    public void testGetCapabilitiesFirefoxRemoteWithPreferences() {
+        try (MockedStatic<SeleniumDriverConfigHelper> helper = Mockito.mockStatic(SeleniumDriverConfigHelper.class)) {
+            helper.when(SeleniumDriverConfigHelper::getDriverPreferences).thenReturn(PREFERENCES);
+            helper.when(SeleniumDriverConfigHelper::getDriverCapabilities).thenReturn(new MutableCapabilities());
+
+            FirefoxOptions actualOptions = CapabilityFactory.getCapabilitiesFirefoxRemote();
+            helper.verify(SeleniumDriverConfigHelper::getDriverPreferences, Mockito.times(1));
+
+            FirefoxOptions expectedOptions = new FirefoxOptions();
+            FirefoxProfile profile = new FirefoxProfile();
+            PREFERENCES.forEach(profile::setPreference);
+            expectedOptions.setProfile(profile);
 
             Assert.assertEquals(actualOptions, expectedOptions);
         }
@@ -170,6 +273,17 @@ public class CapabilityFactoryTest {
             expectedOptions = expectedOptions.merge(CAPABILITIES);
 
             Assert.assertEquals(actualOptions, expectedOptions);
+        }
+    }
+
+    @Test
+    public void testGetCapabilitiesInternetExplorerWithPreferences() {
+        try (MockedStatic<SeleniumDriverConfigHelper> helper = Mockito.mockStatic(SeleniumDriverConfigHelper.class)) {
+            helper.when(SeleniumDriverConfigHelper::getDriverPreferences).thenReturn(PREFERENCES);
+            helper.when(SeleniumDriverConfigHelper::getDriverCapabilities).thenReturn(new MutableCapabilities());
+
+            CapabilityFactory.getCapabilitiesInternetExplorer();
+            helper.verify(SeleniumDriverConfigHelper::getDriverPreferences, Mockito.times(0));
         }
     }
 
@@ -207,6 +321,25 @@ public class CapabilityFactoryTest {
     }
 
     @Test
+    public void testGetCapabilitiesAndroidWithPreferences() {
+
+        QtafFactory.getConfiguration().setString("appium.capabilities.deviceName", "Alpha");
+        QtafFactory.getConfiguration().setString("appium.capabilities.udid", "Beta");
+        QtafFactory.getConfiguration().setString("appium.capabilities.androidVersion", "Gamma");
+        QtafFactory.getConfiguration().setString("appium.capabilities.platformName", "Delta");
+        QtafFactory.getConfiguration().setString("appium.capabilities.appPackage", "Epsilon");
+        QtafFactory.getConfiguration().setString("appium.capabilities.appActivity", "Zeta");
+
+        try (MockedStatic<SeleniumDriverConfigHelper> helper = Mockito.mockStatic(SeleniumDriverConfigHelper.class)) {
+            helper.when(SeleniumDriverConfigHelper::getDriverPreferences).thenReturn(PREFERENCES);
+            helper.when(SeleniumDriverConfigHelper::getDriverCapabilities).thenReturn(new MutableCapabilities());
+
+            CapabilityFactory.getCapabilitiesAndroid();
+            helper.verify(SeleniumDriverConfigHelper::getDriverPreferences, Mockito.times(0));
+        }
+    }
+
+    @Test
     public void testGetCapabilitiesSaucelabs() {
 
         QtafFactory.getConfiguration().setString("sauce.username", "Alpha");
@@ -238,6 +371,24 @@ public class CapabilityFactoryTest {
             expectedCapabilities = expectedCapabilities.merge(CAPABILITIES);
 
             Assert.assertEquals(actualCapabilities, expectedCapabilities);
+        }
+    }
+
+    @Test
+    public void testGetCapabilitiesSaucelabsWithPreferences() {
+
+        QtafFactory.getConfiguration().setString("sauce.username", "Alpha");
+        QtafFactory.getConfiguration().setString("sauce.accessKey", "Beta");
+        QtafFactory.getConfiguration().setString("sauce.browserName", "Gamma");
+
+        try (MockedStatic<SeleniumDriverConfigHelper> helper = Mockito.mockStatic(SeleniumDriverConfigHelper.class)) {
+            helper.when(SeleniumDriverConfigHelper::getDriverPreferences).thenReturn(PREFERENCES);
+            helper.when(SeleniumDriverConfigHelper::getDriverCapabilities).thenReturn(new MutableCapabilities());
+            helper.when(SeleniumDriverConfigHelper::getDriverVersion).thenReturn("123.456.789");
+            helper.when(SeleniumDriverConfigHelper::getPlatformName).thenReturn("Unix");
+
+            CapabilityFactory.getCapabilitiesSaucelabs();
+            helper.verify(SeleniumDriverConfigHelper::getDriverPreferences, Mockito.times(0));
         }
     }
 
