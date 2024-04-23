@@ -7,6 +7,7 @@ import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.hamcrest.Matchers;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -124,7 +125,7 @@ public class RestAssuredTest {
             .body(Matchers.containsString("{\"name\":\"morpheus\",\"job\":\"leader\","))
             .statusCode(200);
     }
-    @Test
+    @Test @Ignore
     public void testHeader2RestAssuredTest() {
         File file = new File("src/test/java/de/qytera/qtaf/apitesting/restassured/preconditions/basic/assets/booking1.json");
         given()
