@@ -1,6 +1,7 @@
 package de.qytera.qtaf.apitesting.restassured.interceptor;
 
 import de.qytera.qtaf.apitesting.annotations.RestCall;
+import de.qytera.qtaf.core.guice.annotations.Step;
 import de.qytera.qtaf.core.log.model.collection.TestSuiteLogCollection;
 import de.qytera.qtaf.core.log.model.index.IndexHelper;
 import de.qytera.qtaf.testng.context.QtafTestNGContext;
@@ -32,7 +33,7 @@ class ApiTest extends QtafTestNGContext {
                 .basePath("/todos/1");
     }
 
-    @RestCall(name = "JSON Placeholder Test")
+    @Step(name = "JSON Placeholder Test")
     public ValidatableResponse apiCall(RequestSpecification specification) {
         return specification
                 .get()
