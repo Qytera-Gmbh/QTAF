@@ -1,5 +1,6 @@
 package de.qytera.qtaf.cucumber.helper;
 
+import de.qytera.qtaf.core.log.model.message.LogMessage;
 import de.qytera.qtaf.core.log.model.message.StepInformationLogMessage;
 import de.qytera.qtaf.cucumber.log.model.message.CucumberStepLogMessage;
 import de.qytera.qtaf.cucumber.log.model.message.index.CucumberStepIndex;
@@ -124,16 +125,20 @@ public class CucumberLogMessageHelper {
     public static StepInformationLogMessage.Status mapCucumberStatusToLogStatus(Status status) {
         switch (status) {
             case PASSED:
-                return StepInformationLogMessage.Status.PASS;
+                return StepInformationLogMessage.Status.PASSED;
             case FAILED:
-                return StepInformationLogMessage.Status.ERROR;
+                return StepInformationLogMessage.Status.FAILED;
             case SKIPPED:
                 return StepInformationLogMessage.Status.SKIPPED;
             case UNDEFINED:
-                return StepInformationLogMessage.Status.UNDEFINED;
+                throw new IllegalStateException("Cucumber status is marked as 'undefined': It could be that your step description could not be found");
+                // return StepInformationLogMessage.Status.UNDEFINED
             case PENDING:
                 return StepInformationLogMessage.Status.PENDING;
-            case UNUSED, AMBIGUOUS:
+            case UNUSED:
+                throw new IllegalStateException("Cucumber status is marked as 'unused'");
+            case AMBIGUOUS:
+                throw new IllegalStateException("Cucumber status is marked as 'ambiguous'");
         }
         return null;
     }
