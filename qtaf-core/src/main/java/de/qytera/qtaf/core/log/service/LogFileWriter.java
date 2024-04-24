@@ -8,6 +8,7 @@ import de.qytera.qtaf.core.log.model.error.ErrorLogCollection;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -32,16 +33,12 @@ public class LogFileWriter {
     public static String persistLogs(TestSuiteLogCollection collection) {
         // Get Gson instance
         Gson gson = GsonFactory.getInstance();
+        DirectoryHelper.createDirectoryIfNotExists(logCollection.getLogDirectory());
+        String reportPath = DirectoryHelper.preparePath(logCollection.getLogDirectory() + "/" + "Report.json");
 
-        try {
-            // Transform log collection to JSON string
-            String json = gson.toJson(collection);
-
+        try (FileWriter writer = new FileWriter(reportPath)) {
             // Write log file
-            String reportPath = DirectoryHelper.preparePath(logCollection.getLogDirectory() + "/" + "Report.json");
-
-            DirectoryHelper.createDirectoryIfNotExists(logCollection.getLogDirectory());
-            Files.write(Paths.get(reportPath), json.getBytes());
+            gson.toJson(collection, writer);
             return reportPath;
         } catch (Exception e) {
             e.printStackTrace();
