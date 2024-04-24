@@ -4,9 +4,8 @@ import de.qytera.qtaf.core.config.ConfigurationFactory;
 import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
 import de.qytera.qtaf.core.log.model.collection.TestSuiteLogCollection;
 import de.qytera.qtaf.core.log.model.index.IndexHelper;
-import de.qytera.qtaf.core.log.model.message.AssertionLogMessage;
-import de.qytera.qtaf.core.log.model.message.AssertionLogMessageType;
-import de.qytera.qtaf.core.log.model.message.StepInformationLogMessage;
+import de.qytera.qtaf.core.log.model.message.*;
+import de.qytera.qtaf.core.log.model.message.LogMessage;
 import de.qytera.qtaf.testng.context.AssertionContext;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
@@ -47,7 +46,7 @@ public class AssertionContextTest {
     public void testAssertTrue() {
         makeFailedAssertionsBreakTests();
         TestContext context = new TestContext();
-        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        LogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
         Assert.assertEquals(logMessage.getAssertions().size(), 0);
 
@@ -66,7 +65,7 @@ public class AssertionContextTest {
     @Test(description = "Test assertTrue", expectedExceptions = {AssertionError.class}, expectedExceptionsMessageRegExp = "should be true expected \\[true] but found \\[false](.*)")
     public void testAssertTrueFailure() {
         TestContext context = new TestContext();
-        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        LogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
         Assert.assertEquals(logMessage.getAssertions().size(), 0);
 
@@ -76,7 +75,7 @@ public class AssertionContextTest {
     @Test(description = "Test assertTrue")
     public void testAssertTrueFailureButContinue() {
         TestContext context = new TestContext();
-        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        LogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
         Assert.assertEquals(logMessage.getAssertions().size(), 0);
 
@@ -95,7 +94,7 @@ public class AssertionContextTest {
     @Test(description = "Test assertFalse")
     public void testAssertFalse() {
         TestContext context = new TestContext();
-        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        LogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
         Assert.assertEquals(logMessage.getAssertions().size(), 0);
 
@@ -115,7 +114,7 @@ public class AssertionContextTest {
     public void testAssertFalseFailure() {
         makeFailedAssertionsBreakTests();
         TestContext context = new TestContext();
-        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        LogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
         Assert.assertEquals(logMessage.getAssertions().size(), 0);
 
@@ -126,7 +125,7 @@ public class AssertionContextTest {
     public void testAssertFalseFailureContinue() {
         makeFailedAssertionsContinueTests();
         TestContext context = new TestContext();
-        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        LogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
         Assert.assertEquals(logMessage.getAssertions().size(), 0);
 
@@ -136,7 +135,7 @@ public class AssertionContextTest {
     @Test(description = "Test assertFalse")
     public void testAssertFalseFailureButContinue() {
         TestContext context = new TestContext();
-        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        LogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
         Assert.assertEquals(logMessage.getAssertions().size(), 0);
 
@@ -154,7 +153,7 @@ public class AssertionContextTest {
     @Test(description = "Test assertNull with message")
     public void testAssertNullWithMessage() {
         TestContext context = new TestContext();
-        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        LogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
         Assert.assertEquals(logMessage.getAssertions().size(), 0);
 
@@ -173,7 +172,7 @@ public class AssertionContextTest {
     @Test(description = "Test assertNull without message")
     public void testAssertNullWithoutMessage() {
         TestContext context = new TestContext();
-        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        LogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
         Assert.assertEquals(logMessage.getAssertions().size(), 0);
 
@@ -193,7 +192,7 @@ public class AssertionContextTest {
     public void testAssertNullFailure() {
         makeFailedAssertionsBreakTests();
         TestContext context = new TestContext();
-        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        LogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
         Assert.assertEquals(logMessage.getAssertions().size(), 0);
 
@@ -204,7 +203,7 @@ public class AssertionContextTest {
     public void testAssertNullFailureContinue() {
         makeFailedAssertionsContinueTests();
         TestContext context = new TestContext();
-        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        LogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
         Assert.assertEquals(logMessage.getAssertions().size(), 0);
 
@@ -214,7 +213,7 @@ public class AssertionContextTest {
     @Test(description = "Test assertNull failure but continue")
     public void testAssertNullFailureButContinue() {
         TestContext context = new TestContext();
-        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        LogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
         Assert.assertEquals(logMessage.getAssertions().size(), 0);
 
@@ -232,7 +231,7 @@ public class AssertionContextTest {
     @Test(description = "Test assertNotNull with message")
     public void testAssertNotNullWithMessage() {
         TestContext context = new TestContext();
-        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        LogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
         Assert.assertEquals(logMessage.getAssertions().size(), 0);
 
@@ -251,7 +250,7 @@ public class AssertionContextTest {
     @Test(description = "Test assertNotNull without message")
     public void testAssertNotNullWithoutMessage() {
         TestContext context = new TestContext();
-        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        LogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
         Assert.assertEquals(logMessage.getAssertions().size(), 0);
 
@@ -271,7 +270,7 @@ public class AssertionContextTest {
     public void testAssertNotNullFailure() {
         makeFailedAssertionsBreakTests();
         TestContext context = new TestContext();
-        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        LogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
         Assert.assertEquals(logMessage.getAssertions().size(), 0);
 
@@ -282,7 +281,7 @@ public class AssertionContextTest {
     public void testAssertNotNullFailureContinue() {
         makeFailedAssertionsContinueTests();
         TestContext context = new TestContext();
-        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        LogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
         Assert.assertEquals(logMessage.getAssertions().size(), 0);
 
@@ -292,7 +291,7 @@ public class AssertionContextTest {
     @Test(description = "Test assertNull failure but continue")
     public void testAssertNotNullFailureButContinue() {
         TestContext context = new TestContext();
-        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        LogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
         Assert.assertEquals(logMessage.getAssertions().size(), 0);
 
@@ -310,7 +309,7 @@ public class AssertionContextTest {
     @Test(description = "Test assertSame with message")
     public void testAssertSameWithMessage() {
         TestContext context = new TestContext();
-        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        LogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
         Assert.assertEquals(logMessage.getAssertions().size(), 0);
 
@@ -330,7 +329,7 @@ public class AssertionContextTest {
     @Test(description = "Test assertSame without message")
     public void testAssertSameWithoutMessage() {
         TestContext context = new TestContext();
-        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        LogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
         Assert.assertEquals(logMessage.getAssertions().size(), 0);
 
@@ -351,7 +350,7 @@ public class AssertionContextTest {
     public void testAssertSameFailure() {
         makeFailedAssertionsBreakTests();
         TestContext context = new TestContext();
-        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        LogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
         Assert.assertEquals(logMessage.getAssertions().size(), 0);
 
@@ -362,7 +361,7 @@ public class AssertionContextTest {
     public void testAssertSameFailureContinue() {
         makeFailedAssertionsContinueTests();
         TestContext context = new TestContext();
-        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        LogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
         Assert.assertEquals(logMessage.getAssertions().size(), 0);
 
@@ -372,7 +371,7 @@ public class AssertionContextTest {
     @Test(description = "Test assertSame failure but continue")
     public void testAssertSameFailureButContinue() {
         TestContext context = new TestContext();
-        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        LogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
         Assert.assertEquals(logMessage.getAssertions().size(), 0);
 
@@ -391,7 +390,7 @@ public class AssertionContextTest {
     @Test(description = "Test assertNotSame with message")
     public void testAssertNotSameWithMessage() {
         TestContext context = new TestContext();
-        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        LogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
         Assert.assertEquals(logMessage.getAssertions().size(), 0);
 
@@ -411,7 +410,7 @@ public class AssertionContextTest {
     @Test(description = "Test assertNotSame without message")
     public void testAssertNotSameWithoutMessage() {
         TestContext context = new TestContext();
-        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        LogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
         Assert.assertEquals(logMessage.getAssertions().size(), 0);
 
@@ -432,7 +431,7 @@ public class AssertionContextTest {
     public void testAssertNotSameFailure() {
         makeFailedAssertionsBreakTests();
         TestContext context = new TestContext();
-        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        LogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
         Assert.assertEquals(logMessage.getAssertions().size(), 0);
 
@@ -443,7 +442,7 @@ public class AssertionContextTest {
     public void testAssertNotSameFailureContinue() {
         makeFailedAssertionsContinueTests();
         TestContext context = new TestContext();
-        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        LogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
         Assert.assertEquals(logMessage.getAssertions().size(), 0);
 
@@ -453,7 +452,7 @@ public class AssertionContextTest {
     @Test(description = "Test assertNotSame failure but continue")
     public void testAssertNotSameFailureButContinue() {
         TestContext context = new TestContext();
-        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        LogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
         Assert.assertEquals(logMessage.getAssertions().size(), 0);
 
@@ -472,7 +471,7 @@ public class AssertionContextTest {
     @Test(description = "Test assertEquals with message")
     public void testAssertEqualsWithMessage() {
         TestContext context = new TestContext();
-        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        LogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
         Assert.assertEquals(logMessage.getAssertions().size(), 0);
 
@@ -492,7 +491,7 @@ public class AssertionContextTest {
     @Test(description = "Test assertEquals without message")
     public void testAssertEqualsWithoutMessage() {
         TestContext context = new TestContext();
-        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        LogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
         Assert.assertEquals(logMessage.getAssertions().size(), 0);
 
@@ -513,7 +512,7 @@ public class AssertionContextTest {
     public void testAssertEqualsFailure() {
         makeFailedAssertionsBreakTests();
         TestContext context = new TestContext();
-        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        LogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
         Assert.assertEquals(logMessage.getAssertions().size(), 0);
 
@@ -524,7 +523,7 @@ public class AssertionContextTest {
     public void testAssertEqualsFailureContinue() {
         makeFailedAssertionsContinueTests();
         TestContext context = new TestContext();
-        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        LogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
         Assert.assertEquals(logMessage.getAssertions().size(), 0);
 
@@ -534,7 +533,7 @@ public class AssertionContextTest {
     @Test(description = "Test assertEquals failure but continue")
     public void testAssertEqualsFailureButContinue() {
         TestContext context = new TestContext();
-        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        LogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
         Assert.assertEquals(logMessage.getAssertions().size(), 0);
 
@@ -553,7 +552,7 @@ public class AssertionContextTest {
     @Test(description = "Test assertNotEquals with message")
     public void testAssertNotEqualsWithMessage() {
         TestContext context = new TestContext();
-        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        LogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
         Assert.assertEquals(logMessage.getAssertions().size(), 0);
 
@@ -573,7 +572,7 @@ public class AssertionContextTest {
     @Test(description = "Test assertNotEquals without message")
     public void testAssertNotEqualsWithoutMessage() {
         TestContext context = new TestContext();
-        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        LogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
         Assert.assertEquals(logMessage.getAssertions().size(), 0);
 
@@ -594,7 +593,7 @@ public class AssertionContextTest {
     public void testAssertNotEqualsFailure() {
         makeFailedAssertionsBreakTests();
         TestContext context = new TestContext();
-        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        LogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
         Assert.assertEquals(logMessage.getAssertions().size(), 0);
 
@@ -605,7 +604,7 @@ public class AssertionContextTest {
     public void testAssertNotEqualsFailureContinue() {
         makeFailedAssertionsContinueTests();
         TestContext context = new TestContext();
-        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        LogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
         Assert.assertEquals(logMessage.getAssertions().size(), 0);
 
@@ -615,7 +614,7 @@ public class AssertionContextTest {
     @Test(description = "Test assertNotEquals failure but continue")
     public void testAssertNotEqualsFailureButContinue() {
         TestContext context = new TestContext();
-        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        LogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
         Assert.assertEquals(logMessage.getAssertions().size(), 0);
 
@@ -635,7 +634,7 @@ public class AssertionContextTest {
     @Test(description = "Test assertEquals")
     public void testAssertEqualsNoOrder() {
         TestContext context = new TestContext();
-        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        LogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
         Assert.assertEquals(logMessage.getAssertions().size(), 0);
 
@@ -658,7 +657,7 @@ public class AssertionContextTest {
     public void testAssertEqualsNoOrderFailure() {
         makeFailedAssertionsBreakTests();
         TestContext context = new TestContext();
-        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        LogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
         Assert.assertEquals(logMessage.getAssertions().size(), 0);
 
@@ -671,7 +670,7 @@ public class AssertionContextTest {
     public void testAssertEqualsNoOrderFailureContinue() {
         makeFailedAssertionsContinueTests();
         TestContext context = new TestContext();
-        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        LogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
         Assert.assertEquals(logMessage.getAssertions().size(), 0);
 
@@ -683,7 +682,7 @@ public class AssertionContextTest {
     @Test(description = "Test assertEquals failure but continue")
     public void testAssertEqualsNoOrderFailureButContinue() {
         TestContext context = new TestContext();
-        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        LogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
         Assert.assertEquals(logMessage.getAssertions().size(), 0);
 
@@ -704,7 +703,7 @@ public class AssertionContextTest {
     @Test(description = "Test assertEqualsDeep with message")
     public void testAssertDeepEqualsWithMapWithMessage() {
         TestContext context = new TestContext();
-        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        LogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
         Assert.assertEquals(logMessage.getAssertions().size(), 0);
 
@@ -726,7 +725,7 @@ public class AssertionContextTest {
     @Test(description = "Test assertEqualsDeep without message")
     public void testAssertDeepEqualsWithMapWithoutMessage() {
         TestContext context = new TestContext();
-        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        LogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
         Assert.assertEquals(logMessage.getAssertions().size(), 0);
 
@@ -749,7 +748,7 @@ public class AssertionContextTest {
     public void testAssertEqualsDeepFailureWithMap() {
         makeFailedAssertionsBreakTests();
         TestContext context = new TestContext();
-        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        LogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
         Assert.assertEquals(logMessage.getAssertions().size(), 0);
 
@@ -762,7 +761,7 @@ public class AssertionContextTest {
     public void testAssertEqualsDeepFailureWithMapContinue() {
         makeFailedAssertionsContinueTests();
         TestContext context = new TestContext();
-        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        LogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
         Assert.assertEquals(logMessage.getAssertions().size(), 0);
 
@@ -774,7 +773,7 @@ public class AssertionContextTest {
     @Test(description = "Test assertEqualsDeep failure but continue")
     public void testAssertEqualsDeepFailureButContinueWithMap() {
         TestContext context = new TestContext();
-        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        LogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
         Assert.assertEquals(logMessage.getAssertions().size(), 0);
 
@@ -795,7 +794,7 @@ public class AssertionContextTest {
     @Test(description = "Test assertEqualsDeep with set with message")
     public void testAssertDeepEqualsWithSetWithMessage() {
         TestContext context = new TestContext();
-        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        LogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
         Assert.assertEquals(logMessage.getAssertions().size(), 0);
 
@@ -817,7 +816,7 @@ public class AssertionContextTest {
     @Test(description = "Test assertEqualsDeep with set without message")
     public void testAssertDeepEqualsWithSetWithoutMessage() {
         TestContext context = new TestContext();
-        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        LogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
         Assert.assertEquals(logMessage.getAssertions().size(), 0);
 
@@ -840,7 +839,7 @@ public class AssertionContextTest {
     public void testAssertEqualsDeepFailureWithSet() {
         makeFailedAssertionsBreakTests();
         TestContext context = new TestContext();
-        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        LogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
         Assert.assertEquals(logMessage.getAssertions().size(), 0);
 
@@ -853,7 +852,7 @@ public class AssertionContextTest {
     public void testAssertEqualsDeepFailureWithSetContinue() {
         makeFailedAssertionsContinueTests();
         TestContext context = new TestContext();
-        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        LogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
         Assert.assertEquals(logMessage.getAssertions().size(), 0);
 
@@ -865,7 +864,7 @@ public class AssertionContextTest {
     @Test(description = "Test assertEqualsDeep with set failure but continue")
     public void testAssertEqualsDeepFailureButContinueWithSet() {
         TestContext context = new TestContext();
-        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        LogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
         Assert.assertEquals(logMessage.getAssertions().size(), 0);
 
@@ -886,7 +885,7 @@ public class AssertionContextTest {
     @Test(description = "Test assertNotEqualsDeep with message")
     public void testAsserNotDeepEqualsWithMapWithMessage() {
         TestContext context = new TestContext();
-        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        LogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
         Assert.assertEquals(logMessage.getAssertions().size(), 0);
 
@@ -908,7 +907,7 @@ public class AssertionContextTest {
     @Test(description = "Test assertNotEqualsDeep without message")
     public void testAsserNotDeepEqualsWithMapWithoutMessage() {
         TestContext context = new TestContext();
-        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        LogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
         Assert.assertEquals(logMessage.getAssertions().size(), 0);
 
@@ -931,7 +930,7 @@ public class AssertionContextTest {
     public void testAssertNotEqualsDeepFailureWithMap() {
         makeFailedAssertionsBreakTests();
         TestContext context = new TestContext();
-        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        LogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
         Assert.assertEquals(logMessage.getAssertions().size(), 0);
 
@@ -944,7 +943,7 @@ public class AssertionContextTest {
     public void testAssertNotEqualsDeepFailureWithMapContinue() {
         makeFailedAssertionsContinueTests();
         TestContext context = new TestContext();
-        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        LogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
         Assert.assertEquals(logMessage.getAssertions().size(), 0);
 
@@ -956,7 +955,7 @@ public class AssertionContextTest {
     @Test(description = "Test assertNotEqualsDeep failure but continue")
     public void testAssertNotEqualsDeepFailureButContinueWithMap() {
         TestContext context = new TestContext();
-        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        LogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
         Assert.assertEquals(logMessage.getAssertions().size(), 0);
 
@@ -977,7 +976,7 @@ public class AssertionContextTest {
     @Test(description = "Test assertNotEqualsDeep with message")
     public void testAsserNotDeepEqualsWithSetWithMessage() {
         TestContext context = new TestContext();
-        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        LogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
         Assert.assertEquals(logMessage.getAssertions().size(), 0);
 
@@ -999,7 +998,7 @@ public class AssertionContextTest {
     @Test(description = "Test assertNotEqualsDeep without message")
     public void testAsserNotDeepEqualsWithSetWithoutMessage() {
         TestContext context = new TestContext();
-        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        LogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
         Assert.assertEquals(logMessage.getAssertions().size(), 0);
 
@@ -1022,7 +1021,7 @@ public class AssertionContextTest {
     public void testAssertNotEqualsDeepFailureWithSet() {
         makeFailedAssertionsBreakTests();
         TestContext context = new TestContext();
-        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        LogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
         Assert.assertEquals(logMessage.getAssertions().size(), 0);
 
@@ -1035,7 +1034,7 @@ public class AssertionContextTest {
     public void testAssertNotEqualsDeepFailureWithSetContinue() {
         makeFailedAssertionsContinueTests();
         TestContext context = new TestContext();
-        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        LogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
         Assert.assertEquals(logMessage.getAssertions().size(), 0);
 
@@ -1047,7 +1046,7 @@ public class AssertionContextTest {
     @Test(description = "Test assertNotEqualsDeep failure but continue")
     public void testAssertNotEqualsDeepFailureButContinueWithSet() {
         TestContext context = new TestContext();
-        StepInformationLogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
+        LogMessage logMessage = context.getLogCollection().getStepLogOfPendingStep();
         logMessage.getAssertions().clear();
         Assert.assertEquals(logMessage.getAssertions().size(), 0);
 
@@ -1073,10 +1072,10 @@ public class AssertionContextTest {
         TestContext context = new TestContext();
         TestScenarioLogCollection scenarioLogCollection = context.getLogCollection();
         Assert.assertEquals(scenarioLogCollection.getLogMessages().size(), 1, "First there should be only the 'foo' log message");
-        ((StepInformationLogMessage) scenarioLogCollection.getLogMessages().get(0)).setStatus(StepInformationLogMessage.Status.PASS);
+        ((LogMessage) scenarioLogCollection.getLogMessages().get(0)).setStatus(LogMessage.Status.PASSED);
 
         StepInformationLogMessage logMessage = new StepInformationLogMessage("m1", "my-message");
-        logMessage.setStatus(StepInformationLogMessage.Status.PENDING);
+        logMessage.setStatus(LogMessage.Status.PENDING);
         scenarioLogCollection.addLogMessage(logMessage);
         Assert.assertEquals(scenarioLogCollection.getLogMessages().size(), 2, "There should be two step log messages before the first assertion");
         Assert.assertEquals(logMessage.getAssertions().size(), 0, "Expected log message to have no assertions yet");
@@ -1089,12 +1088,10 @@ public class AssertionContextTest {
         Assert.assertEquals(logMessage.getAssertions().get(0).actual(), 2);
         Assert.assertEquals(logMessage.getAssertions().get(0).expected(), 2);
 
-        // Now the step is set to status PASS. This means a new step must be created for an assertion executed outside of a step method.
-        logMessage.setStatus(StepInformationLogMessage.Status.PASS);
-        StepInformationLogMessage _log = scenarioLogCollection.getStepLogOfPendingStep();
+        logMessage.setStatus(LogMessage.Status.PASSED);
         context.assertEquals(3, 3, "Expected both integers to be identical");
         Assert.assertEquals(scenarioLogCollection.getLogMessages().size(), 3, "There should be three step log messages after the second assertion");
-        AssertionLogMessage assertionLogMessage = ((StepInformationLogMessage) scenarioLogCollection.getLogMessages().get(2)).getAssertions().get(0);
+        AssertionLogMessage assertionLogMessage = ((LogMessage) scenarioLogCollection.getLogMessages().get(2)).getAssertions().get(0);
         Assert.assertEquals(assertionLogMessage.expected(), 3);
         Assert.assertEquals(assertionLogMessage.actual(), 3);
         Assert.assertEquals(assertionLogMessage.getMessage(), "Expected both integers to be identical");
@@ -1104,7 +1101,7 @@ public class AssertionContextTest {
         @Override
         public TestScenarioLogCollection getLogCollection() {
             TestScenarioLogCollection scenario = TestScenarioLogCollection.createTestScenarioLogCollection("f1", "s1", "i1", "scenario1");
-            if (scenario.getLogMessages().size() == 0) {
+            if (scenario.getLogMessages().isEmpty()) {
                 scenario.addLogMessage(new StepInformationLogMessage("foo", "message"));
             }
             return scenario;

@@ -2,6 +2,7 @@ package de.qytera.qtaf.xray.entity;
 
 import de.qytera.qtaf.core.QtafFactory;
 import de.qytera.qtaf.core.config.entity.ConfigMap;
+import de.qytera.qtaf.core.log.model.message.LogMessage;
 import de.qytera.qtaf.core.log.model.message.StepInformationLogMessage;
 import de.qytera.qtaf.xray.config.XrayConfigHelper;
 import org.testng.Assert;
@@ -25,15 +26,13 @@ public class XrayManualTestStepResultEntityTest {
     public void testStatusServer() {
         ConfigMap configMap = QtafFactory.getConfiguration();
         configMap.setString(XrayConfigHelper.XRAY_SERVICE, "server");
-        XrayManualTestStepResultEntity entity = new XrayManualTestStepResultEntityServer(StepInformationLogMessage.Status.PASS);
+        XrayManualTestStepResultEntity entity = new XrayManualTestStepResultEntityServer(StepInformationLogMessage.Status.PASSED);
         Assert.assertEquals(entity.getStatus(), "PASS");
-        entity = new XrayManualTestStepResultEntityServer(StepInformationLogMessage.Status.ERROR);
+        entity = new XrayManualTestStepResultEntityServer(StepInformationLogMessage.Status.FAILED);
         Assert.assertEquals(entity.getStatus(), "FAIL");
         entity = new XrayManualTestStepResultEntityServer(StepInformationLogMessage.Status.PENDING);
         Assert.assertEquals(entity.getStatus(), "EXECUTING");
         entity = new XrayManualTestStepResultEntityServer(StepInformationLogMessage.Status.SKIPPED);
-        Assert.assertEquals(entity.getStatus(), "TODO");
-        entity = new XrayManualTestStepResultEntityServer(StepInformationLogMessage.Status.UNDEFINED);
         Assert.assertEquals(entity.getStatus(), "TODO");
     }
 
@@ -41,15 +40,13 @@ public class XrayManualTestStepResultEntityTest {
     public void testStatusCloud() {
         ConfigMap configMap = QtafFactory.getConfiguration();
         configMap.setString(XrayConfigHelper.XRAY_SERVICE, "cloud");
-        XrayManualTestStepResultEntity entity = new XrayManualTestStepResultEntityCloud(StepInformationLogMessage.Status.PASS);
+        XrayManualTestStepResultEntity entity = new XrayManualTestStepResultEntityCloud(StepInformationLogMessage.Status.PASSED);
         Assert.assertEquals(entity.getStatus(), "PASSED");
-        entity = new XrayManualTestStepResultEntityCloud(StepInformationLogMessage.Status.ERROR);
+        entity = new XrayManualTestStepResultEntityCloud(StepInformationLogMessage.Status.FAILED);
         Assert.assertEquals(entity.getStatus(), "FAILED");
         entity = new XrayManualTestStepResultEntityCloud(StepInformationLogMessage.Status.PENDING);
         Assert.assertEquals(entity.getStatus(), "EXECUTING");
         entity = new XrayManualTestStepResultEntityCloud(StepInformationLogMessage.Status.SKIPPED);
-        Assert.assertEquals(entity.getStatus(), "TODO");
-        entity = new XrayManualTestStepResultEntityCloud(StepInformationLogMessage.Status.UNDEFINED);
         Assert.assertEquals(entity.getStatus(), "TODO");
     }
 
@@ -62,16 +59,14 @@ public class XrayManualTestStepResultEntityTest {
         configMap.setString(XrayConfigHelper.RESULTS_UPLOAD_CUSTOM_STATUS_STEP_SKIPPED, "SKIPPED");
         configMap.setString(XrayConfigHelper.RESULTS_UPLOAD_CUSTOM_STATUS_STEP_UNDEFINED, "UNDEFINED");
         configMap.setString(XrayConfigHelper.XRAY_SERVICE, "cloud");
-        XrayManualTestStepResultEntity entity = new XrayManualTestStepResultEntityCloud(StepInformationLogMessage.Status.PASS);
+        XrayManualTestStepResultEntity entity = new XrayManualTestStepResultEntityCloud(StepInformationLogMessage.Status.PASSED);
         Assert.assertEquals(entity.getStatus(), "SUCCESS");
-        entity = new XrayManualTestStepResultEntityCloud(StepInformationLogMessage.Status.ERROR);
+        entity = new XrayManualTestStepResultEntityCloud(StepInformationLogMessage.Status.FAILED);
         Assert.assertEquals(entity.getStatus(), "FAILURE");
         entity = new XrayManualTestStepResultEntityCloud(StepInformationLogMessage.Status.PENDING);
         Assert.assertEquals(entity.getStatus(), "PENDING");
         entity = new XrayManualTestStepResultEntityCloud(StepInformationLogMessage.Status.SKIPPED);
         Assert.assertEquals(entity.getStatus(), "SKIPPED");
-        entity = new XrayManualTestStepResultEntityCloud(StepInformationLogMessage.Status.UNDEFINED);
-        Assert.assertEquals(entity.getStatus(), "UNDEFINED");
     }
 
     @Test
@@ -83,16 +78,14 @@ public class XrayManualTestStepResultEntityTest {
         configMap.setString(XrayConfigHelper.RESULTS_UPLOAD_CUSTOM_STATUS_STEP_SKIPPED, "SKIPPED");
         configMap.setString(XrayConfigHelper.RESULTS_UPLOAD_CUSTOM_STATUS_STEP_UNDEFINED, "UNDEFINED");
         configMap.setString(XrayConfigHelper.XRAY_SERVICE, "server");
-        XrayManualTestStepResultEntity entity = new XrayManualTestStepResultEntityServer(StepInformationLogMessage.Status.PASS);
+        XrayManualTestStepResultEntity entity = new XrayManualTestStepResultEntityServer(StepInformationLogMessage.Status.PASSED);
         Assert.assertEquals(entity.getStatus(), "SUCCESS");
-        entity = new XrayManualTestStepResultEntityServer(StepInformationLogMessage.Status.ERROR);
+        entity = new XrayManualTestStepResultEntityServer(StepInformationLogMessage.Status.FAILED);
         Assert.assertEquals(entity.getStatus(), "FAILURE");
         entity = new XrayManualTestStepResultEntityServer(StepInformationLogMessage.Status.PENDING);
         Assert.assertEquals(entity.getStatus(), "PENDING");
         entity = new XrayManualTestStepResultEntityServer(StepInformationLogMessage.Status.SKIPPED);
         Assert.assertEquals(entity.getStatus(), "SKIPPED");
-        entity = new XrayManualTestStepResultEntityServer(StepInformationLogMessage.Status.UNDEFINED);
-        Assert.assertEquals(entity.getStatus(), "UNDEFINED");
     }
 
 }

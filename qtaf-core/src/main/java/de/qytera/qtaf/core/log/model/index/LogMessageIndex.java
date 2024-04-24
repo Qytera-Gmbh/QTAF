@@ -130,12 +130,10 @@ public class LogMessageIndex {
      * @param scenarioId Scenario ID
      * @return List of log messages for the given scenario ID
      */
-    public List<StepInformationLogMessage> getByScenarioIdAndPending(String scenarioId) {
+    public List<LogMessage> getByScenarioIdAndPending(String scenarioId) {
         return this.index
                 .values()
                 .stream()
-                .filter(StepInformationLogMessage.class::isInstance)
-                .map(StepInformationLogMessage.class::cast)
                 .filter(step -> step.getScenarioId().equals(scenarioId) && step.getStatus() == StepInformationLogMessage.Status.PENDING)
                 .toList();
     }
@@ -146,13 +144,11 @@ public class LogMessageIndex {
      * @param scenarioId Scenario ID
      * @return List of log messages for the given scenario ID
      */
-    public List<StepInformationLogMessage> getByScenarioIdAndPassed(String scenarioId) {
+    public List<LogMessage> getByScenarioIdAndPassed(String scenarioId) {
         return this.index
                 .values()
                 .stream()
-                .filter(StepInformationLogMessage.class::isInstance)
-                .map(StepInformationLogMessage.class::cast)
-                .filter(step -> step.getScenarioId().equals(scenarioId) && step.getStatus() == StepInformationLogMessage.Status.PASS)
+                .filter(step -> step.getScenarioId().equals(scenarioId) && step.getStatus() == StepInformationLogMessage.Status.PASSED)
                 .toList();
     }
 
@@ -162,13 +158,11 @@ public class LogMessageIndex {
      * @param scenarioId Scenario ID
      * @return List of log messages for the given scenario ID
      */
-    public List<StepInformationLogMessage> getByScenarioIdAndFailed(String scenarioId) {
+    public List<LogMessage> getByScenarioIdAndFailed(String scenarioId) {
         return this.index
                 .values()
                 .stream()
-                .filter(StepInformationLogMessage.class::isInstance)
-                .map(StepInformationLogMessage.class::cast)
-                .filter(step -> step.getScenarioId().equals(scenarioId) && step.getStatus() == StepInformationLogMessage.Status.ERROR)
+                .filter(step -> step.getScenarioId().equals(scenarioId) && (step.getStatus() == StepInformationLogMessage.Status.FAILED))
                 .toList();
     }
 }

@@ -24,7 +24,8 @@ public class QtafStepMethodInterceptor implements MethodInterceptor {
      */
     @Override
     public Object invoke(MethodInvocation methodInvocation) throws Throwable {
-        if (methodInvocation.getThis() instanceof IQtafTestContext) { // executed if this is instance of IQtafTestContext
+        if (methodInvocation.getThis() instanceof IQtafTestContext
+                && !methodInvocation.getMethod().getReturnType().getName().contains("io.restassured")) { // executed if this is instance of IQtafTestContext
             QtafFactory.getLogger().debug(String.format("Intercept @Step method: name=%s", methodInvocation.getMethod().getName()));
 
             // Get step annotation

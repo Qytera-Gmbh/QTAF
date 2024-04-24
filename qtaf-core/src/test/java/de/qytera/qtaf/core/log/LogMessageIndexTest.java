@@ -218,4 +218,160 @@ public class LogMessageIndexTest {
         Assert.assertEquals(index.size(), 0, "The log message index should be empty");
     }
 
+    /**
+     * Test whether filtering by scenario status PENDING works
+     */
+    @Test
+    public void testGroupLogMessagesByScenarioStatusPending() {
+        // First clear all entries in the indices
+        IndexHelper.clearAllIndices();
+
+        LogMessageIndex index = LogMessageIndex.getInstance();
+        Assert.assertEquals(index.size(), 0, "The log message index should be empty");
+
+        LogMessage logMessage1 = new LogMessage(LogLevel.INFO, "log message 1")
+                .setFeatureId("feature1")
+                .setAbstractScenarioId("scenario1")
+                .setStatus(LogMessage.Status.PASSED)
+                .setScenarioId("scenario1-iteration1");
+        LogMessage logMessage2 = new LogMessage(LogLevel.INFO, "log message 2")
+                .setFeatureId("feature1")
+                .setAbstractScenarioId("scenario1")
+                .setStatus(LogMessage.Status.PASSED)
+                .setScenarioId("scenario1-iteration2");
+        LogMessage logMessage3 = new LogMessage(LogLevel.INFO, "log message 3")
+                .setFeatureId("feature1")
+                .setAbstractScenarioId("scenario2")
+                .setStatus(LogMessage.Status.PENDING)
+                .setScenarioId("scenario2-iteration1");
+
+        index.put(logMessage1.hashCode(), logMessage1);
+        index.put(logMessage2.hashCode(), logMessage2);
+        index.put(logMessage3.hashCode(), logMessage3);
+
+        Assert.assertEquals(
+                index.getByScenarioIdAndPending("scenario2-iteration1").size(),
+                1,
+                "There should be one log message with status PENDING in \"scenario2-iteration1\""
+        );
+        Assert.assertEquals(
+                index.getByScenarioIdAndPassed("scenario2-iteration1").size(),
+                0,
+                "There should be no log message with status PASSED in \"scenario2-iteration1\""
+        );
+        Assert.assertEquals(
+                index.getByScenarioIdAndFailed("scenario2-iteration1").size(),
+                0,
+                "There should be no log message with status FAILED in \"scenario2-iteration1\""
+        );
+
+        // Tidy up after testing
+        IndexHelper.clearAllIndices();
+        Assert.assertEquals(index.size(), 0, "The log message index should be empty");
+    }
+
+    /**
+     * Test whether filtering by scenario status PASSED works
+     */
+    @Test
+    public void testGroupLogMessagesByScenarioStatusPassed() {
+        // First clear all entries in the indices
+        IndexHelper.clearAllIndices();
+
+        LogMessageIndex index = LogMessageIndex.getInstance();
+        Assert.assertEquals(index.size(), 0, "The log message index should be empty");
+
+        LogMessage logMessage1 = new LogMessage(LogLevel.INFO, "log message 1")
+                .setFeatureId("feature1")
+                .setAbstractScenarioId("scenario1")
+                .setStatus(LogMessage.Status.PASSED)
+                .setScenarioId("scenario1-iteration1");
+        LogMessage logMessage2 = new LogMessage(LogLevel.INFO, "log message 2")
+                .setFeatureId("feature1")
+                .setAbstractScenarioId("scenario1")
+                .setStatus(LogMessage.Status.PASSED)
+                .setScenarioId("scenario1-iteration2");
+        LogMessage logMessage3 = new LogMessage(LogLevel.INFO, "log message 3")
+                .setFeatureId("feature1")
+                .setAbstractScenarioId("scenario2")
+                .setStatus(LogMessage.Status.PASSED)
+                .setScenarioId("scenario2-iteration1");
+
+        index.put(logMessage1.hashCode(), logMessage1);
+        index.put(logMessage2.hashCode(), logMessage2);
+        index.put(logMessage3.hashCode(), logMessage3);
+
+        Assert.assertEquals(
+                index.getByScenarioIdAndPending("scenario2-iteration1").size(),
+                0,
+                "There should be no log message with status PENDING in \"scenario2-iteration1\""
+        );
+        Assert.assertEquals(
+                index.getByScenarioIdAndPassed("scenario2-iteration1").size(),
+                1,
+                "There should be one log message with status PASSED in \"scenario2-iteration1\""
+        );
+        Assert.assertEquals(
+                index.getByScenarioIdAndFailed("scenario2-iteration1").size(),
+                0,
+                "There should be no log message with status FAILED in \"scenario2-iteration1\""
+        );
+
+        // Tidy up after testing
+        IndexHelper.clearAllIndices();
+        Assert.assertEquals(index.size(), 0, "The log message index should be empty");
+    }
+
+    /**
+     * Test whether filtering by scenario status FAILED works
+     */
+    @Test
+    public void testGroupLogMessagesByScenarioStatusFailed() {
+        // First clear all entries in the indices
+        IndexHelper.clearAllIndices();
+
+        LogMessageIndex index = LogMessageIndex.getInstance();
+        Assert.assertEquals(index.size(), 0, "The log message index should be empty");
+
+        LogMessage logMessage1 = new LogMessage(LogLevel.INFO, "log message 1")
+                .setFeatureId("feature1")
+                .setAbstractScenarioId("scenario1")
+                .setStatus(LogMessage.Status.PASSED)
+                .setScenarioId("scenario1-iteration1");
+        LogMessage logMessage2 = new LogMessage(LogLevel.INFO, "log message 2")
+                .setFeatureId("feature1")
+                .setAbstractScenarioId("scenario1")
+                .setStatus(LogMessage.Status.PASSED)
+                .setScenarioId("scenario1-iteration2");
+        LogMessage logMessage3 = new LogMessage(LogLevel.INFO, "log message 3")
+                .setFeatureId("feature1")
+                .setAbstractScenarioId("scenario2")
+                .setStatus(LogMessage.Status.FAILED)
+                .setScenarioId("scenario2-iteration1");
+
+        index.put(logMessage1.hashCode(), logMessage1);
+        index.put(logMessage2.hashCode(), logMessage2);
+        index.put(logMessage3.hashCode(), logMessage3);
+
+        Assert.assertEquals(
+                index.getByScenarioIdAndPending("scenario2-iteration1").size(),
+                0,
+                "There should be no log message with status PENDING in \"scenario2-iteration1\""
+        );
+        Assert.assertEquals(
+                index.getByScenarioIdAndPassed("scenario2-iteration1").size(),
+                0,
+                "There should be no log message with status PASSED in \"scenario2-iteration1\""
+        );
+        Assert.assertEquals(
+                index.getByScenarioIdAndFailed("scenario2-iteration1").size(),
+                1,
+                "There should be one log message with status FAILED in \"scenario2-iteration1\""
+        );
+
+        // Tidy up after testing
+        IndexHelper.clearAllIndices();
+        Assert.assertEquals(index.size(), 0, "The log message index should be empty");
+    }
+
 }

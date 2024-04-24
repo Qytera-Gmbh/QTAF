@@ -58,11 +58,10 @@ public class XrayStatusHelper {
     /**
      * Returns the combined status of multiple step logs. The status is determined as follows:
      * <ol>
-     *     <li>{@link StepInformationLogMessage.Status#ERROR} if any step has failed</li>
+     *     <li>{@link StepInformationLogMessage.Status#FAILED} if any step has failed</li>
      *     <li>{@link StepInformationLogMessage.Status#PENDING} if a step is still pending</li>
      *     <li>{@link StepInformationLogMessage.Status#SKIPPED} if any step was skipped</li>
-     *     <li>{@link StepInformationLogMessage.Status#UNDEFINED} if any step status is undefined</li>
-     *     <li>{@link StepInformationLogMessage.Status#PASS} otherwise</li>
+     *     <li>{@link StepInformationLogMessage.Status#PASSED} otherwise</li>
      * </ol>
      *
      * @param stepLogs the step logs whose status should be determined
@@ -75,16 +74,14 @@ public class XrayStatusHelper {
         }
         boolean anySkipped = false;
         boolean anyPending = false;
-        boolean anyUndefined = false;
         for (StepInformationLogMessage stepLog : stepLogs) {
             switch (stepLog.getStatus()) {
-                case ERROR -> {
-                    return StepInformationLogMessage.Status.ERROR;
+                case FAILED -> {
+                    return StepInformationLogMessage.Status.FAILED;
                 }
                 case PENDING -> anyPending = true;
                 case SKIPPED -> anySkipped = true;
-                case UNDEFINED -> anyUndefined = true;
-                case PASS -> {
+                case PASSED -> {
                     // Do nothing.
                 }
                 default -> throw new IllegalArgumentException(String.format("Unknown status %s", stepLog.getStatus()));
@@ -94,10 +91,8 @@ public class XrayStatusHelper {
             return StepInformationLogMessage.Status.PENDING;
         } else if (anySkipped) {
             return StepInformationLogMessage.Status.SKIPPED;
-        } else if (anyUndefined) {
-            return StepInformationLogMessage.Status.UNDEFINED;
         }
-        return StepInformationLogMessage.Status.PASS;
+        return StepInformationLogMessage.Status.PASSED;
     }
 
     /**
@@ -167,10 +162,10 @@ public class XrayStatusHelper {
      */
     public static String statusToText(StepInformationLogMessage.Status status) {
         switch (status) {
-            case PASS -> {
+            case PASSED -> {
                 return getStepStatusPassed();
             }
-            case ERROR -> {
+            case FAILED -> {
                 return getStepStatusFailed();
             }
             case PENDING -> {
@@ -178,9 +173,6 @@ public class XrayStatusHelper {
             }
             case SKIPPED -> {
                 return getStepStatusSkipped();
-            }
-            case UNDEFINED -> {
-                return getStepStatusUndefined();
             }
             default -> throw new IllegalArgumentException(String.format("Unknown text for status %s", status));
         }

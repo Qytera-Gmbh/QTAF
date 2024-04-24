@@ -6,7 +6,7 @@
 
     <groupId>de.qytera</groupId>
     <artifactId>qtaf</artifactId>
-    <version>0.2.15</version>
+    <version>0.2.16</version>
     <packaging>pom</packaging>
 
     <name>${project.groupId}:${project.artifactId}</name>
@@ -46,6 +46,7 @@
         <module>qtaf-testrail-plugin</module>
         <module>qtaf-security</module>
         <module>qtaf-aws-devicefarm</module>
+        <module>qtaf-rest-assured</module>
     </modules>
 
     <properties>
