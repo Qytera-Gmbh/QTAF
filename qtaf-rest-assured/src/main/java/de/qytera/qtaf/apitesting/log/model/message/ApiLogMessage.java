@@ -6,6 +6,7 @@ import de.qytera.qtaf.core.log.model.message.StepInformationLogMessage;
 import io.restassured.http.*;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.specification.QueryableRequestSpecification;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -43,7 +44,8 @@ public class ApiLogMessage extends LogMessage {
      * One part of the API log message is the request.
      * It's data format is defined in this class
      */
-    public class Request {
+    @Data
+    public static class Request {
 
         @Getter
         private String requestMethod;
@@ -96,7 +98,8 @@ public class ApiLogMessage extends LogMessage {
      * One part of the API log message is the response.
      * It's data format is defined in this class
      */
-    public class Response {
+    @Data
+    public static class Response {
 
         @Getter
         private int statusCode;
