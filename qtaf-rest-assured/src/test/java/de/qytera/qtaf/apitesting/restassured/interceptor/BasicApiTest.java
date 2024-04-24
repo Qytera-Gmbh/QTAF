@@ -2,6 +2,9 @@ package de.qytera.qtaf.apitesting.restassured.interceptor;
 
 import de.qytera.qtaf.core.config.annotations.TestFeature;
 import de.qytera.qtaf.core.guice.annotations.Step;
+import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
+import de.qytera.qtaf.core.log.model.collection.TestSuiteLogCollection;
+import de.qytera.qtaf.core.log.model.index.IndexHelper;
 import de.qytera.qtaf.testng.context.QtafTestNGContext;
 import io.restassured.RestAssured;
 import io.restassured.response.*;
@@ -11,6 +14,10 @@ import org.testng.annotations.Test;
 public class BasicApiTest extends QtafTestNGContext {
     @Test(testName = "API Test")
     public void testApi()  {
+        IndexHelper.clearAllIndices();
+        TestSuiteLogCollection.getInstance().clearCollection();
+        // We need to recreate the log message entity because we have deleted it before
+        this.logCollection = TestScenarioLogCollection.createTestScenarioLogCollection("f1", "as1", "i1", "s1");
         getSingleTodo(getSingleTodoEndpointSpecification());
         createTodo(getTodoCollectionEndpointSpecification());
         updateTodo(getSingleTodoEndpointSpecification());
