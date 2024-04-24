@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.ImmutableCapabilities;
 import org.openqa.selenium.MutableCapabilities;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxProfile;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -49,6 +51,12 @@ public class SeleniumDriverConfigHelper {
      * Additional driver capabilities to consider during driver instantiation.
      */
     public static final String DRIVER_CAPABILITIES = "driver.capabilities";
+    /**
+     * Additional driver preferences to consider during driver instantiation. When using Firefox, they will be inserted
+     * into a {@link FirefoxProfile}. For Chromium, they will be inserted using
+     * {@link ChromeOptions#setExperimentalOption(String, Object) experimental options}.
+     */
+    public static final String DRIVER_PREFERENCES = "driver.preferences";
     /**
      * Whether the driver should quit after testing.
      */
@@ -151,6 +159,15 @@ public class SeleniumDriverConfigHelper {
         MutableCapabilities capabilities = new MutableCapabilities();
         toPrimitive(config.getMap(DRIVER_CAPABILITIES)).forEach(capabilities::setCapability);
         return ImmutableCapabilities.copyOf(capabilities);
+    }
+
+    /**
+     * Returns the configured driver preferences to consider during driver instantiation.
+     *
+     * @return the driver preferences
+     */
+    public static Map<String, Object> getDriverPreferences() {
+        return toPrimitive(config.getMap(DRIVER_PREFERENCES));
     }
 
     private static Map<String, Object> toPrimitive(Map<String, JsonElement> map) {

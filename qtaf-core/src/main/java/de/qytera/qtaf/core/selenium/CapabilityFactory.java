@@ -11,6 +11,7 @@ import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.ie.InternetExplorerOptions;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -32,10 +33,7 @@ class CapabilityFactory {
      */
     public static ChromeOptions getCapabilitiesChrome() {
         useJdkHttpClient();
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments(SeleniumDriverConfigHelper.getDriverOptions().toArray(String[]::new));
-        options = options.merge(SeleniumDriverConfigHelper.getDriverCapabilities());
-        return options;
+        return getCapabilitiesChromeRemote();
     }
 
     /**
@@ -47,6 +45,7 @@ class CapabilityFactory {
         ChromeOptions options = new ChromeOptions();
         options.addArguments(SeleniumDriverConfigHelper.getDriverOptions().toArray(String[]::new));
         options = options.merge(SeleniumDriverConfigHelper.getDriverCapabilities());
+        SeleniumDriverConfigHelper.getDriverPreferences().forEach(options::setExperimentalOption);
         return options;
     }
 
@@ -57,10 +56,7 @@ class CapabilityFactory {
      */
     public static EdgeOptions getCapabilitiesEdge() {
         useJdkHttpClient();
-        EdgeOptions options = new EdgeOptions();
-        options.addArguments(SeleniumDriverConfigHelper.getDriverOptions().toArray(String[]::new));
-        options = options.merge(SeleniumDriverConfigHelper.getDriverCapabilities());
-        return options;
+        return getCapabilitiesEdgeRemote();
     }
 
     /**
@@ -72,6 +68,7 @@ class CapabilityFactory {
         EdgeOptions options = new EdgeOptions();
         options.addArguments(SeleniumDriverConfigHelper.getDriverOptions().toArray(String[]::new));
         options = options.merge(SeleniumDriverConfigHelper.getDriverCapabilities());
+        SeleniumDriverConfigHelper.getDriverPreferences().forEach(options::setExperimentalOption);
         return options;
     }
 
@@ -82,10 +79,7 @@ class CapabilityFactory {
      */
     public static FirefoxOptions getCapabilitiesFirefox() {
         useJdkHttpClient();
-        FirefoxOptions options = new FirefoxOptions();
-        options.addArguments(SeleniumDriverConfigHelper.getDriverOptions().toArray(String[]::new));
-        options = options.merge(SeleniumDriverConfigHelper.getDriverCapabilities());
-        return options;
+        return getCapabilitiesFirefoxRemote();
     }
 
     /**
@@ -97,6 +91,12 @@ class CapabilityFactory {
         FirefoxOptions options = new FirefoxOptions();
         options.addArguments(SeleniumDriverConfigHelper.getDriverOptions().toArray(String[]::new));
         options = options.merge(SeleniumDriverConfigHelper.getDriverCapabilities());
+        Map<String, Object> preferences = SeleniumDriverConfigHelper.getDriverPreferences();
+        if (!preferences.isEmpty()) {
+            FirefoxProfile profile = new FirefoxProfile();
+            preferences.forEach(profile::setPreference);
+            options.setProfile(profile);
+        }
         return options;
     }
 
