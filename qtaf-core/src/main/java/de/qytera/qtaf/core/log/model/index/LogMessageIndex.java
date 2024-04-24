@@ -134,8 +134,6 @@ public class LogMessageIndex {
         return this.index
                 .values()
                 .stream()
-                // .filter(StepInformationLogMessage.class::isInstance) TODO
-                // .map(StepInformationLogMessage.class::cast) TODO
                 .filter(step -> step.getScenarioId().equals(scenarioId) && step.getStatus() == StepInformationLogMessage.Status.PENDING)
                 .toList();
     }
@@ -150,8 +148,6 @@ public class LogMessageIndex {
         return this.index
                 .values()
                 .stream()
-                // .filter(LogMessage.class::isInstance) TODO
-                // .map(LogMessage.class::cast) TODO
                 .filter(step -> step.getScenarioId().equals(scenarioId) && step.getStatus() == StepInformationLogMessage.Status.PASSED)
                 .toList();
     }
@@ -166,9 +162,6 @@ public class LogMessageIndex {
         return this.index
                 .values()
                 .stream()
-                // .filter(LogMessage.class::isInstance) todo
-                // .map(LogMessage.class::cast)TODO
-                // .filter(step -> step.getScenarioId().equals(scenarioId) && (step.getStatus() == StepInformationLogMessage.Status.ERROR || step.getStatus() == StepInformationLogMessage.Status.FAILURE))
                 .filter(step -> step.getScenarioId().equals(scenarioId) && (step.getStatus() == StepInformationLogMessage.Status.FAILED))
                 .toList();
     }
