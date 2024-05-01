@@ -76,7 +76,7 @@
         <mavenAntRunVersion>3.1.0</mavenAntRunVersion>
         <mavenBuildHelperVersion>3.4.0</mavenBuildHelperVersion>
         <mavenCompilerPluginVersion>3.13.0</mavenCompilerPluginVersion>
-        <mavenGpgPluginVersion>3.1.0</mavenGpgPluginVersion>
+        <mavenGpgPluginVersion>3.2.4</mavenGpgPluginVersion>
         <mavenJarPluginVersion>3.3.0</mavenJarPluginVersion>
         <mavenJavadocPluginVersion>3.5.0</mavenJavadocPluginVersion>
         <mavenSourcePluginVersion>3.3.0</mavenSourcePluginVersion>
