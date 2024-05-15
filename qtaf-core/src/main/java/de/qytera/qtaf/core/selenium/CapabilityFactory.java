@@ -3,6 +3,7 @@ package de.qytera.qtaf.core.selenium;
 import de.qytera.qtaf.core.QtafFactory;
 import de.qytera.qtaf.core.config.ConfigurationFactory;
 import de.qytera.qtaf.core.config.entity.ConfigMap;
+import de.qytera.qtaf.core.io.DirectoryHelper;
 import de.qytera.qtaf.core.selenium.helper.SeleniumDriverConfigHelper;
 import io.appium.java_client.remote.MobileCapabilityType;
 import lombok.AccessLevel;
@@ -17,6 +18,7 @@ import org.openqa.selenium.ie.InternetExplorerOptions;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -49,6 +51,11 @@ class CapabilityFactory {
 
         Map<String, Object> prefs = (Map<String, Object>) ConfigurationFactory.getInstance().getValue("driver.preferences", Map.class);
         if (prefs instanceof Map<String, Object>) {
+            if (prefs.get("download") instanceof Map<?,?> && ((Map<?, ?>) prefs.get("download")).get("default_directory") instanceof String) {
+                String defaultDirectory = (String) ((Map<?, ?>) prefs.get("download")).get("default_directory");
+                defaultDirectory = DirectoryHelper.preparePath(defaultDirectory);
+                ((Map<String, Object>) prefs.get("download")).put("default_directory", defaultDirectory);
+            }
             options.setExperimentalOption("prefs", prefs);
         }
 
@@ -77,6 +84,11 @@ class CapabilityFactory {
 
         Map<String, Object> prefs = (Map<String, Object>) ConfigurationFactory.getInstance().getValue("driver.preferences", Map.class);
         if (prefs instanceof Map<String, Object>) {
+            if (prefs.get("download") instanceof Map<?,?> && ((Map<?, ?>) prefs.get("download")).get("default_directory") instanceof String) {
+                String defaultDirectory = (String) ((Map<?, ?>) prefs.get("download")).get("default_directory");
+                defaultDirectory = DirectoryHelper.preparePath(defaultDirectory);
+                ((Map<String, Object>) prefs.get("download")).put("default_directory", defaultDirectory);
+            }
             options.setExperimentalOption("prefs", prefs);
         }
 
@@ -102,10 +114,14 @@ class CapabilityFactory {
         FirefoxOptions options = new FirefoxOptions();
         options.addArguments(SeleniumDriverConfigHelper.getDriverOptions().toArray(String[]::new));
         options = options.merge(SeleniumDriverConfigHelper.getDriverCapabilities());
-        Map<String, Object> preferences = SeleniumDriverConfigHelper.getDriverPreferences();
-        if (!preferences.isEmpty()) {
+        Map<String, Object> prefs = (Map<String, Object>) ConfigurationFactory.getInstance().getValue("driver.preferences", Map.class);;
+        if (!prefs.isEmpty()) {
+            String defaultDirectory = (String) prefs.get("browser.download.dir");
+            defaultDirectory = DirectoryHelper.preparePath(defaultDirectory);
+            prefs.put("browser.download.dir", defaultDirectory);
             FirefoxProfile profile = new FirefoxProfile();
-            preferences.forEach(profile::setPreference);
+
+            prefs.forEach(profile::setPreference);
             options.setProfile(profile);
         }
         return options;

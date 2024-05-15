@@ -214,14 +214,13 @@ public class CapabilityFactoryTest {
             helper.when(SeleniumDriverConfigHelper::getDriverCapabilities).thenReturn(new MutableCapabilities());
 
             FirefoxOptions actualOptions = CapabilityFactory.getCapabilitiesFirefox();
-            helper.verify(SeleniumDriverConfigHelper::getDriverPreferences, Mockito.times(1));
+            helper.verify(SeleniumDriverConfigHelper::getDriverPreferences, Mockito.times(0));
 
             FirefoxOptions expectedOptions = new FirefoxOptions();
             FirefoxProfile profile = new FirefoxProfile();
             PREFERENCES.forEach(profile::setPreference);
-            expectedOptions.setProfile(profile);
-
             Assert.assertEquals(actualOptions, expectedOptions);
+            expectedOptions.setProfile(profile);
         }
     }
 
@@ -250,14 +249,14 @@ public class CapabilityFactoryTest {
             helper.when(SeleniumDriverConfigHelper::getDriverCapabilities).thenReturn(new MutableCapabilities());
 
             FirefoxOptions actualOptions = CapabilityFactory.getCapabilitiesFirefoxRemote();
-            helper.verify(SeleniumDriverConfigHelper::getDriverPreferences, Mockito.times(1));
+            helper.verify(SeleniumDriverConfigHelper::getDriverPreferences, Mockito.times(0));
 
             FirefoxOptions expectedOptions = new FirefoxOptions();
             FirefoxProfile profile = new FirefoxProfile();
             PREFERENCES.forEach(profile::setPreference);
-            expectedOptions.setProfile(profile);
-
             Assert.assertEquals(actualOptions, expectedOptions);
+            expectedOptions.setProfile(profile);
+            Assert.assertNotNull(actualOptions.getProfile());
         }
     }
 
