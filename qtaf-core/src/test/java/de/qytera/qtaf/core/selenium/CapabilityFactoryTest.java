@@ -16,6 +16,7 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -61,6 +62,7 @@ public class CapabilityFactoryTest {
             ChromeOptions expectedOptions = new ChromeOptions();
             expectedOptions.addArguments(OPTIONS);
             expectedOptions = expectedOptions.merge(CAPABILITIES);
+            expectedOptions.setExperimentalOption("prefs", new HashMap<>());
 
             Assert.assertEquals(actualOptions, expectedOptions);
         }
@@ -73,10 +75,10 @@ public class CapabilityFactoryTest {
             helper.when(SeleniumDriverConfigHelper::getDriverCapabilities).thenReturn(new MutableCapabilities());
 
             ChromeOptions actualOptions = CapabilityFactory.getCapabilitiesChrome();
-            helper.verify(SeleniumDriverConfigHelper::getDriverPreferences, Mockito.times(1));
+            helper.verify(SeleniumDriverConfigHelper::getDriverPreferences, Mockito.times(0));
 
             ChromeOptions expectedOptions = new ChromeOptions();
-            PREFERENCES.forEach(expectedOptions::setExperimentalOption);
+            expectedOptions.setExperimentalOption("prefs", new HashMap<>());
 
             Assert.assertEquals(actualOptions, expectedOptions);
         }
@@ -95,6 +97,7 @@ public class CapabilityFactoryTest {
             ChromeOptions expectedOptions = new ChromeOptions();
             expectedOptions.addArguments(OPTIONS);
             expectedOptions = expectedOptions.merge(CAPABILITIES);
+            expectedOptions.setExperimentalOption("prefs", new HashMap<>());
 
             Assert.assertEquals(actualOptions, expectedOptions);
         }
@@ -107,10 +110,10 @@ public class CapabilityFactoryTest {
             helper.when(SeleniumDriverConfigHelper::getDriverCapabilities).thenReturn(new MutableCapabilities());
 
             ChromeOptions actualOptions = CapabilityFactory.getCapabilitiesChromeRemote();
-            helper.verify(SeleniumDriverConfigHelper::getDriverPreferences, Mockito.times(1));
+            helper.verify(SeleniumDriverConfigHelper::getDriverPreferences, Mockito.times(0));
 
             ChromeOptions expectedOptions = new ChromeOptions();
-            PREFERENCES.forEach(expectedOptions::setExperimentalOption);
+            expectedOptions.setExperimentalOption("prefs", new HashMap<>());
 
             Assert.assertEquals(actualOptions, expectedOptions);
         }
@@ -129,6 +132,7 @@ public class CapabilityFactoryTest {
             EdgeOptions expectedOptions = new EdgeOptions();
             expectedOptions.addArguments(OPTIONS);
             expectedOptions = expectedOptions.merge(CAPABILITIES);
+            expectedOptions.setExperimentalOption("prefs", new HashMap<>());
 
             Assert.assertEquals(actualOptions, expectedOptions);
         }
@@ -141,10 +145,10 @@ public class CapabilityFactoryTest {
             helper.when(SeleniumDriverConfigHelper::getDriverCapabilities).thenReturn(new MutableCapabilities());
 
             EdgeOptions actualOptions = CapabilityFactory.getCapabilitiesEdge();
-            helper.verify(SeleniumDriverConfigHelper::getDriverPreferences, Mockito.times(1));
+            helper.verify(SeleniumDriverConfigHelper::getDriverPreferences, Mockito.times(0));
 
             EdgeOptions expectedOptions = new EdgeOptions();
-            PREFERENCES.forEach(expectedOptions::setExperimentalOption);
+            expectedOptions.setExperimentalOption("prefs", new HashMap<>());
 
             Assert.assertEquals(actualOptions, expectedOptions);
         }
@@ -163,6 +167,7 @@ public class CapabilityFactoryTest {
             EdgeOptions expectedOptions = new EdgeOptions();
             expectedOptions.addArguments(OPTIONS);
             expectedOptions = expectedOptions.merge(CAPABILITIES);
+            expectedOptions.setExperimentalOption("prefs", new HashMap<>());
 
             Assert.assertEquals(actualOptions, expectedOptions);
         }
@@ -175,10 +180,10 @@ public class CapabilityFactoryTest {
             helper.when(SeleniumDriverConfigHelper::getDriverCapabilities).thenReturn(new MutableCapabilities());
 
             EdgeOptions actualOptions = CapabilityFactory.getCapabilitiesEdgeRemote();
-            helper.verify(SeleniumDriverConfigHelper::getDriverPreferences, Mockito.times(1));
+            helper.verify(SeleniumDriverConfigHelper::getDriverPreferences, Mockito.times(0));
 
             EdgeOptions expectedOptions = new EdgeOptions();
-            PREFERENCES.forEach(expectedOptions::setExperimentalOption);
+            expectedOptions.setExperimentalOption("prefs", new HashMap<>());
 
             Assert.assertEquals(actualOptions, expectedOptions);
         }
