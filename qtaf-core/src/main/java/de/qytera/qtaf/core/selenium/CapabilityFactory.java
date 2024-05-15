@@ -1,6 +1,7 @@
 package de.qytera.qtaf.core.selenium;
 
 import de.qytera.qtaf.core.QtafFactory;
+import de.qytera.qtaf.core.config.ConfigurationFactory;
 import de.qytera.qtaf.core.config.entity.ConfigMap;
 import de.qytera.qtaf.core.selenium.helper.SeleniumDriverConfigHelper;
 import io.appium.java_client.remote.MobileCapabilityType;
@@ -45,7 +46,12 @@ class CapabilityFactory {
         ChromeOptions options = new ChromeOptions();
         options.addArguments(SeleniumDriverConfigHelper.getDriverOptions().toArray(String[]::new));
         options = options.merge(SeleniumDriverConfigHelper.getDriverCapabilities());
-        SeleniumDriverConfigHelper.getDriverPreferences().forEach(options::setExperimentalOption);
+
+        Map<String, Object> prefs = (Map<String, Object>) ConfigurationFactory.getInstance().getValue("driver.preferences", Map.class);
+        if (prefs instanceof Map<String, Object>) {
+            options.setExperimentalOption("prefs", prefs);
+        }
+
         return options;
     }
 
@@ -68,7 +74,12 @@ class CapabilityFactory {
         EdgeOptions options = new EdgeOptions();
         options.addArguments(SeleniumDriverConfigHelper.getDriverOptions().toArray(String[]::new));
         options = options.merge(SeleniumDriverConfigHelper.getDriverCapabilities());
-        SeleniumDriverConfigHelper.getDriverPreferences().forEach(options::setExperimentalOption);
+
+        Map<String, Object> prefs = (Map<String, Object>) ConfigurationFactory.getInstance().getValue("driver.preferences", Map.class);
+        if (prefs instanceof Map<String, Object>) {
+            options.setExperimentalOption("prefs", prefs);
+        }
+
         return options;
     }
 

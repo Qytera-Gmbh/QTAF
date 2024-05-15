@@ -40,7 +40,14 @@ public class ConfigMap extends HashMap<String, Object> {
     @Getter
     private final String location;
 
-    private Object getValue(String key) {
+    /**
+     * Get value for a given key.
+     *
+     * @param key   Key
+     *
+     * @return  Value of key
+     */
+    public Object getValue(String key) {
         // First check if this key has been overwritten
         Object value = this.get(key);
         // Then try to find key in system properties
@@ -58,7 +65,16 @@ public class ConfigMap extends HashMap<String, Object> {
         return value;
     }
 
-    private <T> T getValue(String key, Class<T> clazz) {
+    /**
+     * Get value for a given key.
+     *
+     * @param key   Key
+     * @param clazz Class of the value
+     * @param <T>   Class of the Value
+     *
+     * @return  Value
+     */
+    public <T> T getValue(String key, Class<T> clazz) {
         Object value = this.getValue(key);
         if (value != null) {
             try {
