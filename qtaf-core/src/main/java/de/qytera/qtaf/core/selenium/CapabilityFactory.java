@@ -116,7 +116,8 @@ class CapabilityFactory {
         FirefoxOptions options = new FirefoxOptions();
         options.addArguments(SeleniumDriverConfigHelper.getDriverOptions().toArray(String[]::new));
         options = options.merge(SeleniumDriverConfigHelper.getDriverCapabilities());
-        Map<String, Object> prefs = (Map<String, Object>) ConfigurationFactory.getInstance().getValue("driver.preferences", Map.class);;
+        Map<String, Object> prefs = (Map<String, Object>) ConfigurationFactory.getInstance().getValue("driver.preferences", Map.class);
+        prefs = new HashMap<>(prefs);
         if (!prefs.isEmpty()) {
             String defaultDirectory = (String) prefs.get("browser.download.dir");
             defaultDirectory = DirectoryHelper.preparePath(defaultDirectory);

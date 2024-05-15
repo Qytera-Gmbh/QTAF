@@ -1,6 +1,7 @@
 package de.qytera.qtaf.core.selenium;
 
 import de.qytera.qtaf.core.QtafFactory;
+import de.qytera.qtaf.core.config.ConfigurationFactory;
 import de.qytera.qtaf.core.selenium.helper.SeleniumDriverConfigHelper;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
@@ -233,6 +234,7 @@ public class CapabilityFactoryTest {
             helper.when(SeleniumDriverConfigHelper::getDriverOptions).thenReturn(OPTIONS);
             helper.when(SeleniumDriverConfigHelper::getDriverCapabilities).thenReturn(CAPABILITIES);
 
+            ConfigurationFactory.getInstance().put("driver.preferences", Map.of("browser.download.dir", "bar"));
             FirefoxOptions actualOptions = CapabilityFactory.getCapabilitiesFirefoxRemote();
             helper.verify(SeleniumDriverConfigHelper::getDriverOptions, Mockito.times(1));
             helper.verify(SeleniumDriverConfigHelper::getDriverCapabilities, Mockito.times(1));
@@ -240,6 +242,7 @@ public class CapabilityFactoryTest {
             FirefoxOptions expectedOptions = new FirefoxOptions();
             expectedOptions.addArguments(OPTIONS);
             expectedOptions = expectedOptions.merge(CAPABILITIES);
+            expectedOptions.setProfile(actualOptions.getProfile());
 
             Assert.assertEquals(actualOptions, expectedOptions);
         }
