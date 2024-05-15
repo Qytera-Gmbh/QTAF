@@ -3,6 +3,7 @@ package de.qytera.qtaf.core.selenium;
 import de.qytera.qtaf.core.QtafFactory;
 import de.qytera.qtaf.core.config.ConfigurationFactory;
 import de.qytera.qtaf.core.config.entity.ConfigMap;
+import de.qytera.qtaf.core.io.DirectoryHelper;
 import de.qytera.qtaf.core.selenium.helper.SeleniumDriverConfigHelper;
 import io.appium.java_client.remote.MobileCapabilityType;
 import lombok.AccessLevel;
@@ -10,6 +11,7 @@ import lombok.NoArgsConstructor;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.chromium.ChromiumOptions;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.firefox.FirefoxProfile;
@@ -17,6 +19,7 @@ import org.openqa.selenium.ie.InternetExplorerOptions;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -47,12 +50,25 @@ class CapabilityFactory {
         options.addArguments(SeleniumDriverConfigHelper.getDriverOptions().toArray(String[]::new));
         options = options.merge(SeleniumDriverConfigHelper.getDriverCapabilities());
 
-        Map<String, Object> prefs = (Map<String, Object>) ConfigurationFactory.getInstance().getValue("driver.preferences", Map.class);
-        if (prefs instanceof Map<String, Object>) {
-            options.setExperimentalOption("prefs", prefs);
-        }
+        Map<String, Object> prefs = SeleniumDriverConfigHelper.getDriverPreferences();
+        parseDownloadDirectoryChrome(options, prefs);
 
         return options;
+    }
+
+    private static void parseDownloadDirectoryChrome(ChromiumOptions<?> options, Map<String, Object> prefs) {
+        if (prefs instanceof Map<String, Object>) {
+            prefs = new HashMap<>(prefs);
+            if (prefs.get("download") instanceof Map<?,?> && ((Map<?, ?>) prefs.get("download")).get("default_directory") instanceof String) {
+                Map<String, Object> download = (Map<String, Object>) prefs.get("download");
+                download = new HashMap<>(download);
+                String defaultDirectory = (String) download.get("default_directory");
+                defaultDirectory = DirectoryHelper.preparePath(defaultDirectory);
+                download.put("default_directory", defaultDirectory);
+                prefs.put("download", download);
+            }
+            options.setExperimentalOption("prefs", prefs);
+        }
     }
 
     /**
@@ -75,10 +91,8 @@ class CapabilityFactory {
         options.addArguments(SeleniumDriverConfigHelper.getDriverOptions().toArray(String[]::new));
         options = options.merge(SeleniumDriverConfigHelper.getDriverCapabilities());
 
-        Map<String, Object> prefs = (Map<String, Object>) ConfigurationFactory.getInstance().getValue("driver.preferences", Map.class);
-        if (prefs instanceof Map<String, Object>) {
-            options.setExperimentalOption("prefs", prefs);
-        }
+        Map<String, Object> prefs = SeleniumDriverConfigHelper.getDriverPreferences();
+        parseDownloadDirectoryChrome(options, prefs);
 
         return options;
     }
@@ -102,10 +116,15 @@ class CapabilityFactory {
         FirefoxOptions options = new FirefoxOptions();
         options.addArguments(SeleniumDriverConfigHelper.getDriverOptions().toArray(String[]::new));
         options = options.merge(SeleniumDriverConfigHelper.getDriverCapabilities());
-        Map<String, Object> preferences = SeleniumDriverConfigHelper.getDriverPreferences();
-        if (!preferences.isEmpty()) {
+        Map<String, Object> prefs = (Map<String, Object>) ConfigurationFactory.getInstance().getValue("driver.preferences", Map.class);
+        prefs = new HashMap<>(prefs);
+        if (!prefs.isEmpty()) {
+            String defaultDirectory = (String) prefs.get("browser.download.dir");
+            defaultDirectory = DirectoryHelper.preparePath(defaultDirectory);
+            prefs.put("browser.download.dir", defaultDirectory);
             FirefoxProfile profile = new FirefoxProfile();
-            preferences.forEach(profile::setPreference);
+
+            prefs.forEach(profile::setPreference);
             options.setProfile(profile);
         }
         return options;

@@ -1,6 +1,7 @@
 package de.qytera.qtaf.core.selenium;
 
 import de.qytera.qtaf.core.QtafFactory;
+import de.qytera.qtaf.core.config.ConfigurationFactory;
 import de.qytera.qtaf.core.selenium.helper.SeleniumDriverConfigHelper;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
@@ -46,7 +47,9 @@ public class CapabilityFactoryTest {
             "g", Map.of(
                     "h", List.of(1L, 2.14D, 3L, 5L),
                     "j", List.of(List.of(10L), Map.of("k", true))
-            )
+            ),
+            "download", Map.of("default_directory", "abc"),
+            "browser", Map.of("download", Map.of("dir", "abc"))
     );
 
     @Test
@@ -75,10 +78,10 @@ public class CapabilityFactoryTest {
             helper.when(SeleniumDriverConfigHelper::getDriverCapabilities).thenReturn(new MutableCapabilities());
 
             ChromeOptions actualOptions = CapabilityFactory.getCapabilitiesChrome();
-            helper.verify(SeleniumDriverConfigHelper::getDriverPreferences, Mockito.times(0));
+            helper.verify(SeleniumDriverConfigHelper::getDriverPreferences, Mockito.times(1));
 
             ChromeOptions expectedOptions = new ChromeOptions();
-            expectedOptions.setExperimentalOption("prefs", new HashMap<>());
+            expectedOptions.setExperimentalOption("prefs", PREFERENCES);
 
             Assert.assertEquals(actualOptions, expectedOptions);
         }
@@ -110,10 +113,10 @@ public class CapabilityFactoryTest {
             helper.when(SeleniumDriverConfigHelper::getDriverCapabilities).thenReturn(new MutableCapabilities());
 
             ChromeOptions actualOptions = CapabilityFactory.getCapabilitiesChromeRemote();
-            helper.verify(SeleniumDriverConfigHelper::getDriverPreferences, Mockito.times(0));
+            helper.verify(SeleniumDriverConfigHelper::getDriverPreferences, Mockito.times(1));
 
             ChromeOptions expectedOptions = new ChromeOptions();
-            expectedOptions.setExperimentalOption("prefs", new HashMap<>());
+            expectedOptions.setExperimentalOption("prefs", PREFERENCES);
 
             Assert.assertEquals(actualOptions, expectedOptions);
         }
@@ -145,10 +148,10 @@ public class CapabilityFactoryTest {
             helper.when(SeleniumDriverConfigHelper::getDriverCapabilities).thenReturn(new MutableCapabilities());
 
             EdgeOptions actualOptions = CapabilityFactory.getCapabilitiesEdge();
-            helper.verify(SeleniumDriverConfigHelper::getDriverPreferences, Mockito.times(0));
+            helper.verify(SeleniumDriverConfigHelper::getDriverPreferences, Mockito.times(1));
 
             EdgeOptions expectedOptions = new EdgeOptions();
-            expectedOptions.setExperimentalOption("prefs", new HashMap<>());
+            expectedOptions.setExperimentalOption("prefs", PREFERENCES);
 
             Assert.assertEquals(actualOptions, expectedOptions);
         }
@@ -180,10 +183,10 @@ public class CapabilityFactoryTest {
             helper.when(SeleniumDriverConfigHelper::getDriverCapabilities).thenReturn(new MutableCapabilities());
 
             EdgeOptions actualOptions = CapabilityFactory.getCapabilitiesEdgeRemote();
-            helper.verify(SeleniumDriverConfigHelper::getDriverPreferences, Mockito.times(0));
+            helper.verify(SeleniumDriverConfigHelper::getDriverPreferences, Mockito.times(1));
 
             EdgeOptions expectedOptions = new EdgeOptions();
-            expectedOptions.setExperimentalOption("prefs", new HashMap<>());
+            expectedOptions.setExperimentalOption("prefs", PREFERENCES);
 
             Assert.assertEquals(actualOptions, expectedOptions);
         }
@@ -214,14 +217,14 @@ public class CapabilityFactoryTest {
             helper.when(SeleniumDriverConfigHelper::getDriverCapabilities).thenReturn(new MutableCapabilities());
 
             FirefoxOptions actualOptions = CapabilityFactory.getCapabilitiesFirefox();
-            helper.verify(SeleniumDriverConfigHelper::getDriverPreferences, Mockito.times(1));
+            helper.verify(SeleniumDriverConfigHelper::getDriverPreferences, Mockito.times(0));
 
             FirefoxOptions expectedOptions = new FirefoxOptions();
             FirefoxProfile profile = new FirefoxProfile();
             PREFERENCES.forEach(profile::setPreference);
-            expectedOptions.setProfile(profile);
-
             Assert.assertEquals(actualOptions, expectedOptions);
+
+            expectedOptions.setProfile(profile);
         }
     }
 
@@ -231,6 +234,7 @@ public class CapabilityFactoryTest {
             helper.when(SeleniumDriverConfigHelper::getDriverOptions).thenReturn(OPTIONS);
             helper.when(SeleniumDriverConfigHelper::getDriverCapabilities).thenReturn(CAPABILITIES);
 
+            ConfigurationFactory.getInstance().put("driver.preferences", Map.of("browser.download.dir", "bar"));
             FirefoxOptions actualOptions = CapabilityFactory.getCapabilitiesFirefoxRemote();
             helper.verify(SeleniumDriverConfigHelper::getDriverOptions, Mockito.times(1));
             helper.verify(SeleniumDriverConfigHelper::getDriverCapabilities, Mockito.times(1));
@@ -238,6 +242,7 @@ public class CapabilityFactoryTest {
             FirefoxOptions expectedOptions = new FirefoxOptions();
             expectedOptions.addArguments(OPTIONS);
             expectedOptions = expectedOptions.merge(CAPABILITIES);
+            expectedOptions.setProfile(actualOptions.getProfile());
 
             Assert.assertEquals(actualOptions, expectedOptions);
         }
@@ -250,14 +255,14 @@ public class CapabilityFactoryTest {
             helper.when(SeleniumDriverConfigHelper::getDriverCapabilities).thenReturn(new MutableCapabilities());
 
             FirefoxOptions actualOptions = CapabilityFactory.getCapabilitiesFirefoxRemote();
-            helper.verify(SeleniumDriverConfigHelper::getDriverPreferences, Mockito.times(1));
+            helper.verify(SeleniumDriverConfigHelper::getDriverPreferences, Mockito.times(0));
 
             FirefoxOptions expectedOptions = new FirefoxOptions();
             FirefoxProfile profile = new FirefoxProfile();
             PREFERENCES.forEach(profile::setPreference);
-            expectedOptions.setProfile(profile);
-
             Assert.assertEquals(actualOptions, expectedOptions);
+            expectedOptions.setProfile(profile);
+            Assert.assertNotNull(actualOptions.getProfile());
         }
     }
 

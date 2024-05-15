@@ -1,6 +1,7 @@
 package de.qytera.qtaf.core.selenium.helper;
 
 import de.qytera.qtaf.core.QtafFactory;
+import de.qytera.qtaf.core.config.ConfigurationFactory;
 import org.openqa.selenium.MutableCapabilities;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
@@ -121,23 +122,19 @@ public class SeleniumDriverConfigHelperTest {
 
     @Test
     public void testGetDriverPreferencesHappyPath() {
-        System.setProperty(SeleniumDriverConfigHelper.DRIVER_PREFERENCES, """
-                {
-                  "a": "good morning",
-                  "b": 3,
-                  "c": false,
-                  "d": [8080, 443],
-                  "e": {
-                    "f": true,
-                    "g": {
-                      "h": [1, 2.14, 3, null, 5],
-                      "i": null,
-                      "j": [[10], {"k": true}]
-                    }
-                  }
-                }
-                """
-        );
+        ConfigurationFactory.getInstance().put("driver.preferences", Map.of(
+                "a", "good morning",
+                "b", 3L,
+                "c", false,
+                "d", List.of(8080L, 443L),
+                "e", Map.of(
+                        "f", true,
+                        "g", Map.of(
+                                "h", List.of(1L, 2.14D, 3L, 5L),
+                                "j", List.of(List.of(10L), Map.of("k", true))
+                        )
+                )
+        ));
         Assert.assertEquals(
                 SeleniumDriverConfigHelper.getDriverPreferences(),
                 Map.of(
