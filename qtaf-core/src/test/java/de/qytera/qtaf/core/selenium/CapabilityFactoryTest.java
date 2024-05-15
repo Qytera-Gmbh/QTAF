@@ -46,7 +46,9 @@ public class CapabilityFactoryTest {
             "g", Map.of(
                     "h", List.of(1L, 2.14D, 3L, 5L),
                     "j", List.of(List.of(10L), Map.of("k", true))
-            )
+            ),
+            "download", Map.of("default_directory", "abc"),
+            "browser", Map.of("download", Map.of("dir", "abc"))
     );
 
     @Test
@@ -75,10 +77,10 @@ public class CapabilityFactoryTest {
             helper.when(SeleniumDriverConfigHelper::getDriverCapabilities).thenReturn(new MutableCapabilities());
 
             ChromeOptions actualOptions = CapabilityFactory.getCapabilitiesChrome();
-            helper.verify(SeleniumDriverConfigHelper::getDriverPreferences, Mockito.times(0));
+            helper.verify(SeleniumDriverConfigHelper::getDriverPreferences, Mockito.times(1));
 
             ChromeOptions expectedOptions = new ChromeOptions();
-            expectedOptions.setExperimentalOption("prefs", new HashMap<>());
+            expectedOptions.setExperimentalOption("prefs", PREFERENCES);
 
             Assert.assertEquals(actualOptions, expectedOptions);
         }
@@ -110,10 +112,10 @@ public class CapabilityFactoryTest {
             helper.when(SeleniumDriverConfigHelper::getDriverCapabilities).thenReturn(new MutableCapabilities());
 
             ChromeOptions actualOptions = CapabilityFactory.getCapabilitiesChromeRemote();
-            helper.verify(SeleniumDriverConfigHelper::getDriverPreferences, Mockito.times(0));
+            helper.verify(SeleniumDriverConfigHelper::getDriverPreferences, Mockito.times(1));
 
             ChromeOptions expectedOptions = new ChromeOptions();
-            expectedOptions.setExperimentalOption("prefs", new HashMap<>());
+            expectedOptions.setExperimentalOption("prefs", PREFERENCES);
 
             Assert.assertEquals(actualOptions, expectedOptions);
         }
@@ -145,10 +147,10 @@ public class CapabilityFactoryTest {
             helper.when(SeleniumDriverConfigHelper::getDriverCapabilities).thenReturn(new MutableCapabilities());
 
             EdgeOptions actualOptions = CapabilityFactory.getCapabilitiesEdge();
-            helper.verify(SeleniumDriverConfigHelper::getDriverPreferences, Mockito.times(0));
+            helper.verify(SeleniumDriverConfigHelper::getDriverPreferences, Mockito.times(1));
 
             EdgeOptions expectedOptions = new EdgeOptions();
-            expectedOptions.setExperimentalOption("prefs", new HashMap<>());
+            expectedOptions.setExperimentalOption("prefs", PREFERENCES);
 
             Assert.assertEquals(actualOptions, expectedOptions);
         }
@@ -180,10 +182,10 @@ public class CapabilityFactoryTest {
             helper.when(SeleniumDriverConfigHelper::getDriverCapabilities).thenReturn(new MutableCapabilities());
 
             EdgeOptions actualOptions = CapabilityFactory.getCapabilitiesEdgeRemote();
-            helper.verify(SeleniumDriverConfigHelper::getDriverPreferences, Mockito.times(0));
+            helper.verify(SeleniumDriverConfigHelper::getDriverPreferences, Mockito.times(1));
 
             EdgeOptions expectedOptions = new EdgeOptions();
-            expectedOptions.setExperimentalOption("prefs", new HashMap<>());
+            expectedOptions.setExperimentalOption("prefs", PREFERENCES);
 
             Assert.assertEquals(actualOptions, expectedOptions);
         }
@@ -220,6 +222,7 @@ public class CapabilityFactoryTest {
             FirefoxProfile profile = new FirefoxProfile();
             PREFERENCES.forEach(profile::setPreference);
             Assert.assertEquals(actualOptions, expectedOptions);
+
             expectedOptions.setProfile(profile);
         }
     }

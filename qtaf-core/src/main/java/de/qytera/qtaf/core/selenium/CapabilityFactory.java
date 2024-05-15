@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.chromium.ChromiumOptions;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.firefox.FirefoxProfile;
@@ -49,17 +50,25 @@ class CapabilityFactory {
         options.addArguments(SeleniumDriverConfigHelper.getDriverOptions().toArray(String[]::new));
         options = options.merge(SeleniumDriverConfigHelper.getDriverCapabilities());
 
-        Map<String, Object> prefs = (Map<String, Object>) ConfigurationFactory.getInstance().getValue("driver.preferences", Map.class);
+        Map<String, Object> prefs = SeleniumDriverConfigHelper.getDriverPreferences();
+        parseDownloadDirectoryChrome(options, prefs);
+
+        return options;
+    }
+
+    private static void parseDownloadDirectoryChrome(ChromiumOptions<?> options, Map<String, Object> prefs) {
         if (prefs instanceof Map<String, Object>) {
+            prefs = new HashMap<>(prefs);
             if (prefs.get("download") instanceof Map<?,?> && ((Map<?, ?>) prefs.get("download")).get("default_directory") instanceof String) {
-                String defaultDirectory = (String) ((Map<?, ?>) prefs.get("download")).get("default_directory");
+                Map<String, Object> download = (Map<String, Object>) prefs.get("download");
+                download = new HashMap<>(download);
+                String defaultDirectory = (String) download.get("default_directory");
                 defaultDirectory = DirectoryHelper.preparePath(defaultDirectory);
-                ((Map<String, Object>) prefs.get("download")).put("default_directory", defaultDirectory);
+                download.put("default_directory", defaultDirectory);
+                prefs.put("download", download);
             }
             options.setExperimentalOption("prefs", prefs);
         }
-
-        return options;
     }
 
     /**
@@ -82,15 +91,8 @@ class CapabilityFactory {
         options.addArguments(SeleniumDriverConfigHelper.getDriverOptions().toArray(String[]::new));
         options = options.merge(SeleniumDriverConfigHelper.getDriverCapabilities());
 
-        Map<String, Object> prefs = (Map<String, Object>) ConfigurationFactory.getInstance().getValue("driver.preferences", Map.class);
-        if (prefs instanceof Map<String, Object>) {
-            if (prefs.get("download") instanceof Map<?,?> && ((Map<?, ?>) prefs.get("download")).get("default_directory") instanceof String) {
-                String defaultDirectory = (String) ((Map<?, ?>) prefs.get("download")).get("default_directory");
-                defaultDirectory = DirectoryHelper.preparePath(defaultDirectory);
-                ((Map<String, Object>) prefs.get("download")).put("default_directory", defaultDirectory);
-            }
-            options.setExperimentalOption("prefs", prefs);
-        }
+        Map<String, Object> prefs = SeleniumDriverConfigHelper.getDriverPreferences();
+        parseDownloadDirectoryChrome(options, prefs);
 
         return options;
     }
