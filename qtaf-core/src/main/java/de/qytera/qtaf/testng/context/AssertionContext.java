@@ -14,6 +14,7 @@ import org.testng.Assert;
 import org.testng.annotations.Ignore;
 
 import java.lang.annotation.Annotation;
+import java.util.Date;
 import java.util.Map;
 import java.util.Set;
 
@@ -758,6 +759,8 @@ public interface AssertionContext {
         stepLog.setStepName(message);
         stepLog.setStepDescription(message);
         stepLog.setStatus(error != null ? StepInformationLogMessage.Status.FAILED : StepInformationLogMessage.Status.PASSED);
+        stepLog.setStart(new Date());
+        stepLog.setEnd(new Date());
 
         // Add step log to scenario log collection
         scenarioLogCollection.addLogMessage(stepLog);
