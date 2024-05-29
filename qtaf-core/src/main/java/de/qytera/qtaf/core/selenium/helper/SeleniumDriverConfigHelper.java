@@ -5,6 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import de.qytera.qtaf.core.QtafFactory;
+import de.qytera.qtaf.core.config.ConfigurationFactory;
 import de.qytera.qtaf.core.config.entity.ConfigMap;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -167,7 +168,7 @@ public class SeleniumDriverConfigHelper {
      * @return the driver preferences
      */
     public static Map<String, Object> getDriverPreferences() {
-        return toPrimitive(config.getMap(DRIVER_PREFERENCES));
+        return (Map<String, Object>) ConfigurationFactory.getInstance().getValue("driver.preferences", Map.class);
     }
 
     private static Map<String, Object> toPrimitive(Map<String, JsonElement> map) {
