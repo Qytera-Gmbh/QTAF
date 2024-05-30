@@ -147,6 +147,11 @@ public class StepLoggerSubscriber implements IEventSubscriber {
         logMessage
                 .setResult(stepExecutionInfo.getResult());
 
+        // Check if log message has an end date
+        if (logMessage.getEnd() == null) {
+            logMessage.setEnd(new Date());
+        }
+
         if (SeleniumDriverConfigHelper.shouldTakeScreenshotsAfterStep()) {
             // Take a screenshot
             String screenshotFilePath = this.stepExecutionScreenshot(stepExecutionInfo, "after", logMessage.getUuid());
@@ -175,6 +180,11 @@ public class StepLoggerSubscriber implements IEventSubscriber {
         // Add information to log message
         logMessage
                 .setError(stepExecutionInfo.getError());
+
+        // Check if log message has an end date
+        if (logMessage.getEnd() == null) {
+            logMessage.setEnd(new Date());
+        }
 
         if (SeleniumDriverConfigHelper.shouldTakeScreenshotsAfterStep() ||
                 SeleniumDriverConfigHelper.shouldTakeScreenshotsAfterStepFailure()

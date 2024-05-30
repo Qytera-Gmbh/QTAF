@@ -562,6 +562,10 @@ public class TestScenarioLogCollection {
                     .setAbstractScenarioId(getAbstractScenarioId())
                     .setScenarioId(getScenarioId());
 
+            if (logMessage.getStart() == null) {
+                logMessage.setStart(new Date());
+            }
+
             // Update the index
             logMessageIndex.put(logMessage.hashCode(), logMessage);
 
@@ -582,6 +586,8 @@ public class TestScenarioLogCollection {
      */
     public synchronized void addLogMessage(LogLevel level, String message) {
         LogMessage logMessage = new LogMessage(level, message);
+        logMessage.setStart(new Date());
+        logMessage.setEnd(new Date());
         logMessages.add(logMessage);
     }
 
