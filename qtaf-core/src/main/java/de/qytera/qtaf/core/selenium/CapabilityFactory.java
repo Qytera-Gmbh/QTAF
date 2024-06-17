@@ -110,7 +110,12 @@ class CapabilityFactory {
             }
         }
     }
-
+    /**
+     * This method sets the download directory for Chrome driver.
+     *
+     * @param options The ChromiumOptions object for the Chrome driver.
+     * @param prefs   A map of preferences for the Chrome driver. This map is checked and potentially modified by the method.
+     */
     private static void parseDownloadDirectoryChrome(ChromiumOptions<?> options, Map<String, Object> prefs) {
         if (prefs instanceof Map<String, Object>) {
             prefs = new HashMap<>(prefs);
