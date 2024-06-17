@@ -52,10 +52,70 @@ class CapabilityFactory {
 
         Map<String, Object> prefs = SeleniumDriverConfigHelper.getDriverPreferences();
         parseDownloadDirectoryChrome(options, prefs);
+        enableDownloadOnRemoteChromeDriver(options);
+        setPreferencesForDownloadOnRemoteChromeDriver(prefs);
 
         return options;
     }
 
+    /**
+     * This method enables file downloads when using a remote chrome driver.
+     * It sets the 'setEnableDownloads' property of the provided ChromiumOptions object to true.
+     * This allows files to be downloaded when running tests on a remote driver which is needed to transfer the files to the local machine.
+     * <a href="https://www.selenium.dev/documentation/webdriver/drivers/remote_webdriver/#:~:text=options.setEnableDownloads(true)%3B">Also see the Selenium documentation</a>
+     *
+     * @param options The ChromiumOptions object for the remote driver.
+     */
+    private static  void enableDownloadOnRemoteChromeDriver(ChromiumOptions<?> options){
+        options.setEnableDownloads(true);
+        options.addArguments("--headless=new");
+    }
+
+    /**
+     * This method sets preferences for file downloads when using a remote Chrome driver.
+     * It modifies the provided map of preferences to disable various download prompts and popups, and to specify the types
+     * of files that can be automatically downloaded. This should allow files to be downloaded when running tests on a remote driver without user
+     * interactions. However, it may depend on the client and browser whether this ultimately works. If necessary, the prefs must be adapted to the specific case via the qtaf.json.
+     *
+     * @param prefs A map of preferences for the remote driver. This map is modified by the method.
+     */
+    private static void setPreferencesForDownloadOnRemoteChromeDriver(Map<String, Object> prefs){
+        if (prefs instanceof Map<String, Object>) {
+            prefs = new HashMap<>(prefs);
+            if (prefs.get("download") instanceof Map<?, ?> && ((Map<?, ?>) prefs.get("download")).get("default_directory") instanceof String) {
+                // Disable download prompts and popups
+                prefs.put("profile.default_content_settings.popups", 0);
+                prefs.put("download.prompt_for_download", false);
+                prefs.put("safebrowsing.enabled", false);
+                prefs.put("browser.download.panel.shown", false);
+
+                // Specify the types of files that can be automatically downloaded
+                prefs.put("browser.helperApps.neverAsk.openFile","text/csv,application/vnd.ms-excel");
+                prefs.put("browser.helperApps.neverAsk.saveToDisk", "application/msword, application/csv, application/ris, text/csv, image/png, application/pdf, text/html, text/plain, application/zip, application/x-zip, application/x-zip-compressed, application/download, application/octet-stream");
+
+                // Disable various download manager settings
+                prefs.put("browser.download.manager.showWhenStarting", false);
+                prefs.put("browser.download.manager.alertOnEXEOpen", false);
+                prefs.put("browser.download.manager.focusWhenStarting", false);
+                prefs.put("browser.download.folderList", 2);
+                prefs.put("browser.download.useDownloadDir", true);
+                prefs.put("browser.helperApps.alwaysAsk.force", false);
+                prefs.put("browser.download.manager.closeWhenDone", true);
+                prefs.put("browser.download.manager.showAlertOnComplete", false);
+                prefs.put("browser.download.manager.useWindow", false);
+                prefs.put("services.sync.prefs.sync.browser.download.manager.showWhenStarting", false);
+
+                // Disable the built-in PDF viewer
+                prefs.put("pdfjs.disabled", true);
+            }
+        }
+    }
+    /**
+     * This method sets the download directory for Chrome driver.
+     *
+     * @param options The ChromiumOptions object for the Chrome driver.
+     * @param prefs   A map of preferences for the Chrome driver. This map is checked and potentially modified by the method.
+     */
     private static void parseDownloadDirectoryChrome(ChromiumOptions<?> options, Map<String, Object> prefs) {
         if (prefs instanceof Map<String, Object>) {
             prefs = new HashMap<>(prefs);
