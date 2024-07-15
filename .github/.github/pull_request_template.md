@@ -42,7 +42,7 @@
 ### Code Quality, Style & Functionality
 * [ ] It is ensured that the code adheres to the projects' [coding standards and style guides](https://qytera.atlassian.net/wiki/spaces/QO/pages/3800727592/QTAF+-+Coding+Standards).
 * [ ] The code is clean, readable and well-organized code. 
-* [ ] The commits are named according to the team conventions. (If not, the author is informed so that he/she can improve for the next time. There are no changes to the commit history required.)
+* [ ] The commits are named according to [the team conventions](https://qytera.atlassian.net/wiki/spaces/WIS/pages/3861348360/Commit+und+PR+Konventionen+f+r+QTAF). (If not, the author is informed so that he/she can improve for the next time. There are no changes to the commit history required.)
 * [ ] It is ensured that there are no commented-out code or debug statements left.
 * [ ] Potential edge cases and error handling are checked. (Are potential errors properly retained? Is there an error handling strategy?)
 
