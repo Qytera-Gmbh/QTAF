@@ -10,7 +10,7 @@ Add a description for this pull request. Follow the checklist below.
 <!--- Describe your changes in detail including a relevant motivation and context for this change -->
 
 
-# ✒️ Checkliste PR-Author
+# ✒️ Checklist PR author
 
 ## Before submitting the PR, please make sure you do the following
 
