@@ -9,7 +9,7 @@
 ## Before submitting the PR, please make sure you do the following
 
 ### Prepare Code for PR
-* [ ] The automated tests were executed locally (`mvn clean test`), and it was ensured that they passed.
+* [ ] The automated tests were successfully executed locally (`mvn clean test`).
 * [ ] All commented-out code and debug statements have been removed.
 * [ ] A test is included that fails without this PR but passes with it.
 * [ ] The relevant documentation, including code comments and public documentation, has been updated.
