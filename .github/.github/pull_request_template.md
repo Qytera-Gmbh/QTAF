@@ -37,7 +37,7 @@ Add a description for this pull request. Follow the checklist below.
 ### Understand the Context
 * [ ] The PR description is read thoroughly to understand the changes.
 * [ ] It is verified that the changes fulfill the purpose described in the PR.
-* [ ] If the PR belongs to an issue or is intended to represent a user story, it is verified that the requirements and acceptance criteria are met. (If necessary, the author is asked where these were specified.)
+* [ ] If the PR belongs to an issue or is intended to represent a user story, it is verified that the requirements and acceptance criteria are met.
 - If things are unclear, please ask the author to add or adjust them in the description or as a comment. 
 
 ### Code Quality, Style & Functionality
