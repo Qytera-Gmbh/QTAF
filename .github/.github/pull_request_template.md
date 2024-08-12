@@ -1,6 +1,12 @@
 # 📄 PR Description
 
-[Add a description for this pull request. Follow the checklist below.] 
+<!--
+Add a description for this pull request. Follow the checklist below.
+- What is the purpose of the pull request?
+- Illustrate the problem this PR solves and why this solution is appropriate.
+  - Include an overview of the changes, ideally with 1-2 examples that illustrate the changes.
+  - Include links to any additional context such as tracking issues or tickets.
+-->
 <!--- Describe your changes in detail including a relevant motivation and context for this change -->
 
 
