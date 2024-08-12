@@ -26,7 +26,7 @@ Add a description for this pull request. Follow the checklist below.
 ### Review Preparation
 * [ ] Review from appropriate team members is requested.
 
-# 🔍 Checkliste PR-Reviewer
+# 🔍 Checklist  PR reviewer
 
 ## Before accepting the PR, please make sure you do the following
 
