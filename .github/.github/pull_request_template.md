@@ -16,11 +16,6 @@
     * [ ] [Qytera Github-Page (github.io)](https://github.com/Qytera-Gmbh/Qytera-Gmbh.github.io)
 
 
-### PR Description
-* [ ] A message body is added that provides context and guidance so that the reviewer can quickly understand what the PR does. In the PR body, this includes. In the PR body, includes:
-    * [ ] The purpose of the pull request, clearly illustrating what problem this PR solves and why this solution is appropriate.
-    * [ ] An overview of the changes, ideally with 1-2 examples that illustrate the changes.
-    * [ ] Links to any additional context such as tracking issues or tickets.
 
 ### Review Preparation
 * [ ] Review from appropriate team members is requested.
