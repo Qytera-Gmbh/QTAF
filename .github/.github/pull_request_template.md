@@ -45,7 +45,7 @@ Add a description for this pull request. Follow the checklist below.
 * [ ] The code is clean, readable and well-organized code. 
 * [ ] The commits are named according to [the team conventions](https://qytera.atlassian.net/wiki/spaces/WIS/pages/3861348360/Commit+und+PR+Konventionen+f+r+QTAF). (If not, the author is informed so that he/she can improve for the next time. There are no changes to the commit history required.)
 * [ ] It is ensured that there are no commented-out code or debug statements left.
-* [ ] Potential edge cases and error handling are checked. (Are potential errors properly retained? Is there an error handling strategy?)
+* [ ] The changed or added code correctly handles potential edge cases and errors.
 
 ### Feedback and Communication
 - Provide constructive feedback and suggestions. Be specific about what needs to be improved or changed.
