@@ -18,7 +18,8 @@ Add a description for this pull request. Follow the checklist below.
 * [ ] The automated tests were successfully executed locally (`mvn clean test`).
 * [ ] All commented-out code and debug statements have been removed.
 * [ ] A test is included that fails without this PR but passes with it.
-* [ ] The relevant documentation, including code comments and public documentation, has been updated.
+* [ ] The documentation in the code has been updated and corresponds to the team guidelines.
+* [ ] A person has been assigned to update the public documentation as soon as possible if this PR requires changes to it.
     * [ ] [Qytera Github-Page (github.io)](https://github.com/Qytera-Gmbh/Qytera-Gmbh.github.io)
 
 
