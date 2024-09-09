@@ -14,6 +14,7 @@ import de.qytera.qtaf.core.log.model.collection.TestScenarioLogCollection;
 import de.qytera.qtaf.core.log.model.collection.TestSuiteLogCollection;
 import de.qytera.qtaf.core.selenium.DriverFactory;
 import de.qytera.qtaf.testng.event_listener.TestNGEventListener;
+import de.qytera.qtaf.testng.event_listener.TestNGInvocationEventListener;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
@@ -25,7 +26,7 @@ import org.testng.annotations.Listeners;
  * It provides information about the current test class like information about
  * annotations and holds objects needed during test executing (i.e. loggers, etc).
  */
-@Listeners({TestNGEventListener.class})
+@Listeners({TestNGEventListener.class, TestNGInvocationEventListener.class})
 @Guice(modules = {QtafModule.class})
 public abstract class QtafTestNGContext implements IQtafTestContext, AssertionContext {
 

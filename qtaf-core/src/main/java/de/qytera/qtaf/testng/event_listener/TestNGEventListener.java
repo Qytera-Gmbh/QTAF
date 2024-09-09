@@ -86,11 +86,17 @@ public class TestNGEventListener implements ITestListener {
     @Override
     public void onTestSuccess(ITestResult iTestResult) {
         // TestNG cannot cover QTAF's own assertion methods. So we have to check if there were any failed steps manually here.
-        String scenarioId = TestResultHelper.getScenarioId(iTestResult);
+        //String scenarioId = TestResultHelper.getScenarioId(iTestResult);
         // If there are no failed steps the scenario has passed
-        boolean hasScenarioPassed = LogMessageIndex.getInstance().getByScenarioIdAndFailed(scenarioId).isEmpty();
+        //boolean hasScenarioPassed = LogMessageIndex.getInstance().getByScenarioIdAndFailed(scenarioId).isEmpty();
 
+        try {
+            QtafEvents.testSuccess.onNext(new TestNGTestEventPayload(iTestResult));
+        } catch (NoSuchMethodException e) { // Can be caused by cucumber
+            return;
+        }
         // Dispatch events
+        /*
         try {
             if (hasScenarioPassed) {
                 QtafEvents.testSuccess.onNext(new TestNGTestEventPayload(iTestResult));
@@ -101,6 +107,7 @@ public class TestNGEventListener implements ITestListener {
         } catch (NoSuchMethodException e) { // Can be caused by cucumber
             return;
         }
+         */
     }
 
     @Override
