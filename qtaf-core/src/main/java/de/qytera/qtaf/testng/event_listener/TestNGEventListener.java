@@ -17,18 +17,21 @@ import org.testng.ITestResult;
 import java.util.HashMap;
 import java.util.Map;
 
+
 /**
- * Event listener for TestNG events. This class connects TestNG with the QTAF event system.
+ * This class is an event listener for TestNG events. It connects TestNG with the QTAF event system.
+ * It implements the ITestListener interface from TestNG, which provides methods for handling test events
+ * and triggers corresponding QTAF events.
  */
 public class TestNGEventListener implements ITestListener {
 
     /**
-     * Parameter that indicates if the test start event was already dispatched.
+     * A flag indicating whether the test start event has already been dispatched.
      */
     private static boolean testsStartedEventDispatched = false;
 
     /**
-     * Parameter that indicates if the test finish event was already dispatched.
+     * A flag indicating whether the test finish event has already been dispatched.
      */
     private static boolean testsFinishedEventDispatched = false;
 
@@ -36,11 +39,18 @@ public class TestNGEventListener implements ITestListener {
      * Map that contains test results.
      */
     private static final Map<Integer, ITestResult> testResultIdMap = new HashMap<>();
+
     /**
-     * Logger.
+     * A logger instance from the QTAF factory.
      */
     private static Logger logger = QtafFactory.getLogger();
 
+    /**
+     * This method is called when a TestNG test run starts.
+     * It initializes the QTAF system, logs a start message, and dispatches a start testing event.
+     *
+     * @param iTestContext The test context for the current test run.
+     */
     @Override
     public void onStart(ITestContext iTestContext) {
         QtafInitializer.initialize();
@@ -54,6 +64,12 @@ public class TestNGEventListener implements ITestListener {
         }
     }
 
+    /**
+     * This method is called when a TestNG test run finishes.
+     * It logs a finish message and dispatches a finish testing event.
+     *
+     * @param iTestContext The test context for the current test run.
+     */
     @Override
     public void onFinish(ITestContext iTestContext) {
         logger.info("[QTAF] - testing finished");
@@ -66,6 +82,12 @@ public class TestNGEventListener implements ITestListener {
         }
     }
 
+    /**
+     * This method is called when a TestNG test starts.
+     * It dispatches a test started event if it has not been dispatched before for the current test.
+     *
+     * @param iTestResult The result of the current test.
+     */
     @Override
     public void onTestStart(ITestResult iTestResult) {
         // Dispatch event if it has not been dispatched before
@@ -83,33 +105,30 @@ public class TestNGEventListener implements ITestListener {
         }
     }
 
+    /**
+     * This method is called when a TestNG test succeeds.
+     * It dispatches a test success event.
+     *
+     * @param iTestResult The result of the current test.
+     */
     @Override
     public void onTestSuccess(ITestResult iTestResult) {
-        // TestNG cannot cover QTAF's own assertion methods. So we have to check if there were any failed steps manually here.
-        //String scenarioId = TestResultHelper.getScenarioId(iTestResult);
-        // If there are no failed steps the scenario has passed
-        //boolean hasScenarioPassed = LogMessageIndex.getInstance().getByScenarioIdAndFailed(scenarioId).isEmpty();
-
+        // Dispatch events
         try {
             QtafEvents.testSuccess.onNext(new TestNGTestEventPayload(iTestResult));
         } catch (NoSuchMethodException e) { // Can be caused by cucumber
             return;
         }
-        // Dispatch events
-        /*
-        try {
-            if (hasScenarioPassed) {
-                QtafEvents.testSuccess.onNext(new TestNGTestEventPayload(iTestResult));
-            } else {
-                iTestResult.setStatus(ITestResult.FAILURE);
-                QtafEvents.testFailure.onNext(new TestNGTestEventPayload(iTestResult));
-            }
-        } catch (NoSuchMethodException e) { // Can be caused by cucumber
-            return;
-        }
-         */
     }
-
+    /**
+     * This method is called when a TestNG test fails.
+     * It dispatches a test failure event.
+     * Important note: TestNG does not support changing the status of the test result after a test terminates.
+     * An InvocationEventListener can be used for this purpose.
+     * See also: TestNGInvocationEventListener.java
+     *
+     * @param iTestResult The result of the current test.
+     */
     @Override
     public void onTestFailure(ITestResult iTestResult) {
         // Dispatch events
@@ -125,6 +144,12 @@ public class TestNGEventListener implements ITestListener {
         }
     }
 
+    /**
+     * This method is called when a TestNG test is skipped.
+     * It dispatches a test skipped event.
+     *
+     * @param iTestResult The result of the current test.
+     */
     @Override
     public void onTestSkipped(ITestResult iTestResult) {
         // Dispatch events
@@ -135,6 +160,12 @@ public class TestNGEventListener implements ITestListener {
         }
     }
 
+    /**
+     * This method is called when a TestNG test fails but is within the success percentage.
+     * It dispatches a test failed but within success percentage event.
+     *
+     * @param iTestResult The result of the current test.
+     */
     @Override
     public void onTestFailedButWithinSuccessPercentage(ITestResult iTestResult) {
         // Dispatch events
