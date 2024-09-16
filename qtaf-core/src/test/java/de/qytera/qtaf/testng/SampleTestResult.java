@@ -10,14 +10,15 @@ import java.text.SimpleDateFormat;
 import java.util.Set;
 
 public class SampleTestResult implements ITestResult {
+    int status = ITestResult.FAILURE;
     @Override
     public int getStatus() {
-        return 0;
+        return this.status;
     }
 
     @Override
     public void setStatus(int i) {
-
+        this.status = i;
     }
 
     @Override

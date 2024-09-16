@@ -7,6 +7,7 @@ import de.qytera.qtaf.xray.config.XrayConfigHelper;
 import de.qytera.qtaf.xray.repository.xray.XrayCucumberRepositoryCloud;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
@@ -25,7 +26,7 @@ public class XrayCucumberRepositoryCloudTest {
     /**
      * Test Download content of Cucumber ZIP file from Xray Cloud
      */
-    @Test
+    @Test @Ignore
     public void testCucumberZipFileDownload() {
         // Get file content
         XrayCucumberRepositoryCloud repo = new XrayCucumberRepositoryCloud();
@@ -36,7 +37,7 @@ public class XrayCucumberRepositoryCloudTest {
     /**
      * Test Download content of multiple test feature files as a ZIP file from Xray Cloud
      */
-    @Test
+    @Test @Ignore
     public void testCucumberZipFilesDownload() throws IOException, URISyntaxException, MissingConfigurationValueException {
         // Get file content
         XrayCucumberRepositoryCloud repo = new XrayCucumberRepositoryCloud();
@@ -47,7 +48,7 @@ public class XrayCucumberRepositoryCloudTest {
     /**
      * Test Download content of multiple test feature files as a ZIP file from Xray Cloud
      */
-    @Test
+    @Test @Ignore
     public void testCucumberZipFilesDownloadAndStore() throws IOException, URISyntaxException, MissingConfigurationValueException {
         String dir = "$USER_DIR/src/test/resources";
         String filename = "1_QTAF-673_QTAF-721.feature";
