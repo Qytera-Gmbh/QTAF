@@ -68,7 +68,6 @@ class CapabilityFactory {
      */
     private static  void enableDownloadOnRemoteChromeDriver(ChromiumOptions<?> options){
         options.setEnableDownloads(true);
-        options.addArguments("--headless=new");
     }
 
     /**
