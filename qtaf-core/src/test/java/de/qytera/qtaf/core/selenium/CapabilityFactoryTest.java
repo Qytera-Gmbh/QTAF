@@ -67,7 +67,6 @@ public class CapabilityFactoryTest {
             expectedOptions = expectedOptions.merge(CAPABILITIES);
             expectedOptions.setExperimentalOption("prefs", new HashMap<>());
 
-            expectedOptions.addArguments("--headless=new");
             expectedOptions.setEnableDownloads(true);
 
             Assert.assertEquals(actualOptions, expectedOptions);
@@ -86,7 +85,6 @@ public class CapabilityFactoryTest {
             ChromeOptions expectedOptions = new ChromeOptions();
             expectedOptions.setExperimentalOption("prefs", PREFERENCES);
 
-            expectedOptions.addArguments("--headless=new");
             expectedOptions.setEnableDownloads(true);
 
             Assert.assertEquals(actualOptions, expectedOptions);
@@ -108,7 +106,6 @@ public class CapabilityFactoryTest {
             expectedOptions = expectedOptions.merge(CAPABILITIES);
             expectedOptions.setExperimentalOption("prefs", new HashMap<>());
 
-            expectedOptions.addArguments("--headless=new");
             expectedOptions.setEnableDownloads(true);
 
             Assert.assertEquals(actualOptions, expectedOptions);
@@ -127,7 +124,6 @@ public class CapabilityFactoryTest {
             ChromeOptions expectedOptions = new ChromeOptions();
             expectedOptions.setExperimentalOption("prefs", PREFERENCES);
 
-            expectedOptions.addArguments("--headless=new");
             expectedOptions.setEnableDownloads(true);
 
             Assert.assertEquals(actualOptions, expectedOptions);
